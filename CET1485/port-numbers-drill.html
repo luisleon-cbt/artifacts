@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Port Numbers · Exam Prep · CBT Technology Institute · Network+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em;
+    font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  /* HERO */
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-card .pair-row {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px;
+    padding: 6px 0; align-items: baseline;
+    font-family: var(--ff-mono); font-size: 12px;
+  }
+  .ref-card .pair-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-card .pair-row .insecure { color: var(--gray-soft); }
+  .ref-card .pair-row .secure { color: var(--gold); font-weight: 700; }
+  .ref-card .pair-row .arrow { color: var(--sky-soft); font-weight: 700; }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  /* STATS */
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  /* TABS */
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  /* PANELS */
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* MASTER TABLE */
+  .filter-bar {
+    background: var(--navy-deep); padding: 18px 22px;
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    margin-bottom: 0;
+  }
+  .filter-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--gray-soft);
+    margin-right: 8px;
+  }
+  .filter-chip {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 12px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em;
+    cursor: pointer; transition: all 0.15s;
+    font-weight: 500;
+  }
+  .filter-chip:hover { background: rgba(255,255,255,0.08); }
+  .filter-chip.active {
+    background: var(--sky); border-color: var(--sky); color: white; font-weight: 700;
+  }
+
+  .ports-table-wrap {
+    border: 1px solid var(--line); border-top: none;
+    background: var(--surface); overflow: hidden;
+  }
+  .ports-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ports-table thead th {
+    background: var(--bg-warm); color: var(--navy-deep);
+    text-align: left; padding: 12px 16px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 700;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer; user-select: none;
+    position: relative;
+  }
+  .ports-table thead th:hover { background: var(--gold-soft); }
+  .ports-table thead th .sort-ind {
+    color: var(--sky); font-size: 9px; margin-left: 4px;
+  }
+  .ports-table tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: middle;
+  }
+  .ports-table tbody tr:hover td { background: var(--surface-alt); }
+  .ports-table tbody tr.encrypted td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+  .port-badge {
+    font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep);
+    background: var(--bg-warm); padding: 4px 9px;
+    font-size: 13px; letter-spacing: 0.02em;
+    display: inline-block;
+  }
+  .protocol-cell { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+  .protocol-cell .full-name { display: block; font-family: var(--ff-body); font-weight: 400; font-size: 11px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0; }
+  .transport-pill {
+    font-family: var(--ff-mono); font-size: 10px; font-weight: 700;
+    padding: 3px 7px; letter-spacing: 0.06em;
+  }
+  .transport-pill.tcp { background: var(--sky-soft); color: var(--navy-deep); }
+  .transport-pill.udp { background: var(--gold-soft); color: var(--navy-deep); }
+  .transport-pill.both { background: var(--navy-deep); color: white; }
+  .family-tag {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .lock-icon { color: var(--gold-deep); font-weight: 700; font-family: var(--ff-mono); font-size: 11px; }
+  .ports-table .use-cell { font-size: 13px; color: var(--ink-mid); }
+
+  .table-footer {
+    margin-top: 14px;
+    font-family: var(--ff-mono); font-size: 11px;
+    color: var(--ink-mute); letter-spacing: 0.04em;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  .table-footer b { color: var(--navy-deep); font-weight: 700; }
+
+  /* BY FAMILY */
+  .family-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .family-card {
+    border: 1px solid var(--line); background: var(--surface);
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .family-card-head {
+    padding: 16px 18px; color: white;
+    background: var(--navy);
+    border-bottom: 3px solid var(--gold);
+  }
+  .family-card-head .fam-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; opacity: 0.8;
+  }
+  .family-card-head h3 {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700;
+    margin: 4px 0 0; letter-spacing: -0.02em;
+  }
+  .family-card-body { padding: 14px 0; flex: 1; }
+  .family-row {
+    display: grid; grid-template-columns: 100px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 10px 18px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .family-row:first-child { border-top: none; }
+  .family-row.encrypted { background: rgba(224,184,64,0.08); }
+  .family-row .port-num {
+    font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep);
+    font-size: 14px;
+  }
+  .family-row .proto-name {
+    font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep);
+    font-size: 14px;
+  }
+  .family-row .proto-name small {
+    font-family: var(--ff-mono); font-weight: 400; color: var(--ink-mute);
+    font-size: 10px; margin-left: 6px; letter-spacing: 0.04em;
+  }
+  .family-row .proto-meta {
+    font-family: var(--ff-mono); font-size: 10px;
+    text-align: right; color: var(--ink-mute);
+  }
+  .family-row .proto-meta .lock { color: var(--gold-deep); font-weight: 700; margin-right: 4px; }
+
+  /* ENCRYPTED TWINS */
+  .twins-list { display: flex; flex-direction: column; gap: 18px; }
+  .twin-card {
+    border: 1px solid var(--line); background: var(--surface);
+    display: grid; grid-template-columns: 1fr 80px 1fr;
+    align-items: stretch; overflow: hidden;
+  }
+  .twin-side { padding: 22px 24px; }
+  .twin-side.left { background: var(--surface-alt); border-right: 1px solid var(--line-soft); }
+  .twin-side.right { background: white; }
+  .twin-side .twin-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .twin-side.left .twin-eyebrow { color: var(--red); }
+  .twin-side.right .twin-eyebrow { color: var(--green); }
+  .twin-side .twin-protocol {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 4px; letter-spacing: -0.02em;
+  }
+  .twin-side .twin-fullname {
+    font-size: 12px; color: var(--ink-mute); margin: 0 0 10px;
+  }
+  .twin-side .twin-port {
+    display: inline-block;
+    font-family: var(--ff-mono); font-weight: 700; font-size: 16px;
+    background: var(--navy-deep); color: white;
+    padding: 6px 12px;
+  }
+  .twin-side.right .twin-port { background: var(--gold); color: var(--navy-deep); }
+  .twin-side .twin-note {
+    margin-top: 12px; font-size: 12px; color: var(--ink-mid); line-height: 1.5;
+  }
+  .twin-arrow {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--navy-deep); color: var(--gold);
+    font-family: var(--ff-display); font-size: 32px; font-weight: 800;
+  }
+
+  /* FLASHCARDS */
+  .fc-controls {
+    background: var(--navy-deep); padding: 18px 22px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin-bottom: 28px;
+  }
+  .fc-mode-btn {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 14px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.15s;
+    font-weight: 500;
+  }
+  .fc-mode-btn:hover { background: rgba(255,255,255,0.08); }
+  .fc-mode-btn.active { background: var(--sky); border-color: var(--sky); font-weight: 700; }
+
+  .fc-utility-btn {
+    background: var(--gold); color: var(--navy-deep);
+    border: none; padding: 7px 14px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; font-weight: 700;
+    margin-left: auto;
+  }
+  .fc-utility-btn:hover { background: var(--gold-soft); }
+  .fc-utility-btn.ghost {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    margin-left: 0;
+  }
+  .fc-utility-btn.ghost:hover { background: rgba(255,255,255,0.08); }
+
+  .fc-stage {
+    display: flex; flex-direction: column; align-items: center; padding: 20px 0;
+  }
+  .fc-progress {
+    margin-bottom: 20px; display: flex; gap: 24px;
+    font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute);
+    letter-spacing: 0.06em;
+  }
+  .fc-progress b { color: var(--navy-deep); font-weight: 700; }
+  .fc-progress .got b { color: var(--green); }
+  .fc-progress .almost b { color: var(--gold-deep); }
+  .fc-progress .missed b { color: var(--red); }
+
+  .flashcard {
+    width: min(560px, 100%); height: 320px;
+    perspective: 1200px;
+    margin: 0 auto;
+  }
+  .fc-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .flashcard.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    padding: 30px;
+  }
+  .fc-front {
+    background: var(--surface);
+    justify-content: center; align-items: center;
+  }
+  .fc-back {
+    background: var(--navy-deep); color: white;
+    transform: rotateY(180deg);
+    justify-content: center;
+  }
+  .fc-front .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px;
+  }
+  .fc-front .fc-question {
+    font-family: var(--ff-display); font-size: clamp(48px, 8vw, 72px);
+    font-weight: 800; color: var(--navy-deep);
+    letter-spacing: -0.03em; line-height: 1; text-align: center;
+  }
+  .fc-front .fc-hint {
+    margin-top: auto; font-family: var(--ff-mono); font-size: 10px;
+    color: var(--ink-mute); letter-spacing: 0.1em;
+    text-align: center; text-transform: uppercase;
+  }
+  .fc-back .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-soft); margin-bottom: 14px;
+  }
+  .fc-back .fc-answer {
+    font-family: var(--ff-display); font-size: 44px; font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--gold);
+  }
+  .fc-back .fc-detail {
+    margin-top: 14px;
+    font-size: 14px; line-height: 1.5; opacity: 0.9;
+  }
+  .fc-back .fc-detail b { color: var(--sky-soft); font-family: var(--ff-mono); font-size: 12px; margin-right: 6px; }
+  .fc-back .fc-meta {
+    margin-top: auto; padding-top: 16px;
+    display: flex; gap: 16px; align-items: baseline;
+    font-family: var(--ff-mono); font-size: 11px; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  .fc-judgment {
+    margin-top: 20px;
+    display: flex; gap: 10px; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease 0.3s;
+  }
+  .flashcard.flipped + .fc-judgment { opacity: 1; pointer-events: auto; }
+  .fc-judge-btn {
+    flex: 1; padding: 14px 20px; border: 2px solid;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+    background: var(--surface); transition: all 0.15s;
+    min-width: 110px;
+  }
+  .fc-judge-btn.missed { color: var(--red); border-color: var(--red); }
+  .fc-judge-btn.missed:hover { background: var(--red-bg); }
+  .fc-judge-btn.almost { color: var(--gold-deep); border-color: var(--gold-deep); }
+  .fc-judge-btn.almost:hover { background: var(--gold-soft); }
+  .fc-judge-btn.got { color: var(--green); border-color: var(--green); }
+  .fc-judge-btn.got:hover { background: var(--green-bg); }
+
+  .fc-empty-state {
+    text-align: center; padding: 60px 20px;
+    font-family: var(--ff-display);
+  }
+  .fc-empty-state .big {
+    font-size: 36px; font-weight: 700; color: var(--navy-deep);
+    margin-bottom: 6px; letter-spacing: -0.02em;
+  }
+  .fc-empty-state p { color: var(--ink-mid); margin: 8px 0 24px; }
+
+  /* LIGHTNING ROUND */
+  .lr-pre {
+    text-align: center; padding: 40px 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row {
+    display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer; transition: background 0.15s; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white;
+    padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em;
+    text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+
+  .lr-body {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 50px 30px;
+  }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px;
+    text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700; color: var(--navy-deep);
+    text-align: center; line-height: 1.1; letter-spacing: -0.02em;
+    margin: 0 0 36px;
+  }
+  .lr-question .big {
+    color: var(--sky-deep); font-weight: 800; font-size: clamp(48px, 7vw, 80px);
+    display: block; margin: 4px 0;
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 18px 22px; cursor: pointer;
+    font-family: var(--ff-display); font-size: 20px; font-weight: 600;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) {
+    border-color: var(--navy-deep); background: var(--bg-warm);
+  }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute);
+  }
+  .lr-option.correct {
+    background: var(--green-bg); border-color: var(--green); color: var(--green);
+  }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong {
+    background: var(--red-bg); border-color: var(--red); color: var(--red);
+  }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+
+  .lr-skip {
+    margin-top: 20px; text-align: center;
+  }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+
+  .lr-final {
+    text-align: center; padding: 50px 30px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-final .big-score {
+    font-family: var(--ff-display); font-size: 100px; font-weight: 800;
+    line-height: 1; letter-spacing: -0.04em;
+    color: var(--navy-deep);
+  }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict {
+    font-family: var(--ff-display); font-size: 24px; font-weight: 600;
+    margin: 12px 0 4px; color: var(--navy-deep);
+  }
+  .lr-final .lr-stats {
+    margin: 28px auto 24px; display: grid;
+    grid-template-columns: repeat(3, 1fr); gap: 1px;
+    max-width: 540px; background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+  }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num {
+    font-family: var(--ff-display); font-size: 26px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1;
+  }
+  .lr-final .lr-stats .item .lab {
+    font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  /* FOOTER */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .family-grid { grid-template-columns: 1fr; }
+    .twin-card { grid-template-columns: 1fr; }
+    .twin-side.left { border-right: none; border-bottom: 1px solid var(--line-soft); }
+    .twin-arrow { padding: 14px; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .ports-table { font-size: 12px; }
+    .ports-table tbody td { padding: 8px 10px; }
+    .ports-table .full-name, .ports-table .use-cell { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">School of Information Technology</span>
+    <span class="crumb">Network+ N10-008</span>
+    <span class="crumb">1.5 Common Ports & Protocols</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Drill</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow">Network+ Aligned · Memorization Drill</div>
+    <h1>Port Numbers,<br><em>Memorized.</em></h1>
+    <p class="lede">26 protocols. 9 families. The exam will absolutely make you do the memorization grind. This tool gives you the master table for fast reference, family groupings for pattern recognition, the encrypted-twin pairs the exam loves to test, flashcards for active recall, and a 60-second lightning round to practice under time pressure.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Encrypted Twin Pairs · Heavily Tested</div>
+    <div class="pair-row"><span class="insecure">HTTP · 80</span><span class="arrow">→</span><span class="secure">HTTPS · 443</span></div>
+    <div class="pair-row"><span class="insecure">FTP · 21</span><span class="arrow">→</span><span class="secure">SFTP · 22</span></div>
+    <div class="pair-row"><span class="insecure">Telnet · 23</span><span class="arrow">→</span><span class="secure">SSH · 22</span></div>
+    <div class="pair-row"><span class="insecure">SMTP · 25</span><span class="arrow">→</span><span class="secure">SMTP-TLS · 587</span></div>
+    <div class="pair-row"><span class="insecure">POP3 · 110</span><span class="arrow">→</span><span class="secure">POP3S · 995</span></div>
+    <div class="pair-row"><span class="insecure">IMAP · 143</span><span class="arrow">→</span><span class="secure">IMAPS · 993</span></div>
+    <div class="pair-row"><span class="insecure">LDAP · 389</span><span class="arrow">→</span><span class="secure">LDAPS · 636</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      "Which port is the secure version of X" appears on almost every exam. The seven pairs above are non-negotiable.
+    </div>
+  </aside>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><div class="num">26</div><div class="label">Protocols on N10-008</div></div>
+  <div class="stat"><div class="num">7</div><div class="label">Encrypted twin pairs</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Protocol families</div></div>
+  <div class="stat"><div class="num">60s</div><div class="label">Lightning round drill</div></div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" data-tab="table"><span class="num">01</span>Master Table</button>
+  <button class="tab" data-tab="family"><span class="num">02</span>By Family</button>
+  <button class="tab" data-tab="twins"><span class="num">03</span>Encrypted Twins</button>
+  <button class="tab" data-tab="flashcards"><span class="num">04</span>Flashcards</button>
+  <button class="tab" data-tab="lightning"><span class="num">05</span>Lightning Round</button>
+</nav>
+
+<!-- MASTER TABLE PANEL -->
+<section class="panel active" id="panel-table">
+  <div class="filter-bar">
+    <span class="filter-label">FILTER</span>
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="tcp">TCP only</button>
+    <button class="filter-chip" data-filter="udp">UDP only</button>
+    <button class="filter-chip" data-filter="encrypted">Encrypted</button>
+    <button class="filter-chip" data-filter="plain">Plaintext</button>
+    <button class="filter-chip" data-family="mail">Mail</button>
+    <button class="filter-chip" data-family="file">File Transfer</button>
+    <button class="filter-chip" data-family="web">Web</button>
+    <button class="filter-chip" data-family="remote">Remote</button>
+    <button class="filter-chip" data-family="directory">Directory</button>
+    <button class="filter-chip" data-family="mgmt">Net Mgmt</button>
+    <button class="filter-chip" data-family="database">Database</button>
+    <button class="filter-chip" data-family="naming">DNS · DHCP</button>
+    <button class="filter-chip" data-family="voip">VoIP</button>
+  </div>
+  <div class="ports-table-wrap">
+    <table class="ports-table" id="ports-table">
+      <thead>
+        <tr>
+          <th data-sort="port">Port <span class="sort-ind">▲</span></th>
+          <th data-sort="protocol">Protocol</th>
+          <th data-sort="transport">Transport</th>
+          <th data-sort="family">Family</th>
+          <th data-sort="encrypted">Sec</th>
+          <th>Use</th>
+        </tr>
+      </thead>
+      <tbody id="ports-tbody"></tbody>
+    </table>
+  </div>
+  <div class="table-footer">
+    <span>Showing <b id="row-count">26</b> of <b>26</b> protocols</span>
+    <span>Gold left edge = encrypted &nbsp;·&nbsp; click any column header to sort</span>
+  </div>
+</section>
+
+<!-- BY FAMILY PANEL -->
+<section class="panel" id="panel-family">
+  <div class="family-grid" id="family-grid"></div>
+</section>
+
+<!-- ENCRYPTED TWINS PANEL -->
+<section class="panel" id="panel-twins">
+  <div class="twins-list" id="twins-list"></div>
+</section>
+
+<!-- FLASHCARDS PANEL -->
+<section class="panel" id="panel-flashcards">
+  <div class="fc-controls">
+    <span class="filter-label">MODE</span>
+    <button class="fc-mode-btn active" data-mode="proto-to-port">Protocol → Port</button>
+    <button class="fc-mode-btn" data-mode="port-to-proto">Port → Protocol</button>
+    <button class="fc-mode-btn" data-mode="mixed">Mixed</button>
+    <button class="fc-mode-btn" data-mode="encrypted">Encrypted Pairs</button>
+    <button class="fc-utility-btn ghost" id="fc-shuffle">↻ Shuffle</button>
+    <button class="fc-utility-btn" id="fc-reset">Reset Deck</button>
+  </div>
+
+  <div class="fc-stage" id="fc-stage">
+    <div class="fc-progress">
+      <span>Card · <b><span id="fc-pos">1</span> of <span id="fc-total">26</span></b></span>
+      <span class="got">Got · <b id="fc-got">0</b></span>
+      <span class="almost">Almost · <b id="fc-almost">0</b></span>
+      <span class="missed">Missed · <b id="fc-missed">0</b></span>
+    </div>
+    <div class="flashcard" id="flashcard">
+      <div class="fc-inner">
+        <div class="fc-face fc-front">
+          <div class="fc-prompt" id="fc-front-prompt">PROTOCOL</div>
+          <div class="fc-question" id="fc-front-q">HTTPS</div>
+          <div class="fc-hint">click to flip · spacebar / arrow keys also work</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-prompt" id="fc-back-prompt">PORT</div>
+          <div class="fc-answer" id="fc-back-a">443 / TCP</div>
+          <div class="fc-detail" id="fc-back-detail"></div>
+          <div class="fc-meta" id="fc-back-meta"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-judgment" id="fc-judgment">
+      <button class="fc-judge-btn missed" data-rate="missed">✗ Missed</button>
+      <button class="fc-judge-btn almost" data-rate="almost">~ Almost</button>
+      <button class="fc-judge-btn got" data-rate="got">✓ Got It</button>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTNING ROUND PANEL -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Multiple choice. As many as you can answer before the clock runs out. Mix of protocol-to-port, port-to-protocol, and "what's the secure version" questions.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body">
+      <div class="lr-question-prompt" id="lr-prompt">What port does this protocol use?</div>
+      <div class="lr-question" id="lr-question">HTTPS</div>
+      <div class="lr-options" id="lr-options"></div>
+      <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>
+    </div>
+  </div>
+
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam preparation tool covering all 26 protocols listed in CompTIA N10-008 Domain 1.5 (Common ports and protocols, their application, and encrypted alternatives).</p>
+      <p>Built for active recall. Use the table for fast lookup, the family view to group what you've learned, the twin pairs to drill the most-tested pattern, flashcards for spaced repetition, and the lightning round to test under time pressure — exactly how the exam will feel.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Master Table + By Family. Get the layout in your head.</p>
+      <p>· Day 2: Encrypted Twins. These are the highest-yield exam points.</p>
+      <p>· Day 3+: Flashcards daily until you can clear the deck without missing more than 2.</p>
+      <p>· Exam week: Lightning Round every day until you score 20+ in 60 seconds.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-008 · 1.5 Ports & Protocols</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* PORT DATA — Single source of truth from N10-008 Domain 1.5  */
+/* ============================================================ */
+const PORTS = [
+  { ports:[20,21], protocol:'FTP',       fullName:'File Transfer Protocol',         transport:'TCP',     encrypted:false, family:'file',      use:'Bulk file transfer (data 20, control 21)',     secure:'SFTP' },
+  { ports:[22],    protocol:'SSH',       fullName:'Secure Shell',                    transport:'TCP',     encrypted:true,  family:'remote',    use:'Encrypted remote shell',                       insecure:'Telnet' },
+  { ports:[22],    protocol:'SFTP',      fullName:'SSH File Transfer Protocol',      transport:'TCP',     encrypted:true,  family:'file',      use:'File transfer over SSH',                       insecure:'FTP' },
+  { ports:[23],    protocol:'Telnet',    fullName:'Telnet',                          transport:'TCP',     encrypted:false, family:'remote',    use:'Plaintext remote shell (legacy)',              secure:'SSH' },
+  { ports:[25],    protocol:'SMTP',      fullName:'Simple Mail Transfer Protocol',   transport:'TCP',     encrypted:false, family:'mail',      use:'Server-to-server email relay',                 secure:'SMTP-TLS' },
+  { ports:[53],    protocol:'DNS',       fullName:'Domain Name System',              transport:'TCP/UDP', encrypted:false, family:'naming',    use:'Hostname → IP resolution (UDP queries, TCP zone xfer)' },
+  { ports:[67,68], protocol:'DHCP',      fullName:'Dynamic Host Config Protocol',    transport:'UDP',     encrypted:false, family:'naming',    use:'Auto IP assignment (67 server, 68 client)' },
+  { ports:[69],    protocol:'TFTP',      fullName:'Trivial File Transfer Protocol',  transport:'UDP',     encrypted:false, family:'file',      use:'Lightweight unauthenticated file transfer' },
+  { ports:[80],    protocol:'HTTP',      fullName:'Hypertext Transfer Protocol',     transport:'TCP',     encrypted:false, family:'web',       use:'Web traffic, plaintext',                       secure:'HTTPS' },
+  { ports:[110],   protocol:'POP3',      fullName:'Post Office Protocol v3',         transport:'TCP',     encrypted:false, family:'mail',      use:'Email retrieval (download & delete)',          secure:'POP3S' },
+  { ports:[123],   protocol:'NTP',       fullName:'Network Time Protocol',           transport:'UDP',     encrypted:false, family:'mgmt',      use:'Time synchronization' },
+  { ports:[143],   protocol:'IMAP',      fullName:'Internet Message Access Protocol',transport:'TCP',     encrypted:false, family:'mail',      use:'Email retrieval (server-side storage)',        secure:'IMAPS' },
+  { ports:[161,162],protocol:'SNMP',     fullName:'Simple Network Mgmt Protocol',    transport:'UDP',     encrypted:false, family:'mgmt',      use:'Device monitoring (161 queries, 162 traps)' },
+  { ports:[389],   protocol:'LDAP',      fullName:'Lightweight Directory Access',    transport:'TCP',     encrypted:false, family:'directory', use:'Directory services (Active Directory, OpenLDAP)', secure:'LDAPS' },
+  { ports:[443],   protocol:'HTTPS',     fullName:'HTTP Secure (SSL/TLS)',           transport:'TCP',     encrypted:true,  family:'web',       use:'Encrypted web traffic',                        insecure:'HTTP' },
+  { ports:[445],   protocol:'SMB',       fullName:'Server Message Block',            transport:'TCP',     encrypted:false, family:'file',      use:'Windows file sharing, network drives' },
+  { ports:[514],   protocol:'Syslog',    fullName:'Syslog',                          transport:'UDP',     encrypted:false, family:'mgmt',      use:'Centralized log collection' },
+  { ports:[587],   protocol:'SMTP-TLS',  fullName:'SMTP TLS submission',             transport:'TCP',     encrypted:true,  family:'mail',      use:'Mail submission (client → server, encrypted)', insecure:'SMTP' },
+  { ports:[636],   protocol:'LDAPS',     fullName:'LDAP over SSL',                   transport:'TCP',     encrypted:true,  family:'directory', use:'Encrypted directory services',                 insecure:'LDAP' },
+  { ports:[993],   protocol:'IMAPS',     fullName:'IMAP over SSL',                   transport:'TCP',     encrypted:true,  family:'mail',      use:'Encrypted IMAP',                               insecure:'IMAP' },
+  { ports:[995],   protocol:'POP3S',     fullName:'POP3 over SSL',                   transport:'TCP',     encrypted:true,  family:'mail',      use:'Encrypted POP3',                               insecure:'POP3' },
+  { ports:[1433],  protocol:'SQL Server',fullName:'Microsoft SQL Server',            transport:'TCP',     encrypted:false, family:'database',  use:'Microsoft database engine' },
+  { ports:[1521],  protocol:'SQLnet',    fullName:'Oracle SQLnet',                   transport:'TCP',     encrypted:false, family:'database',  use:'Oracle database listener' },
+  { ports:[3306],  protocol:'MySQL',     fullName:'MySQL Database',                  transport:'TCP',     encrypted:false, family:'database',  use:'MySQL / MariaDB database' },
+  { ports:[3389],  protocol:'RDP',       fullName:'Remote Desktop Protocol',         transport:'TCP/UDP', encrypted:true,  family:'remote',    use:'Microsoft Windows remote desktop' },
+  { ports:[5060,5061],protocol:'SIP',    fullName:'Session Initiation Protocol',     transport:'TCP/UDP', encrypted:false, family:'voip',      use:'VoIP signaling (5060 plain, 5061 TLS)' }
+];
+
+const FAMILIES = {
+  mail:      { name: 'Mail',                 desc: 'Send, retrieve, encrypt email' },
+  file:      { name: 'File Transfer',        desc: 'Move files across the network' },
+  web:       { name: 'Web',                  desc: 'HTTP and its encrypted twin' },
+  remote:    { name: 'Remote Access',        desc: 'Reach machines from elsewhere' },
+  directory: { name: 'Directory Services',   desc: 'Authenticate users, find resources' },
+  mgmt:      { name: 'Network Management',   desc: 'Time, monitoring, logs' },
+  database:  { name: 'Database',             desc: 'Talk to database engines directly' },
+  naming:    { name: 'Naming & Addressing',  desc: 'Find hosts and get an IP' },
+  voip:      { name: 'VoIP',                 desc: 'Voice signaling over IP' }
+};
+
+const formatPorts = p => p.length === 1 ? `${p[0]}` : p.join('/');
+const PROTOCOLS = PORTS.map(p => p.protocol);
+const ALL_PORT_NUMS = [...new Set(PORTS.flatMap(p => p.ports))].sort((a,b) => a-b);
+
+/* ============================================================ */
+/* MASTER TABLE                                                  */
+/* ============================================================ */
+let activeFilter = 'all';
+let activeFamilyFilter = null;
+let sortKey = 'port';
+let sortDir = 1;
+
+function filterPorts() {
+  return PORTS.filter(p => {
+    if (activeFamilyFilter && p.family !== activeFamilyFilter) return false;
+    if (activeFilter === 'tcp' && p.transport !== 'TCP') return false;
+    if (activeFilter === 'udp' && p.transport !== 'UDP') return false;
+    if (activeFilter === 'encrypted' && !p.encrypted) return false;
+    if (activeFilter === 'plain' && p.encrypted) return false;
+    return true;
+  });
+}
+
+function sortPorts(arr) {
+  const sorters = {
+    port:      (a,b) => a.ports[0] - b.ports[0],
+    protocol:  (a,b) => a.protocol.localeCompare(b.protocol),
+    transport: (a,b) => a.transport.localeCompare(b.transport),
+    family:    (a,b) => a.family.localeCompare(b.family),
+    encrypted: (a,b) => Number(b.encrypted) - Number(a.encrypted)
+  };
+  return [...arr].sort((a,b) => sortDir * sorters[sortKey](a,b));
+}
+
+function transportClass(t) {
+  if (t === 'TCP') return 'tcp';
+  if (t === 'UDP') return 'udp';
+  return 'both';
+}
+
+function renderTable() {
+  const data = sortPorts(filterPorts());
+  const tbody = document.getElementById('ports-tbody');
+  tbody.innerHTML = data.map(p => `
+    <tr class="${p.encrypted ? 'encrypted' : ''}">
+      <td><span class="port-badge">${formatPorts(p.ports)}</span></td>
+      <td class="protocol-cell">${p.protocol}<span class="full-name">${p.fullName}</span></td>
+      <td><span class="transport-pill ${transportClass(p.transport)}">${p.transport}</span></td>
+      <td><span class="family-tag">${FAMILIES[p.family].name}</span></td>
+      <td>${p.encrypted ? '<span class="lock-icon">🔒</span>' : '<span style="color:var(--ink-mute);font-family:var(--ff-mono);font-size:11px;">—</span>'}</td>
+      <td class="use-cell">${p.use}</td>
+    </tr>`).join('');
+  document.getElementById('row-count').textContent = data.length;
+  document.querySelectorAll('.ports-table thead th').forEach(th => {
+    const ind = th.querySelector('.sort-ind');
+    if (ind) ind.remove();
+    if (th.dataset.sort === sortKey) {
+      const sp = document.createElement('span');
+      sp.className = 'sort-ind';
+      sp.textContent = sortDir === 1 ? '▲' : '▼';
+      th.appendChild(sp);
+    }
+  });
+}
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    if (chip.dataset.filter) {
+      document.querySelectorAll('.filter-chip[data-filter]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      activeFamilyFilter = null;
+      document.querySelectorAll('.filter-chip[data-family]').forEach(c => c.classList.remove('active'));
+    } else if (chip.dataset.family) {
+      const wasActive = chip.classList.contains('active');
+      document.querySelectorAll('.filter-chip[data-family]').forEach(c => c.classList.remove('active'));
+      if (!wasActive) {
+        chip.classList.add('active');
+        activeFamilyFilter = chip.dataset.family;
+      } else {
+        activeFamilyFilter = null;
+      }
+    }
+    renderTable();
+  });
+});
+
+document.querySelectorAll('.ports-table thead th').forEach(th => {
+  if (!th.dataset.sort) return;
+  th.addEventListener('click', () => {
+    if (sortKey === th.dataset.sort) sortDir = -sortDir;
+    else { sortKey = th.dataset.sort; sortDir = 1; }
+    renderTable();
+  });
+});
+
+renderTable();
+
+/* ============================================================ */
+/* BY FAMILY                                                     */
+/* ============================================================ */
+function renderFamilyView() {
+  const grid = document.getElementById('family-grid');
+  const familyOrder = ['mail','web','file','remote','directory','mgmt','database','naming','voip'];
+  grid.innerHTML = familyOrder.map(famKey => {
+    const f = FAMILIES[famKey];
+    const protos = PORTS.filter(p => p.family === famKey).sort((a,b) => a.ports[0] - b.ports[0]);
+    return `
+      <div class="family-card">
+        <div class="family-card-head">
+          <div class="fam-eyebrow">Family · ${protos.length} protocol${protos.length>1?'s':''}</div>
+          <h3>${f.name}</h3>
+        </div>
+        <div class="family-card-body">
+          ${protos.map(p => `
+            <div class="family-row ${p.encrypted ? 'encrypted' : ''}">
+              <div class="port-num">${formatPorts(p.ports)}</div>
+              <div class="proto-name">${p.protocol}<small>${p.fullName}</small></div>
+              <div class="proto-meta">
+                ${p.encrypted ? '<span class="lock">🔒</span>' : ''}
+                ${p.transport}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+renderFamilyView();
+
+/* ============================================================ */
+/* ENCRYPTED TWINS                                               */
+/* ============================================================ */
+const TWIN_PAIRS = [
+  { ins: 'HTTP',   sec: 'HTTPS',     note: 'TLS wraps the HTTP request before it goes anywhere. The most-tested pair on the exam.' },
+  { ins: 'FTP',    sec: 'SFTP',      note: 'SFTP is not "FTP over SSL" — it\'s file transfer running inside an SSH session. Same port as SSH (22).' },
+  { ins: 'Telnet', sec: 'SSH',       note: 'Telnet sends credentials in plaintext. SSH replaces it entirely. If you find Telnet enabled in 2026, disable it.' },
+  { ins: 'SMTP',   sec: 'SMTP-TLS',  note: 'Port 25 is for server-to-server relay. Port 587 is for clients submitting mail with TLS — that is the modern submission port.' },
+  { ins: 'POP3',   sec: 'POP3S',     note: 'POP3 downloads mail and (typically) deletes it from the server. POP3S is the same thing wrapped in SSL/TLS.' },
+  { ins: 'IMAP',   sec: 'IMAPS',     note: 'IMAP keeps mail on the server so you see the same inbox from every device. IMAPS adds encryption.' },
+  { ins: 'LDAP',   sec: 'LDAPS',     note: 'LDAP queries directories like Active Directory. LDAPS is the same query stream over SSL.' }
+];
+
+function renderTwins() {
+  const list = document.getElementById('twins-list');
+  const lookup = name => PORTS.find(p => p.protocol === name);
+  list.innerHTML = TWIN_PAIRS.map(pair => {
+    const ins = lookup(pair.ins);
+    const sec = lookup(pair.sec);
+    return `
+      <div class="twin-card">
+        <div class="twin-side left">
+          <div class="twin-eyebrow">Plaintext / Insecure</div>
+          <h3 class="twin-protocol">${ins.protocol}</h3>
+          <p class="twin-fullname">${ins.fullName}</p>
+          <span class="twin-port">${formatPorts(ins.ports)} / ${ins.transport}</span>
+          <p class="twin-note">${ins.use}</p>
+        </div>
+        <div class="twin-arrow">→</div>
+        <div class="twin-side right">
+          <div class="twin-eyebrow">🔒 Encrypted Twin</div>
+          <h3 class="twin-protocol">${sec.protocol}</h3>
+          <p class="twin-fullname">${sec.fullName}</p>
+          <span class="twin-port">${formatPorts(sec.ports)} / ${sec.transport}</span>
+          <p class="twin-note">${pair.note}</p>
+        </div>
+      </div>`;
+  }).join('');
+}
+renderTwins();
+
+/* ============================================================ */
+/* FLASHCARDS                                                    */
+/* ============================================================ */
+let fcMode = 'proto-to-port';
+let fcDeck = [];
+let fcIdx = 0;
+let fcStats = { got: 0, almost: 0, missed: 0 };
+let fcFlipped = false;
+
+function buildDeck() {
+  let pool = [...PORTS];
+  if (fcMode === 'encrypted') {
+    pool = PORTS.filter(p => p.encrypted || p.secure);
+  }
+  // Shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  fcDeck = pool.map(p => {
+    let direction;
+    if (fcMode === 'proto-to-port') direction = 'p2n';
+    else if (fcMode === 'port-to-proto') direction = 'n2p';
+    else direction = Math.random() < 0.5 ? 'p2n' : 'n2p';
+    return { ...p, direction };
+  });
+  fcIdx = 0;
+  fcStats = { got: 0, almost: 0, missed: 0 };
+  fcFlipped = false;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const stage = document.getElementById('fc-stage');
+  const card = document.getElementById('flashcard');
+  if (fcIdx >= fcDeck.length) {
+    // Deck complete
+    stage.innerHTML = `
+      <div class="fc-empty-state">
+        <div class="big">Deck Complete</div>
+        <p>You went through all ${fcDeck.length} cards · ${fcStats.got} got it · ${fcStats.almost} almost · ${fcStats.missed} missed</p>
+        <button class="fc-utility-btn" onclick="buildDeck()">↻ Reshuffle &amp; Run Again</button>
+      </div>`;
+    return;
+  }
+  // Restore stage if we replaced it
+  if (!document.getElementById('flashcard')) {
+    stage.innerHTML = `
+      <div class="fc-progress">
+        <span>Card · <b><span id="fc-pos">1</span> of <span id="fc-total">26</span></b></span>
+        <span class="got">Got · <b id="fc-got">0</b></span>
+        <span class="almost">Almost · <b id="fc-almost">0</b></span>
+        <span class="missed">Missed · <b id="fc-missed">0</b></span>
+      </div>
+      <div class="flashcard" id="flashcard">
+        <div class="fc-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-prompt" id="fc-front-prompt"></div>
+            <div class="fc-question" id="fc-front-q"></div>
+            <div class="fc-hint">click to flip · spacebar / arrow keys also work</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-prompt" id="fc-back-prompt"></div>
+            <div class="fc-answer" id="fc-back-a"></div>
+            <div class="fc-detail" id="fc-back-detail"></div>
+            <div class="fc-meta" id="fc-back-meta"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-judgment" id="fc-judgment">
+        <button class="fc-judge-btn missed" data-rate="missed">✗ Missed</button>
+        <button class="fc-judge-btn almost" data-rate="almost">~ Almost</button>
+        <button class="fc-judge-btn got" data-rate="got">✓ Got It</button>
+      </div>`;
+    bindFlashcardEvents();
+  }
+  const c = fcDeck[fcIdx];
+  document.getElementById('fc-pos').textContent = fcIdx + 1;
+  document.getElementById('fc-total').textContent = fcDeck.length;
+  document.getElementById('fc-got').textContent = fcStats.got;
+  document.getElementById('fc-almost').textContent = fcStats.almost;
+  document.getElementById('fc-missed').textContent = fcStats.missed;
+
+  if (c.direction === 'p2n') {
+    document.getElementById('fc-front-prompt').textContent = 'PROTOCOL';
+    document.getElementById('fc-front-q').textContent = c.protocol;
+    document.getElementById('fc-back-prompt').textContent = 'PORT NUMBER';
+    document.getElementById('fc-back-a').textContent = `${formatPorts(c.ports)} / ${c.transport}`;
+  } else {
+    document.getElementById('fc-front-prompt').textContent = 'PORT NUMBER';
+    document.getElementById('fc-front-q').textContent = formatPorts(c.ports);
+    document.getElementById('fc-back-prompt').textContent = 'PROTOCOL';
+    document.getElementById('fc-back-a').textContent = `${c.protocol} · ${c.transport}`;
+  }
+  let detailHTML = `<b>USE</b>${c.use}`;
+  if (c.secure) detailHTML += `<br><b>SECURE TWIN</b>${c.secure}`;
+  if (c.insecure) detailHTML += `<br><b>PLAIN TWIN</b>${c.insecure}`;
+  document.getElementById('fc-back-detail').innerHTML = detailHTML;
+  document.getElementById('fc-back-meta').innerHTML = `
+    <span>${FAMILIES[c.family].name}</span>
+    <span>${c.encrypted ? '🔒 ENCRYPTED' : 'PLAINTEXT'}</span>
+    <span>${c.fullName}</span>`;
+
+  fcFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+function bindFlashcardEvents() {
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  card.addEventListener('click', () => {
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  });
+  document.querySelectorAll('.fc-judge-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!fcFlipped) return;
+      const rate = btn.dataset.rate;
+      fcStats[rate]++;
+      if (rate === 'missed') {
+        // Re-queue missed cards toward the end
+        fcDeck.push(fcDeck[fcIdx]);
+      }
+      fcIdx++;
+      renderFlashcard();
+    });
+  });
+}
+
+document.querySelectorAll('.fc-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fc-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    fcMode = btn.dataset.mode;
+    buildDeck();
+  });
+});
+document.getElementById('fc-shuffle').addEventListener('click', buildDeck);
+document.getElementById('fc-reset').addEventListener('click', buildDeck);
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+  const lightningPanel = document.getElementById('panel-flashcards');
+  if (!lightningPanel.classList.contains('active')) return;
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    e.preventDefault();
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  }
+  if (fcFlipped) {
+    if (e.code === 'Digit1' || e.code === 'KeyM') document.querySelector('.fc-judge-btn.missed').click();
+    if (e.code === 'Digit2' || e.code === 'KeyA') document.querySelector('.fc-judge-btn.almost').click();
+    if (e.code === 'Digit3' || e.code === 'KeyG') document.querySelector('.fc-judge-btn.got').click();
+  }
+});
+
+bindFlashcardEvents();
+buildDeck();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60;
+let lrTimeLeft = 60;
+let lrTimer = null;
+let lrCorrect = 0;
+let lrWrong = 0;
+let lrCurrentQ = null;
+let lrQuestionsAnswered = 0;
+let lrGameOver = false;
+
+function pickRandom(arr, n, exclude = []) {
+  const pool = arr.filter(x => !exclude.includes(x));
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, n);
+}
+
+function generateQuestion() {
+  // Question types:
+  // 1. proto → port: "What port does HTTPS use?" 4 port options
+  // 2. port → proto: "What protocol uses port 443?" 4 protocol options
+  // 3. secure version: "What is the secure version of HTTP?" (only for ones with `secure`)
+  // 4. transport: "Which transport does X use?" (TCP/UDP/Both options)
+  const types = ['p2n', 'n2p', 'p2n', 'n2p', 'secure', 'transport'];
+  const type = types[Math.floor(Math.random() * types.length)];
+  const proto = PORTS[Math.floor(Math.random() * PORTS.length)];
+
+  if (type === 'p2n') {
+    const correct = formatPorts(proto.ports);
+    const otherPortStrs = PORTS
+      .filter(p => p.protocol !== proto.protocol)
+      .map(p => formatPorts(p.ports));
+    const distractors = pickRandom(otherPortStrs, 3, [correct]);
+    const options = [correct, ...distractors].sort(() => Math.random() - 0.5);
+    return {
+      prompt: 'What port does this protocol use?',
+      questionDisplay: proto.protocol,
+      options,
+      correctIdx: options.indexOf(correct),
+      explainAns: correct
+    };
+  }
+
+  if (type === 'n2p') {
+    const portStr = formatPorts(proto.ports);
+    const correct = proto.protocol;
+    const otherProtos = PROTOCOLS.filter(p => p !== correct);
+    const distractors = pickRandom(otherProtos, 3);
+    const options = [correct, ...distractors].sort(() => Math.random() - 0.5);
+    return {
+      prompt: 'Which protocol uses this port?',
+      questionDisplay: portStr,
+      isPort: true,
+      options,
+      correctIdx: options.indexOf(correct),
+      explainAns: correct
+    };
+  }
+
+  if (type === 'secure') {
+    const candidates = PORTS.filter(p => p.secure);
+    if (candidates.length === 0) return generateQuestion();
+    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+    const correct = pick.secure;
+    const otherProtos = PROTOCOLS.filter(p => p !== correct && p !== pick.protocol);
+    const distractors = pickRandom(otherProtos, 3);
+    const options = [correct, ...distractors].sort(() => Math.random() - 0.5);
+    return {
+      prompt: 'What is the secure version of:',
+      questionDisplay: pick.protocol,
+      options,
+      correctIdx: options.indexOf(correct),
+      explainAns: correct
+    };
+  }
+
+  if (type === 'transport') {
+    const correct = proto.transport;
+    const allTrans = ['TCP', 'UDP', 'TCP/UDP'];
+    let options = [correct];
+    allTrans.forEach(t => { if (t !== correct) options.push(t); });
+    // Add a 4th option — pick a "fake" combination
+    if (options.length < 4) options.push('ICMP only');
+    options = options.sort(() => Math.random() - 0.5);
+    return {
+      prompt: 'Which transport protocol does this use?',
+      questionDisplay: proto.protocol,
+      options,
+      correctIdx: options.indexOf(correct),
+      explainAns: correct
+    };
+  }
+}
+
+function renderQuestion() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateQuestion();
+  document.getElementById('lr-prompt').textContent = lrCurrentQ.prompt;
+  const qEl = document.getElementById('lr-question');
+  if (lrCurrentQ.isPort) {
+    qEl.innerHTML = `<span class="big">${lrCurrentQ.questionDisplay}</span>`;
+  } else {
+    qEl.textContent = lrCurrentQ.questionDisplay;
+  }
+  const opts = document.getElementById('lr-options');
+  opts.innerHTML = lrCurrentQ.options.map((opt, i) => `
+    <button class="lr-option" data-i="${i}">
+      <span class="marker">${String.fromCharCode(65 + i)}</span>
+      <span>${opt}</span>
+    </button>`).join('');
+  opts.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerQuestion(parseInt(btn.dataset.i), btn));
+  });
+}
+
+function answerQuestion(chosen, btn) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  lrQuestionsAnswered++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderQuestion(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  lrQuestionsAnswered++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderQuestion();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0;
+  lrWrong = 0;
+  lrQuestionsAnswered = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderQuestion();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 25) { verdict = 'Exam-Ready.'; sub = 'You can answer ports questions in your sleep. Move on to the next domain.'; }
+  else if (lrCorrect >= 18) { verdict = 'Strong.'; sub = 'A few more drills and you are exam-ready. Run it again, focus on the families you missed.'; }
+  else if (lrCorrect >= 10) { verdict = 'Building It.'; sub = 'Keep going. Run flashcards on the protocols you missed, then come back here.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'The Master Table and Encrypted Twins tabs are your friends. Spend time there, then return to lightning round.'; }
+
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+
+    // If switching away from lightning round, end the game
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
