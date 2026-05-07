@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSI Model Explorer · CBT Technology Institute · Network+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* CBT brand palette */
+    --navy:        #0E2D5B;
+    --navy-deep:   #081E40;
+    --navy-soft:   #1B3D75;
+    --red:         #E4002B;
+    --red-deep:    #B30021;
+    --red-soft:    #FF3852;
+
+    /* Surfaces */
+    --bg:          #F5F2EC;
+    --bg-warm:     #ECE6D9;
+    --surface:     #FFFFFF;
+    --surface-alt: #FAF7F1;
+    --line:        #1A1A1A;
+    --line-soft:   #C9C2B3;
+
+    /* Text */
+    --ink:         #0A0A0A;
+    --ink-mid:     #404758;
+    --ink-mute:    #767E92;
+    --ink-invert:  #F5F2EC;
+
+    /* Layer accents (brand-derived hues used sparingly) */
+    --l7: #E4002B; /* Application — red, the user-facing layer */
+    --l6: #C8451E;
+    --l5: #A36B17;
+    --l4: #6E7A1F;
+    --l3: #2A6049;
+    --l2: #1B4F73;
+    --l1: #0E2D5B; /* Physical — deep navy, the foundation */
+
+    --ff-display: 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:    'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:    'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body);
+    color: var(--ink);
+    background: var(--bg);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(228,0,43,0.04), transparent 35%),
+      radial-gradient(circle at 90% 95%, rgba(14,45,91,0.05), transparent 40%);
+  }
+
+  /* ====== TOP BAR ====== */
+  .topbar {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--red);
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; }
+  .cbt-mark {
+    background: var(--red);
+    color: white;
+    padding: 6px 10px;
+    font-family: var(--ff-display);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .cbt-mark span { color: rgba(255,255,255,0.65); font-weight: 500; margin-left: 4px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  /* ====== HERO ====== */
+  .hero {
+    padding: 56px 28px 36px;
+    max-width: 1280px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--red);
+  }
+  .hero h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    margin: 0 0 20px;
+    color: var(--navy-deep);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--red);
+    font-weight: 600;
+  }
+  .hero p.lede {
+    font-size: 17px;
+    color: var(--ink-mid);
+    max-width: 56ch;
+    margin: 0;
+  }
+
+  .mnemonic-card {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 26px 24px;
+    border-left: 4px solid var(--red);
+    position: relative;
+  }
+  .mnemonic-card .label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+  .mnemonic-card .phrase {
+    font-family: var(--ff-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+  .mnemonic-card .phrase b { color: var(--red-soft); }
+  .mnemonic-card .direction {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    opacity: 0.55;
+    letter-spacing: 0.1em;
+  }
+  .mnemonic-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 18px 0 14px;
+  }
+
+  /* ====== STATS STRIP ====== */
+  .stats-strip {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .stat {
+    background: var(--bg);
+    padding: 14px 18px;
+  }
+  .stat .num {
+    font-family: var(--ff-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 6px;
+  }
+
+  /* ====== TAB NAV ====== */
+  .tabs {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none;
+    border: none;
+    padding: 18px 22px 16px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    left: 22px; right: 22px; bottom: -1px;
+    height: 2px;
+    background: var(--red);
+  }
+  .tab .num {
+    color: var(--red);
+    margin-right: 8px;
+    font-weight: 700;
+  }
+
+  /* ====== PANELS ====== */
+  .panel {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 28px 80px;
+    display: none;
+    animation: fade 0.3s ease;
+  }
+  .panel.active { display: block; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== STACK EXPLORER ====== */
+  .explorer {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .stack {
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .stack-header {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .stack-header .domain-tag {
+    background: var(--red);
+    padding: 3px 8px;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  .layer {
+    border-top: 1px solid var(--line);
+    padding: 16px 18px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .layer:first-of-type { border-top: none; }
+  .layer:hover { background: var(--surface-alt); }
+  .layer.selected { background: var(--bg-warm); }
+  .layer.selected::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--red);
+  }
+  .layer-num {
+    font-family: var(--ff-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink-mid);
+    letter-spacing: -0.04em;
+  }
+  .layer.selected .layer-num { color: var(--red); }
+  .layer-info .name {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--navy-deep);
+    line-height: 1.1;
+  }
+  .layer-info .pdu {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+  .layer-band {
+    width: 24px;
+    height: 8px;
+    background: currentColor;
+  }
+  .stack-footer {
+    padding: 12px 18px;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    background: var(--surface-alt);
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ====== DETAIL PANEL ====== */
+  .detail {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    min-height: 540px;
+  }
+  .detail-head {
+    padding: 26px 28px;
+    border-bottom: 1px solid var(--line);
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    position: relative;
+    overflow: hidden;
+  }
+  .detail-head::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--red) 50%);
+    opacity: 0.85;
+  }
+  .detail-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .detail-title {
+    font-family: var(--ff-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 6px 0 0;
+    letter-spacing: -0.02em;
+  }
+  .detail-purpose {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-top: 12px;
+    max-width: 60ch;
+    position: relative;
+    z-index: 2;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .detail-cell {
+    background: var(--surface);
+    padding: 18px 22px;
+  }
+  .detail-cell .key {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .detail-cell .val {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .detail-cell .val.mono {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .chip-row {
+    padding: 22px;
+  }
+  .chip-row .heading {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    padding: 5px 9px;
+    background: var(--bg-warm);
+    border: 1px solid var(--line-soft);
+    color: var(--navy-deep);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .chip.accent { background: var(--navy-deep); color: var(--ink-invert); border-color: var(--navy-deep); }
+
+  .real-world {
+    margin: 0 22px 22px;
+    padding: 16px 18px;
+    background: var(--bg-warm);
+    border-left: 3px solid var(--red);
+  }
+  .real-world .heading {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .real-world p { margin: 0; font-size: 14px; color: var(--ink); }
+
+  /* ====== COMPARE ====== */
+  .compare-controls {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .compare-controls label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-right: 8px;
+    opacity: 0.7;
+  }
+  .compare-controls select {
+    background: var(--surface);
+    color: var(--navy-deep);
+    border: none;
+    padding: 8px 12px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    min-width: 220px;
+  }
+  .vs-label {
+    font-family: var(--ff-display);
+    font-weight: 700;
+    color: var(--red-soft);
+    font-size: 18px;
+    margin: 0 6px;
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .compare-card {
+    background: var(--surface);
+    padding: 24px;
+  }
+  .compare-card h3 {
+    font-family: var(--ff-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--navy-deep);
+    letter-spacing: -0.02em;
+  }
+  .compare-card .layer-tag {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 18px;
+  }
+  .compare-attr {
+    border-top: 1px solid var(--line-soft);
+    padding: 12px 0;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .compare-attr .key {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding-top: 2px;
+  }
+  .compare-attr .val { font-size: 14px; }
+  .compare-attr .val.diff { background: rgba(228,0,43,0.08); padding: 2px 6px; margin: -2px -6px; }
+
+  .contrast-summary {
+    margin-top: 28px;
+    padding: 22px 26px;
+    background: var(--bg-warm);
+    border-left: 4px solid var(--red);
+  }
+  .contrast-summary .heading {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .contrast-summary p { margin: 0; font-size: 15px; line-height: 1.6; }
+
+  /* ====== ENCAPSULATION ====== */
+  .encap-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .encap-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    align-items: center;
+  }
+  .encap-btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .encap-btn:hover { background: var(--red-deep); }
+  .encap-btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+  }
+  .encap-btn.ghost:hover { background: rgba(255,255,255,0.08); }
+  .encap-status {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    margin-left: auto;
+    opacity: 0.85;
+  }
+
+  .encap-side {
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .encap-side-head {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 12px 18px;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+  }
+  .encap-side-head .arrow { color: var(--red-soft); font-weight: 700; }
+  .encap-stack {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .encap-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+  .encap-label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+  }
+  .encap-label b { color: var(--navy-deep); font-weight: 700; }
+  .encap-bar {
+    display: flex;
+    height: 30px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    background: var(--surface);
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .encap-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: opacity 0.5s, background 0.3s;
+    opacity: 0;
+    white-space: nowrap;
+    padding: 0 6px;
+    min-width: 0;
+  }
+  .encap-seg.active { opacity: 1; }
+  .encap-seg.payload { background: var(--bg-warm); color: var(--navy-deep); flex: 2; }
+  .encap-seg.h7 { background: var(--l7); flex: 0.7; }
+  .encap-seg.h6 { background: var(--l6); flex: 0.5; }
+  .encap-seg.h5 { background: var(--l5); flex: 0.5; }
+  .encap-seg.h4 { background: var(--l4); flex: 0.5; }
+  .encap-seg.h3 { background: var(--l3); flex: 0.5; }
+  .encap-seg.h2 { background: var(--l2); flex: 0.5; }
+  .encap-seg.h2t { background: var(--l2); flex: 0.3; }
+  .encap-seg.bits { background: var(--l1); flex: 1; color: white; }
+
+  .encap-note {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--bg-warm);
+    border-left: 3px solid var(--red);
+    font-size: 13px;
+    line-height: 1.5;
+    grid-column: 1 / -1;
+  }
+  .encap-note b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; }
+
+  /* ====== REFERENCE TABLE ====== */
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .ref-table thead th {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    text-align: left;
+    padding: 14px 16px;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .ref-table thead th:first-child { background: var(--red); }
+  .ref-table tbody td {
+    padding: 14px 16px;
+    border-top: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .ref-table tbody td:first-child {
+    font-family: var(--ff-display);
+    font-weight: 700;
+    color: var(--navy-deep);
+    font-size: 16px;
+    background: var(--surface-alt);
+    width: 110px;
+  }
+  .ref-table tbody td .num {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    margin-right: 6px;
+  }
+  .ref-table tbody td.mono {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--ink-mid);
+  }
+  .ref-table tbody tr:hover td { background: var(--bg-warm); }
+  .ref-table tbody tr:hover td:first-child { background: var(--bg); }
+
+  .ref-legend {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .ref-legend-card {
+    padding: 18px 20px;
+    border: 1px solid var(--line-soft);
+    background: var(--surface);
+  }
+  .ref-legend-card h4 {
+    font-family: var(--ff-display);
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--navy-deep);
+  }
+  .ref-legend-card p { margin: 0; font-size: 13px; color: var(--ink-mid); }
+
+  /* ====== QUIZ ====== */
+  .quiz-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .quiz-head {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 20px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-head .title {
+    font-family: var(--ff-display);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .quiz-head .progress {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    background: var(--red);
+    padding: 6px 12px;
+  }
+  .quiz-body {
+    padding: 32px 30px;
+  }
+  .quiz-question {
+    font-family: var(--ff-display);
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--navy-deep);
+    margin: 0 0 24px;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .quiz-option {
+    background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    padding: 14px 18px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    color: var(--ink);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .quiz-option:hover:not([disabled]) {
+    background: var(--bg-warm);
+    border-color: var(--navy-deep);
+  }
+  .quiz-option .marker {
+    width: 24px; height: 24px;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    flex-shrink: 0;
+  }
+  .quiz-option.correct { background: #DCEAD9; border-color: #2A6049; color: #1F4A36; }
+  .quiz-option.correct .marker { background: #2A6049; color: white; border-color: #2A6049; }
+  .quiz-option.wrong { background: #F4D9DC; border-color: var(--red-deep); color: var(--red-deep); }
+  .quiz-option.wrong .marker { background: var(--red-deep); color: white; border-color: var(--red-deep); }
+  .quiz-option[disabled] { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 22px;
+    padding: 16px 20px;
+    background: var(--bg-warm);
+    border-left: 4px solid var(--red);
+    font-size: 14px;
+    line-height: 1.5;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback b {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .quiz-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-score {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+  }
+  .quiz-score b { color: var(--navy-deep); font-size: 14px; }
+  .next-btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .next-btn:hover { background: var(--red-deep); }
+  .next-btn:disabled { background: var(--line-soft); color: var(--ink-mute); cursor: default; }
+
+  .quiz-final {
+    text-align: center;
+    padding: 40px 30px;
+  }
+  .quiz-final .big-score {
+    font-family: var(--ff-display);
+    font-size: 88px;
+    font-weight: 800;
+    color: var(--navy-deep);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .quiz-final .big-score b { color: var(--red); }
+  .quiz-final .verdict {
+    font-family: var(--ff-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 12px 0 8px;
+    color: var(--navy-deep);
+  }
+  .quiz-final .verdict-sub {
+    color: var(--ink-mid);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* ====== FOOTER ====== */
+  footer {
+    background: var(--navy-deep);
+    color: var(--ink-invert);
+    padding: 40px 28px 26px;
+    margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+  }
+  footer h4 {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red-soft);
+    margin: 0 0 12px;
+  }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 28px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .explorer { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .encap-wrap { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .ref-legend { grid-template-columns: 1fr; }
+    .ref-table { font-size: 12px; }
+    .ref-table tbody td { padding: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">CBT<span>tech</span></span>
+    <span class="crumb">School of Information Technology</span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Module 02 · OSI Model</span>
+  </div>
+  <div class="topbar-right">Interactive Reference · Prof. De León</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow">Section 1.1 · Compare and Contrast</div>
+    <h1>The Seven<br>Layers, <em>Compared.</em></h1>
+    <p class="lede">Every Network+ candidate has to know the OSI model cold — what each layer does, what it carries, what addresses it speaks, and what tools touch it. This explorer lets you walk the stack, hold any two layers up to the light, and watch a packet get built and torn down in real time.</p>
+  </div>
+  <aside class="mnemonic-card">
+    <div class="label">Mnemonic · Top → Bottom</div>
+    <div class="phrase"><b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing</div>
+    <div class="direction">App · Pres · Sess · Trans · Net · Data Link · Phys</div>
+    <div class="mnemonic-divider"></div>
+    <div class="label">Mnemonic · Bottom → Top</div>
+    <div class="phrase"><b>P</b>lease <b>D</b>o <b>N</b>ot <b>T</b>hrow <b>S</b>ausage <b>P</b>izza <b>A</b>way</div>
+    <div class="direction">Phys · Data Link · Net · Trans · Sess · Pres · App</div>
+  </aside>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><div class="num">7</div><div class="label">Layers</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">Distinct PDUs</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Domains · Host & Media</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Exam Questions Avoided</div></div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" data-tab="explorer"><span class="num">01</span>Layer Explorer</button>
+  <button class="tab" data-tab="compare"><span class="num">02</span>Compare & Contrast</button>
+  <button class="tab" data-tab="encap"><span class="num">03</span>Encapsulation Flow</button>
+  <button class="tab" data-tab="ref"><span class="num">04</span>Reference Table</button>
+  <button class="tab" data-tab="quiz"><span class="num">05</span>Knowledge Check</button>
+</nav>
+
+<!-- ============ EXPLORER PANEL ============ -->
+<section class="panel active" id="panel-explorer">
+  <div class="explorer">
+    <div class="stack">
+      <div class="stack-header">
+        <span>The Stack</span>
+        <span>↓ Click any layer</span>
+      </div>
+      <div id="layer-list"></div>
+      <div class="stack-footer">
+        <span>L1–L4 · Media Domain</span>
+        <span>L5–L7 · Host Domain</span>
+      </div>
+    </div>
+    <div class="detail" id="detail-panel"></div>
+  </div>
+</section>
+
+<!-- ============ COMPARE PANEL ============ -->
+<section class="panel" id="panel-compare">
+  <div class="compare-controls">
+    <div><label>Layer A</label><select id="cmp-a"></select></div>
+    <span class="vs-label">vs</span>
+    <div><label>Layer B</label><select id="cmp-b"></select></div>
+  </div>
+  <div class="compare-grid" id="compare-grid"></div>
+  <div class="contrast-summary" id="contrast-summary"></div>
+</section>
+
+<!-- ============ ENCAPSULATION PANEL ============ -->
+<section class="panel" id="panel-encap">
+  <div class="encap-controls">
+    <button class="encap-btn" id="encap-play">▶ Play Encapsulation</button>
+    <button class="encap-btn ghost" id="encap-reset">Reset</button>
+    <span class="encap-status" id="encap-status">Idle · ready at Layer 7 (Application)</span>
+  </div>
+  <div class="encap-wrap">
+    <div class="encap-side">
+      <div class="encap-side-head"><span>Sender</span><span class="arrow">↓ Encapsulate</span></div>
+      <div class="encap-stack" id="encap-send"></div>
+    </div>
+    <div class="encap-side">
+      <div class="encap-side-head"><span>Receiver</span><span class="arrow">↑ De-encapsulate</span></div>
+      <div class="encap-stack" id="encap-recv"></div>
+    </div>
+    <div class="encap-note" id="encap-note">
+      <b>HOW THIS WORKS</b><br>
+      As your message moves down the sending stack, each layer wraps the data with its own header (and the Data Link layer adds a trailer too). The receiver does the reverse: each layer reads and strips its header, then hands the payload up to the next layer. The PDU name changes at each layer — that change is exactly what shows up on the exam.
+    </div>
+  </div>
+</section>
+
+<!-- ============ REFERENCE TABLE PANEL ============ -->
+<section class="panel" id="panel-ref">
+  <table class="ref-table" id="ref-table">
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>PDU</th>
+        <th>Address</th>
+        <th>Key Devices</th>
+        <th>Key Protocols</th>
+        <th>Tools to Troubleshoot</th>
+      </tr>
+    </thead>
+    <tbody id="ref-tbody"></tbody>
+  </table>
+  <div class="ref-legend">
+    <div class="ref-legend-card">
+      <h4>Host Layers (5–7)</h4>
+      <p>Run on the endpoints — your laptop, your server. They handle <em>what the user is doing</em>: opening a webpage, encrypting a session, keeping a video call alive. The OS implements them in software.</p>
+    </div>
+    <div class="ref-legend-card">
+      <h4>Media Layers (1–4)</h4>
+      <p>Move data <em>between</em> hosts. Layer 4 is the boundary: TCP/UDP runs on the OS, but the rest is delivered by routers, switches, NICs, and cabling. This is where your network engineer earns her paycheck.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ PANEL ============ -->
+<section class="panel" id="panel-quiz">
+  <div class="quiz-card" id="quiz-card"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ reference built for CBT Technology Institute's School of Information Technology. Aligned to objectives 1.1 (Compare and contrast OSI model layers) of CompTIA Network+ N10-009.</p>
+      <p>Tradition meets innovation — practice the exam-grade material with hands-on tools instead of static slides.</p>
+    </div>
+    <div>
+      <h4>Exam Tips</h4>
+      <p>· The PDU name <em>is</em> the layer giveaway. Frame → L2. Packet → L3. Segment → L4.</p>
+      <p>· Devices map to layers by what they read. Switch reads MACs (L2). Router reads IPs (L3).</p>
+      <p>· Layer 4 is where TCP vs UDP lives — flow control = TCP only.</p>
+    </div>
+    <div>
+      <h4>Reach Out</h4>
+      <p>Professor Luis De León<br>School of Information Technology</p>
+      <p>Office hours posted on Canvas. Drop in during lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Domain 1.1</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   OSI LAYER DATA
+   ============================================================ */
+const LAYERS = [
+  {
+    n: 7, name: 'Application', short: 'App',
+    color: 'var(--l7)',
+    pdu: 'Data',
+    domain: 'Host',
+    purpose: 'The user-facing layer. This is where applications speak network — your browser, your mail client, your file transfer utility. Despite the name, the layer is not the app itself — it is the network interface the app talks through.',
+    address: 'Application identifier (URL, hostname)',
+    devices: ['Application Gateway', 'WAF', 'API Gateway', 'Proxy (L7)'],
+    protocols: ['HTTP / HTTPS', 'FTP / SFTP', 'SMTP', 'POP3', 'IMAP', 'DNS', 'DHCP', 'SNMP', 'SSH', 'Telnet'],
+    tools: ['curl', 'nslookup', 'dig', 'browser DevTools'],
+    troubleshooting: 'Test the actual service: can you GET the URL? does dig return the right A record? Layer 7 issues are usually misconfigured services or expired certs masquerading as network problems.',
+    realWorld: 'When you type cbt.edu into Chrome, the HTTP request you send is a Layer 7 PDU. The host header, the cookies, the User-Agent string — all Layer 7 metadata.'
+  },
+  {
+    n: 6, name: 'Presentation', short: 'Pres',
+    color: 'var(--l6)',
+    pdu: 'Data',
+    domain: 'Host',
+    purpose: 'The translator. Takes whatever Layer 7 hands it and converts it into something the network can carry — and on the receiving side, converts it back. Encryption, compression, and character-set conversion all live here.',
+    address: 'None (works on data formatting)',
+    devices: ['(typically software)', 'SSL/TLS Accelerators', 'Encryption Gateways'],
+    protocols: ['SSL / TLS', 'JPEG / GIF / PNG', 'MPEG', 'ASCII / Unicode', 'MIME', 'XDR'],
+    tools: ['openssl s_client', 'Wireshark TLS decoder'],
+    troubleshooting: 'Cert errors, cipher mismatches, character encoding bugs. If the bytes arrive but look like garbage — suspect Layer 6.',
+    realWorld: 'The "S" in HTTPS lives here. TLS wraps your HTTP request in encryption before it goes any further down the stack.'
+  },
+  {
+    n: 5, name: 'Session', short: 'Sess',
+    color: 'var(--l5)',
+    pdu: 'Data',
+    domain: 'Host',
+    purpose: 'Opens, manages, and closes the conversation between two hosts. Tracks who is talking to whom, picks up dropped sessions, and handles authentication in some protocols.',
+    address: 'Session ID',
+    devices: ['(typically software)', 'Session Border Controller'],
+    protocols: ['NetBIOS', 'RPC', 'PPTP', 'SOCKS', 'NFS sessions', 'SQL sessions'],
+    tools: ['netstat', 'ss'],
+    troubleshooting: 'Sessions timing out, hanging logins, authentication that succeeds once but fails on reconnect — Session layer territory.',
+    realWorld: 'A Zoom call holds a session at this layer. If the network blips for a moment, the session protocol decides whether to reconnect you or drop the call.'
+  },
+  {
+    n: 4, name: 'Transport', short: 'Trans',
+    color: 'var(--l4)',
+    pdu: 'Segment (TCP) · Datagram (UDP)',
+    domain: 'Host / Media boundary',
+    purpose: 'End-to-end delivery between processes. This is where TCP vs UDP gets decided, where ports identify which app gets the data, and where reliability, ordering, and flow control are added — or deliberately not.',
+    address: 'Port number (0–65535)',
+    devices: ['Stateful Firewall', 'Load Balancer (L4)', 'Some IDS/IPS'],
+    protocols: ['TCP', 'UDP', 'SCTP', 'QUIC (mostly)'],
+    tools: ['netstat', 'nmap', 'telnet host port', 'tcpdump'],
+    troubleshooting: 'Port closed? Firewall dropping the SYN? Three-way handshake never completes? Layer 4 problems show up as connection refused or timeouts after the route is clearly fine.',
+    realWorld: 'TCP port 443 is HTTPS. TCP port 22 is SSH. UDP port 53 is DNS. The port number tells the receiving OS which application gets the data.'
+  },
+  {
+    n: 3, name: 'Network', short: 'Net',
+    color: 'var(--l3)',
+    pdu: 'Packet',
+    domain: 'Media',
+    purpose: 'Routes data between networks. This is where IP addresses live and where routers make their decisions. Without Layer 3 there is no internet — only isolated LANs.',
+    address: 'IP address (IPv4 32-bit · IPv6 128-bit)',
+    devices: ['Router', 'Layer 3 Switch', 'Multilayer Firewall'],
+    protocols: ['IPv4 / IPv6', 'ICMP', 'IPSec', 'OSPF', 'BGP', 'EIGRP', 'RIP'],
+    tools: ['ping', 'traceroute / tracert', 'route', 'ip route'],
+    troubleshooting: 'Can you ping the gateway? The remote host? Where does traceroute die? L3 is where most "the internet is down" tickets actually live.',
+    realWorld: 'Your packet from Miami to AWS in Virginia hops through ~15 routers. Each one reads the destination IP, consults its routing table, and forwards. That is Layer 3 doing its entire job.'
+  },
+  {
+    n: 2, name: 'Data Link', short: 'DLink',
+    color: 'var(--l2)',
+    pdu: 'Frame',
+    domain: 'Media',
+    purpose: 'Node-to-node delivery on the same network segment. Adds MAC addressing and a frame check sequence (FCS) so the receiver can spot corruption. Has two sublayers: LLC (talks up to L3) and MAC (talks down to L1).',
+    address: 'MAC address (48-bit, e.g. 00:1A:2B:3C:4D:5E)',
+    devices: ['Switch', 'Bridge', 'Wireless Access Point', 'NIC'],
+    protocols: ['Ethernet (IEEE 802.3)', 'Wi-Fi (802.11)', 'PPP', 'ARP', 'STP', 'VLAN tagging (802.1Q)'],
+    tools: ['arp -a', 'show mac address-table', 'Wireshark'],
+    troubleshooting: 'MAC table issues, ARP poisoning, VLAN misconfigs, STP loops, duplex mismatches all surface here. If the link light is on but traffic is mangled, suspect L2.',
+    realWorld: 'When you plug into a switch, the switch learns your MAC address and adds it to its CAM table. From then on, frames addressed to your MAC come straight to your port — that is Layer 2 in action.'
+  },
+  {
+    n: 1, name: 'Physical', short: 'Phys',
+    color: 'var(--l1)',
+    pdu: 'Bits',
+    domain: 'Media',
+    purpose: 'The wire. Transmits raw bits as electrical signals, light pulses, or radio waves. Defines connectors, voltages, pin layouts, modulation schemes — all the things that have to physically work for any of the higher layers to mean anything.',
+    address: 'None (just signal)',
+    devices: ['Cable (Cat 6, fiber)', 'Hub', 'Repeater', 'Connector', 'NIC (PHY chip)'],
+    protocols: ['1000BASE-T', '10GBASE-SR', 'IEEE 802.3 PHY', 'Bluetooth', 'USB', 'DSL'],
+    tools: ['Cable tester', 'Tone generator / probe', 'OTDR', 'show interfaces'],
+    troubleshooting: 'Bad cables, bent pins, broken fiber, interference, link-light-not-on. The first thing every senior engineer says: "is it plugged in?" That is them eliminating Layer 1.',
+    realWorld: 'A Cat 6 patch cable running from your desk to the switch is doing Layer 1 work. So is the radio in your laptop pushing 5 GHz Wi-Fi. Same layer, very different physics.'
+  }
+];
+
+/* ============================================================
+   STACK EXPLORER
+   ============================================================ */
+let selectedLayer = 7;
+
+function renderLayerList() {
+  const list = document.getElementById('layer-list');
+  list.innerHTML = LAYERS.map(l => `
+    <div class="layer ${l.n === selectedLayer ? 'selected' : ''}" data-n="${l.n}">
+      <div class="layer-num">${l.n}</div>
+      <div class="layer-info">
+        <div class="name">${l.name}</div>
+        <div class="pdu">PDU · ${l.pdu}</div>
+      </div>
+      <div class="layer-band" style="color: ${l.color}"></div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.layer').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedLayer = parseInt(el.dataset.n);
+      renderLayerList();
+      renderDetail();
+    });
+  });
+}
+
+function renderDetail() {
+  const l = LAYERS.find(x => x.n === selectedLayer);
+  const panel = document.getElementById('detail-panel');
+  panel.innerHTML = `
+    <div class="detail-head">
+      <div class="detail-eyebrow">Layer ${l.n} · ${l.domain} Domain</div>
+      <h2 class="detail-title">${l.name}</h2>
+      <p class="detail-purpose">${l.purpose}</p>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-cell">
+        <div class="key">Protocol Data Unit</div>
+        <div class="val mono">${l.pdu}</div>
+      </div>
+      <div class="detail-cell">
+        <div class="key">Addressing</div>
+        <div class="val mono">${l.address}</div>
+      </div>
+    </div>
+    <div class="chip-row">
+      <div class="heading">Key Protocols & Standards</div>
+      <div class="chips">
+        ${l.protocols.map(p => `<span class="chip">${p}</span>`).join('')}
+      </div>
+    </div>
+    <div class="chip-row" style="padding-top:0">
+      <div class="heading">Devices Operating Here</div>
+      <div class="chips">
+        ${l.devices.map(d => `<span class="chip accent">${d}</span>`).join('')}
+      </div>
+    </div>
+    <div class="chip-row" style="padding-top:0">
+      <div class="heading">Troubleshooting Tools</div>
+      <div class="chips">
+        ${l.tools.map(t => `<span class="chip">${t}</span>`).join('')}
+      </div>
+    </div>
+    <div class="real-world">
+      <div class="heading">In the Real World</div>
+      <p>${l.realWorld}</p>
+    </div>
+  `;
+}
+
+renderLayerList();
+renderDetail();
+
+/* ============================================================
+   COMPARE & CONTRAST
+   ============================================================ */
+function populateSelects() {
+  const a = document.getElementById('cmp-a');
+  const b = document.getElementById('cmp-b');
+  const opts = LAYERS.map(l =>
+    `<option value="${l.n}">L${l.n} · ${l.name}</option>`
+  ).join('');
+  a.innerHTML = opts;
+  b.innerHTML = opts;
+  a.value = 4;
+  b.value = 3;
+  a.addEventListener('change', renderCompare);
+  b.addEventListener('change', renderCompare);
+}
+
+function renderCompare() {
+  const aN = parseInt(document.getElementById('cmp-a').value);
+  const bN = parseInt(document.getElementById('cmp-b').value);
+  const a = LAYERS.find(x => x.n === aN);
+  const b = LAYERS.find(x => x.n === bN);
+
+  const attrs = [
+    { key: 'PDU',         get: l => l.pdu },
+    { key: 'Domain',      get: l => l.domain },
+    { key: 'Address',     get: l => l.address },
+    { key: 'Devices',     get: l => l.devices.join(', ') },
+    { key: 'Protocols',   get: l => l.protocols.slice(0, 6).join(', ') },
+    { key: 'Tools',       get: l => l.tools.join(', ') },
+    { key: 'Purpose',     get: l => l.purpose }
+  ];
+
+  const grid = document.getElementById('compare-grid');
+  grid.innerHTML = [a, b].map(l => `
+    <div class="compare-card">
+      <h3>${l.name}</h3>
+      <div class="layer-tag">Layer ${l.n} · ${l.domain}</div>
+      ${attrs.map(at => {
+        const aVal = at.get(a);
+        const bVal = at.get(b);
+        const diff = aVal !== bVal;
+        return `
+          <div class="compare-attr">
+            <div class="key">${at.key}</div>
+            <div class="val ${diff ? 'diff' : ''}">${at.get(l)}</div>
+          </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+
+  // Generate contrast summary
+  const summary = document.getElementById('contrast-summary');
+  if (a.n === b.n) {
+    summary.innerHTML = `
+      <div class="heading">Same Layer Selected</div>
+      <p>Pick two different layers to see the contrast that shows up on Network+ exam questions.</p>`;
+  } else {
+    const higher = a.n > b.n ? a : b;
+    const lower  = a.n > b.n ? b : a;
+    summary.innerHTML = `
+      <div class="heading">Key Contrast · L${higher.n} ${higher.name} ↔ L${lower.n} ${lower.name}</div>
+      <p>${generateContrast(higher, lower)}</p>`;
+  }
+}
+
+function generateContrast(higher, lower) {
+  return `<strong>L${higher.n} ${higher.name}</strong> hands its <em>${higher.pdu.toLowerCase()}</em> down to <strong>L${lower.n} ${lower.name}</strong>, which wraps it as a <em>${lower.pdu.toLowerCase()}</em>. ${higher.name} works in the <strong>${higher.domain.toLowerCase()}</strong> domain (${higher.address.toLowerCase()}); ${lower.name} works in the <strong>${lower.domain.toLowerCase()}</strong> domain (${lower.address.toLowerCase()}). Devices that operate at L${higher.n} (${higher.devices[0]}) make decisions based on different fields than those at L${lower.n} (${lower.devices[0]}) — that is the layer-mapping question the exam will ask.`;
+}
+
+populateSelects();
+renderCompare();
+
+/* ============================================================
+   ENCAPSULATION FLOW
+   ============================================================ */
+const ENCAP_STEPS = [
+  { n: 7, label: 'L7 Application', pdu: 'Data',    headers: ['payload'] },
+  { n: 6, label: 'L6 Presentation',pdu: 'Data',    headers: ['h6','payload'] },
+  { n: 5, label: 'L5 Session',     pdu: 'Data',    headers: ['h5','h6','payload'] },
+  { n: 4, label: 'L4 Transport',   pdu: 'Segment', headers: ['h4','h5','h6','payload'] },
+  { n: 3, label: 'L3 Network',     pdu: 'Packet',  headers: ['h3','h4','h5','h6','payload'] },
+  { n: 2, label: 'L2 Data Link',   pdu: 'Frame',   headers: ['h2','h3','h4','h5','h6','payload','h2t'] },
+  { n: 1, label: 'L1 Physical',    pdu: 'Bits',    headers: ['bits'] }
+];
+
+const HEADER_LABELS = {
+  payload: 'PAYLOAD', h7: 'L7-H', h6: 'L6-H', h5: 'L5-H', h4: 'L4-H',
+  h3: 'L3-H', h2: 'L2-H', h2t: 'L2-T', bits: '01010101…10110…'
+};
+
+function renderEncapStacks() {
+  const send = document.getElementById('encap-send');
+  const recv = document.getElementById('encap-recv');
+  send.innerHTML = ENCAP_STEPS.map((s, i) => `
+    <div class="encap-row" data-step="${i}">
+      <div class="encap-label"><b>L${s.n}</b> · ${s.pdu}</div>
+      <div class="encap-bar">
+        ${s.headers.map(h => `<div class="encap-seg ${h}">${HEADER_LABELS[h]}</div>`).join('')}
+      </div>
+    </div>`).join('');
+  // Receiver shows the same vertical order as sender (L7 at top, L1 at bottom)
+  // Animation will activate rows bottom-up (L1 first) to show de-encapsulation
+  recv.innerHTML = ENCAP_STEPS.map((s, i) => `
+    <div class="encap-row" data-step-r="${i}">
+      <div class="encap-label"><b>L${s.n}</b> · ${s.pdu}</div>
+      <div class="encap-bar">
+        ${s.headers.map(h => `<div class="encap-seg ${h}">${HEADER_LABELS[h]}</div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+const NOTES = [
+  'L7: Your application creates raw user data. No headers yet — just the message.',
+  'L6: Presentation wraps the data with formatting/encryption metadata (e.g. TLS).',
+  'L5: Session adds session-tracking info so the conversation stays coherent.',
+  'L4: Transport adds a header with source/destination ports + sequence numbers. PDU is now a Segment.',
+  'L3: Network adds source/destination IP addresses. PDU is now a Packet.',
+  'L2: Data Link adds source/destination MAC addresses + a trailer (FCS). PDU is now a Frame.',
+  'L1: Physical converts the entire frame into bits — voltages, light, or radio waves on the wire.',
+  'Receiver L1: The NIC samples the physical signal and reconstructs the bit stream into a frame.',
+  'Receiver L2: Verifies the FCS, checks the destination MAC, strips the L2 header/trailer, hands the packet up.',
+  'Receiver L3: The host (or a router along the way) reads the destination IP. If we are the destination, strip the L3 header.',
+  'Receiver L4: TCP/UDP looks at the destination port, reassembles segments if needed, hands the data up.',
+  'Receiver L5: Session layer matches this data to an existing conversation (or starts a new one).',
+  'Receiver L6: Presentation layer decrypts the payload (TLS) and converts it back into the format the app expects.',
+  'Receiver L7: The application receives the original data, exactly as the sender created it. Round trip complete.'
+];
+
+let encapTimer = null;
+let encapIdx = 0;
+
+function resetEncap() {
+  document.querySelectorAll('.encap-seg').forEach(s => s.classList.remove('active'));
+  document.getElementById('encap-status').textContent = 'Idle · ready at Layer 7 (Application)';
+  document.getElementById('encap-note').innerHTML = `<b>HOW THIS WORKS</b><br>As your message moves down the sending stack, each layer wraps the data with its own header (and the Data Link layer adds a trailer too). The receiver does the reverse: each layer reads and strips its header, then hands the payload up to the next layer. The PDU name changes at each layer — that change is exactly what shows up on the exam.`;
+  encapIdx = 0;
+  if (encapTimer) clearInterval(encapTimer);
+  encapTimer = null;
+  document.getElementById('encap-play').textContent = '▶ Play Encapsulation';
+}
+
+function stepEncap() {
+  // 0..6 = sender steps (L7 → L1 encapsulation)
+  // 7..13 = receiver steps (L1 → L7 de-encapsulation)
+  const sendRows = document.querySelectorAll('#encap-send .encap-row');
+
+  if (encapIdx < 7) {
+    const step = encapIdx; // 0..6 = L7..L1
+    const row = sendRows[step];
+    if (row) {
+      row.querySelectorAll('.encap-seg').forEach(s => s.classList.add('active'));
+    }
+    document.getElementById('encap-status').textContent =
+      `Sender → ${ENCAP_STEPS[step].label} (${ENCAP_STEPS[step].pdu})`;
+    document.getElementById('encap-note').innerHTML =
+      `<b>STEP ${encapIdx + 1} OF 14 · SENDER</b><br>${NOTES[encapIdx]}`;
+  } else if (encapIdx < 14) {
+    const rIndex = encapIdx - 7;     // 0..6
+    const targetStep = 6 - rIndex;   // 6..0 (so receiver activates L1 first, then L2 ... up to L7)
+    const rRow = document.querySelector(`#encap-recv .encap-row[data-step-r="${targetStep}"]`);
+    if (rRow) {
+      rRow.querySelectorAll('.encap-seg').forEach(s => s.classList.add('active'));
+    }
+    const rLayer = ENCAP_STEPS[targetStep];
+    document.getElementById('encap-status').textContent =
+      `Receiver ↑ ${rLayer.label} (${rLayer.pdu})`;
+    document.getElementById('encap-note').innerHTML =
+      `<b>STEP ${encapIdx + 1} OF 14 · RECEIVER</b><br>${NOTES[encapIdx]}`;
+  } else {
+    clearInterval(encapTimer);
+    encapTimer = null;
+    document.getElementById('encap-status').textContent = 'Complete · message delivered, all layers serviced';
+    document.getElementById('encap-note').innerHTML = `<b>DONE</b><br>The full round-trip: your application's data was wrapped by 5 headers + 1 trailer on the way down, transmitted as bits, then unwrapped on the way back up. Same payload at L7 on both sides — that is the entire point of a layered architecture.`;
+    document.getElementById('encap-play').textContent = '▶ Play Again';
+    return;
+  }
+  encapIdx++;
+}
+
+document.getElementById('encap-play').addEventListener('click', () => {
+  if (encapTimer) {
+    clearInterval(encapTimer);
+    encapTimer = null;
+    document.getElementById('encap-play').textContent = '▶ Resume';
+    return;
+  }
+  if (encapIdx >= 14) resetEncap();
+  document.getElementById('encap-play').textContent = '⏸ Pause';
+  stepEncap();
+  encapTimer = setInterval(stepEncap, 1100);
+});
+
+document.getElementById('encap-reset').addEventListener('click', resetEncap);
+
+renderEncapStacks();
+
+/* ============================================================
+   REFERENCE TABLE
+   ============================================================ */
+function renderRefTable() {
+  const tbody = document.getElementById('ref-tbody');
+  tbody.innerHTML = LAYERS.map(l => `
+    <tr>
+      <td><span class="num">${l.n}</span> ${l.name}</td>
+      <td class="mono">${l.pdu}</td>
+      <td class="mono">${l.address}</td>
+      <td>${l.devices.slice(0, 3).join(', ')}</td>
+      <td class="mono">${l.protocols.slice(0, 4).join(', ')}</td>
+      <td class="mono">${l.tools.slice(0, 3).join(', ')}</td>
+    </tr>
+  `).join('');
+}
+renderRefTable();
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const QUESTIONS = [
+  {
+    q: 'A network engineer is troubleshooting and runs a packet capture. She sees frames with a destination MAC address that does not exist on the network. At which OSI layer is the issue most likely occurring?',
+    options: ['Layer 1 — Physical', 'Layer 2 — Data Link', 'Layer 3 — Network', 'Layer 4 — Transport'],
+    correct: 1,
+    explain: 'MAC addresses are Layer 2 (Data Link) constructs. A misdirected frame, ARP poisoning, or a stale CAM table entry are all classic L2 troubleshooting scenarios. If the question mentions MACs or frames, you are at Layer 2.'
+  },
+  {
+    q: 'A user reports that they can ping google.com by IP but not by name. Where in the OSI stack does this problem live?',
+    options: ['Layer 3 — Network (IP routing)', 'Layer 4 — Transport (TCP/UDP)', 'Layer 7 — Application (DNS)', 'Layer 2 — Data Link (ARP)'],
+    correct: 2,
+    explain: 'DNS is a Layer 7 protocol. The fact that ping by IP works tells you Layer 3 is fine — the failure is name resolution, which is an Application-layer service.'
+  },
+  {
+    q: 'Which OSI layer adds port numbers to identify the destination application/process on a host?',
+    options: ['Layer 3 — Network', 'Layer 4 — Transport', 'Layer 5 — Session', 'Layer 7 — Application'],
+    correct: 1,
+    explain: 'Port numbers are Layer 4 (Transport). TCP and UDP both use them to multiplex multiple application conversations over a single IP host. IP addresses identify hosts; ports identify processes.'
+  },
+  {
+    q: 'A "Frame" is the PDU at which OSI layer?',
+    options: ['Layer 1', 'Layer 2', 'Layer 3', 'Layer 4'],
+    correct: 1,
+    explain: 'Frames live at Layer 2 (Data Link). The PDU progression top-down is: Data → Data → Data → Segment → Packet → Frame → Bits.'
+  },
+  {
+    q: 'TLS encryption operates primarily at which OSI layer?',
+    options: ['Layer 4 — Transport', 'Layer 5 — Session', 'Layer 6 — Presentation', 'Layer 7 — Application'],
+    correct: 2,
+    explain: 'TLS is a Presentation-layer (Layer 6) protocol — it handles encryption and data formatting. The TCP connection underneath (L4) carries the encrypted bytes; TLS itself is doing translation/encryption work.'
+  },
+  {
+    q: 'A switch reads which type of address to make forwarding decisions?',
+    options: ['IP address', 'MAC address', 'Port number', 'Hostname'],
+    correct: 1,
+    explain: 'A traditional switch is a Layer 2 device — it builds a CAM table of MAC addresses and ports, and forwards frames based on destination MAC. (A Layer 3 / multilayer switch can also route by IP, but the unqualified term "switch" means L2.)'
+  },
+  {
+    q: 'You are bottom-up: "Please Do Not Throw Sausage Pizza Away." What does the second word — "Do" — stand for?',
+    options: ['Domain', 'Data Link', 'Datagram', 'DNS'],
+    correct: 1,
+    explain: 'Bottom-up: Physical, Data Link, Network, Transport, Session, Presentation, Application. The second layer is Data Link.'
+  },
+  {
+    q: 'Which of these is NOT a Layer 1 concern?',
+    options: ['Cable signal voltage', 'RJ-45 pinout', 'Routing decisions', 'Wireless radio modulation'],
+    correct: 2,
+    explain: 'Routing decisions are Layer 3 (Network). Layer 1 deals with the physical transmission of bits — voltages, connectors, and modulation are all L1 concerns.'
+  }
+];
+
+let qIdx = 0;
+let qScore = 0;
+let qAnswered = false;
+
+function renderQuiz() {
+  const card = document.getElementById('quiz-card');
+  if (qIdx >= QUESTIONS.length) { renderFinal(); return; }
+  const q = QUESTIONS[qIdx];
+  card.innerHTML = `
+    <div class="quiz-head">
+      <div class="title">Knowledge Check</div>
+      <div class="progress">${qIdx + 1} / ${QUESTIONS.length}</div>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options" id="quiz-options">
+        ${q.options.map((opt, i) => `
+          <button class="quiz-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <div class="quiz-actions">
+        <div class="quiz-score">Score · <b>${qScore} / ${qIdx}</b></div>
+        <button class="next-btn" id="quiz-next" disabled>${qIdx + 1 === QUESTIONS.length ? 'See Results →' : 'Next →'}</button>
+      </div>
+    </div>
+  `;
+  qAnswered = false;
+  card.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (qAnswered) return;
+      qAnswered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = q.correct;
+      card.querySelectorAll('.quiz-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('quiz-feedback');
+      const rightLabel = String.fromCharCode(65 + correct);
+      fb.innerHTML = chosen === correct
+        ? `<b>Correct</b>${q.explain}`
+        : `<b>Not Quite — Answer: ${rightLabel}</b>${q.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) qScore++;
+      document.getElementById('quiz-next').disabled = false;
+    });
+  });
+  document.getElementById('quiz-next').addEventListener('click', () => {
+    qIdx++;
+    renderQuiz();
+  });
+}
+
+function renderFinal() {
+  const card = document.getElementById('quiz-card');
+  const pct = Math.round((qScore / QUESTIONS.length) * 100);
+  let verdict = '';
+  let sub = '';
+  if (pct === 100) { verdict = 'Exam-Ready.'; sub = 'You can teach this section. Move on to Domain 1.2 with confidence.'; }
+  else if (pct >= 75) { verdict = 'Strong.'; sub = 'A few details to nail down — review the Layer Explorer for the ones you missed and you will be set.'; }
+  else if (pct >= 50) { verdict = 'Getting There.'; sub = 'Work through the Reference Table and re-run this check. Focus on PDU names and which device lives at which layer.'; }
+  else { verdict = 'Keep Training.'; sub = 'Start with the mnemonics, then the Layer Explorer, then the Encapsulation Flow. Come back to the quiz when the layers feel automatic.'; }
+
+  card.innerHTML = `
+    <div class="quiz-head">
+      <div class="title">Results</div>
+      <div class="progress">Complete</div>
+    </div>
+    <div class="quiz-final">
+      <div class="big-score">${qScore}<b>/${QUESTIONS.length}</b></div>
+      <div class="verdict">${verdict}</div>
+      <div class="verdict-sub">${sub}</div>
+      <button class="next-btn" id="quiz-restart">↻ Retake Quiz</button>
+    </div>
+  `;
+  document.getElementById('quiz-restart').addEventListener('click', () => {
+    qIdx = 0; qScore = 0; qAnswered = false;
+    renderQuiz();
+  });
+}
+
+renderQuiz();
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
