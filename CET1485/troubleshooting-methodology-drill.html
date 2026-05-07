@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.1 Troubleshooting Methodology · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-step-row {
+    display: grid; grid-template-columns: 24px 1fr; gap: 12px;
+    padding: 7px 0; align-items: baseline;
+    font-size: 12px;
+  }
+  .ref-step-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px 7px 0; }
+  .ref-step-row .num {
+    font-family: var(--ff-display); color: var(--gold); font-weight: 800; font-size: 16px;
+    text-align: right;
+  }
+  .ref-step-row .name {
+    color: white; font-family: var(--ff-mono); font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* THE 7 STEPS — flowchart layout */
+  .flow-wrap {
+    display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 0;
+    border: 1px solid var(--line);
+  }
+  .flow-list { background: var(--surface); }
+  .flow-step {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 14px; padding: 18px 22px;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer; transition: background 0.12s;
+    align-items: center; position: relative;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-step:hover { background: var(--surface-alt); }
+  .flow-step.selected { background: var(--bg-warm); }
+  .flow-step.selected::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--sky);
+  }
+  .flow-step .step-num {
+    width: 50px; height: 50px;
+    background: var(--navy-deep); color: white;
+    border: 2px solid var(--navy-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-display); font-size: 24px; font-weight: 800;
+    line-height: 1;
+  }
+  .flow-step.selected .step-num {
+    background: var(--sky-deep); border-color: var(--sky-deep);
+  }
+  .flow-step .step-info .name {
+    font-family: var(--ff-display); font-weight: 700; font-size: 17px;
+    color: var(--navy-deep); line-height: 1.2;
+  }
+  .flow-step .step-info .sub {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute);
+    letter-spacing: 0.06em; margin-top: 4px;
+  }
+  .flow-arrow {
+    height: 18px; display: flex; align-items: center; justify-content: center;
+    background: var(--bg-warm); border-bottom: 1px solid var(--line-soft);
+    color: var(--sky-deep); font-family: var(--ff-mono); font-size: 14px; font-weight: 700;
+  }
+
+  .flow-detail {
+    background: var(--surface); min-height: 600px;
+    border-left: 1px solid var(--line-soft);
+  }
+  .flow-detail-head {
+    padding: 26px 28px; background: var(--navy-deep); color: var(--ink-invert);
+    position: relative; overflow: hidden;
+  }
+  .flow-detail-head::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 130px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%); opacity: 0.95;
+  }
+  .flow-detail-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; opacity: 0.65;
+  }
+  .flow-detail-title {
+    font-family: var(--ff-display); font-size: 36px; font-weight: 700;
+    line-height: 1.1; margin: 6px 0 0; letter-spacing: -0.02em;
+    position: relative; z-index: 2;
+    max-width: 75%;
+  }
+  .flow-detail-purpose {
+    font-size: 15px; opacity: 0.9; margin-top: 12px; line-height: 1.55;
+    max-width: 60ch; position: relative; z-index: 2;
+  }
+  .flow-section { padding: 22px 26px; border-bottom: 1px solid var(--line-soft); }
+  .flow-section:last-of-type { border-bottom: none; }
+  .flow-section .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px; font-weight: 700;
+  }
+  .flow-substeps { list-style: none; padding: 0; margin: 0; }
+  .flow-substeps li {
+    padding: 8px 0 8px 26px; position: relative;
+    font-size: 14px; line-height: 1.55; color: var(--ink-mid);
+    border-top: 1px solid var(--line-soft);
+  }
+  .flow-substeps li:first-child { border-top: none; padding-top: 4px; }
+  .flow-substeps li::before {
+    content: '→'; position: absolute; left: 0; top: 9px;
+    color: var(--sky); font-weight: 700; font-family: var(--ff-mono);
+  }
+  .flow-substeps li b { color: var(--navy-deep); font-weight: 600; }
+  .flow-dont {
+    background: var(--red-bg); color: var(--red);
+    padding: 16px 22px; border-left: 4px solid var(--red);
+    margin: 0 26px 18px;
+  }
+  .flow-dont .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 6px; font-weight: 700;
+  }
+  .flow-dont p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--red); }
+  .flow-tip {
+    margin: 0 26px 22px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .flow-tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 6px; font-weight: 700;
+  }
+  .flow-tip p { margin: 0; font-size: 13px; line-height: 1.5; }
+
+  /* ORDER DRILL */
+  .order-card { max-width: 820px; margin: 0 auto; }
+  .order-head {
+    background: var(--navy-deep); color: white;
+    padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid var(--navy-deep);
+  }
+  .order-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .order-head .stats {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft);
+  }
+  .order-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 18px; margin-right: 4px; }
+  .order-instructions {
+    background: var(--bg-warm); padding: 14px 24px;
+    border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-mid); line-height: 1.5;
+  }
+  .order-zone {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 18px 24px;
+  }
+  .order-zone-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 12px; font-weight: 700;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .order-zone-label .count {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 2px 8px; color: var(--ink-mute); font-weight: 600;
+  }
+  .order-slots {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .order-slot {
+    display: grid; grid-template-columns: 50px 1fr;
+    gap: 12px; padding: 14px 16px;
+    border: 2px dashed var(--line-soft); background: var(--surface-alt);
+    align-items: center; min-height: 60px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .order-slot.empty { border-style: dashed; }
+  .order-slot.filled { border-style: solid; border-color: var(--navy-deep); background: var(--surface); cursor: default; }
+  .order-slot.correct { border-color: var(--green); background: var(--green-bg); }
+  .order-slot.wrong { border-color: var(--red); background: var(--red-bg); }
+  .order-slot .slot-num {
+    width: 40px; height: 40px; border: 2px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-display); font-size: 18px; font-weight: 800; color: var(--ink-mute);
+    flex-shrink: 0;
+  }
+  .order-slot.filled .slot-num { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .order-slot.correct .slot-num { background: var(--green); color: white; border-color: var(--green); }
+  .order-slot.wrong .slot-num { background: var(--red); color: white; border-color: var(--red); }
+  .order-slot .slot-text {
+    font-family: var(--ff-display); font-weight: 600; font-size: 15px; color: var(--ink-mid);
+  }
+  .order-slot.filled .slot-text { color: var(--navy-deep); font-weight: 700; }
+  .order-slot.correct .slot-text, .order-slot.wrong .slot-text { color: inherit; }
+
+  .order-options-zone {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 18px 24px;
+  }
+  .order-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  }
+  .order-option {
+    background: var(--surface-alt); border: 1.5px solid var(--line);
+    padding: 14px 16px; cursor: pointer; transition: all 0.15s;
+    font-family: var(--ff-display); font-size: 14px; font-weight: 600; color: var(--navy-deep);
+    text-align: left;
+  }
+  .order-option:hover { background: var(--bg-warm); border-color: var(--sky); }
+  .order-option.placed { opacity: 0.3; pointer-events: none; background: var(--bg); }
+
+  .order-actions {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .order-feedback {
+    flex: 1; font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em;
+  }
+  .order-feedback.correct { color: var(--green); font-weight: 700; }
+  .order-feedback.partial { color: var(--gold-deep); font-weight: 700; }
+  .order-actions .btn {
+    background: var(--sky); color: white; border: none;
+    padding: 10px 20px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .order-actions .btn:hover { background: var(--sky-deep); }
+  .order-actions .btn.ghost {
+    background: transparent; color: var(--navy-deep); border: 1px solid var(--line);
+  }
+  .order-actions .btn.ghost:hover { background: var(--bg-warm); }
+
+  /* STEP IDENTIFIER */
+  .ident-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .ident-head {
+    background: var(--navy-deep); color: white;
+    padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .ident-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .ident-head .stats {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft);
+  }
+  .ident-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 16px; margin-right: 4px; }
+  .ident-body { padding: 28px 30px; }
+  .ident-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center;
+  }
+  .ident-action {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 600;
+    color: var(--navy-deep); margin: 0 0 26px; line-height: 1.4; letter-spacing: -0.01em;
+    text-align: center; padding: 24px 16px;
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+  }
+  .ident-action .quote-marks {
+    color: var(--sky); font-family: var(--ff-display); font-weight: 800; font-size: 28px;
+  }
+  .ident-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  }
+  .ident-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 12px 14px; cursor: pointer;
+    font-family: var(--ff-mono); font-size: 12px; color: var(--navy-deep); font-weight: 600;
+    text-align: left; transition: all 0.15s; display: flex; gap: 10px; align-items: center;
+    line-height: 1.3;
+  }
+  .ident-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .ident-option .step-pill {
+    background: var(--navy-deep); color: var(--gold);
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-display); font-size: 14px; font-weight: 800; flex-shrink: 0;
+  }
+  .ident-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .ident-option.correct .step-pill { background: var(--green); color: white; }
+  .ident-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .ident-option.wrong .step-pill { background: var(--red); color: white; }
+  .ident-option[disabled] { cursor: default; }
+  .ident-explain {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 13px; line-height: 1.55; display: none;
+  }
+  .ident-explain.show { display: block; }
+  .ident-explain b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .ident-actions {
+    margin-top: 24px; display: flex; justify-content: flex-end;
+  }
+  .next-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:hover { background: var(--sky-deep); }
+
+  /* WALKTHROUGH */
+  .walk-frame {
+    border: 1px solid var(--line); background: var(--surface); overflow: hidden;
+  }
+  .walk-head {
+    background: var(--navy-deep); color: white; padding: 18px 24px;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .walk-head h3 {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700; margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .walk-head .step-tag {
+    background: var(--gold); color: var(--navy-deep);
+    padding: 5px 12px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.06em; font-weight: 700;
+  }
+  .walk-progress {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    padding: 14px 20px; background: var(--bg-warm);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .walk-prog-step {
+    height: 8px; background: var(--surface-alt); border: 1px solid var(--line-soft);
+  }
+  .walk-prog-step.active { background: var(--sky); border-color: var(--sky-deep); }
+  .walk-prog-step.done { background: var(--gold); border-color: var(--gold-deep); }
+
+  .walk-body { padding: 30px 30px; }
+  .walk-ticket {
+    background: var(--bg-warm); padding: 16px 20px;
+    border-left: 4px solid var(--sky); margin-bottom: 24px;
+  }
+  .walk-ticket .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 6px;
+  }
+  .walk-ticket p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink); }
+  .walk-ticket p b { color: var(--navy-deep); font-weight: 700; }
+
+  .walk-question {
+    font-family: var(--ff-display); font-size: 20px; line-height: 1.4;
+    font-weight: 600; color: var(--navy-deep); margin: 0 0 22px;
+    letter-spacing: -0.01em;
+  }
+  .walk-options {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .walk-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .walk-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .walk-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .walk-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .walk-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .walk-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .walk-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .walk-option[disabled] { cursor: default; }
+  .walk-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .walk-feedback.show { display: block; }
+  .walk-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .walk-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .walk-summary {
+    text-align: center; padding: 50px 30px;
+  }
+  .walk-summary .big {
+    font-family: var(--ff-display); font-size: 80px; font-weight: 800;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em;
+  }
+  .walk-summary .big b { color: var(--gold); }
+  .walk-summary .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; color: var(--navy-deep); margin: 12px 0 8px; }
+  .walk-summary p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 24px; font-size: 14px; }
+
+  /* KNOWLEDGE CHECK */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head {
+    background: var(--navy-deep); color: white;
+    padding: 16px 26px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    background: var(--sky); padding: 6px 12px;
+  }
+  .kc-body { padding: 32px 30px; }
+  .kc-question {
+    font-family: var(--ff-display); font-size: 22px; line-height: 1.35;
+    font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em;
+  }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .kc-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-score {
+    font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em;
+  }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score {
+    font-family: var(--ff-display); font-size: 88px; font-weight: 800;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em;
+  }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 600;
+    margin: 12px 0 8px; color: var(--navy-deep);
+  }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LIGHTNING */
+  .lr-pre {
+    text-align: center; padding: 40px 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em; text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 30px 30px 40px;
+  }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px);
+    font-weight: 600; color: var(--navy-deep);
+    text-align: center; line-height: 1.35; letter-spacing: -0.01em;
+    margin: 0 0 24px; max-width: 760px; margin-left: auto; margin-right: auto;
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 16px 20px; cursor: pointer;
+    font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left; display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); flex-shrink: 0;
+  }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final {
+    text-align: center; padding: 50px 30px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .flow-wrap { grid-template-columns: 1fr; }
+    .flow-detail { border-left: none; border-top: 1px solid var(--line-soft); }
+    .order-options { grid-template-columns: 1fr; }
+    .ident-options { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 5.1</span>
+    <span class="crumb">Troubleshooting Methodology</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Process</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 5.1</div>
+    <h1>Troubleshoot,<br><em>In Order.</em></h1>
+    <p class="lede">Domain 5 (Troubleshooting) is 24% of the exam — the heaviest single domain — and Objective 5.1 is its foundation. Seven steps, in a specific order, that CompTIA expects you to follow. Skip a step, and the exam marks you wrong even if your diagnosis was technically correct. This drill walks every step, then drills the order, the sub-actions, and the most-tested anti-patterns until they're automatic.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">The 7 Steps · In Order</div>
+    <div class="ref-step-row"><span class="num">1</span><span class="name">Identify the problem</span></div>
+    <div class="ref-step-row"><span class="num">2</span><span class="name">Establish a theory of probable cause</span></div>
+    <div class="ref-step-row"><span class="num">3</span><span class="name">Test the theory to determine cause</span></div>
+    <div class="ref-step-row"><span class="num">4</span><span class="name">Establish a plan of action</span></div>
+    <div class="ref-step-row"><span class="num">5</span><span class="name">Implement the solution (or escalate)</span></div>
+    <div class="ref-step-row"><span class="num">6</span><span class="name">Verify full system functionality</span></div>
+    <div class="ref-step-row"><span class="num">7</span><span class="name">Document findings, actions, outcomes</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      Most 5.1 questions ask "given step X, what's next?" or "this technician's action belongs to which step?" — order is everything.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">7</div><div class="label">Methodology steps</div></div>
+  <div class="stat"><div class="num">24%</div><div class="label">Domain 5 exam weight</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check questions</div></div>
+  <div class="stat"><div class="num">60s</div><div class="label">Lightning round drill</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="steps"><span class="num">01</span>The 7 Steps</button>
+  <button class="tab" data-tab="order"><span class="num">02</span>Order Drill</button>
+  <button class="tab" data-tab="ident"><span class="num">03</span>Step Identifier</button>
+  <button class="tab" data-tab="walk"><span class="num">04</span>Case Walkthrough</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- THE 7 STEPS -->
+<section class="panel active" id="panel-steps">
+  <div class="flow-wrap">
+    <div class="flow-list" id="flow-list"></div>
+    <div class="flow-detail" id="flow-detail"></div>
+  </div>
+</section>
+
+<!-- ORDER DRILL -->
+<section class="panel" id="panel-order">
+  <div class="order-card">
+    <div class="order-head">
+      <div class="title">Place the Steps in Order</div>
+      <div class="stats">Attempts <b id="ord-att">0</b> · Best <b id="ord-best">—</b></div>
+    </div>
+    <div class="order-instructions">
+      Click each step in the bank below to place it in the next empty slot. Get all 7 in correct order, in one pass, to win.
+    </div>
+    <div class="order-zone">
+      <div class="order-zone-label">
+        <span>Methodology Sequence</span>
+        <span class="count" id="ord-count">0 of 7 placed</span>
+      </div>
+      <div class="order-slots" id="ord-slots"></div>
+    </div>
+    <div class="order-options-zone">
+      <div class="order-zone-label">Step Bank · Click to Place</div>
+      <div class="order-options" id="ord-options"></div>
+    </div>
+    <div class="order-actions">
+      <div class="order-feedback" id="ord-feedback">Place all 7 to check your order.</div>
+      <button class="btn ghost" id="ord-undo">↶ Undo Last</button>
+      <button class="btn" id="ord-check" disabled>Check Order</button>
+      <button class="btn ghost" id="ord-reset">↻ Reset</button>
+    </div>
+  </div>
+</section>
+
+<!-- STEP IDENTIFIER -->
+<section class="panel" id="panel-ident">
+  <div class="ident-card" id="ident-card"></div>
+</section>
+
+<!-- WALKTHROUGH -->
+<section class="panel" id="panel-walk">
+  <div class="walk-frame" id="walk-frame"></div>
+</section>
+
+<!-- KNOWLEDGE CHECK -->
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<!-- LIGHTNING ROUND -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed multiple choice — step identification, order questions, and "what's next" scenarios. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool for CompTIA N10-009 Objective 5.1 — the network troubleshooting methodology. Covers the 7 official steps, sub-actions under each, common anti-patterns, and the order-of-operations the exam tests heavily.</p>
+      <p>Built around process knowledge: knowing the steps in order, knowing what each one includes, and knowing what NOT to do at each one.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Walk all 7 steps in detail in tab 1.</p>
+      <p>· Day 2: Order Drill until perfect on first try.</p>
+      <p>· Day 3: Step Identifier daily until 90%+.</p>
+      <p>· Exam week: Knowledge Check + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 5.1 Troubleshooting Methodology</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* THE 7 STEPS — official wording from N10-009 5.1               */
+/* ============================================================ */
+const STEPS = [
+  {
+    n: 1,
+    name: 'Identify the problem',
+    sub: '6 sub-actions · the foundation',
+    purpose: 'You can\'t fix what you haven\'t defined. This step is about gathering enough information to know what is actually broken — not what users think is broken. Spending more time here usually means less time later.',
+    actions: [
+      '<b>Gather information</b> — collect logs, error messages, screenshots, anything observable',
+      '<b>Question users</b> — they noticed it first, ask what they were doing when it broke',
+      '<b>Identify symptoms</b> — describe the failure in concrete terms (slow? failing? error code?)',
+      '<b>Determine if anything has changed</b> — recent updates, config changes, new equipment, weather',
+      '<b>Duplicate the problem if possible</b> — reproduction confirms understanding',
+      '<b>Approach multiple problems individually</b> — if there are several, fix one at a time'
+    ],
+    dont: 'Don\'t skip the user interview. "It just stopped working" is not a problem statement — what specifically stopped, when, and what is different now? Don\'t bundle multiple symptoms together — that\'s how root causes get masked.',
+    tip: 'The exam loves to put "what was the user doing right before it failed?" as the answer. Recent change is the single highest-yield diagnostic clue.'
+  },
+  {
+    n: 2,
+    name: 'Establish a theory of probable cause',
+    sub: 'Question the obvious · OSI top-down or bottom-up · divide and conquer',
+    purpose: 'Now you have facts. Form a hypothesis. The exam expects you to start with the simplest explanation that fits the facts and only escalate to complex ones if the simple ones fail.',
+    actions: [
+      '<b>Question the obvious</b> — is the cable plugged in? Is the user typing the right password?',
+      '<b>Consider multiple approaches</b>',
+      '<b>Top-down OSI</b> — start from Application (Layer 7) and work down. Use when problem looks like an app issue.',
+      '<b>Bottom-up OSI</b> — start from Physical (Layer 1) and work up. Use when nothing connects.',
+      '<b>Divide and conquer</b> — start in the middle (Layer 3 / Network). Use when you have no obvious starting point.'
+    ],
+    dont: 'Don\'t jump to exotic causes when "is the cable plugged in" hasn\'t been checked. Don\'t form a theory based on what you wish were true — base it on Step 1 evidence.',
+    tip: 'CompTIA explicitly mentions the "question the obvious" sub-bullet. If a question asks what to do FIRST when forming a theory, "check the most obvious cause" is usually correct.'
+  },
+  {
+    n: 3,
+    name: 'Test the theory to determine cause',
+    sub: 'Two paths: confirmed → plan · not confirmed → new theory or escalate',
+    purpose: 'Your theory is just a guess until you test it. This step is the gate between "I think" and "I know." It also has explicit branching logic the exam tests.',
+    actions: [
+      '<b>Run targeted tests</b> on what you suspect is failing — ping, traceroute, swap a cable, check logs',
+      '<b>If theory is confirmed</b> → determine next steps to resolve the problem (move to step 4)',
+      '<b>If theory is NOT confirmed</b> → re-establish a new theory OR escalate to someone with more knowledge'
+    ],
+    dont: 'Don\'t implement the fix yet — testing the theory and implementing the fix are different steps. Don\'t escalate before re-establishing a theory yourself; escalation is for theories you can\'t form, not theories you haven\'t tried.',
+    tip: 'When the question says "the test failed, what now?" — you do NOT go back to identifying the problem. You go back to step 2 (new theory) OR escalate.'
+  },
+  {
+    n: 4,
+    name: 'Establish a plan of action to resolve the problem and identify potential effects',
+    sub: 'Plan first · know the side effects · prepare a rollback',
+    purpose: 'Theory is confirmed. Now plan the fix BEFORE making changes. Identify what else the change might affect — outages, dependencies, who needs to know, what could go wrong.',
+    actions: [
+      '<b>Refer to vendor instructions</b> — manuals, KB articles, runbooks',
+      '<b>Identify potential effects</b> — what else does this change touch?',
+      '<b>Have a rollback plan</b> — if the fix makes things worse, how do you undo it?',
+      '<b>Schedule appropriately</b> — change windows, user notifications, approvals'
+    ],
+    dont: 'Don\'t skip planning to "just fix it quickly." Most outages caused by IT come from changes made without a plan. Don\'t implement the fix in this step — that\'s step 5.',
+    tip: 'Notice this is its own step on the exam. Many real-world techs collapse plan + implement into one motion. CompTIA wants them separated.'
+  },
+  {
+    n: 5,
+    name: 'Implement the solution or escalate as necessary',
+    sub: 'Execute the plan · or hand it off',
+    purpose: 'Now you actually make the change. If the change is beyond your authority or expertise, escalate instead. The escalation option is built into this step explicitly.',
+    actions: [
+      '<b>Execute the planned change</b> — apply config, swap hardware, reboot, push the patch',
+      '<b>Or escalate</b> if the change requires authority/skill you don\'t have',
+      '<b>Stay within the plan</b> — don\'t improvise mid-fix'
+    ],
+    dont: 'Don\'t ad-lib. If your plan didn\'t cover something unexpected, stop and re-plan rather than make it up. Don\'t verify functionality at this step — that\'s step 6.',
+    tip: 'Implementing without a documented plan is what causes "the fix made it worse" outages. Stick to the plan or stop and replan.'
+  },
+  {
+    n: 6,
+    name: 'Verify full system functionality and, if applicable, implement preventive measures',
+    sub: 'Confirm fix · check for side effects · prevent recurrence',
+    purpose: 'The fix went in. Now make sure it actually fixed the problem AND didn\'t break anything else. Then prevent recurrence if possible.',
+    actions: [
+      '<b>Test the fix end-to-end</b> — does the original symptom return?',
+      '<b>Test surrounding functionality</b> — did the fix break anything adjacent?',
+      '<b>Implement preventive measures</b> — monitoring, alerts, documentation, configuration baselines'
+    ],
+    dont: 'Don\'t close the ticket on "I think it works" — verify with the user that THEIR problem is resolved. Don\'t skip preventive measures if there\'s a clear way to prevent recurrence.',
+    tip: 'The phrase "verify full system functionality" is the exam giveaway — if a question mentions confirming the fix worked AND surrounding systems still work, this is step 6.'
+  },
+  {
+    n: 7,
+    name: 'Document findings, actions, and outcomes',
+    sub: 'The step everyone wants to skip · the step that matters most for next time',
+    purpose: 'Without documentation, the next person (or you, in 6 months) hits the same problem with no head start. CompTIA explicitly lists this as the final required step.',
+    actions: [
+      '<b>Document the symptoms</b> — what was reported, when, by whom',
+      '<b>Document the root cause</b> — what actually was wrong',
+      '<b>Document the fix</b> — exactly what was done, including any commands or configs',
+      '<b>Document the outcome</b> — did the fix work? Are there side effects to monitor?',
+      '<b>Update the knowledge base / runbook</b> so the next person finds this faster'
+    ],
+    dont: 'Don\'t treat documentation as optional. Don\'t document only the symptoms — the fix is what future-you needs.',
+    tip: 'Skipping documentation is the single most common workplace failure of this methodology. The exam emphasizes step 7 because real technicians treat it as optional and they shouldn\'t.'
+  }
+];
+
+let selectedStep = 1;
+
+function renderFlowList() {
+  const list = document.getElementById('flow-list');
+  let html = '';
+  STEPS.forEach((s, i) => {
+    html += `
+      <div class="flow-step ${s.n === selectedStep ? 'selected' : ''}" data-n="${s.n}">
+        <div class="step-num">${s.n}</div>
+        <div class="step-info">
+          <div class="name">${s.name}</div>
+          <div class="sub">${s.sub}</div>
+        </div>
+      </div>`;
+    if (i < STEPS.length - 1) html += `<div class="flow-arrow">▼</div>`;
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.flow-step').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedStep = parseInt(el.dataset.n);
+      renderFlowList();
+      renderFlowDetail();
+    });
+  });
+}
+
+function renderFlowDetail() {
+  const s = STEPS.find(x => x.n === selectedStep);
+  document.getElementById('flow-detail').innerHTML = `
+    <div class="flow-detail-head">
+      <div class="flow-detail-eyebrow">Step ${s.n} of 7</div>
+      <h2 class="flow-detail-title">${s.name}</h2>
+      <p class="flow-detail-purpose">${s.purpose}</p>
+    </div>
+    <div class="flow-section">
+      <div class="heading">Actions Within This Step</div>
+      <ul class="flow-substeps">
+        ${s.actions.map(a => `<li>${a}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="flow-dont">
+      <div class="heading">⚠ What NOT to Do</div>
+      <p>${s.dont}</p>
+    </div>
+    <div class="flow-tip">
+      <div class="heading">★ Exam Tip</div>
+      <p>${s.tip}</p>
+    </div>
+  `;
+}
+renderFlowList();
+renderFlowDetail();
+
+/* ============================================================ */
+/* ORDER DRILL                                                   */
+/* ============================================================ */
+let ordPlaced = []; // array of step numbers (1-7) in placement order
+let ordAttempts = 0;
+let ordBest = null;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+let ordPool = shuffle([1, 2, 3, 4, 5, 6, 7]);
+
+function renderOrderDrill() {
+  // Slots
+  const slots = document.getElementById('ord-slots');
+  let sh = '';
+  for (let i = 0; i < 7; i++) {
+    const placed = ordPlaced[i];
+    if (placed != null) {
+      const s = STEPS.find(x => x.n === placed);
+      sh += `
+        <div class="order-slot filled" data-slot="${i}">
+          <div class="slot-num">${i + 1}</div>
+          <div class="slot-text">${s.name}</div>
+        </div>`;
+    } else {
+      sh += `
+        <div class="order-slot empty" data-slot="${i}">
+          <div class="slot-num">${i + 1}</div>
+          <div class="slot-text" style="font-style: italic; color: var(--ink-mute);">— empty —</div>
+        </div>`;
+    }
+  }
+  slots.innerHTML = sh;
+
+  // Options
+  const opts = document.getElementById('ord-options');
+  let oh = '';
+  ordPool.forEach(n => {
+    const s = STEPS.find(x => x.n === n);
+    const isPlaced = ordPlaced.includes(n);
+    oh += `
+      <button class="order-option ${isPlaced ? 'placed' : ''}" data-n="${n}" ${isPlaced ? 'disabled' : ''}>
+        ${s.name}
+      </button>`;
+  });
+  opts.innerHTML = oh;
+
+  // Bind
+  document.querySelectorAll('.order-option:not(.placed)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (ordPlaced.length >= 7) return;
+      ordPlaced.push(parseInt(btn.dataset.n));
+      renderOrderDrill();
+    });
+  });
+
+  // Status
+  document.getElementById('ord-count').textContent = `${ordPlaced.length} of 7 placed`;
+  document.getElementById('ord-check').disabled = ordPlaced.length !== 7;
+  document.getElementById('ord-undo').disabled = ordPlaced.length === 0;
+  document.getElementById('ord-att').textContent = ordAttempts;
+  document.getElementById('ord-best').textContent = ordBest === null ? '—' : (ordBest + ' / 7');
+}
+
+function checkOrder() {
+  const correctCount = ordPlaced.filter((v, i) => v === i + 1).length;
+  ordAttempts++;
+  if (ordBest === null || correctCount > ordBest) ordBest = correctCount;
+  // Mark slots
+  document.querySelectorAll('.order-slot').forEach((slot, i) => {
+    slot.classList.remove('correct', 'wrong');
+    if (ordPlaced[i] === i + 1) slot.classList.add('correct');
+    else slot.classList.add('wrong');
+  });
+  const fb = document.getElementById('ord-feedback');
+  if (correctCount === 7) {
+    fb.textContent = '✓ Perfect — all 7 in correct order!';
+    fb.className = 'order-feedback correct';
+  } else {
+    fb.textContent = `${correctCount} of 7 correct. Click Reset to try again.`;
+    fb.className = 'order-feedback partial';
+  }
+  document.getElementById('ord-att').textContent = ordAttempts;
+  document.getElementById('ord-best').textContent = ordBest + ' / 7';
+}
+
+function undoOrder() {
+  if (ordPlaced.length === 0) return;
+  ordPlaced.pop();
+  renderOrderDrill();
+}
+
+function resetOrder() {
+  ordPlaced = [];
+  ordPool = shuffle([1, 2, 3, 4, 5, 6, 7]);
+  document.getElementById('ord-feedback').textContent = 'Place all 7 to check your order.';
+  document.getElementById('ord-feedback').className = 'order-feedback';
+  renderOrderDrill();
+}
+
+document.getElementById('ord-check').addEventListener('click', checkOrder);
+document.getElementById('ord-undo').addEventListener('click', undoOrder);
+document.getElementById('ord-reset').addEventListener('click', resetOrder);
+renderOrderDrill();
+
+/* ============================================================ */
+/* STEP IDENTIFIER                                               */
+/* ============================================================ */
+const IDENT_ITEMS = [
+  { action: 'Asking the user what they were doing right before the system broke', step: 1, why: 'Questioning users is explicitly listed under Step 1 (Identify the problem). Users are the best source of recent-change information.' },
+  { action: 'Pinging the default gateway from the failing PC to confirm the suspected routing issue', step: 3, why: 'Running a targeted test to confirm or deny a hypothesis is Step 3 (Test the theory). The theory was already formed in Step 2.' },
+  { action: 'Reviewing system logs for error messages around the time of the outage', step: 1, why: 'Gathering information from logs is part of Step 1 (Identify the problem) — collecting evidence before forming a hypothesis.' },
+  { action: 'Updating the knowledge base with the root cause and the fix that resolved it', step: 7, why: 'Documenting findings, actions, and outcomes is the explicit Step 7. KB updates are the standard outcome of this step.' },
+  { action: 'Considering whether to start troubleshooting at Layer 7 and work down', step: 2, why: 'Choosing top-down vs bottom-up OSI vs divide-and-conquer is part of Step 2 (Establish a theory) — specifically the "consider multiple approaches" sub-bullet.' },
+  { action: 'Notifying the change advisory board before deploying the firewall rule change', step: 4, why: 'Identifying potential effects and securing approval is part of Step 4 (Establish a plan of action), not the implementation itself.' },
+  { action: 'Confirming with the user that they can now access the file share', step: 6, why: 'Verifying full system functionality with the affected user is Step 6. The user must confirm THEIR problem is resolved.' },
+  { action: 'Replacing the suspected faulty SFP transceiver with a known-good spare', step: 5, why: 'Actually executing the planned change is Step 5 (Implement the solution). The plan was made in Step 4.' },
+  { action: 'Trying the simplest, most obvious explanation first — "is the cable plugged in?"', step: 2, why: 'Questioning the obvious is an explicit sub-bullet under Step 2 (Establish a theory). Always start with the simplest hypothesis.' },
+  { action: 'Calling the senior network engineer because your tested theories all failed', step: 3, why: 'Escalation when a theory cannot be confirmed is part of Step 3. The branching logic of step 3 is: confirmed → step 4, OR not confirmed → re-establish OR escalate.' },
+  { action: 'Documenting the symptoms, the root cause, and the exact commands you used to fix it', step: 7, why: 'Step 7 covers documentation of findings, actions, and outcomes — symptoms, cause, and the fix all qualify.' },
+  { action: 'Asking yourself "did anything change recently before this started?"', step: 1, why: '"Determine if anything has changed" is an explicit sub-bullet under Step 1. Recent change is the highest-yield diagnostic clue.' },
+  { action: 'Setting up a monitoring alert so this kind of failure is detected earlier next time', step: 6, why: '"Implement preventive measures" is the second half of Step 6. Adding monitoring to catch recurrence falls here.' },
+  { action: 'Reviewing the vendor manual to see how the firmware update should be applied', step: 4, why: 'Referring to vendor instructions is part of Step 4 (Establish a plan of action). Plan the change carefully before doing it.' },
+  { action: 'Trying to reproduce the error on a test machine to confirm it really happens', step: 1, why: '"Duplicate the problem if possible" is an explicit sub-bullet under Step 1. Reproduction confirms understanding before forming theories.' },
+  { action: 'Drafting a rollback plan in case the firewall rule change breaks production', step: 4, why: 'Identifying potential effects and preparing a rollback are both part of Step 4. Plan for failure as well as success.' },
+  { action: 'After the failed cable swap, forming a different hypothesis about the issue', step: 3, why: 'Re-establishing a new theory after a failed test is part of Step 3 — specifically, the "if not confirmed → new theory" branch.' },
+  { action: 'Making sure adjacent systems didn\'t break after the patch was applied', step: 6, why: 'Verifying surrounding functionality (not just the original issue) is part of Step 6. The fix is only good if it didn\'t break anything else.' }
+];
+
+let identIdx = 0, identCorrect = 0, identTotal = 0;
+
+function generateIdentQ() {
+  const item = IDENT_ITEMS[Math.floor(Math.random() * IDENT_ITEMS.length)];
+  return item;
+}
+
+function renderIdent() {
+  const q = generateIdentQ();
+  identIdx = q;
+  const card = document.getElementById('ident-card');
+  card.innerHTML = `
+    <div class="ident-head">
+      <div class="title">Step Identifier</div>
+      <div class="stats">Got <b>${identCorrect}</b> · Total <b>${identTotal}</b></div>
+    </div>
+    <div class="ident-body">
+      <div class="ident-eyebrow">Which step does this action belong to?</div>
+      <div class="ident-action"><span class="quote-marks">“</span>${q.action}<span class="quote-marks">”</span></div>
+      <div class="ident-options" id="ident-options">
+        ${STEPS.map(s => `
+          <button class="ident-option" data-n="${s.n}">
+            <span class="step-pill">${s.n}</span>
+            <span>${s.name}</span>
+          </button>`).join('')}
+      </div>
+      <div class="ident-explain" id="ident-explain"></div>
+      <div class="ident-actions">
+        <button class="next-btn" id="ident-next">Next →</button>
+      </div>
+    </div>`;
+  document.querySelectorAll('.ident-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.n);
+      const correct = q.step;
+      document.querySelectorAll('.ident-option').forEach(b => {
+        b.disabled = true;
+        if (parseInt(b.dataset.n) === correct) b.classList.add('correct');
+        else if (parseInt(b.dataset.n) === chosen) b.classList.add('wrong');
+      });
+      const ex = document.getElementById('ident-explain');
+      ex.innerHTML = (chosen === correct ? '<b>✓ Correct</b>' : `<b>✗ Not quite — Step ${correct}: ${STEPS[correct-1].name}</b>`) + q.why;
+      ex.classList.add('show');
+      if (chosen === correct) identCorrect++;
+      identTotal++;
+    });
+  });
+  document.getElementById('ident-next').addEventListener('click', renderIdent);
+}
+renderIdent();
+
+/* ============================================================ */
+/* CASE WALKTHROUGH                                              */
+/* ============================================================ */
+const CASE = {
+  ticket: {
+    headline: 'Help Desk Ticket #4892',
+    body: '<b>Reporter:</b> Jenna Martinez (Marketing). <b>Symptom:</b> "I can\'t access the shared drive — when I try to open the M: drive in File Explorer it just hangs and eventually says \'network path not found\'. It worked yesterday." Other users in the same office can reach the share. The IT team is paged at 9:14 AM.'
+  },
+  stages: [
+    {
+      step: 1, eyebrow: 'STEP 1 · Identify the problem',
+      question: 'You take the ticket. What is the most appropriate FIRST action?',
+      options: [
+        'Ask Jenna what she was doing right before it broke, and whether anything changed on her side',
+        'Reboot the file server',
+        'Re-image her laptop',
+        'Open a SEV-1 incident — file shares are critical'
+      ],
+      correct: 0,
+      explain: 'Step 1 is identify the problem — and questioning the user is one of its sub-actions. Recent change is the highest-yield diagnostic clue. Rebooting the server affects everyone (and other users are fine). Re-imaging is premature.'
+    },
+    {
+      step: 1, eyebrow: 'STEP 1 (continued) · Identify the problem',
+      question: 'Jenna mentions she upgraded her own Wi-Fi adapter driver this morning because Windows offered an update. Other users on the same office switch are unaffected. What\'s the right next move while still in Step 1?',
+      options: [
+        'Try to duplicate the problem yourself by attempting the same connection from her machine',
+        'Roll back the driver immediately',
+        'Skip to opening a vendor support case',
+        'Add Jenna to the wireless guest VLAN'
+      ],
+      correct: 0,
+      explain: 'Duplicating the problem is an explicit sub-bullet of Step 1. Roll-back is a fix — premature. The "only Jenna affected, after she changed her driver" detail forms the theory in Step 2, but you confirm the symptom first.'
+    },
+    {
+      step: 2, eyebrow: 'STEP 2 · Establish a theory of probable cause',
+      question: 'You\'ve duplicated the issue from her laptop. What is the simplest theory that fits the facts?',
+      options: [
+        'Her Wi-Fi driver update broke SMB connectivity from her laptop',
+        'The file server has a corrupted disk',
+        'The core switch is failing intermittently',
+        'A new firewall rule is blocking SMB across the WAN'
+      ],
+      correct: 0,
+      explain: 'Question the obvious — that\'s an explicit Step 2 sub-bullet. Only Jenna is affected, only Jenna changed something, and the change happened right before the failure. Server, switch, and WAN-firewall theories don\'t fit "only one user."'
+    },
+    {
+      step: 3, eyebrow: 'STEP 3 · Test the theory',
+      question: 'How do you test the theory that the new Wi-Fi driver is the cause?',
+      options: [
+        'Have Jenna plug into a wired Ethernet port and try the share again',
+        'Apply the fix immediately by rolling back the driver',
+        'Re-image her laptop',
+        'Open a server log review'
+      ],
+      correct: 0,
+      explain: 'A targeted test that bypasses the suspected component is the cleanest Step 3 action. If the share works on wired but not Wi-Fi, the theory is confirmed. Rolling back the driver mixes Step 5 (implement) with Step 3.'
+    },
+    {
+      step: 4, eyebrow: 'STEP 4 · Establish a plan of action',
+      question: 'The wired test works — theory confirmed. What is the right Step 4 action?',
+      options: [
+        'Plan the rollback: identify how to roll back the driver, what other apps might need a reboot, and a fallback if the rollback fails',
+        'Roll back the driver and move on',
+        'Skip ahead to documenting',
+        'Tell the user to use Ethernet permanently'
+      ],
+      correct: 0,
+      explain: 'Step 4 is the plan, including potential effects and a fallback. Just rolling back is Step 5 (implement) — but in CompTIA\'s methodology, the plan is its own step.'
+    },
+    {
+      step: 5, eyebrow: 'STEP 5 · Implement the solution',
+      question: 'You walk Jenna through rolling back the driver in Device Manager, following the plan. What is this step called?',
+      options: [
+        'Implement the solution',
+        'Test the theory',
+        'Verify functionality',
+        'Identify the problem'
+      ],
+      correct: 0,
+      explain: 'Executing the planned change is Step 5. Note that escalation is also Step 5 if the fix is beyond your authority — but rolling back a driver on a user laptop is within scope.'
+    },
+    {
+      step: 6, eyebrow: 'STEP 6 · Verify full system functionality',
+      question: 'Driver rolled back successfully. What do you do next, in CompTIA\'s methodology?',
+      options: [
+        'Have Jenna access the share over Wi-Fi AND test other Wi-Fi-dependent apps to make sure nothing else broke',
+        'Close the ticket immediately',
+        'Document and move on',
+        'Try a different theory'
+      ],
+      correct: 0,
+      explain: 'Step 6 is verify FULL functionality — the original symptom should be gone AND surrounding functionality should still work. Just verifying the share works is incomplete; check that other Wi-Fi-dependent apps still function too.'
+    },
+    {
+      step: 7, eyebrow: 'STEP 7 · Document findings, actions, and outcomes',
+      question: 'Everything works again. What\'s the final required step?',
+      options: [
+        'Document the symptom, the root cause (faulty driver version), the fix (rollback), and update the KB so the next person finds this faster',
+        'Close the ticket — your work is done',
+        'Email the user a survey',
+        'Open a feature request with the driver vendor'
+      ],
+      correct: 0,
+      explain: 'Step 7 is documentation. Symptom + root cause + exact fix + KB update — all four belong here. Skipping documentation is the most common workplace failure of this methodology, which is why CompTIA emphasizes it.'
+    }
+  ]
+};
+
+let walkIdx = 0, walkCorrect = 0;
+
+function renderWalk() {
+  const frame = document.getElementById('walk-frame');
+  if (walkIdx >= CASE.stages.length) {
+    frame.innerHTML = `
+      <div class="walk-head"><h3>Case Closed</h3><span class="step-tag">Done</span></div>
+      <div class="walk-progress">
+        ${[0,1,2,3,4,5,6].map(i => `<div class="walk-prog-step done"></div>`).join('')}
+      </div>
+      <div class="walk-summary">
+        <div class="big">${walkCorrect}<b>/${CASE.stages.length}</b></div>
+        <div class="verdict">${walkCorrect === CASE.stages.length ? 'Methodology Mastered.' : (walkCorrect >= CASE.stages.length * 0.7 ? 'Good Work.' : 'Worth Reviewing.')}</div>
+        <p>${walkCorrect === CASE.stages.length ? 'You followed the process exactly. This is what the exam looks for.' : 'Review the steps you missed in the The 7 Steps tab, then try again.'}</p>
+        <button class="next-btn" id="walk-restart">↻ Run Case Again</button>
+      </div>`;
+    document.getElementById('walk-restart').addEventListener('click', () => {
+      walkIdx = 0; walkCorrect = 0; renderWalk();
+    });
+    return;
+  }
+  const stage = CASE.stages[walkIdx];
+  frame.innerHTML = `
+    <div class="walk-head">
+      <h3>${CASE.ticket.headline}</h3>
+      <span class="step-tag">${stage.eyebrow}</span>
+    </div>
+    <div class="walk-progress">
+      ${[1,2,3,4,5,6,7].map(n => {
+        if (stage.step === n) return `<div class="walk-prog-step active"></div>`;
+        if (n < stage.step) return `<div class="walk-prog-step done"></div>`;
+        return `<div class="walk-prog-step"></div>`;
+      }).join('')}
+    </div>
+    <div class="walk-body">
+      <div class="walk-ticket">
+        <div class="heading">Ticket Details</div>
+        <p>${CASE.ticket.body}</p>
+      </div>
+      <h3 class="walk-question">${stage.question}</h3>
+      <div class="walk-options" id="walk-options">
+        ${stage.options.map((opt, i) => `
+          <button class="walk-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="walk-feedback" id="walk-feedback"></div>
+      <div class="walk-actions">
+        <span style="font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em;">Stage ${walkIdx + 1} of ${CASE.stages.length}</span>
+        <button class="next-btn" id="walk-next" disabled>${walkIdx + 1 === CASE.stages.length ? 'Finish →' : 'Next Stage →'}</button>
+      </div>
+    </div>`;
+  let answered = false;
+  document.querySelectorAll('.walk-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (answered) return;
+      answered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = stage.correct;
+      document.querySelectorAll('.walk-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('walk-feedback');
+      fb.innerHTML = (chosen === correct ? '<b>✓ Correct</b>' : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>`) + stage.explain;
+      fb.classList.add('show');
+      if (chosen === correct) walkCorrect++;
+      document.getElementById('walk-next').disabled = false;
+    });
+  });
+  document.getElementById('walk-next').addEventListener('click', () => {
+    walkIdx++; renderWalk();
+  });
+}
+renderWalk();
+
+/* ============================================================ */
+/* KNOWLEDGE CHECK                                               */
+/* ============================================================ */
+const KC_QUESTIONS = [
+  {
+    q: 'According to CompTIA\'s troubleshooting methodology, what is the FIRST step you should perform when responding to a network issue?',
+    options: ['Establish a theory of probable cause', 'Identify the problem', 'Test the theory to determine cause', 'Document findings, actions, and outcomes'],
+    correct: 1,
+    explain: 'Identify the problem is always Step 1. Forming a theory before you understand the problem leads to wasted time and incorrect fixes.'
+  },
+  {
+    q: 'A technician has just confirmed a theory of probable cause through testing. According to the methodology, what is the NEXT step?',
+    options: ['Implement the solution', 'Establish a plan of action to resolve the problem and identify potential effects', 'Verify full system functionality', 'Document findings'],
+    correct: 1,
+    explain: 'After testing confirms the theory (Step 3), the next step is Step 4 — Establish a plan of action. Implementation does not happen until Step 5, after planning.'
+  },
+  {
+    q: 'A technician forms a theory and tests it, but the test does not confirm the theory. What should happen next?',
+    options: ['Go back to Step 1 and re-identify the problem from scratch', 'Re-establish a new theory or escalate to someone with more knowledge', 'Implement the most likely fix anyway', 'Document the failure and close the ticket'],
+    correct: 1,
+    explain: 'Step 3 has explicit branching: if the theory is NOT confirmed, you either re-establish a new theory or escalate. You do not return to Step 1, and you do not implement an unconfirmed fix.'
+  },
+  {
+    q: 'A user reports their VPN won\'t connect. The technician asks what was different today and learns the user installed a new firewall product overnight. Which step\'s sub-action is "determine if anything has changed"?',
+    options: ['Step 1 — Identify the problem', 'Step 2 — Establish a theory', 'Step 4 — Establish a plan', 'Step 7 — Document findings'],
+    correct: 0,
+    explain: '"Determine if anything has changed" is an explicit sub-bullet of Step 1 (Identify the problem). Recent change is the highest-yield diagnostic clue and lives in the information-gathering phase.'
+  },
+  {
+    q: 'A technician faces a network issue with no obvious starting point. Which troubleshooting approach starts in the middle of the OSI model and works outward?',
+    options: ['Top-down', 'Bottom-up', 'Divide and conquer', 'Plan and rollback'],
+    correct: 2,
+    explain: 'Divide and conquer starts at Layer 3 (Network) — the middle of the OSI stack — and tests outward in either direction. Top-down starts at Layer 7, bottom-up starts at Layer 1.'
+  },
+  {
+    q: 'According to N10-009 5.1, "question the obvious" is a sub-action of which step?',
+    options: ['Step 1 — Identify the problem', 'Step 2 — Establish a theory of probable cause', 'Step 4 — Establish a plan of action', 'Step 6 — Verify full system functionality'],
+    correct: 1,
+    explain: '"Question the obvious" is explicitly listed under Step 2. Always start with the simplest hypothesis that fits the evidence — is the cable plugged in, is Caps Lock on, was the change reverted.'
+  },
+  {
+    q: 'A technician has finished applying a patch that was supposed to fix a routing issue. What is the NEXT step in the methodology?',
+    options: ['Document the fix and close the ticket', 'Verify full system functionality and, if applicable, implement preventive measures', 'Test a new theory', 'Re-identify the problem'],
+    correct: 1,
+    explain: 'After Step 5 (Implement) comes Step 6 (Verify). The fix is not complete until you\'ve confirmed the original problem is resolved AND that surrounding functionality still works.'
+  },
+  {
+    q: 'Which of the following is NOT one of the 7 official steps in CompTIA\'s troubleshooting methodology?',
+    options: ['Verify full system functionality', 'Establish a theory of probable cause', 'Calculate root cause analysis cost', 'Document findings, actions, and outcomes'],
+    correct: 2,
+    explain: '"Calculate root cause analysis cost" is not part of the methodology. The 7 steps are: Identify, Theory, Test, Plan, Implement, Verify, Document.'
+  },
+  {
+    q: 'A technician finds three problems on the same network during one site visit. According to the methodology, what should they do?',
+    options: ['Bundle all three into one fix to save time', 'Approach multiple problems individually', 'Escalate all three immediately', 'Document everything first, then plan a single intervention'],
+    correct: 1,
+    explain: '"Approach multiple problems individually" is an explicit sub-bullet of Step 1. Bundling problems together masks root causes — fix one at a time, verify, document, then move to the next.'
+  },
+  {
+    q: 'Why does CompTIA\'s methodology emphasize Step 7 (Document findings, actions, and outcomes) so explicitly?',
+    options: ['Because it\'s legally required for compliance audits', 'Because it\'s the step technicians most commonly skip, and skipping it costs the next person time', 'Because it counts double on the exam', 'Because it satisfies SOC 2 controls'],
+    correct: 1,
+    explain: 'Step 7 exists because real technicians treat documentation as optional. Without it, the next person — including future you — has no head start when the same issue recurs.'
+  },
+  {
+    q: 'A technician\'s plan of action might include several elements. Which of the following is most likely part of Step 4 (Establish a plan)?',
+    options: ['Pinging the gateway', 'Identifying potential effects of the proposed change and preparing a rollback', 'Asking the user what changed', 'Updating the knowledge base'],
+    correct: 1,
+    explain: 'Identifying potential effects and having a rollback plan are core elements of Step 4. Pinging is testing (Step 3), questioning users is Step 1, KB updates are Step 7.'
+  },
+  {
+    q: 'In CompTIA\'s methodology, escalation is explicitly mentioned as an option in which step(s)?',
+    options: ['Only Step 1', 'Only Step 7', 'Step 3 (when theory cannot be confirmed) and Step 5 (when implementation is beyond scope)', 'Only Step 5'],
+    correct: 2,
+    explain: 'Escalation appears explicitly in Step 3 ("re-establish a new theory or escalate") and Step 5 ("implement the solution or escalate as necessary"). Both happen when the technician hits a wall — either knowledge or authority.'
+  }
+];
+
+let kcIdx = 0, kcScore = 0, kcAnswered = false;
+
+function renderKC() {
+  const card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    const pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    let verdict = '', sub = '';
+    if (pct === 100) { verdict = 'Perfect.'; sub = 'You can teach this section. Methodology questions on the exam will not surprise you.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the steps you missed in The 7 Steps tab. A pass through the Walkthrough should solidify it.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Walk through The 7 Steps tab slowly, then run the Order Drill until you can place all 7 first try. Then come back.'; }
+    else { verdict = 'Keep Training.'; sub = 'Start with The 7 Steps tab. Pay close attention to the "What NOT to Do" callout in each step.'; }
+
+    card.innerHTML = `
+      <div class="kc-head">
+        <div class="title">Results</div>
+        <div class="progress">Complete</div>
+      </div>
+      <div class="kc-final">
+        <div class="big-score">${kcScore}<b>/${KC_QUESTIONS.length}</b></div>
+        <div class="verdict">${verdict}</div>
+        <div class="verdict-sub">${sub}</div>
+        <button class="next-btn" id="kc-restart">↻ Retake</button>
+      </div>`;
+    document.getElementById('kc-restart').addEventListener('click', () => {
+      kcIdx = 0; kcScore = 0; kcAnswered = false; renderKC();
+    });
+    return;
+  }
+  const q = KC_QUESTIONS[kcIdx];
+  card.innerHTML = `
+    <div class="kc-head">
+      <div class="title">Knowledge Check</div>
+      <div class="progress">${kcIdx + 1} / ${KC_QUESTIONS.length}</div>
+    </div>
+    <div class="kc-body">
+      <div class="kc-question">${q.q}</div>
+      <div class="kc-options" id="kc-options">
+        ${q.options.map((opt, i) => `
+          <button class="kc-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="kc-feedback" id="kc-feedback"></div>
+      <div class="kc-actions">
+        <div class="kc-score">Score · <b>${kcScore} / ${kcIdx}</b></div>
+        <button class="next-btn" id="kc-next" disabled>${kcIdx + 1 === KC_QUESTIONS.length ? 'See Results →' : 'Next →'}</button>
+      </div>
+    </div>`;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (kcAnswered) return;
+      kcAnswered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = q.correct;
+      card.querySelectorAll('.kc-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('kc-feedback');
+      fb.innerHTML = chosen === correct
+        ? `<b>✓ Correct</b>${q.explain}`
+        : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>${q.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', () => {
+    kcIdx++; renderKC();
+  });
+}
+renderKC();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+let lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function generateLRQ() {
+  // Mix: order questions, identifier-style, "what's next" questions
+  const type = Math.random();
+
+  if (type < 0.35) {
+    // Step identifier from IDENT_ITEMS
+    const item = IDENT_ITEMS[Math.floor(Math.random() * IDENT_ITEMS.length)];
+    const correct = `${item.step}. ${STEPS[item.step - 1].name}`;
+    const others = STEPS.filter(s => s.n !== item.step);
+    const distractors = shuffle([...others]).slice(0, 3).map(s => `${s.n}. ${s.name}`);
+    const options = shuffle([correct, ...distractors]);
+    return {
+      prompt: 'Which step is this?',
+      question: `"${item.action}"`,
+      options,
+      correctIdx: options.indexOf(correct)
+    };
+  } else if (type < 0.65) {
+    // What's next?
+    const fromStep = Math.floor(Math.random() * 6) + 1; // 1-6
+    const correct = `Step ${fromStep + 1}: ${STEPS[fromStep].name}`;
+    const others = STEPS.filter(s => s.n !== fromStep + 1);
+    const distractors = shuffle([...others]).slice(0, 3).map(s => `Step ${s.n}: ${s.name}`);
+    const options = shuffle([correct, ...distractors]);
+    return {
+      prompt: 'What\'s the next step?',
+      question: `You just completed Step ${fromStep}: ${STEPS[fromStep - 1].name}. What\'s next?`,
+      options,
+      correctIdx: options.indexOf(correct)
+    };
+  } else {
+    // Direct knowledge questions
+    const facts = [
+      { q: 'How many official steps are in the methodology?', correct: '7', d: ['5', '6', '8'] },
+      { q: 'Which step explicitly includes "duplicate the problem if possible"?', correct: 'Step 1 — Identify the problem', d: ['Step 2 — Establish a theory', 'Step 3 — Test the theory', 'Step 4 — Plan'] },
+      { q: 'Which step explicitly includes "question the obvious"?', correct: 'Step 2 — Establish a theory', d: ['Step 1 — Identify', 'Step 3 — Test', 'Step 6 — Verify'] },
+      { q: 'Top-down, bottom-up, and divide-and-conquer are approaches used in which step?', correct: 'Step 2 — Establish a theory', d: ['Step 1', 'Step 4', 'Step 7'] },
+      { q: 'What is the very last step in the methodology?', correct: 'Document findings, actions, and outcomes', d: ['Verify functionality', 'Implement the solution', 'Identify the problem'] },
+      { q: 'When a tested theory is NOT confirmed, you should:', correct: 'Re-establish a new theory or escalate', d: ['Implement the fix anyway', 'Re-identify the problem from scratch', 'Document and close ticket'] },
+      { q: 'Step 4 is also known as:', correct: 'Establish a plan of action', d: ['Implement the solution', 'Test the theory', 'Verify functionality'] },
+      { q: 'Which step explicitly mentions implementing PREVENTIVE measures?', correct: 'Step 6 — Verify full system functionality', d: ['Step 4 — Plan', 'Step 5 — Implement', 'Step 7 — Document'] },
+      { q: 'Which step has escalation built into it because the fix may exceed your authority?', correct: 'Step 5 — Implement the solution or escalate', d: ['Step 1', 'Step 4', 'Step 6'] },
+      { q: 'The official wording of step 4 ends with which phrase?', correct: '...identify potential effects', d: ['...escalate as needed', '...verify functionality', '...prepare a backup'] }
+    ];
+    const f = facts[Math.floor(Math.random() * facts.length)];
+    const options = shuffle([f.correct, ...f.d]);
+    return {
+      prompt: 'Methodology Q&A',
+      question: f.q,
+      options,
+      correctIdx: options.indexOf(f.correct)
+    };
+  }
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  const body = document.getElementById('lr-body');
+  body.innerHTML = `
+    <div class="lr-question-prompt">${lrCurrentQ.prompt}</div>
+    <div class="lr-question">${lrCurrentQ.question}</div>
+    <div class="lr-options">
+      ${lrCurrentQ.options.map((opt, i) => `
+        <button class="lr-option" data-i="${i}">
+          <span class="marker">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>`;
+  document.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerLR(parseInt(btn.dataset.i)));
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 18) { verdict = 'Methodology Mastered.'; sub = 'You can answer 5.1 questions in your sleep. Move on.'; }
+  else if (lrCorrect >= 12) { verdict = 'Strong Recall.'; sub = 'A few more passes and you\'re exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict = 'Building It.'; sub = 'Spend more time in The 7 Steps and Step Identifier.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'Walk through The 7 Steps tab slowly, then run the Walkthrough before returning.'; }
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
