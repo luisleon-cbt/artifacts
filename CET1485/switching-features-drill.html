@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 Switching Technologies · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --vlan10:#38B0E0; --vlan20:#E0B840; --vlan30:#8E1F2E; --vlan40:#2A6049; --vlan99:#3D4685;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-card .feat-row {
+    display: grid; grid-template-columns: 90px 1fr; gap: 10px;
+    padding: 7px 0; align-items: baseline;
+    font-size: 12px;
+  }
+  .ref-card .feat-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-card .feat-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-card .feat-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-block { margin-bottom: 44px; }
+  .section-block:last-child { margin-bottom: 0; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  }
+  .section-head h2 {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0; letter-spacing: -0.02em;
+  }
+  .section-head h2 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .section-head p { color: var(--ink-mid); font-size: 14px; max-width: 50ch; margin: 0; }
+
+  /* SWITCH ANATOMY */
+  .switch-frame { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .switch-frame-head {
+    background: var(--navy-deep); color: var(--ink-invert); padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .switch-frame-head .badge {
+    background: var(--sky); color: white; padding: 4px 10px;
+    font-weight: 700; letter-spacing: 0.06em;
+  }
+  .switch-svg-area {
+    background: var(--surface-alt); padding: 32px 20px;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .switch-svg-area svg { width: 100%; max-width: 900px; height: auto; }
+  .anatomy-detail {
+    padding: 24px 28px; background: var(--surface);
+    min-height: 180px;
+  }
+  .anatomy-detail .eyebrow-tag {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px;
+  }
+  .anatomy-detail h3 {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 12px; letter-spacing: -0.02em;
+  }
+  .anatomy-detail p { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 12px; max-width: 65ch; }
+  .anatomy-detail .key-points { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .anatomy-detail .chip {
+    font-family: var(--ff-mono); font-size: 11px; padding: 5px 10px;
+    background: var(--bg-warm); border: 1px solid var(--line-soft);
+    color: var(--navy-deep); font-weight: 600;
+  }
+  .anatomy-svg .anatomy-target { cursor: pointer; transition: opacity 0.15s; }
+  .anatomy-svg .anatomy-target:hover { opacity: 0.85; }
+  .anatomy-svg .anatomy-target.selected .target-highlight { stroke: var(--sky); stroke-width: 3; }
+  .anatomy-tip {
+    margin-top: 16px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .anatomy-tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .anatomy-tip p { margin: 0; font-size: 14px; }
+
+  /* VLAN LAB */
+  .vlan-controls {
+    background: var(--navy-deep); padding: 20px 24px;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; color: white;
+  }
+  .vlan-controls .field-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gray-soft);
+  }
+  .vlan-mode-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .vlan-mode-btn {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2); padding: 7px 12px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em;
+    cursor: pointer; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .vlan-mode-btn .swatch { width: 10px; height: 10px; border-radius: 2px; }
+  .vlan-mode-btn:hover { background: rgba(255,255,255,0.08); }
+  .vlan-mode-btn.active { background: var(--sky); border-color: var(--sky); font-weight: 700; }
+  .vlan-mode-btn[data-vlan="10"] .swatch { background: var(--vlan10); }
+  .vlan-mode-btn[data-vlan="20"] .swatch { background: var(--vlan20); }
+  .vlan-mode-btn[data-vlan="30"] .swatch { background: var(--vlan30); }
+  .vlan-mode-btn[data-vlan="trunk"] .swatch { background: linear-gradient(135deg, var(--vlan10) 33%, var(--vlan20) 33% 66%, var(--vlan30) 66%); }
+  .vlan-toggle {
+    background: var(--gold); color: var(--navy-deep); border: none;
+    padding: 8px 14px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-weight: 700;
+  }
+  .vlan-toggle:hover { background: var(--gold-soft); }
+
+  .vlan-stage-wrap { border: 1px solid var(--line); border-top: none; background: var(--surface); }
+  .vlan-stage {
+    padding: 30px 24px;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vlan-stage svg { width: 100%; max-width: 900px; height: auto; }
+  .vlan-port-rect { cursor: pointer; transition: all 0.15s; }
+  .vlan-port-rect:hover { stroke: var(--sky-deep); stroke-width: 2.5; }
+  .vlan-info-row {
+    background: var(--bg-warm); padding: 20px 24px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+  }
+  .vlan-info-block .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700;
+  }
+  .vlan-info-block p { font-size: 13px; line-height: 1.55; color: var(--ink-mid); margin: 0 0 8px; }
+  .vlan-stat-row { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+  .vlan-stat { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .vlan-stat b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; margin-right: 4px; }
+
+  .vlan-tag-anim {
+    margin-top: 16px; padding: 14px 18px;
+    background: white; border: 1px solid var(--line-soft);
+  }
+  .vlan-tag-anim .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 8px; font-weight: 700;
+  }
+  .vlan-frame-diagram {
+    display: flex; gap: 0; margin-top: 8px; height: 28px; font-family: var(--ff-mono); font-size: 9px;
+    border: 1px solid var(--line); overflow: hidden;
+  }
+  .vlan-frame-diagram .seg {
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; padding: 0 6px; white-space: nowrap;
+    border-right: 1px solid rgba(0,0,0,0.15);
+  }
+  .vlan-frame-diagram .seg:last-child { border-right: none; }
+  .seg.dst { background: var(--bg-warm); color: var(--ink-mid); flex: 1; }
+  .seg.src { background: var(--bg-warm); color: var(--ink-mid); flex: 1; }
+  .seg.tag { background: var(--gold); color: var(--navy-deep); flex: 1.2; }
+  .seg.type { background: var(--surface-alt); color: var(--ink-mid); flex: 0.5; }
+  .seg.payload { background: var(--surface-alt); color: var(--ink-mid); flex: 1.4; }
+  .seg.fcs { background: var(--bg-warm); color: var(--ink-mid); flex: 0.5; }
+
+  /* FEATURE REFERENCE */
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .feat-card { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .feat-card-head {
+    background: var(--navy-deep); color: white; padding: 14px 20px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .feat-card-head h3 {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700;
+    margin: 0; letter-spacing: -0.02em;
+  }
+  .feat-card-head .sub {
+    font-family: var(--ff-mono); font-size: 10px; opacity: 0.7;
+    letter-spacing: 0.04em; margin-top: 3px;
+  }
+  .feat-card-body { padding: 18px 20px; }
+  .feat-card-body > p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 14px; }
+
+  .stp-states {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+    background: var(--line-soft); margin: 14px 0 12px;
+  }
+  .stp-state {
+    background: var(--surface); padding: 12px 8px; text-align: center;
+  }
+  .stp-state .name {
+    font-family: var(--ff-display); font-weight: 700; font-size: 14px;
+    color: var(--navy-deep); margin-bottom: 4px;
+  }
+  .stp-state .time {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em;
+  }
+  .stp-state .desc {
+    font-size: 11px; color: var(--ink-mid); margin-top: 5px; line-height: 1.4;
+  }
+  .stp-flow-arrow {
+    text-align: center; font-family: var(--ff-mono); color: var(--sky-deep);
+    font-size: 14px; letter-spacing: 0.6em; margin: 8px 0 4px;
+  }
+
+  .poe-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+  .poe-table thead th {
+    background: var(--surface-alt); color: var(--navy-deep);
+    padding: 8px 10px; text-align: left;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700;
+    border-bottom: 1px solid var(--line);
+  }
+  .poe-table tbody td {
+    padding: 10px; border-top: 1px solid var(--line-soft);
+    font-family: var(--ff-mono); font-size: 12px;
+  }
+  .poe-table tbody td:first-child { font-weight: 700; color: var(--navy-deep); }
+  .poe-table tbody td.power { color: var(--gold-deep); font-weight: 700; }
+
+  .lacp-diagram {
+    margin: 14px 0;
+    background: var(--surface-alt); padding: 16px;
+    border: 1px solid var(--line-soft); border-radius: 2px;
+  }
+  .lacp-diagram svg { width: 100%; max-width: 360px; height: auto; display: block; margin: 0 auto; }
+
+  .mtu-vis {
+    margin: 14px 0;
+    background: var(--surface-alt); padding: 16px;
+    border: 1px solid var(--line-soft);
+  }
+  .mtu-row {
+    display: flex; align-items: center; gap: 12px; margin: 10px 0;
+    font-family: var(--ff-mono);
+  }
+  .mtu-row .label {
+    width: 95px; font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em;
+  }
+  .mtu-row .label b { display: block; color: var(--navy-deep); font-family: var(--ff-display); font-size: 14px; }
+  .mtu-row .bar-track {
+    flex: 1; height: 18px; background: white; border: 1px solid var(--line-soft); position: relative;
+  }
+  .mtu-row .bar-fill {
+    height: 100%; display: flex; align-items: center; padding-left: 8px;
+    color: white; font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  }
+  .mtu-row.standard .bar-fill { background: var(--sky-deep); width: 17%; }
+  .mtu-row.jumbo .bar-fill { background: var(--gold); color: var(--navy-deep); width: 100%; }
+
+  .ie-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .ie-table thead th {
+    background: var(--navy-deep); color: white;
+    padding: 11px 14px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: left; font-weight: 600;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .ie-table tbody td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    vertical-align: top; font-family: var(--ff-mono); font-size: 12px;
+  }
+  .ie-table tbody td:first-child {
+    font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep);
+    background: var(--surface-alt); width: 130px;
+  }
+  .ie-table tbody tr:hover td { background: var(--bg-warm); }
+
+  /* SCENARIOS */
+  .scen-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .scen-head {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .scen-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .scen-head .stats {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft);
+  }
+  .scen-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 16px; margin-right: 4px; }
+  .scen-body { padding: 28px 30px; }
+  .scen-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 10px;
+  }
+  .scen-text {
+    font-family: var(--ff-display); font-size: 20px; line-height: 1.4;
+    font-weight: 500; color: var(--navy-deep); margin: 0 0 22px;
+    letter-spacing: -0.01em;
+  }
+  .scen-options { display: flex; flex-direction: column; gap: 8px; }
+  .scen-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scen-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scen-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .scen-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .scen-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .scen-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scen-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .scen-option[disabled] { cursor: default; }
+  .scen-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .scen-feedback.show { display: block; }
+  .scen-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky); display: block; margin-bottom: 6px;
+  }
+  .scen-actions {
+    margin-top: 24px; display: flex; justify-content: flex-end;
+  }
+  .next-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:hover { background: var(--sky-deep); }
+
+  /* FLASHCARDS */
+  .fc-controls {
+    background: var(--navy-deep); padding: 18px 22px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin-bottom: 28px;
+  }
+  .fc-mode-btn {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; font-weight: 500;
+  }
+  .fc-mode-btn:hover { background: rgba(255,255,255,0.08); }
+  .fc-mode-btn.active { background: var(--sky); border-color: var(--sky); font-weight: 700; }
+  .fc-utility-btn {
+    background: var(--gold); color: var(--navy-deep); border: none;
+    padding: 7px 14px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-weight: 700;
+    margin-left: auto;
+  }
+  .fc-utility-btn:hover { background: var(--gold-soft); }
+  .fc-stage { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .fc-progress {
+    margin-bottom: 20px; display: flex; gap: 24px;
+    font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute);
+    letter-spacing: 0.06em; flex-wrap: wrap; justify-content: center;
+  }
+  .fc-progress b { color: var(--navy-deep); font-weight: 700; }
+  .fc-progress .got b { color: var(--green); }
+  .fc-progress .almost b { color: var(--gold-deep); }
+  .fc-progress .missed b { color: var(--red); }
+  .flashcard {
+    width: min(560px, 100%); height: 320px;
+    perspective: 1200px; margin: 0 auto;
+  }
+  .fc-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .flashcard.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column; padding: 28px;
+  }
+  .fc-front { background: var(--surface); justify-content: center; align-items: center; }
+  .fc-back { background: var(--navy-deep); color: white; transform: rotateY(180deg); justify-content: center; }
+  .fc-front .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px;
+  }
+  .fc-front .fc-question {
+    font-family: var(--ff-display); font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700; color: var(--navy-deep);
+    letter-spacing: -0.02em; line-height: 1.2; text-align: center;
+  }
+  .fc-front .fc-hint {
+    margin-top: auto; font-family: var(--ff-mono); font-size: 10px;
+    color: var(--ink-mute); letter-spacing: 0.1em;
+    text-align: center; text-transform: uppercase;
+  }
+  .fc-back .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-soft); margin-bottom: 14px;
+  }
+  .fc-back .fc-answer {
+    font-family: var(--ff-display); font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--gold);
+  }
+  .fc-back .fc-detail { margin-top: 14px; font-size: 13px; line-height: 1.55; opacity: 0.92; }
+  .fc-back .fc-detail b {
+    color: var(--sky-soft); font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: 0.06em; margin-right: 6px; text-transform: uppercase;
+  }
+  .fc-back .fc-meta {
+    margin-top: auto; padding-top: 16px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+    font-family: var(--ff-mono); font-size: 11px; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .fc-judgment {
+    margin-top: 20px; display: flex; gap: 10px; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease 0.3s; flex-wrap: wrap; justify-content: center;
+  }
+  .flashcard.flipped + .fc-judgment { opacity: 1; pointer-events: auto; }
+  .fc-judge-btn {
+    flex: 1; min-width: 110px; padding: 14px 20px; border: 2px solid;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+    background: var(--surface); transition: all 0.15s;
+  }
+  .fc-judge-btn.missed { color: var(--red); border-color: var(--red); }
+  .fc-judge-btn.missed:hover { background: var(--red-bg); }
+  .fc-judge-btn.almost { color: var(--gold-deep); border-color: var(--gold-deep); }
+  .fc-judge-btn.almost:hover { background: var(--gold-soft); }
+  .fc-judge-btn.got { color: var(--green); border-color: var(--green); }
+  .fc-judge-btn.got:hover { background: var(--green-bg); }
+  .fc-empty { text-align: center; padding: 60px 20px; }
+  .fc-empty .big { font-family: var(--ff-display); font-size: 36px; font-weight: 700; color: var(--navy-deep); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .fc-empty p { color: var(--ink-mid); margin: 8px 0 24px; }
+
+  /* LIGHTNING */
+  .lr-pre {
+    text-align: center; padding: 40px 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em; text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 30px 30px 40px;
+  }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px);
+    font-weight: 600; color: var(--navy-deep);
+    text-align: center; line-height: 1.35; letter-spacing: -0.01em;
+    margin: 0 0 24px; max-width: 760px; margin-left: auto; margin-right: auto;
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 16px 20px; cursor: pointer;
+    font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left; display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); flex-shrink: 0;
+  }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final {
+    text-align: center; padding: 50px 30px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .vlan-controls { grid-template-columns: 1fr; }
+    .vlan-info-row { grid-template-columns: 1fr; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .stp-states { grid-template-columns: repeat(2, 1fr); }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2.2</span>
+    <span class="crumb">Switching Technologies & Features</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Configure</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 2.2</div>
+    <h1>Configure the<br><em>Switch.</em></h1>
+    <p class="lede">A managed switch is more than a box of ports. VLANs separate broadcast domains, 802.1Q tags carry VLAN identity across trunks, STP prevents the loops that crash networks, LACP bundles links for capacity, PoE delivers power to devices, MTU controls how big a frame can be. This drill walks you through each feature with interactive scenarios — because the exam will give you a problem and ask you to pick the configuration that fixes it.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">High-Yield Features</div>
+    <div class="feat-row"><span class="name">VLAN</span><span class="desc">Separate broadcast domains on one switch</span></div>
+    <div class="feat-row"><span class="name">802.1Q</span><span class="desc">Trunk tagging — multiple VLANs on one link</span></div>
+    <div class="feat-row"><span class="name">Native VLAN</span><span class="desc">Untagged traffic on a trunk port</span></div>
+    <div class="feat-row"><span class="name">Voice VLAN</span><span class="desc">Auto-tagged for IP phones</span></div>
+    <div class="feat-row"><span class="name">STP</span><span class="desc">Loop prevention via blocking ports</span></div>
+    <div class="feat-row"><span class="name">LACP</span><span class="desc">Bundle links for capacity + redundancy</span></div>
+    <div class="feat-row"><span class="name">PoE / +/++</span><span class="desc">Power over Ethernet · 15W / 30W / 60W / 90W</span></div>
+    <div class="feat-row"><span class="name">MTU</span><span class="desc">Frame size · 1500 default, 9000 jumbo</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      "Voice gets choppy when downloading", "Loop crashed network", "AP needs power" — each maps to one feature. The Scenario Lab drills these.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">8</div><div class="label">Features in objective 2.2</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">STP port states</div></div>
+  <div class="stat"><div class="num">15</div><div class="label">Practice scenarios</div></div>
+  <div class="stat"><div class="num">60s</div><div class="label">Lightning round drill</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="anatomy"><span class="num">01</span>Switch Anatomy</button>
+  <button class="tab" data-tab="vlan"><span class="num">02</span>VLAN Lab</button>
+  <button class="tab" data-tab="features"><span class="num">03</span>Feature Reference</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Scenario Lab</button>
+  <button class="tab" data-tab="flashcards"><span class="num">05</span>Flashcards</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- SWITCH ANATOMY -->
+<section class="panel active" id="panel-anatomy">
+  <div class="switch-frame">
+    <div class="switch-frame-head">
+      <span>24-Port Managed Switch · Front Panel</span>
+      <span class="badge">↓ Click any element</span>
+    </div>
+    <div class="switch-svg-area">
+      <svg class="anatomy-svg" id="anatomy-svg" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Chassis -->
+        <rect x="10" y="40" width="880" height="120" fill="#283068" stroke="#1A2050" stroke-width="2" rx="3"/>
+        <rect x="14" y="44" width="872" height="112" fill="#1A2050"/>
+
+        <!-- Brand label area -->
+        <rect x="20" y="50" width="80" height="100" fill="#283068" stroke="#3D4685" stroke-width="0.5"/>
+        <text x="60" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E0B840">CBT</text>
+        <text x="60" y="106" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6BC5E8">SW-2960X</text>
+        <text x="60" y="120" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">24-PORT</text>
+
+        <!-- Status LEDs cluster -->
+        <g class="anatomy-target" data-id="leds">
+          <rect x="110" y="55" width="60" height="35" fill="#283068" stroke="#3D4685" stroke-width="0.8" rx="2" class="target-highlight"/>
+          <circle cx="120" cy="68" r="3" fill="#2A6049"/>
+          <circle cx="135" cy="68" r="3" fill="#2A6049"/>
+          <circle cx="150" cy="68" r="3" fill="#E0B840"/>
+          <circle cx="165" cy="68" r="3" fill="#2A6049"/>
+          <text x="140" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#6BC5E8">SYS · STAT · POE · DPLX</text>
+        </g>
+        <text x="140" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">STATUS LEDS</text>
+
+        <!-- Console port -->
+        <g class="anatomy-target" data-id="console">
+          <rect x="110" y="115" width="60" height="22" fill="#404758" stroke="#E0B840" stroke-width="1" rx="1" class="target-highlight"/>
+          <rect x="125" y="120" width="30" height="12" fill="#1A1A1A"/>
+          <text x="140" y="129" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#6BC5E8">CONSOLE</text>
+        </g>
+        <text x="140" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">CONSOLE PORT</text>
+
+        <!-- Access ports — Group 1 (1-12) -->
+        <g class="anatomy-target" data-id="access">
+          <rect x="180" y="55" width="290" height="80" fill="#1A2050" stroke="#E0B840" stroke-width="1.5" class="target-highlight"/>
+          <g>
+            <!-- Row of ports 1-12 -->
+            <g transform="translate(186, 62)">
+              <g><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(23, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(46, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#E0B840"/></g>
+              <g transform="translate(69, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(92, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+              <g transform="translate(115, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(138, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(161, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+              <g transform="translate(184, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(207, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#E0B840"/></g>
+              <g transform="translate(230, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(253, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+            </g>
+            <!-- Row 13-24 -->
+            <g transform="translate(186, 100)">
+              <g><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(23, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+              <g transform="translate(46, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(69, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(92, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#E0B840"/></g>
+              <g transform="translate(115, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(138, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+              <g transform="translate(161, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(184, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#E0B840"/></g>
+              <g transform="translate(207, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+              <g transform="translate(230, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+              <g transform="translate(253, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            </g>
+          </g>
+        </g>
+        <text x="325" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">24× ACCESS PORTS · 1G · POE+</text>
+
+        <!-- Group 2 access (more) -->
+        <g class="anatomy-target" data-id="trunkports">
+          <rect x="490" y="55" width="155" height="80" fill="#1A2050" stroke="#38B0E0" stroke-width="1.5" class="target-highlight"/>
+          <g transform="translate(496, 62)">
+            <g><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(23, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(46, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(69, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(92, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(115, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+          </g>
+          <g transform="translate(496, 100)">
+            <g><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+            <g transform="translate(23, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(46, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(69, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+            <g transform="translate(92, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#404758"/></g>
+            <g transform="translate(115, 0)"><rect width="20" height="30" fill="#283068" stroke="#404758" stroke-width="0.5"/><rect x="3" y="6" width="14" height="14" fill="#1A1A1A"/><circle cx="10" cy="26" r="1.5" fill="#2A6049"/></g>
+          </g>
+        </g>
+        <text x="567" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">EXPANSION ACCESS PORTS</text>
+
+        <!-- Uplink / SFP+ ports -->
+        <g class="anatomy-target" data-id="uplink">
+          <rect x="660" y="55" width="170" height="80" fill="#1A2050" stroke="#E0B840" stroke-width="2" class="target-highlight"/>
+          <g transform="translate(670, 70)">
+            <rect width="35" height="22" fill="#283068" stroke="#E0B840" stroke-width="1"/>
+            <rect x="6" y="5" width="23" height="12" fill="#1A1A1A"/>
+            <text x="17" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#E0B840">SFP+</text>
+          </g>
+          <g transform="translate(710, 70)">
+            <rect width="35" height="22" fill="#283068" stroke="#E0B840" stroke-width="1"/>
+            <rect x="6" y="5" width="23" height="12" fill="#1A1A1A"/>
+            <text x="17" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#E0B840">SFP+</text>
+          </g>
+          <g transform="translate(750, 70)">
+            <rect width="35" height="22" fill="#283068" stroke="#E0B840" stroke-width="1"/>
+            <rect x="6" y="5" width="23" height="12" fill="#1A1A1A"/>
+            <text x="17" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#E0B840">SFP+</text>
+          </g>
+          <g transform="translate(790, 70)">
+            <rect width="35" height="22" fill="#283068" stroke="#E0B840" stroke-width="1"/>
+            <rect x="6" y="5" width="23" height="12" fill="#1A1A1A"/>
+            <text x="17" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#E0B840">SFP+</text>
+          </g>
+          <text x="745" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#E0B840" font-weight="700">10G UPLINKS</text>
+        </g>
+        <text x="745" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#989890">SFP+ UPLINK PORTS</text>
+
+        <!-- LED legend -->
+        <g transform="translate(20, 178)">
+          <circle cx="0" cy="0" r="3" fill="#2A6049"/>
+          <text x="6" y="3" font-family="JetBrains Mono" font-size="8" fill="#404758">LINK UP</text>
+          <circle cx="60" cy="0" r="3" fill="#E0B840"/>
+          <text x="66" y="3" font-family="JetBrains Mono" font-size="8" fill="#404758">POE ACTIVE</text>
+          <circle cx="140" cy="0" r="3" fill="#404758"/>
+          <text x="146" y="3" font-family="JetBrains Mono" font-size="8" fill="#404758">DOWN</text>
+        </g>
+      </svg>
+    </div>
+    <div class="anatomy-detail" id="anatomy-detail"></div>
+  </div>
+</section>
+
+<!-- VLAN LAB -->
+<section class="panel" id="panel-vlan">
+  <div class="vlan-controls">
+    <span class="field-label">CLICK PORTS TO ASSIGN ·</span>
+    <div class="vlan-mode-row">
+      <button class="vlan-mode-btn active" data-vlan="10"><span class="swatch"></span>VLAN 10 — Office</button>
+      <button class="vlan-mode-btn" data-vlan="20"><span class="swatch"></span>VLAN 20 — Voice</button>
+      <button class="vlan-mode-btn" data-vlan="30"><span class="swatch"></span>VLAN 30 — Guest</button>
+      <button class="vlan-mode-btn" data-vlan="trunk"><span class="swatch"></span>Trunk (all)</button>
+    </div>
+    <button class="vlan-toggle" id="vlan-reset">↻ Reset Lab</button>
+  </div>
+
+  <div class="vlan-stage-wrap">
+    <div class="vlan-stage">
+      <svg id="vlan-svg" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Switch chassis -->
+        <rect x="40" y="40" width="820" height="100" fill="#283068" stroke="#1A2050" stroke-width="2" rx="3"/>
+        <rect x="44" y="44" width="812" height="92" fill="#1A2050"/>
+        <text x="60" y="65" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E0B840">SW-1</text>
+        <text x="60" y="80" font-family="JetBrains Mono" font-size="9" fill="#6BC5E8">24-port</text>
+
+        <!-- 12 ports drawn programmatically as a row -->
+        <g id="vlan-ports"></g>
+
+        <!-- Devices below ports (8 devices to match the 8 access ports we'll show) -->
+        <g id="vlan-devices"></g>
+
+        <!-- Trunk uplink to right -->
+        <g>
+          <line x1="850" y1="85" x2="900" y2="85" stroke="#E0B840" stroke-width="3" stroke-dasharray="6 3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="vlan-info-row">
+      <div class="vlan-info-block">
+        <div class="heading">Broadcast Domains</div>
+        <p>Each VLAN is its own broadcast domain. Hosts in VLAN 10 cannot directly reach hosts in VLAN 20 — even though they're on the same physical switch. To cross VLANs you need a router (or Layer 3 switch with inter-VLAN routing).</p>
+        <div class="vlan-stat-row" id="vlan-stats"></div>
+      </div>
+      <div class="vlan-info-block">
+        <div class="heading">Access vs Trunk</div>
+        <p><strong>Access port</strong> belongs to one VLAN — frames carry no tag (the switch knows the VLAN by which port the frame arrived on). <strong>Trunk port (802.1Q)</strong> carries multiple VLANs — frames are tagged with a 4-byte VLAN ID inserted into the Ethernet header.</p>
+        <div class="vlan-tag-anim">
+          <div class="heading">802.1Q TAGGED FRAME · 4 EXTRA BYTES</div>
+          <div class="vlan-frame-diagram">
+            <div class="seg dst">DST MAC</div>
+            <div class="seg src">SRC MAC</div>
+            <div class="seg tag">802.1Q TAG (VLAN ID)</div>
+            <div class="seg type">EthType</div>
+            <div class="seg payload">PAYLOAD</div>
+            <div class="seg fcs">FCS</div>
+          </div>
+          <p style="font-size: 11px; margin: 8px 0 0; color: var(--ink-mute); font-family: var(--ff-mono); letter-spacing: 0.04em;">The gold segment is added on trunk links so the receiving switch knows which VLAN the frame belongs to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE REFERENCE -->
+<section class="panel" id="panel-features">
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Spanning Tree <em>Protocol (STP)</em></h2>
+      <p>Prevents loops in switched networks by selectively blocking ports. Without STP, a single redundant cable causes a broadcast storm that takes down the whole network.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" style="grid-column: 1 / -1;">
+        <div class="feat-card-head">
+          <h3>Port States — From Boot to Forwarding</h3>
+          <div class="sub">When a switch port comes up with STP enabled, it walks through these states</div>
+        </div>
+        <div class="feat-card-body">
+          <p>STP elects a root bridge, calculates the shortest path to it from every switch, and blocks redundant links that would create loops. The states below run on every port at boot and after any topology change.</p>
+          <div class="stp-states">
+            <div class="stp-state">
+              <div class="name">Blocking</div>
+              <div class="time">20 sec</div>
+              <div class="desc">Receives BPDUs but doesn't forward frames. Prevents loops while STP figures out topology.</div>
+            </div>
+            <div class="stp-state">
+              <div class="name">Listening</div>
+              <div class="time">15 sec</div>
+              <div class="desc">Listens for BPDUs to determine the root bridge. Doesn't forward yet.</div>
+            </div>
+            <div class="stp-state">
+              <div class="name">Learning</div>
+              <div class="time">15 sec</div>
+              <div class="desc">Builds the MAC address table by observing source addresses. Still doesn't forward.</div>
+            </div>
+            <div class="stp-state">
+              <div class="name">Forwarding</div>
+              <div class="time">— stable —</div>
+              <div class="desc">Normal operation. Sends and receives frames, learns MACs, forwards traffic.</div>
+            </div>
+            <div class="stp-state">
+              <div class="name">Disabled</div>
+              <div class="time">— admin —</div>
+              <div class="desc">Administratively shut down by the network admin. Not part of STP.</div>
+            </div>
+          </div>
+          <div class="stp-flow-arrow">▶ ▶ ▶ ▶</div>
+          <p style="margin-top: 14px;"><strong>50 seconds total</strong> from cable plug to forwarding traffic in classic STP. <strong>RSTP (Rapid Spanning Tree, 802.1w)</strong> shortens this dramatically — typically &lt;6 seconds. <strong>PortFast / Edge Port</strong> skips the full state machine for end-host ports (PCs, printers) since they can't create loops.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Power over <em>Ethernet (PoE)</em></h2>
+      <p>Delivers electrical power through the same Ethernet cable that carries data. Eliminates separate power runs for APs, IP phones, IP cameras, and other low-power devices.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" style="grid-column: 1 / -1;">
+        <div class="feat-card-head">
+          <h3>PoE Standards & Wattage</h3>
+          <div class="sub">Each generation increases the power budget per port</div>
+        </div>
+        <div class="feat-card-body">
+          <p>The exam expects you to match the standard to its power level — and to know which devices need which level. APs and phones often work with PoE+. Higher-power APs, PTZ cameras, and digital signage need PoE++.</p>
+          <table class="poe-table">
+            <thead>
+              <tr><th>Standard</th><th>IEEE</th><th>Power per Port</th><th>Pairs Used</th><th>Typical Devices</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>PoE</td><td>802.3af</td><td class="power">15.4 W</td><td>2 pairs</td><td>VoIP phones, basic APs, IP cameras</td></tr>
+              <tr><td>PoE+</td><td>802.3at</td><td class="power">30 W</td><td>2 pairs</td><td>Wi-Fi 5 APs, advanced phones, PTZ cameras</td></tr>
+              <tr><td>PoE++ Type 3</td><td>802.3bt</td><td class="power">60 W</td><td>4 pairs</td><td>Wi-Fi 6 APs, video conferencing, kiosks</td></tr>
+              <tr><td>PoE++ Type 4</td><td>802.3bt</td><td class="power">90–100 W</td><td>4 pairs</td><td>High-power APs, digital signage, thin clients</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 12px;"><strong>Critical concept:</strong> the switch is the <strong>PSE</strong> (Power Sourcing Equipment), the AP/phone is the <strong>PD</strong> (Powered Device). The PSE detects whether a connected device is a valid PD before sending power, so plugging a regular PC into a PoE port is safe — the switch won't blast power into a non-PoE device.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>MTU & <em>Jumbo Frames</em></h2>
+      <p>Maximum Transmission Unit — the biggest payload size a frame can carry. Default is 1500 bytes. Jumbo frames push that to 9000.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" style="grid-column: 1 / -1;">
+        <div class="feat-card-head">
+          <h3>Why MTU Matters</h3>
+          <div class="sub">Bigger frames = less overhead = better throughput for bulk transfers</div>
+        </div>
+        <div class="feat-card-body">
+          <p>Every frame has fixed overhead (headers, FCS). With a 1500-byte payload, that overhead is a small percentage of total bytes. With a 9000-byte payload, the overhead percentage drops dramatically — meaning more of the wire's bandwidth is actually carrying user data. Used heavily in storage networks (iSCSI, NFS) and backbone links.</p>
+          <div class="mtu-vis">
+            <div class="mtu-row standard">
+              <div class="label"><b>Standard</b>1500 bytes</div>
+              <div class="bar-track"><div class="bar-fill">PAYLOAD</div></div>
+            </div>
+            <div class="mtu-row jumbo">
+              <div class="label"><b>Jumbo</b>9000 bytes</div>
+              <div class="bar-track"><div class="bar-fill">PAYLOAD (6× the data per frame)</div></div>
+            </div>
+          </div>
+          <p style="margin-top: 12px;"><strong>Configuration gotcha:</strong> jumbo frames must be enabled <strong>end-to-end</strong>. If even one switch in the path has the default 1500 MTU, frames will be dropped or fragmented. Misconfigured MTU is a common cause of "intermittent slowness" or "some apps work, others don't" tickets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Link <em>Aggregation (LACP)</em></h2>
+      <p>Bundles multiple physical links into one logical link. More bandwidth, plus failover if one link goes down.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" style="grid-column: 1 / -1;">
+        <div class="feat-card-head">
+          <h3>How LACP Works</h3>
+          <div class="sub">Two switches negotiate an aggregated link via 802.3ad / LACP</div>
+        </div>
+        <div class="feat-card-body">
+          <p>LACP (Link Aggregation Control Protocol, IEEE 802.3ad) is the standard for bundling 2 to 8 links between two switches. Vendor terms vary — Cisco calls it "EtherChannel," but the underlying protocol is LACP.</p>
+          <div class="lacp-diagram">
+            <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="40" width="100" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/>
+              <text x="70" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E0B840">SW-A</text>
+              <rect x="240" y="40" width="100" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/>
+              <text x="290" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E0B840">SW-B</text>
+
+              <line x1="120" y1="48" x2="240" y2="48" stroke="#38B0E0" stroke-width="2.5"/>
+              <line x1="120" y1="60" x2="240" y2="60" stroke="#38B0E0" stroke-width="2.5"/>
+              <line x1="120" y1="72" x2="240" y2="72" stroke="#38B0E0" stroke-width="2.5"/>
+
+              <rect x="160" y="38" width="40" height="44" fill="rgba(224,184,64,0.2)" stroke="#E0B840" stroke-width="1" stroke-dasharray="3 3"/>
+              <text x="180" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#B8932A" font-weight="700">LAG (3× 1G = 3G)</text>
+
+              <text x="180" y="125" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#404758">Logical link · LACP-negotiated</text>
+              <text x="180" y="140" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#404758">Lose one link → traffic shifts to remaining two</text>
+              <text x="180" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1E8FBE" font-weight="700">More bandwidth + automatic failover</text>
+            </svg>
+          </div>
+          <p style="margin-top: 12px;"><strong>Both ends must agree.</strong> If one switch is set to LACP active and the other isn't running LACP at all, the bundle won't form — or worse, you'll create a Layer 2 loop. Misconfigured aggregation is a classic STP-trips-and-fails scenario.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Interface <em>Configuration</em></h2>
+      <p>Settings the exam expects you to recognize from a config snippet — speed, duplex, native VLAN, voice VLAN.</p>
+    </div>
+    <table class="ie-table">
+      <thead>
+        <tr><th>Setting</th><th>What It Does</th><th>Common Mistake</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Speed / Duplex</td>
+          <td>Hard-codes the port speed (10/100/1000) and duplex (half/full). Default is auto-negotiate.</td>
+          <td>Mismatched manual settings on each end of a link → duplex mismatch → late collisions, slow performance, NOT a hard failure</td>
+        </tr>
+        <tr>
+          <td>Access Mode</td>
+          <td>Port belongs to a single VLAN. Frames carry no 802.1Q tag.</td>
+          <td>Plugging a trunk-only device (like another switch) into an access port</td>
+        </tr>
+        <tr>
+          <td>Trunk Mode</td>
+          <td>Port carries multiple VLANs, tagging each frame with 802.1Q.</td>
+          <td>VLAN list mismatch on each side → some VLANs work, others don't</td>
+        </tr>
+        <tr>
+          <td>Native VLAN</td>
+          <td>The one VLAN whose traffic crosses a trunk WITHOUT a tag. Default is VLAN 1.</td>
+          <td>Different native VLAN on each end → security risk + frames go to wrong VLAN. Always match it on both ends.</td>
+        </tr>
+        <tr>
+          <td>Voice VLAN</td>
+          <td>Special VLAN ID announced via CDP/LLDP to attached IP phones, automatically tagged.</td>
+          <td>Forgetting to put the voice VLAN in the trunk's allowed list — phones can't communicate</td>
+        </tr>
+        <tr>
+          <td>PortFast / Edge</td>
+          <td>Skips STP listening/learning states for end-host ports. Reduces 30-50s connect delay.</td>
+          <td>Enabling on a port that connects to another switch → enables loops</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SCENARIO LAB -->
+<section class="panel" id="panel-scenarios">
+  <div class="scen-card" id="scen-card"></div>
+</section>
+
+<!-- FLASHCARDS -->
+<section class="panel" id="panel-flashcards">
+  <div class="fc-controls">
+    <span style="font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-soft); margin-right: 8px;">MODE</span>
+    <button class="fc-mode-btn active" data-mode="all">All Cards</button>
+    <button class="fc-mode-btn" data-mode="vlan">VLANs & Trunks</button>
+    <button class="fc-mode-btn" data-mode="stp">STP & Loops</button>
+    <button class="fc-mode-btn" data-mode="poe">PoE & MTU</button>
+    <button class="fc-utility-btn" id="fc-shuffle">↻ Shuffle</button>
+  </div>
+  <div class="fc-stage" id="fc-stage"></div>
+</section>
+
+<!-- LIGHTNING ROUND -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed multiple choice — feature recognition, scenario response, configuration spotting. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool covering CompTIA N10-009 Objective 2.2 — switching technologies and features. Includes VLANs (database, voice), interface configuration (native VLAN, voice VLAN, 802.1Q tagging, link aggregation, speed, duplex), Spanning Tree Protocol, Maximum Transmission Unit (jumbo frames), and Power over Ethernet.</p>
+      <p>Built around the verb "configure" — the exam will give you a problem and ask you to pick the feature or setting that fixes it. Drill the Scenario Lab tab.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Switch Anatomy + Feature Reference — get the foundation.</p>
+      <p>· Day 2: VLAN Lab — work the broadcast domain and trunk concepts.</p>
+      <p>· Day 3: Scenario Lab — apply features to real problems.</p>
+      <p>· Daily until exam: Flashcards + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 2.2 Switching Technologies</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* SWITCH ANATOMY                                                */
+/* ============================================================ */
+const ANATOMY = {
+  leds: {
+    eyebrow: 'Status indicators',
+    name: 'Status LEDs',
+    desc: 'Front-panel indicators for system health, port status, PoE delivery, and duplex. The first thing a tech checks before opening a console — a glance can rule out hardware faults faster than any command.',
+    points: ['SYS · power and boot status', 'STAT · individual port link', 'POE · power delivery active', 'DPLX · duplex mode (full/half)'],
+    tip: 'On Cisco switches, the "Mode" button cycles what the per-port LEDs show — link, PoE, duplex, or speed. Useful for visual triage without logging in.'
+  },
+  console: {
+    eyebrow: 'Out-of-band management',
+    name: 'Console Port',
+    desc: 'Direct serial connection for initial setup and break-glass recovery. Not part of the data network — accessible even if all IP-based management has failed. Modern switches use RJ45-to-USB or USB-C; older ones use DB9.',
+    points: ['Serial connection · 9600 8N1', 'Out-of-band — no IP needed', 'Used for first config and emergencies', 'Won\'t carry production traffic'],
+    tip: 'The console port saves you when you\'ve locked yourself out of management VLANs. Document the console settings in your runbook before you need them.'
+  },
+  access: {
+    eyebrow: 'End-device connectivity',
+    name: 'Access Ports (1–24)',
+    desc: 'Each port connects one end device — PC, printer, IP phone, AP — and belongs to one VLAN. Frames between the device and switch carry no VLAN tag because the switch knows the VLAN by which port the frame came in on.',
+    points: ['One VLAN per port (in access mode)', 'Untagged frames to the host', 'PoE+ delivery available per port', '1 Gbps over Cat 5e/6'],
+    tip: 'Configure all end-host ports as access ports with PortFast enabled. They cannot create loops, so skipping the STP states gets devices online faster.'
+  },
+  trunkports: {
+    eyebrow: 'Inter-switch + trunked',
+    name: 'Inter-Switch Ports',
+    desc: 'Same physical hardware as access ports — what makes them "trunk" is the configuration. Trunk mode allows multiple VLANs to traverse the link, with each frame tagged 802.1Q so the receiving switch can sort it into the right broadcast domain.',
+    points: ['Multiple VLANs over one cable', '802.1Q tagging adds 4 bytes', 'One native VLAN goes untagged', 'Both ends must match config'],
+    tip: 'Trunk to other switches and to APs. Access to PCs, printers, and phones. If a trunk question shows up, look for "carry multiple VLANs" or "between switches" as the giveaway.'
+  },
+  uplink: {
+    eyebrow: 'High-speed uplink',
+    name: 'SFP+ Uplink Ports',
+    desc: 'Modular optical or copper uplinks for connecting access switches to distribution/core switches. SFP+ supports 10 Gbps; the lower-speed SFP supports 1 Gbps. The form factor accepts fiber transceivers (LC) or DAC twinaxial cables.',
+    points: ['10 Gbps with SFP+ optics', 'Fiber LC or DAC twinaxial', 'Often used as LACP bundle', 'Carries trunked VLAN traffic'],
+    tip: 'Two SFP+ uplinks bundled with LACP give you 20 Gbps of capacity AND seamless failover. This is the standard distribution-to-access pattern.'
+  }
+};
+
+let selectedAnatomy = 'access';
+
+function renderAnatomy() {
+  document.querySelectorAll('.anatomy-target').forEach(t => t.classList.toggle('selected', t.dataset.id === selectedAnatomy));
+  const a = ANATOMY[selectedAnatomy];
+  document.getElementById('anatomy-detail').innerHTML = `
+    <div class="eyebrow-tag">${a.eyebrow}</div>
+    <h3>${a.name}</h3>
+    <p>${a.desc}</p>
+    <div class="key-points">${a.points.map(p => `<span class="chip">${p}</span>`).join('')}</div>
+    <div class="anatomy-tip">
+      <div class="heading">★ Exam Tip</div>
+      <p>${a.tip}</p>
+    </div>`;
+}
+document.querySelectorAll('.anatomy-target').forEach(t => {
+  t.addEventListener('click', () => {
+    selectedAnatomy = t.dataset.id;
+    renderAnatomy();
+  });
+});
+renderAnatomy();
+
+/* ============================================================ */
+/* VLAN LAB                                                      */
+/* ============================================================ */
+const PORT_COUNT = 8;
+let vlanState = Array(PORT_COUNT).fill('unassigned');
+let activeVlan = '10';
+
+const VLAN_COLORS = {
+  '10': '#38B0E0',
+  '20': '#E0B840',
+  '30': '#8E1F2E',
+  'trunk': null,
+  'unassigned': '#404758'
+};
+const VLAN_LABELS = {
+  '10': 'Office',
+  '20': 'Voice',
+  '30': 'Guest',
+  'trunk': 'Trunk',
+  'unassigned': 'Unassigned'
+};
+
+function renderVlanLab() {
+  const ports = document.getElementById('vlan-ports');
+  let html = '';
+  for (let i = 0; i < PORT_COUNT; i++) {
+    const x = 100 + i * 95;
+    const y = 55;
+    const v = vlanState[i];
+    let portFill;
+    if (v === 'trunk') {
+      portFill = `url(#trunkGrad)`;
+    } else {
+      portFill = VLAN_COLORS[v];
+    }
+    html += `
+      <g class="vlan-port-group" data-idx="${i}">
+        <rect class="vlan-port-rect" x="${x}" y="${y}" width="55" height="60" fill="${portFill}" stroke="#1A1A1A" stroke-width="1.5"/>
+        <rect x="${x + 8}" y="${y + 12}" width="40" height="22" fill="#1A1A1A" pointer-events="none"/>
+        <text x="${x + 28}" y="${y + 26}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#E0B840" pointer-events="none">Gi0/${i + 1}</text>
+        <text x="${x + 28}" y="${y + 50}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="white" pointer-events="none">${v === 'unassigned' ? '—' : (v === 'trunk' ? 'TRUNK' : 'V' + v)}</text>
+      </g>`;
+  }
+  // Trunk gradient if needed
+  html = `<defs><linearGradient id="trunkGrad" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#38B0E0"/><stop offset="33%" stop-color="#38B0E0"/>
+    <stop offset="33%" stop-color="#E0B840"/><stop offset="66%" stop-color="#E0B840"/>
+    <stop offset="66%" stop-color="#8E1F2E"/><stop offset="100%" stop-color="#8E1F2E"/>
+  </linearGradient></defs>` + html;
+  ports.innerHTML = html;
+
+  // Draw devices below ports (PC icons that match port VLAN color)
+  const devs = document.getElementById('vlan-devices');
+  let dh = '';
+  for (let i = 0; i < PORT_COUNT; i++) {
+    const x = 100 + i * 95;
+    const v = vlanState[i];
+    let color;
+    if (v === 'trunk') color = '#3D4685';
+    else if (v === 'unassigned') color = '#C6C6BE';
+    else color = VLAN_COLORS[v];
+    // Connection line
+    dh += `<line x1="${x + 28}" y1="160" x2="${x + 28}" y2="200" stroke="${color}" stroke-width="2" stroke-dasharray="${v === 'trunk' ? '4 2' : '0'}"/>`;
+    // Device — different icons for different VLANs
+    if (v === 'trunk') {
+      // Switch icon
+      dh += `<rect x="${x}" y="200" width="56" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/>
+        <text x="${x + 28}" y="223" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#E0B840">SW-2</text>
+        <text x="${x + 28}" y="234" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#6BC5E8">All VLANs</text>`;
+    } else if (v === '20') {
+      // Phone icon
+      dh += `<rect x="${x + 6}" y="200" width="44" height="55" fill="white" stroke="${color}" stroke-width="2" rx="3"/>
+        <rect x="${x + 12}" y="208" width="32" height="20" fill="${color}" opacity="0.3"/>
+        <circle cx="${x + 22}" cy="240" r="3" fill="${color}"/>
+        <circle cx="${x + 32}" cy="240" r="3" fill="${color}"/>
+        <text x="${x + 28}" y="270" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${color}" font-weight="700">PHONE</text>`;
+    } else if (v === '30') {
+      // Guest laptop
+      dh += `<polygon points="${x + 4},250 ${x + 52},250 ${x + 56},258 ${x},258" fill="${color}" stroke="#1A1A1A" stroke-width="1"/>
+        <rect x="${x + 6}" y="208" width="44" height="42" fill="white" stroke="${color}" stroke-width="2" rx="2"/>
+        <rect x="${x + 9}" y="211" width="38" height="32" fill="${color}" opacity="0.2"/>
+        <text x="${x + 28}" y="275" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${color}" font-weight="700">GUEST</text>`;
+    } else if (v === '10') {
+      // Office PC
+      dh += `<rect x="${x + 4}" y="208" width="48" height="36" fill="white" stroke="${color}" stroke-width="2" rx="2"/>
+        <rect x="${x + 8}" y="212" width="40" height="26" fill="${color}" opacity="0.25"/>
+        <rect x="${x + 18}" y="244" width="20" height="6" fill="${color}"/>
+        <rect x="${x + 14}" y="250" width="28" height="3" fill="${color}"/>
+        <text x="${x + 28}" y="275" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${color}" font-weight="700">PC</text>`;
+    } else {
+      // Empty
+      dh += `<rect x="${x + 6}" y="208" width="44" height="42" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" rx="2"/>
+        <text x="${x + 28}" y="232" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${color}">empty</text>`;
+    }
+  }
+  devs.innerHTML = dh;
+
+  // Bind click handlers
+  document.querySelectorAll('.vlan-port-group').forEach(g => {
+    g.addEventListener('click', () => {
+      const idx = parseInt(g.dataset.idx);
+      vlanState[idx] = activeVlan;
+      renderVlanLab();
+    });
+  });
+
+  // Update stats
+  const counts = { '10': 0, '20': 0, '30': 0, 'trunk': 0, 'unassigned': 0 };
+  vlanState.forEach(v => counts[v]++);
+  document.getElementById('vlan-stats').innerHTML = `
+    <span class="vlan-stat"><b style="color: var(--vlan10)">${counts['10']}</b>VLAN 10</span>
+    <span class="vlan-stat"><b style="color: var(--vlan20)">${counts['20']}</b>VLAN 20</span>
+    <span class="vlan-stat"><b style="color: var(--vlan30)">${counts['30']}</b>VLAN 30</span>
+    <span class="vlan-stat"><b>${counts['trunk']}</b>Trunk</span>`;
+}
+
+document.querySelectorAll('.vlan-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.vlan-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeVlan = btn.dataset.vlan;
+  });
+});
+document.getElementById('vlan-reset').addEventListener('click', () => {
+  vlanState = Array(PORT_COUNT).fill('unassigned');
+  renderVlanLab();
+});
+renderVlanLab();
+
+/* ============================================================ */
+/* SCENARIOS                                                     */
+/* ============================================================ */
+const SCENARIOS = [
+  { text: 'A user reports voice calls are choppy when other employees are downloading large files. The IT lead wants to make sure VoIP traffic stays smooth even during congestion. Which feature/configuration helps most?',
+    options: ['QoS prioritization (and a separate Voice VLAN)', 'STP enabled on access ports', 'Disabling 802.1Q trunking', 'Lowering the MTU to 1492'],
+    correct: 0,
+    explain: 'Voice VLAN segregates VoIP traffic, and QoS prioritization ensures it stays smooth during congestion. STP doesn\'t affect QoS. MTU adjustment doesn\'t address prioritization.' },
+
+  { text: 'After plugging a new cable between two switches, the entire network goes down with broadcast traffic flooding everywhere. Lights on every port are blinking solid. What feature should have prevented this?',
+    options: ['Power over Ethernet (PoE)', 'Spanning Tree Protocol (STP)', 'Voice VLAN', 'Jumbo frames'],
+    correct: 1,
+    explain: 'A redundant cable between two switches creates a Layer 2 loop. STP detects loops and blocks one of the redundant links. The symptoms — broadcast storm, every port lit, complete network outage — are textbook loop indicators.' },
+
+  { text: 'A new IP camera arrives that needs 60 watts of power over its Ethernet cable. Which standard is required on the switch port?',
+    options: ['PoE (802.3af) — 15.4 W', 'PoE+ (802.3at) — 30 W', 'PoE++ Type 3 (802.3bt) — 60 W', 'Jumbo PoE — 90 W'],
+    correct: 2,
+    explain: 'PoE++ Type 3 (802.3bt) delivers up to 60 W per port. Type 4 goes higher (90–100 W). Standard PoE (15.4 W) and PoE+ (30 W) cannot meet a 60 W demand.' },
+
+  { text: 'A network administrator configures a port for an end-user PC. The PC takes nearly a minute to start passing traffic after being plugged in. What setting will make connectivity faster while staying safe?',
+    options: ['Enable PortFast (Edge port)', 'Enable jumbo frames', 'Convert the port to a trunk', 'Disable the port'],
+    correct: 0,
+    explain: 'PortFast (Edge port) skips the STP listening/learning states for end-host ports, taking the connect time from ~30–50 seconds to immediate. End hosts can\'t create loops, so it\'s safe. Never enable it on inter-switch links.' },
+
+  { text: 'Two switches are connected by three 1 Gbps cables in parallel for redundancy. The admin wants both more bandwidth AND failover if any one link breaks. Which feature accomplishes this?',
+    options: ['Spanning Tree Protocol', 'Native VLAN', 'Link Aggregation (LACP)', 'PortFast'],
+    correct: 2,
+    explain: 'LACP (802.3ad) bundles 2–8 physical links into one logical link. The example: 3× 1 G = 3 G of capacity, with automatic failover if any one link fails. STP would just block two of the three links instead of using all three.' },
+
+  { text: 'A storage administrator says NFS performance is poor over the LAN — too much overhead per packet. The network team wants to allow larger frames. What should they configure end-to-end?',
+    options: ['Enable Jumbo Frames (MTU 9000)', 'Enable Spanning Tree Protocol', 'Increase PoE budget', 'Set all ports to access mode'],
+    correct: 0,
+    explain: 'Jumbo frames raise the MTU from 1500 to 9000 bytes, dramatically reducing per-frame overhead for bulk transfers like NFS, iSCSI, and backups. Critical: jumbo frames must be enabled on every switch in the path.' },
+
+  { text: 'IP phones are on the desk plus PCs daisy-chained through them. The admin wants the phones on a separate VLAN automatically, without manually configuring every port. Which feature does this?',
+    options: ['STP PortFast', 'Voice VLAN', 'Native VLAN', 'LACP'],
+    correct: 1,
+    explain: 'Voice VLAN (configured per port) tells the switch to also accept tagged voice frames on the access port. The phone learns the voice VLAN ID via CDP/LLDP and tags its own traffic, while the daisy-chained PC traffic flows untagged on the data VLAN.' },
+
+  { text: 'After connecting a trunk between SwitchA and SwitchB, traffic from VLAN 1 isn\'t being tagged across the link, but VLAN 10 and 20 are tagged correctly. What is happening?',
+    options: ['VLAN 1 is broken — recreate it', 'VLAN 1 is the native VLAN — native VLAN traffic crosses the trunk untagged by design', 'STP has blocked VLAN 1', 'The trunk needs jumbo frames'],
+    correct: 1,
+    explain: 'By definition, the native VLAN is the one VLAN whose traffic crosses an 802.1Q trunk WITHOUT a tag. The default native VLAN is VLAN 1. This is normal behavior, not a bug.' },
+
+  { text: 'An admin manually sets a switch port to 100 Mbps full-duplex but the connected device negotiates auto-detect. The link comes up but users report "slow" performance with high CRC errors. What\'s the issue?',
+    options: ['MTU mismatch', 'Duplex mismatch', 'Voice VLAN misconfiguration', 'PoE overload'],
+    correct: 1,
+    explain: 'When one end is hard-coded full-duplex and the other is auto-negotiating, the auto side defaults to half-duplex. The result is a duplex mismatch — the link comes up but late collisions and CRC errors crush performance. Fix: set both sides the same way (both auto, or both manual matching).' },
+
+  { text: 'A small office has finance and guest devices on the same physical switch. Finance must not be reachable from guest. Both still need internet. What is the simplest 2.2-objective approach?',
+    options: ['Place them on separate VLANs (with inter-VLAN routing only allowing internet)', 'Replace the switch with two separate switches', 'Disable STP on guest ports', 'Configure jumbo frames on finance ports'],
+    correct: 0,
+    explain: 'Different VLANs = different broadcast domains. Hosts on VLAN 10 (finance) cannot directly reach hosts on VLAN 30 (guest) at Layer 2. A router or Layer 3 switch can permit internet for both while blocking inter-VLAN traffic via ACLs.' },
+
+  { text: 'An admin sees a port stuck in "Blocking" state for over a minute. The cable, NIC, and end host have all been verified working. What protocol is most likely controlling this?',
+    options: ['LACP', 'Spanning Tree Protocol', 'Power over Ethernet', '802.1Q'],
+    correct: 1,
+    explain: 'Blocking is one of the STP port states (Blocking → Listening → Learning → Forwarding). A port stuck in Blocking is STP keeping it down to prevent a loop. Either there really is a loop, or STP needs reconfiguration (e.g., enable PortFast on end-host ports).' },
+
+  { text: 'Distribution switch SW-D has two 10 Gbps SFP+ uplinks to the core. The admin wants both used simultaneously and bundled. The core must agree. Which protocol negotiates this aggregation?',
+    options: ['LACP (802.3ad)', '802.1Q', '802.3af', 'STP'],
+    correct: 0,
+    explain: 'LACP (Link Aggregation Control Protocol, IEEE 802.3ad) is the standardized protocol for negotiating link aggregation between two devices. Both ends must run LACP for the bundle to form.' },
+
+  { text: 'A switch port is configured as access on VLAN 10. A user plugs in a phone-with-PC: phone needs voice VLAN 20, PC needs data VLAN 10. The minimal fix?',
+    options: ['Convert the port to a trunk with all VLANs', 'Add a voice VLAN configuration to the access port', 'Enable LACP on the port', 'Set MTU to 9000'],
+    correct: 1,
+    explain: 'You don\'t need a full trunk. The voice VLAN feature is exactly this hybrid use case — access port for the PC (untagged data VLAN 10), with a single voice VLAN (tagged 20) layered on top so the phone gets its VLAN automatically via CDP/LLDP.' },
+
+  { text: 'An interface counter shows "input drops" climbing every time a backup job runs over the LAN. Speed and duplex are correct on both ends. What is most likely the cause?',
+    options: ['MTU mismatch — frames are being dropped because they\'re too big for some hop along the path', 'STP blocking the port', 'PoE not enabled', 'Wrong VLAN assignment'],
+    correct: 0,
+    explain: 'When jumbo frames are enabled on some segments but not others, the hop without jumbo support drops oversized frames. The symptom — drops only during big bulk transfers — is classic MTU mismatch.' },
+
+  { text: 'You\'re asked to bring up 30 new desks that will host PCs only — no phones, no APs, no other switches. What\'s the simplest, fastest port configuration for these 30 ports?',
+    options: ['Trunk with all VLANs allowed', 'Access port + PortFast enabled, on the appropriate VLAN', 'Access port with STP disabled', 'Mirror port'],
+    correct: 1,
+    explain: 'End-host ports = access mode (single VLAN, untagged). Add PortFast so the port skips STP listening/learning. End hosts can\'t create loops, so PortFast is safe AND avoids the 30-50 second connect delay.' }
+];
+
+let scenIdx = 0, scenScore = 0;
+
+function renderScenarios() {
+  const card = document.getElementById('scen-card');
+  if (scenIdx >= SCENARIOS.length) {
+    card.innerHTML = `
+      <div class="scen-head">
+        <div class="title">Lab Complete</div>
+        <div class="stats">Got <b>${scenScore}</b>of <b>${SCENARIOS.length}</b></div>
+      </div>
+      <div class="scen-body" style="text-align: center; padding: 50px 30px;">
+        <div style="font-family: var(--ff-display); font-size: 80px; font-weight: 800; color: var(--navy-deep); line-height: 1;">${scenScore}<span style="color: var(--gold)">/${SCENARIOS.length}</span></div>
+        <p style="margin-top: 20px; color: var(--ink-mid);">${scenScore === SCENARIOS.length ? 'Perfect — switching is on lock.' : (scenScore >= SCENARIOS.length * 0.8 ? 'Strong work. A few more passes and you\'re exam-ready.' : 'Worth running again — review the Feature Reference tab on items you missed.')}</p>
+        <button class="next-btn" id="scen-restart" style="margin-top: 20px;">↻ Run Again</button>
+      </div>`;
+    document.getElementById('scen-restart').addEventListener('click', () => {
+      scenIdx = 0; scenScore = 0; renderScenarios();
+    });
+    return;
+  }
+  const s = SCENARIOS[scenIdx];
+  card.innerHTML = `
+    <div class="scen-head">
+      <div class="title">Scenario ${scenIdx + 1} of ${SCENARIOS.length}</div>
+      <div class="stats">Got <b>${scenScore}</b>so far</div>
+    </div>
+    <div class="scen-body">
+      <div class="scen-eyebrow">Pick the feature that solves it</div>
+      <p class="scen-text">${s.text}</p>
+      <div class="scen-options" id="scen-options">
+        ${s.options.map((opt, i) => `
+          <button class="scen-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="scen-feedback" id="scen-feedback"></div>
+      <div class="scen-actions">
+        <button class="next-btn" id="scen-next" disabled>${scenIdx + 1 === SCENARIOS.length ? 'See Results →' : 'Next →'}</button>
+      </div>
+    </div>`;
+  let answered = false;
+  card.querySelectorAll('.scen-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (answered) return;
+      answered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = s.correct;
+      card.querySelectorAll('.scen-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('scen-feedback');
+      fb.innerHTML = chosen === correct
+        ? `<b>✓ Correct</b>${s.explain}`
+        : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>${s.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) scenScore++;
+      document.getElementById('scen-next').disabled = false;
+    });
+  });
+  document.getElementById('scen-next').addEventListener('click', () => {
+    scenIdx++;
+    renderScenarios();
+  });
+}
+renderScenarios();
+
+/* ============================================================ */
+/* FLASHCARDS                                                    */
+/* ============================================================ */
+const FLASHCARDS = [
+  // VLANs
+  { kind:'vlan', front:'VLAN', back:'Virtual LAN — separate broadcast domain on shared physical switches', detail:'Each VLAN is its own broadcast domain. Inter-VLAN traffic requires a router or Layer 3 switch.', meta:'VLAN' },
+  { kind:'vlan', front:'802.1Q', back:'VLAN tagging standard — adds 4 bytes to Ethernet frame', detail:'Used on trunk ports to identify which VLAN a frame belongs to.', meta:'Tagging' },
+  { kind:'vlan', front:'Native VLAN', back:'The one VLAN whose traffic crosses a trunk UNTAGGED', detail:'Default is VLAN 1. Must match on both ends of a trunk. Security risk if mismatched.', meta:'Trunk' },
+  { kind:'vlan', front:'Voice VLAN', back:'Separate VLAN for IP phones, automatically tagged via CDP/LLDP', detail:'Lets a single port serve a PC (untagged data) AND a phone (tagged voice).', meta:'VLAN' },
+  { kind:'vlan', front:'Access Port', back:'Belongs to one VLAN · carries untagged frames', detail:'Used for end hosts (PCs, printers). The switch knows the VLAN by which port the frame came in on.', meta:'Port Mode' },
+  { kind:'vlan', front:'Trunk Port', back:'Carries multiple VLANs · 802.1Q tagged', detail:'Used between switches and to APs. Both ends must agree on VLAN list and native VLAN.', meta:'Port Mode' },
+  { kind:'vlan', front:'VLAN Database', back:'Switch-resident list of VLAN IDs and names', detail:'Synchronized across switches in older designs (VTP); modern designs configure per-switch.', meta:'VLAN' },
+
+  // STP
+  { kind:'stp', front:'STP', back:'Spanning Tree Protocol — prevents Layer 2 loops', detail:'Elects a root bridge and blocks redundant paths. Without STP, a single redundant cable causes a broadcast storm.', meta:'Loop Prevention' },
+  { kind:'stp', front:'STP states (in order)', back:'Blocking → Listening → Learning → Forwarding (+ Disabled)', detail:'~50 seconds total to forwarding in classic STP. RSTP shortens this to ~6s.', meta:'STP' },
+  { kind:'stp', front:'Blocking state', back:'Receives BPDUs but does NOT forward frames', detail:'Initial state — prevents loops while STP figures out topology.', meta:'STP State' },
+  { kind:'stp', front:'Forwarding state', back:'Normal operation — forwards frames and learns MACs', detail:'The end-state for active links after STP convergence.', meta:'STP State' },
+  { kind:'stp', front:'PortFast / Edge Port', back:'Skips STP listening/learning for end-host ports', detail:'Connects in <1 second instead of 30–50s. Safe on access ports for PCs, printers. Never on inter-switch links.', meta:'STP' },
+  { kind:'stp', front:'RSTP', back:'Rapid Spanning Tree (802.1w) — convergence in seconds, not minutes', detail:'Improvement over classic STP. Convergence ~6s vs ~50s.', meta:'STP' },
+  { kind:'stp', front:'Broadcast storm', back:'Loop without STP: broadcasts multiply infinitely, network crashes', detail:'Symptoms: every port lit solid, network frozen. STP exists to prevent this.', meta:'Loop Symptom' },
+
+  // PoE / MTU / LACP / Interface
+  { kind:'poe', front:'PoE (802.3af)', back:'15.4 W per port over 2 pairs', detail:'Original PoE. Powers basic IP phones and APs.', meta:'PoE' },
+  { kind:'poe', front:'PoE+ (802.3at)', back:'30 W per port over 2 pairs', detail:'Modern Wi-Fi 5 APs, advanced phones, PTZ cameras.', meta:'PoE' },
+  { kind:'poe', front:'PoE++ Type 3 (802.3bt)', back:'60 W per port over 4 pairs', detail:'Wi-Fi 6 APs, video conferencing, kiosks.', meta:'PoE' },
+  { kind:'poe', front:'PoE++ Type 4 (802.3bt)', back:'90–100 W per port over 4 pairs', detail:'High-power APs, digital signage, thin clients.', meta:'PoE' },
+  { kind:'poe', front:'PSE / PD', back:'Power Sourcing Equipment (switch) / Powered Device (AP, phone)', detail:'PSE detects whether the connected device is a valid PD before sending power.', meta:'PoE' },
+  { kind:'poe', front:'MTU default', back:'1500 bytes', detail:'Standard Ethernet maximum payload size.', meta:'MTU' },
+  { kind:'poe', front:'Jumbo frame MTU', back:'9000 bytes', detail:'Reduces per-frame overhead for bulk transfers (iSCSI, NFS, backups). Must be enabled end-to-end.', meta:'MTU' },
+  { kind:'poe', front:'LACP', back:'Link Aggregation Control Protocol (802.3ad)', detail:'Bundles 2–8 physical links into one logical link. More bandwidth + automatic failover.', meta:'LAG' },
+  { kind:'poe', front:'Duplex mismatch', back:'One side full-duplex, other side half-duplex', detail:'Link comes up but causes late collisions and CRC errors. Performance crashes. Fix: match both sides.', meta:'Interface' },
+  { kind:'poe', front:'EtherChannel', back:'Cisco term for link aggregation (uses LACP)', detail:'Same concept as LACP. Vendor terminology — IEEE 802.3ad is the underlying standard.', meta:'LAG' }
+];
+
+let fcMode = 'all', fcDeck = [], fcIdx = 0;
+let fcStats = { got: 0, almost: 0, missed: 0 };
+let fcFlipped = false;
+
+function buildDeck() {
+  let pool = fcMode === 'all' ? [...FLASHCARDS] : FLASHCARDS.filter(c => c.kind === fcMode);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  fcDeck = pool;
+  fcIdx = 0;
+  fcStats = { got: 0, almost: 0, missed: 0 };
+  fcFlipped = false;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const stage = document.getElementById('fc-stage');
+  if (fcIdx >= fcDeck.length) {
+    stage.innerHTML = `
+      <div class="fc-empty">
+        <div class="big">Deck Complete</div>
+        <p>You went through all ${fcDeck.length} cards · ${fcStats.got} got it · ${fcStats.almost} almost · ${fcStats.missed} missed</p>
+        <button class="fc-utility-btn" onclick="buildDeck()">↻ Reshuffle &amp; Run Again</button>
+      </div>`;
+    return;
+  }
+  if (!document.getElementById('flashcard')) {
+    stage.innerHTML = `
+      <div class="fc-progress">
+        <span>Card · <b><span id="fc-pos">1</span> of <span id="fc-total">26</span></b></span>
+        <span class="got">Got · <b id="fc-got">0</b></span>
+        <span class="almost">Almost · <b id="fc-almost">0</b></span>
+        <span class="missed">Missed · <b id="fc-missed">0</b></span>
+      </div>
+      <div class="flashcard" id="flashcard">
+        <div class="fc-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-prompt" id="fc-front-prompt"></div>
+            <div class="fc-question" id="fc-front-q"></div>
+            <div class="fc-hint">click to flip · spacebar / arrows also work</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-prompt" id="fc-back-prompt"></div>
+            <div class="fc-answer" id="fc-back-a"></div>
+            <div class="fc-detail" id="fc-back-detail"></div>
+            <div class="fc-meta" id="fc-back-meta"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-judgment" id="fc-judgment">
+        <button class="fc-judge-btn missed" data-rate="missed">✗ Missed</button>
+        <button class="fc-judge-btn almost" data-rate="almost">~ Almost</button>
+        <button class="fc-judge-btn got" data-rate="got">✓ Got It</button>
+      </div>`;
+    bindFC();
+  }
+  const c = fcDeck[fcIdx];
+  document.getElementById('fc-pos').textContent = fcIdx + 1;
+  document.getElementById('fc-total').textContent = fcDeck.length;
+  document.getElementById('fc-got').textContent = fcStats.got;
+  document.getElementById('fc-almost').textContent = fcStats.almost;
+  document.getElementById('fc-missed').textContent = fcStats.missed;
+  document.getElementById('fc-front-prompt').textContent = c.meta.toUpperCase();
+  document.getElementById('fc-front-q').textContent = c.front;
+  document.getElementById('fc-back-prompt').textContent = 'ANSWER';
+  document.getElementById('fc-back-a').textContent = c.back;
+  document.getElementById('fc-back-detail').innerHTML = `<b>DETAIL</b>${c.detail}`;
+  document.getElementById('fc-back-meta').innerHTML = `<span>${c.meta}</span>`;
+  fcFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+function bindFC() {
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  card.addEventListener('click', () => {
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  });
+  document.querySelectorAll('.fc-judge-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!fcFlipped) return;
+      fcStats[btn.dataset.rate]++;
+      if (btn.dataset.rate === 'missed') fcDeck.push(fcDeck[fcIdx]);
+      fcIdx++;
+      renderFlashcard();
+    });
+  });
+}
+document.querySelectorAll('.fc-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fc-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    fcMode = btn.dataset.mode;
+    buildDeck();
+  });
+});
+document.getElementById('fc-shuffle').addEventListener('click', buildDeck);
+document.addEventListener('keydown', e => {
+  const fcPanel = document.getElementById('panel-flashcards');
+  if (!fcPanel.classList.contains('active')) return;
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    e.preventDefault();
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  }
+  if (fcFlipped) {
+    if (e.code === 'Digit1' || e.code === 'KeyM') document.querySelector('.fc-judge-btn.missed').click();
+    if (e.code === 'Digit2' || e.code === 'KeyA') document.querySelector('.fc-judge-btn.almost').click();
+    if (e.code === 'Digit3' || e.code === 'KeyG') document.querySelector('.fc-judge-btn.got').click();
+  }
+});
+buildDeck();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+let lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q:'Which feature prevents Layer 2 loops?', correct:'STP', d:['LACP', 'PoE', 'MTU 9000'] },
+  { q:'How much power does PoE+ deliver per port?', correct:'30 W', d:['15.4 W', '60 W', '90 W'] },
+  { q:'How much power does PoE++ Type 3 deliver per port?', correct:'60 W', d:['30 W', '15.4 W', '90 W'] },
+  { q:'What protocol bundles multiple links into one logical link?', correct:'LACP (802.3ad)', d:['STP (802.1d)', 'PoE (802.3af)', '802.1Q'] },
+  { q:'What is the default Ethernet MTU?', correct:'1500 bytes', d:['9000 bytes', '1492 bytes', '1024 bytes'] },
+  { q:'What is the standard jumbo frame MTU?', correct:'9000 bytes', d:['1500 bytes', '4096 bytes', '12000 bytes'] },
+  { q:'What are the four STP port states (excluding disabled)?', correct:'Blocking, Listening, Learning, Forwarding', d:['Active, Idle, Blocked, Down', 'Sync, Async, Forward, Drop', 'Up, Down, Master, Slave'] },
+  { q:'Which port mode carries multiple VLANs?', correct:'Trunk', d:['Access', 'Console', 'Edge'] },
+  { q:'Which port mode belongs to a single VLAN?', correct:'Access', d:['Trunk', 'Native', 'Master'] },
+  { q:'What is the default native VLAN?', correct:'VLAN 1', d:['VLAN 0', 'VLAN 99', 'VLAN 1024'] },
+  { q:'What does the native VLAN do on a trunk?', correct:'Carries traffic UNTAGGED across the 802.1Q link', d:['Always tags traffic with VLAN 1', 'Blocks broadcast traffic', 'Provides STP root election'] },
+  { q:'What does the Voice VLAN feature provide?', correct:'A separate VLAN for IP phones, learned via CDP/LLDP', d:['QoS for video', 'Trunking only', 'PoE delivery'] },
+  { q:'Which feature skips STP listening/learning to speed up access port connection?', correct:'PortFast / Edge Port', d:['LACP', 'BPDU Guard', '802.1Q'] },
+  { q:'What is the symptom of a Layer 2 loop without STP?', correct:'Broadcast storm — entire network flooded', d:['Single host loses connection', 'Slow downloads', 'PoE failure'] },
+  { q:'A switch port stays in Blocking state. What protocol is keeping it there?', correct:'STP', d:['LACP', '802.1Q', 'CDP'] },
+  { q:'What 802.1Q tag length is added to a tagged frame?', correct:'4 bytes', d:['1 byte', '2 bytes', '8 bytes'] },
+  { q:'A Cisco-specific name for link aggregation is what?', correct:'EtherChannel', d:'STP, Trunk, Fabric'.split(', ') },
+  { q:'What is a duplex mismatch symptom?', correct:'Link comes up but high CRC errors and slow performance', d:['Link does not come up', 'Port goes into blocking', 'PoE shuts off'] },
+  { q:'What does PSE stand for in PoE?', correct:'Power Sourcing Equipment (the switch)', d:['Powered Source Endpoint', 'Port Status Element', 'Provisioned Switch Endpoint'] },
+  { q:'What does PD stand for in PoE?', correct:'Powered Device (AP, phone, camera)', d:['Power Distributor', 'Physical Disconnect', 'Port Driver'] },
+  { q:'Maximum number of physical links in one LACP bundle?', correct:'8', d:['2', '4', '16'] },
+  { q:'What MUST match on both ends of an 802.1Q trunk?', correct:'Native VLAN and allowed VLAN list', d:['MAC address', 'IP subnet', 'PoE class'] }
+];
+
+function generateLRQ() {
+  const q = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  const options = shuffle([q.correct, ...q.d]);
+  return { question: q.q, options, correctIdx: options.indexOf(q.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  const body = document.getElementById('lr-body');
+  body.innerHTML = `
+    <div class="lr-question-prompt">Switching Q&A</div>
+    <div class="lr-question">${lrCurrentQ.question}</div>
+    <div class="lr-options">
+      ${lrCurrentQ.options.map((opt, i) => `
+        <button class="lr-option" data-i="${i}">
+          <span class="marker">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>`;
+  document.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerLR(parseInt(btn.dataset.i)));
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 18) { verdict = 'Switching Mastered.'; sub = 'You can configure switches under pressure. Move on.'; }
+  else if (lrCorrect >= 12) { verdict = 'Solid Recall.'; sub = 'A few more passes and you\'re exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict = 'Building It.'; sub = 'Spend more time in Feature Reference and Scenario Lab.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'Walk through Switch Anatomy and Feature Reference, then run Scenarios before returning.'; }
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
