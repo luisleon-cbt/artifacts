@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.7 IPv4 Addressing · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  /* HERO */
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-card .addr-row {
+    display: grid; grid-template-columns: 130px 1fr; gap: 10px;
+    padding: 7px 0; align-items: baseline;
+    font-family: var(--ff-mono); font-size: 12px;
+  }
+  .ref-card .addr-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-card .addr-row .range { color: var(--gold); font-weight: 700; }
+  .ref-card .addr-row .desc { color: var(--gray-soft); font-size: 11px; }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  /* STATS */
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  /* TABS */
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  /* PANELS */
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SECTION HEAD (shared) */
+  .section-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  }
+  .section-head h2 {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0; letter-spacing: -0.02em;
+  }
+  .section-head h2 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .section-head p { color: var(--ink-mid); font-size: 14px; max-width: 50ch; margin: 0; }
+  .section-block { margin-bottom: 44px; }
+  .section-block:last-child { margin-bottom: 0; }
+
+  /* REFERENCE TAB — Classes table */
+  .classes-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--surface); border: 1px solid var(--line); font-size: 13px;
+  }
+  .classes-table thead th {
+    background: var(--navy-deep); color: white; padding: 12px 14px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: left; font-weight: 600;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .classes-table tbody td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .classes-table tbody td:first-child {
+    font-family: var(--ff-display); font-weight: 700; font-size: 22px;
+    color: var(--navy-deep); background: var(--surface-alt); width: 80px;
+  }
+  .classes-table tbody td.mono { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mid); font-weight: 500; }
+  .classes-table tbody tr:hover td { background: var(--bg-warm); }
+  .classes-table tbody tr:hover td:first-child { background: var(--bg); }
+
+  /* REFERENCE — special addresses cards */
+  .special-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .special-card {
+    border: 1px solid var(--line); background: var(--surface);
+    padding: 18px 22px;
+  }
+  .special-card .head {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .special-card .head h3 {
+    font-family: var(--ff-display); font-size: 18px; font-weight: 700;
+    color: var(--navy-deep); margin: 0; letter-spacing: -0.02em;
+  }
+  .special-card .head .range-tag {
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700;
+    background: var(--gold); color: var(--navy-deep); padding: 4px 8px;
+    letter-spacing: 0.04em;
+  }
+  .special-card p { font-size: 13px; line-height: 1.55; color: var(--ink-mid); margin: 0 0 10px; }
+  .special-card .key-fact {
+    background: var(--bg-warm); padding: 8px 12px;
+    font-family: var(--ff-mono); font-size: 11px;
+    color: var(--navy-deep); border-left: 3px solid var(--sky);
+  }
+  .special-card .key-fact b { color: var(--sky-deep); margin-right: 6px; letter-spacing: 0.04em; }
+
+  /* REFERENCE — CIDR table */
+  .cidr-table-wrap {
+    border: 1px solid var(--line); background: var(--surface); overflow: auto;
+  }
+  .cidr-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px; }
+  .cidr-table thead th {
+    background: var(--navy-deep); color: white; padding: 10px 12px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; text-align: left; font-weight: 600;
+    position: sticky; top: 0;
+  }
+  .cidr-table tbody td {
+    padding: 8px 12px; border-top: 1px solid var(--line-soft);
+    font-family: var(--ff-mono);
+  }
+  .cidr-table tbody td.cidr-col {
+    font-weight: 700; color: var(--sky-deep); font-size: 13px;
+    background: var(--surface-alt); width: 70px;
+  }
+  .cidr-table tbody tr:hover td { background: var(--bg-warm); }
+  .cidr-table tbody tr.popular td { background: rgba(224,184,64,0.08); }
+  .cidr-table tbody tr.popular td.cidr-col { background: var(--gold-soft); color: var(--navy-deep); }
+
+  /* CALCULATOR TAB */
+  .calc-input-bar {
+    background: var(--navy-deep); color: white;
+    padding: 22px 26px;
+    display: grid; grid-template-columns: 2fr 1fr auto; gap: 16px; align-items: end;
+  }
+  .calc-input-bar label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gray-soft);
+    display: block; margin-bottom: 6px;
+  }
+  .calc-input-bar input[type="text"], .calc-input-bar input[type="number"] {
+    width: 100%; padding: 10px 12px;
+    background: rgba(255,255,255,0.1); color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-family: var(--ff-mono); font-size: 16px; font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .calc-input-bar input:focus {
+    outline: none; border-color: var(--sky);
+    background: rgba(255,255,255,0.15);
+  }
+  .calc-input-bar .calc-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 11px 24px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .calc-input-bar .calc-btn:hover { background: var(--sky-deep); }
+  .calc-error {
+    background: var(--red-bg); color: var(--red);
+    padding: 12px 22px; border-left: 3px solid var(--red);
+    font-size: 13px; font-weight: 500; display: none;
+  }
+  .calc-error.show { display: block; }
+
+  .calc-results {
+    border: 1px solid var(--line); border-top: none;
+    background: var(--surface);
+  }
+  .calc-result-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1px; background: var(--line-soft);
+  }
+  .calc-cell {
+    background: var(--surface); padding: 18px 22px;
+  }
+  .calc-cell .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .calc-cell .value {
+    font-family: var(--ff-mono); font-size: 22px; font-weight: 700;
+    color: var(--navy-deep); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .calc-cell .value.small { font-size: 16px; }
+  .calc-cell .sub {
+    font-family: var(--ff-body); font-size: 12px; color: var(--ink-mute); margin-top: 4px;
+  }
+  .calc-classify {
+    background: var(--bg-warm); padding: 18px 22px;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  }
+  .calc-classify .item {
+    display: flex; gap: 12px; align-items: baseline;
+  }
+  .calc-classify .item .key {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-mute); text-transform: uppercase;
+    min-width: 60px;
+  }
+  .calc-classify .item .val {
+    font-family: var(--ff-display); font-weight: 700; font-size: 16px;
+    color: var(--navy-deep);
+  }
+  .calc-classify .item .val.private { color: var(--gold-deep); }
+  .calc-classify .item .val.apipa { color: var(--red); }
+  .calc-classify .item .val.loopback { color: var(--sky-deep); }
+
+  .calc-quick-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    background: var(--navy-deep); padding: 14px 22px;
+  }
+  .calc-quick-row .quick-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gray-soft);
+    margin-right: 8px; align-self: center;
+  }
+  .calc-quick-btn {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 10px;
+    font-family: var(--ff-mono); font-size: 11px; cursor: pointer;
+  }
+  .calc-quick-btn:hover { background: rgba(255,255,255,0.08); }
+
+  /* CIDR VISUALIZER TAB */
+  .vis-controls {
+    background: var(--navy-deep); padding: 22px 26px; color: white;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;
+  }
+  .vis-controls .field label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gray-soft);
+    display: block; margin-bottom: 6px;
+  }
+  .vis-controls .field input[type="text"] {
+    width: 100%; padding: 10px 12px;
+    background: rgba(255,255,255,0.1); color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-family: var(--ff-mono); font-size: 16px; font-weight: 600;
+  }
+  .vis-controls .slider-block {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .vis-controls input[type="range"] {
+    flex: 1; height: 6px; -webkit-appearance: none; appearance: none;
+    background: rgba(255,255,255,0.2); outline: none; border-radius: 3px;
+  }
+  .vis-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px; background: var(--gold);
+    cursor: pointer; border-radius: 50%; border: 2px solid var(--navy-deep);
+  }
+  .vis-controls input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px; background: var(--gold);
+    cursor: pointer; border-radius: 50%; border: 2px solid var(--navy-deep);
+  }
+  .vis-cidr-display {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 800;
+    color: var(--gold); line-height: 1; min-width: 50px; text-align: right;
+  }
+
+  .vis-stage {
+    border: 1px solid var(--line); border-top: none;
+    background: var(--surface); padding: 30px 26px;
+  }
+  .vis-octets {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 14px;
+  }
+  .vis-octet {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px;
+  }
+  .vis-octet-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 8px; display: flex; justify-content: space-between;
+  }
+  .vis-octet-label b { font-family: var(--ff-display); font-size: 16px; color: var(--navy-deep); }
+  .vis-bits {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px;
+  }
+  .vis-bit {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    background: white; border: 1px solid var(--line-soft); color: var(--ink);
+    transition: all 0.15s;
+  }
+  .vis-bit.network {
+    background: var(--navy-deep); color: white; border-color: var(--navy-deep);
+  }
+  .vis-bit.host {
+    background: var(--gold-soft); color: var(--navy-deep); border-color: var(--gold);
+  }
+  .vis-bit.boundary {
+    box-shadow: 4px 0 0 var(--sky-deep);
+  }
+  .vis-octet-values {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px;
+    margin-top: 6px;
+    font-family: var(--ff-mono); font-size: 9px; color: var(--ink-mute);
+    text-align: center; letter-spacing: 0.04em;
+  }
+
+  .vis-legend {
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+    padding: 16px 0; margin-bottom: 20px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .vis-legend .item { display: flex; align-items: center; gap: 8px; }
+  .vis-legend .swatch {
+    width: 18px; height: 18px; border: 1px solid var(--line);
+  }
+  .vis-legend .swatch.network { background: var(--navy-deep); }
+  .vis-legend .swatch.host { background: var(--gold-soft); }
+  .vis-legend .label {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em;
+    color: var(--ink-mid);
+  }
+
+  .vis-summary {
+    margin-top: 18px; padding: 18px 22px;
+    background: var(--bg-warm); border: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .vis-summary .item .lab {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); margin-bottom: 4px;
+  }
+  .vis-summary .item .val {
+    font-family: var(--ff-mono); font-size: 16px; font-weight: 700;
+    color: var(--navy-deep);
+  }
+
+  /* PRACTICE TAB */
+  .pr-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .pr-head {
+    background: var(--navy-deep); color: white;
+    padding: 16px 26px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .pr-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .pr-head .stats {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    color: var(--gray-soft);
+  }
+  .pr-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 16px; margin-right: 4px; }
+  .pr-body { padding: 30px 30px; }
+  .pr-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 12px;
+  }
+  .pr-question {
+    font-family: var(--ff-display); font-size: 22px; line-height: 1.35;
+    font-weight: 600; color: var(--navy-deep); margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .pr-question .ip-mono {
+    font-family: var(--ff-mono); font-weight: 700;
+    background: var(--bg-warm); padding: 2px 8px; color: var(--sky-deep);
+  }
+  .pr-options { display: flex; flex-direction: column; gap: 8px; margin-top: 22px; }
+  .pr-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-mono); font-size: 14px;
+    color: var(--navy-deep); font-weight: 600; transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pr-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .pr-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .pr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .pr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .pr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .pr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .pr-option[disabled] { cursor: default; }
+  .pr-explain {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 13px; line-height: 1.55; display: none;
+  }
+  .pr-explain.show { display: block; }
+  .pr-explain b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .pr-explain pre {
+    background: white; padding: 10px 14px; margin: 8px 0 0;
+    font-family: var(--ff-mono); font-size: 12px; color: var(--ink);
+    white-space: pre-wrap; line-height: 1.55;
+    border-left: 2px solid var(--gold);
+  }
+  .pr-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .pr-categories { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pr-cat-chip {
+    background: var(--surface); border: 1px solid var(--line-soft);
+    padding: 6px 10px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    font-weight: 600;
+  }
+  .pr-cat-chip:hover { background: var(--bg-warm); }
+  .pr-cat-chip.active { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .next-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:hover { background: var(--sky-deep); }
+
+  /* FLASHCARDS */
+  .fc-controls {
+    background: var(--navy-deep); padding: 18px 22px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin-bottom: 28px;
+  }
+  .fc-mode-btn {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; font-weight: 500;
+  }
+  .fc-mode-btn:hover { background: rgba(255,255,255,0.08); }
+  .fc-mode-btn.active { background: var(--sky); border-color: var(--sky); font-weight: 700; }
+  .fc-utility-btn {
+    background: var(--gold); color: var(--navy-deep); border: none;
+    padding: 7px 14px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-weight: 700;
+    margin-left: auto;
+  }
+  .fc-utility-btn:hover { background: var(--gold-soft); }
+  .fc-stage { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .fc-progress {
+    margin-bottom: 20px; display: flex; gap: 24px;
+    font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute);
+    letter-spacing: 0.06em; flex-wrap: wrap; justify-content: center;
+  }
+  .fc-progress b { color: var(--navy-deep); font-weight: 700; }
+  .fc-progress .got b { color: var(--green); }
+  .fc-progress .almost b { color: var(--gold-deep); }
+  .fc-progress .missed b { color: var(--red); }
+  .flashcard {
+    width: min(560px, 100%); height: 320px;
+    perspective: 1200px; margin: 0 auto;
+  }
+  .fc-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .flashcard.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column; padding: 30px;
+  }
+  .fc-front { background: var(--surface); justify-content: center; align-items: center; }
+  .fc-back { background: var(--navy-deep); color: white; transform: rotateY(180deg); justify-content: center; }
+  .fc-front .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px;
+  }
+  .fc-front .fc-question {
+    font-family: var(--ff-display); font-size: clamp(28px, 4.5vw, 42px);
+    font-weight: 700; color: var(--navy-deep);
+    letter-spacing: -0.02em; line-height: 1.15; text-align: center;
+  }
+  .fc-front .fc-hint {
+    margin-top: auto; font-family: var(--ff-mono); font-size: 10px;
+    color: var(--ink-mute); letter-spacing: 0.1em;
+    text-align: center; text-transform: uppercase;
+  }
+  .fc-back .fc-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-soft); margin-bottom: 14px;
+  }
+  .fc-back .fc-answer {
+    font-family: var(--ff-display); font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--gold);
+  }
+  .fc-back .fc-detail { margin-top: 14px; font-size: 13px; line-height: 1.55; opacity: 0.92; }
+  .fc-back .fc-detail b {
+    color: var(--sky-soft); font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: 0.06em; margin-right: 6px; text-transform: uppercase;
+  }
+  .fc-back .fc-meta {
+    margin-top: auto; padding-top: 16px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+    font-family: var(--ff-mono); font-size: 11px; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .fc-judgment {
+    margin-top: 20px; display: flex; gap: 10px; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease 0.3s; flex-wrap: wrap; justify-content: center;
+  }
+  .flashcard.flipped + .fc-judgment { opacity: 1; pointer-events: auto; }
+  .fc-judge-btn {
+    flex: 1; min-width: 110px; padding: 14px 20px; border: 2px solid;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+    background: var(--surface); transition: all 0.15s;
+  }
+  .fc-judge-btn.missed { color: var(--red); border-color: var(--red); }
+  .fc-judge-btn.missed:hover { background: var(--red-bg); }
+  .fc-judge-btn.almost { color: var(--gold-deep); border-color: var(--gold-deep); }
+  .fc-judge-btn.almost:hover { background: var(--gold-soft); }
+  .fc-judge-btn.got { color: var(--green); border-color: var(--green); }
+  .fc-judge-btn.got:hover { background: var(--green-bg); }
+  .fc-empty { text-align: center; padding: 60px 20px; }
+  .fc-empty .big { font-family: var(--ff-display); font-size: 36px; font-weight: 700; color: var(--navy-deep); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .fc-empty p { color: var(--ink-mid); margin: 8px 0 24px; }
+
+  /* LIGHTNING ROUND */
+  .lr-pre {
+    text-align: center; padding: 40px 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px;
+    font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em; text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 40px 30px;
+  }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px;
+    text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 600; color: var(--navy-deep);
+    text-align: center; line-height: 1.25; letter-spacing: -0.01em;
+    margin: 0 0 30px; max-width: 760px; margin-left: auto; margin-right: auto;
+  }
+  .lr-question .ip-mono {
+    font-family: var(--ff-mono); font-weight: 700;
+    background: var(--bg-warm); padding: 4px 10px; color: var(--sky-deep);
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 16px 20px; cursor: pointer;
+    font-family: var(--ff-mono); font-size: 16px; font-weight: 600;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left; display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); flex-shrink: 0;
+  }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final {
+    text-align: center; padding: 50px 30px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  /* FOOTER */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .calc-input-bar { grid-template-columns: 1fr; }
+    .calc-result-grid { grid-template-columns: 1fr; }
+    .calc-classify { grid-template-columns: 1fr; }
+    .vis-controls { grid-template-columns: 1fr; }
+    .vis-octets { grid-template-columns: repeat(2, 1fr); }
+    .vis-summary { grid-template-columns: 1fr; }
+    .special-grid { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .pr-actions { flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 1.7</span>
+    <span class="crumb">IPv4 Network Addressing</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Calculator + Drill</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.7</div>
+    <h1>IPv4<br><em>Addressing.</em></h1>
+    <p class="lede">5 classes. 3 private ranges. 32 possible mask lengths. The most calculation-heavy objective on the exam — but every problem reduces to the same operations on 32 bits. This tool gives you a live calculator to verify any answer, a binary visualizer to <em>see</em> what a mask actually does, and generated practice problems to drill the math under pressure.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Special Address Cheat Sheet</div>
+    <div class="addr-row"><span class="range">10.0.0.0/8</span><span class="desc">Private · Class A</span></div>
+    <div class="addr-row"><span class="range">172.16.0.0/12</span><span class="desc">Private · Class B</span></div>
+    <div class="addr-row"><span class="range">192.168.0.0/16</span><span class="desc">Private · Class C</span></div>
+    <div class="addr-row"><span class="range">169.254.0.0/16</span><span class="desc">APIPA · DHCP failed</span></div>
+    <div class="addr-row"><span class="range">127.0.0.0/8</span><span class="desc">Loopback · localhost</span></div>
+    <div class="addr-row"><span class="range">0.0.0.0</span><span class="desc">Default route / unassigned</span></div>
+    <div class="addr-row"><span class="range">255.255.255.255</span><span class="desc">Limited broadcast</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      "User has IP 169.254.x.x — what's the issue?" appears almost every exam. Answer: DHCP failed, APIPA self-assigned.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">5</div><div class="label">IPv4 address classes</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">RFC 1918 private ranges</div></div>
+  <div class="stat"><div class="num">32</div><div class="label">Possible CIDR values</div></div>
+  <div class="stat"><div class="num">60s</div><div class="label">Lightning round drill</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="reference"><span class="num">01</span>Reference</button>
+  <button class="tab" data-tab="calc"><span class="num">02</span>Subnet Calculator</button>
+  <button class="tab" data-tab="visualizer"><span class="num">03</span>CIDR Visualizer</button>
+  <button class="tab" data-tab="practice"><span class="num">04</span>Practice Problems</button>
+  <button class="tab" data-tab="flashcards"><span class="num">05</span>Flashcards</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- REFERENCE PANEL -->
+<section class="panel active" id="panel-reference">
+  <div class="section-block">
+    <div class="section-head">
+      <h2>IPv4 Address <em>Classes</em></h2>
+      <p>The classful boundaries determined by the first octet. Even though we use CIDR now, classes still appear on the exam.</p>
+    </div>
+    <table class="classes-table">
+      <thead>
+        <tr><th>Class</th><th>First Octet</th><th>Default Mask</th><th>Networks</th><th>Hosts/Network</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td class="mono">1 – 126</td><td class="mono">/8 · 255.0.0.0</td><td class="mono">126</td><td class="mono">16,777,214</td><td>Large orgs, ISPs</td></tr>
+        <tr><td>B</td><td class="mono">128 – 191</td><td class="mono">/16 · 255.255.0.0</td><td class="mono">16,384</td><td class="mono">65,534</td><td>Mid-size networks</td></tr>
+        <tr><td>C</td><td class="mono">192 – 223</td><td class="mono">/24 · 255.255.255.0</td><td class="mono">2,097,152</td><td class="mono">254</td><td>Small networks</td></tr>
+        <tr><td>D</td><td class="mono">224 – 239</td><td class="mono">— (multicast)</td><td class="mono">N/A</td><td class="mono">N/A</td><td>Multicast groups</td></tr>
+        <tr><td>E</td><td class="mono">240 – 255</td><td class="mono">— (reserved)</td><td class="mono">N/A</td><td class="mono">N/A</td><td>Experimental / reserved</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 12px; font-size: 12px; color: var(--ink-mute); font-family: var(--ff-mono);">
+      Note: 127.x.x.x falls inside Class A's range but is reserved for loopback. 0.x.x.x is also reserved.
+    </p>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Special <em>Address Ranges</em></h2>
+      <p>Memorize these — every one of them is a fair-game exam question.</p>
+    </div>
+    <div class="special-grid">
+      <div class="special-card">
+        <div class="head"><h3>RFC 1918 Private — Class A</h3><span class="range-tag">10.0.0.0/8</span></div>
+        <p>16,777,216 addresses. The largest private block. Common in larger enterprise networks because there's no risk of running out.</p>
+        <div class="key-fact"><b>RANGE</b>10.0.0.0 – 10.255.255.255</div>
+      </div>
+      <div class="special-card">
+        <div class="head"><h3>RFC 1918 Private — Class B</h3><span class="range-tag">172.16.0.0/12</span></div>
+        <p>1,048,576 addresses. Common in mid-size networks. The /12 means the second octet ranges from 16 to 31.</p>
+        <div class="key-fact"><b>RANGE</b>172.16.0.0 – 172.31.255.255</div>
+      </div>
+      <div class="special-card">
+        <div class="head"><h3>RFC 1918 Private — Class C</h3><span class="range-tag">192.168.0.0/16</span></div>
+        <p>65,536 addresses. The default for almost every consumer router (typically subnetted as 192.168.1.0/24).</p>
+        <div class="key-fact"><b>RANGE</b>192.168.0.0 – 192.168.255.255</div>
+      </div>
+      <div class="special-card">
+        <div class="head"><h3>APIPA — Auto Private IP</h3><span class="range-tag">169.254.0.0/16</span></div>
+        <p>Self-assigned by Windows/Linux when DHCP fails. If a user reports a 169.254.x.x address, they did not get an IP from DHCP — investigate the DHCP server, cable, or Wi-Fi association.</p>
+        <div class="key-fact"><b>RANGE</b>169.254.0.0 – 169.254.255.255</div>
+      </div>
+      <div class="special-card">
+        <div class="head"><h3>Loopback / localhost</h3><span class="range-tag">127.0.0.0/8</span></div>
+        <p>Refers to the local machine itself. Almost always used as 127.0.0.1. Useful for testing whether the local TCP/IP stack is working.</p>
+        <div class="key-fact"><b>COMMON</b>127.0.0.1 → "localhost"</div>
+      </div>
+      <div class="special-card">
+        <div class="head"><h3>Limited Broadcast</h3><span class="range-tag">255.255.255.255</span></div>
+        <p>Sent to all hosts on the local network segment. Does NOT cross routers. Used by DHCP DISCOVER and ARP requests.</p>
+        <div class="key-fact"><b>SCOPE</b>Local broadcast domain only</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>CIDR <em>↔ Mask Table</em></h2>
+      <p>Every CIDR length, its dotted-decimal mask, and host count. Gold rows are the most heavily tested.</p>
+    </div>
+    <div class="cidr-table-wrap">
+      <table class="cidr-table" id="cidr-table">
+        <thead>
+          <tr>
+            <th>CIDR</th>
+            <th>Subnet Mask</th>
+            <th>Wildcard</th>
+            <th>Total Hosts</th>
+            <th>Usable Hosts</th>
+          </tr>
+        </thead>
+        <tbody id="cidr-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR PANEL -->
+<section class="panel" id="panel-calc">
+  <div class="calc-input-bar">
+    <div>
+      <label for="calc-ip">IP Address</label>
+      <input type="text" id="calc-ip" value="192.168.10.45" autocomplete="off" spellcheck="false">
+    </div>
+    <div>
+      <label for="calc-cidr">CIDR (/n)</label>
+      <input type="number" id="calc-cidr" value="24" min="0" max="32">
+    </div>
+    <button class="calc-btn" id="calc-go">▶ Calculate</button>
+  </div>
+  <div class="calc-error" id="calc-error"></div>
+  <div class="calc-quick-row">
+    <span class="quick-label">Try:</span>
+    <button class="calc-quick-btn" data-ip="192.168.1.100" data-cidr="24">192.168.1.100/24</button>
+    <button class="calc-quick-btn" data-ip="10.50.50.50" data-cidr="16">10.50.50.50/16</button>
+    <button class="calc-quick-btn" data-ip="172.20.5.100" data-cidr="20">172.20.5.100/20</button>
+    <button class="calc-quick-btn" data-ip="192.168.10.45" data-cidr="27">192.168.10.45/27</button>
+    <button class="calc-quick-btn" data-ip="169.254.10.10" data-cidr="16">169.254.10.10/16</button>
+    <button class="calc-quick-btn" data-ip="127.0.0.1" data-cidr="8">127.0.0.1/8</button>
+    <button class="calc-quick-btn" data-ip="8.8.8.8" data-cidr="32">8.8.8.8/32</button>
+  </div>
+  <div class="calc-results" id="calc-results"></div>
+</section>
+
+<!-- VISUALIZER PANEL -->
+<section class="panel" id="panel-visualizer">
+  <div class="vis-controls">
+    <div class="field">
+      <label for="vis-ip">IP Address</label>
+      <input type="text" id="vis-ip" value="192.168.10.45" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="field">
+      <label>CIDR · slide to change</label>
+      <div class="slider-block">
+        <input type="range" id="vis-cidr" min="0" max="32" value="24">
+        <span class="vis-cidr-display" id="vis-cidr-display">/24</span>
+      </div>
+    </div>
+  </div>
+  <div class="vis-stage">
+    <div class="vis-legend">
+      <div class="item"><span class="swatch network"></span><span class="label">Network bits — defined by mask</span></div>
+      <div class="item"><span class="swatch host"></span><span class="label">Host bits — used by hosts in subnet</span></div>
+    </div>
+    <div class="vis-octets" id="vis-octets"></div>
+    <div class="vis-summary" id="vis-summary"></div>
+    <p style="margin-top: 18px; font-size: 13px; color: var(--ink-mid); line-height: 1.55; font-style: italic;">
+      The mask separates network bits (left) from host bits (right). All hosts in the same subnet share the same network bits and differ only in the host bits. The boundary moves as you adjust the CIDR slider.
+    </p>
+  </div>
+</section>
+
+<!-- PRACTICE PANEL -->
+<section class="panel" id="panel-practice">
+  <div class="pr-card" id="pr-card">
+    <div class="pr-head">
+      <div class="title">Practice Problems</div>
+      <div class="stats">Got <b id="pr-correct">0</b> · Total <b id="pr-total">0</b></div>
+    </div>
+    <div class="pr-body" id="pr-body"></div>
+  </div>
+</section>
+
+<!-- FLASHCARDS PANEL -->
+<section class="panel" id="panel-flashcards">
+  <div class="fc-controls">
+    <span class="filter-label" style="font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-soft); margin-right: 8px;">MODE</span>
+    <button class="fc-mode-btn active" data-mode="all">All Cards</button>
+    <button class="fc-mode-btn" data-mode="classes">Classes Only</button>
+    <button class="fc-mode-btn" data-mode="special">Special Addresses</button>
+    <button class="fc-mode-btn" data-mode="cidr">CIDR ↔ Mask</button>
+    <button class="fc-utility-btn" id="fc-shuffle">↻ Shuffle</button>
+  </div>
+  <div class="fc-stage" id="fc-stage"></div>
+</section>
+
+<!-- LIGHTNING PANEL -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed multiple choice — class identification, private/public/APIPA recognition, CIDR-to-mask, network address calculation, host count, and special address questions all together.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body">
+      <div class="lr-question-prompt" id="lr-prompt">…</div>
+      <div class="lr-question" id="lr-question">…</div>
+      <div class="lr-options" id="lr-options"></div>
+      <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>
+    </div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool for CompTIA N10-009 Objective 1.7 — IPv4 network addressing. Covers public vs. private (RFC 1918, APIPA, loopback), IPv4 address classes (A through E), and subnetting (VLSM, CIDR).</p>
+      <p>Built for the calculation-heavy nature of this objective. Use the calculator to verify your work, the visualizer to see the math in binary, and the practice problems to drill the patterns the exam will test.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Reference + CIDR Visualizer. Get the binary intuition.</p>
+      <p>· Day 2: Subnet Calculator. Verify by hand, check with the tool.</p>
+      <p>· Day 3+: Practice Problems daily, generate new ones each session.</p>
+      <p>· Exam week: Lightning Round until 20+ in 60s.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.7 IPv4 Addressing</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* IP MATH — core utilities                                      */
+/* ============================================================ */
+function ipToInt(ip) {
+  const parts = ip.split('.');
+  if (parts.length !== 4) return null;
+  let n = 0;
+  for (const p of parts) {
+    const v = parseInt(p, 10);
+    if (isNaN(v) || v < 0 || v > 255 || String(v) !== p.trim()) return null;
+    n = (n * 256) + v;
+  }
+  return n >>> 0;
+}
+function intToIp(n) {
+  return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
+}
+function cidrToMask(cidr) {
+  return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+}
+function calculateSubnet(ip, cidr) {
+  const ipInt = ipToInt(ip);
+  if (ipInt === null) return null;
+  if (cidr < 0 || cidr > 32) return null;
+  const mask = cidrToMask(cidr);
+  const wildcard = (~mask) >>> 0;
+  const network = (ipInt & mask) >>> 0;
+  const broadcast = cidr === 32 ? network : ((network | wildcard) >>> 0);
+  const totalHosts = Math.pow(2, 32 - cidr);
+  let firstUsable, lastUsable, usableHosts;
+  if (cidr === 32) {
+    firstUsable = lastUsable = network;
+    usableHosts = 1;
+  } else if (cidr === 31) {
+    firstUsable = network;
+    lastUsable = broadcast;
+    usableHosts = 2;
+  } else {
+    firstUsable = network + 1;
+    lastUsable = broadcast - 1;
+    usableHosts = totalHosts - 2;
+  }
+  return {
+    cidr, mask, wildcard, network, broadcast,
+    firstUsable, lastUsable, totalHosts, usableHosts
+  };
+}
+function classifyIP(ip) {
+  const ipInt = ipToInt(ip);
+  if (ipInt === null) return null;
+  const first = (ipInt >>> 24) & 255;
+  // Loopback first (carved out of Class A)
+  if (first === 127) return { class: 'A', type: 'Loopback', typeKey: 'loopback' };
+  // APIPA (carved out of Class B)
+  if ((ipInt & 0xFFFF0000) >>> 0 === 0xA9FE0000) return { class: 'B', type: 'APIPA', typeKey: 'apipa' };
+  // RFC 1918
+  if ((ipInt & 0xFF000000) >>> 0 === 0x0A000000) return { class: 'A', type: 'Private (RFC 1918)', typeKey: 'private' };
+  if ((ipInt & 0xFFF00000) >>> 0 === 0xAC100000) return { class: 'B', type: 'Private (RFC 1918)', typeKey: 'private' };
+  if ((ipInt & 0xFFFF0000) >>> 0 === 0xC0A80000) return { class: 'C', type: 'Private (RFC 1918)', typeKey: 'private' };
+  // Determine class
+  let cls;
+  if (first >= 1 && first <= 126) cls = 'A';
+  else if (first >= 128 && first <= 191) cls = 'B';
+  else if (first >= 192 && first <= 223) cls = 'C';
+  else if (first >= 224 && first <= 239) return { class: 'D', type: 'Multicast', typeKey: 'multicast' };
+  else if (first >= 240 && first <= 255) return { class: 'E', type: 'Reserved/Experimental', typeKey: 'reserved' };
+  else if (first === 0) return { class: 'Reserved', type: 'Reserved (0.x.x.x)', typeKey: 'reserved' };
+  else cls = '?';
+  return { class: cls, type: 'Public', typeKey: 'public' };
+}
+
+/* ============================================================ */
+/* REFERENCE — CIDR table                                        */
+/* ============================================================ */
+function renderCIDRTable() {
+  const popular = new Set([8, 16, 24, 25, 26, 27, 28, 30]);
+  const rows = [];
+  for (let cidr = 8; cidr <= 32; cidr++) {
+    const mask = cidrToMask(cidr);
+    const wildcard = (~mask) >>> 0;
+    const total = Math.pow(2, 32 - cidr);
+    let usable;
+    if (cidr === 32) usable = 1;
+    else if (cidr === 31) usable = 2;
+    else usable = total - 2;
+    rows.push(`
+      <tr class="${popular.has(cidr) ? 'popular' : ''}">
+        <td class="cidr-col">/${cidr}</td>
+        <td>${intToIp(mask)}</td>
+        <td>${intToIp(wildcard)}</td>
+        <td>${total.toLocaleString()}</td>
+        <td>${usable.toLocaleString()}</td>
+      </tr>`);
+  }
+  document.getElementById('cidr-tbody').innerHTML = rows.join('');
+}
+renderCIDRTable();
+
+/* ============================================================ */
+/* CALCULATOR                                                    */
+/* ============================================================ */
+function renderCalc() {
+  const ip = document.getElementById('calc-ip').value.trim();
+  const cidr = parseInt(document.getElementById('calc-cidr').value, 10);
+  const errEl = document.getElementById('calc-error');
+  const resEl = document.getElementById('calc-results');
+
+  if (ipToInt(ip) === null) {
+    errEl.textContent = 'Invalid IP address. Format: X.X.X.X with each octet 0–255.';
+    errEl.classList.add('show');
+    resEl.innerHTML = '';
+    return;
+  }
+  if (isNaN(cidr) || cidr < 0 || cidr > 32) {
+    errEl.textContent = 'Invalid CIDR. Must be a number between 0 and 32.';
+    errEl.classList.add('show');
+    resEl.innerHTML = '';
+    return;
+  }
+  errEl.classList.remove('show');
+
+  const r = calculateSubnet(ip, cidr);
+  const cls = classifyIP(ip);
+
+  let edgeNote = '';
+  if (cidr === 32) edgeNote = '<div class="sub" style="color: var(--gold-deep);">/32 → single host. No network or broadcast.</div>';
+  if (cidr === 31) edgeNote = '<div class="sub" style="color: var(--gold-deep);">/31 → point-to-point per RFC 3021. Both addresses usable.</div>';
+
+  resEl.innerHTML = `
+    <div class="calc-result-grid">
+      <div class="calc-cell">
+        <div class="label">Network Address</div>
+        <div class="value">${intToIp(r.network)}</div>
+        <div class="sub">/&#8203;${r.cidr} · the subnet ID itself</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Broadcast Address</div>
+        <div class="value">${cidr === 32 ? '— (single host)' : intToIp(r.broadcast)}</div>
+        <div class="sub">${cidr === 32 ? 'host route' : 'all host bits set to 1'}</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">First Usable Host</div>
+        <div class="value">${intToIp(r.firstUsable)}</div>
+        <div class="sub">first assignable to a device</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Last Usable Host</div>
+        <div class="value">${intToIp(r.lastUsable)}</div>
+        <div class="sub">last assignable to a device</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Subnet Mask</div>
+        <div class="value">${intToIp(r.mask)}</div>
+        <div class="sub">/&#8203;${r.cidr} in dotted decimal</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Wildcard Mask</div>
+        <div class="value">${intToIp(r.wildcard)}</div>
+        <div class="sub">inverted mask (used by ACLs)</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Total Addresses</div>
+        <div class="value">${r.totalHosts.toLocaleString()}</div>
+        <div class="sub">2 ^ (32 - ${r.cidr})</div>
+      </div>
+      <div class="calc-cell">
+        <div class="label">Usable Hosts</div>
+        <div class="value">${r.usableHosts.toLocaleString()}</div>
+        <div class="sub">${cidr === 32 ? 'host route' : (cidr === 31 ? 'RFC 3021' : 'total − 2 (network + broadcast)')}</div>
+        ${edgeNote}
+      </div>
+    </div>
+    <div class="calc-classify">
+      <div class="item">
+        <div class="key">Class</div>
+        <div class="val">${cls.class}</div>
+      </div>
+      <div class="item">
+        <div class="key">Type</div>
+        <div class="val ${cls.typeKey}">${cls.type}</div>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('calc-go').addEventListener('click', renderCalc);
+document.getElementById('calc-ip').addEventListener('keypress', e => { if (e.key === 'Enter') renderCalc(); });
+document.getElementById('calc-cidr').addEventListener('keypress', e => { if (e.key === 'Enter') renderCalc(); });
+document.querySelectorAll('.calc-quick-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('calc-ip').value = btn.dataset.ip;
+    document.getElementById('calc-cidr').value = btn.dataset.cidr;
+    renderCalc();
+  });
+});
+renderCalc();
+
+/* ============================================================ */
+/* CIDR VISUALIZER                                               */
+/* ============================================================ */
+function renderVisualizer() {
+  const ip = document.getElementById('vis-ip').value.trim();
+  const cidr = parseInt(document.getElementById('vis-cidr').value, 10);
+  document.getElementById('vis-cidr-display').textContent = '/' + cidr;
+  const ipInt = ipToInt(ip);
+  if (ipInt === null) {
+    document.getElementById('vis-octets').innerHTML = '<p style="grid-column: 1/-1; color: var(--red); font-family: var(--ff-mono); font-size: 13px;">Invalid IP — fix the address above</p>';
+    document.getElementById('vis-summary').innerHTML = '';
+    return;
+  }
+  const ipBits = ipInt.toString(2).padStart(32, '0');
+  const octets = [];
+  for (let o = 0; o < 4; o++) {
+    const octBits = ipBits.substr(o * 8, 8);
+    const octVal = parseInt(octBits, 2);
+    let bitsHTML = '';
+    let valuesHTML = '';
+    for (let b = 0; b < 8; b++) {
+      const bitIdx = o * 8 + b;
+      const isNetwork = bitIdx < cidr;
+      const isBoundary = bitIdx === cidr - 1;
+      bitsHTML += `<div class="vis-bit ${isNetwork ? 'network' : 'host'} ${isBoundary ? 'boundary' : ''}">${octBits[b]}</div>`;
+      valuesHTML += `<span>${Math.pow(2, 7 - b)}</span>`;
+    }
+    octets.push(`
+      <div class="vis-octet">
+        <div class="vis-octet-label"><span>OCTET ${o + 1}</span><b>${octVal}</b></div>
+        <div class="vis-bits">${bitsHTML}</div>
+        <div class="vis-octet-values">${valuesHTML}</div>
+      </div>`);
+  }
+  document.getElementById('vis-octets').innerHTML = octets.join('');
+
+  const r = calculateSubnet(ip, cidr);
+  document.getElementById('vis-summary').innerHTML = `
+    <div class="item"><div class="lab">Subnet Mask</div><div class="val">${intToIp(r.mask)}</div></div>
+    <div class="item"><div class="lab">Network Address</div><div class="val">${intToIp(r.network)} /${cidr}</div></div>
+    <div class="item"><div class="lab">Total Addresses</div><div class="val">${r.totalHosts.toLocaleString()}</div></div>
+  `;
+}
+document.getElementById('vis-ip').addEventListener('input', renderVisualizer);
+document.getElementById('vis-cidr').addEventListener('input', renderVisualizer);
+renderVisualizer();
+
+/* ============================================================ */
+/* PRACTICE PROBLEMS                                             */
+/* ============================================================ */
+let prCorrect = 0, prTotal = 0, prCurrentQ = null;
+
+function randomIP(opts = {}) {
+  // Generate a "reasonable" private or public address for problems
+  if (opts.privateOnly) {
+    const variants = [
+      () => `192.168.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`,
+      () => `10.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`,
+      () => `172.${16 + Math.floor(Math.random()*16)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`
+    ];
+    return variants[Math.floor(Math.random()*variants.length)]();
+  }
+  return `${1+Math.floor(Math.random()*222)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function generatePracticeQ() {
+  const types = ['network', 'broadcast', 'usable', 'mask', 'class', 'type'];
+  const t = types[Math.floor(Math.random() * types.length)];
+
+  if (t === 'network') {
+    const cidr = 16 + Math.floor(Math.random() * 14); // /16 to /29
+    const ip = randomIP({ privateOnly: true });
+    const r = calculateSubnet(ip, cidr);
+    const correct = intToIp(r.network);
+    const distractors = new Set();
+    while (distractors.size < 3) {
+      const offset = (Math.floor(Math.random() * 5) + 1) * Math.pow(2, 32 - cidr);
+      const cand = intToIp((r.network + offset) >>> 0);
+      if (cand !== correct) distractors.add(cand);
+    }
+    const opts = shuffle([correct, ...distractors]);
+    return {
+      eyebrow: 'Network Address',
+      questionHTML: `What is the network address of <span class="ip-mono">${ip}/${cidr}</span>?`,
+      options: opts, correctIdx: opts.indexOf(correct),
+      explain:
+        `Step 1 — Convert /${cidr} to a mask: ${intToIp(r.mask)}\n` +
+        `Step 2 — Bitwise AND the IP with the mask:\n   ${ip} AND ${intToIp(r.mask)} = ${correct}\n` +
+        `The network address has all host bits set to 0.`
+    };
+  }
+
+  if (t === 'broadcast') {
+    const cidr = 16 + Math.floor(Math.random() * 14);
+    const ip = randomIP({ privateOnly: true });
+    const r = calculateSubnet(ip, cidr);
+    const correct = intToIp(r.broadcast);
+    const distractors = new Set();
+    distractors.add(intToIp(r.network));
+    distractors.add(intToIp(r.firstUsable));
+    while (distractors.size < 3) {
+      const offset = Math.floor(Math.random() * Math.pow(2, 32 - cidr));
+      const cand = intToIp((r.network + offset) >>> 0);
+      if (cand !== correct && !distractors.has(cand)) distractors.add(cand);
+    }
+    const distArr = [...distractors].slice(0, 3);
+    const opts = shuffle([correct, ...distArr]);
+    return {
+      eyebrow: 'Broadcast Address',
+      questionHTML: `What is the broadcast address for <span class="ip-mono">${ip}/${cidr}</span>?`,
+      options: opts, correctIdx: opts.indexOf(correct),
+      explain:
+        `Step 1 — Find the network: ${intToIp(r.network)}\n` +
+        `Step 2 — Set all host bits to 1: that gives the broadcast.\n` +
+        `For /${cidr}, the broadcast is ${correct}.`
+    };
+  }
+
+  if (t === 'usable') {
+    const cidr = 20 + Math.floor(Math.random() * 10); // /20 to /29
+    const r = calculateSubnet('10.0.0.0', cidr);
+    const correct = r.usableHosts;
+    const opts = new Set([correct]);
+    [-2, -1, 1, 2, -4, 4].forEach(d => {
+      const total = Math.pow(2, 32 - cidr);
+      const cand = total + (d * 2);
+      if (cand > 0 && cand !== correct) opts.add(cand);
+      const cand2 = total - 2 + d * 2;
+      if (cand2 > 0 && cand2 !== correct) opts.add(cand2);
+    });
+    const optArr = [...opts].slice(0, 4);
+    while (optArr.length < 4) optArr.push(correct + optArr.length);
+    const final = shuffle(optArr.map(n => n.toLocaleString()));
+    return {
+      eyebrow: 'Usable Host Count',
+      questionHTML: `How many usable host addresses are in a <span class="ip-mono">/${cidr}</span> network?`,
+      options: final, correctIdx: final.indexOf(correct.toLocaleString()),
+      explain:
+        `Total addresses = 2 ^ (32 − ${cidr}) = ${Math.pow(2, 32 - cidr).toLocaleString()}\n` +
+        `Subtract 2 for network address and broadcast address:\n   ${Math.pow(2, 32 - cidr).toLocaleString()} − 2 = ${correct.toLocaleString()} usable hosts.`
+    };
+  }
+
+  if (t === 'mask') {
+    const cidr = 8 + Math.floor(Math.random() * 25);
+    const correct = intToIp(cidrToMask(cidr));
+    const distractors = new Set();
+    while (distractors.size < 3) {
+      const fakeCidr = 8 + Math.floor(Math.random() * 25);
+      if (fakeCidr === cidr) continue;
+      distractors.add(intToIp(cidrToMask(fakeCidr)));
+    }
+    const opts = shuffle([correct, ...distractors]);
+    return {
+      eyebrow: 'CIDR ↔ Mask',
+      questionHTML: `What is the dotted-decimal subnet mask for <span class="ip-mono">/${cidr}</span>?`,
+      options: opts, correctIdx: opts.indexOf(correct),
+      explain:
+        `/${cidr} means ${cidr} consecutive 1 bits from the left.\n` +
+        `Each octet of 8 ones = 255. The boundary moves bit-by-bit through the octet.\n` +
+        `Result: ${correct}`
+    };
+  }
+
+  if (t === 'class') {
+    const ip = randomIP();
+    const cls = classifyIP(ip);
+    const correct = `Class ${cls.class}`;
+    const all = ['Class A', 'Class B', 'Class C', 'Class D', 'Class E'];
+    const distractors = all.filter(x => x !== correct).slice(0, 3);
+    const opts = shuffle([correct, ...distractors]);
+    const first = parseInt(ip.split('.')[0], 10);
+    let rangeNote = '';
+    if (cls.class === 'A') rangeNote = '1–126';
+    else if (cls.class === 'B') rangeNote = '128–191';
+    else if (cls.class === 'C') rangeNote = '192–223';
+    else if (cls.class === 'D') rangeNote = '224–239';
+    else if (cls.class === 'E') rangeNote = '240–255';
+    return {
+      eyebrow: 'Address Class',
+      questionHTML: `What class is the IP <span class="ip-mono">${ip}</span>?`,
+      options: opts, correctIdx: opts.indexOf(correct),
+      explain:
+        `Look at the first octet: ${first}\n` +
+        `Class boundaries — A: 1–126 · B: 128–191 · C: 192–223 · D: 224–239 · E: 240–255\n` +
+        `${first} falls in the ${rangeNote} range → ${correct}`
+    };
+  }
+
+  if (t === 'type') {
+    // Generate a mix of types
+    const variants = [
+      () => ({ ip: `192.168.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`, ans: 'Private (RFC 1918)' }),
+      () => ({ ip: `10.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`, ans: 'Private (RFC 1918)' }),
+      () => ({ ip: `172.${16+Math.floor(Math.random()*16)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`, ans: 'Private (RFC 1918)' }),
+      () => ({ ip: `169.254.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`, ans: 'APIPA' }),
+      () => ({ ip: `127.0.0.1`, ans: 'Loopback' }),
+      () => ({ ip: `8.8.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`, ans: 'Public' }),
+      () => ({ ip: `203.0.113.${Math.floor(Math.random()*256)}`, ans: 'Public' })
+    ];
+    const v = variants[Math.floor(Math.random() * variants.length)]();
+    const correct = v.ans;
+    const all = ['Public', 'Private (RFC 1918)', 'APIPA', 'Loopback'];
+    const distractors = all.filter(x => x !== correct);
+    const opts = shuffle([correct, ...distractors]);
+    let why = '';
+    if (correct === 'Private (RFC 1918)') why = 'Falls inside one of the three RFC 1918 ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).';
+    else if (correct === 'APIPA') why = 'Starts with 169.254 — automatic private addressing assigned when DHCP fails.';
+    else if (correct === 'Loopback') why = 'In the 127.0.0.0/8 range — refers to the local machine itself.';
+    else why = 'Not in any private, APIPA, or loopback range — globally routable.';
+    return {
+      eyebrow: 'Address Type',
+      questionHTML: `Is <span class="ip-mono">${v.ip}</span> a public, private, APIPA, or loopback address?`,
+      options: opts, correctIdx: opts.indexOf(correct),
+      explain: why
+    };
+  }
+}
+
+function renderPractice() {
+  prCurrentQ = generatePracticeQ();
+  const body = document.getElementById('pr-body');
+  body.innerHTML = `
+    <div class="pr-eyebrow">${prCurrentQ.eyebrow}</div>
+    <h3 class="pr-question">${prCurrentQ.questionHTML}</h3>
+    <div class="pr-options" id="pr-options">
+      ${prCurrentQ.options.map((opt, i) => `
+        <button class="pr-option" data-i="${i}">
+          <span class="marker">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div class="pr-explain" id="pr-explain"></div>
+    <div class="pr-actions">
+      <span style="font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; align-self: center;">Click an answer to see the explanation.</span>
+      <button class="next-btn" id="pr-next">Next Problem →</button>
+    </div>
+  `;
+  document.querySelectorAll('.pr-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.i);
+      const correct = prCurrentQ.correctIdx;
+      document.querySelectorAll('.pr-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const ex = document.getElementById('pr-explain');
+      ex.innerHTML = (chosen === correct
+        ? '<b>✓ Correct</b>'
+        : `<b>✗ Not quite — answer is ${String.fromCharCode(65 + correct)}</b>`)
+        + `<pre>${prCurrentQ.explain}</pre>`;
+      ex.classList.add('show');
+      if (chosen === correct) prCorrect++;
+      prTotal++;
+      document.getElementById('pr-correct').textContent = prCorrect;
+      document.getElementById('pr-total').textContent = prTotal;
+    });
+  });
+  document.getElementById('pr-next').addEventListener('click', renderPractice);
+}
+renderPractice();
+
+/* ============================================================ */
+/* FLASHCARDS                                                    */
+/* ============================================================ */
+const FLASHCARDS_ALL = [
+  // Classes
+  { kind:'classes', front:'Class A', back:'1 – 126', detail:'Default mask /8 · 16,777,214 hosts per network', meta:'IPv4 Class' },
+  { kind:'classes', front:'Class B', back:'128 – 191', detail:'Default mask /16 · 65,534 hosts per network', meta:'IPv4 Class' },
+  { kind:'classes', front:'Class C', back:'192 – 223', detail:'Default mask /24 · 254 hosts per network', meta:'IPv4 Class' },
+  { kind:'classes', front:'Class D', back:'224 – 239', detail:'Reserved for multicast — no host assignment', meta:'IPv4 Class' },
+  { kind:'classes', front:'Class E', back:'240 – 255', detail:'Reserved / experimental — not for general use', meta:'IPv4 Class' },
+  { kind:'classes', front:'127.x.x.x', back:'Loopback (carved from Class A)', detail:'127.0.0.1 is "localhost". Refers to the machine itself.', meta:'Special Case' },
+
+  // Special addresses
+  { kind:'special', front:'10.0.0.0/8', back:'Private · RFC 1918', detail:'16,777,216 addresses · used by larger orgs', meta:'Private Range (Class A)' },
+  { kind:'special', front:'172.16.0.0/12', back:'Private · RFC 1918', detail:'1,048,576 addresses · 172.16.0.0 to 172.31.255.255', meta:'Private Range (Class B)' },
+  { kind:'special', front:'192.168.0.0/16', back:'Private · RFC 1918', detail:'65,536 addresses · default for almost every consumer router', meta:'Private Range (Class C)' },
+  { kind:'special', front:'169.254.0.0/16', back:'APIPA', detail:'Self-assigned when DHCP fails. If you see a 169.254 address, DHCP is broken.', meta:'Auto-Assigned' },
+  { kind:'special', front:'127.0.0.1', back:'Loopback / localhost', detail:'Refers to the local machine itself. Used to test the local TCP/IP stack.', meta:'Special Address' },
+  { kind:'special', front:'255.255.255.255', back:'Limited Broadcast', detail:'All hosts on the local segment. Does NOT cross routers.', meta:'Broadcast' },
+  { kind:'special', front:'0.0.0.0', back:'Default Route / Unassigned', detail:'In a routing table = "anywhere I do not have a more specific route." On a host = "no IP yet."', meta:'Reserved' },
+
+  // CIDR ↔ Mask (most-tested)
+  { kind:'cidr', front:'/8', back:'255.0.0.0', detail:'Class A default · 16,777,214 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/16', back:'255.255.0.0', detail:'Class B default · 65,534 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/24', back:'255.255.255.0', detail:'Class C default · 254 usable hosts · the SOHO standard', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/25', back:'255.255.255.128', detail:'128 addresses · 126 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/26', back:'255.255.255.192', detail:'64 addresses · 62 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/27', back:'255.255.255.224', detail:'32 addresses · 30 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/28', back:'255.255.255.240', detail:'16 addresses · 14 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/29', back:'255.255.255.248', detail:'8 addresses · 6 usable hosts', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/30', back:'255.255.255.252', detail:'4 addresses · 2 usable · point-to-point links', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/31', back:'255.255.255.254', detail:'2 addresses · both usable per RFC 3021 · P2P only', meta:'CIDR ↔ Mask' },
+  { kind:'cidr', front:'/32', back:'255.255.255.255', detail:'1 address · single host route', meta:'CIDR ↔ Mask' }
+];
+
+let fcMode = 'all';
+let fcDeck = [];
+let fcIdx = 0;
+let fcStats = { got: 0, almost: 0, missed: 0 };
+let fcFlipped = false;
+
+function buildDeck() {
+  let pool = fcMode === 'all' ? [...FLASHCARDS_ALL] : FLASHCARDS_ALL.filter(c => c.kind === fcMode);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  fcDeck = pool;
+  fcIdx = 0;
+  fcStats = { got: 0, almost: 0, missed: 0 };
+  fcFlipped = false;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const stage = document.getElementById('fc-stage');
+  if (fcIdx >= fcDeck.length) {
+    stage.innerHTML = `
+      <div class="fc-empty">
+        <div class="big">Deck Complete</div>
+        <p>You went through all ${fcDeck.length} cards · ${fcStats.got} got it · ${fcStats.almost} almost · ${fcStats.missed} missed</p>
+        <button class="fc-utility-btn" onclick="buildDeck()">↻ Reshuffle &amp; Run Again</button>
+      </div>`;
+    return;
+  }
+  if (!document.getElementById('flashcard')) {
+    stage.innerHTML = `
+      <div class="fc-progress">
+        <span>Card · <b><span id="fc-pos">1</span> of <span id="fc-total">26</span></b></span>
+        <span class="got">Got · <b id="fc-got">0</b></span>
+        <span class="almost">Almost · <b id="fc-almost">0</b></span>
+        <span class="missed">Missed · <b id="fc-missed">0</b></span>
+      </div>
+      <div class="flashcard" id="flashcard">
+        <div class="fc-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-prompt" id="fc-front-prompt"></div>
+            <div class="fc-question" id="fc-front-q"></div>
+            <div class="fc-hint">click to flip · spacebar / arrows also work</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-prompt" id="fc-back-prompt"></div>
+            <div class="fc-answer" id="fc-back-a"></div>
+            <div class="fc-detail" id="fc-back-detail"></div>
+            <div class="fc-meta" id="fc-back-meta"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-judgment" id="fc-judgment">
+        <button class="fc-judge-btn missed" data-rate="missed">✗ Missed</button>
+        <button class="fc-judge-btn almost" data-rate="almost">~ Almost</button>
+        <button class="fc-judge-btn got" data-rate="got">✓ Got It</button>
+      </div>`;
+    bindFC();
+  }
+  const c = fcDeck[fcIdx];
+  document.getElementById('fc-pos').textContent = fcIdx + 1;
+  document.getElementById('fc-total').textContent = fcDeck.length;
+  document.getElementById('fc-got').textContent = fcStats.got;
+  document.getElementById('fc-almost').textContent = fcStats.almost;
+  document.getElementById('fc-missed').textContent = fcStats.missed;
+  document.getElementById('fc-front-prompt').textContent = c.meta.toUpperCase();
+  document.getElementById('fc-front-q').textContent = c.front;
+  document.getElementById('fc-back-prompt').textContent = 'ANSWER';
+  document.getElementById('fc-back-a').textContent = c.back;
+  document.getElementById('fc-back-detail').innerHTML = `<b>DETAIL</b>${c.detail}`;
+  document.getElementById('fc-back-meta').innerHTML = `<span>${c.meta}</span>`;
+  fcFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+function bindFC() {
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  card.addEventListener('click', () => {
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  });
+  document.querySelectorAll('.fc-judge-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!fcFlipped) return;
+      fcStats[btn.dataset.rate]++;
+      if (btn.dataset.rate === 'missed') fcDeck.push(fcDeck[fcIdx]);
+      fcIdx++;
+      renderFlashcard();
+    });
+  });
+}
+document.querySelectorAll('.fc-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fc-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    fcMode = btn.dataset.mode;
+    buildDeck();
+  });
+});
+document.getElementById('fc-shuffle').addEventListener('click', buildDeck);
+document.addEventListener('keydown', e => {
+  const fcPanel = document.getElementById('panel-flashcards');
+  if (!fcPanel.classList.contains('active')) return;
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    e.preventDefault();
+    fcFlipped = !fcFlipped;
+    card.classList.toggle('flipped', fcFlipped);
+  }
+  if (fcFlipped) {
+    if (e.code === 'Digit1' || e.code === 'KeyM') document.querySelector('.fc-judge-btn.missed').click();
+    if (e.code === 'Digit2' || e.code === 'KeyA') document.querySelector('.fc-judge-btn.almost').click();
+    if (e.code === 'Digit3' || e.code === 'KeyG') document.querySelector('.fc-judge-btn.got').click();
+  }
+});
+buildDeck();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+let lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function generateLRQ() {
+  // Reuse practice generators but pick a smaller, faster set
+  const qTypes = ['class', 'type', 'mask', 'type', 'class', 'usable'];
+  const t = qTypes[Math.floor(Math.random() * qTypes.length)];
+  const q = { class:'class', type:'type', mask:'mask', usable:'usable' }[t];
+  // Use the practice generator but transform output for the LR layout
+  prCurrentQ = null;
+  let prev;
+  for (let i = 0; i < 10; i++) {
+    const cand = generatePracticeQ();
+    if (cand.eyebrow.toLowerCase().includes(t === 'class' ? 'class' :
+                                              t === 'type' ? 'type' :
+                                              t === 'mask' ? 'mask' :
+                                              'usable')) { prev = cand; break; }
+  }
+  if (!prev) prev = generatePracticeQ();
+  return prev;
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  document.getElementById('lr-prompt').textContent = lrCurrentQ.eyebrow;
+  document.getElementById('lr-question').innerHTML = lrCurrentQ.questionHTML;
+  const opts = document.getElementById('lr-options');
+  opts.innerHTML = lrCurrentQ.options.map((opt, i) => `
+    <button class="lr-option" data-i="${i}">
+      <span class="marker">${String.fromCharCode(65 + i)}</span>
+      <span>${opt}</span>
+    </button>`).join('');
+  opts.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerLR(parseInt(btn.dataset.i)));
+  });
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 18) { verdict = 'Subnetting on Lock.'; sub = 'You can do IPv4 math under pressure. Move on to other domains.'; }
+  else if (lrCorrect >= 12) { verdict = 'Solid Recall.'; sub = 'A few more drills and you are exam-ready. Run it again, focus on what you missed.'; }
+  else if (lrCorrect >= 7) { verdict = 'Building It.'; sub = 'Spend time in the Calculator and Practice Problems tabs, then return.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'Walk through the Reference and Visualizer tabs slowly. Then drill Practice Problems by category before coming back here.'; }
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
