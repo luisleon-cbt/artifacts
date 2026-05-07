@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.1 Routing & IPv4 Forwarding · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-row {
+    display: grid; grid-template-columns: 90px 1fr; gap: 10px;
+    padding: 7px 0; align-items: baseline;
+    font-size: 12px;
+  }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; letter-spacing: 0.02em; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-block { margin-bottom: 44px; }
+  .section-block:last-child { margin-bottom: 0; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  }
+  .section-head h2 {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0; letter-spacing: -0.02em;
+  }
+  .section-head h2 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .section-head p { color: var(--ink-mid); font-size: 14px; max-width: 50ch; margin: 0; }
+
+  /* ROUTING TABLE ANATOMY */
+  .rt-frame { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .rt-head {
+    background: var(--navy-deep); color: white; padding: 14px 22px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .rt-head .badge {
+    background: var(--sky); color: white; padding: 4px 10px;
+    font-weight: 700; letter-spacing: 0.06em;
+  }
+  .rt-table-wrap {
+    background: #0F1230; padding: 24px 22px;
+    font-family: var(--ff-mono); font-size: 13px; color: #6BC5E8;
+    overflow-x: auto;
+  }
+  .rt-table-wrap .prompt {
+    color: var(--gold); margin-bottom: 8px; font-size: 12px;
+  }
+  .rt-pseudo-table {
+    display: inline-block; min-width: 100%;
+  }
+  .rt-row {
+    display: grid; grid-template-columns: 32px 200px 100px 180px 100px 80px;
+    gap: 14px; padding: 4px 8px;
+    align-items: center; cursor: pointer; transition: background 0.15s;
+    border-radius: 2px;
+  }
+  .rt-row.header {
+    color: var(--gold); font-weight: 700; cursor: default;
+    border-bottom: 1px dashed rgba(224,184,64,0.3); padding-bottom: 8px; margin-bottom: 6px;
+  }
+  .rt-row:not(.header):hover { background: rgba(56,176,224,0.08); }
+  .rt-row.selected { background: rgba(224,184,64,0.15); }
+  .rt-cell { white-space: nowrap; }
+  .rt-cell.proto-S { color: var(--gold); font-weight: 700; }
+  .rt-cell.proto-C { color: #2A8049; font-weight: 700; }
+  .rt-cell.proto-O { color: #B86BE8; font-weight: 700; }
+  .rt-cell.proto-D { color: #E08940; font-weight: 700; }
+  .rt-cell.proto-Sd { color: #E0B840; font-weight: 700; }
+  .rt-cell.dest { color: white; }
+  .rt-cell.ad { color: var(--gray-soft); }
+  .rt-cell.next { color: var(--sky-soft); }
+
+  .rt-detail {
+    padding: 28px 28px;
+    background: var(--surface);
+    min-height: 200px;
+  }
+  .rt-detail-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px;
+  }
+  .rt-detail h3 {
+    font-family: var(--ff-display); font-size: 26px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 12px; letter-spacing: -0.02em;
+  }
+  .rt-detail h3 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .rt-detail p { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 12px; max-width: 65ch; }
+  .rt-detail .key-points { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .rt-detail .chip {
+    font-family: var(--ff-mono); font-size: 11px; padding: 5px 10px;
+    background: var(--bg-warm); border: 1px solid var(--line-soft);
+    color: var(--navy-deep); font-weight: 600;
+  }
+  .rt-detail .tip {
+    margin-top: 16px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .rt-detail .tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .rt-detail .tip p { margin: 0; font-size: 13px; }
+
+  /* FORWARDING WALKTHROUGH */
+  .fw-frame { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .fw-head {
+    background: var(--navy-deep); color: white; padding: 18px 24px;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .fw-head h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+  .fw-head .step-tag {
+    background: var(--gold); color: var(--navy-deep);
+    padding: 5px 12px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.06em; font-weight: 700;
+  }
+  .fw-progress {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    padding: 14px 20px; background: var(--bg-warm);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .fw-prog-step { height: 8px; background: var(--surface-alt); border: 1px solid var(--line-soft); }
+  .fw-prog-step.active { background: var(--sky); border-color: var(--sky-deep); }
+  .fw-prog-step.done { background: var(--gold); border-color: var(--gold-deep); }
+
+  .fw-stage {
+    padding: 30px 28px; background: var(--surface-alt);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .fw-stage svg { width: 100%; height: auto; max-height: 280px; display: block; margin: 0 auto; }
+  .fw-narration {
+    padding: 22px 26px; background: var(--surface);
+  }
+  .fw-narration .step-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px;
+  }
+  .fw-narration h4 {
+    font-family: var(--ff-display); font-size: 20px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 12px; letter-spacing: -0.01em;
+  }
+  .fw-narration p {
+    font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px;
+  }
+  .fw-narration p b { color: var(--navy-deep); font-weight: 700; }
+  .fw-narration .lookup-box {
+    margin-top: 12px; padding: 14px 18px;
+    background: #0F1230; color: #6BC5E8; font-family: var(--ff-mono); font-size: 12px;
+    border-left: 3px solid var(--sky);
+  }
+  .fw-narration .lookup-box .head {
+    color: var(--gold); font-size: 10px; letter-spacing: 0.14em; margin-bottom: 6px;
+  }
+  .fw-narration .lookup-box pre {
+    margin: 0; white-space: pre-wrap; line-height: 1.5;
+  }
+  .fw-narration .lookup-box .match { color: white; font-weight: 700; }
+  .fw-controls {
+    background: var(--surface); padding: 16px 24px;
+    display: flex; gap: 10px; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line-soft);
+  }
+  .fw-controls .btn {
+    padding: 10px 18px; border: none; cursor: pointer;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .fw-controls .btn.primary { background: var(--sky); color: white; }
+  .fw-controls .btn.primary:hover { background: var(--sky-deep); }
+  .fw-controls .btn.primary:disabled { background: var(--gray-soft); cursor: default; }
+  .fw-controls .btn.ghost { background: transparent; color: var(--navy-deep); border: 1px solid var(--line); }
+  .fw-controls .btn.ghost:hover { background: var(--bg-warm); }
+
+  /* STATIC vs DYNAMIC */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }
+  .compare-col { background: var(--surface); padding: 0; }
+  .compare-col + .compare-col { border-left: 1px solid var(--line); }
+  .compare-col .col-head {
+    padding: 18px 22px; color: white;
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .compare-col.static .col-head { background: var(--navy-deep); }
+  .compare-col.dynamic .col-head { background: var(--sky-deep); }
+  .compare-col .col-body { padding: 22px 24px; }
+  .compare-col .col-body p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 14px; }
+  .compare-col .col-body h4 {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin: 18px 0 8px; font-weight: 700;
+  }
+  .compare-col.static .col-body h4 { color: var(--navy-deep); }
+  .compare-col .col-body ul { padding-left: 18px; margin: 0; }
+  .compare-col .col-body ul li { font-size: 14px; line-height: 1.5; color: var(--ink-mid); margin-bottom: 6px; }
+  .compare-col .col-body ul li b { color: var(--navy-deep); }
+
+  .ad-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 13px; }
+  .ad-table thead th {
+    background: var(--navy-deep); color: white;
+    padding: 11px 14px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: left; font-weight: 600;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .ad-table tbody td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    font-family: var(--ff-mono); font-size: 12px; vertical-align: top;
+  }
+  .ad-table tbody td:first-child {
+    font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep);
+    background: var(--surface-alt); width: 100px;
+  }
+  .ad-table tbody td.ad-num {
+    font-weight: 700; color: var(--gold-deep); width: 70px;
+  }
+  .ad-table tbody tr:hover td { background: var(--bg-warm); }
+  .ad-table tbody tr.popular td { background: rgba(224,184,64,0.06); }
+  .ad-table tbody tr.popular td:first-child { background: var(--gold-soft); }
+
+  .info-card {
+    margin-top: 18px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 3px solid var(--sky);
+    font-size: 13px; line-height: 1.55;
+  }
+  .info-card .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px; font-weight: 700;
+  }
+
+  .protocol-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .protocol-card {
+    border: 1px solid var(--line); background: var(--surface);
+  }
+  .protocol-card .card-head {
+    background: var(--navy-deep); color: white; padding: 12px 18px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 3px solid var(--gold);
+  }
+  .protocol-card .card-head h4 {
+    font-family: var(--ff-display); font-size: 18px; font-weight: 700; margin: 0; letter-spacing: -0.01em;
+  }
+  .protocol-card .card-head .ad-tag {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.06em;
+    background: var(--gold); color: var(--navy-deep); padding: 3px 8px; font-weight: 700;
+  }
+  .protocol-card .card-body { padding: 14px 18px; }
+  .protocol-card .card-body p { font-size: 13px; line-height: 1.55; color: var(--ink-mid); margin: 0 0 10px; }
+  .protocol-card .card-body p:last-child { margin: 0; }
+  .protocol-card .card-body .meta-row {
+    display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;
+  }
+  .protocol-card .card-body .chip {
+    font-family: var(--ff-mono); font-size: 10px; padding: 3px 8px;
+    background: var(--bg-warm); border: 1px solid var(--line-soft);
+    color: var(--navy-deep); font-weight: 600;
+  }
+
+  /* BUILD THE NETWORK */
+  .build-frame { border: 1px solid var(--line); background: var(--surface); }
+  .build-head {
+    background: var(--navy-deep); color: white; padding: 16px 22px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .build-head .title { font-family: var(--ff-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+  .build-head .stats {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft);
+  }
+  .build-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 16px; margin-right: 4px; }
+  .build-scenario {
+    padding: 18px 22px; background: var(--bg-warm);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .build-scenario .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px; font-weight: 700;
+  }
+  .build-scenario p {
+    font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0;
+  }
+  .build-scenario p b { color: var(--navy-deep); font-weight: 700; }
+  .build-topology {
+    background: var(--surface-alt); padding: 24px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .build-topology svg { width: 100%; height: auto; max-height: 260px; display: block; margin: 0 auto; }
+  .build-question { padding: 22px 24px; background: var(--surface); }
+  .build-question h4 {
+    font-family: var(--ff-display); font-size: 18px; font-weight: 600;
+    color: var(--navy-deep); margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.4;
+  }
+  .build-options { display: flex; flex-direction: column; gap: 8px; }
+  .build-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 12px 16px; cursor: pointer; transition: all 0.15s;
+    text-align: left; font-family: var(--ff-mono); font-size: 13px;
+    color: var(--ink); display: flex; align-items: center; gap: 12px;
+  }
+  .build-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .build-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .build-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .build-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .build-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .build-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .build-option[disabled] { cursor: default; }
+  .build-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .build-feedback.show { display: block; }
+  .build-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .build-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .next-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+
+  /* KNOWLEDGE CHECK */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head {
+    background: var(--navy-deep); color: white;
+    padding: 16px 26px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    background: var(--sky); padding: 6px 12px;
+  }
+  .kc-body { padding: 32px 30px; }
+  .kc-question {
+    font-family: var(--ff-display); font-size: 21px; line-height: 1.4;
+    font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em;
+  }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .kc-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-score {
+    font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em;
+  }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score {
+    font-family: var(--ff-display); font-size: 88px; font-weight: 800;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em;
+  }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 600;
+    margin: 12px 0 8px; color: var(--navy-deep);
+  }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LIGHTNING */
+  .lr-pre {
+    text-align: center; padding: 40px 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em; text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body {
+    background: var(--surface); border: 1px solid var(--line); border-top: none;
+    padding: 30px 30px 40px;
+  }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px);
+    font-weight: 600; color: var(--navy-deep);
+    text-align: center; line-height: 1.35; letter-spacing: -0.01em;
+    margin: 0 0 24px; max-width: 760px; margin-left: auto; margin-right: auto;
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 16px 20px; cursor: pointer;
+    font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left; display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); flex-shrink: 0;
+  }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final {
+    text-align: center; padding: 50px 30px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col + .compare-col { border-left: none; border-top: 1px solid var(--line); }
+    .protocol-grid { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .rt-row { grid-template-columns: 28px 1fr 60px 1fr 60px 50px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2.1</span>
+    <span class="crumb">Routing & IPv4 Forwarding</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Routing</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 2.1</div>
+    <h1>Where Packets<br><em>Go Next.</em></h1>
+    <p class="lede">A switch moves frames inside one network. A router moves packets between networks — and to do that, it consults a routing table. Every entry in that table is a sentence: "to reach this destination, send the packet via this next hop, out this interface." This drill walks the routing table column by column, animates a packet hopping through three routers using longest-prefix match, compares static vs dynamic routing protocols, and ends with a missing-route troubleshooting exercise that mirrors the Network+ PBQ format.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Administrative Distance · Cisco Default</div>
+    <div class="ref-row"><span class="name">Connected</span><span class="desc">0 — directly attached subnet</span></div>
+    <div class="ref-row"><span class="name">Static</span><span class="desc">1 — admin manually entered</span></div>
+    <div class="ref-row"><span class="name">EIGRP (int)</span><span class="desc">90 — Cisco proprietary hybrid</span></div>
+    <div class="ref-row"><span class="name">OSPF</span><span class="desc">110 — link-state, open standard</span></div>
+    <div class="ref-row"><span class="name">RIP</span><span class="desc">120 — distance-vector, hop count</span></div>
+    <div class="ref-row"><span class="name">eBGP</span><span class="desc">20 — between autonomous systems</span></div>
+    <div class="ref-row"><span class="name">Unknown</span><span class="desc">255 — never used</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      "Two protocols learn the same route. Which wins?" → lower AD wins. Static (1) beats OSPF (110) every time.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">7</div><div class="label">Routing table columns</div></div>
+  <div class="stat"><div class="num">7</div><div class="label">Forwarding hops walked</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">Routing protocols covered</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check questions</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="table"><span class="num">01</span>Routing Table</button>
+  <button class="tab" data-tab="forward"><span class="num">02</span>Forwarding Walkthrough</button>
+  <button class="tab" data-tab="protocols"><span class="num">03</span>Static vs Dynamic</button>
+  <button class="tab" data-tab="build"><span class="num">04</span>Build the Network</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ROUTING TABLE -->
+<section class="panel active" id="panel-table">
+  <div class="rt-frame">
+    <div class="rt-head">
+      <span>Router R1 · show ip route output</span>
+      <span class="badge">↓ Click any row</span>
+    </div>
+    <div class="rt-table-wrap">
+      <div class="prompt">R1# show ip route</div>
+      <div class="rt-pseudo-table">
+        <div class="rt-row header">
+          <div class="rt-cell">Code</div>
+          <div class="rt-cell">Destination / Prefix</div>
+          <div class="rt-cell">[AD/Metric]</div>
+          <div class="rt-cell">Next Hop / Egress</div>
+          <div class="rt-cell">Last Updated</div>
+          <div class="rt-cell">Type</div>
+        </div>
+        <div class="rt-row" data-id="connected">
+          <div class="rt-cell proto-C">C</div>
+          <div class="rt-cell dest">10.0.1.0/24</div>
+          <div class="rt-cell ad">[0/0]</div>
+          <div class="rt-cell next">is directly connected, Gi0/0</div>
+          <div class="rt-cell ad">—</div>
+          <div class="rt-cell ad">connected</div>
+        </div>
+        <div class="rt-row" data-id="connected">
+          <div class="rt-cell proto-C">C</div>
+          <div class="rt-cell dest">10.0.2.0/24</div>
+          <div class="rt-cell ad">[0/0]</div>
+          <div class="rt-cell next">is directly connected, Gi0/1</div>
+          <div class="rt-cell ad">—</div>
+          <div class="rt-cell ad">connected</div>
+        </div>
+        <div class="rt-row" data-id="static">
+          <div class="rt-cell proto-S">S</div>
+          <div class="rt-cell dest">10.0.5.0/24</div>
+          <div class="rt-cell ad">[1/0]</div>
+          <div class="rt-cell next">via 10.0.99.2, Gi0/2</div>
+          <div class="rt-cell ad">—</div>
+          <div class="rt-cell ad">static</div>
+        </div>
+        <div class="rt-row" data-id="ospf">
+          <div class="rt-cell proto-O">O</div>
+          <div class="rt-cell dest">10.0.10.0/24</div>
+          <div class="rt-cell ad">[110/20]</div>
+          <div class="rt-cell next">via 10.0.99.2, Gi0/2</div>
+          <div class="rt-cell ad">00:14:23</div>
+          <div class="rt-cell ad">OSPF</div>
+        </div>
+        <div class="rt-row" data-id="eigrp">
+          <div class="rt-cell proto-D">D</div>
+          <div class="rt-cell dest">10.0.20.0/24</div>
+          <div class="rt-cell ad">[90/2816]</div>
+          <div class="rt-cell next">via 10.0.99.6, Gi0/3</div>
+          <div class="rt-cell ad">02:33:11</div>
+          <div class="rt-cell ad">EIGRP</div>
+        </div>
+        <div class="rt-row" data-id="default">
+          <div class="rt-cell proto-Sd">S*</div>
+          <div class="rt-cell dest">0.0.0.0/0</div>
+          <div class="rt-cell ad">[1/0]</div>
+          <div class="rt-cell next">via 203.0.113.1, Gi0/4</div>
+          <div class="rt-cell ad">—</div>
+          <div class="rt-cell ad">default</div>
+        </div>
+      </div>
+      <div style="margin-top: 14px; color: var(--gray-soft); font-size: 11px;">
+        Codes: <span style="color: #2A8049;">C</span> connected · <span style="color: var(--gold);">S</span> static · <span style="color: var(--gold);">S*</span> default static · <span style="color: #B86BE8;">O</span> OSPF · <span style="color: #E08940;">D</span> EIGRP · R RIP · B BGP
+      </div>
+    </div>
+    <div class="rt-detail" id="rt-detail"></div>
+  </div>
+</section>
+
+<!-- FORWARDING WALKTHROUGH -->
+<section class="panel" id="panel-forward">
+  <div class="fw-frame" id="fw-frame"></div>
+</section>
+
+<!-- STATIC vs DYNAMIC -->
+<section class="panel" id="panel-protocols">
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Static vs <em>Dynamic</em></h2>
+      <p>Two ways routes get into a routing table. Static = an admin typed it. Dynamic = a routing protocol learned it.</p>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-col static">
+        <div class="col-head">Static Routing</div>
+        <div class="col-body">
+          <p>An administrator manually configures every route. The router does not learn anything on its own — it only knows what you typed.</p>
+          <h4>When to Use</h4>
+          <ul>
+            <li><b>Small networks</b> — 2–5 routers, few subnets</li>
+            <li><b>Stub networks</b> — only one path in or out</li>
+            <li><b>Default routes</b> — the catch-all "send unknown traffic this way"</li>
+            <li><b>Security-sensitive</b> — no protocol traffic, no auto-changes</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li><b>Pro:</b> simple, predictable, no overhead</li>
+            <li><b>Pro:</b> lowest AD (1) — wins over dynamic protocols</li>
+            <li><b>Con:</b> doesn't scale — every change is manual</li>
+            <li><b>Con:</b> doesn't fail over — if the next hop dies, traffic still goes nowhere</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-col dynamic">
+        <div class="col-head">Dynamic Routing</div>
+        <div class="col-body">
+          <p>A routing protocol (OSPF, EIGRP, RIP, BGP) running on each router shares route information with its neighbors. The routing table updates automatically when the network changes.</p>
+          <h4>When to Use</h4>
+          <ul>
+            <li><b>Larger networks</b> — many routers and subnets</li>
+            <li><b>Networks with redundancy</b> — multiple paths between sites</li>
+            <li><b>Frequently-changing topologies</b> — links coming up or down</li>
+            <li><b>Between organizations</b> — BGP for ISP and inter-AS routing</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li><b>Pro:</b> automatic discovery and failover</li>
+            <li><b>Pro:</b> scales to thousands of routes</li>
+            <li><b>Con:</b> protocol overhead (CPU, bandwidth)</li>
+            <li><b>Con:</b> more attack surface — protocol messages can be spoofed without authentication</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="heading">★ Default Route — special case worth remembering</div>
+      <p>A default route is the "gateway of last resort" — written as <code style="font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px;">0.0.0.0/0</code>. If no other route in the table matches the packet's destination, the router uses this one. Almost every edge router has a default static route pointing at the ISP. In <code style="font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px;">show ip route</code> output, default static routes appear with <code style="font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px;">S*</code>.</p>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Administrative <em>Distance</em></h2>
+      <p>When two protocols learn the same route, the lower AD wins. AD is the trustworthiness ranking, NOT the path-quality metric (that's separate).</p>
+    </div>
+    <table class="ad-table">
+      <thead>
+        <tr><th>Source</th><th>AD</th><th>Family</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr class="popular"><td>Connected</td><td class="ad-num">0</td><td>—</td><td>Directly attached interface — always trusted</td></tr>
+        <tr class="popular"><td>Static</td><td class="ad-num">1</td><td>Manual</td><td>Admin manually entered — high trust</td></tr>
+        <tr><td>eBGP</td><td class="ad-num">20</td><td>Path-vector</td><td>External BGP — between autonomous systems</td></tr>
+        <tr class="popular"><td>EIGRP (internal)</td><td class="ad-num">90</td><td>Hybrid</td><td>Cisco proprietary — distance + link-state traits</td></tr>
+        <tr><td>IGRP</td><td class="ad-num">100</td><td>Distance-vector</td><td>Cisco legacy, replaced by EIGRP</td></tr>
+        <tr class="popular"><td>OSPF</td><td class="ad-num">110</td><td>Link-state</td><td>Open standard, runs on most enterprise networks</td></tr>
+        <tr><td>IS-IS</td><td class="ad-num">115</td><td>Link-state</td><td>Mostly used by ISPs</td></tr>
+        <tr><td>RIP</td><td class="ad-num">120</td><td>Distance-vector</td><td>Legacy, max 15 hops, slow convergence</td></tr>
+        <tr><td>EIGRP (external)</td><td class="ad-num">170</td><td>Hybrid</td><td>Routes redistributed into EIGRP</td></tr>
+        <tr><td>iBGP</td><td class="ad-num">200</td><td>Path-vector</td><td>Internal BGP — within an AS</td></tr>
+        <tr><td>Unknown / unreachable</td><td class="ad-num">255</td><td>—</td><td>Never used for forwarding</td></tr>
+      </tbody>
+    </table>
+    <div class="info-card">
+      <div class="heading">AD vs Metric — don't confuse them</div>
+      <p><b>AD chooses between protocols.</b> If OSPF and EIGRP both learn 10.0.5.0/24, EIGRP (90) wins over OSPF (110). <b>Metric chooses within a protocol.</b> If OSPF learns two paths to 10.0.5.0/24, the path with the lower OSPF cost (metric) wins. Different protocols use different metrics — RIP counts hops, OSPF uses bandwidth-based cost, EIGRP uses bandwidth + delay.</p>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>The <em>Routing Protocols</em></h2>
+      <p>The five protocol families the exam expects you to recognize and compare.</p>
+    </div>
+    <div class="protocol-grid">
+      <div class="protocol-card">
+        <div class="card-head">
+          <h4>RIP / RIPv2</h4>
+          <span class="ad-tag">AD 120</span>
+        </div>
+        <div class="card-body">
+          <p>The simplest dynamic protocol. Counts <b>hops</b> as its metric — every router crossed = 1 hop. Max 15 hops; 16 = unreachable.</p>
+          <p>Slow to converge, broadcasts entire routing table every 30 seconds. Largely legacy now.</p>
+          <div class="meta-row">
+            <span class="chip">Distance-vector</span>
+            <span class="chip">Open standard</span>
+            <span class="chip">15 hops max</span>
+          </div>
+        </div>
+      </div>
+      <div class="protocol-card">
+        <div class="card-head">
+          <h4>OSPF</h4>
+          <span class="ad-tag">AD 110</span>
+        </div>
+        <div class="card-body">
+          <p>Link-state protocol. Each router has a complete map of the topology and runs Dijkstra's shortest-path algorithm. Metric is <b>cost</b>, derived from bandwidth.</p>
+          <p>Open standard, scales well, fast convergence. Most common enterprise IGP.</p>
+          <div class="meta-row">
+            <span class="chip">Link-state</span>
+            <span class="chip">Open standard</span>
+            <span class="chip">Areas (0 = backbone)</span>
+          </div>
+        </div>
+      </div>
+      <div class="protocol-card">
+        <div class="card-head">
+          <h4>EIGRP</h4>
+          <span class="ad-tag">AD 90</span>
+        </div>
+        <div class="card-body">
+          <p>Cisco proprietary hybrid. Originally Cisco-only, now an open standard. Combines distance-vector and link-state characteristics.</p>
+          <p>Metric uses bandwidth + delay. Very fast convergence via DUAL algorithm. Common on Cisco-only networks.</p>
+          <div class="meta-row">
+            <span class="chip">Hybrid</span>
+            <span class="chip">Cisco origin</span>
+            <span class="chip">DUAL convergence</span>
+          </div>
+        </div>
+      </div>
+      <div class="protocol-card">
+        <div class="card-head">
+          <h4>BGP</h4>
+          <span class="ad-tag">AD 20 / 200</span>
+        </div>
+        <div class="card-body">
+          <p>The protocol that runs the Internet. Routes between <b>autonomous systems</b> (ASes) — your ISP and every other ISP speak BGP to each other.</p>
+          <p>Path-vector. Doesn't pick fastest — picks based on policy. eBGP between ASes (AD 20), iBGP within (AD 200).</p>
+          <div class="meta-row">
+            <span class="chip">Path-vector</span>
+            <span class="chip">Internet backbone</span>
+            <span class="chip">Policy-driven</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block" style="margin-top: 28px;">
+      <div class="section-head">
+        <h2>Other <em>Routing Concepts</em></h2>
+        <p>Topics related to forwarding the exam will also test.</p>
+      </div>
+      <div class="protocol-grid">
+        <div class="protocol-card">
+          <div class="card-head">
+            <h4>FHRP</h4>
+            <span class="ad-tag">Gateway HA</span>
+          </div>
+          <div class="card-body">
+            <p><b>First Hop Redundancy Protocol</b> — keeps the default gateway up if a router fails. Hosts use one virtual IP; multiple routers share it.</p>
+            <p>Key implementations: <b>HSRP</b> (Cisco), <b>VRRP</b> (open standard), <b>GLBP</b> (Cisco, with load balancing).</p>
+            <div class="meta-row">
+              <span class="chip">HSRP · Cisco</span>
+              <span class="chip">VRRP · Standard</span>
+              <span class="chip">GLBP · Cisco</span>
+            </div>
+          </div>
+        </div>
+        <div class="protocol-card">
+          <div class="card-head">
+            <h4>Subinterfaces</h4>
+            <span class="ad-tag">Router-on-stick</span>
+          </div>
+          <div class="card-body">
+            <p>One physical router interface divided into multiple logical sub-interfaces, each with its own IP and VLAN tag. Lets a single router-trunk-link route between many VLANs.</p>
+            <p>Commonly called "router on a stick" — the trunk to the switch is the stick.</p>
+            <div class="meta-row">
+              <span class="chip">Logical interfaces</span>
+              <span class="chip">802.1Q tagging</span>
+              <span class="chip">Inter-VLAN routing</span>
+            </div>
+          </div>
+        </div>
+        <div class="protocol-card">
+          <div class="card-head">
+            <h4>VLSM &amp; Route Summarization</h4>
+            <span class="ad-tag">Efficiency</span>
+          </div>
+          <div class="card-body">
+            <p><b>VLSM</b> (Variable Length Subnet Mask) — different subnet sizes within one network. <b>Summarization</b> — many small subnets advertised as one larger one to neighbors.</p>
+            <p>Cuts routing table size and reduces protocol overhead.</p>
+            <div class="meta-row">
+              <span class="chip">VLSM</span>
+              <span class="chip">Supernetting</span>
+              <span class="chip">Aggregation</span>
+            </div>
+          </div>
+        </div>
+        <div class="protocol-card">
+          <div class="card-head">
+            <h4>Longest Prefix Match</h4>
+            <span class="ad-tag">Selection rule</span>
+          </div>
+          <div class="card-body">
+            <p>When multiple routes match a destination, the router picks the one with the <b>longest prefix</b> (most specific). 10.5.0.0/16 beats 10.0.0.0/8 for destination 10.5.1.1.</p>
+            <p>This rule applies before AD or metric — most specific route always wins.</p>
+            <div class="meta-row">
+              <span class="chip">Most specific</span>
+              <span class="chip">Pre-AD</span>
+              <span class="chip">Default route last</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD THE NETWORK -->
+<section class="panel" id="panel-build">
+  <div class="build-frame" id="build-frame"></div>
+</section>
+
+<!-- KNOWLEDGE CHECK -->
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<!-- LIGHTNING ROUND -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed multiple choice — routing table reading, AD comparison, protocol identification, default routes, longest-prefix match. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool covering CompTIA N10-009 Objective 2.1 — routing technologies and IPv4 forwarding. Includes the routing table structure, longest-prefix match, static vs dynamic routing, administrative distance, default routes, and a missing-route troubleshooting exercise modeled after exam PBQs.</p>
+      <p>Pairs with the 1.7 IPv4 Addressing artifact — addresses define the destinations, this artifact teaches how packets reach them.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Routing Table tab — read every column.</p>
+      <p>· Day 2: Forwarding Walkthrough — trace the packet end-to-end.</p>
+      <p>· Day 3: Static vs Dynamic + AD table memorization.</p>
+      <p>· Day 4+: Build the Network until you can identify missing routes instantly.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 2.1 Routing Technologies</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* ROUTING TABLE — anatomy detail panel                          */
+/* ============================================================ */
+const RT_DETAIL = {
+  connected: {
+    eyebrow: 'Connected route',
+    title: 'C · <em>Directly Connected</em>',
+    desc: 'Every interface that\'s up and has an IP address gets an automatic "connected" route added to the table. The router can reach this subnet without a next hop because it IS that subnet — its interface is the gateway.',
+    points: ['AD = 0 (most trusted)', 'No next hop required', 'Added/removed automatically as interfaces go up/down', 'Always wins over learned routes'],
+    tip: 'If "show ip route" doesn\'t list a connected route for a subnet, the interface is down or has no IP. This is the first thing to check during troubleshooting.'
+  },
+  static: {
+    eyebrow: 'Static route',
+    title: 'S · <em>Manually Configured</em>',
+    desc: 'An administrator typed this route into the router\'s configuration. The router uses it forever, regardless of network changes — until someone manually edits or removes it.',
+    points: ['AD = 1 (very trusted)', 'No protocol overhead', 'Doesn\'t fail over automatically', 'Lowest AD beats any dynamic protocol'],
+    tip: 'Static routes are typed as "ip route DESTINATION MASK NEXT-HOP" or "ip route DESTINATION MASK INTERFACE". The exam may show either form.'
+  },
+  ospf: {
+    eyebrow: 'OSPF-learned route',
+    title: 'O · <em>Open Shortest Path First</em>',
+    desc: 'OSPF is a link-state protocol — every router has a complete map of the network and runs Dijkstra\'s algorithm to find the shortest path. The metric is "cost," derived from interface bandwidth.',
+    points: ['AD = 110', 'Open standard (vendor-neutral)', 'Fast convergence', 'Hierarchical: areas (Area 0 = backbone)'],
+    tip: 'OSPF\'s "[110/20]" notation means AD 110, metric (cost) 20. Lower cost = better path within OSPF.'
+  },
+  eigrp: {
+    eyebrow: 'EIGRP-learned route',
+    title: 'D · <em>Enhanced IGRP</em>',
+    desc: 'EIGRP is a hybrid protocol with distance-vector and link-state characteristics. Originally Cisco proprietary, now an open standard. The "D" is for "DUAL" — its convergence algorithm.',
+    points: ['AD = 90 (internal) / 170 (external)', 'Cisco origin, now open', 'Metric: bandwidth + delay', 'Very fast convergence'],
+    tip: 'EIGRP\'s metric values look huge (e.g., 2816) because they include bandwidth and delay calculations. Don\'t compare EIGRP metrics to OSPF costs directly.'
+  },
+  default: {
+    eyebrow: 'Default route',
+    title: 'S* · <em>Gateway of Last Resort</em>',
+    desc: 'The catch-all route. Destination 0.0.0.0/0 with mask 0.0.0.0 matches any packet — but only used when no more specific route matches first. Almost every router has one pointing toward the ISP.',
+    points: ['Written as 0.0.0.0/0', 'Matched LAST (least specific)', 'Used when no other route matches', 'Usually a static route — hence S*'],
+    tip: 'Without a default route, traffic to unknown destinations is dropped with "destination unreachable." A missing default route is the most common cause of "internet down on this office only" tickets.'
+  }
+};
+
+let selectedRT = 'connected';
+
+function renderRTDetail() {
+  document.querySelectorAll('.rt-row[data-id]').forEach(r => r.classList.toggle('selected', r.dataset.id === selectedRT));
+  const d = RT_DETAIL[selectedRT];
+  document.getElementById('rt-detail').innerHTML = `
+    <div class="rt-detail-eyebrow">${d.eyebrow}</div>
+    <h3>${d.title}</h3>
+    <p>${d.desc}</p>
+    <div class="key-points">${d.points.map(p => `<span class="chip">${p}</span>`).join('')}</div>
+    <div class="tip">
+      <div class="heading">★ Exam Tip</div>
+      <p>${d.tip}</p>
+    </div>
+  `;
+}
+document.querySelectorAll('.rt-row[data-id]').forEach(r => {
+  r.addEventListener('click', () => {
+    selectedRT = r.dataset.id;
+    renderRTDetail();
+  });
+});
+renderRTDetail();
+
+/* ============================================================ */
+/* FORWARDING WALKTHROUGH — animated packet                      */
+/* ============================================================ */
+const FW_STAGES = [
+  {
+    step: 1,
+    title: 'PC1 wants to reach 10.0.5.50',
+    text: '<b>PC1 (10.0.1.10/24)</b> needs to send data to a server at <b>10.0.5.50</b>. PC1 checks: is 10.0.5.50 on my own subnet? With a /24 mask, my subnet is 10.0.1.0–10.0.1.255. The destination is on a different network, so I must send to my <b>default gateway</b>.',
+    detail: 'PC1 ARPs for the gateway\'s MAC, frames the packet to that MAC, and sends it out its NIC.',
+    activeNode: 'pc1',
+    activeLink: 'pc1-r1'
+  },
+  {
+    step: 2,
+    title: 'R1 receives the packet',
+    text: 'The frame arrives at <b>R1\'s Gi0/0 interface</b>. R1 strips the Ethernet header, inspects the IP header, and reads the destination: <b>10.0.5.50</b>. R1 doesn\'t care about the source for forwarding — only the destination.',
+    detail: 'R1 now consults its routing table to find the best match for 10.0.5.50.',
+    activeNode: 'r1',
+    activeLink: 'pc1-r1',
+    lookup: {
+      title: 'R1 # routing table lookup for 10.0.5.50',
+      text: 'C  10.0.1.0/24    is directly connected, Gi0/0\nC  10.0.2.0/24    is directly connected, Gi0/1\nS  10.0.5.0/24    via 10.0.99.2, Gi0/2     ← MATCH (longest prefix)\nO  10.0.10.0/24   via 10.0.99.2, Gi0/2\nS* 0.0.0.0/0      via 203.0.113.1, Gi0/4',
+      match: 3
+    }
+  },
+  {
+    step: 3,
+    title: 'R1 picks the longest-prefix match',
+    text: 'R1 sees one matching route: <b>10.0.5.0/24 via 10.0.99.2 out Gi0/2</b>. The default route (0.0.0.0/0) also matches but is LESS specific, so R1 ignores it. <b>Longest prefix wins.</b>',
+    detail: 'R1 will forward this packet to next-hop 10.0.99.2 by way of its Gi0/2 interface.',
+    activeNode: 'r1',
+    activeLink: 'r1-r2'
+  },
+  {
+    step: 4,
+    title: 'R1 → R2: re-frame and send',
+    text: 'R1 ARPs for 10.0.99.2 (R2\'s interface) to get its MAC, builds a NEW Ethernet frame with R1\'s MAC as source and R2\'s MAC as destination, and ships it out Gi0/2. <b>The IP header is unchanged</b> — destination is still 10.0.5.50, source is still PC1\'s IP.',
+    detail: 'Routers re-write Layer 2 (MAC addresses) at every hop. Layer 3 (IP addresses) stays the same end-to-end.',
+    activeNode: 'r2',
+    activeLink: 'r1-r2',
+    lookup: {
+      title: 'R2 # routing table lookup for 10.0.5.50',
+      text: 'C  10.0.99.0/30   is directly connected, Gi0/0\nC  10.0.5.0/24    is directly connected, Gi0/1     ← MATCH (connected)\nO  10.0.10.0/24   via 10.0.99.6, Gi0/2',
+      match: 2
+    }
+  },
+  {
+    step: 5,
+    title: 'R2 finds the destination is directly connected',
+    text: 'R2 looks up 10.0.5.50 and finds <b>10.0.5.0/24 is directly connected on Gi0/1</b>. There\'s no next hop — R2 IS the gateway for this subnet. R2 ARPs for 10.0.5.50 directly.',
+    detail: 'When the destination is on a directly connected subnet, the router doesn\'t need a next-hop router — it delivers the packet itself.',
+    activeNode: 'r2',
+    activeLink: 'r2-server'
+  },
+  {
+    step: 6,
+    title: 'R2 → Server: final hop',
+    text: 'R2 builds a new Ethernet frame with R2\'s MAC as source and the server\'s MAC as destination, and sends it out Gi0/1. The packet arrives at <b>Server (10.0.5.50)</b>. The server\'s NIC accepts the frame because the destination MAC matches.',
+    detail: 'The server processes the IP packet, sees the destination IP is its own, and hands the payload to whatever application is listening (e.g., a web server on TCP/80).',
+    activeNode: 'server',
+    activeLink: 'r2-server'
+  },
+  {
+    step: 7,
+    title: 'The return trip mirrors the path',
+    text: 'When the server replies, the same forwarding logic plays in reverse. <b>Server</b> sends to its gateway (R2), R2 looks up <b>10.0.1.10</b>, finds 10.0.1.0/24 via R1, R1 finds the destination is directly connected, and delivers to PC1.',
+    detail: 'For the conversation to work, BOTH directions need valid routes. A common bug: forward route works, return route is missing — symptom is "packets go but never come back."',
+    activeNode: 'server',
+    activeLink: 'r2-server'
+  }
+];
+
+let fwIdx = 0;
+
+function renderFWStage() {
+  const frame = document.getElementById('fw-frame');
+  const s = FW_STAGES[fwIdx];
+
+  // Build the topology SVG with active highlighting
+  const isActive = (id) => s.activeNode === id || s.activeLink === id;
+  const linkColor = (id) => s.activeLink === id ? '#E0B840' : '#404758';
+  const linkWidth = (id) => s.activeLink === id ? 4 : 2;
+  const nodeColor = (id) => s.activeNode === id ? '#E0B840' : '#283068';
+
+  const svg = `
+    <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
+      <!-- Links first (under nodes) -->
+      <line x1="120" y1="120" x2="280" y2="120" stroke="${linkColor('pc1-r1')}" stroke-width="${linkWidth('pc1-r1')}"/>
+      <line x1="380" y1="120" x2="540" y2="120" stroke="${linkColor('r1-r2')}" stroke-width="${linkWidth('r1-r2')}"/>
+      <line x1="640" y1="120" x2="790" y2="120" stroke="${linkColor('r2-server')}" stroke-width="${linkWidth('r2-server')}"/>
+
+      <!-- PC1 -->
+      <g>
+        <rect x="40" y="92" width="80" height="56" fill="white" stroke="${nodeColor('pc1')}" stroke-width="2.5" rx="3"/>
+        <rect x="46" y="98" width="68" height="44" fill="${nodeColor('pc1')}" opacity="0.18"/>
+        <rect x="55" y="148" width="50" height="6" fill="${nodeColor('pc1')}"/>
+        <rect x="50" y="154" width="60" height="3" fill="${nodeColor('pc1')}"/>
+        <text x="80" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="${nodeColor('pc1')}">PC1</text>
+        <text x="80" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">10.0.1.10</text>
+      </g>
+
+      <!-- R1 -->
+      <g>
+        <circle cx="330" cy="120" r="32" fill="${nodeColor('r1')}" stroke="#1A2050" stroke-width="2"/>
+        <text x="330" y="125" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="700" fill="#E0B840">R1</text>
+        <text x="330" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">.1 / .2</text>
+        <text x="330" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">Gi0/0 ↔ Gi0/2</text>
+      </g>
+
+      <!-- R2 -->
+      <g>
+        <circle cx="590" cy="120" r="32" fill="${nodeColor('r2')}" stroke="#1A2050" stroke-width="2"/>
+        <text x="590" y="125" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="700" fill="#E0B840">R2</text>
+        <text x="590" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">10.0.99.2</text>
+        <text x="590" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">Gi0/0 ↔ Gi0/1</text>
+      </g>
+
+      <!-- Server -->
+      <g>
+        <rect x="800" y="92" width="60" height="56" fill="white" stroke="${nodeColor('server')}" stroke-width="2.5" rx="2"/>
+        <rect x="806" y="98" width="48" height="10" fill="${nodeColor('server')}" opacity="0.4"/>
+        <circle cx="812" cy="103" r="2" fill="#2A6049"/>
+        <rect x="806" y="113" width="48" height="10" fill="${nodeColor('server')}" opacity="0.4"/>
+        <circle cx="812" cy="118" r="2" fill="#2A6049"/>
+        <rect x="806" y="128" width="48" height="10" fill="${nodeColor('server')}" opacity="0.4"/>
+        <circle cx="812" cy="133" r="2" fill="#2A6049"/>
+        <text x="830" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="${nodeColor('server')}">SERVER</text>
+        <text x="830" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">10.0.5.50</text>
+      </g>
+
+      <!-- Subnet labels -->
+      <text x="200" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1E8FBE">10.0.1.0/24</text>
+      <text x="460" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1E8FBE">10.0.99.0/30</text>
+      <text x="715" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1E8FBE">10.0.5.0/24</text>
+
+      <!-- Animated packet -->
+      ${s.activeLink ? renderPacket(s.activeLink) : ''}
+    </svg>
+  `;
+
+  function renderPacket(linkId) {
+    let cx, cy = 120;
+    if (linkId === 'pc1-r1') cx = 200;
+    else if (linkId === 'r1-r2') cx = 460;
+    else if (linkId === 'r2-server') cx = 715;
+    else return '';
+    return `
+      <g>
+        <rect x="${cx - 18}" y="${cy - 12}" width="36" height="24" fill="#E0B840" stroke="#1A2050" stroke-width="1.5"/>
+        <text x="${cx}" y="${cy + 4}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#1A2050">PKT</text>
+      </g>`;
+  }
+
+  let lookupHtml = '';
+  if (s.lookup) {
+    const lines = s.lookup.text.split('\n').map((line, i) => {
+      const isMatch = (i + 1 === s.lookup.match) ||
+                      (s.lookup.match === 3 && i === 2) ||
+                      (s.lookup.match === 2 && i === 1);
+      return isMatch ? `<span class="match">${line}</span>` : line;
+    }).join('\n');
+    lookupHtml = `
+      <div class="lookup-box">
+        <div class="head">${s.lookup.title}</div>
+        <pre>${lookupHtml || lines}</pre>
+      </div>`;
+    // Re-build with proper escaping
+    lookupHtml = `
+      <div class="lookup-box">
+        <div class="head">${s.lookup.title}</div>
+        <pre>${lines}</pre>
+      </div>`;
+  }
+
+  frame.innerHTML = `
+    <div class="fw-head">
+      <h3>Packet from PC1 → Server (10.0.5.50)</h3>
+      <span class="step-tag">Step ${s.step} of 7</span>
+    </div>
+    <div class="fw-progress">
+      ${[1,2,3,4,5,6,7].map(n => {
+        if (n === s.step) return `<div class="fw-prog-step active"></div>`;
+        if (n < s.step) return `<div class="fw-prog-step done"></div>`;
+        return `<div class="fw-prog-step"></div>`;
+      }).join('')}
+    </div>
+    <div class="fw-stage">${svg}</div>
+    <div class="fw-narration">
+      <div class="step-eyebrow">STEP ${s.step}</div>
+      <h4>${s.title}</h4>
+      <p>${s.text}</p>
+      <p style="font-style: italic; color: var(--ink-mute);">${s.detail}</p>
+      ${lookupHtml}
+    </div>
+    <div class="fw-controls">
+      <button class="btn ghost" id="fw-prev" ${fwIdx === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>← Previous</button>
+      <span style="font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em;">Step ${s.step} of 7 · ${fwIdx + 1} of ${FW_STAGES.length}</span>
+      <button class="btn primary" id="fw-next" ${fwIdx === FW_STAGES.length - 1 ? 'disabled' : ''}>${fwIdx === FW_STAGES.length - 1 ? 'Done' : 'Next →'}</button>
+    </div>
+  `;
+
+  document.getElementById('fw-prev').addEventListener('click', () => {
+    if (fwIdx > 0) { fwIdx--; renderFWStage(); }
+  });
+  document.getElementById('fw-next').addEventListener('click', () => {
+    if (fwIdx < FW_STAGES.length - 1) { fwIdx++; renderFWStage(); }
+  });
+}
+renderFWStage();
+
+/* ============================================================ */
+/* BUILD THE NETWORK — missing route troubleshooting             */
+/* ============================================================ */
+const BUILD_SCENARIOS = [
+  {
+    description: '<b>Topology:</b> PC1 (10.0.1.10/24) → R1 → R2 → File Server (10.0.5.50/24). PC1 reports it cannot reach the file server. Pinging from R1 to the server works fine. Pinging from PC1 to R1\'s nearest interface works fine. <b>R1\'s routing table:</b> only shows directly connected routes (10.0.1.0/24 and 10.0.99.0/30) — NO entry for 10.0.5.0/24.',
+    question: 'What is the most appropriate fix on R1?',
+    options: [
+      'Add a static route: ip route 10.0.5.0 255.255.255.0 10.0.99.2',
+      'Reboot R1',
+      'Add a default route: ip route 0.0.0.0 0.0.0.0 10.0.1.10',
+      'Reconfigure 10.0.1.0/24 as a /16 to "include" 10.0.5.0'
+    ],
+    correct: 0,
+    explain: 'R1 has no route to 10.0.5.0/24, so it doesn\'t know how to forward PC1\'s packets. Add a static route pointing at R2 (10.0.99.2) as the next hop. Rebooting won\'t add missing routes. A default route to PC1 (10.0.1.10) makes no sense — PC1 isn\'t a router. Changing the mask creates overlap and breaks other things.'
+  },
+  {
+    description: '<b>Topology:</b> Branch office has one router (RB) connected to HQ via a single WAN link. The branch network is 10.10.0.0/16. Users at the branch can reach HQ but cannot reach <b>any</b> external internet sites. RB\'s routing table has connected routes to 10.10.0.0/16 and the WAN, plus a static route to HQ\'s networks — but no other entries.',
+    question: 'What is the simplest fix?',
+    options: [
+      'Add specific static routes for every public IP range',
+      'Add a default route: ip route 0.0.0.0 0.0.0.0 [HQ\'s WAN IP]',
+      'Enable RIP on RB',
+      'Increase the MTU on the WAN link'
+    ],
+    correct: 1,
+    explain: 'Adding a default route (0.0.0.0/0) means "any destination not specifically listed goes this way." For a stub branch with one upstream link, this is the standard configuration. Adding routes for every public IP would be impossible. RIP wouldn\'t help — there\'s nothing to learn from. MTU isn\'t relevant.'
+  },
+  {
+    description: '<b>Topology:</b> R3 receives a packet destined for 192.168.10.50. Its routing table has these entries:<br><br><code style="font-family:var(--ff-mono); font-size:12px; background: var(--surface); padding: 8px; display:block; margin: 8px 0;">S  192.168.0.0/16    via 10.0.99.1<br>O  192.168.10.0/24   via 10.0.99.5</code>',
+    question: 'Which route does R3 use to forward the packet, and why?',
+    options: [
+      'The static route — it has the lower AD (1)',
+      'The OSPF route — it has the longer prefix (more specific)',
+      'Both — load balanced',
+      'Neither — R3 drops the packet'
+    ],
+    correct: 1,
+    explain: 'Longest prefix match wins BEFORE administrative distance is consulted. /24 is more specific than /16, so the OSPF route is used even though static has a lower AD. AD only matters when comparing routes to the SAME prefix.'
+  },
+  {
+    description: '<b>Topology:</b> Two ISPs deliver routes to your edge router R-Edge. ISP-A advertises a default route via eBGP (AD 20). The local admin also configured a static default route pointing at ISP-B (AD 1). <b>Both routes are for 0.0.0.0/0.</b>',
+    question: 'Which path will outbound internet traffic take?',
+    options: [
+      'ISP-A — it\'s a dynamic protocol, more reliable',
+      'ISP-B — the static route has lower AD',
+      'Load balanced 50/50 across both ISPs',
+      'Whichever has lower latency at any moment'
+    ],
+    correct: 1,
+    explain: 'When two routes have the SAME prefix (both 0.0.0.0/0), the one with the lower AD wins. Static = AD 1, eBGP = AD 20. The static route to ISP-B is preferred. Load balancing requires equal AD AND equal metric, which isn\'t the case here.'
+  },
+  {
+    description: '<b>Topology:</b> R1 and R2 both have OSPF running and both share Subnet A in common. R1 has a 1 Gbps link to Subnet A (OSPF cost 1). R2 has a 100 Mbps link to Subnet A (OSPF cost 10). R3 (which talks to both R1 and R2) needs to reach Subnet A.',
+    question: 'Which path does R3 prefer?',
+    options: [
+      'R3 → R1 (via the 1 Gbps link) — lower OSPF cost wins',
+      'R3 → R2 (via the 100 Mbps link) — backup paths are preferred',
+      'R3 → R1 — alphabetically first router wins',
+      'R3 picks randomly each time'
+    ],
+    correct: 0,
+    explain: 'Within OSPF, lower cost wins. Cost 1 (1 Gbps) beats cost 10 (100 Mbps). OSPF derives cost from bandwidth — higher bandwidth = lower cost = preferred path. AD doesn\'t come into play because both routes are from the same protocol.'
+  },
+  {
+    description: '<b>Topology:</b> Workstation 10.20.30.45/27 wants to talk to 10.20.30.50/27. Workstation\'s default gateway is 10.20.30.1.',
+    question: 'How does the workstation deliver this packet?',
+    options: [
+      'Directly to 10.20.30.50 — both addresses are in the same /27 subnet (10.20.30.32–10.20.30.63)',
+      'To the gateway 10.20.30.1 — all traffic must leave through the gateway',
+      'To 10.20.30.63 (broadcast) first',
+      'It depends on routing protocol'
+    ],
+    correct: 0,
+    explain: 'With a /27 mask, 10.20.30.32/27 covers .32–.63. Both .45 and .50 are within that range — same subnet. The workstation ARPs for .50\'s MAC and delivers directly. Hosts only use the default gateway when the destination is in a DIFFERENT subnet (per their own mask).'
+  }
+];
+
+let buildIdx = 0, buildScore = 0, buildAnswered = false;
+
+function renderBuildScenario() {
+  const frame = document.getElementById('build-frame');
+  if (buildIdx >= BUILD_SCENARIOS.length) {
+    frame.innerHTML = `
+      <div class="build-head">
+        <div class="title">Lab Complete</div>
+        <div class="stats">Got <b>${buildScore}</b>of <b>${BUILD_SCENARIOS.length}</b></div>
+      </div>
+      <div style="text-align: center; padding: 50px 30px; background: var(--surface);">
+        <div style="font-family: var(--ff-display); font-size: 80px; font-weight: 800; color: var(--navy-deep); line-height: 1;">${buildScore}<span style="color: var(--gold)">/${BUILD_SCENARIOS.length}</span></div>
+        <p style="margin-top: 20px; color: var(--ink-mid); max-width: 50ch; margin-left: auto; margin-right: auto;">${buildScore === BUILD_SCENARIOS.length ? 'Perfect — you can read a routing table and identify missing routes under exam pressure.' : (buildScore >= BUILD_SCENARIOS.length * 0.7 ? 'Strong work. Review the ones you missed in the Static vs Dynamic tab.' : 'Worth running again — review the Routing Table and Forwarding Walkthrough tabs first.')}</p>
+        <button class="next-btn" id="build-restart" style="margin-top: 20px;">↻ Run Lab Again</button>
+      </div>`;
+    document.getElementById('build-restart').addEventListener('click', () => {
+      buildIdx = 0; buildScore = 0; renderBuildScenario();
+    });
+    return;
+  }
+  const s = BUILD_SCENARIOS[buildIdx];
+  frame.innerHTML = `
+    <div class="build-head">
+      <div class="title">Scenario ${buildIdx + 1} of ${BUILD_SCENARIOS.length}</div>
+      <div class="stats">Got <b>${buildScore}</b>so far</div>
+    </div>
+    <div class="build-scenario">
+      <div class="heading">The Situation</div>
+      <p>${s.description}</p>
+    </div>
+    <div class="build-question">
+      <h4>${s.question}</h4>
+      <div class="build-options">
+        ${s.options.map((opt, i) => `
+          <button class="build-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="build-feedback" id="build-feedback"></div>
+      <div class="build-actions">
+        <span style="font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em;">${buildIdx + 1} of ${BUILD_SCENARIOS.length}</span>
+        <button class="next-btn" id="build-next" disabled>${buildIdx + 1 === BUILD_SCENARIOS.length ? 'See Results →' : 'Next Scenario →'}</button>
+      </div>
+    </div>`;
+  buildAnswered = false;
+  frame.querySelectorAll('.build-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (buildAnswered) return;
+      buildAnswered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = s.correct;
+      frame.querySelectorAll('.build-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('build-feedback');
+      fb.innerHTML = chosen === correct
+        ? `<b>✓ Correct</b>${s.explain}`
+        : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>${s.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) buildScore++;
+      document.getElementById('build-next').disabled = false;
+    });
+  });
+  document.getElementById('build-next').addEventListener('click', () => {
+    buildIdx++; renderBuildScenario();
+  });
+}
+renderBuildScenario();
+
+/* ============================================================ */
+/* KNOWLEDGE CHECK                                               */
+/* ============================================================ */
+const KC_QUESTIONS = [
+  {
+    q: 'A router receives a packet destined for 10.5.1.50. Two routes match: 10.5.0.0/16 and 10.5.1.0/24. Which does the router use?',
+    options: ['10.5.0.0/16 — alphabetically first', '10.5.1.0/24 — longest prefix match wins', 'Both — load balanced', 'Neither — drops the packet'],
+    correct: 1,
+    explain: 'Longest prefix match always wins. /24 is more specific than /16, so the router uses the /24 entry. This rule applies BEFORE administrative distance.'
+  },
+  {
+    q: 'Two routes to the same destination 10.10.10.0/24 are learned: one via OSPF, one via static. Which does the router prefer?',
+    options: ['OSPF — it\'s dynamic and reflects current topology', 'Static — lower AD (1) beats OSPF (110)', 'Whichever was learned first', 'Both are added; load-balanced'],
+    correct: 1,
+    explain: 'When two routes have the SAME prefix (both /24), AD decides. Static (AD 1) beats OSPF (AD 110). The route with the lower administrative distance is installed.'
+  },
+  {
+    q: 'A default route is written as:',
+    options: ['10.0.0.0/8', '255.255.255.255/32', '0.0.0.0/0', '127.0.0.1/32'],
+    correct: 2,
+    explain: 'Default routes have destination 0.0.0.0 and mask 0.0.0.0 — so 0.0.0.0/0. This matches every possible IP, making it the "catch-all" route used when nothing else matches.'
+  },
+  {
+    q: 'What is the administrative distance of an EIGRP-learned route (internal)?',
+    options: ['1', '90', '110', '120'],
+    correct: 1,
+    explain: 'EIGRP internal = AD 90. Static = 1, OSPF = 110, RIP = 120. The exam expects you to remember at least the four most-tested values: connected (0), static (1), EIGRP (90), OSPF (110), RIP (120).'
+  },
+  {
+    q: 'Which protocol uses link-state algorithm and assigns "cost" based on interface bandwidth?',
+    options: ['RIP', 'OSPF', 'EIGRP', 'BGP'],
+    correct: 1,
+    explain: 'OSPF (Open Shortest Path First) is link-state. Each router has a complete topology map and runs Dijkstra\'s algorithm. Cost is derived from interface bandwidth — higher bandwidth = lower cost.'
+  },
+  {
+    q: 'Which protocol is used to route between autonomous systems on the public Internet?',
+    options: ['RIP', 'OSPF', 'EIGRP', 'BGP'],
+    correct: 3,
+    explain: 'BGP (Border Gateway Protocol) is the routing protocol of the Internet. It routes between autonomous systems (ASes). eBGP runs between ISPs (AD 20); iBGP runs within an AS (AD 200).'
+  },
+  {
+    q: 'In a routing table, what does the code "C" indicate?',
+    options: ['Connected route — directly attached subnet', 'Configured static route', 'Computed dynamic route', 'Cisco-only route'],
+    correct: 0,
+    explain: '"C" = Connected. Every interface that\'s up with an IP gets an automatic connected route added with AD 0. These are the most trusted routes a router has.'
+  },
+  {
+    q: 'A host with IP 10.0.1.50/24 wants to send a packet to 10.0.2.50. What does the host do?',
+    options: ['ARP for 10.0.2.50 directly and send', 'Send to the default gateway, since the destination is on a different subnet', 'Drop the packet', 'Broadcast to find the destination'],
+    correct: 1,
+    explain: 'With a /24 mask, the host\'s subnet is 10.0.1.0–10.0.1.255. Destination 10.0.2.50 is on a DIFFERENT subnet, so the host must send to its default gateway. Direct delivery only happens when source and destination are in the same subnet.'
+  },
+  {
+    q: 'When a router forwards a packet from one interface to another, what part of the packet is rewritten?',
+    options: ['The source IP address', 'The destination IP address', 'The Layer 2 (Ethernet) headers — source and destination MAC', 'Nothing — the packet passes through unchanged'],
+    correct: 2,
+    explain: 'Routers rewrite Layer 2 (MAC) addresses at every hop. The IP header (source and destination) stays the same end-to-end. This is why traceroute shows changing MAC addresses but the source IP stays constant.'
+  },
+  {
+    q: 'What is FHRP and why is it used?',
+    options: ['First Hop Redundancy Protocol — provides default gateway redundancy if a router fails', 'Fast Hash Routing Protocol — for high-speed routing', 'Frame-based High-Reliability Protocol — for fiber backbones', 'Filtered Hop Routing Protocol — for security'],
+    correct: 0,
+    explain: 'FHRP = First Hop Redundancy Protocol. Implementations include HSRP (Cisco), VRRP (open), and GLBP. They keep the default gateway up by sharing one virtual IP between multiple physical routers.'
+  },
+  {
+    q: 'A router has a static route "ip route 0.0.0.0 0.0.0.0 203.0.113.1". What does this configure?',
+    options: ['A specific route to 203.0.113.1', 'A default route — any unmatched traffic goes to 203.0.113.1', 'A summary route covering 203.0.113.0/24', 'A loopback interface'],
+    correct: 1,
+    explain: 'The destination 0.0.0.0 with mask 0.0.0.0 (0.0.0.0/0) is a default route. Any packet that doesn\'t match a more specific route falls back to this one — typically pointing at the ISP gateway.'
+  },
+  {
+    q: 'A network engineer needs inter-VLAN routing on a router that has only one physical link to the switch. What technique allows multiple VLAN gateways on one physical interface?',
+    options: ['Route summarization', 'Subinterfaces (router on a stick)', 'Default routing', 'OSPF areas'],
+    correct: 1,
+    explain: 'Subinterfaces (router on a stick) divide one physical interface into multiple logical sub-interfaces, each with its own IP and 802.1Q tag for a different VLAN. The trunk to the switch is the "stick"; the subinterfaces are the gateways.'
+  }
+];
+
+let kcIdx = 0, kcScore = 0, kcAnswered = false;
+
+function renderKC() {
+  const card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    const pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    let verdict = '', sub = '';
+    if (pct === 100) { verdict = 'Routing Mastered.'; sub = 'You can answer 2.1 questions in your sleep. Move on.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the questions you missed and the related sections of the Static vs Dynamic tab.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Walk through the Routing Table and Forwarding Walkthrough tabs again, paying close attention to the AD table and longest-prefix-match rule.'; }
+    else { verdict = 'Keep Training.'; sub = 'Start with the Routing Table tab — click every row. Then walk through Forwarding step by step. Then come back.'; }
+    card.innerHTML = `
+      <div class="kc-head">
+        <div class="title">Results</div>
+        <div class="progress">Complete</div>
+      </div>
+      <div class="kc-final">
+        <div class="big-score">${kcScore}<b>/${KC_QUESTIONS.length}</b></div>
+        <div class="verdict">${verdict}</div>
+        <div class="verdict-sub">${sub}</div>
+        <button class="next-btn" id="kc-restart">↻ Retake</button>
+      </div>`;
+    document.getElementById('kc-restart').addEventListener('click', () => {
+      kcIdx = 0; kcScore = 0; kcAnswered = false; renderKC();
+    });
+    return;
+  }
+  const q = KC_QUESTIONS[kcIdx];
+  card.innerHTML = `
+    <div class="kc-head">
+      <div class="title">Knowledge Check</div>
+      <div class="progress">${kcIdx + 1} / ${KC_QUESTIONS.length}</div>
+    </div>
+    <div class="kc-body">
+      <div class="kc-question">${q.q}</div>
+      <div class="kc-options" id="kc-options">
+        ${q.options.map((opt, i) => `
+          <button class="kc-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="kc-feedback" id="kc-feedback"></div>
+      <div class="kc-actions">
+        <div class="kc-score">Score · <b>${kcScore} / ${kcIdx}</b></div>
+        <button class="next-btn" id="kc-next" disabled>${kcIdx + 1 === KC_QUESTIONS.length ? 'See Results →' : 'Next →'}</button>
+      </div>
+    </div>`;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (kcAnswered) return;
+      kcAnswered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = q.correct;
+      card.querySelectorAll('.kc-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('kc-feedback');
+      fb.innerHTML = chosen === correct
+        ? `<b>✓ Correct</b>${q.explain}`
+        : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>${q.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', () => {
+    kcIdx++; renderKC();
+  });
+}
+renderKC();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+let lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'AD of static route?', correct: '1', d: ['0', '90', '110'] },
+  { q: 'AD of OSPF?', correct: '110', d: ['90', '120', '20'] },
+  { q: 'AD of RIP?', correct: '120', d: ['90', '110', '170'] },
+  { q: 'AD of EIGRP internal?', correct: '90', d: ['1', '110', '120'] },
+  { q: 'AD of eBGP?', correct: '20', d: ['200', '110', '90'] },
+  { q: 'AD of directly connected?', correct: '0', d: ['1', '90', '255'] },
+  { q: 'Default route prefix?', correct: '0.0.0.0/0', d: ['255.255.255.255/32', '127.0.0.1/8', '169.254.0.0/16'] },
+  { q: 'Which selection rule wins FIRST: longest prefix or AD?', correct: 'Longest prefix match', d: ['Administrative distance', 'Routing metric', 'Time learned'] },
+  { q: 'Which is link-state?', correct: 'OSPF', d: ['RIP', 'EIGRP', 'BGP'] },
+  { q: 'Which uses hop count as metric?', correct: 'RIP', d: ['OSPF', 'EIGRP', 'BGP'] },
+  { q: 'Which routes between autonomous systems?', correct: 'BGP', d: ['OSPF', 'RIP', 'EIGRP'] },
+  { q: 'Which is Cisco proprietary (originally)?', correct: 'EIGRP', d: ['OSPF', 'RIP', 'BGP'] },
+  { q: 'What does the routing code "C" mean?', correct: 'Connected', d: ['Configured', 'Computed', 'Cisco'] },
+  { q: 'What does the routing code "S*" indicate?', correct: 'Default static route', d: ['Standby route', 'Summary route', 'Secure route'] },
+  { q: 'Hosts use the default gateway when:', correct: 'Destination is in a different subnet', d: ['Always', 'Never', 'Only for broadcast'] },
+  { q: 'Routers rewrite which header at each hop?', correct: 'Layer 2 (MAC addresses)', d: ['Layer 3 (IP addresses)', 'Layer 4 (TCP)', 'Nothing'] },
+  { q: 'FHRP stands for:', correct: 'First Hop Redundancy Protocol', d: ['Fast Hash Routing Protocol', 'Frame Header Recovery Protocol', 'Forwarding Hop Resolution'] },
+  { q: 'HSRP, VRRP, and GLBP are all types of:', correct: 'FHRP', d: ['STP variants', 'Routing protocols', 'Link aggregation'] },
+  { q: 'What is "router on a stick"?', correct: 'One router interface with multiple subinterfaces for inter-VLAN routing', d: ['A failed router', 'A trunk-only router', 'A virtual router'] },
+  { q: 'OSPF cost is derived from:', correct: 'Interface bandwidth', d: ['Hop count', 'Number of routes', 'CPU load'] },
+  { q: 'AD vs Metric — which compares ACROSS protocols?', correct: 'Administrative Distance', d: ['Metric', 'Both equally', 'Neither'] }
+];
+
+function generateLRQ() {
+  const f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  const options = shuffle([f.correct, ...f.d]);
+  return { question: f.q, options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  const body = document.getElementById('lr-body');
+  body.innerHTML = `
+    <div class="lr-question-prompt">Routing Q&A</div>
+    <div class="lr-question">${lrCurrentQ.question}</div>
+    <div class="lr-options">
+      ${lrCurrentQ.options.map((opt, i) => `
+        <button class="lr-option" data-i="${i}">
+          <span class="marker">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>`;
+  document.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerLR(parseInt(btn.dataset.i)));
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 18) { verdict = 'Routing Locked.'; sub = 'You can answer routing questions under exam pressure. Move on.'; }
+  else if (lrCorrect >= 12) { verdict = 'Solid Recall.'; sub = 'A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict = 'Building It.'; sub = 'Spend more time in the Static vs Dynamic tab — especially the AD table.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'Walk through the Routing Table and Forwarding Walkthrough tabs slowly.'; }
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
