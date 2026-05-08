@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.6 Network Topologies & Architectures · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-body); color: var(--ink); background: var(--bg);
+    font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%),
+      radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%);
+  }
+  .topbar {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold);
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield {
+    width: 22px; height: 26px;
+    background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%);
+    border: 1.5px solid white; border-radius: 3px 3px 8px 8px;
+    flex-shrink: 0; position: relative;
+  }
+  .cbt-shield::after {
+    content: ''; position: absolute; inset: 50% 35% auto 35%;
+    height: 1.5px; background: var(--navy-deep); transform: translateY(-50%);
+  }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+  .hero {
+    padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 {
+    font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px);
+    font-weight: 700; line-height: 0.96; letter-spacing: -0.025em;
+    margin: 0 0 20px; color: var(--navy-deep);
+  }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+  .ref-card {
+    background: var(--navy-deep); color: var(--ink-invert);
+    padding: 22px 24px; border-left: 4px solid var(--sky);
+  }
+  .ref-card .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 14px;
+  }
+  .ref-row {
+    display: grid; grid-template-columns: 110px 1fr; gap: 10px;
+    padding: 7px 0; align-items: baseline; font-size: 12px;
+  }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.75; line-height: 1.5;
+  }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+  .stats-strip {
+    max-width: 1280px; margin: 0 auto; padding: 24px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+  .tabs {
+    max-width: 1280px; margin: 0 auto; padding: 0 28px;
+    display: flex; border-bottom: 1px solid var(--line-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none; padding: 18px 22px 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); cursor: pointer;
+    position: relative; white-space: nowrap; transition: color 0.2s; font-weight: 500;
+  }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px;
+    height: 2px; background: var(--sky);
+  }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .section-block { margin-bottom: 44px; }
+  .section-block:last-child { margin-bottom: 0; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  }
+  .section-head h2 {
+    font-family: var(--ff-display); font-size: 28px; font-weight: 700;
+    color: var(--navy-deep); margin: 0; letter-spacing: -0.02em;
+  }
+  .section-head h2 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .section-head p { color: var(--ink-mid); font-size: 14px; max-width: 50ch; margin: 0; }
+
+  /* TOPOLOGY ATLAS */
+  .topo-wrap { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 0; border: 1px solid var(--line); }
+  .topo-list { background: var(--surface); }
+  .topo-item {
+    display: grid; grid-template-columns: 100px 1fr; gap: 14px;
+    padding: 14px 18px; cursor: pointer; transition: background 0.12s;
+    align-items: center; position: relative;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .topo-item:last-child { border-bottom: none; }
+  .topo-item:hover { background: var(--surface-alt); }
+  .topo-item.selected { background: var(--bg-warm); }
+  .topo-item.selected::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--sky);
+  }
+  .topo-thumb {
+    width: 100px; height: 70px; background: var(--surface-alt);
+    border: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: center;
+  }
+  .topo-item.selected .topo-thumb { border-color: var(--sky); background: white; }
+  .topo-thumb svg { width: 100%; height: 100%; }
+  .topo-info .name {
+    font-family: var(--ff-display); font-weight: 700; font-size: 17px;
+    color: var(--navy-deep); line-height: 1.2;
+  }
+  .topo-info .sub {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute);
+    letter-spacing: 0.06em; margin-top: 4px;
+  }
+  .topo-detail { background: var(--surface); border-left: 1px solid var(--line-soft); min-height: 600px; }
+  .topo-detail-head {
+    padding: 26px 28px; background: var(--navy-deep); color: var(--ink-invert);
+    position: relative; overflow: hidden;
+  }
+  .topo-detail-head::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 130px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%); opacity: 0.95;
+  }
+  .topo-detail-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; opacity: 0.65;
+  }
+  .topo-detail-title {
+    font-family: var(--ff-display); font-size: 32px; font-weight: 700;
+    line-height: 1.1; margin: 6px 0 0; letter-spacing: -0.02em;
+    position: relative; z-index: 2; max-width: 75%;
+  }
+  .topo-big-svg {
+    background: white; padding: 28px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 280px;
+  }
+  .topo-big-svg svg { width: 100%; max-width: 460px; height: auto; max-height: 280px; }
+  .topo-section { padding: 22px 26px; border-bottom: 1px solid var(--line-soft); }
+  .topo-section:last-of-type { border-bottom: none; }
+  .topo-section .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px; font-weight: 700;
+  }
+  .topo-section p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px; }
+  .topo-section p b { color: var(--navy-deep); font-weight: 700; }
+  .topo-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .topo-pc-block { padding: 12px 14px; }
+  .topo-pc-block.pros { background: var(--green-bg); border-left: 3px solid var(--green); }
+  .topo-pc-block.cons { background: var(--red-bg); border-left: 3px solid var(--red); }
+  .topo-pc-block .head {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+  }
+  .topo-pc-block.pros .head { color: var(--green); }
+  .topo-pc-block.cons .head { color: var(--red); }
+  .topo-pc-block ul { margin: 0; padding-left: 18px; }
+  .topo-pc-block ul li { font-size: 13px; line-height: 1.5; color: var(--ink-mid); margin-bottom: 4px; }
+  .topo-tip {
+    margin: 0 26px 22px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .topo-tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .topo-tip p { margin: 0; font-size: 13px; }
+
+  /* ARCHITECTURE COMPARE */
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }
+  .arch-col { background: var(--surface); }
+  .arch-col + .arch-col { border-left: 1px solid var(--line); }
+  .arch-col-head {
+    padding: 18px 22px; color: white;
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .arch-col.three-tier .arch-col-head { background: var(--navy-deep); }
+  .arch-col.collapsed .arch-col-head { background: var(--sky-deep); }
+  .arch-svg-area {
+    background: var(--surface-alt); padding: 24px; min-height: 320px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .arch-svg-area svg { width: 100%; max-width: 360px; height: auto; max-height: 300px; }
+  .arch-body { padding: 20px 22px; }
+  .arch-body p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 12px; }
+  .arch-body h4 {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin: 16px 0 8px; font-weight: 700;
+  }
+  .arch-col.three-tier .arch-body h4 { color: var(--navy-deep); }
+  .arch-body ul { padding-left: 18px; margin: 0; }
+  .arch-body ul li { font-size: 14px; line-height: 1.5; color: var(--ink-mid); margin-bottom: 6px; }
+  .arch-body ul li b { color: var(--navy-deep); }
+  .arch-layers { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .arch-layer {
+    padding: 10px 14px; border-left: 4px solid;
+    background: var(--surface-alt); display: flex; gap: 12px; align-items: baseline;
+  }
+  .arch-layer .layer-name {
+    font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep);
+    min-width: 90px;
+  }
+  .arch-layer .layer-desc { font-size: 13px; color: var(--ink-mid); }
+  .arch-layer.core { border-color: var(--gold); }
+  .arch-layer.dist { border-color: var(--sky-deep); }
+  .arch-layer.access { border-color: var(--green); }
+  .arch-layer.combined { border-color: var(--gold-deep); background: rgba(224,184,64,0.08); }
+
+  /* TRAFFIC FLOWS */
+  .flow-frame { border: 1px solid var(--line); background: var(--surface); }
+  .flow-head {
+    background: var(--navy-deep); color: white; padding: 16px 22px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .flow-head h3 { font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+  .flow-toggle { display: flex; gap: 6px; }
+  .flow-toggle-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;
+    padding: 7px 14px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer; font-weight: 500;
+  }
+  .flow-toggle-btn:hover { background: rgba(255,255,255,0.08); }
+  .flow-toggle-btn.active { background: var(--sky); border-color: var(--sky); font-weight: 700; }
+  .flow-stage {
+    background: var(--surface-alt); padding: 28px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 360px;
+  }
+  .flow-stage svg { width: 100%; max-width: 720px; height: auto; max-height: 380px; }
+  .flow-narration {
+    padding: 22px 26px; background: var(--surface);
+  }
+  .flow-narration .eyebrow-tag {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px;
+  }
+  .flow-narration h4 {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 12px; letter-spacing: -0.02em;
+  }
+  .flow-narration h4 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .flow-narration p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px; }
+  .flow-narration p b { color: var(--navy-deep); font-weight: 700; }
+  .flow-examples {
+    margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;
+  }
+  .flow-example {
+    padding: 12px 14px; background: var(--bg-warm); border-left: 3px solid var(--sky);
+  }
+  .flow-example .head {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .flow-example p { margin: 0; font-size: 13px; line-height: 1.5; }
+
+  /* COMPARE & CONTRAST */
+  .compare-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 13px; }
+  .compare-table thead th {
+    background: var(--navy-deep); color: white; padding: 12px 14px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: left; font-weight: 600;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .compare-table tbody td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .compare-table tbody td:first-child {
+    font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep);
+    background: var(--surface-alt); width: 140px;
+  }
+  .compare-table tbody td.mono { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mid); }
+  .compare-table tbody tr:hover td { background: var(--bg-warm); }
+  .compare-table tbody tr:hover td:first-child { background: var(--bg); }
+
+  /* KNOWLEDGE CHECK */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head {
+    background: var(--navy-deep); color: white;
+    padding: 16px 26px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    background: var(--sky); padding: 6px 12px;
+  }
+  .kc-body { padding: 32px 30px; }
+  .kc-question {
+    font-family: var(--ff-display); font-size: 21px; line-height: 1.4;
+    font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em;
+  }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option {
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer;
+    text-align: left; font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker {
+    width: 24px; height: 24px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0;
+  }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback {
+    margin-top: 22px; padding: 16px 20px;
+    background: var(--bg-warm); border-left: 4px solid var(--sky);
+    font-size: 14px; line-height: 1.55; display: none;
+  }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px;
+  }
+  .kc-actions {
+    margin-top: 24px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .kc-score {
+    font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em;
+  }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .next-btn {
+    background: var(--sky); color: white; border: none;
+    padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score {
+    font-family: var(--ff-display); font-size: 88px; font-weight: 800;
+    color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em;
+  }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict {
+    font-family: var(--ff-display); font-size: 22px; font-weight: 600;
+    margin: 12px 0 8px; color: var(--navy-deep);
+  }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LIGHTNING */
+  .lr-pre { text-align: center; padding: 40px 20px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-pre h2 {
+    font-family: var(--ff-display); font-size: 40px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em;
+  }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn {
+    background: var(--surface); border: 2px solid var(--navy-deep);
+    color: var(--navy-deep); padding: 12px 22px;
+    font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700; cursor: pointer;
+  }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start {
+    background: var(--sky); color: white; border: none;
+    padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer; margin-top: 12px;
+  }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px;
+  }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer {
+    font-family: var(--ff-display); font-size: 56px; font-weight: 800;
+    color: white; line-height: 1; letter-spacing: -0.04em; text-align: center;
+  }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body { background: var(--surface); border: 1px solid var(--line); border-top: none; padding: 30px 30px 40px; }
+  .lr-question-prompt {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center;
+  }
+  .lr-question {
+    font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px);
+    font-weight: 600; color: var(--navy-deep);
+    text-align: center; line-height: 1.35; letter-spacing: -0.01em;
+    margin: 0 0 24px; max-width: 760px; margin-left: auto; margin-right: auto;
+  }
+  .lr-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 720px; margin: 0 auto;
+  }
+  .lr-option {
+    background: var(--surface-alt); border: 2px solid var(--line-soft);
+    padding: 16px 20px; cursor: pointer;
+    font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+    color: var(--navy-deep); transition: all 0.12s;
+    text-align: left; display: flex; align-items: center; gap: 14px;
+  }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker {
+    font-family: var(--ff-mono); font-size: 13px; font-weight: 700;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); flex-shrink: 0;
+  }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button {
+    background: transparent; border: 1px solid var(--line-soft);
+    color: var(--ink-mute); padding: 8px 18px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final { text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .topo-wrap { grid-template-columns: 1fr; }
+    .topo-detail { border-left: none; border-top: 1px solid var(--line-soft); }
+    .arch-grid { grid-template-columns: 1fr; }
+    .arch-col + .arch-col { border-left: none; border-top: 1px solid var(--line); }
+    .topo-pros-cons { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark">
+      <span class="cbt-shield"></span>
+      CBT<span class="institute">Tech Institute</span>
+    </span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 1.6</span>
+    <span class="crumb">Topologies & Architectures</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Compare</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.6</div>
+    <h1>Shapes of a<br><em>Network.</em></h1>
+    <p class="lede">A network's topology is its physical and logical wiring pattern — how the boxes connect to each other. Different shapes serve different goals: maximum redundancy, minimum cost, predictable latency, easy troubleshooting. The exam expects you to recognize each topology by its diagram, know what it's good and bad at, and pick the right one for a given scenario. This drill walks all five topologies, both architectures (three-tier and collapsed core), and the two traffic flows that data centers care about most.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">High-Yield Topologies</div>
+    <div class="ref-row"><span class="name">Star</span><span class="desc">Central hub, easy to manage, single point of failure</span></div>
+    <div class="ref-row"><span class="name">Mesh</span><span class="desc">Every device to every other, max redundancy</span></div>
+    <div class="ref-row"><span class="name">Hybrid</span><span class="desc">Mix of two or more topologies</span></div>
+    <div class="ref-row"><span class="name">Spine-leaf</span><span class="desc">Modern data center, predictable latency</span></div>
+    <div class="ref-row"><span class="name">P2P</span><span class="desc">Two endpoints directly linked</span></div>
+    <div class="ref-row"><span class="name">3-tier</span><span class="desc">Core / Distribution / Access enterprise</span></div>
+    <div class="ref-row"><span class="name">Collapsed</span><span class="desc">Core+Distribution merged for smaller nets</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      "Which topology fits this scenario?" or "Which architecture matches this diagram?" — visual recognition is everything in 1.6.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">5</div><div class="label">Topology types</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Architecture models</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Traffic flow patterns</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check Qs</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Topology Atlas</button>
+  <button class="tab" data-tab="arch"><span class="num">02</span>Architectures</button>
+  <button class="tab" data-tab="flows"><span class="num">03</span>Traffic Flows</button>
+  <button class="tab" data-tab="compare"><span class="num">04</span>Compare & Contrast</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- TOPOLOGY ATLAS -->
+<section class="panel active" id="panel-atlas">
+  <div class="topo-wrap">
+    <div class="topo-list" id="topo-list"></div>
+    <div class="topo-detail" id="topo-detail"></div>
+  </div>
+</section>
+
+<!-- ARCHITECTURES -->
+<section class="panel" id="panel-arch">
+  <div class="arch-grid">
+    <div class="arch-col three-tier">
+      <div class="arch-col-head">Three-Tier Hierarchical</div>
+      <div class="arch-svg-area" id="arch-3tier"></div>
+      <div class="arch-body">
+        <p>The classic enterprise design. Three distinct layers, each with a clear role. Used in larger campuses, multi-floor offices, and traditional data centers.</p>
+        <h4>The Three Layers</h4>
+        <div class="arch-layers">
+          <div class="arch-layer core">
+            <span class="layer-name">Core</span>
+            <span class="layer-desc">High-speed backbone — moves traffic between distribution blocks. Optimized for raw throughput. No filtering, no policy.</span>
+          </div>
+          <div class="arch-layer dist">
+            <span class="layer-name">Distribution</span>
+            <span class="layer-desc">Aggregation point — connects access switches to the core. Handles routing, ACLs, QoS, redundancy.</span>
+          </div>
+          <div class="arch-layer access">
+            <span class="layer-name">Access</span>
+            <span class="layer-desc">End-host connectivity — where PCs, phones, APs, printers plug in. Where VLANs are typically assigned.</span>
+          </div>
+        </div>
+        <h4>When to Use</h4>
+        <ul>
+          <li><b>Large campuses</b> with thousands of endpoints across multiple buildings</li>
+          <li><b>Strict separation</b> of routing and switching responsibilities</li>
+          <li><b>Highest scalability</b> — each layer can be expanded independently</li>
+        </ul>
+      </div>
+    </div>
+    <div class="arch-col collapsed">
+      <div class="arch-col-head">Collapsed Core (Two-Tier)</div>
+      <div class="arch-svg-area" id="arch-collapsed"></div>
+      <div class="arch-body">
+        <p>The three-tier model with the core and distribution layers merged into a single layer. Reduces device count, hops, cost, and complexity at the price of less raw scale.</p>
+        <h4>The Two Layers</h4>
+        <div class="arch-layers">
+          <div class="arch-layer combined">
+            <span class="layer-name">Core+Dist</span>
+            <span class="layer-desc">Combined layer — handles backbone and aggregation/routing duties together. Often a pair of L3 switches at the top.</span>
+          </div>
+          <div class="arch-layer access">
+            <span class="layer-name">Access</span>
+            <span class="layer-desc">Same role as in three-tier — end-host connectivity, VLAN assignment.</span>
+          </div>
+        </div>
+        <h4>When to Use</h4>
+        <ul>
+          <li><b>Small to mid-size networks</b> — single building, modest user count</li>
+          <li><b>Cost sensitivity</b> — fewer devices, lower licensing, simpler ops</li>
+          <li><b>Faster east-west</b> — fewer hops between distribution and core</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAFFIC FLOWS -->
+<section class="panel" id="panel-flows">
+  <div class="flow-frame" id="flow-frame"></div>
+</section>
+
+<!-- COMPARE & CONTRAST -->
+<section class="panel" id="panel-compare">
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Topology <em>Comparison</em></h2>
+      <p>The matrix the exam keys on — pick the topology by what the scenario emphasizes.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Topology</th><th>Shape</th><th>Redundancy</th><th>Cost</th><th>Best For</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Star</td><td class="mono">Central hub + spokes</td><td class="mono">Low — single hub fails all</td><td class="mono">Low</td><td class="mono">Most LANs (Ethernet to a switch)</td></tr>
+        <tr><td>Mesh (full)</td><td class="mono">Every device to every other</td><td class="mono">Maximum</td><td class="mono">Very high</td><td class="mono">Critical-path WAN, mission-critical sites</td></tr>
+        <tr><td>Mesh (partial)</td><td class="mono">Selective interconnection</td><td class="mono">High</td><td class="mono">Moderate</td><td class="mono">Multi-site WAN with redundant paths</td></tr>
+        <tr><td>Hybrid</td><td class="mono">Mix of two or more shapes</td><td class="mono">Varies</td><td class="mono">Varies</td><td class="mono">Real-world enterprise networks</td></tr>
+        <tr><td>Spine-leaf</td><td class="mono">Two-tier full mesh between layers</td><td class="mono">High</td><td class="mono">High</td><td class="mono">Modern data centers</td></tr>
+        <tr><td>Point-to-Point</td><td class="mono">Two endpoints, direct link</td><td class="mono">None — single link</td><td class="mono">Lowest</td><td class="mono">Site-to-site WAN, building uplinks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Architecture <em>Comparison</em></h2>
+      <p>Three-tier vs collapsed core — same goals, different scale.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Aspect</th><th>Three-Tier</th><th>Collapsed Core</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Layers</td><td class="mono">Core / Distribution / Access</td><td class="mono">Core+Distribution / Access</td></tr>
+        <tr><td>Device count</td><td class="mono">More devices, more cost</td><td class="mono">Fewer devices, lower cost</td></tr>
+        <tr><td>Scale</td><td class="mono">Large (1000+ hosts, multi-building)</td><td class="mono">Small to mid (single building, &lt;500 hosts)</td></tr>
+        <tr><td>Hops between access switches</td><td class="mono">3 hops (access → dist → core → dist → access)</td><td class="mono">2 hops (access → core+dist → access)</td></tr>
+        <tr><td>Best when</td><td class="mono">Need maximum scalability and clear role separation</td><td class="mono">Need lower cost and simpler operations</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <h2>Traffic Flow <em>Comparison</em></h2>
+      <p>The two patterns matter most in data centers — modern designs optimize for one over the other.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Flow</th><th>Direction</th><th>Examples</th><th>Architecture Match</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>North-South</td><td class="mono">User ↔ Data center / Internet</td><td class="mono">User loads webpage, app pulls SaaS</td><td class="mono">Three-tier (vertical hops)</td></tr>
+        <tr><td>East-West</td><td class="mono">Server ↔ Server inside data center</td><td class="mono">Web tier ↔ DB tier, microservices, replication</td><td class="mono">Spine-leaf (any-to-any in 1 hop)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- KNOWLEDGE CHECK -->
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<!-- LIGHTNING ROUND -->
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed multiple choice — topology recognition, architecture matching, traffic flow identification. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool covering CompTIA N10-009 Objective 1.6 — network topologies, architectures, and types. Includes the five topologies (mesh, hybrid, star, spine-leaf, point-to-point), the two architectures (three-tier and collapsed core), and the two traffic flow patterns (north-south and east-west).</p>
+      <p>Built around visual recognition. The exam shows you topologies and asks "which is this?" or "which fits this scenario?" — drill the Atlas tab until each shape is instantly recognizable.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Topology Atlas — click every shape, study the diagram.</p>
+      <p>· Day 2: Architectures — three-tier vs collapsed core side-by-side.</p>
+      <p>· Day 3: Traffic Flows — toggle between north-south and east-west.</p>
+      <p>· Day 4+: Compare & Contrast + Knowledge Check daily.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.6 Topologies & Architectures</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* TOPOLOGY SVGs                                                 */
+/* ============================================================ */
+const SVG = {
+  star: `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+    <line x1="100" y1="70" x2="40" y2="30" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="70" x2="160" y2="30" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="70" x2="40" y2="110" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="70" x2="160" y2="110" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="70" x2="100" y2="20" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="70" x2="100" y2="120" stroke="#3D4685" stroke-width="2"/>
+    <circle cx="100" cy="70" r="14" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+    <text x="100" y="74" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SW</text>
+    <circle cx="40" cy="30" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="160" cy="30" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="40" cy="110" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="160" cy="110" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="100" cy="20" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="100" cy="120" r="9" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+  </svg>`,
+
+  starBig: `<svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+    <line x1="230" y1="140" x2="80" y2="60" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="140" x2="380" y2="60" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="140" x2="80" y2="220" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="140" x2="380" y2="220" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="140" x2="230" y2="40" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="140" x2="230" y2="240" stroke="#3D4685" stroke-width="2.5"/>
+    <rect x="200" y="120" width="60" height="40" fill="#283068" stroke="#1A2050" stroke-width="2" rx="3"/>
+    <text x="230" y="145" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#E0B840" font-weight="700">SWITCH</text>
+    <g><circle cx="80" cy="60" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="80" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC1</text></g>
+    <g><circle cx="380" cy="60" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="380" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC2</text></g>
+    <g><circle cx="80" cy="220" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="80" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC3</text></g>
+    <g><circle cx="380" cy="220" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="380" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC4</text></g>
+    <g><circle cx="230" cy="40" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="230" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC5</text></g>
+    <g><circle cx="230" cy="240" r="16" fill="#38B0E0" stroke="#1A2050" stroke-width="2"/><text x="230" y="270" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">PC6</text></g>
+  </svg>`,
+
+  mesh: `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3D4685" stroke-width="1.5" fill="none">
+      <line x1="50" y1="40" x2="150" y2="40"/>
+      <line x1="50" y1="100" x2="150" y2="100"/>
+      <line x1="50" y1="40" x2="50" y2="100"/>
+      <line x1="150" y1="40" x2="150" y2="100"/>
+      <line x1="50" y1="40" x2="150" y2="100"/>
+      <line x1="150" y1="40" x2="50" y2="100"/>
+    </g>
+    <circle cx="50" cy="40" r="11" fill="#283068" stroke="#E0B840" stroke-width="2"/>
+    <circle cx="150" cy="40" r="11" fill="#283068" stroke="#E0B840" stroke-width="2"/>
+    <circle cx="50" cy="100" r="11" fill="#283068" stroke="#E0B840" stroke-width="2"/>
+    <circle cx="150" cy="100" r="11" fill="#283068" stroke="#E0B840" stroke-width="2"/>
+  </svg>`,
+
+  meshBig: `<svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3D4685" stroke-width="2" fill="none">
+      <line x1="100" y1="80" x2="360" y2="80"/>
+      <line x1="100" y1="200" x2="360" y2="200"/>
+      <line x1="100" y1="80" x2="100" y2="200"/>
+      <line x1="360" y1="80" x2="360" y2="200"/>
+      <line x1="100" y1="80" x2="360" y2="200"/>
+      <line x1="360" y1="80" x2="100" y2="200"/>
+      <line x1="230" y1="40" x2="100" y2="80"/>
+      <line x1="230" y1="40" x2="360" y2="80"/>
+      <line x1="230" y1="40" x2="100" y2="200"/>
+      <line x1="230" y1="40" x2="360" y2="200"/>
+    </g>
+    <g><circle cx="230" cy="40" r="20" fill="#283068" stroke="#E0B840" stroke-width="2.5"/><text x="230" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#E0B840" font-weight="700">A</text></g>
+    <g><circle cx="100" cy="80" r="20" fill="#283068" stroke="#E0B840" stroke-width="2.5"/><text x="100" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#E0B840" font-weight="700">B</text></g>
+    <g><circle cx="360" cy="80" r="20" fill="#283068" stroke="#E0B840" stroke-width="2.5"/><text x="360" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#E0B840" font-weight="700">C</text></g>
+    <g><circle cx="100" cy="200" r="20" fill="#283068" stroke="#E0B840" stroke-width="2.5"/><text x="100" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#E0B840" font-weight="700">D</text></g>
+    <g><circle cx="360" cy="200" r="20" fill="#283068" stroke="#E0B840" stroke-width="2.5"/><text x="360" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#E0B840" font-weight="700">E</text></g>
+    <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-weight="700">FULL MESH · EVERY NODE TO EVERY OTHER</text>
+  </svg>`,
+
+  hybrid: `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+    <line x1="100" y1="40" x2="50" y2="80" stroke="#3D4685" stroke-width="2"/>
+    <line x1="100" y1="40" x2="150" y2="80" stroke="#3D4685" stroke-width="2"/>
+    <g stroke="#3D4685" stroke-width="1.5" fill="none">
+      <line x1="50" y1="80" x2="20" y2="120"/>
+      <line x1="50" y1="80" x2="80" y2="120"/>
+    </g>
+    <g stroke="#3D4685" stroke-width="1.5" fill="none">
+      <line x1="150" y1="80" x2="120" y2="120"/>
+      <line x1="150" y1="80" x2="180" y2="120"/>
+      <line x1="120" y1="120" x2="180" y2="120"/>
+    </g>
+    <rect x="92" y="32" width="16" height="16" fill="#E0B840"/>
+    <circle cx="50" cy="80" r="9" fill="#283068" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="150" cy="80" r="9" fill="#283068" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="20" cy="120" r="6" fill="#38B0E0"/>
+    <circle cx="80" cy="120" r="6" fill="#38B0E0"/>
+    <circle cx="120" cy="120" r="6" fill="#38B0E0"/>
+    <circle cx="180" cy="120" r="6" fill="#38B0E0"/>
+  </svg>`,
+
+  hybridBig: `<svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+    <line x1="230" y1="50" x2="100" y2="130" stroke="#3D4685" stroke-width="2.5"/>
+    <line x1="230" y1="50" x2="360" y2="130" stroke="#3D4685" stroke-width="2.5"/>
+    <g stroke="#3D4685" stroke-width="2" fill="none">
+      <line x1="100" y1="130" x2="40" y2="220"/>
+      <line x1="100" y1="130" x2="100" y2="220"/>
+      <line x1="100" y1="130" x2="160" y2="220"/>
+    </g>
+    <g stroke="#3D4685" stroke-width="2" fill="none">
+      <line x1="360" y1="130" x2="280" y2="220"/>
+      <line x1="360" y1="130" x2="420" y2="220"/>
+      <line x1="280" y1="220" x2="420" y2="220"/>
+    </g>
+    <rect x="210" y="35" width="40" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="230" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1A2050" font-weight="700">CORE</text>
+    <g><circle cx="100" cy="130" r="16" fill="#283068" stroke="#1A2050" stroke-width="2"/><text x="100" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SW1</text><text x="100" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">★ STAR</text></g>
+    <g><circle cx="360" cy="130" r="16" fill="#283068" stroke="#1A2050" stroke-width="2"/><text x="360" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SW2</text><text x="360" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">∆ MESH</text></g>
+    <circle cx="40" cy="220" r="11" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="100" cy="220" r="11" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="160" cy="220" r="11" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="280" cy="220" r="11" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <circle cx="420" cy="220" r="11" fill="#38B0E0" stroke="#1A2050" stroke-width="1.5"/>
+    <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-weight="700">HYBRID · STAR + MESH ON SAME NETWORK</text>
+  </svg>`,
+
+  spineLeaf: `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3D4685" stroke-width="1.2" fill="none">
+      <line x1="50" y1="40" x2="40" y2="95"/>
+      <line x1="50" y1="40" x2="100" y2="95"/>
+      <line x1="50" y1="40" x2="160" y2="95"/>
+      <line x1="100" y1="40" x2="40" y2="95"/>
+      <line x1="100" y1="40" x2="100" y2="95"/>
+      <line x1="100" y1="40" x2="160" y2="95"/>
+      <line x1="150" y1="40" x2="40" y2="95"/>
+      <line x1="150" y1="40" x2="100" y2="95"/>
+      <line x1="150" y1="40" x2="160" y2="95"/>
+    </g>
+    <rect x="40" y="32" width="20" height="14" fill="#E0B840" stroke="#B8932A" stroke-width="0.8"/>
+    <rect x="90" y="32" width="20" height="14" fill="#E0B840" stroke="#B8932A" stroke-width="0.8"/>
+    <rect x="140" y="32" width="20" height="14" fill="#E0B840" stroke="#B8932A" stroke-width="0.8"/>
+    <rect x="32" y="92" width="16" height="14" fill="#38B0E0" stroke="#1E8FBE" stroke-width="0.8"/>
+    <rect x="92" y="92" width="16" height="14" fill="#38B0E0" stroke="#1E8FBE" stroke-width="0.8"/>
+    <rect x="152" y="92" width="16" height="14" fill="#38B0E0" stroke="#1E8FBE" stroke-width="0.8"/>
+    <rect x="34" y="118" width="12" height="10" fill="#404758"/>
+    <rect x="94" y="118" width="12" height="10" fill="#404758"/>
+    <rect x="154" y="118" width="12" height="10" fill="#404758"/>
+  </svg>`,
+
+  spineLeafBig: `<svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="55" font-family="JetBrains Mono" font-size="11" fill="#B8932A" font-weight="700">SPINE</text>
+    <text x="40" y="170" font-family="JetBrains Mono" font-size="11" fill="#1E8FBE" font-weight="700">LEAF</text>
+    <g stroke="#3D4685" stroke-width="1.5" fill="none" opacity="0.7">
+      <line x1="130" y1="80" x2="100" y2="160"/>
+      <line x1="130" y1="80" x2="200" y2="160"/>
+      <line x1="130" y1="80" x2="300" y2="160"/>
+      <line x1="130" y1="80" x2="400" y2="160"/>
+      <line x1="230" y1="80" x2="100" y2="160"/>
+      <line x1="230" y1="80" x2="200" y2="160"/>
+      <line x1="230" y1="80" x2="300" y2="160"/>
+      <line x1="230" y1="80" x2="400" y2="160"/>
+      <line x1="330" y1="80" x2="100" y2="160"/>
+      <line x1="330" y1="80" x2="200" y2="160"/>
+      <line x1="330" y1="80" x2="300" y2="160"/>
+      <line x1="330" y1="80" x2="400" y2="160"/>
+    </g>
+    <rect x="105" y="60" width="50" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="1.5" rx="2"/>
+    <text x="130" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1A2050" font-weight="700">SP1</text>
+    <rect x="205" y="60" width="50" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="1.5" rx="2"/>
+    <text x="230" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1A2050" font-weight="700">SP2</text>
+    <rect x="305" y="60" width="50" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="1.5" rx="2"/>
+    <text x="330" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1A2050" font-weight="700">SP3</text>
+    <rect x="80" y="150" width="40" height="24" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="100" y="166" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L1</text>
+    <rect x="180" y="150" width="40" height="24" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="200" y="166" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L2</text>
+    <rect x="280" y="150" width="40" height="24" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="300" y="166" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L3</text>
+    <rect x="380" y="150" width="40" height="24" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="400" y="166" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L4</text>
+    <g>
+      <rect x="80" y="200" width="40" height="20" fill="#404758"/>
+      <rect x="180" y="200" width="40" height="20" fill="#404758"/>
+      <rect x="280" y="200" width="40" height="20" fill="#404758"/>
+      <rect x="380" y="200" width="40" height="20" fill="#404758"/>
+      <line x1="100" y1="174" x2="100" y2="200" stroke="#404758" stroke-width="1.5"/>
+      <line x1="200" y1="174" x2="200" y2="200" stroke="#404758" stroke-width="1.5"/>
+      <line x1="300" y1="174" x2="300" y2="200" stroke="#404758" stroke-width="1.5"/>
+      <line x1="400" y1="174" x2="400" y2="200" stroke="#404758" stroke-width="1.5"/>
+    </g>
+    <text x="100" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 1</text>
+    <text x="200" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 2</text>
+    <text x="300" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 3</text>
+    <text x="400" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 4</text>
+    <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-weight="700">EVERY LEAF CONNECTS TO EVERY SPINE · 1 HOP LEAF-TO-LEAF</text>
+  </svg>`,
+
+  p2p: `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+    <line x1="50" y1="70" x2="150" y2="70" stroke="#3D4685" stroke-width="3"/>
+    <circle cx="50" cy="70" r="14" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+    <text x="50" y="74" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">A</text>
+    <circle cx="150" cy="70" r="14" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+    <text x="150" y="74" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">B</text>
+  </svg>`,
+
+  p2pBig: `<svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+    <line x1="130" y1="140" x2="330" y2="140" stroke="#3D4685" stroke-width="4"/>
+    <text x="230" y="125" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92">DEDICATED LINK · ONE WIRE</text>
+    <rect x="60" y="100" width="140" height="80" fill="#283068" stroke="#1A2050" stroke-width="2.5" rx="4"/>
+    <text x="130" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#E0B840" font-weight="700">SITE A</text>
+    <text x="130" y="155" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6BC5E8">Headquarters</text>
+    <text x="130" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6BC5E8">Router</text>
+    <rect x="260" y="100" width="140" height="80" fill="#283068" stroke="#1A2050" stroke-width="2.5" rx="4"/>
+    <text x="330" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#E0B840" font-weight="700">SITE B</text>
+    <text x="330" y="155" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6BC5E8">Branch Office</text>
+    <text x="330" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6BC5E8">Router</text>
+    <text x="230" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-weight="700">POINT-TO-POINT · TWO ENDPOINTS · DIRECT LINK</text>
+  </svg>`,
+
+  threeTier: `<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
+    <text x="20" y="48" font-family="JetBrains Mono" font-size="10" fill="#B8932A" font-weight="700">CORE</text>
+    <text x="20" y="148" font-family="JetBrains Mono" font-size="10" fill="#1E8FBE" font-weight="700">DIST</text>
+    <text x="20" y="248" font-family="JetBrains Mono" font-size="10" fill="#2A6049" font-weight="700">ACCESS</text>
+    <g stroke="#3D4685" stroke-width="1.5" fill="none">
+      <line x1="120" y1="60" x2="80" y2="140"/>
+      <line x1="120" y1="60" x2="170" y2="140"/>
+      <line x1="240" y1="60" x2="190" y2="140"/>
+      <line x1="240" y1="60" x2="280" y2="140"/>
+      <line x1="120" y1="60" x2="240" y2="60"/>
+      <line x1="80" y1="160" x2="60" y2="240"/>
+      <line x1="80" y1="160" x2="120" y2="240"/>
+      <line x1="170" y1="160" x2="160" y2="240"/>
+      <line x1="190" y1="160" x2="200" y2="240"/>
+      <line x1="280" y1="160" x2="240" y2="240"/>
+      <line x1="280" y1="160" x2="300" y2="240"/>
+    </g>
+    <rect x="100" y="40" width="40" height="24" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="120" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">C1</text>
+    <rect x="220" y="40" width="40" height="24" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="240" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">C2</text>
+    <rect x="60" y="138" width="40" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="80" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">D1</text>
+    <rect x="150" y="138" width="40" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="170" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">D2</text>
+    <rect x="240" y="138" width="40" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="260" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">D3</text>
+    <rect x="40" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="60" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A1</text>
+    <rect x="100" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="120" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A2</text>
+    <rect x="140" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="160" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A3</text>
+    <rect x="180" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="200" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A4</text>
+    <rect x="220" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="240" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A5</text>
+    <rect x="280" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="300" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A6</text>
+  </svg>`,
+
+  collapsedCore: `<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
+    <text x="20" y="98" font-family="JetBrains Mono" font-size="9" fill="#B8932A" font-weight="700">CORE +</text>
+    <text x="20" y="113" font-family="JetBrains Mono" font-size="9" fill="#B8932A" font-weight="700">DIST</text>
+    <text x="20" y="248" font-family="JetBrains Mono" font-size="10" fill="#2A6049" font-weight="700">ACCESS</text>
+    <g stroke="#3D4685" stroke-width="1.5" fill="none">
+      <line x1="130" y1="120" x2="230" y2="120"/>
+      <line x1="130" y1="120" x2="60" y2="240"/>
+      <line x1="130" y1="120" x2="120" y2="240"/>
+      <line x1="130" y1="120" x2="180" y2="240"/>
+      <line x1="230" y1="120" x2="180" y2="240"/>
+      <line x1="230" y1="120" x2="240" y2="240"/>
+      <line x1="230" y1="120" x2="300" y2="240"/>
+    </g>
+    <rect x="100" y="100" width="60" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="2"/>
+    <text x="130" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">CD1</text>
+    <rect x="200" y="100" width="60" height="30" fill="#E0B840" stroke="#B8932A" stroke-width="2"/>
+    <text x="230" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">CD2</text>
+    <rect x="40" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="60" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A1</text>
+    <rect x="100" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="120" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A2</text>
+    <rect x="160" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="180" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A3</text>
+    <rect x="220" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="240" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A4</text>
+    <rect x="280" y="240" width="40" height="20" fill="#2A6049" stroke="#173404" stroke-width="1"/>
+    <text x="300" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="white" font-weight="700">A5</text>
+    <text x="180" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#B8932A" font-weight="700">L3 SWITCHES (combined)</text>
+  </svg>`,
+
+  northSouth: `<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="360" cy="40" rx="120" ry="22" fill="#3D4685" stroke="#1A2050" stroke-width="2"/>
+    <text x="360" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#E0B840" font-weight="700">INTERNET / USERS</text>
+    <line x1="360" y1="62" x2="360" y2="100" stroke="#E0B840" stroke-width="3" marker-end="url(#arrowGold)"/>
+    <line x1="360" y1="100" x2="360" y2="62" stroke="#E0B840" stroke-width="3" marker-end="url(#arrowGold)"/>
+    <defs>
+      <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L0,6 L9,3 z" fill="#E0B840"/>
+      </marker>
+    </defs>
+    <rect x="120" y="100" width="480" height="240" fill="rgba(56,176,224,0.05)" stroke="#1E8FBE" stroke-width="1.5" stroke-dasharray="6 3"/>
+    <text x="600" y="125" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#1E8FBE" font-weight="700">DATA CENTER</text>
+    <rect x="320" y="110" width="80" height="34" fill="#E0B840" stroke="#B8932A" stroke-width="2" rx="2"/>
+    <text x="360" y="132" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#1A2050" font-weight="700">CORE</text>
+    <line x1="360" y1="144" x2="240" y2="180" stroke="#3D4685" stroke-width="1.5"/>
+    <line x1="360" y1="144" x2="480" y2="180" stroke="#3D4685" stroke-width="1.5"/>
+    <rect x="200" y="180" width="80" height="30" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="240" y="200" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="white" font-weight="700">DIST 1</text>
+    <rect x="440" y="180" width="80" height="30" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5" rx="2"/>
+    <text x="480" y="200" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="white" font-weight="700">DIST 2</text>
+    <line x1="240" y1="210" x2="200" y2="260" stroke="#3D4685" stroke-width="1.5"/>
+    <line x1="240" y1="210" x2="280" y2="260" stroke="#3D4685" stroke-width="1.5"/>
+    <line x1="480" y1="210" x2="440" y2="260" stroke="#3D4685" stroke-width="1.5"/>
+    <line x1="480" y1="210" x2="520" y2="260" stroke="#3D4685" stroke-width="1.5"/>
+    <rect x="170" y="260" width="60" height="20" fill="#404758"/>
+    <text x="200" y="274" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SRV</text>
+    <rect x="250" y="260" width="60" height="20" fill="#404758"/>
+    <text x="280" y="274" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SRV</text>
+    <rect x="410" y="260" width="60" height="20" fill="#404758"/>
+    <text x="440" y="274" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SRV</text>
+    <rect x="490" y="260" width="60" height="20" fill="#404758"/>
+    <text x="520" y="274" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">SRV</text>
+    <text x="200" y="305" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 1</text>
+    <text x="280" y="305" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 2</text>
+    <text x="440" y="305" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 3</text>
+    <text x="520" y="305" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">RACK 4</text>
+    <path d="M 360 56 L 360 270" stroke="#E0B840" stroke-width="3.5" stroke-dasharray="8 4" fill="none"/>
+    <text x="360" y="365" text-anchor="middle" font-family="Bricolage Grotesque" font-size="14" fill="#B8932A" font-weight="700">↕ NORTH-SOUTH · USER ↔ DATA CENTER</text>
+  </svg>`,
+
+  eastWest: `<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="360" cy="40" rx="120" ry="22" fill="#3D4685" stroke="#1A2050" stroke-width="2" opacity="0.4"/>
+    <text x="360" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6BC5E8" font-weight="700" opacity="0.6">INTERNET (idle)</text>
+    <rect x="120" y="80" width="480" height="240" fill="rgba(56,176,224,0.05)" stroke="#1E8FBE" stroke-width="1.5" stroke-dasharray="6 3"/>
+    <text x="600" y="105" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#1E8FBE" font-weight="700">DATA CENTER (East-West activity)</text>
+    <g stroke="#3D4685" stroke-width="1" fill="none" opacity="0.4">
+      <line x1="200" y1="135" x2="170" y2="200"/>
+      <line x1="200" y1="135" x2="290" y2="200"/>
+      <line x1="200" y1="135" x2="430" y2="200"/>
+      <line x1="200" y1="135" x2="550" y2="200"/>
+      <line x1="360" y1="135" x2="170" y2="200"/>
+      <line x1="360" y1="135" x2="290" y2="200"/>
+      <line x1="360" y1="135" x2="430" y2="200"/>
+      <line x1="360" y1="135" x2="550" y2="200"/>
+      <line x1="520" y1="135" x2="170" y2="200"/>
+      <line x1="520" y1="135" x2="290" y2="200"/>
+      <line x1="520" y1="135" x2="430" y2="200"/>
+      <line x1="520" y1="135" x2="550" y2="200"/>
+    </g>
+    <rect x="170" y="115" width="60" height="22" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="200" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">SP1</text>
+    <rect x="330" y="115" width="60" height="22" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="360" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">SP2</text>
+    <rect x="490" y="115" width="60" height="22" fill="#E0B840" stroke="#B8932A" stroke-width="1.5"/>
+    <text x="520" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">SP3</text>
+    <rect x="140" y="200" width="60" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="170" y="215" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L1</text>
+    <rect x="260" y="200" width="60" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="290" y="215" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L2</text>
+    <rect x="400" y="200" width="60" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="430" y="215" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L3</text>
+    <rect x="520" y="200" width="60" height="22" fill="#38B0E0" stroke="#1E8FBE" stroke-width="1.5"/>
+    <text x="550" y="215" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white" font-weight="700">L4</text>
+    <rect x="140" y="240" width="60" height="22" fill="#404758"/>
+    <text x="170" y="255" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">WEB</text>
+    <rect x="260" y="240" width="60" height="22" fill="#404758"/>
+    <text x="290" y="255" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">APP</text>
+    <rect x="400" y="240" width="60" height="22" fill="#404758"/>
+    <text x="430" y="255" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">DB</text>
+    <rect x="520" y="240" width="60" height="22" fill="#404758"/>
+    <text x="550" y="255" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">CACHE</text>
+    <line x1="170" y1="222" x2="170" y2="240" stroke="#404758" stroke-width="1"/>
+    <line x1="290" y1="222" x2="290" y2="240" stroke="#404758" stroke-width="1"/>
+    <line x1="430" y1="222" x2="430" y2="240" stroke="#404758" stroke-width="1"/>
+    <line x1="550" y1="222" x2="550" y2="240" stroke="#404758" stroke-width="1"/>
+    <path d="M 170 251 L 290 251" stroke="#E0B840" stroke-width="3" stroke-dasharray="6 3" fill="none"/>
+    <path d="M 290 251 L 430 251" stroke="#E0B840" stroke-width="3" stroke-dasharray="6 3" fill="none"/>
+    <path d="M 430 251 L 550 251" stroke="#E0B840" stroke-width="3" stroke-dasharray="6 3" fill="none"/>
+    <text x="360" y="365" text-anchor="middle" font-family="Bricolage Grotesque" font-size="14" fill="#B8932A" font-weight="700">↔ EAST-WEST · SERVER ↔ SERVER (web → app → db → cache)</text>
+  </svg>`
+};
+
+/* ============================================================ */
+/* TOPOLOGY DATA                                                 */
+/* ============================================================ */
+const TOPOLOGIES = [
+  {
+    id: 'star',
+    name: 'Star / Hub-and-Spoke',
+    sub: 'central hub, devices on spokes',
+    desc: 'Every device connects to a single central hub or switch. The hub forwards traffic between devices. This is what almost every modern Ethernet LAN looks like physically — devices plugged into a central switch.',
+    note: '<b>Star is by far the most common topology you\'ll see in real networks.</b> Every wired LAN with a switch at the center is a star.',
+    pros: ['Easy to add or remove devices', 'Single device failure does not affect others', 'Simple to troubleshoot — one cable per device', 'Cost-effective for typical LANs'],
+    cons: ['Hub failure takes down everything', 'More cabling than a bus topology', 'Total bandwidth limited by the hub'],
+    tip: 'If the question describes "all devices connect to a central switch" or shows a diagram with one device in the middle and lines radiating out, the answer is star (also called hub-and-spoke).'
+  },
+  {
+    id: 'mesh',
+    name: 'Mesh',
+    sub: 'every device to every other (full) or selective (partial)',
+    desc: 'In a full mesh, every device has a direct connection to every other device. In a partial mesh, only critical devices are fully interconnected. Mesh provides the maximum redundancy possible — multiple paths between any two nodes.',
+    note: '<b>Cost grows fast.</b> A full mesh of N devices needs N(N-1)/2 links. 5 devices = 10 links. 10 devices = 45 links. This is why full mesh is rare outside critical WAN cores.',
+    pros: ['Maximum redundancy — multiple paths', 'No single point of failure', 'Self-healing — traffic reroutes around failures', 'Predictable latency between any two nodes'],
+    cons: ['Most expensive topology — many cables and ports', 'Complex to configure and manage', 'Difficult to troubleshoot at scale', 'Typically only used at the WAN core'],
+    tip: 'If a scenario emphasizes "no single point of failure" or "every site connects to every other site," it\'s mesh. The exam may also test the difference between full mesh (everyone to everyone) and partial mesh (only some connections).'
+  },
+  {
+    id: 'hybrid',
+    name: 'Hybrid',
+    sub: 'mix of two or more topology types',
+    desc: 'Most real-world enterprise networks are hybrid. The campus may have star topologies at each floor (PCs to switches), distributed switches in a partial mesh, and point-to-point WAN links to remote branches. The "hybrid" label captures the reality that production networks rarely fit one pure shape.',
+    note: '<b>Almost every real production network is hybrid in practice.</b> The pure topologies are mostly textbook abstractions.',
+    pros: ['Flexibility — pick the right shape for each segment', 'Cost-optimized — full mesh only where redundancy is critical', 'Scales to almost any size', 'Reflects how real networks evolve over time'],
+    cons: ['More complex to document and diagram', 'Operations team must understand multiple patterns', 'Troubleshooting requires knowing which segment uses which shape'],
+    tip: 'Hybrid is usually the right answer when the scenario describes a mix of topologies in one organization, OR when other choices clearly don\'t fit a complex multi-site environment.'
+  },
+  {
+    id: 'spineLeaf',
+    name: 'Spine and Leaf',
+    sub: 'modern data center · two-tier full mesh',
+    desc: 'A two-tier topology used in modern data centers. Spine switches sit at the top, leaf switches at the bottom (top-of-rack). Every leaf connects to every spine — but leaves never connect to other leaves, and spines never connect to other spines. Servers connect to leaf switches.',
+    note: '<b>Predictable latency:</b> any server-to-server flow takes exactly the same path length — leaf → spine → leaf. Two hops, every time. This makes performance predictable for east-west traffic.',
+    pros: ['Predictable latency for any server-to-server flow', 'Massive east-west bandwidth (any-to-any in 1 spine hop)', 'Easy to scale — add a leaf for more capacity', 'Loss of one spine only degrades, doesn\'t fail'],
+    cons: ['Higher up-front cost than three-tier for small networks', 'More cables than collapsed core', 'Requires modern protocols (typically uses ECMP and SDN)'],
+    tip: 'If the scenario mentions a data center, modern fabric, low-latency east-west traffic, or specifies "every leaf connects to every spine" — that\'s spine-leaf. It\'s the architecture used by every cloud provider and major enterprise data center built in the last decade.'
+  },
+  {
+    id: 'p2p',
+    name: 'Point-to-Point',
+    sub: 'two endpoints · direct dedicated link',
+    desc: 'The simplest possible topology — two endpoints with a single dedicated link between them. No hubs, no switches, no other devices. Common for site-to-site WAN connections, leased lines, dedicated fiber between buildings, or dedicated uplinks between core devices.',
+    note: '<b>Common P2P scenarios:</b> a private MPLS or leased line between HQ and a branch office, a dedicated fiber pair between two buildings on a campus, or a dedicated uplink between two core routers.',
+    pros: ['Cheapest topology when only two endpoints', 'Simple — easy to set up and troubleshoot', 'Predictable performance — no shared bandwidth', 'Often more secure than a shared network'],
+    cons: ['Single link = single point of failure', 'Doesn\'t scale beyond two endpoints', 'Can\'t share bandwidth or cost across multiple sites'],
+    tip: 'Point-to-point is the answer when the scenario describes exactly two endpoints with a dedicated link — typical for WAN circuits between two sites or building uplinks.'
+  }
+];
+
+let selectedTopo = 'star';
+
+function renderTopoList() {
+  const list = document.getElementById('topo-list');
+  list.innerHTML = TOPOLOGIES.map(t => `
+    <div class="topo-item ${t.id === selectedTopo ? 'selected' : ''}" data-id="${t.id}">
+      <div class="topo-thumb">${SVG[t.id]}</div>
+      <div class="topo-info">
+        <div class="name">${t.name}</div>
+        <div class="sub">${t.sub}</div>
+      </div>
+    </div>`).join('');
+  list.querySelectorAll('.topo-item').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedTopo = el.dataset.id;
+      renderTopoList();
+      renderTopoDetail();
+    });
+  });
+}
+
+function renderTopoDetail() {
+  const t = TOPOLOGIES.find(x => x.id === selectedTopo);
+  const bigSvgKey = t.id + 'Big';
+  document.getElementById('topo-detail').innerHTML = `
+    <div class="topo-detail-head">
+      <div class="topo-detail-eyebrow">Topology</div>
+      <h2 class="topo-detail-title">${t.name}</h2>
+    </div>
+    <div class="topo-big-svg">${SVG[bigSvgKey]}</div>
+    <div class="topo-section">
+      <div class="heading">What It Is</div>
+      <p>${t.desc}</p>
+      <p style="margin-top: 12px;">${t.note}</p>
+    </div>
+    <div class="topo-section">
+      <div class="heading">Trade-offs</div>
+      <div class="topo-pros-cons">
+        <div class="topo-pc-block pros">
+          <div class="head">✓ Pros</div>
+          <ul>${t.pros.map(p => `<li>${p}</li>`).join('')}</ul>
+        </div>
+        <div class="topo-pc-block cons">
+          <div class="head">✗ Cons</div>
+          <ul>${t.cons.map(c => `<li>${c}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+    <div class="topo-tip">
+      <div class="heading">★ Exam Tip</div>
+      <p>${t.tip}</p>
+    </div>
+  `;
+}
+renderTopoList();
+renderTopoDetail();
+
+/* ============================================================ */
+/* ARCHITECTURES                                                 */
+/* ============================================================ */
+document.getElementById('arch-3tier').innerHTML = SVG.threeTier;
+document.getElementById('arch-collapsed').innerHTML = SVG.collapsedCore;
+
+/* ============================================================ */
+/* TRAFFIC FLOWS                                                 */
+/* ============================================================ */
+let flowMode = 'ns';
+
+function renderFlow() {
+  const frame = document.getElementById('flow-frame');
+  const isNS = flowMode === 'ns';
+  frame.innerHTML = `
+    <div class="flow-head">
+      <h3>Data Center Traffic Flows</h3>
+      <div class="flow-toggle">
+        <button class="flow-toggle-btn ${isNS ? 'active' : ''}" data-mode="ns">↕ North-South</button>
+        <button class="flow-toggle-btn ${!isNS ? 'active' : ''}" data-mode="ew">↔ East-West</button>
+      </div>
+    </div>
+    <div class="flow-stage">${isNS ? SVG.northSouth : SVG.eastWest}</div>
+    <div class="flow-narration">
+      ${isNS ? `
+        <div class="eyebrow-tag">North-South</div>
+        <h4>Traffic between users and the <em>data center.</em></h4>
+        <p>Vertical flows that cross the boundary between an external network (Internet, branch, user) and the data center itself. <b>The user is at the top, the data center is at the bottom</b> — hence "north" to "south."</p>
+        <p>Three-tier architectures are good at north-south because that's what they were designed for. Traffic enters at the core, flows down through distribution to access, reaches a server, and the response flows back up. The hierarchy reflects the flow.</p>
+        <div class="flow-examples">
+          <div class="flow-example">
+            <div class="head">Loading a webpage</div>
+            <p>User browser → ISP → company firewall → core → distribution → access → web server. Response retraces the path.</p>
+          </div>
+          <div class="flow-example">
+            <div class="head">SaaS API call</div>
+            <p>Application sends request out to a cloud SaaS service. Crosses the data center edge → upstream provider.</p>
+          </div>
+          <div class="flow-example">
+            <div class="head">Email arriving</div>
+            <p>External SMTP server → company edge → mail server inside the data center.</p>
+          </div>
+        </div>
+      ` : `
+        <div class="eyebrow-tag">East-West</div>
+        <h4>Traffic between servers <em>inside</em> the data center.</h4>
+        <p>Horizontal flows that stay within the data center fabric — server talking to server. <b>Imagine the data center as a horizontal row</b> — these flows move sideways between rooms or racks. East to west.</p>
+        <p>Modern data centers see a lot more east-west than north-south because microservices, replication, distributed databases, and analytics workloads all involve servers chatting to each other. Spine-leaf architectures are designed specifically to handle this — every leaf is one spine hop from every other leaf.</p>
+        <div class="flow-examples">
+          <div class="flow-example">
+            <div class="head">Microservice chain</div>
+            <p>Web server → app server → database server → cache. Four east-west hops to satisfy one user request.</p>
+          </div>
+          <div class="flow-example">
+            <div class="head">Database replication</div>
+            <p>Primary database constantly streams changes to replicas in other racks for HA and disaster recovery.</p>
+          </div>
+          <div class="flow-example">
+            <div class="head">Storage / VM migration</div>
+            <p>Live-migrating a VM from one host to another, or replicating storage volumes between racks.</p>
+          </div>
+        </div>
+      `}
+    </div>
+  `;
+  frame.querySelectorAll('.flow-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      flowMode = btn.dataset.mode;
+      renderFlow();
+    });
+  });
+}
+renderFlow();
+
+/* ============================================================ */
+/* KNOWLEDGE CHECK                                               */
+/* ============================================================ */
+const KC_QUESTIONS = [
+  {
+    q: 'A network engineer describes a layout where every device connects directly to a central switch, and devices do not connect directly to each other. Which topology is this?',
+    options: ['Mesh', 'Star / Hub-and-Spoke', 'Bus', 'Ring'],
+    correct: 1,
+    explain: 'A central device with all endpoints connecting to it (and not to each other) is a star topology, also called hub-and-spoke. This is by far the most common LAN layout — every Ethernet network with a switch at the center is a star.'
+  },
+  {
+    q: 'A WAN core has 5 routers, and every router has a direct circuit to every other router. Which topology is this?',
+    options: ['Star', 'Partial mesh', 'Full mesh', 'Hybrid'],
+    correct: 2,
+    explain: 'When EVERY device has a direct link to EVERY other device, that\'s a full mesh. With 5 routers, that\'s 5 × 4 / 2 = 10 links. Full mesh provides maximum redundancy at maximum cost.'
+  },
+  {
+    q: 'In a three-tier hierarchical architecture, which layer is responsible for connecting end devices like PCs and printers?',
+    options: ['Core', 'Distribution', 'Access', 'Spine'],
+    correct: 2,
+    explain: 'The Access layer is where end-host devices plug in — PCs, IP phones, printers, APs. VLANs are typically assigned at the access layer.'
+  },
+  {
+    q: 'Which architecture combines the core and distribution layers into a single layer?',
+    options: ['Three-tier hierarchical', 'Spine-leaf', 'Collapsed core', 'Full mesh'],
+    correct: 2,
+    explain: 'Collapsed core (sometimes called "two-tier") merges the Core and Distribution layers into one layer, with Access remaining separate. Used in smaller networks where the full three-tier model would be overkill.'
+  },
+  {
+    q: 'A user loads a webpage from a web server hosted in your data center. The traffic flowing between the user and the data center is best described as:',
+    options: ['North-south', 'East-west', 'Mesh', 'Spine-leaf'],
+    correct: 0,
+    explain: 'Traffic between users (external) and the data center (internal) is north-south. North = user / Internet, South = data center. The flow is vertical across the data center boundary.'
+  },
+  {
+    q: 'A web server inside the data center makes a request to a database server in the same data center. This traffic is best described as:',
+    options: ['North-south', 'East-west', 'Multicast', 'Broadcast'],
+    correct: 1,
+    explain: 'Server-to-server traffic that stays inside the data center is east-west. Microservices, replication, and database queries all generate east-west traffic. Modern data centers have far more east-west than north-south.'
+  },
+  {
+    q: 'Which topology is most associated with modern data center fabrics, where every "leaf" switch connects to every "spine" switch but leaves never connect directly to other leaves?',
+    options: ['Star', 'Mesh', 'Spine and leaf', 'Three-tier hierarchical'],
+    correct: 2,
+    explain: 'Spine-leaf is the modern data center fabric. Every leaf connects to every spine (forming a full mesh between layers), but leaves never connect to other leaves. Provides predictable 2-hop server-to-server latency.'
+  },
+  {
+    q: 'A small business has 80 users in one building. The network engineer wants to minimize device count and cost while still providing routing between VLANs. Which architecture fits best?',
+    options: ['Three-tier hierarchical', 'Collapsed core', 'Full mesh between users', 'Spine-leaf with 8 spines'],
+    correct: 1,
+    explain: 'Collapsed core combines Core and Distribution into a single layer of L3 switches, reducing device count and cost. Three-tier would be overkill for 80 users in one building. Full mesh between users and 8 spines for 80 users would be wildly excessive.'
+  },
+  {
+    q: 'A company runs star topology at each branch (devices to a switch), and connects branches via dedicated WAN circuits in a partial mesh. The overall network shape is best described as:',
+    options: ['Star', 'Mesh', 'Hybrid', 'Bus'],
+    correct: 2,
+    explain: 'Hybrid is when two or more topology types coexist in the same network. Stars at branches + partial mesh between branches = hybrid. This is how most real-world networks actually look.'
+  },
+  {
+    q: 'A site-to-site WAN circuit connects exactly two offices over a single dedicated link. Which topology is this?',
+    options: ['Star', 'Mesh', 'Point-to-point', 'Hybrid'],
+    correct: 2,
+    explain: 'Two endpoints connected by a single dedicated link is point-to-point (P2P). Common for leased lines, dedicated fiber between buildings, or single WAN circuits between two sites.'
+  },
+  {
+    q: 'In a three-tier hierarchical model, which layer is optimized for raw throughput and typically does NOT apply ACLs or QoS policy?',
+    options: ['Access', 'Distribution', 'Core', 'Edge'],
+    correct: 2,
+    explain: 'The Core layer is the high-speed backbone — its job is to move traffic between distribution blocks as fast as possible. Filtering, ACLs, and QoS happen at the Distribution layer to keep the Core unburdened.'
+  },
+  {
+    q: 'Why is spine-leaf considered "predictable latency" for east-west traffic?',
+    options: ['Because servers are physically close together', 'Because every leaf-to-leaf path takes the same number of hops (leaf → spine → leaf)', 'Because it uses fiber instead of copper', 'Because spine switches are faster than core switches'],
+    correct: 1,
+    explain: 'Every server-to-server flow in a spine-leaf fabric crosses exactly two switches: the source leaf, one spine, and the destination leaf. Always 2 hops. This makes latency predictable and roughly equal regardless of which racks the servers are in.'
+  }
+];
+
+let kcIdx = 0, kcScore = 0, kcAnswered = false;
+
+function renderKC() {
+  const card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    const pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    let verdict = '', sub = '';
+    if (pct === 100) { verdict = 'Topologies Mastered.'; sub = 'You can identify any topology or architecture instantly. 1.6 questions on the exam will be free points.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the questions you missed and the related diagrams in the Topology Atlas tab.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Walk through each topology in the Atlas tab and study the diagrams until each is instantly recognizable.'; }
+    else { verdict = 'Keep Training.'; sub = 'Spend more time in the Topology Atlas. The exam will show you a diagram and ask "which topology is this?" — visual recognition is the whole skill.'; }
+    card.innerHTML = `
+      <div class="kc-head">
+        <div class="title">Results</div>
+        <div class="progress">Complete</div>
+      </div>
+      <div class="kc-final">
+        <div class="big-score">${kcScore}<b>/${KC_QUESTIONS.length}</b></div>
+        <div class="verdict">${verdict}</div>
+        <div class="verdict-sub">${sub}</div>
+        <button class="next-btn" id="kc-restart">↻ Retake</button>
+      </div>`;
+    document.getElementById('kc-restart').addEventListener('click', () => {
+      kcIdx = 0; kcScore = 0; kcAnswered = false; renderKC();
+    });
+    return;
+  }
+  const q = KC_QUESTIONS[kcIdx];
+  card.innerHTML = `
+    <div class="kc-head">
+      <div class="title">Knowledge Check</div>
+      <div class="progress">${kcIdx + 1} / ${KC_QUESTIONS.length}</div>
+    </div>
+    <div class="kc-body">
+      <div class="kc-question">${q.q}</div>
+      <div class="kc-options" id="kc-options">
+        ${q.options.map((opt, i) => `
+          <button class="kc-option" data-i="${i}">
+            <span class="marker">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div class="kc-feedback" id="kc-feedback"></div>
+      <div class="kc-actions">
+        <div class="kc-score">Score · <b>${kcScore} / ${kcIdx}</b></div>
+        <button class="next-btn" id="kc-next" disabled>${kcIdx + 1 === KC_QUESTIONS.length ? 'See Results →' : 'Next →'}</button>
+      </div>
+    </div>`;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (kcAnswered) return;
+      kcAnswered = true;
+      const chosen = parseInt(btn.dataset.i);
+      const correct = q.correct;
+      card.querySelectorAll('.kc-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      const fb = document.getElementById('kc-feedback');
+      fb.innerHTML = chosen === correct
+        ? `<b>✓ Correct</b>${q.explain}`
+        : `<b>✗ Not Quite — Answer: ${String.fromCharCode(65 + correct)}</b>${q.explain}`;
+      fb.classList.add('show');
+      if (chosen === correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', () => {
+    kcIdx++; renderKC();
+  });
+}
+renderKC();
+
+/* ============================================================ */
+/* LIGHTNING ROUND                                               */
+/* ============================================================ */
+let lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+let lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'Topology where every device connects to a central hub:', correct: 'Star', d: ['Mesh', 'P2P', 'Spine-leaf'] },
+  { q: 'Topology where every device connects to every other device:', correct: 'Full mesh', d: ['Star', 'Hybrid', 'Three-tier'] },
+  { q: 'Topology with two endpoints and one dedicated link:', correct: 'Point-to-point', d: ['Star', 'Mesh', 'Hybrid'] },
+  { q: 'Modern data center topology — leaves and spines:', correct: 'Spine and leaf', d: ['Three-tier', 'Mesh', 'Star'] },
+  { q: 'Network with multiple topology types mixed together:', correct: 'Hybrid', d: ['Mesh', 'Star', 'Collapsed core'] },
+  { q: 'In three-tier, which layer connects end users?', correct: 'Access', d: ['Core', 'Distribution', 'Spine'] },
+  { q: 'In three-tier, which layer is the high-speed backbone?', correct: 'Core', d: ['Access', 'Distribution', 'Leaf'] },
+  { q: 'In three-tier, which layer handles routing and ACLs?', correct: 'Distribution', d: ['Access', 'Core', 'Spine'] },
+  { q: 'Architecture combining core and distribution:', correct: 'Collapsed core', d: ['Three-tier', 'Spine-leaf', 'Star'] },
+  { q: 'User browsing a webpage hosted in your DC. Traffic type?', correct: 'North-south', d: ['East-west', 'Multicast', 'Mesh'] },
+  { q: 'App server talking to a database in the same DC. Traffic type?', correct: 'East-west', d: ['North-south', 'Hybrid', 'Star'] },
+  { q: 'In spine-leaf, leaves connect to:', correct: 'Every spine (full mesh between layers)', d: ['Other leaves', 'Each other in a ring', 'One spine each'] },
+  { q: 'Number of hops between any two leaves in spine-leaf:', correct: '2 (leaf → spine → leaf)', d: ['1', '3', '4'] },
+  { q: 'Most common topology in today\'s LANs:', correct: 'Star', d: ['Mesh', 'Bus', 'Ring'] },
+  { q: 'Highest redundancy, highest cost topology:', correct: 'Full mesh', d: ['Star', 'P2P', 'Hybrid'] },
+  { q: 'Two-tier modern DC fabric:', correct: 'Spine-leaf', d: ['Three-tier', 'Star', 'Bus'] },
+  { q: 'Best for small/medium networks needing simpler design:', correct: 'Collapsed core', d: ['Three-tier', 'Full mesh', 'Spine-leaf'] },
+  { q: 'Predictable server-to-server latency comes from:', correct: 'Spine-leaf', d: ['Star', 'Three-tier', 'Mesh'] },
+  { q: 'In real-world enterprises, the actual topology is usually:', correct: 'Hybrid', d: ['Pure star', 'Pure mesh', 'Pure ring'] },
+  { q: 'Site-to-site WAN circuit between two offices:', correct: 'Point-to-point', d: ['Mesh', 'Three-tier', 'Star'] },
+  { q: 'Microservice chain (web → app → db → cache) traffic:', correct: 'East-west', d: ['North-south', 'Multicast', 'P2P'] },
+  { q: 'External SMTP arriving at company mail server:', correct: 'North-south', d: ['East-west', 'Mesh', 'Hybrid'] }
+];
+
+function generateLRQ() {
+  const f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  const options = shuffle([f.correct, ...f.d]);
+  return { question: f.q, options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  const body = document.getElementById('lr-body');
+  body.innerHTML = `
+    <div class="lr-question-prompt">Topology Q&A</div>
+    <div class="lr-question">${lrCurrentQ.question}</div>
+    <div class="lr-options">
+      ${lrCurrentQ.options.map((opt, i) => `
+        <button class="lr-option" data-i="${i}">
+          <span class="marker">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>`;
+  document.querySelectorAll('.lr-option').forEach(btn => {
+    btn.addEventListener('click', () => answerLR(parseInt(btn.dataset.i)));
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  const correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(() => { if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(() => {
+    lrTimeLeft--;
+    const t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  const total = lrCorrect + lrWrong;
+  const pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  const ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  let verdict = '', sub = '';
+  if (lrCorrect >= 18) { verdict = 'Topologies Locked.'; sub = 'You can identify any topology or architecture under exam pressure. Move on.'; }
+  else if (lrCorrect >= 12) { verdict = 'Solid Recall.'; sub = 'A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict = 'Building It.'; sub = 'Spend more time in the Topology Atlas tab.'; }
+  else { verdict = 'Keep Drilling.'; sub = 'Walk through every topology in the Atlas tab and study the diagrams.'; }
+  const finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = `
+    <div class="big-score">${lrCorrect}<b>/${total}</b></div>
+    <div class="verdict">${verdict}</div>
+    <div class="lr-stats">
+      <div class="item"><div class="num">${pct}%</div><div class="lab">Accuracy</div></div>
+      <div class="item"><div class="num">${ppm}</div><div class="lab">Per Minute Pace</div></div>
+      <div class="item"><div class="num">${total}</div><div class="lab">Questions</div></div>
+    </div>
+    <p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">${sub}</p>
+    <button class="lr-start" id="lr-restart">↻ Run Again</button>`;
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', () => {
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lr-dur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================================================ */
+/* TABS                                                          */
+/* ============================================================ */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
