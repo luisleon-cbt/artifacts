@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied Gen AI Assignment · Domain 1 · Copilot · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 7px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.75; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-of-type { margin-top: 0; }
+
+  /* Cards & callouts */
+  .card { background: var(--surface); border: 1px solid var(--line-soft); padding: 22px 26px; margin-bottom: 18px; }
+  .card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .card p { margin: 0 0 10px; font-size: 14px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .deliverable { background: linear-gradient(135deg, rgba(224,184,64,0.12), rgba(56,176,224,0.05)); border-left: 4px solid var(--gold); padding: 16px 22px; margin: 18px 0; }
+  .deliverable .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 6px; font-weight: 700; }
+  .deliverable p { margin: 0; font-size: 14px; color: var(--ink); }
+  .deliverable p b { color: var(--navy-deep); }
+  .deliverable ul { margin: 8px 0 0; padding-left: 22px; }
+  .deliverable ul li { font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .deliverable ul li b { color: var(--navy-deep); }
+
+  .warn { background: linear-gradient(135deg, rgba(142,31,46,0.10), rgba(244,217,220,0.4)); border-left: 4px solid var(--red); padding: 16px 22px; margin: 18px 0; }
+  .warn .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; font-weight: 700; }
+  .warn p { margin: 0; font-size: 14px; color: var(--ink); }
+  .warn p b { color: var(--red); }
+
+  .info { background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(56,176,224,0.02)); border-left: 4px solid var(--sky); padding: 16px 22px; margin: 18px 0; }
+  .info .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px; font-weight: 700; }
+  .info p { margin: 0; font-size: 14px; }
+  .info p b { color: var(--navy-deep); }
+
+  /* Topic picker */
+  .picker-intro { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 22px; }
+  .picker-status { margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-family: var(--ff-mono); font-size: 12px; color: var(--navy-deep); }
+  .picker-status.valid { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .picker-status.invalid { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .picker-status b { font-family: var(--ff-display); font-weight: 700; }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+  .topic-chip { background: var(--surface); border: 2px solid var(--line-soft); padding: 16px 20px; cursor: pointer; transition: all 0.15s; text-align: left; position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; font-family: var(--ff-body); }
+  .topic-chip:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .topic-chip.selected { background: var(--bg-warm); border-color: var(--sky); }
+  .topic-chip.selected::before { content: '✓'; position: absolute; top: 8px; right: 14px; color: var(--sky-deep); font-weight: 800; font-size: 18px; }
+  .topic-chip .badge { width: 48px; height: 48px; background: var(--navy-deep); color: var(--gold); font-family: var(--ff-display); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; letter-spacing: -0.02em; }
+  .topic-chip.selected .badge { background: var(--sky); color: white; }
+  .topic-chip .info-block .name { font-family: var(--ff-display); font-weight: 700; font-size: 15px; color: var(--navy-deep); line-height: 1.2; }
+  .topic-chip .info-block .sub { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 4px; }
+  .picker-summary { margin-top: 22px; padding: 20px 24px; background: var(--navy-deep); color: var(--ink-invert); }
+  .picker-summary h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; font-weight: 700; }
+  .picker-summary p { color: var(--gray-soft); margin: 0; font-size: 14px; }
+  .picker-summary ul { padding-left: 22px; margin: 8px 0 0; }
+  .picker-summary ul li { color: white; font-size: 14px; margin-bottom: 4px; font-family: var(--ff-display); font-weight: 600; }
+
+  /* "Your topics" reminder appearing on activity tabs */
+  .your-topics { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 20px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .your-topics .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 700; }
+  .your-topics .topics { font-family: var(--ff-display); font-weight: 700; font-size: 15px; color: white; }
+  .your-topics .none { font-style: italic; opacity: 0.7; font-weight: 500; }
+
+  /* Prompt template box */
+  .prompt-box { background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .prompt-box-head { background: var(--navy-deep); color: white; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .prompt-box-head .ptitle { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .prompt-box-head .copy-btn { background: var(--gold); color: var(--navy-deep); border: none; padding: 6px 14px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .prompt-box-head .copy-btn:hover { background: var(--gold-soft); }
+  .prompt-box-head .copy-btn.copied { background: var(--green); color: white; }
+  .prompt-box pre { margin: 0; padding: 18px 20px; font-family: var(--ff-mono); font-size: 13px; line-height: 1.6; color: var(--ink); background: var(--surface-alt); white-space: pre-wrap; overflow-x: auto; }
+  .prompt-box pre .var { background: var(--gold-soft); padding: 1px 6px; color: var(--gold-deep); font-weight: 700; }
+
+  /* Activity card */
+  .activity { background: var(--surface); border: 1px solid var(--line); margin-bottom: 24px; }
+  .activity-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .activity-head .num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .activity-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-top: 2px; }
+  .activity-head .time-est { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft); padding: 4px 10px; background: rgba(255,255,255,0.08); }
+  .activity-head .time-est b { color: var(--gold); font-family: var(--ff-display); font-size: 13px; margin-right: 2px; }
+  .activity-body { padding: 24px 26px; }
+  .activity-body p { margin: 0 0 14px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  /* AI Tools strip */
+  .ai-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 14px 0; }
+  .ai-tool { background: var(--surface); border: 1.5px solid var(--line-soft); padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .ai-tool .name { font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep); }
+  .ai-tool .url { font-family: var(--ff-mono); font-size: 11px; color: var(--sky-deep); word-break: break-all; }
+  .ai-tool .note { font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+
+  /* Rubric table */
+  .rubric-table { width: 100%; border-collapse: collapse; border: 1px solid var(--line); background: var(--surface); margin: 18px 0; }
+  .rubric-table th { background: var(--navy-deep); color: white; padding: 12px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .rubric-table th:last-child { border-right: none; }
+  .rubric-table td { padding: 12px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13px; vertical-align: top; color: var(--ink-mid); }
+  .rubric-table td:last-child { border-right: none; }
+  .rubric-table td.crit { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); background: var(--surface-alt); width: 22%; }
+  .rubric-table td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 10%; }
+  .rubric-table tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  /* AI errors table */
+  .errors-table { width: 100%; border-collapse: collapse; border: 1px solid var(--line); background: var(--surface); margin: 18px 0; }
+  .errors-table th { background: var(--red); color: white; padding: 12px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .errors-table th:last-child { border-right: none; }
+  .errors-table td { padding: 12px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13px; vertical-align: top; color: var(--ink-mid); }
+  .errors-table td:last-child { border-right: none; }
+  .errors-table td.topic { font-family: var(--ff-mono); font-weight: 700; color: var(--red); width: 18%; }
+  .errors-table td.wrong { color: var(--red); font-family: var(--ff-mono); font-size: 12px; }
+  .errors-table td.right { color: var(--green); font-family: var(--ff-mono); font-size: 12px; font-weight: 700; }
+
+  /* Tracker checklist */
+  .checklist { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin: 18px 0; }
+  .checklist h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; letter-spacing: -0.01em; }
+  .checklist-item { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--line-soft); cursor: pointer; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item:hover { background: var(--surface-alt); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+  .checklist-checkbox { width: 22px; height: 22px; border: 2px solid var(--navy-deep); display: flex; align-items: center; justify-content: center; font-weight: 800; color: transparent; transition: all 0.15s; }
+  .checklist-item.done .checklist-checkbox { background: var(--green); border-color: var(--green); color: white; }
+  .checklist-item.done .checklist-text { color: var(--ink-mute); text-decoration: line-through; }
+  .checklist-text { font-size: 14px; line-height: 1.5; color: var(--ink); }
+  .checklist-text b { color: var(--navy-deep); font-weight: 700; }
+
+  /* Footer */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .topic-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 1 Module</span>
+    <span class="crumb">Applied Gen AI Assignment</span>
+  </div>
+  <div class="topbar-right">Module Capstone</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Domain 1 Module · Capstone Assignment</div>
+    <h1>Applied <em>Generative AI.</em></h1>
+    <p class="lede">You've worked through eight subtopics of Domain 1 — OSI, appliances, cloud, ports, media, topologies, IPv4, and modern networks. This capstone assignment teaches you two things at once: <b>how to interact with generative AI</b> (prompt engineering as a skill, not just typing questions) and <b>how to apply AI</b> to both your exam preparation and your future work as a network professional. You'll use Microsoft Copilot exclusively, name the techniques you use, and produce a Word or PDF document that demonstrates both AI fluency and the critical thinking to catch AI when it's wrong.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Assignment Snapshot</div>
+    <div class="ref-row"><span class="name">Type</span><span class="desc">Module capstone — individual submission</span></div>
+    <div class="ref-row"><span class="name">Time</span><span class="desc">~3 hours total across two sessions</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Word document (.docx) or PDF, uploaded to Canvas</span></div>
+    <div class="ref-row"><span class="name">AI Tool</span><span class="desc">Microsoft Copilot only — free at copilot.microsoft.com</span></div>
+    <div class="ref-row"><span class="name">Topics</span><span class="desc">Pick 2-3 of the 8 Domain 1 subtopics</span></div>
+    <div class="ref-row"><span class="name">Skills</span><span class="desc">Prompt engineering + AI application</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 points · see rubric tab</span></div>
+    <div class="footer-note">
+      <b>DUAL LEARNING OBJECTIVE</b><br>
+      Learn how to INTERACT with Gen AI (prompt engineering techniques) AND how to APPLY it to networking work. Both are graded.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">7</div><div class="label">Prompt engineering techniques</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Required activities</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">AI tool — Microsoft Copilot</div></div>
+  <div class="stat"><div class="num">100</div><div class="label">Total points</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="overview"><span class="num">01</span>Overview</button>
+  <button class="tab" data-tab="techniques"><span class="num">02</span>Copilot & Techniques</button>
+  <button class="tab" data-tab="picker"><span class="num">03</span>Topic Picker</button>
+  <button class="tab" data-tab="trackA"><span class="num">04</span>Track A · Exam Prep</button>
+  <button class="tab" data-tab="trackB"><span class="num">05</span>Track B · Pro Practice</button>
+  <button class="tab" data-tab="rubric"><span class="num">06</span>Submission & Rubric</button>
+</nav>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="panel active" id="panel-overview">
+  <h2>What you're <em>learning</em> in this assignment.</h2>
+
+  <p>This is the capstone for the Domain 1 module of Network+ N10-009. By now you've used the interactive artifacts and taken the per-subtopic quizzes. This assignment has a <b>dual learning objective</b>:</p>
+
+  <div class="card">
+    <div class="card-eyebrow">OBJECTIVE 1 · INTERACTION</div>
+    <h4>Learn how to interact with Gen AI</h4>
+    <p>Prompt engineering is a real skill — not just typing questions. You'll study and apply <b>7 specific techniques</b> (zero-shot, few-shot, role/persona, chain-of-thought, structured prompting, iterative refinement, self-critique). Each activity in this assignment requires you to <b>name the technique you used and explain why you chose it</b>.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">OBJECTIVE 2 · APPLICATION</div>
+    <h4>Learn how to apply Gen AI to networking work</h4>
+    <p>AI is now part of the working network technician's toolkit. You'll practice using it for <b>exam preparation</b> (generating practice questions, building study guides, getting explanations) AND <b>professional tasks</b> (drafting tickets, translating technical content, researching unfamiliar technologies). The skills transfer directly to your first IT job.</p>
+  </div>
+
+  <div class="section-head">Learning Outcomes</div>
+  <p>By the end of this assignment, you will be able to:</p>
+  <ul>
+    <li><b>Identify and apply 7 prompt engineering techniques</b> by name, with reasoning for your choices.</li>
+    <li><b>Use Microsoft Copilot</b> as an exam-prep coach and a professional task assistant.</li>
+    <li><b>Recognize AI hallucinations</b> specific to networking content and verify against authoritative sources.</li>
+    <li><b>Document AI-assisted work</b> with prompts, outputs, and your evaluation of accuracy.</li>
+  </ul>
+
+  <div class="section-head">How the Assignment Is Structured</div>
+  <p>Two parallel tracks, each with three required activities. You pick <b>2-3 Domain 1 subtopics</b> to focus on (in the Topic Picker tab), and apply all six activities to those topics.</p>
+
+  <div class="card">
+    <div class="card-eyebrow">TRACK A · 45 PTS</div>
+    <h4>Exam Preparation</h4>
+    <p>Use Copilot to deepen your understanding of weak areas, generate practice questions, and build a personalized study guide. AI as your tutor.</p>
+    <ul style="margin-top: 8px;">
+      <li><b>A1</b> · Prompt engineering for explanations (3 difficulty levels, 3 techniques)</li>
+      <li><b>A2</b> · AI-generated practice questions + answer validation</li>
+      <li><b>A3</b> · Personal study guide built through iterative AI conversation</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">TRACK B · 35 PTS</div>
+    <h4>Professional Practice</h4>
+    <p>Use Copilot on tasks a working network technician actually does. AI as your assistant.</p>
+    <ul style="margin-top: 8px;">
+      <li><b>B1</b> · Draft a help-desk ticket response using role prompting</li>
+      <li><b>B2</b> · Translate technical content for a non-technical audience</li>
+      <li><b>B3</b> · Research an unfamiliar technology and produce a one-page brief</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE & LITERACY · 20 PTS</div>
+    <h4>Prompt Engineering Mastery + AI Literacy</h4>
+    <p>Across all 6 activities you must <b>name and explain</b> at least 5 different prompt engineering techniques. You must also document at least <b>one instance</b> where Copilot gave you wrong information about a networking topic, with verification from an authoritative source.</p>
+  </div>
+
+  <div class="info">
+    <div class="label">★ TIME-SAVING TIP</div>
+    <p>Open a Word document <b>before you start</b>. As you work through each activity, copy your prompts and Copilot's responses directly into the document. Tag each prompt with the technique you used. You'll save hours of recreating work at the end.</p>
+  </div>
+
+  <div class="section-head">Sessions and Pacing</div>
+  <ul>
+    <li><b>Session 1</b> (~90 min) — Read the Techniques tab, pick topics, complete Track A activities.</li>
+    <li><b>Session 2</b> (~75 min) — Complete Track B activities.</li>
+    <li><b>Wrap-up</b> (~30 min) — AI Literacy reflection, document polish, upload to Canvas.</li>
+  </ul>
+
+  <div class="info">
+    <div class="label">START HERE</div>
+    <p>Click the <b>Copilot & Techniques</b> tab next to learn how to access Copilot and study the 7 prompt engineering techniques. You'll need to apply them throughout the activities.</p>
+  </div>
+</section>
+
+<!-- ===================== COPILOT & TECHNIQUES ===================== -->
+<section class="panel" id="panel-techniques">
+  <h2>Copilot &amp; <em>Prompt Engineering.</em></h2>
+  <p>This tab has two parts. First, how to access Microsoft Copilot — the only AI tool approved for this assignment. Second, the seven prompt engineering techniques you'll be applying across the activities. Read both before moving to the Topic Picker.</p>
+
+  <div class="section-head">Part 1 · Accessing Microsoft Copilot</div>
+
+  <div class="card">
+    <div class="card-eyebrow">PRIMARY ACCESS — FREE, NO SETUP</div>
+    <h4>Web Copilot at copilot.microsoft.com</h4>
+    <p>The free web version is what you'll use for this assignment. Open any browser, go to <b>copilot.microsoft.com</b>, and start chatting. <b>You can use Copilot without signing in</b>, but signing in with a free Microsoft account gives you chat history, longer conversations, and the ability to upload files — recommended for this assignment so you can refer back to your prompts later.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">ALTERNATIVE ACCESS — SAME ENGINE</div>
+    <h4>Other ways to reach the same Copilot</h4>
+    <p>All of these connect to the same underlying Copilot service. Use whichever fits your workflow:</p>
+    <ul>
+      <li><b>Copilot in Microsoft Edge</b> — sidebar button at the top right of the Edge browser.</li>
+      <li><b>Copilot Windows app</b> — pre-installed on Windows 11; press the Copilot key or Win+C.</li>
+      <li><b>Copilot mobile app</b> — free on iOS and Android.</li>
+      <li><b>Copilot in Bing</b> — bing.com/chat (same service, different entry point).</li>
+    </ul>
+  </div>
+
+  <div class="info">
+    <div class="label">★ WHICH VERSION FOR THIS ASSIGNMENT</div>
+    <p>The <b>free version is sufficient for everything</b> in this assignment. You do not need Copilot Pro, Microsoft 365 Copilot, or any paid subscription. Document which interface you used (web, Edge sidebar, Windows app, mobile) in the AI tools log at the end of your submission.</p>
+  </div>
+
+  <div class="warn">
+    <div class="label">⚠ ONE AI ONLY</div>
+    <p>This assignment specifies <b>Microsoft Copilot exclusively</b>. Do not use ChatGPT, Claude, Gemini, or Perplexity for the required activities. If you compare Copilot outputs to those tools out of curiosity, document it as bonus exploration — but the graded work must use Copilot.</p>
+  </div>
+
+  <div class="section-head">Part 2 · The Seven Prompt Engineering Techniques</div>
+
+  <p>Prompt engineering is the practice of <b>designing your inputs</b> to get useful, accurate outputs from a Gen AI tool. The same question phrased differently can produce dramatically different responses. The techniques below are the established core toolkit — you will apply them throughout this assignment and <b>name them</b> in your deliverable.</p>
+
+  <!-- Technique 1 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 1</div>
+    <h4>Zero-Shot Prompting</h4>
+    <p><b>What it is:</b> Ask a direct question with no examples and no extra context. The AI uses only its training to respond.</p>
+    <p><b>When to use:</b> Quick factual lookups, simple definitions, common knowledge. Fastest, but most prone to hallucination on specific facts.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — zero-shot</div>
+        <button class="copy-btn" data-target="ex-zero">Copy</button>
+      </div>
+      <pre id="ex-zero">What is the difference between TCP and UDP?</pre>
+    </div>
+  </div>
+
+  <!-- Technique 2 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 2</div>
+    <h4>Few-Shot Prompting</h4>
+    <p><b>What it is:</b> Provide 1-3 examples of the pattern you want the AI to follow before asking your real question. The AI learns the format from your examples.</p>
+    <p><b>When to use:</b> When you want output in a very specific format (flashcards, table rows, exam questions, mnemonics) and a single description isn't enough.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — few-shot</div>
+        <button class="copy-btn" data-target="ex-few">Copy</button>
+      </div>
+      <pre id="ex-few">Create flashcards for Network+ ports in this exact format:
+
+EXAMPLE 1:
+Front: What port does HTTPS use?
+Back: TCP 443 — encrypted web traffic.
+
+EXAMPLE 2:
+Front: What port does SSH use?
+Back: TCP 22 — secure remote shell.
+
+Now create 5 more flashcards for: DNS, DHCP, SMTP, SNMP, NTP.</pre>
+    </div>
+  </div>
+
+  <!-- Technique 3 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 3</div>
+    <h4>Role / Persona Prompting</h4>
+    <p><b>What it is:</b> Tell the AI <b>who it should be</b> when answering. "You are a..." sets context and shifts vocabulary, tone, and depth.</p>
+    <p><b>When to use:</b> When the audience or expertise level matters. Different personas yield different outputs for the same underlying question.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — role prompting</div>
+        <button class="copy-btn" data-target="ex-role">Copy</button>
+      </div>
+      <pre id="ex-role">You are a senior network engineer with 15 years of enterprise
+experience. A junior technician asks you why their firewall is
+dropping VoIP calls during nightly backups.
+
+Explain the likely cause and what to check first, in the
+no-nonsense tone you'd actually use with a junior on your team.
+Avoid textbook definitions — focus on what to DO.</pre>
+    </div>
+  </div>
+
+  <!-- Technique 4 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 4</div>
+    <h4>Chain-of-Thought (CoT) Prompting</h4>
+    <p><b>What it is:</b> Ask the AI to <b>show its reasoning step by step</b> before giving the final answer. The phrase "think step by step" or "show your work" triggers this.</p>
+    <p><b>When to use:</b> Subnetting calculations, troubleshooting logic, multi-step scenarios. Better accuracy on complex problems because the AI exposes the path to its answer (and you can spot errors mid-stream).</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — chain-of-thought</div>
+        <button class="copy-btn" data-target="ex-cot">Copy</button>
+      </div>
+      <pre id="ex-cot">Given the IP address 192.168.50.130 with subnet mask /27,
+calculate the network address, broadcast address, first usable
+host, and last usable host.
+
+Think step by step. Show your work at each stage:
+1. Convert /27 to dotted decimal mask
+2. Determine the block size
+3. Find the network address
+4. Find the broadcast address
+5. List the first and last usable hosts
+
+Then summarize the answer.</pre>
+    </div>
+  </div>
+
+  <!-- Technique 5 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 5</div>
+    <h4>Structured Prompting</h4>
+    <p><b>What it is:</b> Break your prompt into <b>labeled sections</b> — CONTEXT, TASK, CONSTRAINTS, FORMAT — so the AI knows exactly what each piece of information is for.</p>
+    <p><b>When to use:</b> Complex requests with multiple requirements. Highly effective when you want consistent output structure or when constraints matter (length limits, required sections, banned terminology).</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — structured prompt</div>
+        <button class="copy-btn" data-target="ex-struct">Copy</button>
+      </div>
+      <pre id="ex-struct">CONTEXT: I'm preparing for the CompTIA Network+ N10-009 exam.
+I have 2 weeks until my test date. I'm strongest on cabling
+and weakest on cloud concepts.
+
+TASK: Create a 14-day study plan focused on my weak area.
+
+CONSTRAINTS:
+- Maximum 1 hour per day
+- Include both reading and practice questions
+- Build in 1 review day every 3 days
+- No paid resources
+
+FORMAT: Table with columns: Day, Topic, Activity, Time, Resource.</pre>
+    </div>
+  </div>
+
+  <!-- Technique 6 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 6</div>
+    <h4>Iterative Refinement</h4>
+    <p><b>What it is:</b> Multi-turn conversation. You don't accept the first answer — you push back, request changes, add constraints, and refine until the output is right. Each turn builds on prior context.</p>
+    <p><b>When to use:</b> Almost everything serious. The first AI response is rarely the best one. Power users don't write better single prompts — they have more productive conversations.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — iteration prompts</div>
+        <button class="copy-btn" data-target="ex-iter">Copy</button>
+      </div>
+      <pre id="ex-iter">Turn 1: "Explain VXLAN to me."
+
+Turn 2: "That was too generic. Focus specifically on why VXLAN
+exists — what problem did it solve that VLANs couldn't?"
+
+Turn 3: "Now give me a 3-bullet summary I could use as a flashcard."
+
+Turn 4: "Replace the second bullet — it uses too much jargon.
+Rewrite for a Net+ student who hasn't covered data center yet."</pre>
+    </div>
+  </div>
+
+  <!-- Technique 7 -->
+  <div class="card">
+    <div class="card-eyebrow">TECHNIQUE 7</div>
+    <h4>Self-Critique / Verification Prompting</h4>
+    <p><b>What it is:</b> After the AI gives an answer, prompt it to <b>review its own work</b> for errors, contradictions, or weak spots. Sometimes catches mistakes — but unreliable on its own. Always combined with human verification.</p>
+    <p><b>When to use:</b> After getting any answer involving specific facts, calculations, or claims. A useful first-pass error check, but not a substitute for authoritative sources.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <div class="ptitle">Example — self-critique</div>
+        <button class="copy-btn" data-target="ex-critique">Copy</button>
+      </div>
+      <pre id="ex-critique">Review your previous answer about NTP and SNMP port numbers.
+
+For each protocol you mentioned, check:
+- Is the port number correct?
+- Is the transport protocol (TCP or UDP) correct?
+- Are there any common variations or "well-known wrong" answers
+  I should be aware of?
+
+If you find any errors in your earlier response, correct them
+explicitly and state what you changed.</pre>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="label">★ COMBINE TECHNIQUES</div>
+    <p>Real prompt engineering rarely uses one technique in isolation. A polished prompt often combines <b>role + structured + chain-of-thought</b> all at once. Example: "You are a Net+ instructor (role). Given this scenario (context), explain step by step (CoT) using this format (structure)..."</p>
+  </div>
+
+  <div class="section-head">Quick Reference — When to Use Which Technique</div>
+
+  <table class="rubric-table">
+    <thead>
+      <tr><th>Goal</th><th>Technique to start with</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="crit">Quick definition or fact</td><td>Zero-shot</td></tr>
+      <tr><td class="crit">Generate practice questions in a specific format</td><td>Few-shot</td></tr>
+      <tr><td class="crit">Get expert-level explanations</td><td>Role / persona</td></tr>
+      <tr><td class="crit">Subnetting, calculations, multi-step problems</td><td>Chain-of-thought</td></tr>
+      <tr><td class="crit">Complex requests with multiple constraints</td><td>Structured</td></tr>
+      <tr><td class="crit">Polish a draft, build a study guide</td><td>Iterative refinement</td></tr>
+      <tr><td class="crit">Catch AI errors before trusting output</td><td>Self-critique + authoritative source check</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== TOPIC PICKER ===================== -->
+<section class="panel" id="panel-picker">
+  <h2>Pick your <em>focus topics.</em></h2>
+
+  <div class="picker-intro">
+    <h3>Choose 2 or 3 Domain 1 subtopics</h3>
+    <p style="margin: 0;">Select the topics where you felt least confident on the per-topic quizzes, or the topics you find hardest to explain in your own words. You'll apply all six assignment activities to these topics. Two minimum, three maximum.</p>
+    <div class="picker-status" id="picker-status">No topics selected yet — pick 2 or 3 to continue.</div>
+  </div>
+
+  <div class="topic-grid" id="topic-grid"></div>
+
+  <div class="picker-summary" id="picker-summary" style="display: none;">
+    <h4>★ Your Selected Topics</h4>
+    <p>These topics will be referenced as <b>"your topics"</b> throughout Tracks A and B. You can change your selection here at any time.</p>
+    <ul id="picker-summary-list"></ul>
+  </div>
+
+  <div class="section-head" style="margin-top: 32px;">Reminder — Copilot Only</div>
+  <p>For this assignment, you must use <b>Microsoft Copilot exclusively</b>. If you haven't already reviewed the Copilot &amp; Techniques tab, do that before starting Track A.</p>
+  <div class="info">
+    <div class="label">★ ACCESS COPILOT</div>
+    <p>Free at <b>copilot.microsoft.com</b> — works in any browser. You may sign in with a free Microsoft account to keep chat history, but sign-in is not required. Document which interface you used (web, Edge sidebar, Windows app, mobile) in the AI tools log at the end of your submission.</p>
+  </div>
+</section>
+
+<!-- ===================== TRACK A ===================== -->
+<section class="panel" id="panel-trackA">
+  <div class="your-topics">
+    <div class="label">★ Your selected topics for this track</div>
+    <div class="topics" id="your-topics-A"><span class="none">No topics selected yet — go to the Topic Picker tab first.</span></div>
+  </div>
+
+  <h2>Track A · <em>Exam Preparation.</em></h2>
+  <p>Use Copilot as a personalized tutor. Three required activities — each one practices different prompt engineering techniques applied to your weak topics. For every activity, you must <b>name the technique(s)</b> you used and <b>briefly explain why</b> you chose them. Copy each prompt template into Copilot; the <code style="font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep);">[bracketed]</code> sections are placeholders for you to fill in.</p>
+
+  <div class="info">
+    <div class="label">★ TECHNIQUE TAGGING — REQUIRED</div>
+    <p>In your Word/PDF deliverable, label each prompt with the technique(s) it demonstrates. Example: <i>"Prompt for A1 Level 2 — Technique: Role + Structured. I chose role because I needed expert-level vocabulary, and structured because I needed three specific sections."</i> Untagged prompts lose points.</p>
+  </div>
+
+  <!-- A1 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity A1 · 15 points</div>
+        <div class="title">Three-Level Explanations — Zero-Shot, Role, &amp; Few-Shot</div>
+      </div>
+      <div class="time-est"><b>~30</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Practice three distinct prompt engineering techniques by asking Copilot to explain the same topic three ways. Each level uses a DIFFERENT technique.</p>
+
+      <p><b>Pick ONE of your selected topics.</b> Run all three prompts. Each one must produce a noticeably different response.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Level 1 — Zero-Shot Prompting</div>
+          <button class="copy-btn" data-target="prompt-a1-l1">Copy</button>
+        </div>
+        <pre id="prompt-a1-l1">Explain <span class="var">[your topic]</span>.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Technique demonstrated: <b style="color: var(--navy-deep); font-style: normal;">Zero-shot</b> — direct question, no context. Observe the baseline response.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Level 2 — Role + Structured Prompting</div>
+          <button class="copy-btn" data-target="prompt-a1-l2">Copy</button>
+        </div>
+        <pre id="prompt-a1-l2">You are a CompTIA Network+ instructor with 10 years of teaching
+experience.
+
+CONTEXT: I'm a student preparing for the N10-009 exam who has finished
+one semester of intro to networking.
+
+TASK: Explain <span class="var">[your topic]</span> to me.
+
+CONSTRAINTS:
+- Use proper terminology but define each term the first time
+- Include 2 concrete examples
+- About 250 words
+
+FORMAT: 3 short paragraphs.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Techniques demonstrated: <b style="color: var(--navy-deep); font-style: normal;">Role + Structured</b> — persona shifts vocabulary; labeled sections give precise instructions.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Level 3 — Few-Shot Prompting (Exam-Tip Format)</div>
+          <button class="copy-btn" data-target="prompt-a1-l3">Copy</button>
+        </div>
+        <pre id="prompt-a1-l3">I'm preparing for the CompTIA Network+ N10-009 exam. I want exam-trap
+distinctions in this exact format:
+
+EXAMPLE:
+Topic: IDS vs IPS
+Trap: Students confuse IDS (detect only) with IPS (actively block).
+Trigger: "If the question says 'alert but do not block' → IDS.
+          If it says 'block inline' → IPS."
+Memory aid: D = Detect, P = Prevent.
+
+Now produce 3 exam-trap items for <span class="var">[your topic]</span>
+using the same Topic / Trap / Trigger / Memory aid format.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Technique demonstrated: <b style="color: var(--navy-deep); font-style: normal;">Few-shot</b> — one worked example trains Copilot to match a specific output format.</p>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for A1</div>
+        <ul>
+          <li>The <b>3 prompts</b> you sent (with your variable substitutions).</li>
+          <li>The <b>3 Copilot responses</b> in full.</li>
+          <li>A <b>technique tag</b> for each prompt naming what you used and why.</li>
+          <li>A <b>2-3 sentence reflection</b>: how did the three techniques produce different outputs? Which technique was most useful for your learning?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- A2 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity A2 · 18 points</div>
+        <div class="title">Practice Questions — Few-Shot, Chain-of-Thought, Self-Critique</div>
+      </div>
+      <div class="time-est"><b>~30</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Generate practice questions for two of your topics, attempt them, validate the answers, then use <b>self-critique prompting</b> to ask Copilot to review its own work. This activity strings three techniques together.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Step 1 — Generate questions (Few-Shot + Structured)</div>
+          <button class="copy-btn" data-target="prompt-a2-gen">Copy</button>
+        </div>
+        <pre id="prompt-a2-gen">EXAMPLE OF THE FORMAT I WANT:
+
+Q1: Which protocol uses TCP port 22 for secure remote shell access?
+A) Telnet
+B) SSH
+C) FTP
+D) RDP
+
+Now generate 5 NEW questions in this exact format on the topic of
+<span class="var">[your topic]</span> for the CompTIA Network+ N10-009 exam.
+
+REQUIREMENTS:
+- 4 answer choices per question (A, B, C, D)
+- Difficulty mix: 2 recall, 2 application, 1 scenario-based
+- Do NOT show me the answers yet — I want to attempt them first
+- Number them 1-5
+- Use exam-style language</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Techniques: <b style="color: var(--navy-deep); font-style: normal;">Few-shot + Structured</b> — the example sets the format; the labeled requirements set the rules.</p>
+
+      <div class="info">
+        <div class="label">★ TAKE THE QUIZ FIRST</div>
+        <p>Attempt all 5 questions without help. Write down your answers (A/B/C/D) before moving to Step 2.</p>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Step 2 — Get answer key (Chain-of-Thought)</div>
+          <button class="copy-btn" data-target="prompt-a2-key">Copy</button>
+        </div>
+        <pre id="prompt-a2-key">Now show me the correct answers to those 5 questions.
+For each one, think step by step through the reasoning before
+committing to a final answer. Format as:
+
+Q1:
+Reasoning: [walk through why each option is right or wrong]
+Final answer: [Letter]
+
+Q2: ...etc.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Technique: <b style="color: var(--navy-deep); font-style: normal;">Chain-of-thought</b> — forces Copilot to expose its reasoning, which makes errors easier to spot.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Step 3 — Self-critique</div>
+          <button class="copy-btn" data-target="prompt-a2-critique">Copy</button>
+        </div>
+        <pre id="prompt-a2-critique">Review your answer key above. For each of the 5 questions, check:
+- Is the final answer correct?
+- Did you state any specific facts (port numbers, layer numbers,
+  distances, RFCs) that could be wrong?
+- Are there commonly-confused alternative answers I should watch for?
+
+If you find any errors, correct them explicitly. If you stand by all
+answers, say so and identify your most confident answer vs. your
+least confident.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Technique: <b style="color: var(--navy-deep); font-style: normal;">Self-critique</b> — asks the AI to review its own work. Sometimes catches mistakes; never sufficient on its own.</p>
+
+      <div class="warn">
+        <div class="label">⚠ CRITICAL — VERIFY BEFORE YOU TRUST</div>
+        <p>Self-critique catches some errors but not all. After all three steps, <b>verify at least 2 of the 5 Copilot-claimed answers</b> using one of these authoritative sources:</p>
+        <ul style="margin-top: 8px;">
+          <li>CompTIA N10-009 Official Exam Objectives PDF (free at comptia.org)</li>
+          <li>The interactive artifact for that topic in our course</li>
+          <li>Professor Messer's free Net+ video series</li>
+          <li>IANA port registry (for port number claims)</li>
+          <li>RFCs (for protocol details)</li>
+        </ul>
+      </div>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for A2</div>
+        <ul>
+          <li>The <b>5 Copilot-generated questions</b> with choices.</li>
+          <li><b>Your attempted answers</b> (before seeing the key).</li>
+          <li><b>Copilot's chain-of-thought answer key</b> with reasoning.</li>
+          <li><b>Copilot's self-critique</b> — did it find any errors? Did it correct them?</li>
+          <li><b>Verification notes</b>: For at least 2 questions, list the authoritative source you checked, quote the source, and state whether Copilot (after self-critique) was correct or wrong.</li>
+          <li>Repeat for a <b>second topic</b> (10 total questions across both topics).</li>
+          <li><b>Technique tags</b> for each of the three steps.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- A3 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity A3 · 12 points</div>
+        <div class="title">Study Guide via Iterative Refinement</div>
+      </div>
+      <div class="time-est"><b>~30</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Build a personalized one-page study guide for ONE of your topics through a <b>multi-turn conversation</b> with Copilot — at least <b>8 back-and-forth exchanges</b>. This activity demonstrates iterative refinement, which is more powerful than any single prompt.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">Opening prompt (Role + Iterative setup)</div>
+          <button class="copy-btn" data-target="prompt-a3-open">Copy</button>
+        </div>
+        <pre id="prompt-a3-open">You are a CompTIA Network+ instructor helping me build a one-page
+study guide for the N10-009 topic of <span class="var">[your topic]</span>.
+I want to work with you iteratively — multiple turns of feedback
+and refinement.
+
+Start by asking me 3 questions to understand:
+- What I already know about this topic
+- Where I feel weakest
+- What style of study guide works best for me (bullets, prose,
+  tables, comparison columns)
+
+Then we'll build the guide section by section based on my answers.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Techniques: <b style="color: var(--navy-deep); font-style: normal;">Role + Iterative refinement</b> — sets up Copilot as an instructor and explicitly tells it this will be a multi-turn conversation.</p>
+
+      <p>After Copilot asks its questions, answer them honestly. Then work together — section by section — until you have a guide you would actually use. Push back when the output is too generic. Ask for specific examples. Request a different format if the first try doesn't work. <b>The conversation IS the learning.</b></p>
+
+      <div class="info">
+        <div class="label">★ ITERATION PROMPTS YOU MIGHT USE</div>
+        <p>Examples of follow-up prompts that drive refinement:</p>
+        <ul style="margin-top: 8px;">
+          <li>"Make this section more concrete — add a specific real-world example."</li>
+          <li>"Shorten this to 3 bullets. The current version is too wordy."</li>
+          <li>"This doesn't match the N10-009 objective wording. Rephrase using CompTIA's exact terminology."</li>
+          <li>"Add a 'common exam trap' callout to this section."</li>
+          <li>"Replace this paragraph with a comparison table — old way vs new way."</li>
+        </ul>
+      </div>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for A3</div>
+        <ul>
+          <li>The <b>full conversation transcript</b> — every prompt and every response, in order. (Copy-paste from Copilot's interface.) Minimum 8 turns.</li>
+          <li>The <b>final one-page study guide</b> as a clean, polished section in your document.</li>
+          <li>A <b>brief reflection</b> (3-4 sentences): What changed between the first Copilot output and your final version? Which iteration produced the biggest improvement?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRACK B ===================== -->
+<section class="panel" id="panel-trackB">
+  <div class="your-topics">
+    <div class="label">★ Your selected topics for this track</div>
+    <div class="topics" id="your-topics-B"><span class="none">No topics selected yet — go to the Topic Picker tab first.</span></div>
+  </div>
+
+  <h2>Track B · <em>Professional Practice.</em></h2>
+  <p>This track simulates how a working network technician actually uses AI on the job. Like Track A, each activity uses specific prompt engineering techniques — name them in your deliverable.</p>
+
+  <!-- B1 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity B1 · 12 points</div>
+        <div class="title">Ticket Response — Role + Structured Prompting</div>
+      </div>
+      <div class="time-est"><b>~25</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Use Copilot to draft a professional ticket response. Real network technicians close hundreds of tickets a year — clear written communication is a core skill. This activity uses <b>role prompting</b> (Copilot adopts your professional voice) combined with <b>structured prompting</b> (clear sections for the requirements).</p>
+
+      <p>Pick a <b>scenario</b> from one of your selected topics. Example scenarios:</p>
+      <ul>
+        <li>A user reports their PC got an IP starting with <code style="font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep);">169.254</code> and can't reach the internet (Topic 1.7)</li>
+        <li>A small office wants to know whether they need a NAS or a SAN for shared documents (Topic 1.2)</li>
+        <li>Two branches need encrypted connectivity over the internet — VPN vs Direct Connect explanation (Topic 1.3 / 1.8)</li>
+        <li>A user complains about slow Wi-Fi during meetings — could it be the 802.11 standard? (Topic 1.5)</li>
+      </ul>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">B1 prompt (Role + Structured)</div>
+          <button class="copy-btn" data-target="prompt-b1">Copy</button>
+        </div>
+        <pre id="prompt-b1">You are a junior network technician with strong written
+communication skills.
+
+SCENARIO: <span class="var">[describe the user issue — 2-3 sentences]</span>
+
+TASK: Draft a professional ticket response.
+
+CONSTRAINTS:
+- Open with empathy / acknowledgment of the user's issue
+- Explain the likely cause in plain English (non-technical user)
+- List the steps you will take to resolve it
+- Set a realistic expectation for resolution time
+- Close professionally with a way to be reached
+
+FORMAT: 150-200 words. Friendly but professional tone.
+Avoid jargon unless defined.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Techniques: <b style="color: var(--navy-deep); font-style: normal;">Role + Structured</b> — persona sets the voice; labeled sections enforce every requirement.</p>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for B1</div>
+        <ul>
+          <li>The <b>scenario</b> you chose.</li>
+          <li>The <b>prompt</b> you sent (with technique tag).</li>
+          <li>Copilot's <b>draft response</b>.</li>
+          <li><b>Your edited final version</b> — at least 3 specific edits to the draft (tone, missing detail, fixing technical errors, removing fluff).</li>
+          <li>A <b>1-2 sentence note</b> on what you changed and why.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- B2 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity B2 · 10 points</div>
+        <div class="title">Audience Translation — Role + Constraint Prompting</div>
+      </div>
+      <div class="time-est"><b>~20</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Practice translating between technical and non-technical language — a skill required for stakeholder meetings, executive briefings, and customer communications. This activity demonstrates how <b>role + tight constraints</b> shape output.</p>
+
+      <p>Pick a <b>technical concept</b> from one of your topics. Write a one-paragraph technical version yourself, then ask Copilot to translate it for a non-technical audience.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">B2 prompt (Role + Constraints)</div>
+          <button class="copy-btn" data-target="prompt-b2">Copy</button>
+        </div>
+        <pre id="prompt-b2">You are a network engineer who is excellent at explaining technical
+topics to business stakeholders without losing accuracy.
+
+CONTEXT: I need to explain the following technical concept to a
+non-technical manager who approves IT budget requests. They have
+no networking background but are smart and care about business impact.
+
+TECHNICAL VERSION (my draft):
+<span class="var">[paste your technical paragraph here, 3-5 sentences]</span>
+
+CONSTRAINTS:
+- Same length — no longer
+- Replace jargon with plain English or relatable analogies
+- Lead with the BUSINESS IMPACT, not the technical detail
+- Use the word "so" or "which means" at least once to connect tech to outcome
+- End with one sentence on cost or risk if we DON'T do this
+
+OUTPUT: Show me the rewrite, then briefly note 2 specific changes you made.</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Techniques: <b style="color: var(--navy-deep); font-style: normal;">Role + Constraint specification</b> — persona controls voice; tight constraints prevent generic output.</p>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for B2</div>
+        <ul>
+          <li>Your <b>original technical paragraph</b>.</li>
+          <li>The <b>prompt</b> you sent (with technique tag).</li>
+          <li>Copilot's <b>translated version</b>.</li>
+          <li>A <b>2-3 sentence reflection</b>: Did the AI version preserve technical accuracy? Or did it oversimplify and lose meaning?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- B3 -->
+  <div class="activity">
+    <div class="activity-head">
+      <div>
+        <div class="num">Activity B3 · 13 points</div>
+        <div class="title">Tech Brief — Structured + Few-Shot Prompting</div>
+      </div>
+      <div class="time-est"><b>~25</b> min</div>
+    </div>
+    <div class="activity-body">
+      <p><b>Goal:</b> Practice using Copilot to accelerate learning a new technology you'll encounter on the job. This activity uses <b>structured prompting</b> to enforce a specific 7-section format.</p>
+
+      <p>Pick a <b>specific technology or term</b> related to your selected topics that you've heard mentioned but don't fully understand. Examples:</p>
+      <ul>
+        <li>BGP, OSPF, EIGRP (background for Topic 2.1 Routing)</li>
+        <li>SD-WAN vendors like Cisco Viptela, VMware VeloCloud, Fortinet (Topic 1.8)</li>
+        <li>Specific cloud services like AWS Transit Gateway, Azure Virtual WAN (Topic 1.3)</li>
+        <li>802.1X authentication, WPA3, 6 GHz channel planning (Topic 1.5)</li>
+        <li>VXLAN EVPN, VRF, MP-BGP (Topic 1.8)</li>
+      </ul>
+
+      <div class="prompt-box">
+        <div class="prompt-box-head">
+          <div class="ptitle">B3 prompt (Structured)</div>
+          <button class="copy-btn" data-target="prompt-b3">Copy</button>
+        </div>
+        <pre id="prompt-b3">CONTEXT: I'm a Network+ student creating a one-page technical brief
+on <span class="var">[your chosen technology]</span> for my own learning notes.
+
+TASK: Produce the brief.
+
+STRUCTURE (use these exact section headers):
+1. WHAT IT IS — 2 sentences, no jargon
+2. THE PROBLEM IT SOLVES — what was broken before this existed?
+3. HOW IT WORKS — the basic mechanism in 3-5 bullets
+4. WHEN YOU'D ENCOUNTER IT — typical use cases or job scenarios
+5. RELATED TECHNOLOGIES — 2-3 things this is often confused with
+6. KEY VOCABULARY — 4-6 terms with one-line definitions
+7. ONE GOTCHA — something a beginner commonly gets wrong
+
+CONSTRAINTS:
+- ~400 words total
+- Cite specific numbers, dates, or RFC references so I can verify them
+- If you are not confident about a specific fact, mark it [VERIFY]</pre>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-mute); font-style: italic; margin: -6px 0 18px;">Technique: <b style="color: var(--navy-deep); font-style: normal;">Structured</b> — explicit numbered sections force a consistent format and prevent the model from skipping sections.</p>
+
+      <div class="info">
+        <div class="label">★ VERIFY THE CITATIONS</div>
+        <p>If Copilot cites specific facts (RFC numbers, release dates, port numbers, distances), <b>look up at least one</b> before accepting the brief as accurate. Note in your deliverable whether the citation was correct.</p>
+      </div>
+
+      <div class="deliverable">
+        <div class="label">★ Deliverable for B3</div>
+        <ul>
+          <li>The <b>technology you chose</b> and why.</li>
+          <li>The <b>prompt</b> you sent (with technique tag).</li>
+          <li>Copilot's <b>brief</b> in full.</li>
+          <li><b>Citation verification</b>: At least one specific fact you looked up, the source you checked, and whether Copilot was correct.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RUBRIC ===================== -->
+<section class="panel" id="panel-rubric">
+  <h2>Submission, <em>Literacy &amp; Rubric.</em></h2>
+
+  <p>This final tab combines three things: what to submit, the AI Literacy requirement (your defense against Copilot hallucinations), and the full grading rubric.</p>
+
+  <div class="section-head">What to submit</div>
+
+  <div class="card">
+    <h4>One document. Word (.docx) or PDF. Your choice.</h4>
+    <p>Upload to the Canvas assignment dropbox by the due date posted in the module. Suggested filename:</p>
+    <p style="font-family: var(--ff-mono); background: var(--bg-warm); padding: 8px 12px; font-size: 13px; color: var(--gold-deep); margin: 8px 0 0;">LastName_FirstName_NetPlus_Domain1_AI_Assignment.pdf</p>
+  </div>
+
+  <div class="section-head">Document Structure (required)</div>
+  <ul>
+    <li><b>Cover page</b>: Your name, student ID, course code, date, and the 2-3 topics you selected.</li>
+    <li><b>Track A activities</b> (A1, A2, A3) — clearly labeled with prompts, technique tags, Copilot responses, your edits, and reflections.</li>
+    <li><b>Track B activities</b> (B1, B2, B3) — same structure with technique tags.</li>
+    <li><b>AI Literacy section</b> — at least one documented Copilot error with verification (see below).</li>
+    <li><b>Technique Mastery section</b> — a short table listing the prompt engineering techniques you applied across the assignment (target: at least 5 of the 7).</li>
+    <li><b>Final reflection</b> (~150 words): What's the single most useful prompting technique you learned? How will you use Copilot differently in your IT career after this assignment?</li>
+    <li><b>AI tools log</b>: Note which Copilot interface you used for each activity (web, Edge sidebar, Windows app, mobile) and whether you signed in.</li>
+  </ul>
+
+  <div class="section-head">Where Copilot commonly gets networking wrong</div>
+
+  <p>Modern AI tools — Copilot included — hallucinate confidently on networking specifics. The table below shows real failure modes documented in early 2025-2026 evaluations. <b>None of these are theoretical</b> — each has been observed in actual AI output. Use this as your watch list while completing the assignment.</p>
+
+  <table class="errors-table">
+    <thead>
+      <tr><th style="width: 18%;">Topic Area</th><th style="width: 36%;">Common AI Error</th><th style="width: 46%;">Authoritative Answer</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="topic">Port numbers</td>
+        <td class="wrong">"NTP uses TCP 123" or "SNMP uses TCP 161"</td>
+        <td class="right">Both use UDP. UDP 123 (NTP) and UDP 161 (SNMP). AI conflates with TCP because most port references are TCP.</td>
+      </tr>
+      <tr>
+        <td class="topic">Port numbers</td>
+        <td class="wrong">"SMTP submission uses port 25 with TLS"</td>
+        <td class="right">Modern SMTP submission uses port 587 (STARTTLS) or 465 (SMTPS). Port 25 is server-to-server transfer.</td>
+      </tr>
+      <tr>
+        <td class="topic">OSI Model</td>
+        <td class="wrong">"TLS encryption operates at Layer 4"</td>
+        <td class="right">TLS is commonly described as Layer 6 (Presentation), though it runs above Layer 4 transport (TCP).</td>
+      </tr>
+      <tr>
+        <td class="topic">Fiber distances</td>
+        <td class="wrong">"OM3 multimode reaches 1 km at 10G"</td>
+        <td class="right">OM3 ≈ 300 m at 10GBASE-SR. OM4 ≈ 400 m. Single-mode (10GBASE-LR) reaches 10 km.</td>
+      </tr>
+      <tr>
+        <td class="topic">Wi-Fi standards</td>
+        <td class="wrong">"Wi-Fi 6 = 802.11ac" or "Wi-Fi 5 = 802.11ax"</td>
+        <td class="right">Wi-Fi 5 = 802.11ac. Wi-Fi 6 = 802.11ax. Wi-Fi 6E = 802.11ax + 6 GHz. Wi-Fi 7 = 802.11be.</td>
+      </tr>
+      <tr>
+        <td class="topic">IaaS vs PaaS</td>
+        <td class="wrong">"AWS EC2 is PaaS because it runs in the cloud"</td>
+        <td class="right">EC2 is IaaS (raw VMs you manage). PaaS = Heroku, App Engine, Elastic Beanstalk.</td>
+      </tr>
+      <tr>
+        <td class="topic">Scalability vs Elasticity</td>
+        <td class="wrong">Used interchangeably as if they mean the same</td>
+        <td class="right">Scalability = ability to grow. Elasticity = automatic up AND down with demand.</td>
+      </tr>
+      <tr>
+        <td class="topic">IDS vs IPS</td>
+        <td class="wrong">"IDS blocks attacks at the firewall"</td>
+        <td class="right">IDS detects only. IPS sits inline and blocks. D = Detect, P = Prevent.</td>
+      </tr>
+      <tr>
+        <td class="topic">IPv4 subnetting</td>
+        <td class="wrong">"/24 has 256 usable hosts"</td>
+        <td class="right">/24 has 256 total but only 254 usable (subtract network and broadcast).</td>
+      </tr>
+      <tr>
+        <td class="topic">NAT</td>
+        <td class="wrong">"NAT encrypts traffic between networks"</td>
+        <td class="right">NAT translates addresses; it does NOT encrypt. VPN does the encryption.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Your 4-Step Verification Workflow</div>
+
+  <div class="card">
+    <div class="card-eyebrow">STEP 1</div>
+    <h4>Notice specificity</h4>
+    <p>When Copilot gives a <b>specific number, date, RFC, or distance</b>, that's exactly when to verify. General statements are usually safer than specific ones — hallucinations cluster around precise facts.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">STEP 2</div>
+    <h4>Cross-reference against the CompTIA objectives</h4>
+    <p>The N10-009 official exam objectives PDF (free at comptia.org) is the source of truth for what the exam tests. If Copilot claims something the objectives contradict, trust the objectives.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">STEP 3</div>
+    <h4>Use authoritative sources for technical facts</h4>
+    <p>Port numbers: IANA Service Name and Transport Protocol Port Number Registry. RFCs: rfc-editor.org. Fiber specs: IEEE 802.3. Wi-Fi: Wi-Fi Alliance website. Copilot is not these sources — it tries to remember what they say.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-eyebrow">STEP 4</div>
+    <h4>Use self-critique prompting, but don't rely on it</h4>
+    <p>Asking Copilot to review its own work (Technique 7) sometimes catches errors — but a hallucinating model can confidently confirm its own wrong answer. Self-critique is a useful first pass, never the last word.</p>
+  </div>
+
+  <div class="section-head">AI Literacy Deliverable</div>
+
+  <div class="deliverable">
+    <div class="label">★ REQUIRED — 10 POINTS</div>
+    <p>Document <b>at least ONE instance</b> from this assignment where Copilot gave you incorrect information. Include:</p>
+    <ul>
+      <li>The <b>exact prompt</b> you used (with technique tag).</li>
+      <li>The <b>incorrect Copilot response</b> (full quote).</li>
+      <li>The <b>correct answer</b> and the authoritative source where you verified it (URL, RFC number, or page reference).</li>
+      <li>A <b>2-3 sentence reflection</b>: Why might Copilot have gotten this wrong? How will you handle similar situations in the future?</li>
+    </ul>
+    <p style="margin-top: 10px;"><b>If you genuinely did not catch Copilot making any factual error</b>, write 3-4 sentences explaining how you verified that Copilot got things right — which sources you checked, and which specific claims you confirmed. Honest "no errors found" with verification is acceptable, but rare.</p>
+  </div>
+
+  <div class="section-head">Full Rubric · 100 Points</div>
+
+  <table class="rubric-table">
+    <thead>
+      <tr><th>Criterion</th><th>Excellent</th><th>Adequate</th><th>Needs Work</th><th>Pts</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="crit">A1 · Three-Level Explanations</td>
+        <td>All 3 levels distinctly different; techniques (Zero-shot / Role+Structured / Few-shot) correctly named and reasoned.</td>
+        <td>3 prompts and outputs present; technique tags partial or shallow.</td>
+        <td>Missing levels or no technique tags.</td>
+        <td class="pts">15</td>
+      </tr>
+      <tr>
+        <td class="crit">A2 · Practice Questions + Self-Critique</td>
+        <td>10 questions across 2 topics; all 3 techniques applied (Few-shot+Structured / CoT / Self-critique); verification with cited sources.</td>
+        <td>Most steps present; some technique tags missing or verification light.</td>
+        <td>Skipped self-critique or verification; insufficient questions.</td>
+        <td class="pts">18</td>
+      </tr>
+      <tr>
+        <td class="crit">A3 · Iterative Study Guide</td>
+        <td>8+ conversation turns showing meaningful iteration; polished final guide; reflection identifies the highest-impact iteration.</td>
+        <td>Conversation present but iterations shallow; final guide acceptable.</td>
+        <td>Single-shot prompt or no clear final deliverable.</td>
+        <td class="pts">12</td>
+      </tr>
+      <tr>
+        <td class="crit">B1 · Ticket Response</td>
+        <td>Realistic scenario; Role+Structured technique correctly applied; ≥3 meaningful edits with rationale.</td>
+        <td>Draft and edits present but edits minor.</td>
+        <td>Submitted Copilot output verbatim with no edits.</td>
+        <td class="pts">12</td>
+      </tr>
+      <tr>
+        <td class="crit">B2 · Audience Translation</td>
+        <td>Original technical paragraph + clear non-technical version; Role+Constraint technique tagged; reflection notes accuracy tradeoffs.</td>
+        <td>Both versions present, reflection light.</td>
+        <td>Only one version, or no reflection on accuracy.</td>
+        <td class="pts">10</td>
+      </tr>
+      <tr>
+        <td class="crit">B3 · Technology Brief</td>
+        <td>Brief follows 7-section structure; Structured technique tagged; at least one citation verified against an authoritative source.</td>
+        <td>Brief present; verification light or partial.</td>
+        <td>Generic brief; no verification done.</td>
+        <td class="pts">13</td>
+      </tr>
+      <tr>
+        <td class="crit">Technique Mastery (cross-cutting)</td>
+        <td>≥5 distinct prompt engineering techniques named and explained across the assignment, with rationale for choices.</td>
+        <td>3-4 techniques named; rationale partial.</td>
+        <td>Fewer than 3 techniques explicitly named, or technique-tagging absent.</td>
+        <td class="pts">10</td>
+      </tr>
+      <tr>
+        <td class="crit">AI Literacy · Error Documentation</td>
+        <td>Specific Copilot error documented with authoritative source and substantive reflection.</td>
+        <td>Error noted but reflection or source incomplete.</td>
+        <td>Missing or unverified.</td>
+        <td class="pts">10</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" style="text-align: right;">Total</td>
+        <td class="pts" style="background: var(--gold); color: var(--navy-deep);">100</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="section-head">Academic Integrity</div>
+
+  <div class="warn">
+    <div class="label">⚠ READ CAREFULLY</div>
+    <p>You ARE expected to use Copilot for this assignment — that is the entire point. However, <b>submitting Copilot output as your own work without acknowledgment, or without the required prompts/technique tags/edits/reflection, is academic dishonesty</b>. Always include the prompt you used, the technique you applied, your edits, and your verification work. The grade rewards your <b>critical engagement with AI</b>, not the AI's output itself.</p>
+  </div>
+
+  <div class="section-head">Self-Check Before Submitting</div>
+
+  <div class="checklist" id="submit-checklist">
+    <h4>Pre-submission checklist (click to mark items complete)</h4>
+    <div class="checklist-item" data-i="0">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Selected 2-3 Domain 1 topics and stated them on the cover page</div>
+    </div>
+    <div class="checklist-item" data-i="1">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Every prompt is tagged with the technique(s) used and a brief rationale</div>
+    </div>
+    <div class="checklist-item" data-i="2">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Track A complete: A1 (3 technique-tagged prompts), A2 (10 Qs + self-critique + verification), A3 (8+ turn conversation + final guide)</div>
+    </div>
+    <div class="checklist-item" data-i="3">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Track B complete: B1 (ticket + edits), B2 (translation), B3 (technology brief with citation check)</div>
+    </div>
+    <div class="checklist-item" data-i="4">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Technique Mastery section lists at least 5 prompt engineering techniques applied</div>
+    </div>
+    <div class="checklist-item" data-i="5">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">AI Literacy section includes at least one documented Copilot error with verification source</div>
+    </div>
+    <div class="checklist-item" data-i="6">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Final reflection paragraph (~150 words) on most useful prompting technique</div>
+    </div>
+    <div class="checklist-item" data-i="7">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">AI tools log notes which Copilot interface you used per activity</div>
+    </div>
+    <div class="checklist-item" data-i="8">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Saved as Word (.docx) or PDF with proper filename</div>
+    </div>
+    <div class="checklist-item" data-i="9">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-text">Uploaded to the Canvas assignment dropbox</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Assignment</h4>
+      <p>The Applied Generative AI Assignment is the capstone for the Domain 1 module of Network+ N10-009. It teaches students to use AI tools as both an exam-preparation coach and a professional resource — with the critical thinking required to detect AI's confident mistakes.</p>
+      <p>Designed to be completed in 2-3 sessions across about three hours total. Free-tier AI accounts are sufficient for all required work.</p>
+    </div>
+    <div>
+      <h4>How to Approach It</h4>
+      <p>· Don't rush — the depth of your engagement is what's graded.</p>
+      <p>· Always verify AI claims about specific facts.</p>
+      <p>· Save your prompts as you go — recreating them at the end is painful.</p>
+      <p>· Iteration beats single-shot prompting every time.</p>
+    </div>
+    <div>
+      <h4>Need Help?</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted in Canvas. Bring AI questions to lab — figuring out what to ask is half the skill.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Domain 1 Module Capstone · Applied Gen AI Assignment</span>
+  </div>
+</footer>
+
+<script>
+/* ============================ TOPIC DATA ============================ */
+const TOPICS = [
+  { id: '1.1', code: '1.1', name: 'OSI Model', sub: '7 layers, encapsulation, protocol placement' },
+  { id: '1.2', code: '1.2', name: 'Appliances, Applications & Functions', sub: 'Router · Switch · Firewall · IDS/IPS · LB · Proxy · NAS · SAN · AP · WLC · CDN · VPN · QoS · TTL' },
+  { id: '1.3', code: '1.3', name: 'Cloud Concepts & Connectivity', sub: 'NFV · VPC · NSG/NSL · Gateways · VPN/Direct Connect · SaaS/PaaS/IaaS · Scalability/Elasticity' },
+  { id: '1.4', code: '1.4', name: 'Ports, Protocols & Services', sub: 'TCP/UDP · HTTP · HTTPS · DNS · DHCP · SSH · SMTP · IMAP · SNMP · NTP · LDAP · RDP · syslog' },
+  { id: '1.5', code: '1.5', name: 'Transmission Media & Transceivers', sub: 'Copper · Fiber (SM/MM) · Coax · Plenum · Wi-Fi · Cellular · Connectors · SFP/QSFP' },
+  { id: '1.6', code: '1.6', name: 'Topologies, Architectures & Types', sub: 'Star · Mesh · Spine-leaf · Three-tier · LAN/WAN/MAN/PAN/SAN · North-south · East-west' },
+  { id: '1.7', code: '1.7', name: 'IPv4 Network Addressing', sub: 'Private ranges · APIPA · CIDR · Subnetting · NAT · Loopback · Classful basics' },
+  { id: '1.8', code: '1.8', name: 'Modern Network Environments', sub: 'SDN/SD-WAN · VXLAN/DCI · Zero Trust · SASE/SSE · IaC · IPv6' }
+];
+
+var selectedTopics = [];
+
+/* ============================ TOPIC PICKER ============================ */
+function renderTopicGrid() {
+  var grid = document.getElementById('topic-grid');
+  var html = '';
+  TOPICS.forEach(function(t) {
+    var sel = selectedTopics.indexOf(t.id) !== -1 ? 'selected' : '';
+    html += '<button class="topic-chip ' + sel + '" data-id="' + t.id + '" type="button">';
+    html += '<div class="badge">' + t.code + '</div>';
+    html += '<div class="info-block"><div class="name">' + t.name + '</div><div class="sub">' + t.sub + '</div></div>';
+    html += '</button>';
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll('.topic-chip').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      toggleTopic(btn.dataset.id);
+    });
+  });
+}
+
+function toggleTopic(id) {
+  var idx = selectedTopics.indexOf(id);
+  if (idx === -1) {
+    if (selectedTopics.length >= 3) {
+      // Replace oldest selection if at max
+      selectedTopics.shift();
+    }
+    selectedTopics.push(id);
+  } else {
+    selectedTopics.splice(idx, 1);
+  }
+  renderTopicGrid();
+  updatePickerStatus();
+  updateYourTopicsBanners();
+}
+
+function updatePickerStatus() {
+  var status = document.getElementById('picker-status');
+  var summary = document.getElementById('picker-summary');
+  var n = selectedTopics.length;
+
+  if (n === 0) {
+    status.className = 'picker-status';
+    status.innerHTML = 'No topics selected yet — pick <b>2 or 3</b> to continue.';
+    summary.style.display = 'none';
+  } else if (n === 1) {
+    status.className = 'picker-status invalid';
+    status.innerHTML = '<b>1 topic selected.</b> Pick at least one more (minimum 2, maximum 3).';
+    summary.style.display = 'none';
+  } else if (n === 2 || n === 3) {
+    status.className = 'picker-status valid';
+    status.innerHTML = '<b>' + n + ' topics selected.</b> Ready to proceed to Track A.';
+    summary.style.display = 'block';
+    var list = document.getElementById('picker-summary-list');
+    var html = '';
+    selectedTopics.forEach(function(id) {
+      var t = TOPICS.filter(function(x) { return x.id === id; })[0];
+      html += '<li>' + t.code + ' · ' + t.name + '</li>';
+    });
+    list.innerHTML = html;
+  }
+}
+
+function updateYourTopicsBanners() {
+  var bannerA = document.getElementById('your-topics-A');
+  var bannerB = document.getElementById('your-topics-B');
+  if (selectedTopics.length === 0) {
+    var noneMsg = '<span class="none">No topics selected yet — go to the Topic Picker tab first.</span>';
+    bannerA.innerHTML = noneMsg;
+    bannerB.innerHTML = noneMsg;
+    return;
+  }
+  var names = selectedTopics.map(function(id) {
+    var t = TOPICS.filter(function(x) { return x.id === id; })[0];
+    return t.code + ' ' + t.name;
+  }).join(' · ');
+  bannerA.textContent = names;
+  bannerB.textContent = names;
+}
+
+renderTopicGrid();
+updatePickerStatus();
+
+/* ============================ COPY BUTTONS ============================ */
+document.querySelectorAll('.copy-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var target = document.getElementById(btn.dataset.target);
+    if (!target) return;
+    var text = target.textContent;  // strips HTML, gets plain text
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        flashCopied(btn);
+      }).catch(function() {
+        fallbackCopy(text, btn);
+      });
+    } else {
+      fallbackCopy(text, btn);
+    }
+  });
+});
+
+function fallbackCopy(text, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); flashCopied(btn); }
+  catch (e) { btn.textContent = 'Press Ctrl-C'; }
+  document.body.removeChild(ta);
+}
+
+function flashCopied(btn) {
+  var original = btn.textContent;
+  btn.textContent = '✓ Copied';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = original;
+    btn.classList.remove('copied');
+  }, 1500);
+}
+
+/* ============================ CHECKLIST ============================ */
+document.querySelectorAll('#submit-checklist .checklist-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    item.classList.toggle('done');
+  });
+});
+
+/* ============================ TABS ============================ */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
