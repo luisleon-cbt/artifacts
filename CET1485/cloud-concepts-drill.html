@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.3 Cloud Concepts & Connectivity · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px); font-weight: 700; line-height: 0.96; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 7px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.75; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ATLAS */
+  .atlas-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 0; border: 1px solid var(--line); }
+  .atlas-list { background: var(--surface); }
+  .atlas-cat-head { padding: 12px 18px; background: var(--bg-warm);
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); font-weight: 700;
+    border-bottom: 1px solid var(--line-soft); border-top: 1px solid var(--line-soft); }
+  .atlas-cat-head:first-child { border-top: none; }
+  .atlas-item { display: grid; grid-template-columns: 58px 1fr;
+    gap: 14px; padding: 14px 18px; cursor: pointer; transition: background 0.12s;
+    align-items: center; position: relative; border-bottom: 1px solid var(--line-soft); }
+  .atlas-item:hover { background: var(--surface-alt); }
+  .atlas-item.selected { background: var(--bg-warm); }
+  .atlas-item.selected::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--sky); }
+  .atlas-icon { width: 58px; height: 50px; background: var(--surface-alt);
+    border: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-display); font-weight: 800; font-size: 14px; color: var(--navy-deep); letter-spacing: -0.04em; }
+  .atlas-item.selected .atlas-icon { background: var(--navy-deep); color: var(--gold); border-color: var(--navy-deep); }
+  .atlas-info .name { font-family: var(--ff-display); font-weight: 700; font-size: 16px; color: var(--navy-deep); line-height: 1.2; letter-spacing: -0.01em; }
+  .atlas-info .sub { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
+
+  .atlas-detail { background: var(--surface); border-left: 1px solid var(--line-soft); min-height: 700px; }
+  .atlas-detail-head { padding: 26px 28px; background: var(--navy-deep); color: var(--ink-invert);
+    position: relative; overflow: hidden; }
+  .atlas-detail-head::after { content: ''; position: absolute; top: 0; right: 0; width: 140px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%); opacity: 0.95; }
+  .atlas-detail-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.65; position: relative; z-index: 2; }
+  .atlas-detail-title { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; line-height: 1.05; margin: 6px 0 0; letter-spacing: -0.02em; position: relative; z-index: 2; max-width: 78%; }
+  .atlas-detail-title .acronym { color: var(--gold); margin-right: 8px; }
+
+  .atlas-section { padding: 22px 28px; border-bottom: 1px solid var(--line-soft); }
+  .atlas-section:last-of-type { border-bottom: none; }
+  .atlas-section .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px; font-weight: 700;
+  }
+  .atlas-section p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px; }
+  .atlas-section p b { color: var(--navy-deep); font-weight: 700; }
+  .atlas-section p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .atlas-bullets { display: grid; gap: 10px; margin-top: 6px; }
+  .atlas-bullet {
+    background: var(--surface-alt); border-left: 3px solid var(--sky);
+    padding: 12px 16px;
+  }
+  .atlas-bullet .term { font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep); margin-bottom: 4px; }
+  .atlas-bullet .body { font-size: 13px; line-height: 1.5; color: var(--ink-mid); }
+
+  .atlas-when {
+    background: linear-gradient(135deg, rgba(56,176,224,0.06), rgba(40,48,104,0.04));
+    padding: 14px 28px; border-bottom: 1px solid var(--line-soft);
+  }
+  .atlas-when .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px; font-weight: 700;
+  }
+  .atlas-when p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink); }
+
+  .atlas-tip {
+    margin: 0 28px 22px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .atlas-tip .heading { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700; }
+  .atlas-tip p { margin: 0; font-size: 13px; line-height: 1.55; }
+
+  /* SERVICE STACK */
+  .stack-intro { background: var(--surface); border: 1px solid var(--line); padding: 24px 26px; margin-bottom: 24px; }
+  .stack-intro h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.02em; }
+  .stack-intro p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0; max-width: 75ch; }
+  .stack-intro p b { color: var(--navy-deep); font-weight: 700; }
+
+  .stack-wrap {
+    display: grid; grid-template-columns: 80px repeat(4, 1fr);
+    gap: 0; border: 1px solid var(--line); background: var(--surface);
+  }
+  .stack-header { background: var(--navy-deep); color: white; padding: 14px 12px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 700; text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
+  .stack-header:last-child { border-right: none; }
+  .stack-header.label-col { background: var(--navy-deep); }
+  .stack-row-label { background: var(--bg-warm); padding: 14px 10px;
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 700; text-align: center; border-top: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center; }
+  .stack-cell { padding: 12px 10px; text-align: center;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 600;
+    border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center; min-height: 44px; }
+  .stack-cell:nth-of-type(5n) { border-right: none; }
+  .stack-cell.you { background: #B5D4F4; color: #042C53; }
+  .stack-cell.them { background: #E1F5EE; color: #085041; }
+  .stack-cell.shared { background: #F4EFDA; color: #634006; }
+  .stack-foot { background: var(--surface-alt); padding: 18px 22px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stack-foot .item { border-left: 3px solid var(--sky); padding-left: 12px; }
+  .stack-foot .item .name { font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep); margin-bottom: 4px; }
+  .stack-foot .item .desc { font-size: 12px; color: var(--ink-mid); line-height: 1.45; }
+  .stack-foot .item.iaas { border-color: var(--green); }
+  .stack-foot .item.paas { border-color: var(--gold); }
+  .stack-foot .item.saas { border-color: var(--sky); }
+  .stack-legend { margin-top: 14px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); display: flex; gap: 22px; flex-wrap: wrap; align-items: center; font-size: 12px; }
+  .stack-legend-key { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .stack-legend-item { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .stack-legend-swatch { width: 20px; height: 16px; border: 1px solid var(--line-soft); }
+  .stack-legend-swatch.you { background: #B5D4F4; }
+  .stack-legend-swatch.them { background: #E1F5EE; }
+
+  /* DEPLOYMENT PICKER */
+  .deploy-frame { border: 1px solid var(--line); background: var(--surface); }
+  .deploy-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .deploy-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .deploy-body { padding: 28px 26px; background: var(--surface); }
+  .deploy-prompt { font-family: var(--ff-display); font-size: 18px; font-weight: 600; color: var(--navy-deep); margin: 0 0 18px; line-height: 1.4; letter-spacing: -0.01em; }
+  .deploy-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .deploy-option { background: var(--surface-alt); border: 1.5px solid var(--line-soft); padding: 14px 18px;
+    cursor: pointer; transition: all 0.15s; font-size: 14px; line-height: 1.5; color: var(--ink); text-align: left;
+    font-family: var(--ff-body); }
+  .deploy-option:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .deploy-option b { color: var(--navy-deep); font-weight: 700; display: block; margin-bottom: 4px; font-size: 13px; }
+  .deploy-result { margin-top: 24px; background: var(--surface); border: 1px solid var(--line); display: none; }
+  .deploy-result.show { display: block; }
+  .deploy-result-head { padding: 14px 22px; color: white; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; font-weight: 700; text-transform: uppercase; }
+  .deploy-result-head.public { background: var(--sky-deep); }
+  .deploy-result-head.private { background: var(--navy); }
+  .deploy-result-head.hybrid { background: var(--gold-deep); }
+  .deploy-result-body { padding: 22px 26px; }
+  .deploy-result-body h3 { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.02em; }
+  .deploy-result-body p { margin: 0 0 10px; font-size: 14px; line-height: 1.6; color: var(--ink-mid); }
+  .deploy-result-body p b { color: var(--navy-deep); font-weight: 700; }
+  .deploy-actions { padding: 14px 24px; background: var(--bg-warm); border-top: 1px solid var(--line-soft); display: flex; justify-content: flex-end; }
+  .next-btn { background: var(--sky); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+
+  /* SCENARIO LAB */
+  .scen-frame { border: 1px solid var(--line); background: var(--surface); }
+  .scen-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .scen-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .scen-head .stats { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft); }
+  .scen-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 18px; margin-right: 4px; }
+  .ticket { background: var(--bg-warm); padding: 18px 24px; border-bottom: 1px solid var(--line-soft); }
+  .ticket .ticket-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .ticket .ticket-id { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .ticket .ticket-cat { background: var(--sky); color: white; padding: 2px 8px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+  .ticket .ticket-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.3; }
+  .ticket .ticket-body { font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .ticket .ticket-body b { color: var(--navy-deep); font-weight: 700; }
+  .ticket .ticket-body code { font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scen-question { padding: 22px 24px; background: var(--surface); }
+  .scen-question h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 600; color: var(--navy-deep); margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.4; }
+  .scen-options { display: flex; flex-direction: column; gap: 8px; }
+  .scen-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 12px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .scen-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scen-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .scen-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .scen-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .scen-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scen-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .scen-option[disabled] { cursor: default; }
+  .scen-feedback { margin-top: 20px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.6; display: none; }
+  .scen-feedback.show { display: block; }
+  .scen-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .scen-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .scen-actions .progress-info { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .scen-actions .progress-info b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 14px; }
+  .scen-final { text-align: center; padding: 50px 30px; }
+  .scen-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .scen-final .big-score b { color: var(--gold); }
+  .scen-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .scen-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* KC */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head { background: var(--navy-deep); color: white; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .kc-body { padding: 32px 30px; }
+  .kc-question { font-family: var(--ff-display); font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em; }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 14px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback { margin-top: 22px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.55; display: none; }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .kc-actions { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LR */
+  .lr-pre { text-align: center; padding: 40px 20px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-pre h2 { font-family: var(--ff-display); font-size: 40px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em; }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn { background: var(--surface); border: 2px solid var(--navy-deep); color: var(--navy-deep); padding: 12px 22px; font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start { background: var(--sky); color: white; border: none; padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px; }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer { font-family: var(--ff-display); font-size: 56px; font-weight: 800; color: white; line-height: 1; letter-spacing: -0.04em; text-align: center; }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body { background: var(--surface); border: 1px solid var(--line); border-top: none; padding: 30px 30px 40px; }
+  .lr-question-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center; }
+  .lr-question { font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px); font-weight: 600; color: var(--navy-deep); text-align: center; line-height: 1.35; letter-spacing: -0.01em; margin: 0 auto 24px; max-width: 760px; }
+  .lr-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto; }
+  .lr-option { background: var(--surface-alt); border: 2px solid var(--line-soft); padding: 16px 20px; cursor: pointer; font-family: var(--ff-body); font-size: 14px; font-weight: 500; color: var(--navy-deep); text-align: left; display: flex; align-items: center; gap: 14px; }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker { font-family: var(--ff-mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--ink-mute); display: flex; align-items: center; justify-content: center; color: var(--ink-mute); flex-shrink: 0; }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 8px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final { text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .atlas-detail { border-left: none; border-top: 1px solid var(--line-soft); min-height: auto; }
+    .stack-wrap { grid-template-columns: 1fr; }
+    .stack-cell { border-right: none; }
+    .stack-foot { grid-template-columns: 1fr; }
+    .deploy-options { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Objective 1.3</span>
+    <span class="crumb">Cloud Concepts & Connectivity</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Summarize</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.3</div>
+    <h1>Cloud Concepts<br>& <em>Connectivity.</em></h1>
+    <p class="lede">Objective 1.3 says "<b>summarize</b>" — not configure AWS, not write Terraform. The exam tests whether you recognize cloud vocabulary and match each term to its purpose. NFV, VPC, security groups, gateways, deployment models (public/private/hybrid), service models (SaaS/IaaS/PaaS), and the trio of properties — scalability, elasticity, multitenancy. This artifact gives you the concept atlas, the service-model stack visualization, a deployment-model picker, and ticket-style scenarios that mirror the exam.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">High-Yield Cheat Sheet</div>
+    <div class="ref-row"><span class="name">SaaS</span><span class="desc">You use the app — provider runs everything (Gmail, Salesforce)</span></div>
+    <div class="ref-row"><span class="name">PaaS</span><span class="desc">You bring code — provider runs the platform (Heroku, App Engine)</span></div>
+    <div class="ref-row"><span class="name">IaaS</span><span class="desc">You manage VMs — provider runs the hardware (EC2, Azure VMs)</span></div>
+    <div class="ref-row"><span class="name">VPC</span><span class="desc">Your private network inside a public cloud provider</span></div>
+    <div class="ref-row"><span class="name">Hybrid</span><span class="desc">On-prem + cloud, connected and working together</span></div>
+    <div class="ref-row"><span class="name">Direct Connect</span><span class="desc">Private dedicated circuit to a cloud provider (not VPN)</span></div>
+    <div class="footer-note">
+      <b>EXAM TRAP</b><br>
+      Scalability ≠ Elasticity. Scalability is the ability to grow. Elasticity is the ability to grow AND shrink automatically based on demand.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">12</div><div class="label">Cloud concepts covered</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Service models (SaaS/PaaS/IaaS)</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Deployment models</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Scenario tickets</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Concept Atlas</button>
+  <button class="tab" data-tab="stack"><span class="num">02</span>Service Model Stack</button>
+  <button class="tab" data-tab="deploy"><span class="num">03</span>Deployment Picker</button>
+  <button class="tab" data-tab="scen"><span class="num">04</span>Scenario Lab</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<section class="panel active" id="panel-atlas">
+  <div class="atlas-grid">
+    <div class="atlas-list" id="atlas-list"></div>
+    <div class="atlas-detail" id="atlas-detail"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-stack">
+  <div class="stack-intro">
+    <h3>Service Models: Who Manages What</h3>
+    <p>The classic exam visualization. As you move from <b>on-premises</b> (left) to <b>SaaS</b> (right), you offload more layers to the provider. Blue = you manage it; green = the provider manages it. The defining question on the exam: "given this division of responsibility, which service model is it?"</p>
+  </div>
+
+  <div class="stack-wrap">
+    <div class="stack-header label-col">Layer</div>
+    <div class="stack-header">On-Premises</div>
+    <div class="stack-header">IaaS</div>
+    <div class="stack-header">PaaS</div>
+    <div class="stack-header">SaaS</div>
+
+    <div class="stack-row-label">Applications</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Data</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Runtime</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Middleware</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">OS</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Virtualization</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Servers</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Storage</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+
+    <div class="stack-row-label">Networking</div>
+    <div class="stack-cell you">You</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+    <div class="stack-cell them">Provider</div>
+  </div>
+
+  <div class="stack-legend">
+    <span class="stack-legend-key">LEGEND:</span>
+    <span class="stack-legend-item"><span class="stack-legend-swatch you"></span>You manage this</span>
+    <span class="stack-legend-item"><span class="stack-legend-swatch them"></span>Provider manages this</span>
+  </div>
+
+  <div class="stack-foot">
+    <div class="item iaas">
+      <div class="name">IaaS — Infrastructure as a Service</div>
+      <div class="desc">You get VMs, networks, and storage. You install the OS, runtime, applications. Examples: AWS EC2, Azure Virtual Machines, Google Compute Engine.</div>
+    </div>
+    <div class="item paas">
+      <div class="name">PaaS — Platform as a Service</div>
+      <div class="desc">You upload code; the provider runs the OS, runtime, and middleware. Examples: Heroku, Google App Engine, AWS Elastic Beanstalk, Azure App Service.</div>
+    </div>
+    <div class="item saas">
+      <div class="name">SaaS — Software as a Service</div>
+      <div class="desc">You just use the app in a browser. No code, no OS, no servers. Examples: Gmail, Salesforce, Microsoft 365, Dropbox, Slack.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-deploy">
+  <div class="deploy-frame">
+    <div class="deploy-head"><div class="title">Deployment Model Picker</div></div>
+    <div class="deploy-body">
+      <h3 class="deploy-prompt">Pick the situation that matches your scenario — the widget will recommend Public, Private, or Hybrid.</h3>
+      <div class="deploy-options" id="deploy-options"></div>
+      <div class="deploy-result" id="deploy-result"></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-scen">
+  <div class="scen-frame">
+    <div class="scen-head">
+      <div class="title">Help Desk Scenarios</div>
+      <div class="stats">Got <b id="scen-got">0</b> · Seen <b id="scen-seen">0</b> / 12</div>
+    </div>
+    <div id="scen-content"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed cloud vocabulary, service-model recognition, deployment picks, and the scalability vs elasticity trap. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool for CompTIA N10-009 Objective 1.3 — summarize cloud concepts and connectivity options. Covers NFV, VPC, network security groups and lists, cloud gateways, connectivity options (VPN and Direct Connect), deployment models (public/private/hybrid), service models (SaaS/PaaS/IaaS), and the property trio (scalability, elasticity, multitenancy).</p>
+      <p>Built around the "summarize" verb the objective uses — recognize each term, match it to a scenario, distinguish similar concepts.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Concept Atlas — read every detail card.</p>
+      <p>· Day 2: Service Model Stack — memorize who manages what at each layer.</p>
+      <p>· Day 3: Deployment Picker + Scenario Lab.</p>
+      <p>· Day 4: Knowledge Check + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair this with modern-networks-drill.html for the broader Objective 1.8 modern stack — SDN, SASE, IaC, IPv6.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.3 Cloud Concepts & Connectivity</span>
+  </div>
+</footer>
+
+<script>
+/* ============================ CONCEPT ATLAS ============================ */
+const CONCEPTS = [
+  {
+    id: 'nfv', cat: 'core',
+    initials: 'NFV', name: 'Network Functions Virtualization',
+    sub: 'turn appliances into virtual workloads',
+    intro: '<b>NFV</b> replaces purpose-built physical appliances (firewalls, load balancers, routers, WAN optimizers) with <b>software running on standard servers or VMs</b>. Instead of buying and racking a hardware firewall, you spin up a virtual firewall — same function, deployed via API, scalable on demand.',
+    when: 'When the scenario describes <em>virtualized network functions</em>, <em>replacing hardware appliances with software</em>, or <em>deploying network services as VMs</em>, the answer is NFV.',
+    bullets: [
+      { term: 'Software replaces hardware', body: 'A virtual firewall, virtual load balancer, or virtual router runs in a VM or container instead of as a dedicated appliance. Faster to deploy, easier to scale, cheaper to operate.' },
+      { term: 'Often deployed in the cloud', body: 'Cloud providers use NFV extensively to offer firewall-as-a-service, NAT gateways, and other network services that you provision through API calls.' }
+    ],
+    tip: 'NFV = "the function virtualized as software." A virtual firewall is NFV. A physical Cisco ASA is not. The exam tests whether you recognize the move from hardware to virtualized appliances.'
+  },
+  {
+    id: 'vpc', cat: 'core',
+    initials: 'VPC', name: 'Virtual Private Cloud',
+    sub: 'your isolated network inside a public cloud',
+    intro: '<b>VPC</b> is a logically isolated section of a public cloud — your own private network inside AWS, Azure, or GCP. You define IP address ranges, subnets, routing, and security policy as if it were your data center, but it runs on shared cloud infrastructure.',
+    when: 'When the scenario describes <em>an isolated network in a cloud provider</em>, <em>custom IP ranges in AWS/Azure/GCP</em>, or <em>logically separated cloud resources for one tenant</em>, the answer is VPC.',
+    bullets: [
+      { term: 'Tenant isolation', body: 'Even though the underlying infrastructure is shared (multitenant), each customer\'s VPC is isolated — different VPCs can\'t see each other\'s traffic by default.' },
+      { term: 'Custom networking', body: 'You define your own CIDR block, subnets, route tables, gateways, and security rules — just like an on-premises network.' },
+      { term: 'Foundation for cloud workloads', body: 'Most cloud-based deployments (EC2 instances, RDS databases, load balancers) live inside a VPC. The VPC is your "cloud LAN."' }
+    ],
+    tip: 'VPC ≠ VPN. VPC is a virtual network INSIDE a cloud. VPN is an encrypted tunnel connecting TWO networks. Don\'t confuse them on the exam.'
+  },
+  {
+    id: 'nsg', cat: 'core',
+    initials: 'NSG', name: 'Network Security Groups',
+    sub: 'stateful firewalls attached to cloud resources',
+    intro: '<b>Network security groups</b> are stateful packet filters attached to individual cloud resources (VMs, subnets, network interfaces). They allow or deny inbound and outbound traffic based on protocol, port, source, and destination. Think of them as <b>cloud firewalls at the resource level</b>.',
+    when: 'When the scenario describes <em>per-VM firewall rules in the cloud</em>, <em>stateful traffic filtering attached to a resource</em>, or <em>controlling traffic between cloud subnets</em>, the answer is network security groups.',
+    bullets: [
+      { term: 'Stateful', body: 'Return traffic is automatically allowed if the outbound rule permits it — you don\'t need to write separate inbound and outbound rules for each connection.' },
+      { term: 'Attached to resources', body: 'An NSG can be applied to a VM\'s network interface, an entire subnet, or both. Multiple NSGs can apply at once, with rules evaluated in order.' },
+      { term: 'Default deny', body: 'By default, NSGs deny all traffic. You explicitly allow what you need. Standard zero-trust style — explicit allow only.' }
+    ],
+    tip: 'Network security GROUPS are stateful. Network security LISTS (next concept) are stateless. That single distinction is the most common exam trap on this objective.'
+  },
+  {
+    id: 'nsl', cat: 'core',
+    initials: 'NSL', name: 'Network Security Lists',
+    sub: 'stateless ACLs at the subnet level',
+    intro: '<b>Network security lists</b> are <b>stateless</b> packet filters typically applied at the subnet level. Each rule is evaluated independently — outbound rules don\'t automatically allow return traffic. You must write both inbound AND outbound rules for any conversation to work.',
+    when: 'When the scenario describes <em>stateless subnet-level ACLs</em>, <em>cloud network ACLs (Oracle Cloud calls them security lists, AWS calls them Network ACLs)</em>, or <em>filtering at the subnet boundary</em>, the answer is network security lists.',
+    bullets: [
+      { term: 'Stateless', body: 'Return traffic is NOT automatically allowed. You must explicitly allow both directions. More work to configure than NSGs, but provides a coarser perimeter layer.' },
+      { term: 'Subnet boundary', body: 'Typically attached to subnets, so they filter traffic entering or leaving the subnet — a secondary layer beneath the per-resource NSGs.' },
+      { term: 'Layered defense', body: 'Many designs use BOTH: network security lists at the subnet boundary plus NSGs on individual VMs. Defense in depth.' }
+    ],
+    tip: 'Stateful vs stateless is the entire test for NSGs vs NSLs. NSG = stateful, attached to resources. NSL = stateless, attached to subnets. The Net+ exam tests this distinction directly.'
+  },
+  {
+    id: 'igw', cat: 'gateway',
+    initials: 'IGW', name: 'Internet Gateway',
+    sub: 'gives a VPC access to the public internet',
+    intro: 'An <b>internet gateway</b> is the on-ramp between a VPC and the public internet. Resources in a public subnet of the VPC use the internet gateway to reach external services and to receive inbound connections from the internet (if their security groups permit).',
+    when: 'When the scenario describes <em>VMs in a cloud that need to talk to the internet</em>, <em>making resources publicly reachable</em>, or <em>the route 0.0.0.0/0 pointing to the cloud edge</em>, the answer is internet gateway.',
+    bullets: [
+      { term: 'VPC ↔ public internet', body: 'Without an internet gateway attached, no resource in the VPC can reach the public internet — even if it has a public IP assigned.' },
+      { term: 'Two-way traffic', body: 'Supports both outbound traffic (VM browsing the web) and inbound traffic (users hitting a public web server in the VPC).' }
+    ],
+    tip: 'No internet gateway = no internet access for that VPC. A NAT gateway (next) only does outbound; an internet gateway does both directions.'
+  },
+  {
+    id: 'natgw', cat: 'gateway',
+    initials: 'NAT', name: 'NAT Gateway',
+    sub: 'lets private VMs reach the internet outbound only',
+    intro: 'A <b>NAT gateway</b> lets resources in <b>private subnets</b> reach the internet for <b>outbound</b> traffic only — software updates, API calls, pulling container images — while preventing inbound connections from the internet. The cloud equivalent of putting workstations behind a SOHO router\'s NAT.',
+    when: 'When the scenario describes <em>private VMs that need outbound internet access</em>, <em>but not inbound reachability</em>, or <em>downloading patches/updates from private subnets</em>, the answer is NAT gateway.',
+    bullets: [
+      { term: 'Outbound only', body: 'NAT gateway translates many private IPs to one public IP for outbound connections — return traffic is allowed, but the internet can\'t initiate new connections to the private resources.' },
+      { term: 'Common pattern', body: 'Web servers in a public subnet (reachable from internet via internet gateway) talk to databases in a private subnet (only reachable from inside the VPC). The DB still needs to download patches, so it routes outbound traffic through a NAT gateway.' }
+    ],
+    tip: 'Internet gateway = two-way (in AND out). NAT gateway = one-way (outbound only). On the exam: "outbound updates from private VMs without making them reachable" → NAT gateway.'
+  },
+  {
+    id: 'vpn', cat: 'connectivity',
+    initials: 'VPN', name: 'VPN (Cloud Connectivity)',
+    sub: 'encrypted tunnel over the internet',
+    intro: 'A <b>VPN connection</b> creates an encrypted IPsec tunnel between an on-premises network and a cloud VPC over the public internet. Inexpensive and quick to deploy, but performance depends on internet conditions and latency can be unpredictable.',
+    when: 'When the scenario describes <em>connecting on-prem to cloud over the public internet</em>, <em>encrypted but variable-performance link</em>, or <em>inexpensive site-to-cloud connectivity</em>, the answer is VPN.',
+    bullets: [
+      { term: 'Internet transport', body: 'Travels over the public internet — uses whatever ISP path is available. Throughput and latency vary.' },
+      { term: 'Quick to set up', body: 'Configure the on-prem device and the cloud VPN endpoint with matching IPsec parameters; the tunnel comes up in minutes. No physical install.' },
+      { term: 'Encrypted by default', body: 'IPsec encrypts all traffic between the two endpoints. Even though it crosses the internet, the data is protected.' }
+    ],
+    tip: 'VPN = cheap, fast to deploy, public internet, variable performance. Direct Connect = expensive, slower to provision, dedicated circuit, consistent performance. Pick the contrast on the exam.'
+  },
+  {
+    id: 'direct', cat: 'connectivity',
+    initials: 'DC', name: 'Direct Connect',
+    sub: 'private dedicated circuit to a cloud provider',
+    intro: '<b>Direct Connect</b> (AWS terminology; Azure calls it ExpressRoute, GCP calls it Cloud Interconnect) is a <b>private, dedicated physical circuit</b> between an on-premises location (or colocation) and the cloud provider\'s network. The traffic never touches the public internet.',
+    when: 'When the scenario describes <em>consistent low-latency cloud connectivity</em>, <em>dedicated circuit bypassing the public internet</em>, <em>large data transfers to/from cloud</em>, or <em>regulatory requirements to avoid internet transport</em>, the answer is Direct Connect.',
+    bullets: [
+      { term: 'Private fiber link', body: 'A dedicated physical or virtual circuit from your facility (or a colocation/peering point) directly into the cloud provider\'s edge — bypassing the public internet entirely.' },
+      { term: 'Predictable performance', body: 'Consistent bandwidth and latency — important for applications that move large datasets, run real-time workloads, or need SLA guarantees.' },
+      { term: 'Slower to provision', body: 'Requires physical circuit provisioning at a colocation facility or via a network service provider. Weeks to months to set up vs minutes for a VPN. Higher cost.' }
+    ],
+    tip: 'Direct Connect bypasses the public internet — that\'s the whole pitch. If the scenario says "consistent performance," "compliance requires avoiding internet," or "dedicated circuit," the answer is Direct Connect, not VPN.'
+  },
+  {
+    id: 'public', cat: 'deploy',
+    initials: 'PUB', name: 'Public Cloud',
+    sub: 'provider-owned infrastructure, shared with all customers',
+    intro: '<b>Public cloud</b> is infrastructure owned and operated by a cloud provider (AWS, Azure, GCP) and used by many tenants on shared hardware. Pay-as-you-go pricing, on-demand capacity, no upfront hardware investment. The most common cloud deployment.',
+    when: 'When the scenario describes <em>elastic scaling</em>, <em>pay-per-use</em>, <em>no capital investment</em>, <em>AWS/Azure/GCP</em>, or <em>shared cloud infrastructure</em>, the answer is public cloud.',
+    bullets: [
+      { term: 'Multitenant', body: 'Many customers share the same underlying hardware. Isolation is enforced by hypervisors and software boundaries (VPCs).' },
+      { term: 'Operating expense (OpEx)', body: 'No upfront hardware purchase. Pay monthly based on usage. Easy to start small and grow.' },
+      { term: 'Globally available', body: 'Providers offer regions and availability zones worldwide. Deploy in any region with a few clicks.' }
+    ],
+    tip: 'Public cloud is the default for greenfield deployments today. Watch for AWS / Azure / GCP / shared infrastructure / pay-as-you-go as keywords.'
+  },
+  {
+    id: 'private', cat: 'deploy',
+    initials: 'PRV', name: 'Private Cloud',
+    sub: 'cloud architecture, single tenant',
+    intro: '<b>Private cloud</b> is cloud architecture (self-service provisioning, virtualization, elasticity) deployed for a single organization. Can be on-premises (in your data center) or hosted by a third party. Used when compliance, data residency, or control requirements rule out public cloud.',
+    when: 'When the scenario describes <em>single-tenant infrastructure</em>, <em>strict compliance requirements (HIPAA, PCI, classified data)</em>, <em>on-prem cloud platform like VMware Cloud Foundation or OpenStack</em>, the answer is private cloud.',
+    bullets: [
+      { term: 'Single tenant', body: 'No sharing of underlying hardware. The entire cloud platform is dedicated to one organization.' },
+      { term: 'Compliance-friendly', body: 'Common for healthcare, finance, government — where regulations require physical control over data storage and processing.' },
+      { term: 'Higher cost / less elasticity', body: 'You own the capacity. Hard to scale up overnight; capacity is bounded by the hardware you have.' }
+    ],
+    tip: 'Private cloud is the "we can\'t use public cloud" answer. Compliance, data sovereignty, classified workloads — these push toward private.'
+  },
+  {
+    id: 'hybrid', cat: 'deploy',
+    initials: 'HYB', name: 'Hybrid Cloud',
+    sub: 'on-prem (or private cloud) + public cloud, working together',
+    intro: '<b>Hybrid cloud</b> combines on-premises infrastructure (or private cloud) with public cloud, with workloads or data flowing between them. A typical pattern: sensitive data stays on-prem; bursting capacity for spikes happens in the public cloud.',
+    when: 'When the scenario describes <em>on-prem AND cloud working together</em>, <em>cloud bursting for peak demand</em>, <em>legacy systems on-prem connected to cloud apps</em>, or <em>data residency on-prem + compute in cloud</em>, the answer is hybrid.',
+    bullets: [
+      { term: 'Two sides connected', body: 'Hybrid requires connectivity (typically VPN or Direct Connect) between on-prem and the cloud. They\'re not separate environments — they share data and workloads.' },
+      { term: 'Common patterns', body: 'Sensitive data on-prem with compute in cloud. Steady workloads on-prem with burst capacity in cloud. Gradual cloud migration with apps still partly on-prem.' },
+      { term: 'Most enterprises', body: 'Most large organizations operate hybrid today — they have on-prem systems and cloud workloads simultaneously, connected by VPN or Direct Connect.' }
+    ],
+    tip: 'Hybrid is the most common real-world answer. If the scenario describes BOTH on-prem AND cloud actively integrated, it\'s hybrid. Pure private (no cloud) or pure public (no on-prem) is rare in enterprises.'
+  },
+  {
+    id: 'saas', cat: 'service',
+    initials: 'SaaS', name: 'Software as a Service',
+    sub: 'use the app — provider runs everything',
+    intro: '<b>SaaS</b> delivers a complete application over the network. The provider runs the servers, OS, runtime, application, and data storage. You just sign in and use the app — typically via a browser. Examples: Gmail, Microsoft 365, Salesforce, Dropbox, Slack.',
+    when: 'When the scenario describes <em>using a finished application in a browser</em>, <em>no install required</em>, <em>subscription-based software</em>, or <em>Gmail / Salesforce / Office 365 / Dropbox</em>, the answer is SaaS.',
+    bullets: [
+      { term: 'You only manage data', body: 'Provider runs everything below the application layer. You handle user accounts and the data you put in.' },
+      { term: 'Browser-based access', body: 'Most SaaS is accessed via web browser or thin client — no installation on the user\'s device.' },
+      { term: 'Highest abstraction', body: 'SaaS is the highest level of the cloud stack — least flexibility, most convenience.' }
+    ],
+    tip: 'SaaS = "I just use it." If you log into a website and the application is already running, it\'s SaaS.'
+  },
+  {
+    id: 'paas', cat: 'service',
+    initials: 'PaaS', name: 'Platform as a Service',
+    sub: 'bring your code — provider runs the platform',
+    intro: '<b>PaaS</b> provides a managed runtime environment for applications. You write and upload code; the provider runs the OS, language runtime, middleware, and scaling. You don\'t manage servers or VMs. Examples: Heroku, Google App Engine, AWS Elastic Beanstalk, Azure App Service.',
+    when: 'When the scenario describes <em>developers writing code without managing OS or servers</em>, <em>deploying an app to a managed runtime</em>, <em>Heroku / App Engine / Elastic Beanstalk</em>, the answer is PaaS.',
+    bullets: [
+      { term: 'Code + data are yours', body: 'You write the application code and own the data. Everything underneath — runtime, OS, hardware — is the provider\'s problem.' },
+      { term: 'Auto-scaling', body: 'PaaS platforms typically auto-scale based on traffic. You don\'t configure VMs or instances.' },
+      { term: 'Trade-off: less control', body: 'Faster development, but you\'re constrained to the languages, runtimes, and patterns the platform supports.' }
+    ],
+    tip: 'PaaS = "I bring the code." If the developer just uploads code and the platform runs it without them caring about VMs or OS, it\'s PaaS.'
+  },
+  {
+    id: 'iaas', cat: 'service',
+    initials: 'IaaS', name: 'Infrastructure as a Service',
+    sub: 'rent VMs/networks/storage — manage the OS yourself',
+    intro: '<b>IaaS</b> provides virtualized hardware: VMs, virtual networks, storage volumes. You install and manage everything above the hypervisor — OS, patches, runtime, applications. Examples: AWS EC2, Azure Virtual Machines, Google Compute Engine, Oracle Cloud Compute.',
+    when: 'When the scenario describes <em>renting cloud VMs but managing the OS yourself</em>, <em>EC2 / Azure VMs / Compute Engine</em>, <em>building infrastructure piece-by-piece in the cloud</em>, the answer is IaaS.',
+    bullets: [
+      { term: 'You manage the OS and up', body: 'Provider runs the hypervisor and physical hardware. You install Linux/Windows, patch it, install applications, manage backups.' },
+      { term: 'Most flexible', body: 'IaaS gives you the most control — you can run any OS, install any software, configure any way. The price is more management work.' },
+      { term: 'Closest to traditional servers', body: 'Conceptually similar to renting a server in a data center, but with cloud benefits — instant provisioning, API-driven, elastic.' }
+    ],
+    tip: 'IaaS = "I rent the VM and do everything else." If the question mentions managing the OS or installing applications on cloud VMs, it\'s IaaS.'
+  },
+  {
+    id: 'scalability', cat: 'property',
+    initials: 'SCA', name: 'Scalability',
+    sub: 'the ability to grow capacity',
+    intro: '<b>Scalability</b> is the ability of a system to <b>grow</b> to handle increased demand. Vertical scaling (scale up) means making one machine more powerful. Horizontal scaling (scale out) means adding more machines. Scalability does NOT necessarily mean automatic — it can be a planned, manual capacity increase.',
+    when: 'When the scenario describes <em>the system can grow to handle more load</em>, <em>adding more servers or larger instances</em>, or <em>capacity headroom for future growth</em>, the answer is scalability.',
+    bullets: [
+      { term: 'Vertical scaling (scale up)', body: 'Make one instance bigger — add CPU, RAM, or disk to a single VM. Limited by the largest available size.' },
+      { term: 'Horizontal scaling (scale out)', body: 'Add more instances — go from 10 web servers to 50. Practically unbounded but requires the application to support clustering.' },
+      { term: 'Often planned, not automatic', body: 'Pure scalability is the CAPABILITY to grow. Whether it grows AUTOMATICALLY is elasticity (next).' }
+    ],
+    tip: 'Scalability = the system CAN grow. Elasticity = the system AUTOMATICALLY grows and shrinks. The Net+ exam tests this distinction.'
+  },
+  {
+    id: 'elasticity', cat: 'property',
+    initials: 'ELA', name: 'Elasticity',
+    sub: 'automatic scaling up AND down based on demand',
+    intro: '<b>Elasticity</b> is the ability to <b>automatically grow AND shrink</b> in response to demand. Unlike pure scalability, elasticity emphasizes the automation and the bidirectional nature: capacity comes online when needed and goes away when not. You pay only for what you use.',
+    when: 'When the scenario describes <em>automatically adding capacity when busy and releasing it when idle</em>, <em>pay only for what you use</em>, or <em>auto-scaling groups, serverless, or burst capacity</em>, the answer is elasticity.',
+    bullets: [
+      { term: 'Up AND down, automatically', body: 'Elastic systems add capacity when load increases, then remove capacity when load decreases. No human intervention required.' },
+      { term: 'Pay-per-use economics', body: 'Elasticity is what makes cloud cost-effective: you only pay for the capacity you actually use, not what you provisioned for peak demand.' },
+      { term: 'Cloud-native feature', body: 'Auto-scaling groups, serverless functions, and managed PaaS services are all elastic by design.' }
+    ],
+    tip: 'If the question emphasizes "automatically scale up AND down based on demand" → elasticity. If it just says "the system can grow" → scalability. Watch for "automatically" and "shrink" as the elasticity tells.'
+  },
+  {
+    id: 'multitenancy', cat: 'property',
+    initials: 'MUL', name: 'Multitenancy',
+    sub: 'multiple customers share the same infrastructure',
+    intro: '<b>Multitenancy</b> means multiple customers (tenants) share the same underlying infrastructure — servers, storage, networking — while each tenant\'s data and configuration remain logically isolated. Public cloud is multitenant by definition. Private cloud is single-tenant.',
+    when: 'When the scenario describes <em>multiple customers sharing the same cloud infrastructure</em>, <em>logical isolation between tenants</em>, or <em>economies of scale through shared hardware</em>, the answer is multitenancy.',
+    bullets: [
+      { term: 'Shared infrastructure', body: 'Customers run workloads on the same physical servers, storage arrays, and network fabric. The hypervisor and software enforce isolation.' },
+      { term: 'Logical isolation', body: 'Each tenant\'s VPC, data, and access are separated by software boundaries. Tenants cannot see each other\'s traffic or data.' },
+      { term: 'Cost savings', body: 'Multitenancy is the economic engine of public cloud — sharing hardware costs across many customers makes it cheaper per customer than dedicated hardware.' }
+    ],
+    tip: 'Multitenant = many customers, shared infrastructure. Single tenant = one customer, dedicated infrastructure (private cloud). The exam tests this directly: "shared by many customers with logical isolation" → multitenancy.'
+  }
+];
+
+const CATS = [
+  { id: 'core', label: 'Core Cloud Concepts' },
+  { id: 'gateway', label: 'Cloud Gateways' },
+  { id: 'connectivity', label: 'Cloud Connectivity Options' },
+  { id: 'deploy', label: 'Deployment Models' },
+  { id: 'service', label: 'Service Models' },
+  { id: 'property', label: 'Cloud Properties' }
+];
+
+var selectedConcept = 'nfv';
+
+function renderAtlasList() {
+  var list = document.getElementById('atlas-list');
+  var html = '';
+  CATS.forEach(function(c){
+    html += '<div class="atlas-cat-head">' + c.label + '</div>';
+    CONCEPTS.filter(function(x){ return x.cat === c.id; }).forEach(function(item){
+      html += '<div class="atlas-item ' + (item.id === selectedConcept ? 'selected' : '') + '" data-id="' + item.id + '">';
+      html += '<div class="atlas-icon">' + item.initials + '</div>';
+      html += '<div class="atlas-info"><div class="name">' + item.name + '</div><div class="sub">' + item.sub + '</div></div>';
+      html += '</div>';
+    });
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.atlas-item').forEach(function(el){
+    el.addEventListener('click', function(){
+      selectedConcept = el.dataset.id;
+      renderAtlasList();
+      renderAtlasDetail();
+    });
+  });
+}
+
+function renderAtlasDetail() {
+  var c = CONCEPTS.filter(function(x){ return x.id === selectedConcept; })[0];
+  var catLabel = (CATS.filter(function(x){ return x.id === c.cat; })[0] || {}).label || '';
+  var html = '<div class="atlas-detail-head">';
+  html += '<div class="atlas-detail-eyebrow">' + catLabel + '</div>';
+  html += '<h2 class="atlas-detail-title"><span class="acronym">' + c.initials + '</span>' + c.name + '</h2>';
+  html += '</div>';
+  html += '<div class="atlas-when"><div class="heading">When to Pick This on the Exam</div><p>' + c.when + '</p></div>';
+  html += '<div class="atlas-section"><div class="heading">What It Is</div><p>' + c.intro + '</p></div>';
+  if (c.bullets && c.bullets.length) {
+    html += '<div class="atlas-section"><div class="heading">Key Points</div><div class="atlas-bullets">';
+    c.bullets.forEach(function(b){
+      html += '<div class="atlas-bullet"><div class="term">' + b.term + '</div><div class="body">' + b.body + '</div></div>';
+    });
+    html += '</div></div>';
+  }
+  html += '<div class="atlas-tip"><div class="heading">★ Exam Tip</div><p>' + c.tip + '</p></div>';
+  document.getElementById('atlas-detail').innerHTML = html;
+}
+renderAtlasList();
+renderAtlasDetail();
+
+/* ============================ DEPLOYMENT PICKER ============================ */
+const DEPLOY_OPTIONS = [
+  { label: 'Healthcare provider needs to keep patient records on-prem (HIPAA) but uses cloud for analytics', pick: 'hybrid', why: 'Sensitive data (PHI) stays on-prem for compliance; analytics workload runs in cloud. Both environments work together over VPN or Direct Connect — that\'s hybrid.' },
+  { label: 'Startup deploying its new SaaS product entirely on AWS — no on-prem at all', pick: 'public', why: 'Public cloud is the natural choice — pay-as-you-go, instant provisioning, no capital investment. Many startups are 100% public cloud from day one.' },
+  { label: 'Defense contractor handling classified data with strict data residency rules', pick: 'private', why: 'Classified workloads typically require single-tenant, controlled infrastructure (often on-prem private cloud or government-cloud variants). Public cloud usually isn\'t allowed.' },
+  { label: 'Retailer handles steady year-round traffic on-prem but bursts to cloud for Black Friday peaks', pick: 'hybrid', why: 'This is the classic "cloud bursting" hybrid pattern — base load runs on-prem; peak demand temporarily extends into the public cloud, then releases when traffic returns to normal.' },
+  { label: 'Government agency requires all infrastructure to remain inside their own data center', pick: 'private', why: 'Single-tenant, fully-controlled infrastructure pointing to private cloud. Often built on VMware Cloud Foundation, OpenStack, or similar platforms — cloud-style services on owned hardware.' },
+  { label: 'Educational institution wants Office 365, Google Workspace, and Zoom for everyone', pick: 'public', why: 'Pure public-cloud SaaS consumption. No on-prem infrastructure needed; users access apps over the internet. Most schools use this model.' },
+  { label: 'Manufacturer keeps legacy ERP on-prem but adds cloud-based reporting and BI dashboards', pick: 'hybrid', why: 'Legacy ERP can\'t move easily, but new analytics features run cloud-side. The two integrate over VPN or Direct Connect. Very common in real enterprises.' },
+  { label: 'Financial services firm building a single-tenant cloud platform in their own data center, with self-service provisioning', pick: 'private', why: 'Cloud architecture (self-service, virtualization) for one customer in their own data center = private cloud. Common in highly-regulated financial environments.' }
+];
+
+function renderDeploy() {
+  var container = document.getElementById('deploy-options');
+  var html = '';
+  DEPLOY_OPTIONS.forEach(function(o, i){
+    html += '<button class="deploy-option" data-i="' + i + '"><b>SCENARIO</b>' + o.label + '</button>';
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.deploy-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var i = parseInt(btn.dataset.i, 10);
+      showDeployResult(DEPLOY_OPTIONS[i]);
+    });
+  });
+}
+
+function showDeployResult(o) {
+  var pickName = o.pick === 'public' ? 'Public Cloud' : (o.pick === 'private' ? 'Private Cloud' : 'Hybrid Cloud');
+  var pickClass = o.pick;
+  var result = document.getElementById('deploy-result');
+  result.innerHTML = '<div class="deploy-result-head ' + pickClass + '">✓ The answer is ' + pickName + '</div>' +
+    '<div class="deploy-result-body">' +
+    '<h3>' + pickName + '</h3>' +
+    '<p><b>Why this fits:</b> ' + o.why + '</p>' +
+    '</div>' +
+    '<div class="deploy-actions"><button class="next-btn" id="deploy-reset">Try Another</button></div>';
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('deploy-reset').addEventListener('click', function(){
+    result.classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+renderDeploy();
+
+/* ============================ SCENARIO LAB ============================ */
+const SCENARIOS = [
+  {
+    cat: 'Service Models', id: 'TKT-1301',
+    title: 'Pick the service model',
+    body: 'A development team writes Node.js code and uploads it to a platform that runs it automatically. They <b>do not manage servers, operating systems, or runtimes</b> — they only manage their code and data. The platform handles scaling, patching, and middleware.',
+    question: 'Which service model are they using?',
+    options: ['SaaS — Software as a Service','PaaS — Platform as a Service','IaaS — Infrastructure as a Service','On-premises'],
+    correct: 1,
+    explain: 'PaaS gives developers a managed runtime — the platform runs OS, middleware, and runtime; the developer just brings code and data. Examples: Heroku, Google App Engine, AWS Elastic Beanstalk, Azure App Service. SaaS would be using a finished app; IaaS would still require managing the OS.'
+  },
+  {
+    cat: 'Service Models', id: 'TKT-1302',
+    title: 'Office 365 deployment',
+    body: 'A small business decides to move all email, document creation, and collaboration to <b>Microsoft 365</b>. Users access their email through a browser and don\'t install any application servers. The provider runs everything end-to-end.',
+    question: 'Which service model is this?',
+    options: ['SaaS','PaaS','IaaS','Private cloud'],
+    correct: 0,
+    explain: 'Microsoft 365 is a textbook example of SaaS — the application (Outlook, Word, Excel, Teams) is delivered as a finished service over the internet. The business doesn\'t manage OS, runtime, or servers. They just use the apps.'
+  },
+  {
+    cat: 'Service Models', id: 'TKT-1303',
+    title: 'Cloud VMs for custom workloads',
+    body: 'An engineering team needs to run a custom Linux workload that requires <b>specific kernel patches and a non-standard storage configuration</b>. They provision VMs in AWS, install Ubuntu themselves, patch the kernel, and configure storage volumes manually.',
+    question: 'Which service model are they using?',
+    options: ['SaaS','PaaS','IaaS','VPN-only'],
+    correct: 2,
+    explain: 'IaaS — the provider supplies VMs, networking, and storage; the customer manages the OS, kernel, patches, and applications. AWS EC2, Azure VMs, and Google Compute Engine are the canonical IaaS examples. The level of OS control rules out PaaS and SaaS.'
+  },
+  {
+    cat: 'Deployment Models', id: 'TKT-1304',
+    title: 'Connecting on-prem to cloud',
+    body: 'A hospital keeps patient records on-premises due to HIPAA but uses <b>cloud-based analytics</b> for population health insights. The two environments are connected via Direct Connect, and data flows between them as needed.',
+    question: 'Which deployment model is this?',
+    options: ['Public','Private','Hybrid','Community'],
+    correct: 2,
+    explain: 'Hybrid cloud combines on-premises (or private cloud) with public cloud, with workloads flowing between them. Sensitive data stays on-prem; analytics runs in cloud. The Direct Connect circuit bridges them. Pure public would mean no on-prem; pure private would mean no cloud usage.'
+  },
+  {
+    cat: 'Properties', id: 'TKT-1305',
+    title: 'Scalability vs Elasticity',
+    body: 'A web application is hosted in AWS. When traffic spikes during a marketing campaign, <b>extra EC2 instances are launched automatically by an Auto Scaling group</b>. When the spike ends, the extra instances are terminated automatically, and the customer\'s bill drops.',
+    question: 'Which cloud property best describes this behavior?',
+    options: ['Scalability only','Elasticity','Multitenancy','Direct Connect'],
+    correct: 1,
+    explain: 'Elasticity = automatic scaling UP and DOWN based on demand, paying only for what you use. Scalability is the broader ability to grow, but elasticity specifically captures the automatic + bidirectional nature shown here. Watch for the words "automatically" and "shrink" or "release."'
+  },
+  {
+    cat: 'Gateways', id: 'TKT-1306',
+    title: 'Outbound-only internet for private VMs',
+    body: 'Database servers in a private subnet of a VPC need to <b>download security updates from the internet</b>, but the security team requires that the databases NOT be reachable from the public internet for inbound connections.',
+    question: 'Which gateway type fits this requirement?',
+    options: ['Internet gateway','NAT gateway','VPN gateway','Direct Connect gateway'],
+    correct: 1,
+    explain: 'A NAT gateway allows outbound internet access for private resources while preventing inbound connections from the internet. An internet gateway would allow two-way traffic — making the databases reachable from outside. NAT gateway is the textbook answer for "outbound only."'
+  },
+  {
+    cat: 'Connectivity', id: 'TKT-1307',
+    title: 'Reliable high-bandwidth cloud connection',
+    body: 'A media company moves <b>multi-terabyte video files</b> between their on-premises editing suite and an AWS cloud rendering farm daily. They need <b>consistent low-latency, high-bandwidth</b> connectivity that doesn\'t depend on the public internet.',
+    question: 'Which connectivity option fits?',
+    options: ['Site-to-site VPN over the internet','Direct Connect / dedicated circuit','Standard NAT gateway','Public internet gateway'],
+    correct: 1,
+    explain: 'Direct Connect (Azure ExpressRoute / GCP Cloud Interconnect) is a private dedicated circuit between on-prem and the cloud provider, bypassing the public internet. Consistent performance, predictable latency. Site-to-site VPN works but uses the public internet — variable performance.'
+  },
+  {
+    cat: 'Security', id: 'TKT-1308',
+    title: 'Stateful vs stateless firewall in the cloud',
+    body: 'A cloud admin needs to attach a <b>stateful</b> firewall rule directly to one specific VM, allowing inbound HTTPS but auto-allowing the return traffic without writing separate outbound rules.',
+    question: 'Which mechanism fits?',
+    options: ['Network Security List (stateless ACL at subnet boundary)','Network Security Group (stateful, attached to resource)','Internet gateway','Direct Connect'],
+    correct: 1,
+    explain: 'Network security GROUPS are stateful and attach to individual resources (VM, NIC, subnet). Return traffic is automatically allowed without explicit outbound rules. Network security LISTS are stateless — they require explicit rules in BOTH directions. This stateful vs stateless distinction is the most-tested 1.3 gotcha.'
+  },
+  {
+    cat: 'Concepts', id: 'TKT-1309',
+    title: 'Virtual network inside a cloud provider',
+    body: 'A company wants to deploy resources in AWS but needs them to be <b>logically isolated from other customers</b>, with their own private IP address range (10.20.0.0/16), custom subnets, and their own routing decisions.',
+    question: 'Which cloud concept fits?',
+    options: ['VPN','VPC — Virtual Private Cloud','Internet gateway','Multitenancy'],
+    correct: 1,
+    explain: 'VPC (Virtual Private Cloud) is a logically isolated section of a cloud provider where you define your own IP ranges, subnets, routing, and security. Multitenancy is what enables sharing the underlying hardware — but the VPC is what gives one tenant its isolated logical network.'
+  },
+  {
+    cat: 'NFV', id: 'TKT-1310',
+    title: 'Replacing hardware appliances with software',
+    body: 'Instead of buying and racking three physical firewalls, two load balancers, and a router, an architect deploys <b>virtual instances</b> of each function on standard servers — provisioned through API calls, scalable on demand.',
+    question: 'Which concept describes this approach?',
+    options: ['NFV — Network Functions Virtualization','VPC','Multitenancy','Hybrid cloud'],
+    correct: 0,
+    explain: 'NFV replaces purpose-built physical network appliances with software running on standard servers or VMs. A virtual firewall is NFV; a physical Cisco ASA is not. The benefit: faster deploy, easier scale, lower cost vs hardware.'
+  },
+  {
+    cat: 'Deployment', id: 'TKT-1311',
+    title: 'Single-tenant cloud for compliance',
+    body: 'A federal contractor handling classified data deploys cloud-style services (self-service VMs, virtualized networks, elastic compute) inside <b>their own data center, with dedicated hardware</b>. No external customers share the infrastructure.',
+    question: 'Which deployment model is this?',
+    options: ['Public cloud','Private cloud','Hybrid cloud','SaaS'],
+    correct: 1,
+    explain: 'Private cloud — cloud architecture for a single tenant, often on-premises or hosted in a dedicated environment. Common for classified workloads, healthcare with strict HIPAA requirements, and financial services needing data residency guarantees. Public cloud is multitenant and ruled out.'
+  },
+  {
+    cat: 'Properties', id: 'TKT-1312',
+    title: 'Shared infrastructure with logical isolation',
+    body: 'A cloud provider runs thousands of customer VMs on the same physical servers. Each customer\'s VPC, data, and access are isolated from every other customer\'s, even though the underlying hardware is shared.',
+    question: 'Which cloud property describes this arrangement?',
+    options: ['Elasticity','Scalability','Multitenancy','Direct Connect'],
+    correct: 2,
+    explain: 'Multitenancy = many customers (tenants) share the same underlying infrastructure with logical isolation between them. This is the foundation of public-cloud economics — it\'s what makes pay-per-use viable. Private clouds are single-tenant by contrast.'
+  }
+];
+
+var scenIdx = 0;
+var scenSeen = 0;
+var scenGot = 0;
+var scenAnswered = false;
+var scenPool = [];
+
+function rebuildScenPool() {
+  scenPool = SCENARIOS.slice();
+  for (var i = scenPool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = scenPool[i]; scenPool[i] = scenPool[j]; scenPool[j] = t;
+  }
+  scenIdx = 0;
+  scenAnswered = false;
+}
+
+function renderScenario() {
+  var content = document.getElementById('scen-content');
+  if (scenIdx >= scenPool.length) {
+    var pct = scenSeen > 0 ? Math.round((scenGot / scenSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct >= 90) { verdict = 'Cloud Mastered.'; sub = 'You can match any scenario to the right cloud concept. Move on.'; }
+    else if (pct >= 70) { verdict = 'Solid Application.'; sub = 'A few more passes and you\'re exam-ready.'; }
+    else if (pct >= 50) { verdict = 'Building It.'; sub = 'Review the Concept Atlas and Service Model Stack tabs.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through the Atlas carefully, then return.'; }
+    content.innerHTML = '<div class="scen-final"><div class="big-score">'+scenGot+'<b>/'+scenSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="scen-restart">↻ Run Again</button></div>';
+    document.getElementById('scen-restart').addEventListener('click', function(){
+      scenSeen = 0; scenGot = 0;
+      document.getElementById('scen-got').textContent = '0';
+      document.getElementById('scen-seen').textContent = '0';
+      rebuildScenPool(); renderScenario();
+    });
+    return;
+  }
+  var s = scenPool[scenIdx];
+  var html = '<div class="ticket"><div class="ticket-meta"><span class="ticket-id">'+s.id+'</span><span class="ticket-cat">'+s.cat+'</span></div><div class="ticket-title">'+s.title+'</div><div class="ticket-body">'+s.body+'</div></div>';
+  html += '<div class="scen-question"><h4>'+s.question+'</h4><div class="scen-options">';
+  s.options.forEach(function(opt, i){
+    html += '<button class="scen-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="scen-feedback" id="scen-feedback"></div></div>';
+  html += '<div class="scen-actions"><div class="progress-info">Scenario <b>'+(scenIdx+1)+'</b> of <b>'+scenPool.length+'</b> · Got <b>'+scenGot+'</b> / <b>'+scenSeen+'</b></div><button class="next-btn" id="scen-next" disabled>'+(scenIdx+1===scenPool.length?'See Results →':'Next Ticket →')+'</button></div>';
+  content.innerHTML = html;
+  scenAnswered = false;
+  content.querySelectorAll('.scen-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (scenAnswered) return;
+      scenAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      content.querySelectorAll('.scen-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === s.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('scen-feedback');
+      var heading = chosen === s.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+s.correct)+'</b>';
+      fb.innerHTML = heading + s.explain;
+      fb.classList.add('show');
+      scenSeen++;
+      if (chosen === s.correct) scenGot++;
+      document.getElementById('scen-got').textContent = scenGot;
+      document.getElementById('scen-seen').textContent = scenSeen;
+      document.getElementById('scen-next').disabled = false;
+    });
+  });
+  document.getElementById('scen-next').addEventListener('click', function(){ scenIdx++; renderScenario(); });
+}
+rebuildScenPool();
+renderScenario();
+
+/* ============================ KNOWLEDGE CHECK ============================ */
+const KC_QUESTIONS = [
+  { q: 'A developer uploads Python code to a managed service that runs the OS, runtime, and middleware automatically. The developer does not manage VMs. Which service model is this?', options: ['SaaS','PaaS','IaaS','On-premises'], correct: 1, explain: 'PaaS provides a managed application platform — the customer brings code and data; the provider runs everything else. Heroku, Google App Engine, AWS Elastic Beanstalk, and Azure App Service are textbook PaaS examples.' },
+  { q: 'A business uses Salesforce for CRM. They access it through a browser and do not manage any servers or runtime. Which service model?', options: ['SaaS','PaaS','IaaS','Private cloud'], correct: 0, explain: 'SaaS — Software as a Service. The provider runs the entire application stack; the customer just uses the app via browser. Salesforce, Office 365, Gmail, and Dropbox are canonical SaaS examples.' },
+  { q: 'In which deployment model is infrastructure shared by multiple customers with logical isolation enforced by the provider?', options: ['Private cloud','Public cloud (multitenant)','On-premises','Hybrid cloud'], correct: 1, explain: 'Public cloud is multitenant by definition — many customers share the same underlying hardware with logical isolation enforced by hypervisors and software. Private cloud is single-tenant; on-prem is single-org-only.' },
+  { q: 'A pharmaceutical company keeps research data on-prem (compliance) but uses public cloud for compute-intensive simulations. The two are connected. Which deployment model is this?', options: ['Public','Private','Hybrid','SaaS'], correct: 2, explain: 'Hybrid cloud combines on-prem (or private) and public cloud, with workloads or data flowing between them. The hallmark is that BOTH sides are actively in use and connected — typically via VPN or Direct Connect.' },
+  { q: 'What is the key difference between scalability and elasticity?', options: ['They are identical','Scalability is the ability to grow; elasticity adds automatic scaling up AND down with demand','Scalability is for VMs; elasticity is for containers','Elasticity only applies to SaaS'], correct: 1, explain: 'Scalability is the broader capability to grow capacity. Elasticity emphasizes AUTOMATIC scaling up AND down based on real-time demand — and the pay-per-use cost model that comes with it. The exam tests this distinction repeatedly.' },
+  { q: 'A private subnet of a VPC contains backend databases that need to download OS patches from the internet but should never accept inbound connections from the internet. Which gateway type fits?', options: ['Internet gateway (two-way)','NAT gateway (outbound only)','VPN gateway','Direct Connect gateway'], correct: 1, explain: 'NAT gateway provides outbound internet access for private resources while blocking unsolicited inbound connections. Internet gateway would be two-way and expose the resources. NAT gateway is the textbook "outbound only" answer.' },
+  { q: 'Which connectivity option provides a dedicated, private circuit between on-prem and a cloud provider, bypassing the public internet?', options: ['Site-to-site VPN','Direct Connect (or ExpressRoute / Cloud Interconnect)','NAT gateway','Internet gateway'], correct: 1, explain: 'Direct Connect (AWS), ExpressRoute (Azure), and Cloud Interconnect (GCP) are private dedicated circuits between on-prem and the cloud provider — bypassing the public internet entirely. VPN uses the public internet, with variable performance.' },
+  { q: 'What is the key distinction between network security groups and network security lists?', options: ['Groups are for VMs, lists are for storage','Groups are stateful (return traffic auto-allowed); lists are stateless (must allow both directions explicitly)','Groups are free, lists are paid','They\'re the same thing'], correct: 1, explain: 'NSGs are stateful — write an outbound rule and the matching return traffic is automatically allowed. NSLs are stateless — you must allow traffic explicitly in BOTH directions. The stateful vs stateless distinction is the most-tested 1.3 trap.' },
+  { q: 'A startup builds its entire infrastructure on AWS with no on-prem presence. Which deployment model is this?', options: ['Private cloud','Public cloud','Hybrid cloud','SaaS'], correct: 1, explain: 'Public cloud — provider-owned, multitenant infrastructure. AWS, Azure, and Google Cloud Platform are the major public cloud providers. With no on-prem component, this is pure public cloud.' },
+  { q: 'Which cloud concept describes replacing physical firewalls, load balancers, and routers with software equivalents running on standard servers?', options: ['VPC','NFV — Network Functions Virtualization','Direct Connect','Multitenancy'], correct: 1, explain: 'NFV replaces purpose-built physical network appliances with virtualized software equivalents. A virtual firewall running on a VM is NFV. The benefits: faster deployment, easier scaling, lower hardware cost.' },
+  { q: 'A company\'s e-commerce site runs on cloud VMs. During Black Friday, the system automatically adds VMs to handle traffic spikes, then removes them when traffic dies down. Bills track usage exactly. Which property is this?', options: ['Multitenancy','Scalability without elasticity','Elasticity','Direct Connect'], correct: 2, explain: 'Elasticity — automatic scaling up AND down based on demand, with pay-per-use economics. The keywords are "automatic" and "shrink/remove." Pure scalability would describe the ability to grow but doesn\'t require the automatic bidirectional behavior.' },
+  { q: 'Which is true about a Virtual Private Cloud (VPC)?', options: ['It is an encrypted tunnel between two networks','It is a logically isolated network inside a public cloud, with custom IPs and subnets','It is a SaaS application','It replaces NAT entirely'], correct: 1, explain: 'A VPC is your own logically-isolated network inside a public cloud — you define IP ranges, subnets, routing, and security. Don\'t confuse VPC with VPN — VPN is an encrypted tunnel BETWEEN networks; VPC is a virtual network INSIDE a cloud.' }
+];
+
+var kcIdx = 0, kcScore = 0, kcAnswered = false;
+function renderKC() {
+  var card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    var pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Cloud Mastered.'; sub = 'You recognize every cloud concept on sight. Move on.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the ones you missed.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Spend more time in the Concept Atlas and Service Model Stack.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through every concept in the Atlas slowly, then come back.'; }
+    card.innerHTML = '<div class="kc-head"><div class="title">Results</div><div class="progress">Complete</div></div><div class="kc-final"><div class="big-score">'+kcScore+'<b>/'+KC_QUESTIONS.length+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="kc-restart">↻ Retake</button></div>';
+    document.getElementById('kc-restart').addEventListener('click', function(){ kcIdx=0; kcScore=0; kcAnswered=false; renderKC(); });
+    return;
+  }
+  var q = KC_QUESTIONS[kcIdx];
+  var html = '<div class="kc-head"><div class="title">Knowledge Check</div><div class="progress">'+(kcIdx+1)+' / '+KC_QUESTIONS.length+'</div></div>';
+  html += '<div class="kc-body"><div class="kc-question">'+q.q+'</div><div class="kc-options">';
+  q.options.forEach(function(opt, i){
+    html += '<button class="kc-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="kc-feedback" id="kc-feedback"></div><div class="kc-actions"><div class="kc-score">Score · <b>'+kcScore+' / '+kcIdx+'</b></div><button class="next-btn" id="kc-next" disabled>'+(kcIdx+1===KC_QUESTIONS.length?'See Results →':'Next →')+'</button></div></div>';
+  card.innerHTML = html;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (kcAnswered) return;
+      kcAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      card.querySelectorAll('.kc-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('kc-feedback');
+      fb.innerHTML = (chosen === q.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+q.correct)+'</b>') + q.explain;
+      fb.classList.add('show');
+      if (chosen === q.correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', function(){ kcIdx++; renderKC(); });
+}
+renderKC();
+
+/* ============================ LIGHTNING ROUND ============================ */
+var lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+var lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+function shuffleArr(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'SaaS stands for?', correct: 'Software as a Service', d: ['Server as a Service','Switching as a Service','Storage as a Service'] },
+  { q: 'PaaS stands for?', correct: 'Platform as a Service', d: ['Product as a Service','Payment as a Service','Provisioning as a Service'] },
+  { q: 'IaaS stands for?', correct: 'Infrastructure as a Service', d: ['Internet as a Service','Identity as a Service','Integration as a Service'] },
+  { q: 'NFV stands for?', correct: 'Network Functions Virtualization', d: ['Network Failover Virtualization','New Forwarding Variant','Native File Versioning'] },
+  { q: 'VPC stands for?', correct: 'Virtual Private Cloud', d: ['Virtual Public Cloud','Verified Path Configuration','VLAN Private Channel'] },
+  { q: 'Gmail is which service model?', correct: 'SaaS', d: ['PaaS','IaaS','On-premises'] },
+  { q: 'AWS EC2 (raw VMs) is which service model?', correct: 'IaaS', d: ['SaaS','PaaS','Private cloud'] },
+  { q: 'Heroku and Elastic Beanstalk are which model?', correct: 'PaaS', d: ['SaaS','IaaS','Hybrid'] },
+  { q: 'Shared infrastructure for many customers with isolation?', correct: 'Multitenancy', d: ['Elasticity','Scalability','VPN'] },
+  { q: 'Automatic scaling up AND down with demand?', correct: 'Elasticity', d: ['Scalability','Multitenancy','NFV'] },
+  { q: 'Capability to grow capacity?', correct: 'Scalability', d: ['Elasticity','Direct Connect','Multitenancy'] },
+  { q: 'NAT gateway provides what kind of access?', correct: 'Outbound internet only', d: ['Inbound only','Two-way','VPN tunnels'] },
+  { q: 'Internet gateway provides what kind of access?', correct: 'Two-way internet (in and out)', d: ['Outbound only','Inbound only','VPN only'] },
+  { q: 'Stateful firewall attached to a cloud VM?', correct: 'Network Security Group', d: ['Network Security List','VPC','NAT gateway'] },
+  { q: 'Stateless ACL at the subnet boundary?', correct: 'Network Security List', d: ['Network Security Group','Direct Connect','Internet gateway'] },
+  { q: 'Encrypted tunnel from on-prem to cloud over the internet?', correct: 'Site-to-site VPN', d: ['Direct Connect','Internet gateway','NAT gateway'] },
+  { q: 'Dedicated private circuit to a cloud provider?', correct: 'Direct Connect (ExpressRoute / Interconnect)', d: ['Site-to-site VPN','Internet gateway','NAT gateway'] },
+  { q: 'On-prem + cloud working together?', correct: 'Hybrid cloud', d: ['Public cloud','Private cloud','Multitenant only'] },
+  { q: 'Single tenant cloud for one organization?', correct: 'Private cloud', d: ['Public cloud','Hybrid cloud','SaaS'] },
+  { q: 'AWS, Azure, GCP — shared, pay-per-use cloud?', correct: 'Public cloud', d: ['Private cloud','Hybrid cloud','On-premises'] },
+  { q: 'Virtualizing firewalls and load balancers as software?', correct: 'NFV', d: ['Multitenancy','Scalability','SaaS'] },
+  { q: 'Your isolated network inside a public cloud?', correct: 'VPC', d: ['VPN','Direct Connect','Internet gateway'] }
+];
+
+function generateLRQ() {
+  var f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  var options = shuffleArr([f.correct].concat(f.d));
+  return { question: f.q, options: options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  var body = document.getElementById('lr-body');
+  var html = '<div class="lr-question-prompt">Cloud Concepts</div><div class="lr-question">'+lrCurrentQ.question+'</div><div class="lr-options">';
+  lrCurrentQ.options.forEach(function(opt, i){
+    html += '<button class="lr-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>';
+  body.innerHTML = html;
+  document.querySelectorAll('.lr-option').forEach(function(btn){
+    btn.addEventListener('click', function(){ answerLR(parseInt(btn.dataset.i, 10)); });
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  var correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach(function(b, i){
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(function(){ if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(function(){
+    lrTimeLeft--;
+    var t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  var total = lrCorrect + lrWrong;
+  var pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  var ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  var verdict, sub;
+  if (lrCorrect >= 18) { verdict='Locked In.'; sub='Cloud recognition is automatic. Move on.'; }
+  else if (lrCorrect >= 12) { verdict='Solid Recall.'; sub='A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict='Building It.'; sub='Spend more time in the Concept Atlas tab.'; }
+  else { verdict='Keep Drilling.'; sub='Walk through the Atlas carefully before returning.'; }
+  var finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = '<div class="big-score">'+lrCorrect+'<b>/'+total+'</b></div><div class="verdict">'+verdict+'</div><div class="lr-stats"><div class="item"><div class="num">'+pct+'%</div><div class="lab">Accuracy</div></div><div class="item"><div class="num">'+ppm+'</div><div class="lab">Per Minute Pace</div></div><div class="item"><div class="num">'+total+'</div><div class="lab">Questions</div></div></div><p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">'+sub+'</p><button class="lr-start" id="lr-restart">↻ Run Again</button>';
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', function(){
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.lr-dur-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur, 10);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================ TABS ============================ */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
