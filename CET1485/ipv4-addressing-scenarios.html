@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.7 IPv4 Addressing Scenarios · PBQ Trainer · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px); font-weight: 700; line-height: 0.96; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; padding: 7px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.75; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SCENARIO LAB */
+  .scen-frame { border: 1px solid var(--line); background: var(--surface); }
+  .scen-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .scen-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .scen-head .stats { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft); }
+  .scen-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 18px; margin-right: 4px; }
+  .scen-filter-bar { background: var(--bg-warm); padding: 14px 24px; border-bottom: 1px solid var(--line-soft); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .scen-filter-label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-right: 8px; font-weight: 600; }
+  .scen-chip { background: var(--surface); border: 1px solid var(--line-soft); color: var(--navy-deep); padding: 6px 12px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.04em; cursor: pointer; font-weight: 600; }
+  .scen-chip:hover { background: var(--bg); }
+  .scen-chip.active { background: var(--navy-deep); color: white; border-color: var(--navy-deep); font-weight: 700; }
+
+  .ticket { background: var(--bg-warm); padding: 18px 24px; border-bottom: 1px solid var(--line-soft); }
+  .ticket .ticket-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .ticket .ticket-id { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .ticket .ticket-cat { background: var(--sky); color: white; padding: 2px 8px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+  .ticket .ticket-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.3; }
+  .ticket .ticket-body { font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .ticket .ticket-body b { color: var(--navy-deep); font-weight: 700; }
+  .ticket .ticket-body code { font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .scen-question { padding: 22px 24px; background: var(--surface); }
+  .scen-question h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 600; color: var(--navy-deep); margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.4; }
+  .scen-options { display: flex; flex-direction: column; gap: 8px; }
+  .scen-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 12px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .scen-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scen-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .scen-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .scen-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .scen-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scen-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .scen-option[disabled] { cursor: default; }
+  .scen-feedback { margin-top: 20px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.6; display: none; }
+  .scen-feedback.show { display: block; }
+  .scen-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .scen-feedback .ref { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line-soft); font-size: 12px; color: var(--ink-mute); }
+  .scen-feedback .ref b { color: var(--gold-deep); display: inline; margin-right: 6px; }
+  .scen-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .scen-actions .progress-info { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .scen-actions .progress-info b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 14px; }
+  .next-btn { background: var(--sky); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+  .ghost-btn { background: transparent; color: var(--navy-deep); border: 1px solid var(--line); padding: 11px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .ghost-btn:hover { background: var(--bg-warm); }
+
+  .scen-final { text-align: center; padding: 50px 30px; }
+  .scen-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .scen-final .big-score b { color: var(--gold); }
+  .scen-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .scen-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* QUICK REFERENCE */
+  .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .ref-card-block { background: var(--surface); border: 1px solid var(--line); padding: 0; overflow: hidden; }
+  .ref-card-block .head { background: var(--navy-deep); color: white; padding: 14px 18px; font-family: var(--ff-display); font-weight: 700; font-size: 16px; letter-spacing: -0.01em; border-bottom: 3px solid var(--gold); }
+  .ref-card-block .body { padding: 16px 18px; }
+  .ref-card-block .body p { margin: 0 0 8px; font-size: 13px; line-height: 1.55; color: var(--ink-mid); }
+  .ref-card-block .body p b { color: var(--navy-deep); font-weight: 700; }
+  .ref-card-block .body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 2px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .ref-card-block .body ul { margin: 6px 0 0; padding-left: 18px; }
+  .ref-card-block .body ul li { font-size: 13px; line-height: 1.5; color: var(--ink-mid); margin-bottom: 4px; }
+  .ref-card-block .body ul li b { color: var(--navy-deep); }
+
+  .class-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 13px; margin-top: 22px; }
+  .class-table thead th { background: var(--navy-deep); color: white; padding: 11px 14px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; text-align: left; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .class-table tbody td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-family: var(--ff-mono); font-size: 12px; vertical-align: top; }
+  .class-table tbody td:first-child { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); background: var(--surface-alt); width: 80px; }
+  .class-table tbody tr:hover td { background: var(--bg-warm); }
+
+  /* PBQ BUILDER */
+  .pbq-frame { border: 1px solid var(--line); background: var(--surface); }
+  .pbq-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .pbq-head .title { font-family: var(--ff-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+  .pbq-scenario { padding: 20px 24px; background: var(--bg-warm); border-bottom: 1px solid var(--line-soft); }
+  .pbq-scenario .heading { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .pbq-scenario p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .pbq-scenario p b { color: var(--navy-deep); font-weight: 700; }
+  .pbq-question { padding: 20px 24px 14px; background: var(--surface); }
+  .pbq-question h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 600; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.01em; }
+  .pbq-question .hint { font-size: 13px; color: var(--ink-mute); margin: 0; }
+  .pbq-options-grid { padding: 14px 24px 20px; background: var(--surface); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .pbq-checkbox { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-alt); border: 1.5px solid var(--line-soft); cursor: pointer; transition: all 0.15s; font-family: var(--ff-mono); font-size: 13px; font-weight: 600; color: var(--navy-deep); }
+  .pbq-checkbox:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .pbq-checkbox.selected { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .pbq-checkbox.locked { cursor: default; }
+  .pbq-checkbox.correct-pick { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  .pbq-checkbox.wrong-pick { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+  .pbq-checkbox.missed { background: var(--surface); color: var(--green); border-color: var(--green); border-style: dashed; }
+  .pbq-checkbox .box { width: 18px; height: 18px; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; font-weight: 700; }
+  .pbq-checkbox.selected .box, .pbq-checkbox.correct-pick .box, .pbq-checkbox.missed .box { background: currentColor; }
+  .pbq-checkbox.selected .box::after, .pbq-checkbox.correct-pick .box::after { content: '✓'; color: white; font-weight: 700; }
+  .pbq-checkbox.wrong-pick .box::after { content: '✗'; color: white; font-weight: 700; }
+  .pbq-checkbox.missed .box::after { content: '✓'; color: white; font-weight: 700; }
+  .pbq-actions { padding: 16px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pbq-feedback { padding: 16px 24px; background: var(--bg-warm); border-top: 1px solid var(--line-soft); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.55; display: none; }
+  .pbq-feedback.show { display: block; }
+  .pbq-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+
+  /* TRIAGE */
+  .triage-frame { border: 1px solid var(--line); background: var(--surface); max-width: 760px; margin: 0 auto; }
+  .triage-head { background: var(--navy-deep); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .triage-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .triage-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .triage-body { padding: 36px 30px; text-align: center; }
+  .triage-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 16px; }
+  .triage-ip { font-family: var(--ff-mono); font-size: 38px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.02em; padding: 24px 0; background: var(--surface-alt); border: 1px solid var(--line-soft); margin-bottom: 24px; }
+  .triage-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .triage-option { background: var(--surface-alt); border: 1.5px solid var(--line-soft); padding: 14px 16px; cursor: pointer; font-family: var(--ff-mono); font-size: 13px; font-weight: 600; color: var(--navy-deep); transition: all 0.12s; text-align: left; }
+  .triage-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .triage-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .triage-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .triage-option[disabled] { cursor: default; }
+  .triage-explain { margin-top: 22px; padding: 14px 18px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13px; line-height: 1.55; text-align: left; display: none; }
+  .triage-explain.show { display: block; }
+  .triage-explain b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 4px; }
+  .triage-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; }
+  .triage-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .triage-score b { color: var(--navy-deep); font-size: 14px; }
+
+  /* KC */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head { background: var(--navy-deep); color: white; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .kc-body { padding: 32px 30px; }
+  .kc-question { font-family: var(--ff-display); font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em; }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 14px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback { margin-top: 22px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.55; display: none; }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .kc-actions { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LR */
+  .lr-pre { text-align: center; padding: 40px 20px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-pre h2 { font-family: var(--ff-display); font-size: 40px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em; }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn { background: var(--surface); border: 2px solid var(--navy-deep); color: var(--navy-deep); padding: 12px 22px; font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start { background: var(--sky); color: white; border: none; padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px; }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer { font-family: var(--ff-display); font-size: 56px; font-weight: 800; color: white; line-height: 1; letter-spacing: -0.04em; text-align: center; }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body { background: var(--surface); border: 1px solid var(--line); border-top: none; padding: 30px 30px 40px; }
+  .lr-question-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center; }
+  .lr-question { font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px); font-weight: 600; color: var(--navy-deep); text-align: center; line-height: 1.35; letter-spacing: -0.01em; margin: 0 auto 24px; max-width: 760px; }
+  .lr-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto; }
+  .lr-option { background: var(--surface-alt); border: 2px solid var(--line-soft); padding: 16px 20px; cursor: pointer; font-family: var(--ff-body); font-size: 14px; font-weight: 500; color: var(--navy-deep); text-align: left; display: flex; align-items: center; gap: 14px; }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker { font-family: var(--ff-mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--ink-mute); display: flex; align-items: center; justify-content: center; color: var(--ink-mute); flex-shrink: 0; }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 8px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final { text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .ref-grid { grid-template-columns: 1fr; }
+    .pbq-options-grid { grid-template-columns: 1fr; }
+    .triage-options { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Objective 1.7</span>
+    <span class="crumb">PBQ Scenario Trainer</span>
+  </div>
+  <div class="topbar-right">Scenario · Apply</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.7 · Scenario Application</div>
+    <h1>Given a scenario,<br><em>pick the address.</em></h1>
+    <p class="lede">CompTIA writes Objective 1.7 with two operative words: "Given a scenario, use appropriate IPv4 network addressing." That means recognizing what kind of address a situation calls for — public or private, RFC 1918 or APIPA, classful or classless, /24 or /27 — before any calculation happens. This trainer skips the theory pages and drops you straight into 16 ticket-style PBQs, a multi-select PBQ builder, and a rapid address-triage drill. Built to mirror the way the exam actually tests this objective.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">High-Yield Ranges</div>
+    <div class="ref-row"><span class="name">10.0.0.0/8</span><span class="desc">RFC 1918 — Class A private</span></div>
+    <div class="ref-row"><span class="name">172.16.0.0/12</span><span class="desc">RFC 1918 — Class B private (16–31)</span></div>
+    <div class="ref-row"><span class="name">192.168.0.0/16</span><span class="desc">RFC 1918 — Class C private</span></div>
+    <div class="ref-row"><span class="name">169.254.0.0/16</span><span class="desc">APIPA — DHCP failure indicator</span></div>
+    <div class="ref-row"><span class="name">127.0.0.0/8</span><span class="desc">Loopback — refers to the local host</span></div>
+    <div class="ref-row"><span class="name">0.0.0.0</span><span class="desc">Default route / "no IP"</span></div>
+    <div class="ref-row"><span class="name">255.255.255.255</span><span class="desc">Limited broadcast (local segment)</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      Scenarios almost always include a clue: "user reports they can't reach the internet" + a 169.254 address → APIPA → DHCP problem. The address tells the story.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">16</div><div class="label">Ticket scenarios</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">Multi-select PBQs</div></div>
+  <div class="stat"><div class="num">15</div><div class="label">Triage IPs</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check Qs</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="lab"><span class="num">01</span>Scenario Lab</button>
+  <button class="tab" data-tab="ref"><span class="num">02</span>Quick Reference</button>
+  <button class="tab" data-tab="pbq"><span class="num">03</span>PBQ Builder</button>
+  <button class="tab" data-tab="triage"><span class="num">04</span>Address Triage</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<section class="panel active" id="panel-lab">
+  <div class="scen-frame">
+    <div class="scen-head">
+      <div class="title">Help Desk Scenarios</div>
+      <div class="stats">Got <b id="scen-got">0</b> · Seen <b id="scen-seen">0</b> / 16</div>
+    </div>
+    <div class="scen-filter-bar">
+      <span class="scen-filter-label">FILTER ·</span>
+      <button class="scen-chip active" data-cat="all">All Categories</button>
+      <button class="scen-chip" data-cat="public-private">Public vs Private</button>
+      <button class="scen-chip" data-cat="apipa-loopback">APIPA & Loopback</button>
+      <button class="scen-chip" data-cat="classes">Address Classes</button>
+      <button class="scen-chip" data-cat="subnetting">Subnetting / VLSM / CIDR</button>
+    </div>
+    <div id="scen-content"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-ref">
+  <div class="ref-grid">
+    <div class="ref-card-block">
+      <div class="head">RFC 1918 Private Ranges</div>
+      <div class="body">
+        <p>Defined by <b>RFC 1918</b>. Used inside organizations, NOT routable on the public internet. Three ranges, one per legacy class:</p>
+        <ul>
+          <li><b>10.0.0.0/8</b> — 10.0.0.0 to 10.255.255.255 (16.7M addresses)</li>
+          <li><b>172.16.0.0/12</b> — 172.16.0.0 to 172.31.255.255 (1M addresses)</li>
+          <li><b>192.168.0.0/16</b> — 192.168.0.0 to 192.168.255.255 (65K addresses)</li>
+        </ul>
+        <p style="margin-top: 10px;"><b>Watch the 172 range</b> — only 172.16–172.31 are private. 172.15.x and 172.32.x are public.</p>
+      </div>
+    </div>
+
+    <div class="ref-card-block">
+      <div class="head">APIPA — 169.254.0.0/16</div>
+      <div class="body">
+        <p><b>Automatic Private IP Addressing.</b> When a host can't reach a DHCP server, Windows (and most modern OSes) self-assign an address in <code>169.254.0.1</code> – <code>169.254.255.254</code>.</p>
+        <p>APIPA addresses can only reach other APIPA-addressed hosts on the same Layer 2 segment. They <b>cannot reach the internet or gateway</b>.</p>
+        <p>If a user reports they can't reach anything and ipconfig shows a 169.254.x.x address → <b>DHCP is the problem</b>.</p>
+      </div>
+    </div>
+
+    <div class="ref-card-block">
+      <div class="head">Loopback — 127.0.0.0/8</div>
+      <div class="body">
+        <p>The <b>loopback</b> range refers to the local host itself. Almost always written as <code>127.0.0.1</code> ("localhost"), but the entire 127.0.0.0/8 range is reserved.</p>
+        <p>Pinging 127.0.0.1 tests the TCP/IP stack on the local machine — packets never leave the OS. If <code>ping 127.0.0.1</code> fails, the IP stack itself is broken.</p>
+        <p><b>Class-A gotcha:</b> 127 is technically in the Class A first-octet range (1–126 + 127), but it's carved out as loopback and is NEVER used as a regular host address.</p>
+      </div>
+    </div>
+
+    <div class="ref-card-block">
+      <div class="head">CIDR & VLSM</div>
+      <div class="body">
+        <p><b>CIDR</b> (Classless Inter-Domain Routing) replaces classful boundaries. <code>192.168.5.0/24</code> means "first 24 bits are network." The /N is the prefix length.</p>
+        <p><b>VLSM</b> (Variable Length Subnet Mask) divides one block into subnets of different sizes. A /24 can be split into a /26 for 60 hosts AND a /27 for 30 hosts AND a /28 for 14 hosts — efficient use of addresses.</p>
+        <p><b>Classless</b> means routes are advertised with their actual mask, allowing tighter aggregation and smaller routing tables.</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="class-table">
+    <thead>
+      <tr><th>Class</th><th>First Octet Range</th><th>Default Mask</th><th>Hosts per Network</th><th>Use Today</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>A</td><td>1 – 126</td><td>/8 (255.0.0.0)</td><td>~16.7 million</td><td>Large orgs, ISPs (10/8 is private)</td></tr>
+      <tr><td>B</td><td>128 – 191</td><td>/16 (255.255.0.0)</td><td>65,534</td><td>Mid-size enterprises (172.16/12 is private)</td></tr>
+      <tr><td>C</td><td>192 – 223</td><td>/24 (255.255.255.0)</td><td>254</td><td>Small networks (192.168/16 is private)</td></tr>
+      <tr><td>D</td><td>224 – 239</td><td>—</td><td>—</td><td>Multicast (not assigned to hosts)</td></tr>
+      <tr><td>E</td><td>240 – 255</td><td>—</td><td>—</td><td>Reserved / experimental</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" id="panel-pbq">
+  <div class="pbq-frame" id="pbq-frame"></div>
+</section>
+
+<section class="panel" id="panel-triage">
+  <div class="triage-frame" id="triage-frame"></div>
+</section>
+
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed scenario one-liners. Public/private identification, range matching, class lookup, APIPA recognition. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Trainer</h4>
+      <p>A scenario-focused PBQ trainer for CompTIA Network+ N10-009 Objective 1.7 — "Given a scenario, use appropriate IPv4 network addressing." Covers public vs private, APIPA, RFC 1918, loopback, classes A/B/C, VLSM, and CIDR.</p>
+      <p>This artifact is the scenario application companion to the IPv4 calculator drill. Calculator drills the math, this drills the judgment.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Quick Reference — memorize the ranges.</p>
+      <p>· Day 2: Address Triage — get fast at identifying any IP.</p>
+      <p>· Day 3: Scenario Lab — work through every ticket.</p>
+      <p>· Day 4: PBQ Builder + Knowledge Check + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair this artifact with ipv4-addressing-drill.html for the calculation side of the same objective.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.7 PBQ Scenarios</span>
+  </div>
+</footer>
+
+<script>
+/* ============================ SCENARIO LAB ============================ */
+const SCENARIOS = [
+  {
+    cat: 'apipa-loopback', id: 'TKT-1001',
+    title: 'User can\'t reach anything',
+    body: 'A user calls reporting they cannot access the internet or any internal share. You ask them to run <code>ipconfig</code>. They read back: IPv4 address <b>169.254.218.45</b>, Subnet Mask 255.255.0.0, Default Gateway (blank).',
+    question: 'What is the most likely cause?',
+    options: [
+      'The user mistyped their static IP',
+      'The DHCP server is unreachable — the host self-assigned an APIPA address',
+      'A routing loop is preventing connectivity',
+      'The default gateway IP changed recently'
+    ],
+    correct: 1,
+    explain: 'The 169.254.x.x address is a giveaway — that\'s the APIPA range (169.254.0.0/16). APIPA addresses are self-assigned only when a host fails to obtain an address from DHCP. Check the DHCP server status, the relay agent on the user\'s VLAN, and physical connectivity to the DHCP scope.',
+    ref: 'APIPA · 169.254.0.0/16'
+  },
+  {
+    cat: 'apipa-loopback', id: 'TKT-1002',
+    title: 'Testing the TCP/IP stack',
+    body: 'A technician is troubleshooting a workstation that won\'t connect to anything. They want to verify the TCP/IP stack on the local machine is functional before checking external connectivity.',
+    question: 'Which IP address should they ping?',
+    options: ['0.0.0.0', '127.0.0.1', '169.254.0.1', '255.255.255.255'],
+    correct: 1,
+    explain: '127.0.0.1 (localhost) is the loopback address. Pinging it tests the local TCP/IP stack without sending any packets onto the network. If this fails, the IP stack itself is broken — reinstall network drivers or repair the OS. 0.0.0.0 is "no address," 169.254 is APIPA, and 255.255.255.255 is limited broadcast.',
+    ref: 'Loopback · 127.0.0.0/8'
+  },
+  {
+    cat: 'public-private', id: 'TKT-1003',
+    title: 'Designing addressing for a new branch',
+    body: 'A small branch office of 25 employees will connect to HQ via VPN. The branch needs internal IP addresses for its workstations, printers, and an internal file server. <b>None of these devices need to be reached directly from the public internet.</b>',
+    question: 'Which addressing scheme is most appropriate?',
+    options: [
+      'A public /27 leased from the ISP',
+      'A private 192.168.0.0/16 block from RFC 1918',
+      'A 169.254.x.x APIPA block',
+      'A 127.x.x.x loopback block'
+    ],
+    correct: 1,
+    explain: '192.168.0.0/16 is an RFC 1918 private range — perfect for internal-only addressing behind NAT. Public IPs are scarce and expensive, and these devices don\'t need public reachability. APIPA is only used when DHCP fails. Loopback is only for the local machine itself.',
+    ref: 'RFC 1918 · 192.168.0.0/16'
+  },
+  {
+    cat: 'public-private', id: 'TKT-1004',
+    title: 'Internet-facing web server',
+    body: 'A company is deploying a public-facing web server that customers must reach directly from the internet by browsing to its IP or DNS name.',
+    question: 'What kind of IP address must this server have?',
+    options: [
+      'A private RFC 1918 address',
+      'An APIPA 169.254 address',
+      'A public, internet-routable IP (typically purchased from or leased through the ISP)',
+      'A loopback address'
+    ],
+    correct: 2,
+    explain: 'Public-facing services need a public, routable IP address that the global internet can reach. RFC 1918 addresses (10/8, 172.16/12, 192.168/16) are explicitly NOT routed on the internet. The server may sit behind a NAT mapping that translates a public IP to its private internal IP — but the public-facing address itself must be public.',
+    ref: 'Public IP · Internet routable'
+  },
+  {
+    cat: 'public-private', id: 'TKT-1005',
+    title: 'Spotting a non-private address',
+    body: 'An admin documents the following address as "private RFC 1918": <code>172.32.50.10</code>. A peer reviewer says this is wrong.',
+    question: 'Why is the peer correct?',
+    options: [
+      'RFC 1918 private range for Class B is 172.16.0.0/12 — only 172.16 through 172.31 are private. 172.32.x is public.',
+      'Any 172.x address is automatically private',
+      '172.32.x is APIPA',
+      'It\'s a loopback address'
+    ],
+    correct: 0,
+    explain: 'The 172.16.0.0/12 private block covers 172.16.0.0 through 172.31.255.255 — second octet from 16 to 31 inclusive. 172.32.x.x is OUTSIDE the private range and is therefore a public address that someone else owns. This is the most-tested "gotcha" on the exam for RFC 1918.',
+    ref: 'RFC 1918 · 172.16.0.0/12 = 172.16–172.31 only'
+  },
+  {
+    cat: 'classes', id: 'TKT-1006',
+    title: 'Identifying address class',
+    body: 'A junior tech is documenting the IP scheme. They see the address <code>10.50.200.5</code> with a default classful mask in legacy documentation.',
+    question: 'Which class is this address, and what is its default classful mask?',
+    options: [
+      'Class A · /8 (255.0.0.0)',
+      'Class B · /16 (255.255.0.0)',
+      'Class C · /24 (255.255.255.0)',
+      'Class D · /4'
+    ],
+    correct: 0,
+    explain: 'First octet 10 falls in the Class A range (1–126). Default classful mask for Class A is /8 (255.0.0.0). 10.0.0.0/8 is also the largest RFC 1918 private block. Modern networks use CIDR rather than classful masks, but the exam still tests class boundaries.',
+    ref: 'Class A · first octet 1–126'
+  },
+  {
+    cat: 'classes', id: 'TKT-1007',
+    title: 'Class identification from first octet',
+    body: 'A network diagram shows three subnets: <code>192.168.10.0/24</code>, <code>172.20.5.0/24</code>, and <code>10.100.1.0/24</code>. The instructor asks which classful address class each belongs to.',
+    question: 'What are the correct classful classes (in order)?',
+    options: [
+      'C, B, A',
+      'A, B, C',
+      'B, C, A',
+      'C, C, A'
+    ],
+    correct: 0,
+    explain: '192.x → Class C (range 192–223). 172.x → Class B (range 128–191). 10.x → Class A (range 1–126). Memorize the boundaries: A is 1–126, B is 128–191, C is 192–223, D is 224–239, E is 240–255. 127 is loopback and falls in no usable class.',
+    ref: 'Class boundaries by first octet'
+  },
+  {
+    cat: 'classes', id: 'TKT-1008',
+    title: 'The 127 gotcha',
+    body: 'A new student writes "Class A range is 1 to 127." Their instructor marks this incorrect.',
+    question: 'What is the issue?',
+    options: [
+      'Class A actually starts at 0',
+      'Class A range is 1–126 because 127 is reserved for loopback, not Class A',
+      'Class A range is 1–128',
+      'There is no Class A'
+    ],
+    correct: 1,
+    explain: 'The Class A first-octet range is technically defined as 1–127, but 127.x.x.x is reserved for loopback (127.0.0.0/8) and never used as a regular host address. So in practice, Class A usable range is 1–126. The exam tests this gotcha directly.',
+    ref: 'Class A · 1–126 · 127 is loopback'
+  },
+  {
+    cat: 'subnetting', id: 'TKT-1009',
+    title: 'CIDR notation translation',
+    body: 'A configuration shows <code>192.168.5.0 255.255.255.224</code>. The on-call engineer wants the CIDR equivalent for documentation.',
+    question: 'What is the CIDR prefix length?',
+    options: ['/24', '/25', '/26', '/27'],
+    correct: 3,
+    explain: '255.255.255.224 = 11111111.11111111.11111111.11100000 in binary. Count the 1-bits: 8+8+8+3 = 27. So the CIDR prefix is /27. A /27 subnet has 2^(32-27) = 32 addresses, 30 of which are usable hosts.',
+    ref: 'CIDR · /27 = 255.255.255.224'
+  },
+  {
+    cat: 'subnetting', id: 'TKT-1010',
+    title: 'VLSM design need',
+    body: 'A network needs four subnets carved from a single /24: one for 100 hosts, one for 50 hosts, one for 25 hosts, and one for 2 hosts (P2P link). The admin wants efficient use of the address space — no wasted addresses.',
+    question: 'Which technique is required?',
+    options: [
+      'Classful subnetting with one fixed mask',
+      'VLSM — Variable Length Subnet Mask, using different mask sizes per subnet',
+      'APIPA',
+      'Pure CIDR without subnets'
+    ],
+    correct: 1,
+    explain: 'VLSM lets you use different subnet masks for different subnets carved from the same parent block. Sizing each subnet to its actual host count avoids waste. From a /24, you could use /25 (126 hosts), /26 (62 hosts), /27 (30 hosts), and /30 (2 hosts) — exactly what this scenario needs. Classful or one-fixed-mask subnetting wastes huge ranges.',
+    ref: 'VLSM · variable masks within one block'
+  },
+  {
+    cat: 'subnetting', id: 'TKT-1011',
+    title: 'Which mask for 30 hosts',
+    body: 'An admin needs to subnet a /24 to support exactly 30 usable hosts per subnet.',
+    question: 'Which subnet mask provides the smallest subnet with at least 30 usable hosts?',
+    options: [
+      '/26 (255.255.255.192) — 62 usable hosts',
+      '/27 (255.255.255.224) — 30 usable hosts',
+      '/28 (255.255.255.240) — 14 usable hosts',
+      '/29 (255.255.255.248) — 6 usable hosts'
+    ],
+    correct: 1,
+    explain: '/27 gives 32 addresses, minus network and broadcast = 30 usable. Exactly what\'s needed, no waste. /28 only has 14 usable (not enough). /26 gives 62 (more than needed, but wasteful). Formula: usable hosts = 2^(32-N) - 2.',
+    ref: 'Subnet sizing · /27 = 30 usable hosts'
+  },
+  {
+    cat: 'subnetting', id: 'TKT-1012',
+    title: 'Point-to-point link sizing',
+    body: 'Two routers are being connected over a dedicated P2P link. Only the two router interfaces need addresses on that subnet.',
+    question: 'What is the most efficient subnet size?',
+    options: [
+      '/24 — overkill but standard',
+      '/29 — 6 usable hosts, plenty of room',
+      '/30 — 2 usable hosts, exactly fits a P2P link',
+      '/32 — single host, can\'t use on a link'
+    ],
+    correct: 2,
+    explain: 'A /30 has 4 addresses: network, broadcast, and 2 usable hosts. That\'s exactly the count for a P2P link between two routers. Using /24, /27, or /29 wastes addresses. Some designs use /31 (RFC 3021) for even tighter use, but /30 is the most common exam answer for P2P.',
+    ref: 'P2P · /30 = 2 usable'
+  },
+  {
+    cat: 'public-private', id: 'TKT-1013',
+    title: 'Why NAT exists',
+    body: 'A company has 800 internal devices all using RFC 1918 private addresses (10.0.0.0/8). They share a single public IP given by the ISP.',
+    question: 'What technology lets 800 internal hosts share one public IP for internet access?',
+    options: [
+      'APIPA',
+      'NAT / PAT — Network/Port Address Translation translates private internal addresses to the public IP on outbound traffic',
+      'CIDR',
+      'Loopback'
+    ],
+    correct: 1,
+    explain: 'NAT (specifically PAT, also called NAT overload) translates many private internal addresses into one public IP, using port numbers to keep flows separate. Without NAT, every internal device would need its own public IP — which the IPv4 address space can\'t provide. RFC 1918 + NAT is the foundation of how most networks work today.',
+    ref: 'NAT · RFC 1918 + public IP sharing'
+  },
+  {
+    cat: 'apipa-loopback', id: 'TKT-1014',
+    title: 'APIPA reaches what?',
+    body: 'A user with the address 169.254.50.10 can ping another laptop on the same wired switch (169.254.50.45). They cannot ping the gateway, internal servers, or the internet.',
+    question: 'Why is the laptop-to-laptop ping working?',
+    options: [
+      'APIPA addresses can reach the internet via IPv6 fallback',
+      'APIPA hosts can communicate with each other only on the same Layer 2 segment',
+      'The user has a routing exception',
+      'It\'s coincidence and should not work'
+    ],
+    correct: 1,
+    explain: 'APIPA addresses CAN talk to other APIPA-addressed hosts on the SAME Layer 2 broadcast domain. They cannot route to other subnets or reach the gateway (no default route). This is by design — it allows minimal local connectivity when DHCP is down, but doesn\'t pretend to be real networking.',
+    ref: 'APIPA · local Layer 2 only'
+  },
+  {
+    cat: 'classes', id: 'TKT-1015',
+    title: 'Which is a Class B address?',
+    body: 'A multiple-choice exam asks which of the following is a valid Class B public address (not in any private range): <code>10.0.5.20</code>, <code>172.16.50.10</code>, <code>172.50.10.5</code>, <code>192.168.1.1</code>.',
+    question: 'Which is the correct answer?',
+    options: [
+      '10.0.5.20 — Class A private',
+      '172.16.50.10 — Class B private (RFC 1918)',
+      '172.50.10.5 — Class B PUBLIC (outside the RFC 1918 range)',
+      '192.168.1.1 — Class C private'
+    ],
+    correct: 2,
+    explain: '172.50.10.5 has first octet 172 (Class B range 128–191) AND falls outside the RFC 1918 private range 172.16–172.31, so it\'s a Class B PUBLIC address. The other three are all private. This question tests two concepts at once: class identification AND knowing which 172.x values are private vs public.',
+    ref: 'Class B · public when outside 172.16–172.31'
+  },
+  {
+    cat: 'subnetting', id: 'TKT-1016',
+    title: 'CIDR aggregation',
+    body: 'Routes for 192.168.0.0/24, 192.168.1.0/24, 192.168.2.0/24, and 192.168.3.0/24 are being advertised by four separate ROS entries. The senior engineer wants to "summarize" these into a single advertised route.',
+    question: 'Which CIDR aggregate captures all four /24s in one route?',
+    options: [
+      '192.168.0.0/16 — too broad, covers 256 /24s',
+      '192.168.0.0/22 — covers exactly 4 contiguous /24s (.0, .1, .2, .3)',
+      '192.168.0.0/23 — covers 2 /24s only',
+      '192.168.0.0/25 — covers half of a /24'
+    ],
+    correct: 1,
+    explain: '/22 covers 2^(24-22) = 4 contiguous /24 networks. Starting at 192.168.0.0, that\'s .0, .1, .2, .3 — exactly the four networks needed. This is CIDR supernetting / route summarization, useful for shrinking routing tables.',
+    ref: 'CIDR · /22 = 4 contiguous /24s'
+  }
+];
+
+const CAT_LABELS = { 'public-private':'Public vs Private', 'apipa-loopback':'APIPA & Loopback', 'classes':'Address Classes', 'subnetting':'Subnetting / VLSM / CIDR' };
+var scenFilter = 'all';
+var scenPool = [];
+var scenIdx = 0;
+var scenSeen = 0;
+var scenGot = 0;
+var scenAnswered = false;
+
+function rebuildScenPool() {
+  scenPool = (scenFilter === 'all') ? SCENARIOS.slice() : SCENARIOS.filter(function(s){ return s.cat === scenFilter; });
+  // Shuffle so consecutive views aren't always in the same order
+  for (var i = scenPool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = scenPool[i]; scenPool[i] = scenPool[j]; scenPool[j] = t;
+  }
+  scenIdx = 0;
+  scenAnswered = false;
+}
+
+function renderScenario() {
+  var content = document.getElementById('scen-content');
+  if (scenPool.length === 0) {
+    content.innerHTML = '<div class="scen-final"><div class="verdict">No scenarios in this filter.</div><div class="verdict-sub">Try a different filter.</div></div>';
+    return;
+  }
+  if (scenIdx >= scenPool.length) {
+    var pct = scenSeen > 0 ? Math.round((scenGot / scenSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct >= 90) { verdict = 'PBQ Mastered.'; sub = 'You can read a scenario and pick the right address type fast. Move on.'; }
+    else if (pct >= 70) { verdict = 'Solid Application.'; sub = 'A few more passes and you\'re exam-ready.'; }
+    else if (pct >= 50) { verdict = 'Building It.'; sub = 'Review the Quick Reference, then run through the scenarios again.'; }
+    else { verdict = 'Keep Training.'; sub = 'Spend more time in the Quick Reference and Triage tabs before retrying.'; }
+    content.innerHTML = '<div class="scen-final"><div class="big-score">'+scenGot+'<b>/'+scenSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="scen-restart">↻ Run Again</button></div>';
+    document.getElementById('scen-restart').addEventListener('click', function(){
+      scenSeen = 0; scenGot = 0; document.getElementById('scen-got').textContent = '0'; document.getElementById('scen-seen').textContent = '0';
+      rebuildScenPool(); renderScenario();
+    });
+    return;
+  }
+  var s = scenPool[scenIdx];
+  var html = '<div class="ticket"><div class="ticket-meta"><span class="ticket-id">'+s.id+'</span><span class="ticket-cat">'+CAT_LABELS[s.cat]+'</span></div><div class="ticket-title">'+s.title+'</div><div class="ticket-body">'+s.body+'</div></div>';
+  html += '<div class="scen-question"><h4>'+s.question+'</h4><div class="scen-options">';
+  s.options.forEach(function(opt, i){
+    html += '<button class="scen-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="scen-feedback" id="scen-feedback"></div></div>';
+  html += '<div class="scen-actions"><div class="progress-info">Scenario <b>'+(scenIdx+1)+'</b> of <b>'+scenPool.length+'</b> · This run · Got <b>'+scenGot+'</b> / <b>'+scenSeen+'</b></div><button class="next-btn" id="scen-next" disabled>'+(scenIdx+1===scenPool.length?'See Results →':'Next Ticket →')+'</button></div>';
+  content.innerHTML = html;
+  scenAnswered = false;
+  content.querySelectorAll('.scen-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (scenAnswered) return;
+      scenAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      content.querySelectorAll('.scen-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === s.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('scen-feedback');
+      var heading = chosen === s.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+s.correct)+'</b>';
+      var refLine = s.ref ? '<div class="ref"><b>REFERENCE ·</b>'+s.ref+'</div>' : '';
+      fb.innerHTML = heading + s.explain + refLine;
+      fb.classList.add('show');
+      scenSeen++;
+      if (chosen === s.correct) scenGot++;
+      document.getElementById('scen-got').textContent = scenGot;
+      document.getElementById('scen-seen').textContent = scenSeen;
+      document.getElementById('scen-next').disabled = false;
+    });
+  });
+  document.getElementById('scen-next').addEventListener('click', function(){ scenIdx++; renderScenario(); });
+}
+
+document.querySelectorAll('.scen-chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    document.querySelectorAll('.scen-chip').forEach(function(c){ c.classList.remove('active'); });
+    chip.classList.add('active');
+    scenFilter = chip.dataset.cat;
+    rebuildScenPool();
+    renderScenario();
+  });
+});
+rebuildScenPool();
+renderScenario();
+
+/* ============================ PBQ BUILDER ============================ */
+const PBQ_BUNDLES = [
+  {
+    title: 'Select all RFC 1918 private ranges',
+    scenario: 'Your company is finalizing its internal addressing policy. The policy must list <b>only</b> the address blocks defined as private by RFC 1918.',
+    hint: 'Pick every range that qualifies as RFC 1918 private. Watch the 172 range carefully.',
+    options: ['10.0.0.0/8', '127.0.0.0/8', '169.254.0.0/16', '172.16.0.0/12', '172.32.0.0/16', '192.168.0.0/16', '224.0.0.0/4'],
+    correct: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'],
+    explain: 'RFC 1918 defines exactly three private blocks: 10.0.0.0/8, 172.16.0.0/12 (only the 172.16–172.31 range), and 192.168.0.0/16. 127.0.0.0/8 is loopback (not "private" by RFC 1918 — different purpose). 169.254.0.0/16 is APIPA (also not RFC 1918). 172.32.0.0/16 is OUTSIDE the private 172 range. 224.0.0.0/4 is multicast.'
+  },
+  {
+    title: 'Identify all addresses that fall in Class A',
+    scenario: 'A junior tech needs to categorize a list of addresses by classful class. They need to identify <b>every</b> address whose first octet falls in the Class A range (1–126).',
+    hint: 'Class A first octet: 1–126. Don\'t pick 127 — that\'s loopback.',
+    options: ['8.8.8.8', '10.50.20.5', '100.64.1.1', '127.0.0.1', '128.0.0.1', '172.16.0.1', '200.1.1.1'],
+    correct: ['8.8.8.8', '10.50.20.5', '100.64.1.1'],
+    explain: 'Class A is first octet 1–126. 8.8.8.8 (Google DNS), 10.50.20.5 (RFC 1918), and 100.64.1.1 (CGNAT range, but still Class A by first octet) all qualify. 127.0.0.1 is loopback — first octet 127 is NOT used for regular Class A. 128 is Class B start. 172.16 and 200.1 are Class B and Class C respectively.'
+  },
+  {
+    title: 'Pick addresses that indicate DHCP failure',
+    scenario: 'A help desk team needs a quick reference: which of these IP address patterns on a client should immediately trigger a DHCP investigation?',
+    hint: 'APIPA is the smoking-gun pattern. The mask matters too.',
+    options: ['10.0.0.50/24', '169.254.10.10/16', '169.254.255.20/16', '192.168.1.50/24', '0.0.0.0', '127.0.0.1'],
+    correct: ['169.254.10.10/16', '169.254.255.20/16', '0.0.0.0'],
+    explain: 'APIPA addresses (169.254.0.0/16) are self-assigned when DHCP fails — both 169.254.10.10 and 169.254.255.20 qualify. An address of 0.0.0.0 indicates "no IP assigned" — also a DHCP problem. 10.0.0.50 and 192.168.1.50 are legitimate RFC 1918 addresses (DHCP probably worked). 127.0.0.1 is loopback — always present, not a DHCP indicator.'
+  },
+  {
+    title: 'Subnet masks that yield at least 30 usable hosts',
+    scenario: 'A network engineer plans to carve subnets from a /24 block. Each subnet must support <b>at least 30 usable hosts</b>. Select every mask that meets the requirement.',
+    hint: 'Usable hosts = 2^(32-N) - 2. Need ≥ 30.',
+    options: ['/24 — 254 usable', '/25 — 126 usable', '/26 — 62 usable', '/27 — 30 usable', '/28 — 14 usable', '/29 — 6 usable', '/30 — 2 usable'],
+    correct: ['/24 — 254 usable', '/25 — 126 usable', '/26 — 62 usable', '/27 — 30 usable'],
+    explain: 'Need ≥30 usable hosts: /27 gives exactly 30 (2^5 - 2 = 30). /26 = 62. /25 = 126. /24 = 254. All four qualify. /28 only gives 14 (too small), /29 = 6, /30 = 2. The most space-efficient choice for exactly 30 hosts is /27.'
+  },
+  {
+    title: 'Public IPs (not in any reserved range)',
+    scenario: 'A consultant is auditing a customer\'s outbound traffic logs. They need to identify which destination addresses are public, internet-routable IPs — and which are private or reserved.',
+    hint: 'Eliminate RFC 1918, APIPA, loopback, multicast, broadcast. What\'s left is public.',
+    options: ['8.8.4.4', '10.10.10.10', '127.0.0.1', '169.254.5.5', '172.20.30.40', '172.40.50.60', '192.168.1.1', '203.0.113.50'],
+    correct: ['8.8.4.4', '172.40.50.60', '203.0.113.50'],
+    explain: '8.8.4.4 is Google DNS (public). 172.40.50.60 has first octet 172 but second octet 40 is OUTSIDE the private 16–31 range, so it\'s public. 203.0.113.50 is in the TEST-NET-3 documentation range but is still treated as a public Class C in the classful sense. 10.x, 169.254.x, 172.20.x, and 192.168.x are private or APIPA. 127.0.0.1 is loopback.'
+  }
+];
+
+var pbqIdx = 0;
+var pbqSelected = [];
+var pbqAnswered = false;
+var pbqGot = 0;
+
+function renderPBQ() {
+  var frame = document.getElementById('pbq-frame');
+  if (pbqIdx >= PBQ_BUNDLES.length) {
+    frame.innerHTML = '<div class="pbq-head"><div class="title">PBQ Builder · Complete</div></div><div class="scen-final"><div class="big-score">'+pbqGot+'<b>/'+PBQ_BUNDLES.length+'</b></div><div class="verdict">'+(pbqGot===PBQ_BUNDLES.length?'PBQ Builder Mastered.':pbqGot>=Math.ceil(PBQ_BUNDLES.length*0.7)?'Strong Application.':'Worth Reviewing.')+'</div><div class="verdict-sub">Multi-select PBQs are the trickiest format on the Network+ exam. The trick is to be sure of every box you check — partial credit is rare.</div><button class="next-btn" id="pbq-restart">↻ Run Again</button></div>';
+    document.getElementById('pbq-restart').addEventListener('click', function(){ pbqIdx=0; pbqGot=0; pbqSelected=[]; renderPBQ(); });
+    return;
+  }
+  var p = PBQ_BUNDLES[pbqIdx];
+  var html = '<div class="pbq-head"><div class="title">PBQ '+(pbqIdx+1)+' of '+PBQ_BUNDLES.length+'</div></div>';
+  html += '<div class="pbq-scenario"><div class="heading">SCENARIO</div><p>'+p.scenario+'</p></div>';
+  html += '<div class="pbq-question"><h4>'+p.title+'</h4><p class="hint">'+p.hint+'</p></div>';
+  html += '<div class="pbq-options-grid">';
+  p.options.forEach(function(opt){
+    var isSelected = pbqSelected.indexOf(opt) !== -1;
+    html += '<button class="pbq-checkbox '+(isSelected?'selected':'')+'" data-opt="'+opt.replace(/"/g, '&quot;')+'"><span class="box"></span><span>'+opt+'</span></button>';
+  });
+  html += '</div>';
+  html += '<div class="pbq-feedback" id="pbq-feedback"></div>';
+  html += '<div class="pbq-actions"><button class="ghost-btn" id="pbq-clear">Clear Selections</button><button class="next-btn" id="pbq-submit" '+(pbqAnswered?'disabled':'')+'>Submit Answer</button>'+(pbqAnswered?'<button class="next-btn" id="pbq-next">'+(pbqIdx+1===PBQ_BUNDLES.length?'See Results →':'Next PBQ →')+'</button>':'')+'</div>';
+  frame.innerHTML = html;
+
+  if (!pbqAnswered) {
+    frame.querySelectorAll('.pbq-checkbox').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var opt = btn.dataset.opt;
+        var idx = pbqSelected.indexOf(opt);
+        if (idx === -1) pbqSelected.push(opt);
+        else pbqSelected.splice(idx, 1);
+        renderPBQ();
+      });
+    });
+    document.getElementById('pbq-clear').addEventListener('click', function(){ pbqSelected = []; renderPBQ(); });
+    document.getElementById('pbq-submit').addEventListener('click', function(){
+      pbqAnswered = true;
+      // Score: all selected must be correct AND no correct ones missed
+      var allCorrect = pbqSelected.every(function(s){ return p.correct.indexOf(s) !== -1; });
+      var noneMissed = p.correct.every(function(c){ return pbqSelected.indexOf(c) !== -1; });
+      var perfect = allCorrect && noneMissed;
+      if (perfect) pbqGot++;
+      renderPBQ();
+      // After re-render, mark each box visibly
+      frame.querySelectorAll('.pbq-checkbox').forEach(function(btn){
+        var opt = btn.dataset.opt;
+        var isCorrect = p.correct.indexOf(opt) !== -1;
+        var wasSelected = pbqSelected.indexOf(opt) !== -1;
+        btn.classList.add('locked');
+        btn.classList.remove('selected');
+        if (isCorrect && wasSelected) btn.classList.add('correct-pick');
+        else if (!isCorrect && wasSelected) btn.classList.add('wrong-pick');
+        else if (isCorrect && !wasSelected) btn.classList.add('missed');
+      });
+      var fb = document.getElementById('pbq-feedback');
+      fb.innerHTML = (perfect ? '<b>✓ Perfect</b>' : '<b>✗ Not Quite — Correct answers marked green; misses marked dashed; wrong picks marked red</b>') + p.explain;
+      fb.classList.add('show');
+    });
+  } else {
+    // Already answered — wire just the Next button and re-apply visual marks
+    frame.querySelectorAll('.pbq-checkbox').forEach(function(btn){
+      var opt = btn.dataset.opt;
+      var isCorrect = p.correct.indexOf(opt) !== -1;
+      var wasSelected = pbqSelected.indexOf(opt) !== -1;
+      btn.classList.add('locked');
+      btn.classList.remove('selected');
+      if (isCorrect && wasSelected) btn.classList.add('correct-pick');
+      else if (!isCorrect && wasSelected) btn.classList.add('wrong-pick');
+      else if (isCorrect && !wasSelected) btn.classList.add('missed');
+    });
+    var fb = document.getElementById('pbq-feedback');
+    var allCorrect = pbqSelected.every(function(s){ return p.correct.indexOf(s) !== -1; });
+    var noneMissed = p.correct.every(function(c){ return pbqSelected.indexOf(c) !== -1; });
+    var perfect = allCorrect && noneMissed;
+    fb.innerHTML = (perfect ? '<b>✓ Perfect</b>' : '<b>✗ Not Quite — Correct answers marked green; misses marked dashed; wrong picks marked red</b>') + p.explain;
+    fb.classList.add('show');
+    var nb = document.getElementById('pbq-next');
+    if (nb) nb.addEventListener('click', function(){ pbqIdx++; pbqSelected = []; pbqAnswered = false; renderPBQ(); });
+  }
+}
+renderPBQ();
+
+/* ============================ TRIAGE ============================ */
+const TRIAGE_IPS = [
+  { ip: '10.50.20.5', correct: 'Class A · Private (RFC 1918)', explain: 'First octet 10 → Class A. Falls in 10.0.0.0/8 — RFC 1918 private.' },
+  { ip: '127.0.0.1', correct: 'Loopback (Class A reserved)', explain: '127.x is reserved for loopback — refers to the local host. Never used as a regular Class A.' },
+  { ip: '169.254.50.10', correct: 'APIPA', explain: '169.254.0.0/16 is APIPA. Self-assigned when DHCP fails. Indicates a network problem.' },
+  { ip: '172.16.100.5', correct: 'Class B · Private (RFC 1918)', explain: 'First octet 172 → Class B. Second octet 16 falls within 16–31 — RFC 1918 private.' },
+  { ip: '172.40.10.5', correct: 'Class B · Public', explain: 'First octet 172 → Class B. Second octet 40 is OUTSIDE 16–31, so this is a PUBLIC Class B address.' },
+  { ip: '192.168.1.100', correct: 'Class C · Private (RFC 1918)', explain: 'First octet 192, second 168 → matches 192.168.0.0/16 RFC 1918 private. Almost every home router uses this.' },
+  { ip: '8.8.8.8', correct: 'Class A · Public', explain: 'First octet 8 → Class A. Public, internet-routable. This is Google DNS.' },
+  { ip: '224.0.0.1', correct: 'Multicast (Class D)', explain: 'First octet 224 → Class D, multicast range 224.0.0.0/4. Not assigned to individual hosts.' },
+  { ip: '203.0.113.50', correct: 'Class C · Public', explain: 'First octet 203 → Class C. Public address (203.0.113.0/24 is reserved as a documentation block but classed as public).' },
+  { ip: '0.0.0.0', correct: 'Reserved (default route / unassigned)', explain: '0.0.0.0 means "no IP assigned" or, in routing, the default route. Never used as a host address.' },
+  { ip: '255.255.255.255', correct: 'Limited broadcast', explain: 'Limited broadcast — sent to all hosts on the local segment. Never crosses routers.' },
+  { ip: '192.168.150.10', correct: 'Class C · Private (RFC 1918)', explain: 'First octet 192, falls in 192.168.0.0/16 RFC 1918 private range.' },
+  { ip: '100.64.10.1', correct: 'Class A · Public (CGNAT)', explain: 'First octet 100 → Class A. The 100.64.0.0/10 block is for Carrier-Grade NAT, but classed as Class A and not strictly RFC 1918.' },
+  { ip: '169.254.255.1', correct: 'APIPA', explain: '169.254.0.0/16 covers this — APIPA. Self-assigned on DHCP failure.' },
+  { ip: '240.0.0.1', correct: 'Reserved / Experimental (Class E)', explain: 'First octet 240 → Class E (240–255), reserved for experimental use. Not routable on the public internet.' }
+];
+
+var triageIdx = 0;
+var triageGot = 0;
+var triageSeen = 0;
+var triagePool = [];
+
+function rebuildTriage() {
+  triagePool = TRIAGE_IPS.slice();
+  for (var i = triagePool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = triagePool[i]; triagePool[i] = triagePool[j]; triagePool[j] = t;
+  }
+  triageIdx = 0;
+}
+
+function generateTriageOptions(correctAnswer) {
+  var allOptions = ['Class A · Private (RFC 1918)','Class B · Private (RFC 1918)','Class C · Private (RFC 1918)','Class A · Public','Class B · Public','Class C · Public','APIPA','Loopback (Class A reserved)','Multicast (Class D)','Limited broadcast','Reserved (default route / unassigned)','Reserved / Experimental (Class E)','Class A · Public (CGNAT)'];
+  var others = allOptions.filter(function(o){ return o !== correctAnswer; });
+  for (var i = others.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = others[i]; others[i] = others[j]; others[j] = t;
+  }
+  var picks = [correctAnswer, others[0], others[1], others[2]];
+  for (var k = picks.length - 1; k > 0; k--) {
+    var m = Math.floor(Math.random() * (k + 1));
+    var p = picks[k]; picks[k] = picks[m]; picks[m] = p;
+  }
+  return picks;
+}
+
+function renderTriage() {
+  var frame = document.getElementById('triage-frame');
+  if (triageIdx >= triagePool.length) {
+    var pct = triageSeen > 0 ? Math.round((triageGot / triageSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Triage Master.'; sub = 'You identify any IPv4 address instantly. Move on.'; }
+    else if (pct >= 80) { verdict = 'Fast & Accurate.'; sub = 'Review the ones you missed and run again.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Spend more time in the Quick Reference before retrying.'; }
+    else { verdict = 'Keep Drilling.'; sub = 'Walk through the Quick Reference tab carefully, then come back.'; }
+    frame.innerHTML = '<div class="triage-head"><div class="title">Triage Complete</div><div class="progress">Done</div></div><div class="scen-final"><div class="big-score">'+triageGot+'<b>/'+triageSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="triage-restart">↻ Run Again</button></div>';
+    document.getElementById('triage-restart').addEventListener('click', function(){ triageGot=0; triageSeen=0; rebuildTriage(); renderTriage(); });
+    return;
+  }
+  var t = triagePool[triageIdx];
+  var options = generateTriageOptions(t.correct);
+  var html = '<div class="triage-head"><div class="title">Address Triage</div><div class="progress">'+(triageIdx+1)+' / '+triagePool.length+'</div></div>';
+  html += '<div class="triage-body"><div class="triage-prompt">Identify this address</div><div class="triage-ip">'+t.ip+'</div><div class="triage-options">';
+  options.forEach(function(opt){
+    html += '<button class="triage-option" data-opt="'+opt.replace(/"/g, '&quot;')+'">'+opt+'</button>';
+  });
+  html += '</div><div class="triage-explain" id="triage-explain"></div></div>';
+  html += '<div class="triage-actions"><div class="triage-score">Score · <b>'+triageGot+' / '+triageSeen+'</b></div><button class="next-btn" id="triage-next" disabled>Next →</button></div>';
+  frame.innerHTML = html;
+  var answered = false;
+  frame.querySelectorAll('.triage-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (answered) return;
+      answered = true;
+      var chosen = btn.dataset.opt;
+      frame.querySelectorAll('.triage-option').forEach(function(b){
+        b.disabled = true;
+        if (b.dataset.opt === t.correct) b.classList.add('correct');
+        else if (b.dataset.opt === chosen) b.classList.add('wrong');
+      });
+      var ex = document.getElementById('triage-explain');
+      ex.innerHTML = (chosen === t.correct ? '<b>✓ Correct</b>' : '<b>✗ Not quite — '+t.correct+'</b>') + t.explain;
+      ex.classList.add('show');
+      triageSeen++;
+      if (chosen === t.correct) triageGot++;
+      document.getElementById('triage-next').disabled = false;
+    });
+  });
+  document.getElementById('triage-next').addEventListener('click', function(){ triageIdx++; renderTriage(); });
+}
+rebuildTriage();
+renderTriage();
+
+/* ============================ KNOWLEDGE CHECK ============================ */
+const KC_QUESTIONS = [
+  { q: 'A user reports they cannot reach any internal or external resources. ipconfig shows an IP of 169.254.18.50. Which is the most likely cause?', options: ['Default gateway misconfigured','DHCP server unreachable — APIPA self-assigned','DNS server down','User\'s static IP was wrong'], correct: 1, explain: '169.254.x.x is APIPA — self-assigned when DHCP cannot be reached. Always check DHCP service, DHCP relay agent, or physical/VLAN connectivity to the scope.' },
+  { q: 'Which range is NOT defined by RFC 1918?', options: ['10.0.0.0/8','172.16.0.0/12','192.168.0.0/16','169.254.0.0/16'], correct: 3, explain: '169.254.0.0/16 is APIPA, not RFC 1918. The three RFC 1918 private blocks are 10/8, 172.16/12, and 192.168/16.' },
+  { q: 'A technician needs to ping the local TCP/IP stack to verify it is operational. Which address should they ping?', options: ['0.0.0.0','127.0.0.1','169.254.0.1','255.255.255.255'], correct: 1, explain: '127.0.0.1 (loopback / localhost) tests the local IP stack. Packets never leave the OS. Useful when troubleshooting whether the OS-level networking is even functional.' },
+  { q: 'What is the default classful mask for the address 172.16.50.10?', options: ['/8','/16','/24','/32'], correct: 1, explain: '172.x is Class B (range 128–191). Default classful mask for Class B is /16 (255.255.0.0). Even though modern networks use CIDR, the exam still tests classful defaults.' },
+  { q: 'A subnet must support 100 usable hosts. What is the smallest mask that fits?', options: ['/24 — 254 usable','/25 — 126 usable','/26 — 62 usable','/27 — 30 usable'], correct: 1, explain: '/25 gives 126 usable hosts — fits 100 with room to spare. /26 only has 62. /24 wastes addresses. Formula: usable = 2^(32-N) - 2.' },
+  { q: 'Which of these is a public, internet-routable IP address?', options: ['10.5.10.1','172.20.5.1','192.168.100.5','203.0.113.50'], correct: 3, explain: '203.0.113.50 is in Class C public space (the TEST-NET-3 documentation block, but still classed as public). The others are RFC 1918 private blocks (10/8, 172.16/12, 192.168/16).' },
+  { q: 'A point-to-point WAN link between two routers needs the most efficient possible subnet. Which mask is ideal?', options: ['/24','/28','/30','/32'], correct: 2, explain: '/30 has 4 addresses (network, broadcast, 2 hosts) — exactly fits a P2P link between two routers. /32 is a single host (no link). /28 and /24 waste addresses.' },
+  { q: 'What does VLSM allow a network designer to do?', options: ['Borrow IPv6 addresses into IPv4 space','Use different subnet masks for different subnets within the same address block','Replace MAC addresses with IPs','Combine multiple class blocks into one'], correct: 1, explain: 'VLSM (Variable Length Subnet Mask) divides a parent network into subnets of different sizes — /25 here, /27 there, /30 for a point-to-point. Maximally efficient use of address space.' },
+  { q: 'A senior engineer needs to summarize 4 contiguous /24 networks (192.168.0.0, .1.0, .2.0, .3.0) into ONE advertised CIDR route. What prefix?', options: ['/22','/23','/24','/25'], correct: 0, explain: '/22 covers 2^(24-22) = 4 contiguous /24 networks. Starting at 192.168.0.0, /22 includes .0, .1, .2, and .3 — exactly the four needed. This is route summarization / supernetting.' },
+  { q: 'A new tech sees the address 172.50.10.5 in the firewall logs and labels it "RFC 1918 private." Why is this wrong?', options: ['172.x is always public','172 is reserved for multicast','The RFC 1918 Class B range is 172.16.0.0/12 — only second octets 16–31 are private; 172.50 is OUTSIDE that range and is public','172.x doesn\'t exist'], correct: 2, explain: 'The 172.16.0.0/12 RFC 1918 block covers second octets 16 to 31 inclusive. 172.50.x is outside the private range and is public. This is the most-tested RFC 1918 gotcha.' },
+  { q: 'In CIDR notation, what does the "/N" represent?', options: ['Number of usable hosts','Number of network bits in the mask','Number of subnets','Number of broadcast domains'], correct: 1, explain: 'In CIDR, /N is the prefix length — the number of leading 1-bits in the subnet mask. /24 means 24 network bits, /27 means 27 network bits, etc. Host bits = 32 - N.' },
+  { q: 'A host with an APIPA address (169.254.x.x) can ping which of the following?', options: ['The default gateway','Internet websites','Other hosts on the same Layer 2 segment that also have APIPA addresses','DNS servers'], correct: 2, explain: 'APIPA hosts can only communicate with other APIPA-addressed hosts on the SAME Layer 2 broadcast domain. They have no default gateway, no DNS, and no route to external networks. The exam tests this as the boundary of APIPA functionality.' }
+];
+
+var kcIdx = 0, kcScore = 0, kcAnswered = false;
+function renderKC() {
+  var card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    var pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Scenarios Mastered.'; sub = 'You read scenarios fast and pick the right address every time. Move on.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the ones you missed.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Spend more time in the Scenario Lab and Quick Reference before retaking.'; }
+    else { verdict = 'Keep Training.'; sub = 'Start with the Quick Reference — memorize the high-yield ranges first.'; }
+    card.innerHTML = '<div class="kc-head"><div class="title">Results</div><div class="progress">Complete</div></div><div class="kc-final"><div class="big-score">'+kcScore+'<b>/'+KC_QUESTIONS.length+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="kc-restart">↻ Retake</button></div>';
+    document.getElementById('kc-restart').addEventListener('click', function(){ kcIdx=0; kcScore=0; kcAnswered=false; renderKC(); });
+    return;
+  }
+  var q = KC_QUESTIONS[kcIdx];
+  var html = '<div class="kc-head"><div class="title">Knowledge Check</div><div class="progress">'+(kcIdx+1)+' / '+KC_QUESTIONS.length+'</div></div>';
+  html += '<div class="kc-body"><div class="kc-question">'+q.q+'</div><div class="kc-options">';
+  q.options.forEach(function(opt, i){
+    html += '<button class="kc-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="kc-feedback" id="kc-feedback"></div><div class="kc-actions"><div class="kc-score">Score · <b>'+kcScore+' / '+kcIdx+'</b></div><button class="next-btn" id="kc-next" disabled>'+(kcIdx+1===KC_QUESTIONS.length?'See Results →':'Next →')+'</button></div></div>';
+  card.innerHTML = html;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (kcAnswered) return;
+      kcAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      card.querySelectorAll('.kc-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('kc-feedback');
+      fb.innerHTML = (chosen === q.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+q.correct)+'</b>') + q.explain;
+      fb.classList.add('show');
+      if (chosen === q.correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', function(){ kcIdx++; renderKC(); });
+}
+renderKC();
+
+/* ============================ LIGHTNING ROUND ============================ */
+var lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+var lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+
+function shuffleArr(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'A user has IP 169.254.50.10. What does this indicate?', correct: 'DHCP failure (APIPA)', d: ['Successful DHCP lease','Loopback test','Multicast subscription'] },
+  { q: 'What is the loopback address?', correct: '127.0.0.1', d: ['169.254.0.1','192.168.0.1','255.255.255.255'] },
+  { q: 'Which is RFC 1918 private Class A?', correct: '10.0.0.0/8', d: ['127.0.0.0/8','100.64.0.0/10','172.0.0.0/8'] },
+  { q: 'Which is RFC 1918 private Class B?', correct: '172.16.0.0/12', d: ['172.0.0.0/8','169.254.0.0/16','128.0.0.0/16'] },
+  { q: 'Which is RFC 1918 private Class C?', correct: '192.168.0.0/16', d: ['192.0.0.0/8','193.168.0.0/16','224.0.0.0/4'] },
+  { q: 'APIPA range?', correct: '169.254.0.0/16', d: ['127.0.0.0/8','10.0.0.0/8','224.0.0.0/4'] },
+  { q: 'Class A first-octet range?', correct: '1–126', d: ['1–127','0–127','128–191'] },
+  { q: 'Class B first-octet range?', correct: '128–191', d: ['127–191','128–223','192–223'] },
+  { q: 'Class C first-octet range?', correct: '192–223', d: ['191–223','192–240','128–223'] },
+  { q: 'Default mask for 10.0.0.0?', correct: '/8 (255.0.0.0)', d: ['/16','/24','/30'] },
+  { q: 'Default mask for 172.16.0.0?', correct: '/16 (255.255.0.0)', d: ['/8','/24','/12'] },
+  { q: 'Default mask for 192.168.1.0?', correct: '/24 (255.255.255.0)', d: ['/16','/8','/27'] },
+  { q: 'Usable hosts in a /27?', correct: '30', d: ['32','62','14'] },
+  { q: 'Usable hosts in a /30?', correct: '2', d: ['4','6','0'] },
+  { q: '/N for P2P router link?', correct: '/30', d: ['/24','/32','/27'] },
+  { q: 'What does VLSM stand for?', correct: 'Variable Length Subnet Mask', d: ['Variable Loopback Subnet Mask','Virtual LAN Subnet Mask','Very Long Subnet Mask'] },
+  { q: 'CIDR notation /24 = ?', correct: '255.255.255.0', d: ['255.255.0.0','255.0.0.0','255.255.255.255'] },
+  { q: 'Is 172.31.50.1 private?', correct: 'Yes (in 172.16.0.0/12)', d: ['No, 172.x is always public','No, only 172.16','Only with NAT'] },
+  { q: 'Is 172.32.50.1 private?', correct: 'No (outside the 172.16–31 range)', d: ['Yes, all 172.x is private','Yes, RFC 1918','Only on the local segment'] },
+  { q: '0.0.0.0 means?', correct: 'No IP / default route', d: ['Broadcast','Loopback','Multicast'] },
+  { q: '255.255.255.255 is?', correct: 'Limited broadcast', d: ['Loopback','APIPA','Class E'] },
+  { q: '224.0.0.0/4 is reserved for?', correct: 'Multicast (Class D)', d: ['Broadcast','Loopback','APIPA'] }
+];
+
+function generateLRQ() {
+  var f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  var options = shuffleArr([f.correct].concat(f.d));
+  return { question: f.q, options: options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  var body = document.getElementById('lr-body');
+  var html = '<div class="lr-question-prompt">Scenario Q&A</div><div class="lr-question">'+lrCurrentQ.question+'</div><div class="lr-options">';
+  lrCurrentQ.options.forEach(function(opt, i){
+    html += '<button class="lr-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>';
+  body.innerHTML = html;
+  document.querySelectorAll('.lr-option').forEach(function(btn){
+    btn.addEventListener('click', function(){ answerLR(parseInt(btn.dataset.i, 10)); });
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  var correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach(function(b, i){
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(function(){ if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(function(){
+    lrTimeLeft--;
+    var t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  var total = lrCorrect + lrWrong;
+  var pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  var ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  var verdict, sub;
+  if (lrCorrect >= 18) { verdict='Locked In.'; sub='Address recognition is automatic. Move on.'; }
+  else if (lrCorrect >= 12) { verdict='Solid Recall.'; sub='A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict='Building It.'; sub='Spend more time in the Quick Reference and Triage tabs.'; }
+  else { verdict='Keep Drilling.'; sub='Walk through the Quick Reference carefully before returning.'; }
+  var finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = '<div class="big-score">'+lrCorrect+'<b>/'+total+'</b></div><div class="verdict">'+verdict+'</div><div class="lr-stats"><div class="item"><div class="num">'+pct+'%</div><div class="lab">Accuracy</div></div><div class="item"><div class="num">'+ppm+'</div><div class="lab">Per Minute Pace</div></div><div class="item"><div class="num">'+total+'</div><div class="lab">Questions</div></div></div><p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">'+sub+'</p><button class="lr-start" id="lr-restart">↻ Run Again</button>';
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', function(){
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.lr-dur-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur, 10);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================ TABS ============================ */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
