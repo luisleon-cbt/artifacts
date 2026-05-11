@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.8 Modern Network Environments · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px); font-weight: 700; line-height: 0.96; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 80px 1fr; gap: 10px; padding: 7px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.75; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CONCEPT MAP */
+  .concept-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 0; border: 1px solid var(--line); }
+  .concept-list { background: var(--surface); }
+  .concept-item {
+    display: grid; grid-template-columns: 56px 1fr;
+    gap: 16px; padding: 18px 20px;
+    cursor: pointer; transition: background 0.12s;
+    align-items: center; position: relative;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .concept-item:last-child { border-bottom: none; }
+  .concept-item:hover { background: var(--surface-alt); }
+  .concept-item.selected { background: var(--bg-warm); }
+  .concept-item.selected::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--sky); }
+  .concept-icon {
+    width: 56px; height: 56px; background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-display); font-weight: 800; font-size: 18px;
+    color: var(--navy-deep); letter-spacing: -0.04em;
+  }
+  .concept-item.selected .concept-icon { background: var(--navy-deep); color: var(--gold); border-color: var(--navy-deep); }
+  .concept-info .name { font-family: var(--ff-display); font-weight: 700; font-size: 17px; color: var(--navy-deep); line-height: 1.2; letter-spacing: -0.01em; }
+  .concept-info .sub { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
+
+  .concept-detail { background: var(--surface); border-left: 1px solid var(--line-soft); min-height: 700px; }
+  .concept-detail-head {
+    padding: 28px 28px; background: var(--navy-deep); color: var(--ink-invert);
+    position: relative; overflow: hidden;
+  }
+  .concept-detail-head::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 140px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%); opacity: 0.95;
+  }
+  .concept-detail-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.65; position: relative; z-index: 2; }
+  .concept-detail-title { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; line-height: 1.05; margin: 6px 0 0; letter-spacing: -0.02em; position: relative; z-index: 2; max-width: 78%; }
+  .concept-detail-title .acronym { color: var(--gold); margin-right: 8px; }
+
+  .concept-section { padding: 22px 28px; border-bottom: 1px solid var(--line-soft); }
+  .concept-section:last-of-type { border-bottom: none; }
+  .concept-section .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px; font-weight: 700;
+  }
+  .concept-section p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px; }
+  .concept-section p b { color: var(--navy-deep); font-weight: 700; }
+
+  .concept-bullets { display: grid; gap: 10px; margin-top: 6px; }
+  .concept-bullet {
+    background: var(--surface-alt); border-left: 3px solid var(--sky);
+    padding: 12px 16px;
+  }
+  .concept-bullet .term {
+    font-family: var(--ff-display); font-weight: 700; font-size: 14px;
+    color: var(--navy-deep); margin-bottom: 4px;
+  }
+  .concept-bullet .term .acro { color: var(--gold-deep); font-family: var(--ff-mono); font-size: 12px; margin-left: 4px; }
+  .concept-bullet .body { font-size: 13px; line-height: 1.5; color: var(--ink-mid); }
+
+  .concept-when {
+    background: linear-gradient(135deg, rgba(56,176,224,0.06), rgba(40,48,104,0.04));
+    padding: 14px 28px; border-bottom: 1px solid var(--line-soft);
+  }
+  .concept-when .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin-bottom: 6px; font-weight: 700;
+  }
+  .concept-when p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink); }
+
+  .concept-tip {
+    margin: 0 28px 22px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .concept-tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .concept-tip p { margin: 0; font-size: 13px; line-height: 1.55; }
+
+  /* OLD VS NEW */
+  .ovn-wrap { display: grid; gap: 26px; }
+  .ovn-pair {
+    border: 1px solid var(--line); background: var(--surface);
+  }
+  .ovn-pair-head {
+    background: var(--navy-deep); color: white; padding: 18px 24px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .ovn-pair-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .ovn-pair-head .topic { background: var(--gold); color: var(--navy-deep); padding: 4px 10px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.08em; font-weight: 700; }
+  .ovn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .ovn-col { padding: 22px 24px; }
+  .ovn-col.old { background: var(--surface-alt); border-right: 1px solid var(--line-soft); }
+  .ovn-col.new { background: var(--surface); }
+  .ovn-col .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 12px;
+  }
+  .ovn-col.old .badge { background: var(--red); color: white; }
+  .ovn-col.new .badge { background: var(--green); color: white; }
+  .ovn-col h4 {
+    font-family: var(--ff-display); font-size: 18px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .ovn-col ul { margin: 0; padding-left: 18px; }
+  .ovn-col ul li { font-size: 13px; line-height: 1.55; color: var(--ink-mid); margin-bottom: 6px; }
+  .ovn-col ul li b { color: var(--navy-deep); font-weight: 700; }
+
+  /* SCENARIO LAB - reusing pattern */
+  .scen-frame { border: 1px solid var(--line); background: var(--surface); }
+  .scen-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .scen-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .scen-head .stats { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft); }
+  .scen-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 18px; margin-right: 4px; }
+  .ticket { background: var(--bg-warm); padding: 18px 24px; border-bottom: 1px solid var(--line-soft); }
+  .ticket .ticket-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .ticket .ticket-id { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .ticket .ticket-cat { background: var(--sky); color: white; padding: 2px 8px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+  .ticket .ticket-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.3; }
+  .ticket .ticket-body { font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .ticket .ticket-body b { color: var(--navy-deep); font-weight: 700; }
+  .ticket .ticket-body code { font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scen-question { padding: 22px 24px; background: var(--surface); }
+  .scen-question h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 600; color: var(--navy-deep); margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.4; }
+  .scen-options { display: flex; flex-direction: column; gap: 8px; }
+  .scen-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 12px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .scen-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scen-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .scen-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .scen-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .scen-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scen-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .scen-option[disabled] { cursor: default; }
+  .scen-feedback { margin-top: 20px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.6; display: none; }
+  .scen-feedback.show { display: block; }
+  .scen-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .scen-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .scen-actions .progress-info { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .scen-actions .progress-info b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 14px; }
+  .next-btn { background: var(--sky); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+  .scen-final { text-align: center; padding: 50px 30px; }
+  .scen-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .scen-final .big-score b { color: var(--gold); }
+  .scen-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .scen-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* ACRONYM BATTLE */
+  .acro-frame { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .acro-head { background: var(--navy-deep); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .acro-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .acro-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .acro-body { padding: 36px 30px; text-align: center; }
+  .acro-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 16px; }
+  .acro-letters {
+    font-family: var(--ff-display); font-size: clamp(48px, 8vw, 78px); font-weight: 800;
+    color: var(--navy-deep); letter-spacing: -0.04em; padding: 20px 0;
+    background: var(--surface-alt); border: 1px solid var(--line-soft); margin-bottom: 24px;
+    line-height: 1;
+  }
+  .acro-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .acro-option {
+    background: var(--surface-alt); border: 1.5px solid var(--line-soft); padding: 14px 16px;
+    cursor: pointer; font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+    color: var(--navy-deep); transition: all 0.12s; text-align: left;
+  }
+  .acro-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .acro-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .acro-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .acro-option[disabled] { cursor: default; }
+  .acro-explain { margin-top: 22px; padding: 14px 18px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13px; line-height: 1.55; text-align: left; display: none; }
+  .acro-explain.show { display: block; }
+  .acro-explain b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 4px; }
+  .acro-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; }
+  .acro-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .acro-score b { color: var(--navy-deep); font-size: 14px; }
+
+  /* KC */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head { background: var(--navy-deep); color: white; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .kc-body { padding: 32px 30px; }
+  .kc-question { font-family: var(--ff-display); font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em; }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 14px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback { margin-top: 22px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.55; display: none; }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .kc-actions { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LR */
+  .lr-pre { text-align: center; padding: 40px 20px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-pre h2 { font-family: var(--ff-display); font-size: 40px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em; }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn { background: var(--surface); border: 2px solid var(--navy-deep); color: var(--navy-deep); padding: 12px 22px; font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start { background: var(--sky); color: white; border: none; padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px; }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer { font-family: var(--ff-display); font-size: 56px; font-weight: 800; color: white; line-height: 1; letter-spacing: -0.04em; text-align: center; }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body { background: var(--surface); border: 1px solid var(--line); border-top: none; padding: 30px 30px 40px; }
+  .lr-question-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center; }
+  .lr-question { font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px); font-weight: 600; color: var(--navy-deep); text-align: center; line-height: 1.35; letter-spacing: -0.01em; margin: 0 auto 24px; max-width: 760px; }
+  .lr-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto; }
+  .lr-option { background: var(--surface-alt); border: 2px solid var(--line-soft); padding: 16px 20px; cursor: pointer; font-family: var(--ff-body); font-size: 14px; font-weight: 500; color: var(--navy-deep); text-align: left; display: flex; align-items: center; gap: 14px; }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker { font-family: var(--ff-mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--ink-mute); display: flex; align-items: center; justify-content: center; color: var(--ink-mute); flex-shrink: 0; }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 8px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final { text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .concept-grid { grid-template-columns: 1fr; }
+    .concept-detail { border-left: none; border-top: 1px solid var(--line-soft); min-height: auto; }
+    .ovn-grid { grid-template-columns: 1fr; }
+    .ovn-col.old { border-right: none; border-bottom: 1px solid var(--line-soft); }
+    .acro-options { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Objective 1.8</span>
+    <span class="crumb">Modern Network Environments</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Summarize</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.8</div>
+    <h1>Modern<br><em>Network Stack.</em></h1>
+    <p class="lede">Objective 1.8 starts with the verb "<b>summarize</b>" — not explain, not configure. The exam tests whether you recognize six modern technologies (SDN, SD-WAN, VXLAN, ZTA, SASE/SSE, IaC, IPv6) and can match each to the problem it solves. This is the most acronym-dense topic on the exam. The artifact maps each concept to its purpose, contrasts the old way vs the new way, drills scenarios, and runs you through rapid acronym recognition.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">The Six Modern Topics</div>
+    <div class="ref-row"><span class="name">SDN/SD-WAN</span><span class="desc">Software-defined networking — central policy, transport-agnostic</span></div>
+    <div class="ref-row"><span class="name">VXLAN</span><span class="desc">Layer 2 over Layer 3 for data center interconnect</span></div>
+    <div class="ref-row"><span class="name">ZTA</span><span class="desc">Zero trust — never trust, always verify</span></div>
+    <div class="ref-row"><span class="name">SASE/SSE</span><span class="desc">Cloud-delivered network + security</span></div>
+    <div class="ref-row"><span class="name">IaC</span><span class="desc">Infrastructure as code — automated provisioning</span></div>
+    <div class="ref-row"><span class="name">IPv6</span><span class="desc">128-bit addressing — replaces exhausted IPv4</span></div>
+    <div class="footer-note">
+      <b>EXAM PATTERN</b><br>
+      Scenarios match a problem to one of these technologies. "Branch sites connect over multiple ISPs with policy from one console" → SD-WAN. "Encrypted tunnel between two data centers carrying Layer 2 frames" → VXLAN/DCI.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">6</div><div class="label">Modern technologies</div></div>
+  <div class="stat"><div class="num">15</div><div class="label">Acronyms to know</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Scenario tickets</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check Qs</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="concept"><span class="num">01</span>Concept Map</button>
+  <button class="tab" data-tab="oldnew"><span class="num">02</span>Old vs New</button>
+  <button class="tab" data-tab="scen"><span class="num">03</span>Scenario Lab</button>
+  <button class="tab" data-tab="acro"><span class="num">04</span>Acronym Battle</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<section class="panel active" id="panel-concept">
+  <div class="concept-grid">
+    <div class="concept-list" id="concept-list"></div>
+    <div class="concept-detail" id="concept-detail"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-oldnew">
+  <div class="ovn-wrap" id="ovn-wrap"></div>
+</section>
+
+<section class="panel" id="panel-scen">
+  <div class="scen-frame">
+    <div class="scen-head">
+      <div class="title">Help Desk Scenarios</div>
+      <div class="stats">Got <b id="scen-got">0</b> · Seen <b id="scen-seen">0</b> / 12</div>
+    </div>
+    <div id="scen-content"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-acro">
+  <div class="acro-frame" id="acro-frame"></div>
+</section>
+
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed acronym recognition, scenario one-liners, and old-vs-new picks. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool for CompTIA N10-009 Objective 1.8 — summarize evolving use cases for modern network environments. Covers SDN/SD-WAN, VXLAN, Zero Trust Architecture, SASE/SSE, Infrastructure as Code, and IPv6.</p>
+      <p>Built around the "summarize" verb the objective uses — recognize each technology, match it to the problem it solves, identify it from a scenario.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Concept Map — read every detail card.</p>
+      <p>· Day 2: Old vs New — see what each technology replaces.</p>
+      <p>· Day 3: Acronym Battle — drill acronym recognition.</p>
+      <p>· Day 4: Scenario Lab + Knowledge Check + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.8 Modern Network Environments</span>
+  </div>
+</footer>
+
+<script>
+/* ============================ CONCEPT DATA ============================ */
+const CONCEPTS = [
+  {
+    id: 'sdn',
+    initials: 'SDN',
+    name: 'Software-Defined Networking',
+    sub: 'separate the control plane from the data plane',
+    intro: '<b>SDN</b> separates the <b>control plane</b> (decisions about where traffic goes) from the <b>data plane</b> (the actual forwarding of packets). A centralized controller programs the network from one place, rather than configuring each switch and router individually.',
+    when: 'When the question describes <em>centralized network management</em>, <em>programmable infrastructure</em>, or <em>separating control logic from forwarding hardware</em>, the answer is SDN.',
+    bullets: [
+      { term: 'Central Controller', body: 'One software brain decides forwarding policy for the entire network. Devices fetch their configuration from the controller via APIs.' },
+      { term: 'Programmable Infrastructure', body: 'Network behavior changes through code/APIs instead of CLI on each device. Enables automation, fast policy changes, and integration with other systems.' }
+    ],
+    tip: 'Traditional networks configure each switch individually. SDN configures the controller; the controller pushes config everywhere. That centralization is the whole pitch.'
+  },
+  {
+    id: 'sdwan',
+    initials: 'SD-WAN',
+    name: 'Software-Defined WAN',
+    sub: 'SDN applied to wide-area branch connectivity',
+    intro: '<b>SD-WAN</b> applies SDN principles to the WAN. Branch offices connect to multiple links (MPLS, broadband, LTE/5G, fiber) and a controller picks the best path for each application — using whatever transport is available.',
+    when: 'When the scenario involves <em>branch offices</em>, <em>multiple ISP connections</em>, <em>policy-based routing across WAN links</em>, or <em>application-aware steering</em>, the answer is SD-WAN.',
+    bullets: [
+      { term: 'Application Aware', body: 'SD-WAN identifies applications (Zoom, Salesforce, internal CRM) and steers each to the best-performing link based on real-time conditions and policy.' },
+      { term: 'Zero-Touch Provisioning', body: 'A new branch device ships from the vendor, plugs in, calls home to the controller, and downloads its full configuration automatically — no on-site technician.' },
+      { term: 'Transport Agnostic', body: 'SD-WAN works over any WAN circuit type — MPLS, broadband cable, fiber, LTE, 5G, satellite. It abstracts the underlying transport away.' },
+      { term: 'Central Policy Management', body: 'All branch policies — security, QoS, routing, failover — are configured once in the central controller and pushed out everywhere.' }
+    ],
+    tip: 'SD-WAN keywords on the exam: branch offices, multiple ISP links, application-aware, zero-touch provisioning. If you see "centrally manage WAN policy across 50 branches," that\'s SD-WAN.'
+  },
+  {
+    id: 'vxlan',
+    initials: 'VXLAN',
+    name: 'Virtual Extensible LAN',
+    sub: 'Layer 2 over Layer 3 — extends LANs across IP networks',
+    intro: '<b>VXLAN</b> encapsulates <b>Layer 2 Ethernet frames inside Layer 3 IP/UDP packets</b>. This lets you extend a LAN across an IP network — including across data centers — overcoming the 4,094 VLAN limit and the geographic limits of Layer 2.',
+    when: 'When the scenario describes <em>extending Layer 2 between data centers</em>, <em>VM mobility across sites</em>, <em>more than 4,094 segments</em>, or <em>overlay networks</em>, the answer is VXLAN.',
+    bullets: [
+      { term: 'Data Center Interconnect (DCI)', body: 'Two or more data centers can share the same Layer 2 segment over an IP backbone. A VM in DC1 can live-migrate to DC2 without changing its IP address.' },
+      { term: 'Layer 2 Encapsulation', body: 'VXLAN wraps the original Ethernet frame in a VXLAN header + UDP + IP — the encapsulated frame travels as ordinary IP traffic between VXLAN tunnel endpoints (VTEPs).' },
+      { term: '16M segments', body: 'VXLAN uses a 24-bit VXLAN Network Identifier (VNI), supporting ~16 million segments vs the 4,094 VLAN limit of 802.1Q.' }
+    ],
+    tip: 'VXLAN solves two problems: the 4,094 VLAN limit and the inability of pure Layer 2 to cross IP networks. DCI (Data Center Interconnect) is the textbook use case.'
+  },
+  {
+    id: 'zta',
+    initials: 'ZTA',
+    name: 'Zero Trust Architecture',
+    sub: 'never trust, always verify — every request',
+    intro: '<b>Zero Trust</b> abandons the old "trusted internal network, untrusted external" perimeter model. Every request — even from inside the network — must be <b>authenticated, authorized, and continuously verified</b>. The default is deny; access is granted per-session based on policy.',
+    when: 'When the scenario mentions <em>removing implicit trust</em>, <em>least-privilege access</em>, <em>continuous verification</em>, <em>per-request authorization</em>, or <em>not relying on perimeter security alone</em>, the answer is Zero Trust / ZTA.',
+    bullets: [
+      { term: 'Policy-Based Authentication', body: 'Identity (user + device + context) is verified against policy on every request. MFA is typical. Authentication is not a one-time event — it\'s continuous.' },
+      { term: 'Authorization', body: 'After authentication, the system checks whether THIS user, on THIS device, in THIS context, is allowed to access THIS resource. Policy decisions are dynamic, not pre-configured per VLAN.' },
+      { term: 'Least Privilege Access', body: 'Users and services get only the minimum access required for their task — not broad VLAN-level or subnet-level access. Reduces blast radius if credentials are stolen.' }
+    ],
+    tip: 'Old model: "inside the firewall = trusted, outside = untrusted." Zero Trust says NO ONE is trusted by default — verify every request regardless of network location. Watch for "never trust, always verify" as the giveaway phrase.'
+  },
+  {
+    id: 'sase',
+    initials: 'SASE',
+    name: 'Secure Access Service Edge',
+    sub: 'cloud-delivered network + security as one service',
+    intro: '<b>SASE</b> (pronounced "sassy") combines <b>SD-WAN connectivity</b> with <b>cloud-delivered security services</b> (SWG, CASB, ZTNA, FWaaS) into a single platform. Users connect to the SASE cloud edge, which enforces security policy and steers traffic to the destination — regardless of where the user is.',
+    when: 'When the scenario describes <em>cloud-delivered security combined with networking</em>, <em>protection for remote workers and branch offices alike</em>, or <em>consolidated network + security platform</em>, the answer is SASE.',
+    bullets: [
+      { term: 'SASE = SD-WAN + Security', body: 'The "service edge" is a cloud point-of-presence (PoP) that combines networking (SD-WAN) and security functions (firewall-as-a-service, secure web gateway, CASB, ZTNA). User and traffic both terminate at the edge.' },
+      { term: 'SSE (Security Service Edge)', body: 'SSE is the SECURITY-ONLY portion of SASE — same cloud-delivered security stack (SWG, CASB, ZTNA, FWaaS) but WITHOUT the SD-WAN networking component. SASE = SSE + SD-WAN.' },
+      { term: 'Works anywhere', body: 'Because the policy enforcement is in the cloud, a user gets the same protection in the office, at home, or in a hotel. No traffic backhaul to a corporate firewall required.' }
+    ],
+    tip: 'SASE = SD-WAN + cloud security. SSE = just the security part. If the scenario mentions a security stack delivered from cloud edge nodes — and especially if SD-WAN is part of it — it\'s SASE.'
+  },
+  {
+    id: 'iac',
+    initials: 'IaC',
+    name: 'Infrastructure as Code',
+    sub: 'define network/infrastructure in code, version it, automate it',
+    intro: '<b>Infrastructure as Code</b> manages networks, servers, and services using human-readable code files (YAML, JSON, HCL, Python). The same code is run against test, staging, and production environments — producing identical infrastructure every time. Changes are version-controlled like software changes.',
+    when: 'When the scenario describes <em>configuration files describing infrastructure</em>, <em>repeatable deployments</em>, <em>version-controlled network state</em>, <em>automation tools like Ansible/Terraform/Puppet</em>, or <em>consistency across environments</em>, the answer is IaC.',
+    bullets: [
+      { term: 'Automation', body: 'Instead of clicking through GUIs or typing CLI commands, infrastructure is defined declaratively and applied by a tool (Terraform, Ansible, Puppet, Chef, CloudFormation). The same template can create one or one thousand identical environments.' },
+      { term: 'Version Control', body: 'Infrastructure code lives in Git like any application code. Every change is reviewed, logged, and reversible. Drift between environments becomes obvious.' },
+      { term: 'Idempotent', body: 'Running the same code twice produces the same result — re-applying a config doesn\'t damage anything; it just reconciles state. Critical for reliable automation.' }
+    ],
+    tip: 'IaC keywords: Terraform, Ansible, Puppet, declarative, version-controlled, repeatable. If the scenario describes infrastructure expressed as code files and rolled out automatically, that\'s IaC.'
+  },
+  {
+    id: 'ipv6',
+    initials: 'IPv6',
+    name: 'IPv6 Addressing',
+    sub: '128-bit addressing replacing IPv4',
+    intro: '<b>IPv6</b> uses <b>128-bit addresses</b>, providing 340 undecillion (3.4 × 10³⁸) addresses — effectively unlimited. It exists because IPv4\'s 4.3 billion addresses ran out years ago. IPv6 also simplifies routing, eliminates NAT for most use cases, and has security extensions (IPsec) built in.',
+    when: 'When the scenario mentions <em>IPv4 exhaustion</em>, <em>address space running out</em>, <em>dual-stack deployment</em>, <em>NAT64</em>, <em>SLAAC</em>, or <em>compatibility between IPv4 and IPv6 hosts</em>, the answer involves IPv6.',
+    bullets: [
+      { term: 'Mitigating Address Exhaustion', body: 'IPv4\'s 32-bit address space (~4.3 billion addresses) was exhausted at the RIR level. IPv6\'s 128-bit space gives every grain of sand on Earth its own IP. Carrier-grade NAT and IPv6 both addressed the shortage.' },
+      { term: 'Compatibility Requirements', body: 'Most networks run <b>dual-stack</b> (IPv4 and IPv6 simultaneously) during transition. <b>NAT64</b> translates between v6-only hosts and v4-only servers. <b>Tunneling</b> protocols (6to4, Teredo) carry IPv6 over IPv4 transport. Pure IPv6 is still rare.' },
+      { term: 'Address Notation', body: 'IPv6 is written as 8 groups of 4 hex digits separated by colons (2001:0db8:85a3:0000:0000:8a2e:0370:7334). Consecutive zeros can compress to "::" — only once per address. Loopback is ::1; "all addresses" is ::.' }
+    ],
+    tip: 'IPv6 is the long-term replacement for IPv4, but compatibility is the current reality. Dual-stack and NAT64 are the names CompTIA wants you to know for the transition strategies.'
+  }
+];
+
+var selectedConcept = 'sdn';
+function renderConceptList() {
+  var list = document.getElementById('concept-list');
+  var html = '';
+  CONCEPTS.forEach(function(c){
+    html += '<div class="concept-item ' + (c.id === selectedConcept ? 'selected' : '') + '" data-id="' + c.id + '">';
+    html += '<div class="concept-icon">' + c.initials + '</div>';
+    html += '<div class="concept-info"><div class="name">' + c.name + '</div><div class="sub">' + c.sub + '</div></div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.concept-item').forEach(function(el){
+    el.addEventListener('click', function(){
+      selectedConcept = el.dataset.id;
+      renderConceptList();
+      renderConceptDetail();
+    });
+  });
+}
+
+function renderConceptDetail() {
+  var c = CONCEPTS.filter(function(x){ return x.id === selectedConcept; })[0];
+  var html = '<div class="concept-detail-head">';
+  html += '<div class="concept-detail-eyebrow">Modern Network Concept</div>';
+  html += '<h2 class="concept-detail-title"><span class="acronym">' + c.initials + '</span>' + c.name + '</h2>';
+  html += '</div>';
+  html += '<div class="concept-when"><div class="heading">When to Pick This on the Exam</div><p>' + c.when + '</p></div>';
+  html += '<div class="concept-section"><div class="heading">What It Is</div><p>' + c.intro + '</p></div>';
+  html += '<div class="concept-section"><div class="heading">Key Sub-Topics from Objective 1.8</div><div class="concept-bullets">';
+  c.bullets.forEach(function(b){
+    html += '<div class="concept-bullet"><div class="term">' + b.term + '</div><div class="body">' + b.body + '</div></div>';
+  });
+  html += '</div></div>';
+  html += '<div class="concept-tip"><div class="heading">★ Exam Tip</div><p>' + c.tip + '</p></div>';
+  document.getElementById('concept-detail').innerHTML = html;
+}
+renderConceptList();
+renderConceptDetail();
+
+/* ============================ OLD VS NEW ============================ */
+const OVN_PAIRS = [
+  {
+    title: 'Network configuration',
+    topic: 'SDN',
+    old: { head: 'Configure each device individually',
+      items: [
+        '<b>SSH into 200 switches</b> and type the same VLAN command into each one',
+        'Changes are <b>manual, error-prone, and slow</b>',
+        '<b>No central audit trail</b> — change history scattered across devices',
+        'Troubleshooting requires logging into each box separately'
+      ] },
+    new: { head: 'Centralized SDN controller',
+      items: [
+        '<b>One controller</b> programs the entire network via API',
+        'Push a policy <b>once</b>; the controller applies it everywhere',
+        '<b>Programmable</b> — networks change through code, not CLI',
+        '<b>Single pane</b> for monitoring and troubleshooting'
+      ] }
+  },
+  {
+    title: 'WAN architecture',
+    topic: 'SD-WAN',
+    old: { head: 'Traditional MPLS-only WAN',
+      items: [
+        'Each branch has <b>one expensive MPLS circuit</b>',
+        'Routes are <b>static</b>; no per-application steering',
+        'New branch setup requires <b>on-site engineer for days</b>',
+        'No <b>cloud awareness</b> — SaaS traffic backhauls to HQ then out'
+      ] },
+    new: { head: 'SD-WAN with multiple transports',
+      items: [
+        'Branch uses <b>any combination</b> of MPLS, broadband, LTE, 5G, fiber',
+        '<b>Application-aware</b> — Zoom takes the best link, file transfer takes another',
+        '<b>Zero-touch provisioning</b> — device ships from vendor, auto-configures on plug-in',
+        '<b>SaaS traffic exits locally</b>, not backhauled to HQ'
+      ] }
+  },
+  {
+    title: 'Inter-data-center networking',
+    topic: 'VXLAN',
+    old: { head: '802.1Q VLANs only',
+      items: [
+        'Hard <b>4,094 VLAN ceiling</b> per network',
+        'VLANs are <b>Layer 2 only</b> — cannot cross IP boundaries',
+        '<b>VM migration locked</b> to a single data center',
+        'Extending Layer 2 between sites required <b>expensive dark fiber or MPLS L2VPN</b>'
+      ] },
+    new: { head: 'VXLAN overlay',
+      items: [
+        '<b>16 million</b> network segments via 24-bit VNI',
+        'Layer 2 frames encapsulated in <b>UDP/IP</b> — travel any IP network',
+        '<b>VMs migrate</b> between data centers without changing IP',
+        '<b>Data Center Interconnect (DCI)</b> across the WAN as if local'
+      ] }
+  },
+  {
+    title: 'Security model',
+    topic: 'ZTA',
+    old: { head: 'Castle-and-moat (perimeter) security',
+      items: [
+        '<b>Trust everyone inside</b> the firewall',
+        'Once a user is on the LAN, they have <b>broad access</b>',
+        'A <b>compromised laptop</b> can move laterally everywhere',
+        'No verification of <b>device health, identity, or context</b> per request'
+      ] },
+    new: { head: 'Zero Trust Architecture',
+      items: [
+        '<b>Never trust</b>, always verify — every request, every time',
+        '<b>Least-privilege</b> access — users get only what they need',
+        'Authentication uses <b>identity + device + context</b>, not just IP',
+        'A compromised account has <b>limited blast radius</b>'
+      ] }
+  },
+  {
+    title: 'Security delivery model',
+    topic: 'SASE/SSE',
+    old: { head: 'On-prem appliances + VPN backhaul',
+      items: [
+        'Remote users <b>VPN to HQ</b>, traffic backhauls to corporate firewall',
+        '<b>Multiple stacks</b> — separate firewall, web proxy, CASB, DLP boxes',
+        '<b>Performance suffers</b> for cloud-bound traffic',
+        'Each remote office <b>needs its own appliances</b>'
+      ] },
+    new: { head: 'SASE/SSE cloud-delivered',
+      items: [
+        'Security stack <b>delivered from cloud PoPs</b> near each user',
+        '<b>Consolidated</b> — SWG + CASB + ZTNA + FWaaS in one platform',
+        '<b>Same protection</b> in the office, at home, or in a coffee shop',
+        '<b>SASE = SSE + SD-WAN</b>; SSE is the security half alone'
+      ] }
+  },
+  {
+    title: 'Infrastructure provisioning',
+    topic: 'IaC',
+    old: { head: 'Manual / GUI-based deployment',
+      items: [
+        '<b>Snowflake servers</b> — every box configured slightly differently',
+        '<b>No version history</b> for infrastructure changes',
+        '<b>Drift</b> between dev, staging, and production',
+        'Disaster recovery means <b>rebuilding from memory or wiki pages</b>'
+      ] },
+    new: { head: 'Infrastructure as Code',
+      items: [
+        '<b>Declarative config files</b> describe the desired state',
+        '<b>Version controlled in Git</b> — full change history, peer review',
+        '<b>Identical environments</b> from the same code template',
+        'Disaster recovery = <b>re-apply the code</b>'
+      ] }
+  },
+  {
+    title: 'IP addressing',
+    topic: 'IPv6',
+    old: { head: 'IPv4 + NAT workarounds',
+      items: [
+        '<b>32-bit address space</b> — 4.3 billion addresses, exhausted',
+        '<b>NAT and CGNAT</b> hide many devices behind one public IP',
+        '<b>Application complexity</b> — peer-to-peer protocols break behind NAT',
+        '<b>Address scarcity</b> drives high cost per public IP'
+      ] },
+    new: { head: 'IPv6 (with transition strategies)',
+      items: [
+        '<b>128-bit address space</b> — effectively unlimited',
+        'Most networks run <b>dual-stack</b> during the transition',
+        '<b>NAT64 / tunneling</b> for legacy IPv4 compatibility',
+        '<b>SLAAC</b> auto-configures host addresses without DHCP'
+      ] }
+  }
+];
+
+function renderOldNew() {
+  var wrap = document.getElementById('ovn-wrap');
+  var html = '';
+  OVN_PAIRS.forEach(function(p){
+    html += '<div class="ovn-pair">';
+    html += '<div class="ovn-pair-head"><div class="title">' + p.title + '</div><div class="topic">' + p.topic + '</div></div>';
+    html += '<div class="ovn-grid">';
+    html += '<div class="ovn-col old"><div class="badge">↤ Legacy Way</div><h4>' + p.old.head + '</h4><ul>';
+    p.old.items.forEach(function(item){ html += '<li>' + item + '</li>'; });
+    html += '</ul></div>';
+    html += '<div class="ovn-col new"><div class="badge">↦ Modern Way</div><h4>' + p.new.head + '</h4><ul>';
+    p.new.items.forEach(function(item){ html += '<li>' + item + '</li>'; });
+    html += '</ul></div>';
+    html += '</div></div>';
+  });
+  wrap.innerHTML = html;
+}
+renderOldNew();
+
+/* ============================ SCENARIO LAB ============================ */
+const SCENARIOS = [
+  {
+    cat: 'SD-WAN', id: 'TKT-1801',
+    title: 'Branch onboarding without a technician',
+    body: 'A retail chain is opening 50 new branch stores in 6 months. Each new branch needs a network device that connects to the corporate WAN. The IT team wants the device to ship from the vendor, plug in at the branch, and <b>automatically download its configuration</b> — no on-site technician required.',
+    question: 'Which technology supports this requirement?',
+    options: [
+      'VXLAN with manual DCI configuration',
+      'SD-WAN with zero-touch provisioning',
+      'Traditional MPLS with static routing',
+      'IPv6 dual-stack'
+    ],
+    correct: 1,
+    explain: 'Zero-touch provisioning (ZTP) is a defining feature of SD-WAN. The branch device boots, contacts the central controller over the internet, downloads its full configuration, and joins the WAN — no engineer needed on site. Traditional MPLS networks require manual configuration per device.'
+  },
+  {
+    cat: 'SDN', id: 'TKT-1802',
+    title: 'Centralized network policy',
+    body: 'A large enterprise has 200 switches across 4 buildings. The network team wants to <b>push a single VLAN policy to every switch from one console</b>, with version-controlled changes and the ability to roll back. They\'re tired of SSH-ing into each device individually.',
+    question: 'Which technology fits this scenario?',
+    options: [
+      'IPv6 dual-stack',
+      'VXLAN encapsulation',
+      'Software-Defined Networking (SDN)',
+      'Zero Trust Architecture'
+    ],
+    correct: 2,
+    explain: 'SDN separates the control plane from the data plane. A central controller pushes configuration to all switches via API. The "configure once, deploy everywhere" workflow is the defining benefit. VXLAN is about Layer 2 over IP, not central management. ZTA is about access control, not config.'
+  },
+  {
+    cat: 'VXLAN', id: 'TKT-1803',
+    title: 'VM mobility between data centers',
+    body: 'A company has two data centers connected over a high-speed IP network. They need to <b>live-migrate virtual machines between data centers without changing IP addresses</b>, which requires the VM to stay in the same Layer 2 segment regardless of physical location.',
+    question: 'Which technology enables this?',
+    options: [
+      'IPv6 SLAAC',
+      'VXLAN with Data Center Interconnect (DCI)',
+      'SASE',
+      'Infrastructure as Code'
+    ],
+    correct: 1,
+    explain: 'VXLAN encapsulates Layer 2 frames inside Layer 3 IP/UDP packets, letting a single Layer 2 segment extend across an IP-routed network. This is the textbook use case for DCI — VMs can live-migrate between data centers because their Layer 2 broadcast domain spans both.'
+  },
+  {
+    cat: 'ZTA', id: 'TKT-1804',
+    title: 'Beyond perimeter security',
+    body: 'After a breach where attackers compromised a single user account and then moved laterally to access everything inside the corporate network, the CISO declares: "We need to stop assuming anyone inside the network can be trusted. <b>Every request must be verified, regardless of where it originates</b>."',
+    question: 'Which architecture is the CISO describing?',
+    options: [
+      'Software-Defined WAN',
+      'Zero Trust Architecture (ZTA)',
+      'Carrier-Grade NAT',
+      'VXLAN overlay'
+    ],
+    correct: 1,
+    explain: 'ZTA\'s core principle is "never trust, always verify" — every access request is authenticated and authorized, even from inside the network. Combined with least-privilege access, lateral movement after a breach becomes much harder. The perimeter-based "trust the LAN" model is what ZTA replaces.'
+  },
+  {
+    cat: 'SASE', id: 'TKT-1805',
+    title: 'Consolidating security platforms',
+    body: 'A distributed company has remote workers in 30 countries and 15 branch offices. They currently run separate appliances for firewall, web proxy, CASB, and remote-access VPN. They want a <b>single cloud-delivered platform</b> that combines network connectivity AND security policy enforcement, with the same protection in the office or at home.',
+    question: 'Which solution best fits?',
+    options: [
+      'On-premises NGFW at HQ',
+      'Secure Access Service Edge (SASE)',
+      'Static VPN tunnels between every office',
+      'Traditional MPLS WAN'
+    ],
+    correct: 1,
+    explain: 'SASE combines SD-WAN connectivity with cloud-delivered security (SWG, CASB, ZTNA, FWaaS) at the edge. Users connect to the nearest SASE PoP, get the same security policy applied regardless of location, and avoid backhauling traffic. SSE is the security-only piece of SASE.'
+  },
+  {
+    cat: 'SSE', id: 'TKT-1806',
+    title: 'Security stack without SD-WAN',
+    body: 'A company already has a stable WAN they don\'t want to replace, but they want a <b>cloud-delivered security stack</b> — SWG, CASB, ZTNA, firewall-as-a-service — to protect users wherever they work. They explicitly do NOT want to change their networking, just consolidate security.',
+    question: 'Which solution fits this requirement?',
+    options: [
+      'SASE — Secure Access Service Edge',
+      'SSE — Security Service Edge (security only, no SD-WAN)',
+      'Zero Trust Architecture only',
+      'Infrastructure as Code'
+    ],
+    correct: 1,
+    explain: 'SSE (Security Service Edge) is specifically the security-only portion of SASE — SWG, CASB, ZTNA, and FWaaS delivered from the cloud, WITHOUT the SD-WAN networking layer. Use SSE when you want the security stack but already have networking handled. SASE = SSE + SD-WAN.'
+  },
+  {
+    cat: 'IaC', id: 'TKT-1807',
+    title: 'Repeatable infrastructure deployments',
+    body: 'A DevOps team needs to deploy <b>identical environments</b> for dev, staging, and production. Each environment has 30 servers, 10 routers, 4 firewalls, and assorted load balancers. The team wants to define each environment in a <b>set of code files</b> stored in Git, with the ability to recreate any environment from scratch by running a single command.',
+    question: 'Which approach fits?',
+    options: [
+      'Manual deployment via GUI',
+      'Infrastructure as Code (Terraform, Ansible, etc.)',
+      'Zero Trust Architecture',
+      'VXLAN for environment separation'
+    ],
+    correct: 1,
+    explain: 'IaC tools (Terraform, Ansible, Puppet, Chef, CloudFormation) define infrastructure declaratively in code. Apply the same code → get the same infrastructure. Version-controlled in Git, peer-reviewed, idempotent (running it twice doesn\'t break anything). The defining property is repeatability.'
+  },
+  {
+    cat: 'IPv6', id: 'TKT-1808',
+    title: 'Running out of IPv4 addresses',
+    body: 'An ISP can no longer obtain additional public IPv4 address blocks from the regional internet registry. Their customer base keeps growing. The ISP needs a long-term solution that provides effectively unlimited addresses for future customers while maintaining compatibility with the existing IPv4 internet.',
+    question: 'Which is the strategic answer?',
+    options: [
+      'Deploy more APIPA ranges',
+      'Deploy IPv6 (typically dual-stack) to mitigate IPv4 exhaustion',
+      'Buy IPv4 addresses from secondary markets only',
+      'Switch entirely to private IPv4 with NAT'
+    ],
+    correct: 1,
+    explain: 'IPv6 with its 128-bit address space (~3.4 × 10³⁸ addresses) is the long-term answer to IPv4 exhaustion. Dual-stack (running both v4 and v6) is the most common transition strategy — clients get both addresses, and applications use whichever the destination supports. NAT64 and 6to4 tunneling handle legacy compatibility.'
+  },
+  {
+    cat: 'IPv6 Compatibility', id: 'TKT-1809',
+    title: 'Bridging IPv6 to IPv4-only servers',
+    body: 'A company has migrated its internal network to <b>IPv6-only</b>. However, some external services they rely on are <b>IPv4-only</b> and haven\'t been migrated. They need a way for IPv6 clients to reach IPv4 servers.',
+    question: 'Which mechanism supports this?',
+    options: [
+      'APIPA',
+      'NAT64 — translates between IPv6 and IPv4',
+      'CIDR aggregation',
+      '6to4 tunneling (which does the opposite)'
+    ],
+    correct: 1,
+    explain: 'NAT64 translates IPv6 packets to IPv4 packets, letting IPv6-only clients reach IPv4-only servers. It pairs with DNS64 (synthetic AAAA records pointing to IPv4 destinations). 6to4 tunneling carries IPv6 over IPv4 transport — useful but for different scenarios. Dual-stack avoids translation entirely by running both protocols.'
+  },
+  {
+    cat: 'SDN', id: 'TKT-1810',
+    title: 'API-driven network changes',
+    body: 'A cloud-native development team needs to <b>programmatically create and tear down network configurations</b> for testing — opening firewall rules, creating VLANs, modifying routes — from CI/CD pipelines, not from a CLI or web GUI.',
+    question: 'Which technology category enables this?',
+    options: [
+      'Manual switch CLI',
+      'Software-Defined Networking with controller APIs',
+      'IPv6 SLAAC',
+      'Carrier-grade NAT'
+    ],
+    correct: 1,
+    explain: 'SDN exposes the network through controller APIs. CI/CD pipelines can call those APIs to provision firewall rules, VLANs, and routes as part of automated deployments. Traditional networks have no such API — every change requires human CLI work. SDN is the foundation that makes IaC for networking practical.'
+  },
+  {
+    cat: 'ZTA', id: 'TKT-1811',
+    title: 'Least privilege for contractors',
+    body: 'A company brings in a contractor for a 2-week engagement. The contractor needs access to ONE internal application and nothing else. The security team wants to ensure that even if the contractor\'s account is compromised, the attacker <b>cannot move laterally</b> to other systems or data.',
+    question: 'Which principle directly addresses this?',
+    options: [
+      'Implicit trust on the corporate LAN',
+      'Least privilege access (a Zero Trust principle)',
+      'Open broadcast domains',
+      'Static MAC bindings'
+    ],
+    correct: 1,
+    explain: 'Least privilege is a core Zero Trust principle: grant users only the minimum access they need for their task. The contractor gets access to the one app — nothing else. If their account is compromised, the blast radius is limited to that one application. Combined with continuous verification, this is much stronger than network-zone-based access.'
+  },
+  {
+    cat: 'VXLAN', id: 'TKT-1812',
+    title: 'Breaking the 4094 VLAN ceiling',
+    body: 'A large multi-tenant data center provider has reached the <b>4,094 VLAN limit</b> of 802.1Q. They need a way to segment many more tenants — potentially tens of thousands — while still providing Layer 2 isolation between them.',
+    question: 'Which technology removes the VLAN limit?',
+    options: [
+      'IPv6 SLAAC',
+      'VXLAN — 24-bit VNI provides ~16 million segments',
+      'SASE',
+      'Zero-touch provisioning'
+    ],
+    correct: 1,
+    explain: 'VXLAN uses a 24-bit VXLAN Network Identifier (VNI), allowing roughly 16 million segments — far beyond the 4,094 limit of 802.1Q. Each tenant can have its own VXLAN segment, and VXLAN segments can extend across the data center IP network. This scalability is one of the main reasons VXLAN was invented.'
+  }
+];
+
+var scenIdx = 0;
+var scenSeen = 0;
+var scenGot = 0;
+var scenAnswered = false;
+var scenPool = [];
+
+function rebuildScenPool() {
+  scenPool = SCENARIOS.slice();
+  for (var i = scenPool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = scenPool[i]; scenPool[i] = scenPool[j]; scenPool[j] = t;
+  }
+  scenIdx = 0;
+  scenAnswered = false;
+}
+
+function renderScenario() {
+  var content = document.getElementById('scen-content');
+  if (scenIdx >= scenPool.length) {
+    var pct = scenSeen > 0 ? Math.round((scenGot / scenSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct >= 90) { verdict = 'Modern Stack Mastered.'; sub = 'You match technology to scenario fast. Move on.'; }
+    else if (pct >= 70) { verdict = 'Solid Application.'; sub = 'A few more passes and you\'re exam-ready.'; }
+    else if (pct >= 50) { verdict = 'Building It.'; sub = 'Review the Concept Map and Old vs New tabs.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through the Concept Map carefully, then come back.'; }
+    content.innerHTML = '<div class="scen-final"><div class="big-score">'+scenGot+'<b>/'+scenSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="scen-restart">↻ Run Again</button></div>';
+    document.getElementById('scen-restart').addEventListener('click', function(){
+      scenSeen = 0; scenGot = 0;
+      document.getElementById('scen-got').textContent = '0';
+      document.getElementById('scen-seen').textContent = '0';
+      rebuildScenPool(); renderScenario();
+    });
+    return;
+  }
+  var s = scenPool[scenIdx];
+  var html = '<div class="ticket"><div class="ticket-meta"><span class="ticket-id">'+s.id+'</span><span class="ticket-cat">'+s.cat+'</span></div><div class="ticket-title">'+s.title+'</div><div class="ticket-body">'+s.body+'</div></div>';
+  html += '<div class="scen-question"><h4>'+s.question+'</h4><div class="scen-options">';
+  s.options.forEach(function(opt, i){
+    html += '<button class="scen-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="scen-feedback" id="scen-feedback"></div></div>';
+  html += '<div class="scen-actions"><div class="progress-info">Scenario <b>'+(scenIdx+1)+'</b> of <b>'+scenPool.length+'</b> · Got <b>'+scenGot+'</b> / <b>'+scenSeen+'</b></div><button class="next-btn" id="scen-next" disabled>'+(scenIdx+1===scenPool.length?'See Results →':'Next Ticket →')+'</button></div>';
+  content.innerHTML = html;
+  scenAnswered = false;
+  content.querySelectorAll('.scen-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (scenAnswered) return;
+      scenAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      content.querySelectorAll('.scen-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === s.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('scen-feedback');
+      var heading = chosen === s.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+s.correct)+'</b>';
+      fb.innerHTML = heading + s.explain;
+      fb.classList.add('show');
+      scenSeen++;
+      if (chosen === s.correct) scenGot++;
+      document.getElementById('scen-got').textContent = scenGot;
+      document.getElementById('scen-seen').textContent = scenSeen;
+      document.getElementById('scen-next').disabled = false;
+    });
+  });
+  document.getElementById('scen-next').addEventListener('click', function(){ scenIdx++; renderScenario(); });
+}
+rebuildScenPool();
+renderScenario();
+
+/* ============================ ACRONYM BATTLE ============================ */
+const ACRONYMS = [
+  { letters: 'SDN', correct: 'Software-Defined Networking', d: ['Secure Data Network','Service Delivery Node','Standard Datagram Notation'], explain: 'Software-Defined Networking separates the control plane from the data plane, enabling central programmable network management.' },
+  { letters: 'SD-WAN', correct: 'Software-Defined Wide Area Network', d: ['Secure Distributed WAN','Static Dual-WAN','Service Delivery WAN'], explain: 'SD-WAN applies SDN principles to wide-area connectivity — application-aware, transport-agnostic, centrally managed branch networking.' },
+  { letters: 'VXLAN', correct: 'Virtual Extensible LAN', d: ['Virtual Extra-Large Area Network','Variable eXternal LAN','VLAN eXtended'], explain: 'VXLAN encapsulates Layer 2 frames in Layer 3 IP/UDP packets, providing ~16 million network segments and Data Center Interconnect.' },
+  { letters: 'ZTA', correct: 'Zero Trust Architecture', d: ['Zone Trust Access','Zero Tunnel Architecture','Zero-Touch Authentication'], explain: 'ZTA replaces perimeter-based trust with "never trust, always verify" — every request authenticated and authorized regardless of network location.' },
+  { letters: 'SASE', correct: 'Secure Access Service Edge', d: ['Secure Access Server Encryption','Software Application Service Edge','Secure Authenticated Session Engine'], explain: 'SASE combines SD-WAN connectivity with cloud-delivered security services (SWG, CASB, ZTNA, FWaaS) into a unified platform. Pronounced "sassy."' },
+  { letters: 'SSE', correct: 'Security Service Edge', d: ['Secure Session Encryption','Switched Service Edge','Standard Service Equipment'], explain: 'SSE is the security-only portion of SASE — SWG, CASB, ZTNA, FWaaS delivered from cloud edge nodes, without the SD-WAN networking layer.' },
+  { letters: 'IaC', correct: 'Infrastructure as Code', d: ['Internet as Cloud','Identity as Capability','Inter-application Connector'], explain: 'IaC manages infrastructure through human-readable code files (Terraform, Ansible, Puppet). Version-controlled, repeatable, declarative.' },
+  { letters: 'DCI', correct: 'Data Center Interconnect', d: ['Direct Cable Interface','Dedicated Channel Identifier','Distributed Compute Index'], explain: 'DCI is the connection between two or more data centers, often implemented with VXLAN to extend Layer 2 segments across IP networks.' },
+  { letters: 'SWG', correct: 'Secure Web Gateway', d: ['Software Workstation Gateway','Static WAN Gateway','Secured Wireless Group'], explain: 'SWG is a cloud-delivered or on-prem security service that filters web traffic, enforces policy, and blocks malware. A core component of SSE/SASE.' },
+  { letters: 'CASB', correct: 'Cloud Access Security Broker', d: ['Centralized Authentication Service Bridge','Cloud Application Service Bus','Container Access Security Boundary'], explain: 'CASB sits between users and cloud applications, enforcing security policy on SaaS use (Salesforce, Office 365, etc.). Part of SSE/SASE stacks.' },
+  { letters: 'ZTNA', correct: 'Zero Trust Network Access', d: ['Zone Trusted Network Authority','Zero-Touch Network Activation','Zonal Tunnel Network Address'], explain: 'ZTNA is the access-control mechanism that implements Zero Trust principles — per-application access based on identity and context, replacing legacy VPN.' },
+  { letters: 'FWaaS', correct: 'Firewall as a Service', d: ['Forwarding Web Application Service','Frame-Wide Authentication Service','Federated Wireless Access Service'], explain: 'FWaaS is cloud-delivered firewall functionality — part of the SSE/SASE security stack instead of an on-prem firewall appliance.' },
+  { letters: 'VNI', correct: 'VXLAN Network Identifier', d: ['Virtual Network Index','Variable Numeric Identifier','VLAN Naming Index'], explain: 'VNI is the 24-bit identifier in the VXLAN header that distinguishes overlay segments. 24 bits allows ~16 million segments, far beyond VLAN\'s 4,094.' },
+  { letters: 'VTEP', correct: 'VXLAN Tunnel Endpoint', d: ['Virtual Trunk Endpoint','VLAN Trunking Encapsulation Protocol','Virtualized Tunnel Encapsulation Point'], explain: 'A VTEP is a device (physical switch or hypervisor) that originates and terminates VXLAN tunnels, encapsulating and decapsulating frames.' },
+  { letters: 'NAT64', correct: 'NAT between IPv6 and IPv4', d: ['64-bit NAT for IPv4 only','Network Address Tunneling 64','New Addressing Technology v6.4'], explain: 'NAT64 translates between IPv6 and IPv4, letting IPv6-only clients reach IPv4-only servers. Pairs with DNS64 for synthetic AAAA records.' }
+];
+
+var acroIdx = 0;
+var acroSeen = 0;
+var acroGot = 0;
+var acroPool = [];
+var acroAnswered = false;
+
+function rebuildAcro() {
+  acroPool = ACRONYMS.slice();
+  for (var i = acroPool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = acroPool[i]; acroPool[i] = acroPool[j]; acroPool[j] = t;
+  }
+  acroIdx = 0;
+  acroAnswered = false;
+}
+
+function renderAcro() {
+  var frame = document.getElementById('acro-frame');
+  if (acroIdx >= acroPool.length) {
+    var pct = acroSeen > 0 ? Math.round((acroGot / acroSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Acronym Mastered.'; sub = 'You know every acronym cold.'; }
+    else if (pct >= 80) { verdict = 'Fast & Accurate.'; sub = 'A few more passes locks it in.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Review the Concept Map before retrying.'; }
+    else { verdict = 'Keep Drilling.'; sub = 'Walk through the Concept Map carefully and come back.'; }
+    frame.innerHTML = '<div class="acro-head"><div class="title">Acronym Battle</div><div class="progress">Complete</div></div><div class="scen-final"><div class="big-score">'+acroGot+'<b>/'+acroSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="acro-restart">↻ Run Again</button></div>';
+    document.getElementById('acro-restart').addEventListener('click', function(){ acroSeen=0; acroGot=0; rebuildAcro(); renderAcro(); });
+    return;
+  }
+  var a = acroPool[acroIdx];
+  // Build shuffled options
+  var options = [a.correct].concat(a.d);
+  for (var i = options.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = options[i]; options[i] = options[j]; options[j] = t;
+  }
+  var html = '<div class="acro-head"><div class="title">Acronym Battle</div><div class="progress">'+(acroIdx+1)+' / '+acroPool.length+'</div></div>';
+  html += '<div class="acro-body"><div class="acro-prompt">What does this acronym mean?</div><div class="acro-letters">'+a.letters+'</div><div class="acro-options">';
+  options.forEach(function(opt){
+    html += '<button class="acro-option" data-opt="'+opt.replace(/"/g, '&quot;')+'">'+opt+'</button>';
+  });
+  html += '</div><div class="acro-explain" id="acro-explain"></div></div>';
+  html += '<div class="acro-actions"><div class="acro-score">Score · <b>'+acroGot+' / '+acroSeen+'</b></div><button class="next-btn" id="acro-next" disabled>Next →</button></div>';
+  frame.innerHTML = html;
+  acroAnswered = false;
+  frame.querySelectorAll('.acro-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (acroAnswered) return;
+      acroAnswered = true;
+      var chosen = btn.dataset.opt;
+      frame.querySelectorAll('.acro-option').forEach(function(b){
+        b.disabled = true;
+        if (b.dataset.opt === a.correct) b.classList.add('correct');
+        else if (b.dataset.opt === chosen) b.classList.add('wrong');
+      });
+      var ex = document.getElementById('acro-explain');
+      ex.innerHTML = (chosen === a.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+a.correct+'</b>') + a.explain;
+      ex.classList.add('show');
+      acroSeen++;
+      if (chosen === a.correct) acroGot++;
+      document.getElementById('acro-next').disabled = false;
+    });
+  });
+  document.getElementById('acro-next').addEventListener('click', function(){ acroIdx++; renderAcro(); });
+}
+rebuildAcro();
+renderAcro();
+
+/* ============================ KNOWLEDGE CHECK ============================ */
+const KC_QUESTIONS = [
+  { q: 'A defining feature of SD-WAN that lets a new branch device ship from the vendor, plug in, and auto-configure without an on-site technician is called:', options: ['Carrier-Grade NAT','Zero-Touch Provisioning','Application Filtering','Loopback Auto-Discovery'], correct: 1, explain: 'Zero-Touch Provisioning (ZTP) is a hallmark of SD-WAN. The device boots, contacts the controller over the internet, downloads its full configuration, and joins the WAN — no engineer needed on site.' },
+  { q: 'Which technology encapsulates Layer 2 Ethernet frames inside Layer 3 IP/UDP packets to extend Layer 2 segments across an IP network?', options: ['IPv6','VXLAN','SASE','SDN'], correct: 1, explain: 'VXLAN wraps Layer 2 frames in a VXLAN header + UDP + IP, allowing Layer 2 networks to span routed IP infrastructure. This is the foundation for Data Center Interconnect (DCI) and overcoming the 4,094 VLAN limit.' },
+  { q: 'A core principle of Zero Trust Architecture is:', options: ['Trust everything on the corporate LAN','Never trust, always verify — authenticate and authorize every request','Allow open access for IT staff','Deny everything except ICMP'], correct: 1, explain: 'Zero Trust replaces perimeter-based trust ("inside is good, outside is bad") with continuous verification. Every request is authenticated and authorized, regardless of where it originates. Least privilege access ensures users get only what they need.' },
+  { q: 'SASE differs from SSE in that:', options: ['SASE is software, SSE is hardware','SASE = SSE + SD-WAN networking; SSE is the security-only portion','SASE is for branches only, SSE is for individuals','SASE uses IPv4, SSE uses IPv6'], correct: 1, explain: 'SASE combines SD-WAN connectivity with cloud-delivered security (SWG, CASB, ZTNA, FWaaS). SSE is just the security stack — same cloud-delivered security functions, without the SD-WAN networking. Use SSE if you already have networking handled.' },
+  { q: 'Infrastructure as Code (IaC) is best described as:', options: ['Manually clicking through a GUI to provision servers','Managing infrastructure with version-controlled declarative code files (Terraform, Ansible, etc.)','Writing software that runs on routers','Compiling firmware for switches'], correct: 1, explain: 'IaC manages infrastructure through human-readable code files, version-controlled in Git, applied automatically by tools like Terraform, Ansible, Puppet, Chef, or CloudFormation. Same code → same infrastructure, repeatable across environments.' },
+  { q: 'Why was IPv6 developed?', options: ['IPv4 was too fast','To mitigate IPv4 address exhaustion using 128-bit addresses','To replace TCP','To enable Wi-Fi 6'], correct: 1, explain: 'IPv4\'s 32-bit address space (4.3 billion addresses) was exhausted at the RIR level years ago. IPv6\'s 128-bit space provides ~3.4 × 10³⁸ addresses — effectively unlimited. Dual-stack and NAT64 handle backward compatibility during transition.' },
+  { q: 'Which mechanism allows IPv6-only clients to reach IPv4-only servers?', options: ['SLAAC','NAT64','Multicast','APIPA'], correct: 1, explain: 'NAT64 translates IPv6 packets to IPv4 packets (and vice versa), pairing with DNS64 to give IPv6 clients synthetic AAAA records pointing to IPv4 destinations. Useful in IPv6-only networks that still need to access legacy IPv4 services.' },
+  { q: 'A retail chain wants to centrally manage WAN policy across 50 branch offices, each with multiple ISP links and application-aware traffic steering. Which technology fits?', options: ['IPv6','VXLAN','SD-WAN','SASE'], correct: 2, explain: 'SD-WAN is purpose-built for this: branch offices with multiple transports, central policy management, application-aware steering, and zero-touch provisioning. SASE adds cloud security on top, but the core WAN piece is SD-WAN.' },
+  { q: 'The "control plane" and "data plane" separation is a foundational concept of:', options: ['VXLAN','Software-Defined Networking (SDN)','IPv6','Zero Trust Architecture'], correct: 1, explain: 'SDN\'s defining feature is separating the control plane (the brain — which decides forwarding rules) from the data plane (the muscle — which forwards packets). A centralized controller programs the network through APIs.' },
+  { q: 'Which acronym pair describes the security-only and security+networking versions of the same cloud-delivered architecture?', options: ['VLAN and VXLAN','SSE (security only) and SASE (security + SD-WAN)','SDN and SD-WAN','IPv4 and IPv6'], correct: 1, explain: 'SSE = Security Service Edge (security stack alone). SASE = Secure Access Service Edge (security stack + SD-WAN networking). Same cloud security functions; SASE just adds the network layer.' },
+  { q: 'A core benefit of Infrastructure as Code is:', options: ['It runs faster than manual configuration','Idempotent, repeatable, version-controlled infrastructure deployments','It eliminates the need for any networking equipment','It uses only proprietary protocols'], correct: 1, explain: 'IaC\'s key benefits are repeatability (same code → same infrastructure), version control (Git history of every change), and idempotency (running the same code twice doesn\'t damage anything). It eliminates configuration drift between dev/staging/production.' },
+  { q: 'Which technology specifically removes the 4,094 VLAN limit by using a 24-bit identifier for network segmentation?', options: ['IPv6','VXLAN','SD-WAN','SASE'], correct: 1, explain: 'VXLAN uses a 24-bit VXLAN Network Identifier (VNI), allowing ~16 million segments — far beyond the 4,094 limit of 802.1Q VLANs. This scalability is one of the main reasons VXLAN was created.' }
+];
+
+var kcIdx = 0, kcScore = 0, kcAnswered = false;
+function renderKC() {
+  var card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    var pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Modern Topics Mastered.'; sub = 'You recognize every modern technology and its use case. Move on.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the ones you missed.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Spend more time in the Concept Map and Old vs New tabs.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through every concept in the Map slowly, then come back.'; }
+    card.innerHTML = '<div class="kc-head"><div class="title">Results</div><div class="progress">Complete</div></div><div class="kc-final"><div class="big-score">'+kcScore+'<b>/'+KC_QUESTIONS.length+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="kc-restart">↻ Retake</button></div>';
+    document.getElementById('kc-restart').addEventListener('click', function(){ kcIdx=0; kcScore=0; kcAnswered=false; renderKC(); });
+    return;
+  }
+  var q = KC_QUESTIONS[kcIdx];
+  var html = '<div class="kc-head"><div class="title">Knowledge Check</div><div class="progress">'+(kcIdx+1)+' / '+KC_QUESTIONS.length+'</div></div>';
+  html += '<div class="kc-body"><div class="kc-question">'+q.q+'</div><div class="kc-options">';
+  q.options.forEach(function(opt, i){
+    html += '<button class="kc-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="kc-feedback" id="kc-feedback"></div><div class="kc-actions"><div class="kc-score">Score · <b>'+kcScore+' / '+kcIdx+'</b></div><button class="next-btn" id="kc-next" disabled>'+(kcIdx+1===KC_QUESTIONS.length?'See Results →':'Next →')+'</button></div></div>';
+  card.innerHTML = html;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (kcAnswered) return;
+      kcAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      card.querySelectorAll('.kc-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('kc-feedback');
+      fb.innerHTML = (chosen === q.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+q.correct)+'</b>') + q.explain;
+      fb.classList.add('show');
+      if (chosen === q.correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', function(){ kcIdx++; renderKC(); });
+}
+renderKC();
+
+/* ============================ LIGHTNING ROUND ============================ */
+var lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+var lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+function shuffleArr(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'SDN separates which two planes?', correct: 'Control and data', d: ['Wired and wireless','Public and private','Layer 2 and Layer 3'] },
+  { q: 'SD-WAN feature: new branch auto-configures on plug-in?', correct: 'Zero-touch provisioning', d: ['Manual configuration','Static routing','VLAN trunking'] },
+  { q: 'SD-WAN feature: steers traffic per-application?', correct: 'Application aware', d: ['VLAN trunking','Carrier-grade NAT','APIPA'] },
+  { q: 'SD-WAN works over any link type — this is called?', correct: 'Transport agnostic', d: ['Application aware','Zero-touch','Stateful'] },
+  { q: 'VXLAN encapsulates which layer into which?', correct: 'Layer 2 into Layer 3 (IP/UDP)', d: ['Layer 3 into Layer 2','Layer 4 into Layer 2','Layer 7 into Layer 3'] },
+  { q: 'VXLAN supports how many segments?', correct: '~16 million', d: ['4,094','65,536','256'] },
+  { q: 'Data Center Interconnect is typically built using?', correct: 'VXLAN', d: ['APIPA','RIP','PPP'] },
+  { q: 'Zero Trust core principle?', correct: 'Never trust, always verify', d: ['Trust the LAN','Trust the firewall','Trust on first use'] },
+  { q: 'Which access model is Zero Trust?', correct: 'Least privilege', d: ['Most privilege','Equal access','Wildcard access'] },
+  { q: 'SASE expanded means?', correct: 'Secure Access Service Edge', d: ['Secure Authenticated Session Engine','Service Application Switching Edge','Standard Access Server Equipment'] },
+  { q: 'SSE expanded means?', correct: 'Security Service Edge', d: ['Secure Session Encryption','Switched Service Edge','Standard Service Equipment'] },
+  { q: 'SASE = ?', correct: 'SSE + SD-WAN', d: ['SDN + VPN','SD-WAN + VPN','Firewall + IDS'] },
+  { q: 'IaC stands for?', correct: 'Infrastructure as Code', d: ['Internet as Cloud','Identity as Capability','Inter-app Connector'] },
+  { q: 'Tool category for IaC?', correct: 'Terraform, Ansible, Puppet', d: ['Wireshark, tcpdump','Nmap, Nessus','VMware, Hyper-V'] },
+  { q: 'IPv6 address length?', correct: '128 bits', d: ['32 bits','64 bits','256 bits'] },
+  { q: 'IPv6 loopback?', correct: '::1', d: ['127.0.0.1','::','fe80::'] },
+  { q: 'Mechanism for IPv6 to reach IPv4 hosts?', correct: 'NAT64', d: ['APIPA','SLAAC','CIDR'] },
+  { q: 'Running IPv4 and IPv6 simultaneously is called?', correct: 'Dual-stack', d: ['Tunneling','Translation','Bridging'] },
+  { q: 'Centrally programmable network architecture?', correct: 'SDN', d: ['VLAN','MPLS','PPP'] },
+  { q: 'Cloud-delivered SWG, CASB, ZTNA, FWaaS as one stack?', correct: 'SSE', d: ['SDN','VXLAN','IaC'] },
+  { q: 'VNI is how many bits?', correct: '24 bits', d: ['12 bits','16 bits','32 bits'] },
+  { q: 'ZTNA replaces which legacy access method?', correct: 'Traditional VPN', d: ['DHCP','DNS','NAT'] }
+];
+
+function generateLRQ() {
+  var f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  var options = shuffleArr([f.correct].concat(f.d));
+  return { question: f.q, options: options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  var body = document.getElementById('lr-body');
+  var html = '<div class="lr-question-prompt">Modern Networks</div><div class="lr-question">'+lrCurrentQ.question+'</div><div class="lr-options">';
+  lrCurrentQ.options.forEach(function(opt, i){
+    html += '<button class="lr-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>';
+  body.innerHTML = html;
+  document.querySelectorAll('.lr-option').forEach(function(btn){
+    btn.addEventListener('click', function(){ answerLR(parseInt(btn.dataset.i, 10)); });
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  var correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach(function(b, i){
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(function(){ if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(function(){
+    lrTimeLeft--;
+    var t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  var total = lrCorrect + lrWrong;
+  var pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  var ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  var verdict, sub;
+  if (lrCorrect >= 18) { verdict='Locked In.'; sub='Modern stack recognition is automatic. Move on.'; }
+  else if (lrCorrect >= 12) { verdict='Solid Recall.'; sub='A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict='Building It.'; sub='Spend more time in the Concept Map and Acronym Battle.'; }
+  else { verdict='Keep Drilling.'; sub='Walk through the Concept Map carefully before returning.'; }
+  var finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = '<div class="big-score">'+lrCorrect+'<b>/'+total+'</b></div><div class="verdict">'+verdict+'</div><div class="lr-stats"><div class="item"><div class="num">'+pct+'%</div><div class="lab">Accuracy</div></div><div class="item"><div class="num">'+ppm+'</div><div class="lab">Per Minute Pace</div></div><div class="item"><div class="num">'+total+'</div><div class="lab">Questions</div></div></div><p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">'+sub+'</p><button class="lr-start" id="lr-restart">↻ Run Again</button>';
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', function(){
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.lr-dur-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur, 10);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================ TABS ============================ */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
