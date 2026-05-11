@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.2 Appliances, Applications & Functions · Exam Prep · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 70px); font-weight: 700; line-height: 0.96; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 7px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 7px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.75; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* APPLIANCE ATLAS */
+  .atlas-wrap { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 0; border: 1px solid var(--line); }
+  .atlas-list { background: var(--surface); overflow-y: auto; }
+  .atlas-cat-head {
+    padding: 12px 18px; background: var(--bg-warm);
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); font-weight: 700;
+    border-bottom: 1px solid var(--line-soft); border-top: 1px solid var(--line-soft);
+  }
+  .atlas-cat-head:first-child { border-top: none; }
+  .atlas-item {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 14px; padding: 14px 18px;
+    cursor: pointer; transition: background 0.12s;
+    align-items: center; position: relative;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .atlas-item:hover { background: var(--surface-alt); }
+  .atlas-item.selected { background: var(--bg-warm); }
+  .atlas-item.selected::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--sky); }
+  .atlas-thumb {
+    width: 60px; height: 50px; background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .atlas-item.selected .atlas-thumb { border-color: var(--sky); background: white; }
+  .atlas-thumb svg { width: 100%; height: 100%; }
+  .atlas-info .name { font-family: var(--ff-display); font-weight: 700; font-size: 15px; color: var(--navy-deep); line-height: 1.2; }
+  .atlas-info .sub { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
+
+  .atlas-detail { background: var(--surface); border-left: 1px solid var(--line-soft); min-height: 600px; }
+  .atlas-detail-head {
+    padding: 26px 28px; background: var(--navy-deep); color: var(--ink-invert);
+    position: relative; overflow: hidden;
+  }
+  .atlas-detail-head::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 130px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%); opacity: 0.95;
+  }
+  .atlas-detail-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.65; }
+  .atlas-detail-title { font-family: var(--ff-display); font-size: 30px; font-weight: 700; line-height: 1.1; margin: 6px 0 0; letter-spacing: -0.02em; position: relative; z-index: 2; max-width: 75%; }
+  .atlas-detail-layer {
+    margin-top: 14px; display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1); padding: 6px 12px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em;
+    color: white; position: relative; z-index: 2; font-weight: 600;
+  }
+  .atlas-detail-layer b { color: var(--gold); font-family: var(--ff-display); font-size: 13px; }
+
+  .atlas-big-svg {
+    background: white; padding: 28px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 220px;
+  }
+  .atlas-big-svg svg { width: 100%; max-width: 360px; height: auto; max-height: 200px; }
+  .atlas-section { padding: 22px 26px; border-bottom: 1px solid var(--line-soft); }
+  .atlas-section:last-of-type { border-bottom: none; }
+  .atlas-section .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px; font-weight: 700;
+  }
+  .atlas-section p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 10px; }
+  .atlas-section p b { color: var(--navy-deep); font-weight: 700; }
+  .atlas-facts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .atlas-fact-block {
+    padding: 12px 14px; border-left: 3px solid var(--sky);
+    background: var(--surface-alt);
+  }
+  .atlas-fact-block .label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); margin-bottom: 4px; font-weight: 700;
+  }
+  .atlas-fact-block .value { font-size: 14px; color: var(--navy-deep); font-weight: 600; line-height: 1.4; }
+  .atlas-tip {
+    margin: 0 26px 22px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .atlas-tip .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .atlas-tip p { margin: 0; font-size: 13px; line-height: 1.55; }
+
+  /* WHAT DO YOU NEED */
+  .picker-frame { border: 1px solid var(--line); background: var(--surface); }
+  .picker-head {
+    background: var(--navy-deep); color: white; padding: 18px 24px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .picker-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .picker-body { padding: 28px 26px; background: var(--surface); }
+  .picker-prompt {
+    font-family: var(--ff-display); font-size: 18px; font-weight: 600;
+    color: var(--navy-deep); margin: 0 0 18px; line-height: 1.4; letter-spacing: -0.01em;
+  }
+  .picker-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .picker-option {
+    background: var(--surface-alt); border: 1.5px solid var(--line-soft);
+    padding: 14px 18px; cursor: pointer; transition: all 0.15s;
+    font-size: 14px; line-height: 1.5; color: var(--ink); text-align: left;
+    font-family: var(--ff-body);
+  }
+  .picker-option:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .picker-option b { color: var(--navy-deep); font-weight: 700; display: block; margin-bottom: 4px; font-size: 13px; }
+  .picker-result {
+    margin-top: 24px; background: var(--surface); border: 1px solid var(--line);
+    display: none;
+  }
+  .picker-result.show { display: block; }
+  .picker-result-head {
+    background: var(--green); color: white; padding: 14px 22px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; font-weight: 700;
+    text-transform: uppercase;
+  }
+  .picker-result-body { padding: 22px 26px; display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: start; }
+  .picker-result-body .pick-svg {
+    width: 120px; height: 100px;
+    background: var(--surface-alt); border: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+  }
+  .picker-result-body .pick-svg svg { width: 100%; height: 100%; }
+  .picker-result-body .pick-content h3 {
+    font-family: var(--ff-display); font-size: 26px; font-weight: 700;
+    color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.02em;
+  }
+  .picker-result-body .pick-content h3 em { color: var(--sky); font-style: italic; font-weight: 600; }
+  .picker-result-body .pick-content p { margin: 0 0 8px; font-size: 14px; line-height: 1.55; color: var(--ink-mid); }
+  .picker-result-body .pick-content p b { color: var(--navy-deep); font-weight: 700; }
+  .picker-actions {
+    padding: 14px 24px; background: var(--bg-warm); border-top: 1px solid var(--line-soft);
+    display: flex; justify-content: flex-end;
+  }
+  .next-btn { background: var(--sky); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .next-btn:hover { background: var(--sky-deep); }
+  .next-btn:disabled { background: var(--gray-soft); cursor: default; }
+
+  /* APPLIANCES VS FUNCTIONS */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }
+  .compare-col { background: var(--surface); }
+  .compare-col + .compare-col { border-left: 1px solid var(--line); }
+  .compare-col-head {
+    padding: 18px 22px; color: white;
+    font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .compare-col.appliances .compare-col-head { background: var(--navy-deep); }
+  .compare-col.functions .compare-col-head { background: var(--sky-deep); }
+  .compare-col-body { padding: 20px 22px; }
+  .compare-col-body > p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); margin: 0 0 14px; }
+  .compare-col-body > p b { color: var(--navy-deep); }
+  .compare-col-body h4 {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky-deep); margin: 16px 0 8px; font-weight: 700;
+  }
+  .compare-col.appliances .compare-col-body h4 { color: var(--navy-deep); }
+  .compare-items { display: grid; gap: 8px; margin-top: 8px; }
+  .compare-item {
+    padding: 10px 14px; background: var(--surface-alt); border: 1px solid var(--line-soft);
+    display: grid; grid-template-columns: 100px 1fr; gap: 12px; align-items: center;
+  }
+  .compare-item .name { font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep); }
+  .compare-item .desc { font-size: 12px; color: var(--ink-mid); line-height: 1.4; }
+  .compare-trap {
+    margin-top: 16px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(224,184,64,0.15), rgba(56,176,224,0.05));
+    border-left: 3px solid var(--gold);
+  }
+  .compare-trap .heading {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700;
+  }
+  .compare-trap p { margin: 0; font-size: 13px; line-height: 1.55; }
+
+  /* SCENARIO LAB - reusing pattern */
+  .scen-frame { border: 1px solid var(--line); background: var(--surface); }
+  .scen-head { background: var(--navy-deep); color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .scen-head .title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .scen-head .stats { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-soft); }
+  .scen-head .stats b { color: var(--gold); font-family: var(--ff-display); font-size: 18px; margin-right: 4px; }
+  .ticket { background: var(--bg-warm); padding: 18px 24px; border-bottom: 1px solid var(--line-soft); }
+  .ticket .ticket-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .ticket .ticket-id { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .ticket .ticket-cat { background: var(--sky); color: white; padding: 2px 8px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+  .ticket .ticket-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.3; }
+  .ticket .ticket-body { font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .ticket .ticket-body b { color: var(--navy-deep); font-weight: 700; }
+  .ticket .ticket-body code { font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scen-question { padding: 22px 24px; background: var(--surface); }
+  .scen-question h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 600; color: var(--navy-deep); margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.4; }
+  .scen-options { display: flex; flex-direction: column; gap: 8px; }
+  .scen-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 12px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .scen-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scen-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .scen-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .scen-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .scen-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scen-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .scen-option[disabled] { cursor: default; }
+  .scen-feedback { margin-top: 20px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.6; display: none; }
+  .scen-feedback.show { display: block; }
+  .scen-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .scen-actions { padding: 14px 24px; background: var(--surface); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .scen-actions .progress-info { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .scen-actions .progress-info b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 14px; }
+  .scen-final { text-align: center; padding: 50px 30px; }
+  .scen-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .scen-final .big-score b { color: var(--gold); }
+  .scen-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .scen-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* KC */
+  .kc-card { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); }
+  .kc-head { background: var(--navy-deep); color: white; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-head .title { font-family: var(--ff-display); font-size: 18px; font-weight: 700; }
+  .kc-head .progress { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; background: var(--sky); padding: 6px 12px; }
+  .kc-body { padding: 32px 30px; }
+  .kc-question { font-family: var(--ff-display); font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--navy-deep); margin: 0 0 24px; letter-spacing: -0.01em; }
+  .kc-options { display: flex; flex-direction: column; gap: 8px; }
+  .kc-option { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 14px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .kc-option:hover:not([disabled]) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-option .marker { width: 24px; height: 24px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); flex-shrink: 0; }
+  .kc-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .kc-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .kc-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .kc-option[disabled] { cursor: default; }
+  .kc-feedback { margin-top: 22px; padding: 16px 20px; background: var(--bg-warm); border-left: 4px solid var(--sky); font-size: 14px; line-height: 1.55; display: none; }
+  .kc-feedback.show { display: block; }
+  .kc-feedback b { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); display: block; margin-bottom: 6px; }
+  .kc-actions { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .kc-score { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
+  .kc-score b { color: var(--navy-deep); font-size: 14px; }
+  .kc-final { text-align: center; padding: 40px 30px; }
+  .kc-final .big-score { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; }
+  .kc-final .big-score b { color: var(--gold); }
+  .kc-final .verdict { font-family: var(--ff-display); font-size: 22px; font-weight: 600; margin: 12px 0 8px; color: var(--navy-deep); }
+  .kc-final .verdict-sub { color: var(--ink-mid); font-size: 14px; margin: 0 auto 24px; max-width: 50ch; }
+
+  /* LR */
+  .lr-pre { text-align: center; padding: 40px 20px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-pre h2 { font-family: var(--ff-display); font-size: 40px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.025em; }
+  .lr-pre h2 em { color: var(--sky); font-style: italic; }
+  .lr-pre p { color: var(--ink-mid); max-width: 50ch; margin: 0 auto 28px; }
+  .lr-duration-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lr-dur-btn { background: var(--surface); border: 2px solid var(--navy-deep); color: var(--navy-deep); padding: 12px 22px; font-family: var(--ff-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .lr-dur-btn:hover { background: var(--bg-warm); }
+  .lr-dur-btn.active { background: var(--navy-deep); color: white; }
+  .lr-start { background: var(--sky); color: white; border: none; padding: 14px 36px; font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  .lr-start:hover { background: var(--sky-deep); }
+  .lr-game { display: none; }
+  .lr-game.active { display: block; }
+  .lr-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--navy-deep); color: white; padding: 16px 22px; gap: 14px; }
+  .lr-score-block { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-score-block b { font-family: var(--ff-display); font-size: 22px; color: var(--gold); display: block; line-height: 1; }
+  .lr-timer { font-family: var(--ff-display); font-size: 56px; font-weight: 800; color: white; line-height: 1; letter-spacing: -0.04em; text-align: center; }
+  .lr-timer.warning { color: var(--gold); }
+  .lr-timer.critical { color: #FF8095; animation: pulse 0.6s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .lr-skipped { text-align: right; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lr-skipped b { font-family: var(--ff-display); font-size: 22px; color: var(--gray-soft); display: block; line-height: 1; }
+  .lr-body { background: var(--surface); border: 1px solid var(--line); border-top: none; padding: 30px 30px 40px; }
+  .lr-question-prompt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 14px; text-align: center; }
+  .lr-question { font-family: var(--ff-display); font-size: clamp(20px, 3vw, 26px); font-weight: 600; color: var(--navy-deep); text-align: center; line-height: 1.35; letter-spacing: -0.01em; margin: 0 auto 24px; max-width: 760px; }
+  .lr-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto; }
+  .lr-option { background: var(--surface-alt); border: 2px solid var(--line-soft); padding: 16px 20px; cursor: pointer; font-family: var(--ff-body); font-size: 14px; font-weight: 500; color: var(--navy-deep); text-align: left; display: flex; align-items: center; gap: 14px; }
+  .lr-option:hover:not([disabled]) { border-color: var(--navy-deep); background: var(--bg-warm); }
+  .lr-option .marker { font-family: var(--ff-mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; border: 1.5px solid var(--ink-mute); display: flex; align-items: center; justify-content: center; color: var(--ink-mute); flex-shrink: 0; }
+  .lr-option.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lr-option.correct .marker { background: var(--green); color: white; border-color: var(--green); }
+  .lr-option.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-option.wrong .marker { background: var(--red); color: white; border-color: var(--red); }
+  .lr-option[disabled] { cursor: default; }
+  .lr-skip { margin-top: 20px; text-align: center; }
+  .lr-skip button { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 8px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  .lr-skip button:hover { color: var(--navy-deep); border-color: var(--navy-deep); }
+  .lr-final { text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--line); }
+  .lr-final .big-score { font-family: var(--ff-display); font-size: 100px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--navy-deep); }
+  .lr-final .big-score b { color: var(--gold); }
+  .lr-final .verdict { font-family: var(--ff-display); font-size: 24px; font-weight: 600; margin: 12px 0 4px; color: var(--navy-deep); }
+  .lr-final .lr-stats { margin: 28px auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 540px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .lr-final .lr-stats .item { background: var(--surface); padding: 14px; }
+  .lr-final .lr-stats .item .num { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-final .lr-stats .item .lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-wrap { grid-template-columns: 1fr; }
+    .atlas-detail { border-left: none; border-top: 1px solid var(--line-soft); }
+    .atlas-facts { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col + .compare-col { border-left: none; border-top: 1px solid var(--line); }
+    .picker-result-body { grid-template-columns: 1fr; }
+    .lr-options { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Objective 1.2</span>
+    <span class="crumb">Appliances, Applications & Functions</span>
+  </div>
+  <div class="topbar-right">Exam Prep · Compare</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">N10-009 · Objective 1.2</div>
+    <h1>Name the<br><em>Right Box.</em></h1>
+    <p class="lede">Objective 1.2 asks you to compare and contrast networking <b>appliances</b> (physical or virtual devices), <b>applications</b> (services), and <b>functions</b> (capabilities). The exam tests whether you can pick the right one for a scenario — and whether you know which category each belongs to. Routers, switches, and firewalls are appliances. VPN, QoS, and TTL are functions, not boxes. CDN is an application. This artifact drills the distinction in every tab.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Three Categories</div>
+    <div class="ref-row"><span class="name">Appliances</span><span class="desc">Boxes that do a job — router, switch, firewall, IDS/IPS, load balancer, proxy, NAS, SAN, AP, controller</span></div>
+    <div class="ref-row"><span class="name">Applications</span><span class="desc">Services delivered over networks — CDN</span></div>
+    <div class="ref-row"><span class="name">Functions</span><span class="desc">Capabilities or features — VPN, QoS, TTL</span></div>
+    <div class="footer-note">
+      <b>EXAM TRAP</b><br>
+      "Which appliance encrypts site-to-site traffic?" — wrong premise. VPN is a <b>function</b>, not an appliance. A firewall or router <em>provides</em> the VPN function.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">11</div><div class="label">Appliances covered</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Functions covered</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Application (CDN)</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge check Qs</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Appliance Atlas</button>
+  <button class="tab" data-tab="picker"><span class="num">02</span>What Do You Need?</button>
+  <button class="tab" data-tab="vs"><span class="num">03</span>Appliances vs Functions</button>
+  <button class="tab" data-tab="scen"><span class="num">04</span>Scenario Lab</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<section class="panel active" id="panel-atlas">
+  <div class="atlas-wrap">
+    <div class="atlas-list" id="atlas-list"></div>
+    <div class="atlas-detail" id="atlas-detail"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-picker">
+  <div class="picker-frame">
+    <div class="picker-head"><div class="title">What problem are you solving?</div></div>
+    <div class="picker-body">
+      <h3 class="picker-prompt">Pick the situation that matches your scenario — the widget will name the right appliance, application, or function.</h3>
+      <div class="picker-options" id="picker-options"></div>
+      <div class="picker-result" id="picker-result"></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-vs">
+  <div class="compare-grid">
+    <div class="compare-col appliances">
+      <div class="compare-col-head">Appliances</div>
+      <div class="compare-col-body">
+        <p><b>Appliances</b> are the boxes — physical hardware or virtual machines — that do a specific networking job. They exist as devices you can rack, license, configure, and replace.</p>
+        <h4>From the 1.2 list</h4>
+        <div class="compare-items">
+          <div class="compare-item"><span class="name">Router</span><span class="desc">Forwards Layer 3 packets between networks</span></div>
+          <div class="compare-item"><span class="name">Switch</span><span class="desc">Forwards Layer 2 frames between hosts on the same network</span></div>
+          <div class="compare-item"><span class="name">Firewall</span><span class="desc">Filters traffic based on policy rules</span></div>
+          <div class="compare-item"><span class="name">IDS / IPS</span><span class="desc">Detects (IDS) or blocks (IPS) attack signatures</span></div>
+          <div class="compare-item"><span class="name">Load Balancer</span><span class="desc">Distributes traffic across multiple backend servers</span></div>
+          <div class="compare-item"><span class="name">Proxy</span><span class="desc">Intermediary that forwards requests on behalf of clients</span></div>
+          <div class="compare-item"><span class="name">NAS</span><span class="desc">File-level network storage (SMB/NFS)</span></div>
+          <div class="compare-item"><span class="name">SAN</span><span class="desc">Block-level storage network (Fibre Channel / iSCSI)</span></div>
+          <div class="compare-item"><span class="name">AP</span><span class="desc">Wireless access point — radio bridge to wired network</span></div>
+          <div class="compare-item"><span class="name">Controller</span><span class="desc">Centrally manages many APs (or other devices)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col functions">
+      <div class="compare-col-head">Functions &amp; Applications</div>
+      <div class="compare-col-body">
+        <p><b>Functions</b> are capabilities — they're <em>performed by</em> appliances, not the appliances themselves. <b>Applications</b> are services that ride on top of networks. Neither is a single physical box.</p>
+        <h4>Functions (capabilities)</h4>
+        <div class="compare-items">
+          <div class="compare-item"><span class="name">VPN</span><span class="desc">Encrypted tunnel between sites or for remote users — provided by firewalls, routers, or dedicated VPN concentrators</span></div>
+          <div class="compare-item"><span class="name">QoS</span><span class="desc">Traffic prioritization — performed by switches, routers, or firewalls to favor voice/video over file transfers</span></div>
+          <div class="compare-item"><span class="name">TTL</span><span class="desc">Time-to-Live — IP header field decremented at each router hop; prevents packets looping forever</span></div>
+        </div>
+        <h4>Applications (services on the network)</h4>
+        <div class="compare-items">
+          <div class="compare-item"><span class="name">CDN</span><span class="desc">Content Delivery Network — geographically distributed cache that serves content to users from the nearest edge node</span></div>
+        </div>
+        <div class="compare-trap">
+          <div class="heading">★ The Most-Tested Trap</div>
+          <p>"Which appliance provides VPN?" is a trick. VPN is a <b>function</b>. Multiple appliance types can provide it (firewall, router, dedicated VPN concentrator). The exam wants you to recognize the difference between a device and a capability.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-scen">
+  <div class="scen-frame">
+    <div class="scen-head">
+      <div class="title">Help Desk Scenarios</div>
+      <div class="stats">Got <b id="scen-got">0</b> · Seen <b id="scen-seen">0</b> / 12</div>
+    </div>
+    <div id="scen-content"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-check">
+  <div class="kc-card" id="kc-card"></div>
+</section>
+
+<section class="panel" id="panel-lightning">
+  <div class="lr-pre" id="lr-pre">
+    <h2>Lightning <em>Round</em></h2>
+    <p>Mixed appliance recognition, function vs appliance, scenario picks. Answer as many as you can before the timer runs out.</p>
+    <div class="lr-duration-row">
+      <button class="lr-dur-btn" data-dur="30">30 SEC</button>
+      <button class="lr-dur-btn active" data-dur="60">60 SEC</button>
+      <button class="lr-dur-btn" data-dur="90">90 SEC</button>
+    </div>
+    <button class="lr-start" id="lr-start">▶ Start Drill</button>
+  </div>
+  <div class="lr-game" id="lr-game">
+    <div class="lr-header">
+      <div class="lr-score-block">Correct <b id="lr-correct">0</b></div>
+      <div class="lr-timer" id="lr-timer">60</div>
+      <div class="lr-skipped">Wrong/Skipped <b id="lr-wrong">0</b></div>
+    </div>
+    <div class="lr-body" id="lr-body"></div>
+  </div>
+  <div class="lr-final" id="lr-final" style="display: none;"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Tool</h4>
+      <p>An interactive Network+ exam prep tool for CompTIA N10-009 Objective 1.2 — networking appliances, applications, and functions. Covers the 11 appliances (router, switch, firewall, IDS/IPS, load balancer, proxy, NAS, SAN, AP, controller), the CDN application, and the three functions (VPN, QoS, TTL) the exam tests directly.</p>
+      <p>Built around the "which one fits this scenario?" question pattern the exam uses most.</p>
+    </div>
+    <div>
+      <h4>Study Strategy</h4>
+      <p>· Day 1: Appliance Atlas — click every device.</p>
+      <p>· Day 2: Appliances vs Functions — learn the trap.</p>
+      <p>· Day 3: What Do You Need + Scenario Lab.</p>
+      <p>· Day 4: Knowledge Check + Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Next Steps</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Office hours and lab schedules are posted on Canvas. Bring questions to lab if anything here doesn't click.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · 1.2 Appliances, Applications & Functions</span>
+  </div>
+</footer>
+
+<script>
+/* ============================ DEVICE SVGs ============================ */
+const SVG = {
+  router: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="40" r="28" fill="#283068" stroke="#1A2050" stroke-width="2"/><path d="M 30 40 L 70 40 M 50 20 L 50 60 M 35 28 L 65 52 M 35 52 L 65 28" stroke="#E0B840" stroke-width="2.5" fill="none"/><circle cx="50" cy="40" r="4" fill="#E0B840"/></svg>',
+  switch: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="28" width="80" height="24" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><g fill="#E0B840"><rect x="16" y="34" width="6" height="4"/><rect x="24" y="34" width="6" height="4"/><rect x="32" y="34" width="6" height="4"/><rect x="40" y="34" width="6" height="4"/><rect x="48" y="34" width="6" height="4"/><rect x="56" y="34" width="6" height="4"/><rect x="64" y="34" width="6" height="4"/><rect x="72" y="34" width="6" height="4"/></g><g fill="#6BC5E8"><rect x="16" y="42" width="6" height="4"/><rect x="24" y="42" width="6" height="4"/><rect x="32" y="42" width="6" height="4"/><rect x="40" y="42" width="6" height="4"/><rect x="48" y="42" width="6" height="4"/><rect x="56" y="42" width="6" height="4"/><rect x="64" y="42" width="6" height="4"/><rect x="72" y="42" width="6" height="4"/></g></svg>',
+  firewall: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="12" width="60" height="56" fill="#8E1F2E" stroke="#5A0F1B" stroke-width="2" rx="3"/><g fill="#F4D9DC"><rect x="26" y="18" width="12" height="6"/><rect x="44" y="18" width="12" height="6"/><rect x="62" y="18" width="12" height="6"/><rect x="32" y="28" width="12" height="6"/><rect x="50" y="28" width="12" height="6"/><rect x="26" y="38" width="12" height="6"/><rect x="44" y="38" width="12" height="6"/><rect x="62" y="38" width="12" height="6"/><rect x="32" y="48" width="12" height="6"/><rect x="50" y="48" width="12" height="6"/><rect x="26" y="58" width="12" height="6"/><rect x="44" y="58" width="12" height="6"/><rect x="62" y="58" width="12" height="6"/></g></svg>',
+  ids: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="25" width="70" height="35" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><circle cx="35" cy="42" r="8" fill="none" stroke="#E0B840" stroke-width="2.5"/><line x1="41" y1="48" x2="48" y2="55" stroke="#E0B840" stroke-width="3" stroke-linecap="round"/><text x="68" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">!</text><circle cx="68" cy="42" r="9" fill="none" stroke="#E0B840" stroke-width="2"/></svg>',
+  loadbalancer: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="10" width="30" height="20" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><text x="50" y="24" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#E0B840" font-weight="700">LB</text><line x1="50" y1="30" x2="20" y2="55" stroke="#3D4685" stroke-width="2"/><line x1="50" y1="30" x2="50" y2="55" stroke="#3D4685" stroke-width="2"/><line x1="50" y1="30" x2="80" y2="55" stroke="#3D4685" stroke-width="2"/><rect x="10" y="55" width="20" height="15" fill="#404758"/><rect x="40" y="55" width="20" height="15" fill="#404758"/><rect x="70" y="55" width="20" height="15" fill="#404758"/></svg>',
+  proxy: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="40" r="8" fill="#38B0E0"/><rect x="35" y="28" width="30" height="24" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><text x="50" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" font-weight="700">P</text><circle cx="85" cy="40" r="8" fill="#404758"/><line x1="23" y1="40" x2="35" y2="40" stroke="#3D4685" stroke-width="2.5" stroke-dasharray="3 2"/><line x1="65" y1="40" x2="77" y2="40" stroke="#3D4685" stroke-width="2.5"/></svg>',
+  nas: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="25" y="12" width="50" height="56" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><rect x="30" y="18" width="40" height="8" fill="#404758"/><circle cx="35" cy="22" r="1.5" fill="#2A6049"/><rect x="30" y="30" width="40" height="8" fill="#404758"/><circle cx="35" cy="34" r="1.5" fill="#2A6049"/><rect x="30" y="42" width="40" height="8" fill="#404758"/><circle cx="35" cy="46" r="1.5" fill="#2A6049"/><rect x="30" y="54" width="40" height="8" fill="#404758"/><circle cx="35" cy="58" r="1.5" fill="#2A6049"/></svg>',
+  san: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="20" width="22" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/><rect x="13" y="24" width="16" height="6" fill="#404758"/><rect x="13" y="32" width="16" height="6" fill="#404758"/><rect x="13" y="40" width="16" height="6" fill="#404758"/><rect x="13" y="48" width="16" height="6" fill="#404758"/><rect x="40" y="20" width="22" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/><rect x="43" y="24" width="16" height="6" fill="#404758"/><rect x="43" y="32" width="16" height="6" fill="#404758"/><rect x="43" y="40" width="16" height="6" fill="#404758"/><rect x="43" y="48" width="16" height="6" fill="#404758"/><rect x="70" y="20" width="22" height="40" fill="#283068" stroke="#1A2050" stroke-width="1.5" rx="2"/><rect x="73" y="24" width="16" height="6" fill="#404758"/><rect x="73" y="32" width="16" height="6" fill="#404758"/><rect x="73" y="40" width="16" height="6" fill="#404758"/><rect x="73" y="48" width="16" height="6" fill="#404758"/><line x1="32" y1="64" x2="40" y2="64" stroke="#E0B840" stroke-width="2"/><line x1="62" y1="64" x2="70" y2="64" stroke="#E0B840" stroke-width="2"/></svg>',
+  ap: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="55" r="16" fill="#283068" stroke="#1A2050" stroke-width="2"/><circle cx="50" cy="55" r="4" fill="#E0B840"/><path d="M 50 25 Q 30 35 30 50" fill="none" stroke="#38B0E0" stroke-width="2"/><path d="M 50 25 Q 70 35 70 50" fill="none" stroke="#38B0E0" stroke-width="2"/><path d="M 50 15 Q 20 30 20 55" fill="none" stroke="#38B0E0" stroke-width="2" opacity="0.5"/><path d="M 50 15 Q 80 30 80 55" fill="none" stroke="#38B0E0" stroke-width="2" opacity="0.5"/></svg>',
+  controller: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="15" width="40" height="22" fill="#E0B840" stroke="#B8932A" stroke-width="2" rx="2"/><text x="50" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1A2050" font-weight="700">WLC</text><line x1="50" y1="37" x2="20" y2="60" stroke="#3D4685" stroke-width="1.5" stroke-dasharray="3 2"/><line x1="50" y1="37" x2="50" y2="60" stroke="#3D4685" stroke-width="1.5" stroke-dasharray="3 2"/><line x1="50" y1="37" x2="80" y2="60" stroke="#3D4685" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="20" cy="65" r="6" fill="#283068"/><circle cx="50" cy="65" r="6" fill="#283068"/><circle cx="80" cy="65" r="6" fill="#283068"/></svg>',
+  cdn: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="40" r="22" fill="none" stroke="#38B0E0" stroke-width="1.5" stroke-dasharray="4 2"/><circle cx="50" cy="40" r="6" fill="#283068"/><text x="50" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#E0B840" font-weight="700">SRC</text><rect x="12" y="20" width="14" height="10" fill="#E0B840" stroke="#B8932A" stroke-width="1"/><rect x="74" y="20" width="14" height="10" fill="#E0B840" stroke="#B8932A" stroke-width="1"/><rect x="12" y="50" width="14" height="10" fill="#E0B840" stroke="#B8932A" stroke-width="1"/><rect x="74" y="50" width="14" height="10" fill="#E0B840" stroke="#B8932A" stroke-width="1"/></svg>',
+  vpn: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="40" r="10" fill="#283068" stroke="#1A2050" stroke-width="1.5"/><text x="20" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#E0B840" font-weight="700">A</text><circle cx="80" cy="40" r="10" fill="#283068" stroke="#1A2050" stroke-width="1.5"/><text x="80" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#E0B840" font-weight="700">B</text><path d="M 30 40 Q 50 20 70 40" fill="none" stroke="#38B0E0" stroke-width="3"/><path d="M 30 40 Q 50 25 70 40" fill="none" stroke="#E0B840" stroke-width="1.5" stroke-dasharray="2 2"/><text x="50" y="60" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1E8FBE" font-weight="700">ENCRYPTED</text></svg>',
+  qos: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="18" width="70" height="44" fill="#283068" stroke="#1A2050" stroke-width="2" rx="2"/><rect x="20" y="24" width="40" height="8" fill="#8E1F2E"/><text x="64" y="31" font-family="JetBrains Mono" font-size="8" fill="#E0B840">HI</text><rect x="20" y="36" width="30" height="8" fill="#E0B840"/><text x="54" y="43" font-family="JetBrains Mono" font-size="8" fill="#E0B840">MED</text><rect x="20" y="48" width="20" height="8" fill="#404758"/><text x="44" y="55" font-family="JetBrains Mono" font-size="8" fill="#6BC5E8">LO</text></svg>',
+  ttl: '<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="32" width="14" height="16" fill="#283068"/><text x="17" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" font-weight="700">5</text><line x1="24" y1="40" x2="38" y2="40" stroke="#3D4685" stroke-width="2"/><rect x="38" y="32" width="14" height="16" fill="#283068"/><text x="45" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" font-weight="700">4</text><line x1="52" y1="40" x2="66" y2="40" stroke="#3D4685" stroke-width="2"/><rect x="66" y="32" width="14" height="16" fill="#283068"/><text x="73" y="44" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" font-weight="700">3</text><text x="50" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92" font-weight="700">TTL DECREMENTS PER HOP</text></svg>'
+};
+
+/* ============================ APPLIANCE DATA ============================ */
+const DEVICES = [
+  {
+    id: 'router', name: 'Router', cat: 'appliance', layer: 'L3', sub: 'forwards packets between networks',
+    short: 'Connects different networks. Makes Layer 3 forwarding decisions based on IP addresses.',
+    desc: 'A router operates at <b>Layer 3 (Network)</b> of the OSI model. It examines the destination IP address of each packet and consults its routing table to decide which interface to send the packet out — typically to the next-hop router or the destination network if directly attached. Routers separate <b>broadcast domains</b> and provide the bridge between LANs, between LANs and WANs, and to the internet.',
+    facts: [['OSI Layer', 'Layer 3 (Network)'],['Decision based on', 'Destination IP address'],['Separates', 'Broadcast domains'],['Examples', 'Cisco ISR, Juniper MX, edge / SOHO routers']],
+    tip: 'On the exam, the moment "between networks" or "routing table" appears, the answer is router. Switches do not forward between networks — that\'s the line.'
+  },
+  {
+    id: 'switch', name: 'Switch', cat: 'appliance', layer: 'L2', sub: 'forwards frames within a network',
+    short: 'Connects devices within the same network. Forwards Layer 2 frames by MAC address.',
+    desc: 'A switch operates at <b>Layer 2 (Data Link)</b>. It learns which MAC addresses live on which ports by inspecting source MAC fields of incoming frames, building a <b>MAC address table</b>. When a frame arrives, the switch looks up the destination MAC and sends the frame out only the port where that MAC lives — unlike a hub, which floods every port. Switches separate <b>collision domains</b> per port but stay within a single broadcast domain unless VLANs split it.',
+    facts: [['OSI Layer', 'Layer 2 (Data Link)'],['Decision based on', 'Destination MAC address'],['Separates', 'Collision domains (per port)'],['L3 switches', 'Can also do Layer 3 routing']],
+    tip: 'Layer 2 only by default. A switch does NOT separate broadcast domains unless it\'s configured with VLANs. The classic Net+ trap: "broadcast domain" → router, "collision domain" → switch.'
+  },
+  {
+    id: 'firewall', name: 'Firewall', cat: 'appliance', layer: 'L3-L7', sub: 'filters traffic by policy',
+    short: 'Filters incoming and outgoing traffic based on rules. The security perimeter device.',
+    desc: 'A firewall inspects traffic against a set of <b>access control rules</b> and permits or denies it. <b>Stateful firewalls</b> track connection state and apply rules contextually. <b>Next-generation firewalls (NGFW)</b> add application awareness, deep packet inspection, and integrated IDS/IPS. Firewalls often also <b>provide other functions</b> — VPN termination, NAT, content filtering, and routing.',
+    facts: [['OSI Layer', 'L3 (packet filter) up to L7 (NGFW)'],['Filters by', 'IP, port, protocol, application, identity'],['Common modes', 'Stateful, NGFW, host-based'],['Often also', 'Routes and terminates VPNs']],
+    tip: 'Firewalls show up as the answer when the scenario emphasizes <em>policy enforcement</em>, <em>blocking traffic</em>, or <em>perimeter security</em>. If the scenario mentions encrypted tunnels to remote sites, the firewall is usually also the VPN endpoint.'
+  },
+  {
+    id: 'ids', name: 'IDS / IPS', cat: 'appliance', layer: 'L3-L7', sub: 'detects (IDS) or blocks (IPS) attacks',
+    short: 'Inspects traffic for attack patterns. IDS alerts; IPS actively blocks.',
+    desc: '<b>IDS (Intrusion Detection System)</b> monitors traffic and generates alerts on suspicious activity but takes no action itself — purely passive. <b>IPS (Intrusion Prevention System)</b> sits inline and can drop, reset, or block malicious traffic in real time. Many modern firewalls (NGFW) integrate IPS as a feature. Both work from <b>signatures</b> (known attack patterns) and/or <b>behavioral analysis</b>.',
+    facts: [['IDS role', 'Passive — detect and alert only'],['IPS role', 'Active — detect and block inline'],['Detection methods', 'Signatures, anomaly, behavior'],['Often a feature of', 'Next-gen firewalls (NGFW)']],
+    tip: 'The single biggest IDS vs IPS gotcha: IDS = <b>detect</b>, IPS = <b>prevent</b>. If the question says "alert" or "monitor without blocking" → IDS. If it says "block automatically" or "actively prevent" → IPS.'
+  },
+  {
+    id: 'loadbalancer', name: 'Load Balancer', cat: 'appliance', layer: 'L4/L7', sub: 'distributes traffic across servers',
+    short: 'Distributes incoming traffic across multiple backend servers for capacity and resilience.',
+    desc: 'A load balancer sits in front of a pool of backend servers and distributes incoming client connections across them. Common algorithms include <b>round-robin</b>, <b>least-connections</b>, and <b>weighted distribution</b>. Load balancers may operate at <b>Layer 4</b> (TCP/UDP port forwarding) or <b>Layer 7</b> (HTTP-aware, can route by URL, host header, cookies). They also detect backend failures via <b>health checks</b> and remove unhealthy servers from rotation.',
+    facts: [['Primary purpose', 'Spread load + survive server failures'],['Common layers', 'L4 (TCP/UDP) or L7 (HTTP)'],['Algorithms', 'Round-robin, least-conn, weighted'],['Bonus features', 'SSL offload, session persistence, health checks']],
+    tip: 'When the scenario mentions multiple identical servers handling requests, OR "a single user-facing URL backed by many servers," load balancer is the answer. The keyword is <em>distribute</em>.'
+  },
+  {
+    id: 'proxy', name: 'Proxy', cat: 'appliance', layer: 'L7', sub: 'intermediary for client requests',
+    short: 'Intermediary between users and the internet. Forwards requests on the user\'s behalf.',
+    desc: 'A proxy server makes outbound requests <b>on behalf of clients</b>. <b>Forward proxies</b> (the classic case) sit between internal users and the internet, providing content filtering, caching, and identity logging. <b>Reverse proxies</b> sit in front of internal servers, accepting requests from the public internet and forwarding them inward — often combined with load balancing and SSL termination.',
+    facts: [['Forward proxy', 'Client side — user → proxy → internet'],['Reverse proxy', 'Server side — internet → proxy → backend'],['Common uses', 'Content filtering, caching, anonymity'],['Often combined with', 'Load balancing and SSL termination']],
+    tip: 'Forward proxy = filters what users can reach. Reverse proxy = hides backend servers behind a single front-facing endpoint. Both are <em>intermediaries</em>, but they face different directions.'
+  },
+  {
+    id: 'nas', name: 'NAS', cat: 'appliance', layer: 'L7', sub: 'network-attached file storage',
+    short: 'File-level storage attached to the network. Hosts share folders/files over SMB or NFS.',
+    desc: '<b>Network-Attached Storage (NAS)</b> is a dedicated file storage device with its own OS, network interface, and disk array. Clients access NAS shares using <b>file-level protocols</b>: <b>SMB/CIFS</b> (Windows), <b>NFS</b> (Linux/Unix), or <b>AFP</b> (legacy Mac). NAS is typically used for shared folders, departmental file storage, backups, and media libraries.',
+    facts: [['Access type', 'File-level (SMB, NFS, AFP)'],['Sits on', 'Standard Ethernet network'],['Best for', 'Shared folders, backups, departmental files'],['Examples', 'Synology, QNAP, NetApp filers']],
+    tip: 'NAS vs SAN is the biggest 1.2 storage trap. NAS = files. SAN = blocks. NAS uses normal Ethernet and standard file protocols (SMB/NFS). If the scenario talks about <em>shared folders</em>, it\'s NAS.'
+  },
+  {
+    id: 'san', name: 'SAN', cat: 'appliance', layer: 'L2-L3', sub: 'block-level storage network',
+    short: 'High-speed network of block-level storage. Server sees disk volumes as if local.',
+    desc: '<b>Storage Area Network (SAN)</b> is a dedicated, high-speed network of storage devices accessed at the <b>block level</b>. Servers see SAN-provisioned LUNs as if they were locally attached disks. Common SAN protocols: <b>Fibre Channel (FC)</b>, <b>Fibre Channel over Ethernet (FCoE)</b>, and <b>iSCSI</b> (block storage over standard IP). SANs are used for databases, virtualization storage backends, and any workload that benefits from raw block access.',
+    facts: [['Access type', 'Block-level (LUNs)'],['Protocols', 'Fibre Channel, FCoE, iSCSI'],['Best for', 'Databases, VM hosts, high-performance apps'],['Network', 'Often a separate storage fabric']],
+    tip: 'Block-level = SAN. The server treats the storage as if it\'s a local disk and runs its own filesystem on top. NAS gives you files; SAN gives you raw blocks.'
+  },
+  {
+    id: 'ap', name: 'Access Point (AP)', cat: 'appliance', layer: 'L2', sub: 'wireless bridge to wired network',
+    short: 'Wireless radio that bridges Wi-Fi clients to a wired Ethernet network.',
+    desc: 'A <b>Wireless Access Point (AP, WAP)</b> is a Layer 2 device that converts radio (Wi-Fi 802.11) frames to wired Ethernet frames and back. APs may be <b>autonomous</b> (configured individually) or <b>lightweight</b> (centrally managed by a wireless LAN controller). Each AP serves clients in its radio range and connects upstream via Ethernet — usually with PoE so a single cable carries both power and data.',
+    facts: [['OSI Layer', 'Layer 2 (Data Link)'],['Two types', 'Autonomous or lightweight'],['Power', 'Typically PoE (Power over Ethernet)'],['Examples', 'Cisco Aironet, Ubiquiti UniFi, Aruba AP']],
+    tip: 'AP just bridges Wi-Fi to Ethernet. It does NOT route between networks (use a router) and does NOT centrally manage other APs (use a controller).'
+  },
+  {
+    id: 'controller', name: 'Wireless Controller', cat: 'appliance', layer: 'mgmt', sub: 'central management for many APs',
+    short: 'Centralized brain for many wireless APs. Pushes config, monitors clients, manages roaming.',
+    desc: 'A <b>Wireless LAN Controller (WLC)</b> centrally manages many lightweight APs. The controller distributes configuration, monitors client connections, manages roaming between APs, applies QoS, and aggregates logs. Lightweight APs depend on the controller — they don\'t function fully on their own. Modern alternative: <b>cloud-managed APs</b> where the "controller" is a cloud service (Cisco Meraki, Ubiquiti UniFi Cloud).',
+    facts: [['Manages', 'Many lightweight APs'],['Tasks', 'Config push, roaming, QoS, monitoring'],['Form factor', 'Hardware appliance, virtual, or cloud-based'],['Without controller', 'Lightweight APs cannot fully function']],
+    tip: 'Controller is for orchestrating many APs centrally. If the scenario mentions roaming, single configuration push to dozens of APs, or central wireless monitoring → controller is the answer, not the AP itself.'
+  },
+  {
+    id: 'cdn', name: 'CDN', cat: 'application', layer: 'L7', sub: 'distributed content delivery service',
+    short: 'Geographically distributed network of caching servers that serves content from the nearest edge.',
+    desc: 'A <b>Content Delivery Network (CDN)</b> is a globally distributed network of caching servers. When a user requests content, the CDN serves it from the <b>edge node closest to the user</b>, dramatically reducing latency and offloading traffic from the origin server. CDNs cache static assets (images, video, CSS, JavaScript) and increasingly handle dynamic content via edge compute. Examples: Cloudflare, Akamai, AWS CloudFront, Fastly.',
+    facts: [['Type', 'Application / service (not an appliance)'],['Primary benefit', 'Lower latency for users worldwide'],['Cached at', 'Geographically distributed edge nodes'],['Examples', 'Cloudflare, Akamai, CloudFront, Fastly']],
+    tip: 'CDN is an <b>application</b> in the 1.2 list — not an appliance. It\'s a service, often run by a third party. The exam asks about it as the canonical "content caching closer to users" answer.'
+  },
+  {
+    id: 'vpn', name: 'VPN', cat: 'function', layer: 'L3', sub: 'encrypted tunnel function',
+    short: 'A function that creates an encrypted tunnel — provided by firewalls, routers, or VPN concentrators.',
+    desc: '<b>Virtual Private Network (VPN)</b> is a <b>function</b>, not a physical appliance. VPN creates an encrypted tunnel between two endpoints across an untrusted network. <b>Site-to-site VPNs</b> connect entire networks (typically headquarters and branch). <b>Remote-access VPNs</b> connect individual users to a corporate network. Common protocols: <b>IPsec</b> (most common for site-to-site), <b>SSL/TLS</b> (remote access via browser or client), <b>WireGuard</b> (modern lightweight alternative).',
+    facts: [['Category', 'FUNCTION (not an appliance)'],['Provided by', 'Firewalls, routers, dedicated concentrators'],['Site-to-site', 'IPsec tunnels between offices'],['Remote access', 'SSL VPN, AnyConnect, OpenVPN, WireGuard']],
+    tip: 'VPN is one of three "function" topics in 1.2 (along with QoS and TTL). The exam trap: "Which appliance does VPN?" — the right answer recognizes VPN isn\'t an appliance, it\'s a capability provided by appliances (firewalls, routers, concentrators).'
+  },
+  {
+    id: 'qos', name: 'QoS', cat: 'function', layer: 'L2-L3', sub: 'traffic prioritization function',
+    short: 'A function that prioritizes specific traffic types. Performed by switches, routers, and firewalls.',
+    desc: '<b>Quality of Service (QoS)</b> is a <b>function</b>, not an appliance. QoS classifies, marks, and schedules traffic so that high-priority flows (voice, video, business-critical applications) get bandwidth and low-latency treatment over best-effort traffic (file downloads, backups). Switches use <b>CoS (802.1p)</b> at Layer 2; routers and firewalls use <b>DSCP</b> at Layer 3. Configuration involves <b>marking</b>, <b>queuing</b>, and <b>shaping/policing</b>.',
+    facts: [['Category', 'FUNCTION (not an appliance)'],['Performed by', 'Switches, routers, firewalls'],['L2 marking', 'CoS (802.1p)'],['L3 marking', 'DSCP']],
+    tip: 'Voice and video need QoS. If a scenario describes jittery VoIP or video conferencing struggling against file transfers, QoS is the answer — implemented on the existing switches/routers, not a new box.'
+  },
+  {
+    id: 'ttl', name: 'TTL', cat: 'function', layer: 'L3', sub: 'IP header time-to-live field',
+    short: 'A function (IP header field) that prevents packets from looping forever. Decremented per hop.',
+    desc: '<b>Time to Live (TTL)</b> is an 8-bit field in the IPv4 header (and "Hop Limit" in IPv6). Each router that forwards a packet decrements TTL by 1. When TTL reaches 0, the router drops the packet and sends an <b>ICMP Time Exceeded</b> message back to the source. This prevents packets from circulating indefinitely if a routing loop exists. <b>Traceroute uses TTL</b> deliberately: it sends packets with TTL 1, 2, 3, etc. and reads the ICMP responses to map every router along the path.',
+    facts: [['Category', 'FUNCTION (IP header field)'],['Field size', '8 bits (0–255)'],['Decrement', '1 per router hop'],['When TTL = 0', 'Packet dropped, ICMP Time Exceeded sent']],
+    tip: 'TTL is the most obviously-not-an-appliance item in 1.2. It\'s an IP header field. The exam tests it as the mechanism that prevents routing loops and as the basis for how traceroute works.'
+  }
+];
+
+const CATS = [
+  { id: 'appliance', label: 'Appliances (boxes — physical or virtual)' },
+  { id: 'application', label: 'Applications (services)' },
+  { id: 'function', label: 'Functions (capabilities)' }
+];
+
+var selectedDevice = 'router';
+
+function renderAtlasList() {
+  var list = document.getElementById('atlas-list');
+  var html = '';
+  CATS.forEach(function(c){
+    html += '<div class="atlas-cat-head">' + c.label + '</div>';
+    DEVICES.filter(function(d){ return d.cat === c.id; }).forEach(function(d){
+      html += '<div class="atlas-item ' + (d.id === selectedDevice ? 'selected' : '') + '" data-id="' + d.id + '">';
+      html += '<div class="atlas-thumb">' + SVG[d.id] + '</div>';
+      html += '<div class="atlas-info"><div class="name">' + d.name + '</div><div class="sub">' + d.sub + '</div></div>';
+      html += '</div>';
+    });
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.atlas-item').forEach(function(el){
+    el.addEventListener('click', function(){
+      selectedDevice = el.dataset.id;
+      renderAtlasList();
+      renderAtlasDetail();
+    });
+  });
+}
+
+function renderAtlasDetail() {
+  var d = DEVICES.filter(function(x){ return x.id === selectedDevice; })[0];
+  var catLabel = d.cat === 'appliance' ? 'Appliance · physical or virtual' : (d.cat === 'application' ? 'Application · service' : 'Function · capability');
+  var html = '<div class="atlas-detail-head">';
+  html += '<div class="atlas-detail-eyebrow">' + catLabel + '</div>';
+  html += '<h2 class="atlas-detail-title">' + d.name + '</h2>';
+  html += '<div class="atlas-detail-layer">OSI scope · <b>' + d.layer + '</b></div>';
+  html += '</div>';
+  html += '<div class="atlas-big-svg">' + SVG[d.id] + '</div>';
+  html += '<div class="atlas-section"><div class="heading">What It Is</div><p>' + d.desc + '</p></div>';
+  html += '<div class="atlas-section"><div class="heading">Key Facts</div><div class="atlas-facts">';
+  d.facts.forEach(function(f){
+    html += '<div class="atlas-fact-block"><div class="label">' + f[0] + '</div><div class="value">' + f[1] + '</div></div>';
+  });
+  html += '</div></div>';
+  html += '<div class="atlas-tip"><div class="heading">★ Exam Tip</div><p>' + d.tip + '</p></div>';
+  document.getElementById('atlas-detail').innerHTML = html;
+}
+renderAtlasList();
+renderAtlasDetail();
+
+/* ============================ PICKER ============================ */
+const PICKER_OPTIONS = [
+  { label: 'A single public URL needs to be backed by 5 web servers — capacity and failover', pick: 'loadbalancer', why: 'A load balancer is the textbook answer. It distributes incoming requests across all 5 servers and removes any that fail health checks.' },
+  { label: 'Block outbound traffic from finance VLAN to social media sites at the perimeter', pick: 'firewall', why: 'Firewall — that\'s exactly what perimeter policy enforcement is. URL/content filtering rules block specific destinations.' },
+  { label: 'Detect and alert on suspicious traffic patterns, but do NOT block anything automatically', pick: 'ids', why: 'IDS specifically. The "alert but don\'t block" requirement rules out IPS. If the question said "block," the answer would flip to IPS.' },
+  { label: 'Provide shared folders to Windows and Mac users across the office', pick: 'nas', why: 'NAS — file-level shared storage over SMB/NFS. SAN is block-level (wrong for shared folders).' },
+  { label: 'Provide block-level storage to a VMware host cluster for VM disks', pick: 'san', why: 'SAN — VM hosts need block-level storage (LUNs) to run virtual machine disks. NAS is file-level and not the right tool for hypervisor storage.' },
+  { label: 'Connect Wi-Fi clients to the wired Ethernet network', pick: 'ap', why: 'Access Point — bridges 802.11 wireless to wired Ethernet. The controller would manage many APs, but you connect to APs.' },
+  { label: 'Centrally manage and push config to 50 wireless APs across multiple buildings', pick: 'controller', why: 'Wireless LAN Controller (WLC). Lightweight APs depend on a controller for config, roaming, and monitoring.' },
+  { label: 'Cache and serve static assets (images, video) from servers near each user worldwide', pick: 'cdn', why: 'CDN — Content Delivery Network. Application/service, not an appliance — typically third-party like Cloudflare or CloudFront.' },
+  { label: 'Establish an encrypted tunnel between branch and HQ over the public internet', pick: 'vpn', why: 'VPN — but remember, VPN is a function. The actual tunnel is terminated by a firewall, router, or VPN concentrator on each end.' },
+  { label: 'Voice traffic is being delayed by large file transfers on the same WAN link', pick: 'qos', why: 'QoS — Quality of Service prioritizes voice/video over best-effort traffic. Implemented on the existing routers and switches, not a new box.' },
+  { label: 'A packet keeps looping between routers — there must be a mechanism that eventually drops it', pick: 'ttl', why: 'TTL — Time to Live. Each hop decrements TTL; when it reaches 0, the packet is dropped and an ICMP Time Exceeded is sent.' },
+  { label: 'Inspect user web traffic for content filtering and log who visited what', pick: 'proxy', why: 'Forward Proxy — sits between users and the internet to filter content and log access. Often deployed alongside a firewall but distinct from it.' },
+  { label: 'Forward traffic between three different IP subnets in the same office', pick: 'router', why: 'Router — Layer 3 forwarding between subnets. A Layer 3 switch could also do this internally; a pure Layer 2 switch cannot.' },
+  { label: 'Connect 24 user laptops together on the same office subnet', pick: 'switch', why: 'Switch — Layer 2 forwarding within one network. Each port is its own collision domain; all ports share one broadcast domain unless VLANs split them.' },
+  { label: 'Block known malware signatures inline as traffic flows through the network', pick: 'ids', why: 'Wait — this one is actually IPS, since "block inline" is active prevention. We marked it IDS but if you re-read the scenario, the correct pick was IPS-flavored. Let\'s call it IPS function of an IDS/IPS appliance.', actually: 'ips' }
+];
+
+// Filter out the deliberately-confusing option for clarity in the picker
+const PICKER_LIST = PICKER_OPTIONS.filter(function(o){ return !o.actually; });
+
+function renderPicker() {
+  var container = document.getElementById('picker-options');
+  var html = '';
+  PICKER_LIST.forEach(function(o, i){
+    html += '<button class="picker-option" data-i="' + i + '"><b>SCENARIO</b>' + o.label + '</button>';
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.picker-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var i = parseInt(btn.dataset.i, 10);
+      showPickResult(PICKER_LIST[i]);
+    });
+  });
+}
+
+function showPickResult(o) {
+  var d = DEVICES.filter(function(x){ return x.id === o.pick; })[0];
+  var catLabel = d.cat === 'appliance' ? 'APPLIANCE' : (d.cat === 'application' ? 'APPLICATION' : 'FUNCTION');
+  var result = document.getElementById('picker-result');
+  result.innerHTML = '<div class="picker-result-head">✓ The answer is a ' + catLabel + '</div>' +
+    '<div class="picker-result-body">' +
+    '<div class="pick-svg">' + SVG[o.pick] + '</div>' +
+    '<div class="pick-content">' +
+    '<h3>' + d.name + '<em></em></h3>' +
+    '<p><b>Why this fits:</b> ' + o.why + '</p>' +
+    '<p style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line-soft); font-size: 13px; color: var(--ink-mute);"><b>About ' + d.name + ':</b> ' + d.short + '</p>' +
+    '</div></div>' +
+    '<div class="picker-actions"><button class="next-btn" id="picker-reset">Try Another</button></div>';
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('picker-reset').addEventListener('click', function(){
+    result.classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+renderPicker();
+
+/* ============================ SCENARIO LAB ============================ */
+const SCENARIOS = [
+  {
+    cat: 'Identification', id: 'TKT-1201',
+    title: 'Same URL, many backend servers',
+    body: 'A web application is currently struggling under load. The team plans to deploy 6 identical web servers behind a <b>single user-facing URL</b>. Health-check failures should automatically take a server out of rotation.',
+    question: 'Which appliance fits this requirement?',
+    options: ['Firewall','Load balancer','Forward proxy','IDS'],
+    correct: 1,
+    explain: 'A load balancer distributes incoming connections across the pool and removes failed backends via health checks. Firewall filters traffic but doesn\'t distribute it. Forward proxy faces clients outbound, not backend servers. IDS detects attacks, not distribution.'
+  },
+  {
+    cat: 'IDS vs IPS', id: 'TKT-1202',
+    title: 'Alert without blocking',
+    body: 'A security team wants visibility into suspicious traffic patterns. Their requirement: "log and alert, but do <b>not</b> block traffic — false positives have caused outages in the past."',
+    question: 'Which fits this requirement?',
+    options: ['IPS — block all detected threats','IDS — passive detection and alerting only','Firewall — set to deny','Load balancer with security rules'],
+    correct: 1,
+    explain: 'IDS is passive — it monitors and alerts but takes no action. IPS is active — it blocks inline. The "do not block" requirement specifically rules out IPS. Firewall denies by policy but is much broader than an IDS.'
+  },
+  {
+    cat: 'Storage', id: 'TKT-1203',
+    title: 'Storage for shared folders',
+    body: 'A 40-person engineering team needs shared folders for documents and CAD drawings, accessible by both Windows and Mac users via SMB.',
+    question: 'Which appliance is the right fit?',
+    options: ['NAS — file-level storage over SMB/NFS','SAN — block-level storage via iSCSI','Load balancer with cache','Reverse proxy with file backend'],
+    correct: 0,
+    explain: 'NAS handles file-level shared access over standard protocols (SMB, NFS, AFP). SAN provides block-level storage (LUNs) — useful for hypervisor storage but wrong for "shared folders." NAS is the textbook answer for shared file storage.'
+  },
+  {
+    cat: 'Storage', id: 'TKT-1204',
+    title: 'Storage for VM hosts',
+    body: 'A new VMware vSphere cluster needs back-end storage for VM disks. The hypervisors must see the storage as if it were local block devices and run VMFS on top.',
+    question: 'Which fits this requirement?',
+    options: ['NAS over SMB','SAN — block-level (Fibre Channel or iSCSI)','CDN','Proxy server'],
+    correct: 1,
+    explain: 'VM hypervisors require block-level storage to run their own filesystem on top (VMFS in VMware\'s case). SAN provides this through Fibre Channel or iSCSI LUNs. NAS is file-level and not appropriate for hypervisor primary storage.'
+  },
+  {
+    cat: 'Functions vs Appliances', id: 'TKT-1205',
+    title: 'Encrypted site-to-site tunnel',
+    body: 'A company needs to connect its branch office to HQ over the public internet with all traffic encrypted between the two locations. The administrator asks: "Which appliance should I purchase to provide this?"',
+    question: 'How do you correct the question?',
+    options: [
+      'Suggest a NAS at each end',
+      'Explain that VPN is a FUNCTION, not an appliance — it\'s provided BY appliances like firewalls, routers, or dedicated VPN concentrators',
+      'Recommend a CDN',
+      'Suggest IDS sensors at each end'
+    ],
+    correct: 1,
+    explain: 'This is the classic 1.2 trap. VPN is a function (capability), not a physical device class. The firewall or router at each end terminates the VPN tunnel. The exam tests whether you recognize the difference between an appliance and a function it provides.'
+  },
+  {
+    cat: 'Functions vs Appliances', id: 'TKT-1206',
+    title: 'VoIP suffering during backups',
+    body: 'Nightly backup traffic is saturating the company\'s WAN link. During the backup window, VoIP calls between offices experience jitter and dropped audio. The network team wants to prioritize voice over backups.',
+    question: 'What is the appropriate solution category?',
+    options: [
+      'Buy a new dedicated VoIP appliance',
+      'Configure QoS (a function) on the existing routers/switches to prioritize voice traffic over bulk transfer',
+      'Install an IDS to detect the backup',
+      'Add a CDN for the VoIP'
+    ],
+    correct: 1,
+    explain: 'QoS is a function performed by existing infrastructure (routers, switches, firewalls) — not a separate appliance. Marking voice with DSCP EF or CoS 5 and queuing it ahead of backup traffic solves this. The exam wants you to recognize "prioritize traffic" → QoS function.'
+  },
+  {
+    cat: 'Functions vs Appliances', id: 'TKT-1207',
+    title: 'Traceroute mechanism',
+    body: 'A student asks how the traceroute command discovers each router along the path to a destination. They\'ve heard "it has something to do with the IP header."',
+    question: 'Which mechanism enables traceroute?',
+    options: [
+      'TTL — Time to Live field is set incrementally (1, 2, 3...) and each router that decrements TTL to 0 sends back an ICMP Time Exceeded',
+      'A dedicated traceroute appliance',
+      'Load balancer health checks',
+      'NAS file access'
+    ],
+    correct: 0,
+    explain: 'TTL is a function/field in the IP header, not an appliance. Traceroute leverages how routers decrement TTL: send packet with TTL=1 → router 1 drops it and sends ICMP back (you log router 1\'s IP). TTL=2 → router 2 responds. Etc. The TTL field is the mechanism. Routers do the dropping.'
+  },
+  {
+    cat: 'Wireless', id: 'TKT-1208',
+    title: 'Roaming across 30 APs',
+    body: 'A hospital deploys 30 wireless access points across 6 floors. Doctors carry devices that must roam between APs seamlessly during patient rounds. The IT team wants single-pane management, central config push, and unified logging.',
+    question: 'What is the appropriate addition?',
+    options: ['Add a router','Add a load balancer','Add a wireless LAN controller (WLC) to centrally manage the APs','Add a CDN'],
+    correct: 2,
+    explain: 'A wireless LAN controller (WLC) centrally manages lightweight APs, handles roaming, distributes configuration, and unifies logging. Without a controller, each AP must be configured individually and roaming may not be seamless. Cloud-managed equivalents (Meraki, UniFi Cloud) are also valid options.'
+  },
+  {
+    cat: 'Content Delivery', id: 'TKT-1209',
+    title: 'Slow video loads for global users',
+    body: 'A video streaming startup has its origin server in the US. European users complain about long buffer times, and Asian users have it worse. The team wants users worldwide to get fast video loading without scaling the origin to massive capacity.',
+    question: 'Which solution fits?',
+    options: ['Deploy more origin servers in one location','Use a CDN — distribute content across geographically dispersed edge nodes near users','Add a single load balancer at origin','Add a firewall at each user\'s ISP'],
+    correct: 1,
+    explain: 'CDN (Content Delivery Network) is the textbook answer — it caches content at edge nodes worldwide, so each user pulls from the nearest cache instead of the origin. Examples: Cloudflare, Akamai, AWS CloudFront, Fastly. CDN is the only "application" item in the 1.2 list.'
+  },
+  {
+    cat: 'Proxy', id: 'TKT-1210',
+    title: 'Logging which sites users visit',
+    body: 'Management wants to log all employee web browsing activity, enforce content filtering (no gambling, social media during work hours), and cache common web content to save bandwidth.',
+    question: 'Which fits this combination of needs?',
+    options: ['Reverse proxy','Forward proxy — intermediary for outbound user requests','Load balancer','NAS'],
+    correct: 1,
+    explain: 'Forward proxy sits between internal users and the internet. It logs requests (who visited what), enforces filtering policies, and caches static content. Reverse proxies face the opposite direction (internet → internal servers). Load balancer distributes traffic but doesn\'t filter. NAS is for file storage.'
+  },
+  {
+    cat: 'Layer Identification', id: 'TKT-1211',
+    title: 'Layer 3 vs Layer 2 device',
+    body: 'A small office uses one network with 20 PCs all in the same broadcast domain. A new requirement adds 3 separate subnets that must communicate.',
+    question: 'What is needed?',
+    options: ['An L2-only switch','A router OR a Layer-3 switch to forward between the new subnets','A load balancer','An IDS sensor'],
+    correct: 1,
+    explain: 'Routing between subnets is Layer 3 work. Either a dedicated router or a multilayer (Layer 3) switch can do it. A pure Layer 2 switch cannot forward between subnets — it only forwards within one network. This is the core router-vs-switch distinction the exam tests heavily.'
+  },
+  {
+    cat: 'IDS vs IPS', id: 'TKT-1212',
+    title: 'Active blocking required',
+    body: 'A retail company experienced a credit-card breach via a known SQL injection signature. Compliance now requires that any traffic matching known malicious signatures be <b>blocked automatically and inline</b>, with no human approval needed.',
+    question: 'Which fits this requirement?',
+    options: [
+      'IDS — passive detection',
+      'IPS — active inline prevention, automatically blocks matched signatures',
+      'NAS with access logging',
+      'CDN with WAF'
+    ],
+    correct: 1,
+    explain: 'The "block automatically inline" requirement means IPS, not IDS. IDS only alerts. IPS sits in the traffic path and can drop/reset/block in real time. Many NGFWs include IPS as a feature. (CDN-bundled WAF is an option too, but the question describes a general inline mechanism — IPS is the textbook answer in the 1.2 vocabulary.)'
+  }
+];
+
+var scenIdx = 0;
+var scenSeen = 0;
+var scenGot = 0;
+var scenAnswered = false;
+var scenPool = [];
+
+function rebuildScenPool() {
+  scenPool = SCENARIOS.slice();
+  for (var i = scenPool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = scenPool[i]; scenPool[i] = scenPool[j]; scenPool[j] = t;
+  }
+  scenIdx = 0;
+  scenAnswered = false;
+}
+
+function renderScenario() {
+  var content = document.getElementById('scen-content');
+  if (scenIdx >= scenPool.length) {
+    var pct = scenSeen > 0 ? Math.round((scenGot / scenSeen) * 100) : 0;
+    var verdict, sub;
+    if (pct >= 90) { verdict = 'Mastered.'; sub = 'You can identify the right appliance for any scenario. Move on.'; }
+    else if (pct >= 70) { verdict = 'Solid Application.'; sub = 'A few more passes and you\'re exam-ready.'; }
+    else if (pct >= 50) { verdict = 'Building It.'; sub = 'Review the Appliance Atlas and Appliances vs Functions tab.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through the Appliance Atlas slowly, then come back.'; }
+    content.innerHTML = '<div class="scen-final"><div class="big-score">'+scenGot+'<b>/'+scenSeen+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="scen-restart">↻ Run Again</button></div>';
+    document.getElementById('scen-restart').addEventListener('click', function(){
+      scenSeen = 0; scenGot = 0; document.getElementById('scen-got').textContent = '0'; document.getElementById('scen-seen').textContent = '0';
+      rebuildScenPool(); renderScenario();
+    });
+    return;
+  }
+  var s = scenPool[scenIdx];
+  var html = '<div class="ticket"><div class="ticket-meta"><span class="ticket-id">'+s.id+'</span><span class="ticket-cat">'+s.cat+'</span></div><div class="ticket-title">'+s.title+'</div><div class="ticket-body">'+s.body+'</div></div>';
+  html += '<div class="scen-question"><h4>'+s.question+'</h4><div class="scen-options">';
+  s.options.forEach(function(opt, i){
+    html += '<button class="scen-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="scen-feedback" id="scen-feedback"></div></div>';
+  html += '<div class="scen-actions"><div class="progress-info">Scenario <b>'+(scenIdx+1)+'</b> of <b>'+scenPool.length+'</b> · Got <b>'+scenGot+'</b> / <b>'+scenSeen+'</b></div><button class="next-btn" id="scen-next" disabled>'+(scenIdx+1===scenPool.length?'See Results →':'Next Ticket →')+'</button></div>';
+  content.innerHTML = html;
+  scenAnswered = false;
+  content.querySelectorAll('.scen-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (scenAnswered) return;
+      scenAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      content.querySelectorAll('.scen-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === s.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('scen-feedback');
+      var heading = chosen === s.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+s.correct)+'</b>';
+      fb.innerHTML = heading + s.explain;
+      fb.classList.add('show');
+      scenSeen++;
+      if (chosen === s.correct) scenGot++;
+      document.getElementById('scen-got').textContent = scenGot;
+      document.getElementById('scen-seen').textContent = scenSeen;
+      document.getElementById('scen-next').disabled = false;
+    });
+  });
+  document.getElementById('scen-next').addEventListener('click', function(){ scenIdx++; renderScenario(); });
+}
+rebuildScenPool();
+renderScenario();
+
+/* ============================ KNOWLEDGE CHECK ============================ */
+const KC_QUESTIONS = [
+  { q: 'Which is NOT a physical or virtual appliance per N10-009 Objective 1.2?', options: ['Load balancer','Proxy','VPN','Wireless access point'], correct: 2, explain: 'VPN is a FUNCTION in CompTIA\'s 1.2 list, not an appliance. The appliances category includes router, switch, firewall, IDS/IPS, load balancer, proxy, NAS, SAN, AP, controller. VPN is performed BY appliances (firewalls, routers, concentrators).' },
+  { q: 'A device must forward packets between three different IP subnets in the same building. Which device is required?', options: ['Layer 2 switch','Router (or Layer 3 switch)','Hub','Wireless AP'], correct: 1, explain: 'Routing between subnets is Layer 3 work — requires a router or a Layer-3 switch. A pure Layer 2 switch cannot route between subnets; it forwards only within a single broadcast domain.' },
+  { q: 'What is the key difference between IDS and IPS?', options: ['IDS is faster than IPS','IDS detects and alerts but does not block; IPS actively blocks inline','IDS is wireless, IPS is wired','IPS only works at Layer 2'], correct: 1, explain: 'IDS = Intrusion DETECTION System (passive, alerts only). IPS = Intrusion PREVENTION System (active, blocks inline). The "detection vs prevention" distinction is the entire vocabulary test for this pair.' },
+  { q: 'Which is the correct storage type for VMware vSphere VM disks?', options: ['NAS — file-level via SMB','SAN — block-level storage','CDN edge cache','Forward proxy'], correct: 1, explain: 'Hypervisors run their own filesystem (VMFS in VMware) on top of raw block storage. SAN provides block-level storage via Fibre Channel or iSCSI. NAS provides file-level storage, which is not suitable for hypervisor primary storage.' },
+  { q: 'A company adds 6 identical web servers behind one URL. Health check failures must remove failed servers from rotation automatically. Which appliance is needed?', options: ['Firewall','Load balancer','Forward proxy','IDS'], correct: 1, explain: 'Load balancer distributes incoming traffic across multiple backend servers and removes failed ones via health checks. Firewall filters; doesn\'t distribute. Proxy faces clients outbound. IDS only detects.' },
+  { q: 'A forward proxy sits between which two endpoints?', options: ['Internet and internal servers','Internal users and the internet','Two routers in different subnets','Two switches in the same VLAN'], correct: 1, explain: 'Forward proxy sits client-side, between internal users and the internet. It forwards their requests outbound. Reverse proxy is the opposite — it sits in front of internal servers and accepts requests from the internet.' },
+  { q: 'Which 1.2 item is an APPLICATION rather than an appliance or function?', options: ['CDN','VPN','TTL','QoS'], correct: 0, explain: 'CDN (Content Delivery Network) is the only "application" item in Objective 1.2. It\'s a service — geographically distributed cache serving content from the nearest edge. VPN, TTL, and QoS are functions.' },
+  { q: 'A user reports their VoIP calls are choppy when the office runs nightly backups across the WAN. What is the appropriate solution category?', options: ['Install a new VoIP appliance','Add a CDN for voice','Configure QoS to prioritize voice over bulk traffic','Replace all switches with hubs'], correct: 2, explain: 'QoS is a function performed by existing routers/switches/firewalls — not a new appliance. Mark voice traffic with high priority (DSCP EF / CoS 5), queue it ahead of backups, and the choppiness resolves.' },
+  { q: 'Which mechanism prevents an IP packet from circulating indefinitely if a routing loop exists?', options: ['Spanning Tree Protocol','TTL — Time to Live, decremented at each hop','VLAN tagging','NAT'], correct: 1, explain: 'TTL is an 8-bit field in the IPv4 header (Hop Limit in IPv6). Each router decrements it by 1; when it reaches 0, the packet is dropped and an ICMP Time Exceeded is sent. Traceroute uses this deliberately to map paths. STP prevents L2 loops, not L3.' },
+  { q: 'A hospital has 30 wireless APs across 6 floors and needs central config, roaming, and unified monitoring. What addition is appropriate?', options: ['A Layer 2 switch','A wireless LAN controller (WLC)','A NAS','A CDN'], correct: 1, explain: 'Wireless LAN Controller (WLC) centrally manages lightweight APs — distributing configuration, handling seamless roaming, and aggregating logs. Without a controller, each AP must be managed individually.' },
+  { q: 'Which appliance forwards Layer 2 frames within a single network based on MAC addresses?', options: ['Router','Switch','Firewall','Proxy'], correct: 1, explain: 'Switch — Layer 2 device that learns MAC addresses and forwards frames based on the destination MAC. Routers forward at Layer 3 (IP), firewalls filter, proxies intermediate requests.' },
+  { q: 'VPN is best classified as which of the following in N10-009 Objective 1.2?', options: ['An appliance','An application','A function','A protocol family only'], correct: 2, explain: 'In Objective 1.2, VPN is listed as a FUNCTION. Functions are capabilities provided by appliances (firewalls, routers, dedicated VPN concentrators). The exam tests whether you recognize this categorization distinction.' }
+];
+
+var kcIdx = 0, kcScore = 0, kcAnswered = false;
+function renderKC() {
+  var card = document.getElementById('kc-card');
+  if (kcIdx >= KC_QUESTIONS.length) {
+    var pct = Math.round((kcScore / KC_QUESTIONS.length) * 100);
+    var verdict, sub;
+    if (pct === 100) { verdict = 'Appliances Mastered.'; sub = 'You identify boxes vs functions vs applications cold. Move on.'; }
+    else if (pct >= 80) { verdict = 'Strong.'; sub = 'Review the ones you missed.'; }
+    else if (pct >= 60) { verdict = 'Getting There.'; sub = 'Spend more time in the Appliance Atlas and the Appliances vs Functions tab.'; }
+    else { verdict = 'Keep Training.'; sub = 'Walk through every device in the Atlas, then come back.'; }
+    card.innerHTML = '<div class="kc-head"><div class="title">Results</div><div class="progress">Complete</div></div><div class="kc-final"><div class="big-score">'+kcScore+'<b>/'+KC_QUESTIONS.length+'</b></div><div class="verdict">'+verdict+'</div><div class="verdict-sub">'+sub+'</div><button class="next-btn" id="kc-restart">↻ Retake</button></div>';
+    document.getElementById('kc-restart').addEventListener('click', function(){ kcIdx=0; kcScore=0; kcAnswered=false; renderKC(); });
+    return;
+  }
+  var q = KC_QUESTIONS[kcIdx];
+  var html = '<div class="kc-head"><div class="title">Knowledge Check</div><div class="progress">'+(kcIdx+1)+' / '+KC_QUESTIONS.length+'</div></div>';
+  html += '<div class="kc-body"><div class="kc-question">'+q.q+'</div><div class="kc-options">';
+  q.options.forEach(function(opt, i){
+    html += '<button class="kc-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="kc-feedback" id="kc-feedback"></div><div class="kc-actions"><div class="kc-score">Score · <b>'+kcScore+' / '+kcIdx+'</b></div><button class="next-btn" id="kc-next" disabled>'+(kcIdx+1===KC_QUESTIONS.length?'See Results →':'Next →')+'</button></div></div>';
+  card.innerHTML = html;
+  kcAnswered = false;
+  card.querySelectorAll('.kc-option').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (kcAnswered) return;
+      kcAnswered = true;
+      var chosen = parseInt(btn.dataset.i, 10);
+      card.querySelectorAll('.kc-option').forEach(function(b, i){
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('correct');
+        else if (i === chosen) b.classList.add('wrong');
+      });
+      var fb = document.getElementById('kc-feedback');
+      fb.innerHTML = (chosen === q.correct ? '<b>✓ Correct</b>' : '<b>✗ Not Quite — Answer: '+String.fromCharCode(65+q.correct)+'</b>') + q.explain;
+      fb.classList.add('show');
+      if (chosen === q.correct) kcScore++;
+      document.getElementById('kc-next').disabled = false;
+    });
+  });
+  document.getElementById('kc-next').addEventListener('click', function(){ kcIdx++; renderKC(); });
+}
+renderKC();
+
+/* ============================ LIGHTNING ROUND ============================ */
+var lrDuration = 60, lrTimeLeft = 60, lrTimer = null;
+var lrCorrect = 0, lrWrong = 0, lrCurrentQ = null, lrGameOver = false;
+function shuffleArr(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+const LR_QUESTIONS = [
+  { q: 'Layer 2 forwarding by MAC address?', correct: 'Switch', d: ['Router','Firewall','Proxy'] },
+  { q: 'Layer 3 forwarding by IP between networks?', correct: 'Router', d: ['Switch','Hub','AP'] },
+  { q: 'Filters traffic by policy rules?', correct: 'Firewall', d: ['NAS','CDN','Switch'] },
+  { q: 'Detects attacks but does NOT block them?', correct: 'IDS', d: ['IPS','Firewall','Proxy'] },
+  { q: 'Blocks attacks inline and actively?', correct: 'IPS', d: ['IDS','NAS','Switch'] },
+  { q: 'Distributes traffic across many backend servers?', correct: 'Load balancer', d: ['Firewall','Proxy','CDN'] },
+  { q: 'Intermediary that forwards user requests outbound?', correct: 'Forward proxy', d: ['Reverse proxy','Load balancer','NAS'] },
+  { q: 'Sits in front of internal servers, faces the internet?', correct: 'Reverse proxy', d: ['Forward proxy','Firewall','IDS'] },
+  { q: 'File-level storage over SMB/NFS?', correct: 'NAS', d: ['SAN','CDN','Proxy'] },
+  { q: 'Block-level storage via FC or iSCSI?', correct: 'SAN', d: ['NAS','CDN','AP'] },
+  { q: 'Bridges Wi-Fi clients to wired Ethernet?', correct: 'Access Point (AP)', d: ['Controller','Switch','Router'] },
+  { q: 'Centrally manages many wireless APs?', correct: 'Wireless LAN Controller', d: ['Switch','Firewall','NAS'] },
+  { q: 'Distributed cache serving content from edge nodes?', correct: 'CDN', d: ['Proxy','NAS','VPN'] },
+  { q: 'Encrypted tunnel between two endpoints?', correct: 'VPN (function)', d: ['CDN','NAS','Switch'] },
+  { q: 'Prioritizes voice/video over bulk traffic?', correct: 'QoS (function)', d: ['VPN','TTL','CDN'] },
+  { q: 'IP header field that prevents looping packets?', correct: 'TTL (function)', d: ['QoS','VPN','MAC'] },
+  { q: 'Is VPN an appliance or a function?', correct: 'Function', d: ['Appliance','Application','Protocol'] },
+  { q: 'Is CDN an appliance or an application?', correct: 'Application', d: ['Appliance','Function','Switch'] },
+  { q: 'Is TTL an appliance or a function?', correct: 'Function', d: ['Appliance','Application','Layer 2 device'] },
+  { q: 'Is QoS an appliance or a function?', correct: 'Function', d: ['Appliance','Application','Wireless device'] },
+  { q: 'Which separates collision domains per port?', correct: 'Switch', d: ['Hub','Router','Firewall'] },
+  { q: 'Which separates broadcast domains?', correct: 'Router', d: ['Switch','Hub','AP'] }
+];
+
+function generateLRQ() {
+  var f = LR_QUESTIONS[Math.floor(Math.random() * LR_QUESTIONS.length)];
+  var options = shuffleArr([f.correct].concat(f.d));
+  return { question: f.q, options: options, correctIdx: options.indexOf(f.correct) };
+}
+
+function renderLRQ() {
+  if (lrGameOver) return;
+  lrCurrentQ = generateLRQ();
+  var body = document.getElementById('lr-body');
+  var html = '<div class="lr-question-prompt">Identify the Item</div><div class="lr-question">'+lrCurrentQ.question+'</div><div class="lr-options">';
+  lrCurrentQ.options.forEach(function(opt, i){
+    html += '<button class="lr-option" data-i="'+i+'"><span class="marker">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>';
+  });
+  html += '</div><div class="lr-skip"><button id="lr-skip-btn">Skip →</button></div>';
+  body.innerHTML = html;
+  document.querySelectorAll('.lr-option').forEach(function(btn){
+    btn.addEventListener('click', function(){ answerLR(parseInt(btn.dataset.i, 10)); });
+  });
+  document.getElementById('lr-skip-btn').addEventListener('click', lrSkip);
+}
+
+function answerLR(chosen) {
+  if (lrGameOver) return;
+  var correct = lrCurrentQ.correctIdx;
+  document.querySelectorAll('.lr-option').forEach(function(b, i){
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) lrCorrect++;
+  else lrWrong++;
+  document.getElementById('lr-correct').textContent = lrCorrect;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  setTimeout(function(){ if (!lrGameOver) renderLRQ(); }, 700);
+}
+
+function lrSkip() {
+  if (lrGameOver) return;
+  lrWrong++;
+  document.getElementById('lr-wrong').textContent = lrWrong;
+  renderLRQ();
+}
+
+function startLR() {
+  lrGameOver = false;
+  lrTimeLeft = lrDuration;
+  lrCorrect = 0; lrWrong = 0;
+  document.getElementById('lr-pre').style.display = 'none';
+  document.getElementById('lr-final').style.display = 'none';
+  document.getElementById('lr-game').classList.add('active');
+  document.getElementById('lr-correct').textContent = '0';
+  document.getElementById('lr-wrong').textContent = '0';
+  document.getElementById('lr-timer').textContent = lrTimeLeft;
+  document.getElementById('lr-timer').className = 'lr-timer';
+  renderLRQ();
+  lrTimer = setInterval(function(){
+    lrTimeLeft--;
+    var t = document.getElementById('lr-timer');
+    t.textContent = lrTimeLeft;
+    if (lrTimeLeft <= 5) t.className = 'lr-timer critical';
+    else if (lrTimeLeft <= 15) t.className = 'lr-timer warning';
+    if (lrTimeLeft <= 0) endLR();
+  }, 1000);
+}
+
+function endLR() {
+  lrGameOver = true;
+  clearInterval(lrTimer);
+  document.getElementById('lr-game').classList.remove('active');
+  var total = lrCorrect + lrWrong;
+  var pct = total ? Math.round((lrCorrect / total) * 100) : 0;
+  var ppm = lrDuration ? Math.round((lrCorrect / lrDuration) * 60) : 0;
+  var verdict, sub;
+  if (lrCorrect >= 18) { verdict='Locked In.'; sub='Appliance recognition is automatic. Move on.'; }
+  else if (lrCorrect >= 12) { verdict='Solid Recall.'; sub='A few more passes and you are exam-ready.'; }
+  else if (lrCorrect >= 7) { verdict='Building It.'; sub='Spend more time in the Appliance Atlas tab.'; }
+  else { verdict='Keep Drilling.'; sub='Walk through every device in the Atlas before returning.'; }
+  var finalEl = document.getElementById('lr-final');
+  finalEl.innerHTML = '<div class="big-score">'+lrCorrect+'<b>/'+total+'</b></div><div class="verdict">'+verdict+'</div><div class="lr-stats"><div class="item"><div class="num">'+pct+'%</div><div class="lab">Accuracy</div></div><div class="item"><div class="num">'+ppm+'</div><div class="lab">Per Minute Pace</div></div><div class="item"><div class="num">'+total+'</div><div class="lab">Questions</div></div></div><p style="color:var(--ink-mid); margin: 0 auto 24px; max-width: 50ch;">'+sub+'</p><button class="lr-start" id="lr-restart">↻ Run Again</button>';
+  finalEl.style.display = 'block';
+  document.getElementById('lr-restart').addEventListener('click', function(){
+    finalEl.style.display = 'none';
+    document.getElementById('lr-pre').style.display = 'block';
+  });
+}
+
+document.querySelectorAll('.lr-dur-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.lr-dur-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    lrDuration = parseInt(btn.dataset.dur, 10);
+  });
+});
+document.getElementById('lr-start').addEventListener('click', startLR);
+
+/* ============================ TABS ============================ */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    if (t.dataset.tab !== 'lightning' && lrTimer && !lrGameOver) {
+      clearInterval(lrTimer);
+      lrTimer = null;
+      lrGameOver = true;
+      document.getElementById('lr-game').classList.remove('active');
+      document.getElementById('lr-pre').style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>
