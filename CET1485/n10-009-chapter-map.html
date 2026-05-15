@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Network+ N10-009 · Chapter Map · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* CBT brand palette — sampled directly from the official logo */
+  --cbt-navy:#2F3068;
+  --cbt-navy-deep:#1E1F4A;
+  --cbt-sky:#3FB1E5;
+  --cbt-sky-deep:#1F7AAB;
+  --cbt-sky-soft:rgba(63,177,229,.13);
+  --cbt-sky-line:rgba(63,177,229,.40);
+  --cbt-gold:#E4C048;
+  --cbt-gold-deep:#8B6914;
+  --cbt-gold-soft:rgba(228,192,72,.18);
+  --cbt-gold-line:rgba(228,192,72,.55);
+  /* light-theme surfaces */
+  --bg:#F6F8FC;
+  --bg-2:#FFFFFF;
+  --bg-3:#FBFCFE;
+  --surface-soft:#EEF0F6;
+  /* lines */
+  --line:rgba(15,20,50,.07);
+  --line-strong:rgba(15,20,50,.14);
+  /* text */
+  --text:#1A1F36;
+  --text-mute:#4F5868;
+  --text-dim:#8A93A6;
+  /* shadows */
+  --shadow-sm:0 1px 3px rgba(15,20,50,.05);
+  --shadow-md:0 4px 14px rgba(15,20,50,.08);
+  --shadow-lg:0 10px 28px rgba(15,20,50,.10);
+  /* fonts */
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Manrope',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11"}
+body{
+  background:
+    radial-gradient(ellipse 1200px 600px at 90% -10%, rgba(63,177,229,.07), transparent 60%),
+    radial-gradient(ellipse 1000px 500px at -10% 10%, rgba(228,192,72,.05), transparent 60%),
+    radial-gradient(ellipse 800px 400px at 50% 100%, rgba(47,48,104,.04), transparent 70%),
+    var(--bg);
+  min-height:100vh;
+}
+.wrap{max-width:1280px;margin:0 auto;padding:40px 32px 80px}
+
+/* ---------- header ---------- */
+.brand-row{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.brand-logo{height:110px;width:auto;display:block;filter:drop-shadow(0 4px 14px rgba(47,48,104,.16))}
+.brand-meta{text-align:right;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);letter-spacing:.16em;text-transform:uppercase;line-height:1.8}
+.brand-meta b{color:var(--cbt-sky-deep);font-weight:600}
+.brand-meta .tag{color:var(--cbt-gold-deep);font-style:italic;font-family:var(--serif);text-transform:none;letter-spacing:.02em;font-size:13px;font-weight:500;display:block;margin-top:2px}
+
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--text-dim);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cbt-sky);box-shadow:0 0 12px rgba(63,177,229,.50)}
+.eyebrow .institution{color:var(--cbt-sky-deep)}
+.eyebrow .sep{color:var(--text-dim)}
+
+h1.title{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(36px,5vw,64px);
+  line-height:1.02;
+  letter-spacing:-.02em;
+  margin:0 0 16px;
+  font-variation-settings:"opsz" 144,"SOFT" 30;
+  color:var(--text);
+}
+h1.title em{font-style:italic;color:var(--cbt-sky-deep);font-variation-settings:"opsz" 144,"SOFT" 100}
+.sub{font-size:16px;color:var(--text-mute);max-width:720px;line-height:1.55;margin:0 0 36px}
+.sub b{color:var(--text);font-weight:600}
+.meta-row{display:flex;flex-wrap:wrap;gap:24px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
+.meta{display:flex;flex-direction:column;gap:4px}
+.meta .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.meta .v{font-family:var(--mono);font-size:13px;color:var(--text)}
+
+/* ---------- controls ---------- */
+.controls{display:flex;gap:16px;align-items:center;margin-bottom:28px;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:280px;max-width:520px}
+.search input{
+  width:100%;background:var(--bg-2);border:1px solid var(--line-strong);color:var(--text);
+  font-family:var(--sans);font-size:15px;padding:14px 16px 14px 46px;border-radius:12px;outline:none;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.search input::placeholder{color:var(--text-dim)}
+.search input:focus{border-color:var(--cbt-sky);background:#fff;box-shadow:0 0 0 4px rgba(63,177,229,.15),var(--shadow-sm)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
+
+.tabs{display:flex;gap:4px;background:var(--surface-soft);padding:4px;border-radius:10px;border:1px solid var(--line)}
+.tabs button{
+  background:transparent;border:0;color:var(--text-mute);font-family:var(--sans);font-weight:600;font-size:13px;
+  padding:9px 16px;border-radius:7px;cursor:pointer;letter-spacing:.02em;transition:all .15s;
+}
+.tabs button:hover{color:var(--text)}
+.tabs button.active{background:#fff;color:var(--text);box-shadow:var(--shadow-sm)}
+
+/* ---------- domain rail ---------- */
+.rail{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:32px}
+.rail-card{
+  position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:18px 16px;
+  cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .2s;
+  text-align:left;color:inherit;font-family:inherit;
+  box-shadow:var(--shadow-sm);
+}
+.rail-card:hover{transform:translateY(-2px);border-color:var(--line-strong);box-shadow:var(--shadow-md)}
+.rail-card.on{border-color:var(--cbt-sky);background:linear-gradient(180deg,var(--cbt-sky-soft),#fff 85%);box-shadow:0 6px 22px rgba(63,177,229,.18)}
+.rail-card .num{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.1em}
+.rail-card .name{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.2;margin:6px 0 14px;letter-spacing:-.01em;color:var(--text)}
+.rail-card .bar{height:4px;border-radius:2px;background:var(--surface-soft);overflow:hidden;margin-bottom:8px}
+.rail-card .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--cbt-sky),var(--cbt-gold));border-radius:2px}
+.rail-card .pct{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:500}
+.rail-card .pct small{color:var(--text-dim);font-weight:400}
+
+/* ---------- content panel ---------- */
+.panel{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.panel-head{padding:28px 32px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;background:linear-gradient(180deg,rgba(47,48,104,.04),transparent)}
+.panel-head .dom-num{font-family:var(--mono);font-size:12px;color:var(--cbt-sky-deep);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.panel-head .dom-title{font-family:var(--serif);font-size:34px;line-height:1.05;font-weight:500;letter-spacing:-.02em;margin:0;max-width:600px;color:var(--text)}
+.panel-head .dom-pct{font-family:var(--serif);font-size:48px;color:var(--cbt-gold-deep);line-height:1;font-weight:500;font-style:italic;letter-spacing:-.04em}
+.panel-head .dom-pct small{font-size:14px;color:var(--text-dim);font-style:normal;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;display:block;margin-top:6px;font-weight:600}
+
+.subtopic{padding:24px 32px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:90px 1fr 320px;gap:28px;align-items:start;transition:background .15s}
+.subtopic:last-child{border-bottom:none}
+.subtopic:hover{background:rgba(15,20,50,.015)}
+.subtopic.hit{background:linear-gradient(90deg,var(--cbt-sky-soft),transparent 50%)}
+
+.sub-num{font-family:var(--mono);font-size:13px;color:var(--cbt-sky-deep);font-weight:600;letter-spacing:.04em;padding-top:2px}
+.sub-body .sub-title{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.01em;margin:0 0 8px;line-height:1.25;color:var(--text)}
+.sub-body .sub-concepts{font-size:13.5px;color:var(--text-mute);line-height:1.55}
+.sub-body .sub-concepts code{font-family:var(--mono);font-size:12px;color:var(--cbt-gold-deep);background:var(--cbt-gold-soft);padding:1px 6px;border-radius:4px;border:1px solid var(--cbt-gold-line);font-weight:500}
+
+.sub-chapters{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.chapter-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.chapter-label{font-family:var(--mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.14em;margin-right:4px;font-weight:600}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line-strong);
+  color:var(--text);font-family:var(--sans);font-size:12.5px;font-weight:600;
+  padding:6px 11px;border-radius:8px;cursor:pointer;transition:all .15s;
+  box-shadow:0 1px 2px rgba(15,20,50,.04);
+}
+.chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,20,50,.10)}
+.chip.primary{border-color:var(--cbt-sky);color:var(--cbt-navy-deep);background:linear-gradient(180deg,var(--cbt-sky),#2d96c9);font-weight:700;box-shadow:0 2px 6px rgba(63,177,229,.30)}
+.chip.primary:hover{box-shadow:0 6px 20px rgba(63,177,229,.45)}
+.chip.support{border-color:var(--cbt-gold-line);color:var(--cbt-gold-deep);background:var(--cbt-gold-soft)}
+.chip.support:hover{box-shadow:0 4px 16px rgba(228,192,72,.35)}
+.chip .ch-num{font-family:var(--mono);font-size:11px;opacity:.85}
+
+/* ---------- chapter view ---------- */
+.chap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.chap-card{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:22px 24px;
+  display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:start;transition:border-color .15s,transform .15s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.chap-card:hover{border-color:var(--line-strong);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.chap-card .ch-no{font-family:var(--serif);font-size:42px;font-weight:400;font-style:italic;color:var(--cbt-sky-deep);line-height:.9;letter-spacing:-.03em}
+.chap-card h3{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:-.01em;margin:0 0 8px;line-height:1.2;color:var(--text)}
+.chap-card .ch-note{font-size:13px;color:var(--text-mute);line-height:1.5;margin-bottom:14px}
+.chap-card .ch-domains{display:flex;gap:6px;flex-wrap:wrap}
+.dom-pill{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;
+  padding:4px 9px;border-radius:6px;background:var(--surface-soft);border:1px solid var(--line-strong);color:var(--text-mute)
+}
+.dom-pill.d1{color:var(--cbt-sky-deep);border-color:var(--cbt-sky-line);background:var(--cbt-sky-soft)}
+.dom-pill.d2{color:var(--cbt-gold-deep);border-color:var(--cbt-gold-line);background:var(--cbt-gold-soft)}
+.dom-pill.d3{color:#4E54A6;border-color:rgba(78,84,166,.40);background:rgba(78,84,166,.10)}
+.dom-pill.d4{color:#1F7AAB;border-color:rgba(31,122,171,.40);background:rgba(31,122,171,.10)}
+.dom-pill.d5{color:#A05F0E;border-color:rgba(160,95,14,.40);background:rgba(160,95,14,.10)}
+
+/* ---------- footer ---------- */
+.foot{margin-top:48px;display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line);color:var(--text-dim);font-size:12px;flex-wrap:wrap;gap:16px}
+.foot .legend{display:flex;gap:18px;align-items:center;font-family:var(--mono)}
+.foot .legend span{display:flex;align-items:center;gap:6px}
+.foot .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.foot .legend i.p{background:var(--cbt-sky)}
+.foot .legend i.s{background:var(--cbt-gold-soft);border:1px solid var(--cbt-gold-line)}
+.foot .credit{font-family:var(--mono)}
+.foot .credit b{color:var(--cbt-sky-deep);font-weight:600}
+
+.no-results{padding:60px 32px;text-align:center;color:var(--text-dim);font-family:var(--serif);font-size:22px;font-style:italic}
+
+/* ---------- responsive ---------- */
+@media (max-width:920px){
+  .rail{grid-template-columns:repeat(2,1fr)}
+  .rail-card{padding:14px}
+  .subtopic{grid-template-columns:60px 1fr;gap:16px}
+  .sub-chapters{grid-column:1/-1;align-items:flex-start;margin-top:6px}
+  .chapter-row{justify-content:flex-start}
+  .panel-head{padding:22px 20px}
+  .panel-head .dom-title{font-size:26px}
+  .panel-head .dom-pct{font-size:38px}
+  .subtopic{padding:20px}
+  .chap-grid{grid-template-columns:1fr}
+  .wrap{padding:32px 20px 60px}
+  .brand-logo{height:78px}
+  .brand-meta{text-align:left}
+}
+@media print{
+  body{background:white}
+  .controls,.tabs,.foot .legend{display:none}
+  .panel,.rail-card,.chap-card{background:white;border-color:#ccc;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand-row">
+    <img class="brand-logo" alt="CBT Technology Institute" src="cbtlogo.png">
+    <div class="brand-meta">
+      <div><b>School of Information Technology</b></div>
+      <div>Network Administration · Network+ Prep</div>
+      <span class="tag">Tradition Meets Innovation</span>
+    </div>
+  </div>
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    <span class="institution">CBT Technology Institute</span>
+    <span class="sep">·</span>
+    <span>CompTIA Network+ Certification Reference</span>
+  </div>
+
+  <h1 class="title">From <em>exam objective</em><br>to the right chapter.</h1>
+  <p class="sub">Mapping the <b>CompTIA Network+ N10-009</b> exam blueprint to <b>CompTIA Network+ Guide to Networks, 10th Edition (Cengage, 2025)</b>. Use the search to jump to any topic; click a chapter chip to see what else it covers.</p>
+
+  <div class="meta-row">
+    <div class="meta"><span class="k">Exam</span><span class="v">N10-009 · v4.0 · launched Jun 20, 2024</span></div>
+    <div class="meta"><span class="k">Textbook ISBN</span><span class="v">979-8-214-01278-0</span></div>
+    <div class="meta"><span class="k">Domains</span><span class="v">5 · 90 questions · 90 min</span></div>
+    <div class="meta"><span class="k">Passing</span><span class="v">720 / 900</span></div>
+  </div>
+
+  <div class="controls">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="q" type="text" placeholder="Search a concept &mdash; e.g. VLAN, OSPF, DNS, Zero Trust, traceroute, SASE&hellip;" autocomplete="off">
+    </div>
+    <div class="tabs" role="tablist">
+      <button id="tab-domain" class="active" onclick="setView('domain')">By Domain</button>
+      <button id="tab-chapter" onclick="setView('chapter')">By Chapter</button>
+    </div>
+  </div>
+
+  <div id="view-domain">
+    <div class="rail" id="rail"></div>
+    <div id="panel"></div>
+  </div>
+
+  <div id="view-chapter" style="display:none">
+    <div class="chap-grid" id="chap-grid"></div>
+  </div>
+
+  <div class="foot">
+    <div class="legend">
+      <span><i class="p"></i> Primary chapter</span>
+      <span><i class="s"></i> Supporting chapter</span>
+    </div>
+    <div class="credit">Built for <b>Professor De León</b> · CBT Tech · IT Programs</div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const DOMAINS = [
+  {
+    id:'1.0', n:'1', title:'Networking Concepts', pct:23,
+    subs:[
+      {id:'1.1', t:'OSI Reference Model',
+        c:'Seven layers — <code>Physical</code> · <code>Data Link</code> · <code>Network</code> · <code>Transport</code> · <code>Session</code> · <code>Presentation</code> · <code>Application</code>. Encapsulation and PDU per layer.',
+        p:[1], s:[4]},
+      {id:'1.2', t:'Networking Appliances, Applications & Functions',
+        c:'Router · Switch · Firewall · IDS/IPS · Load balancer · Proxy · NAS/SAN · Wireless AP & controller · CDN. Functions: VPN, QoS, TTL.',
+        p:[2], s:[7,8,10]},
+      {id:'1.3', t:'Cloud Concepts & Connectivity',
+        c:'NFV · VPC · network security groups/lists · cloud gateways (internet, NAT) · VPN & Direct Connect. Deployment (public/private/hybrid), service models (SaaS/IaaS/PaaS), scalability, elasticity, multitenancy.',
+        p:[7], s:[9]},
+      {id:'1.4', t:'Ports, Protocols, Services & Traffic Types',
+        c:'FTP/SFTP, SSH, Telnet, SMTP, DNS, DHCP, TFTP, HTTP/HTTPS, NTP, SNMP, LDAP/LDAPS, SMB, Syslog, SQL, RDP, SIP. ICMP/TCP/UDP/GRE/IPSec/AH/ESP. Unicast, multicast, anycast, broadcast.',
+        p:[4]},
+      {id:'1.5', t:'Transmission Media & Transceivers',
+        c:'Copper categories (Cat 5e/6/6a/7/8), STP/UTP, plenum/riser, coax. Fiber: single-mode vs multi-mode. Connectors: RJ45, LC, SC, ST, MPO. Form factors: SFP, SFP+, QSFP.',
+        p:[5], s:[6]},
+      {id:'1.6', t:'Topologies, Architectures & Types',
+        c:'Mesh · hybrid · star/hub-and-spoke · spine-and-leaf · point-to-point · three-tier (core/distribution/access) · collapsed core. Traffic flows: north-south, east-west.',
+        p:[7], s:[8]},
+      {id:'1.7', t:'IPv4 Network Addressing',
+        c:'Public vs private (APIPA, RFC1918, loopback). Subnetting, VLSM, CIDR. Address classes A/B/C/D/E.',
+        p:[3]},
+      {id:'1.8', t:'Modern Network Environments',
+        c:'SDN & SD-WAN (control plane / data plane / application-aware routing / zero-touch provisioning). SASE/SSE. IaC. IPv6 addressing & dual stack. Zero Trust architecture.',
+        p:[7,9,11], s:[2]}
+    ]
+  },
+  {
+    id:'2.0', n:'2', title:'Network Implementation', pct:20,
+    subs:[
+      {id:'2.1', t:'Routing Technologies',
+        c:'Static vs dynamic routes · default route · administrative distance · routing metrics. Protocols: <code>OSPF</code>, <code>BGP</code>, <code>EIGRP</code>. FHRP. NAT/PAT. Route selection.',
+        p:[8,9], s:[7]},
+      {id:'2.2', t:'Switching Technologies & Features',
+        c:'VLANs · trunking (802.1Q) · interface configuration · inter-VLAN routing. STP/RSTP, MACsec, port security, jumbo frames, link aggregation (LACP), PoE/PoE+.',
+        p:[8]},
+      {id:'2.3', t:'Wireless Devices & Technologies',
+        c:'Channels, bands (2.4 / 5 / 6 GHz), channel width. 802.11 a/b/g/n/ac/ax (Wi-Fi 6/6E/7). SSID, BSSID, ESSID. Antennas (omni/directional). Security: WPA2/3 PSK/Enterprise. Captive portals, guest networks.',
+        p:[6]},
+      {id:'2.4', t:'Physical Installations',
+        c:'MDF / IDF · racks, rack units · power (PDU, UPS) · environmental (HVAC, humidity, fire suppression). Cable management, labeling, grounding.',
+        p:[2,5]}
+    ]
+  },
+  {
+    id:'3.0', n:'3', title:'Network Operations', pct:19,
+    subs:[
+      {id:'3.1', t:'Organizational Processes & Procedures',
+        c:'Documentation: physical/logical diagrams, rack diagrams, cable maps, network diagrams (L1/L2/L3), asset inventory, IPAM, SLA, wireless heat maps. Lifecycle (EOL/EOS), software/firmware patching, decommissioning. Change & configuration management (production / backup / baseline / golden).',
+        p:[2], s:[12]},
+      {id:'3.2', t:'Network Monitoring Technologies',
+        c:'Methods: SNMP (v2c/v3), flow data (NetFlow/sFlow/IPFIX), packet capture, baseline metrics, log aggregation, syslog, traps. SIEM integration, API-based monitoring.',
+        p:[12], s:[2]},
+      {id:'3.3', t:'IPv4 & IPv6 Network Services',
+        c:'DHCP (scope, reservations, options, relay, exclusions) · SLAAC · DNS (record types A/AAAA/CNAME/MX/TXT/NS/PTR, zone types, DNSSEC, DoH/DoT, hosts file) · time (NTP, PTP, NTS).',
+        p:[3,4]},
+      {id:'3.4', t:'Network Access & Management Methods',
+        c:'In-band vs out-of-band (OOB) · jump box / bastion · console · SSH / Telnet / RDP · API access. VPN: client-to-site (clientless, split vs full tunnel), site-to-site, IPSec, TLS.',
+        p:[9,11]},
+      {id:'3.5', t:'Disaster Recovery (DR) Concepts',
+        c:'RPO, RTO, MTBF, MTTR · sites: hot, warm, cold · backup types (full, incremental, differential, snapshot) · redundancy & high availability (active-active, active-passive, clustering).',
+        p:[12]}
+    ]
+  },
+  {
+    id:'4.0', n:'4', title:'Network Security', pct:14,
+    subs:[
+      {id:'4.1', t:'Basic Network Security Concepts',
+        c:'CIA triad · AAA · Zero Trust · SASE/SSE · defense in depth · network segmentation enforcement · encryption (data at rest / in transit / in use) · IAM concepts · regulatory (PCI DSS, GDPR, HIPAA).',
+        p:[10,11], s:[8]},
+      {id:'4.2', t:'Types of Attacks & Their Impact',
+        c:'DoS / DDoS · VLAN hopping · MAC flooding · ARP poisoning / spoofing · DNS poisoning · rogue DHCP / rogue AP · evil twin · on-path (MITM) · social engineering (phishing, tailgating) · malware.',
+        p:[10]},
+      {id:'4.3', t:'Security Features, Defense Techniques & Solutions',
+        c:'NAC · device hardening · port security · 802.1X · ACLs · firewall rules · IDS/IPS · key management · screened subnets / DMZ · trusted vs untrusted zones · honeypots/honeynets.',
+        p:[10,11]}
+    ]
+  },
+  {
+    id:'5.0', n:'5', title:'Network Troubleshooting', pct:24,
+    subs:[
+      {id:'5.1', t:'Troubleshooting Methodology',
+        c:'7-step CompTIA model: <code>identify</code> → <code>theory</code> → <code>test</code> → <code>plan</code> → <code>implement</code> → <code>verify</code> → <code>document</code>. Top-down / bottom-up / divide-and-conquer. Escalation criteria.',
+        p:[1,12]},
+      {id:'5.2', t:'Cabling & Physical Interface Issues',
+        c:'Incorrect cable (SM vs MM, Cat 5/6/7/8, STP vs UTP) · attenuation · interference · crosstalk · open/short · duplex/speed mismatch · transceiver mismatch · bent pins · TX/RX reversed.',
+        p:[5], s:[2]},
+      {id:'5.3', t:'Network Services Issues',
+        c:'Misconfigured IP/subnet/gateway · IP conflicts · DHCP scope exhaustion · DHCP relay failure · DNS resolution failure · routing loops · ARP table issues · MTU/MSS · expired certs.',
+        p:[3,4], s:[8]},
+      {id:'5.4', t:'Performance Issues',
+        c:'Latency · jitter · packet loss · bandwidth saturation / congestion · bottlenecks · wireless interference (signal strength, channel overlap, RFI/EMI) · QoS misconfiguration.',
+        p:[6,12]},
+      {id:'5.5', t:'Tools & Commands',
+        c:'<code>ping</code> · <code>traceroute</code>/<code>tracert</code> · <code>nslookup</code>/<code>dig</code> · <code>ipconfig</code>/<code>ifconfig</code>/<code>ip</code> · <code>arp</code> · <code>netstat</code> · <code>tcpdump</code> · <code>nmap</code>. Packet analyzers (Wireshark) · cable testers · tone generators · NetFlow analyzers · spectrum analyzers.',
+        p:[12], s:[4]}
+    ]
+  }
+];
+
+const CHAPTERS = [
+  {n:1, t:'Introduction to Networking', note:'Network models, OSI reference model, peer-to-peer vs client-server, troubleshooting methodology foundations.', d:['1','5']},
+  {n:2, t:'Infrastructure and Documentation', note:'Network appliances, physical installations (MDF/IDF/racks), documentation, asset inventory, change & configuration management.', d:['1','2','3']},
+  {n:3, t:'Addressing', note:'IPv4 & IPv6 addressing, subnetting, VLSM/CIDR, NAT, APIPA. DHCP services and IP-related troubleshooting.', d:['1','3','5']},
+  {n:4, t:'Protocols', note:'Ports, protocols, services and traffic types. DNS, DHCP, NTP service implementation. Protocol-level troubleshooting.', d:['1','3','5']},
+  {n:5, t:'Cabling', note:'Copper and fiber media, connectors, transceivers, physical-install best practices. Cabling and physical interface troubleshooting.', d:['1','2','5']},
+  {n:6, t:'Wireless Networking', note:'Wireless standards, bands & channels, AP/controller config, security, antennas. Wireless performance troubleshooting.', d:['1','2','5']},
+  {n:7, t:'Network Architecture', note:'Topologies (mesh, star, spine-and-leaf, three-tier), cloud concepts and connectivity, modern environments (SDN, SD-WAN).', d:['1']},
+  {n:8, t:'Network Segmentation', note:'VLANs, switching features, routing fundamentals, inter-VLAN routing. Segmentation as a security control.', d:['2','4']},
+  {n:9, t:'Wide Area Networking', note:'WAN technologies, VPN, SD-WAN, remote-access and site-to-site connectivity. Modern environments and access methods.', d:['1','2','3']},
+  {n:10, t:'Risk Management', note:'Threats, vulnerabilities, attacks and their impact. Device hardening, IDS/IPS, anti-malware, security features.', d:['4']},
+  {n:11, t:'Access Control', note:'AAA, SSO, directory services, identity providers, Zero Trust, SASE. Authentication technologies and modern access.', d:['4','3','1']},
+  {n:12, t:'Performance and Recovery', note:'Network monitoring (SNMP, flow data, syslog), disaster recovery, redundancy, performance metrics, troubleshooting tools.', d:['3','5']}
+];
+
+/* ---------- RENDER ---------- */
+let activeDomain = '1.0';
+let currentQuery = '';
+
+const railEl = document.getElementById('rail');
+const panelEl = document.getElementById('panel');
+const chapGridEl = document.getElementById('chap-grid');
+const qEl = document.getElementById('q');
+
+function chip(num, kind){
+  const ch = CHAPTERS.find(c=>c.n===num);
+  return `<button class="chip ${kind}" onclick="goToChapter(${num})" title="${ch.t}"><span class="ch-num">CH ${num}</span>${ch.t}</button>`;
+}
+
+function renderRail(){
+  railEl.innerHTML = DOMAINS.map(d=>`
+    <button class="rail-card ${d.id===activeDomain?'on':''}" onclick="selectDomain('${d.id}')">
+      <div class="num">DOMAIN ${d.id}</div>
+      <div class="name">${d.title}</div>
+      <div class="bar"><i style="width:${d.pct*4}%"></i></div>
+      <div class="pct">${d.pct}% <small>· ${d.subs.length} objectives</small></div>
+    </button>
+  `).join('');
+}
+
+function matchesQuery(sub){
+  if(!currentQuery) return false;
+  const hay = (sub.id+' '+sub.t+' '+sub.c).toLowerCase();
+  return hay.includes(currentQuery);
+}
+
+function renderPanel(){
+  const d = DOMAINS.find(x=>x.id===activeDomain);
+  let subs = d.subs;
+  if(currentQuery){
+    subs = d.subs.filter(matchesQuery);
+    if(subs.length===0){
+      panelEl.innerHTML = `<div class="panel"><div class="no-results">No objective in this domain matches &ldquo;${escapeHtml(currentQuery)}&rdquo;. Try another domain card above.</div></div>`;
+      return;
+    }
+  }
+  panelEl.innerHTML = `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="dom-num">Domain ${d.id}</div>
+          <h2 class="dom-title">${d.title}</h2>
+        </div>
+        <div class="dom-pct">${d.pct}%<small>of exam weight</small></div>
+      </div>
+      ${subs.map(s=>`
+        <div class="subtopic ${currentQuery && matchesQuery(s)?'hit':''}">
+          <div class="sub-num">${s.id}</div>
+          <div class="sub-body">
+            <h3 class="sub-title">${s.t}</h3>
+            <div class="sub-concepts">${s.c}</div>
+          </div>
+          <div class="sub-chapters">
+            <div class="chapter-row"><span class="chapter-label">Primary</span>${s.p.map(n=>chip(n,'primary')).join('')}</div>
+            ${s.s && s.s.length ? `<div class="chapter-row"><span class="chapter-label">Support</span>${s.s.map(n=>chip(n,'support')).join('')}</div>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderChapters(){
+  let chaps = CHAPTERS;
+  if(currentQuery){
+    chaps = CHAPTERS.filter(c=>{
+      const hay = (c.t+' '+c.note).toLowerCase();
+      return hay.includes(currentQuery);
+    });
+    if(chaps.length===0){
+      chapGridEl.innerHTML = `<div class="no-results" style="grid-column:1/-1">No chapter matches &ldquo;${escapeHtml(currentQuery)}&rdquo;.</div>`;
+      return;
+    }
+  }
+  chapGridEl.innerHTML = chaps.map(c=>`
+    <div class="chap-card">
+      <div class="ch-no">${String(c.n).padStart(2,'0')}</div>
+      <div>
+        <h3>${c.t}</h3>
+        <div class="ch-note">${c.note}</div>
+        <div class="ch-domains">${c.d.map(d=>`<span class="dom-pill d${d}">Domain ${d}.0</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectDomain(id){
+  activeDomain = id;
+  renderRail();
+  renderPanel();
+  document.getElementById('view-domain').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function goToChapter(n){
+  setView('chapter');
+  currentQuery = '';
+  qEl.value = '';
+  renderChapters();
+  setTimeout(()=>{
+    const cards = chapGridEl.querySelectorAll('.chap-card');
+    cards.forEach(card=>{
+      const num = parseInt(card.querySelector('.ch-no').textContent,10);
+      if(num===n){
+        card.style.borderColor = 'var(--cbt-sky)';
+        card.style.transform = 'translateY(-4px)';
+        card.style.boxShadow = '0 8px 32px rgba(63,177,229,.2)';
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>{card.style.borderColor='';card.style.transform='';card.style.boxShadow=''},2200);
+      }
+    });
+  },50);
+}
+
+function setView(v){
+  document.getElementById('view-domain').style.display = v==='domain'?'block':'none';
+  document.getElementById('view-chapter').style.display = v==='chapter'?'block':'none';
+  document.getElementById('tab-domain').classList.toggle('active', v==='domain');
+  document.getElementById('tab-chapter').classList.toggle('active', v==='chapter');
+  if(v==='chapter') renderChapters();
+  else { renderRail(); renderPanel(); }
+}
+
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+qEl.addEventListener('input',e=>{
+  currentQuery = e.target.value.trim().toLowerCase();
+  if(currentQuery && document.getElementById('view-domain').style.display!=='none'){
+    const hit = DOMAINS.find(d=>d.subs.some(matchesQuery));
+    if(hit && hit.id!==activeDomain){
+      activeDomain = hit.id;
+      renderRail();
+    }
+  }
+  if(document.getElementById('view-chapter').style.display!=='none'){
+    renderChapters();
+  } else {
+    renderPanel();
+  }
+});
+
+renderRail();
+renderPanel();
+</script>
+</body>
+</html>
