@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.4 Physical Installations · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 22%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; }
+
+  /* ============== TAB 2 · CALCULATOR ============== */
+  .calc-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; margin-bottom: 18px; }
+  .calc-step { background: var(--bg-warm); padding: 18px 22px; margin-bottom: 14px; border-left: 4px solid var(--sky); }
+  .calc-step-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 12px; }
+  .calc-step-head .num { background: var(--sky); color: white; padding: 2px 8px; margin-right: 8px; font-weight: 800; }
+
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px; }
+  .input-row.three-col { grid-template-columns: 1fr 1fr 1fr; }
+  .input-cell label { display: block; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 6px; }
+  .input-cell select, .input-cell input { width: 100%; padding: 10px 12px; font-family: var(--ff-mono); font-size: 14px; font-weight: 700; color: var(--navy-deep); background: white; border: 1.5px solid var(--line-soft); cursor: pointer; }
+  .input-cell select:focus, .input-cell input:focus { outline: none; border-color: var(--sky); }
+
+  .computed-line { background: white; padding: 10px 14px; font-family: var(--ff-mono); font-size: 13px; color: var(--ink-mid); border-left: 2px solid var(--gold); margin-top: 8px; }
+  .computed-line b { color: var(--navy-deep); font-weight: 700; }
+  .computed-line .formula { color: var(--ink-mute); font-style: italic; margin-left: 8px; }
+
+  .equipment-controls { display: grid; grid-template-columns: 2fr 80px auto; gap: 10px; align-items: end; margin-bottom: 14px; }
+  .equipment-list { background: white; border: 1px solid var(--line-soft); min-height: 40px; }
+  .equip-row { display: grid; grid-template-columns: 1fr 80px 80px 80px 40px; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--line-soft); align-items: center; font-size: 13.5px; }
+  .equip-row:last-child { border-bottom: none; }
+  .equip-row.header { background: var(--navy-deep); color: white; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .equip-row.empty { color: var(--ink-mute); font-style: italic; padding: 14px; display: block; text-align: center; }
+  .equip-row .name { font-weight: 500; color: var(--ink); }
+  .equip-row .num-cell { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); text-align: right; }
+  .equip-row .remove-btn { background: none; border: none; color: var(--red); cursor: pointer; font-family: var(--ff-mono); font-size: 16px; font-weight: 700; padding: 4px 8px; }
+  .equip-row .remove-btn:hover { background: var(--red-bg); }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 9px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+  .button-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  /* Verdict bars */
+  .verdict-section { margin-top: 22px; }
+  .verdict-section h3 { margin-top: 0; }
+  .util-bar { margin-bottom: 14px; }
+  .util-bar-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .util-bar-name { font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .util-bar-value { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); }
+  .util-bar-value .pct { font-family: var(--ff-mono); font-size: 14px; color: var(--ink-mute); margin-left: 8px; }
+  .util-bar-track { height: 16px; background: var(--bg-warm); border: 1.5px solid var(--line-soft); position: relative; overflow: hidden; }
+  .util-bar-fill { height: 100%; transition: width 0.3s ease, background 0.3s ease; }
+  .util-bar-fill.ok { background: var(--green); }
+  .util-bar-fill.warn { background: var(--gold); }
+  .util-bar-fill.bad { background: var(--red); }
+  .util-bar-line { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--ink); }
+  .util-bar-line.eighty { left: 80%; }
+  .util-bar-line-label { position: absolute; top: -22px; transform: translateX(-50%); font-family: var(--ff-mono); font-size: 9px; color: var(--ink-mid); white-space: nowrap; }
+  .util-bar-line.eighty .util-bar-line-label { left: 80%; }
+  .util-bar-note { font-size: 12px; color: var(--ink-mute); margin-top: 4px; font-family: var(--ff-mono); }
+
+  .final-verdict { padding: 16px 22px; font-family: var(--ff-display); font-size: 19px; font-weight: 700; margin: 18px 0 6px; }
+  .final-verdict.ok { background: var(--green-bg); color: var(--green); border-left: 4px solid var(--green); }
+  .final-verdict.warn { background: rgba(224,184,64,0.20); color: var(--gold-deep); border-left: 4px solid var(--gold); }
+  .final-verdict.bad { background: var(--red-bg); color: var(--red); border-left: 4px solid var(--red); }
+
+  /* ============== TAB 3 · ENVIRONMENTAL ============== */
+  .env-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .env-control { background: var(--bg-warm); padding: 18px 22px; margin-bottom: 14px; }
+  .env-control-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .env-control-name { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .env-control-value { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); }
+  .env-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 8px; background: linear-gradient(90deg, var(--red) 0%, var(--gold) 25%, var(--green) 50%, var(--gold) 75%, var(--red) 100%); outline: none; cursor: pointer; margin: 8px 0; }
+  .env-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: var(--navy-deep); border: 3px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .env-slider::-moz-range-thumb { width: 22px; height: 22px; background: var(--navy-deep); border: 3px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .env-range-labels { display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+  .env-status { padding: 8px 14px; font-family: var(--ff-mono); font-size: 12px; font-weight: 700; margin-top: 8px; }
+  .env-status.ok { background: var(--green-bg); color: var(--green); }
+  .env-status.warn { background: rgba(224,184,64,0.20); color: var(--gold-deep); }
+  .env-status.bad { background: var(--red-bg); color: var(--red); }
+
+  .fire-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 10px 0; }
+  .fire-opt { background: white; border: 2px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); transition: all 0.15s; }
+  .fire-opt:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .fire-opt.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .fire-opt .name { font-family: var(--ff-display); font-weight: 700; font-size: 15px; color: var(--navy-deep); }
+  .fire-opt.active .name { color: var(--gold); }
+  .fire-opt .desc { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+  .fire-opt.active .desc { color: var(--gray-soft); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .input-row, .input-row.three-col { grid-template-columns: 1fr; }
+    .equipment-controls { grid-template-columns: 1fr; }
+    .equip-row { grid-template-columns: 1fr; gap: 4px; }
+    .fire-grid { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.4 Physical Installations</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 2.4 · Physical Installations</div>
+    <h1>How racks <em>actually fill up.</em></h1>
+    <p class="lede">Every device that mounts in a rack takes up space (measured in U) and draws power (measured in watts). Every circuit has a capacity, every UPS has a runtime, and every data center has a temperature and humidity zone it must stay inside. This artifact teaches you to size circuits properly (the NEC 80% rule), distinguish watts from VA, budget power across a rack, and plan environmental controls. Plus MDF/IDF, fire suppression, and the rest of physical-layer infrastructure.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">1 U</span><span class="desc">1.75 inches of vertical rack space</span></div>
+    <div class="ref-row"><span class="name">Common racks</span><span class="desc">24U · 42U · 48U (full height)</span></div>
+    <div class="ref-row"><span class="name">VA × PF</span><span class="desc">= Watts. PF for IT gear ~0.9</span></div>
+    <div class="ref-row"><span class="name">NEC 80%</span><span class="desc">Continuous loads ≤ 80% of circuit rating</span></div>
+    <div class="ref-row"><span class="name">DC voltage</span><span class="desc">208V or 240V common in racks</span></div>
+    <div class="ref-row"><span class="name">Temp</span><span class="desc">ASHRAE: 64-81°F (18-27°C) recommended</span></div>
+    <div class="ref-row"><span class="name">Humidity</span><span class="desc">40-60% RH recommended</span></div>
+    <div class="ref-row"><span class="name">Fire</span><span class="desc">Clean agent (FM-200, Novec 1230) for DC</span></div>
+    <div class="footer-note">
+      <b>EXAM MATH</b><br>
+      120V × 20A = <b>2400 VA</b> circuit.<br>
+      80% safe = <b>1920 VA</b>.<br>
+      1500 VA UPS @ PF 0.9 = <b>1350 W</b> max real power.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">10</div><div class="label">Pre-loaded device types</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Live utilization meters</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="calc"><span class="num">02</span>Power Budget Calculator</button>
+  <button class="tab" data-tab="env"><span class="num">03</span>Environmental Checker</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Design Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>A networking closet — small enough to be a wall-mount cabinet, large enough to be a dedicated data center — is governed by four constraints: <b>space</b> (rack U), <b>power</b> (watts and amperage), <b>cooling</b> (temperature), and <b>physical security</b>. Get any one wrong and the network doesn't run reliably. This tab covers each in turn.</p>
+
+  <div class="section-head">MDF vs IDF</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">MDF</div>
+      <h4>Main Distribution Frame</h4>
+      <p>The <b>central hub</b> of a building's network. One per building. Houses the core router, primary switches, demarc to ISP, and main patch panels. Often combined with the server room or main data center.</p>
+      <p><span class="accent">RULE:</span> One MDF per building. Cabling from MDF reaches IDFs via vertical risers.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">IDF</div>
+      <h4>Intermediate Distribution Frame</h4>
+      <p>A <b>floor-level wiring closet</b> with access switches that connect to end-user devices on that floor. Uplinked to the MDF (often by fiber). Typical floor plan: one IDF per floor.</p>
+      <p><span class="accent">RULE:</span> Place IDFs so any user port is within <b>100 meters</b> of copper cable from the IDF.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Racks &amp; Rack Units</div>
+  <p>A <b>rack unit (U)</b> is 1.75 inches (44.45 mm) of vertical mounting space. Equipment is sized in U: a 1U switch occupies one slot, a 2U server occupies two, a 4U storage array occupies four. Common rack heights:</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Rack height</th><th>Use case</th><th>Approximate physical height</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">12U</td><td>Wall-mount cabinet for small offices, branch IDFs</td><td class="num">~21" / 53 cm</td></tr>
+      <tr><td class="label">24U</td><td>Half-rack — small server room</td><td class="num">~42" / 107 cm</td></tr>
+      <tr><td class="label">42U</td><td>Standard full-height data-center rack</td><td class="num">~74" / 188 cm</td></tr>
+      <tr><td class="label">48U</td><td>Tall rack — high-density data center</td><td class="num">~84" / 213 cm</td></tr>
+    </tbody>
+  </table>
+
+  <p>Standard rack width is <b>19 inches</b> for mounting rails — the dominant industry standard since the 1950s. Depths vary (typically 24" to 48"). Two-post and four-post variants exist; four-post supports deeper, heavier equipment.</p>
+
+  <div class="section-head">Power — Watts vs VA</div>
+  <p>This is the most-confused topic in 2.4. Memorize:</p>
+  <ul>
+    <li><b>Volt-Amperes (VA)</b> = "apparent power" — the product of voltage and current. UPSes and circuit breakers are rated in VA.</li>
+    <li><b>Watts (W)</b> = "real power" — the actual energy being consumed. Devices are rated in watts.</li>
+    <li><b>Power Factor (PF)</b> relates them: <code>Watts = VA × PF</code>. For modern IT equipment, PF is typically <b>0.9 to 0.95</b>. Older equipment with non-PFC power supplies might be 0.7-0.8.</li>
+    <li><b>Practical impact:</b> A 1500 VA UPS at PF 0.9 only delivers <b>1350W</b> of real power. You can't load 1500W of devices onto it.</li>
+  </ul>
+
+  <div class="section-head">Circuit Sizing &amp; the NEC 80% Rule</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SINGLE-PHASE</div>
+      <h4>120 V — standard US wall</h4>
+      <p>Common in small server rooms and office IDFs. 15A or 20A circuits. Lower density.</p>
+      <p><span class="accent">15A circuit:</span> 120V × 15A = 1800 VA capacity. Safe continuous: 1440 VA.</p>
+      <p><span class="accent">20A circuit:</span> 120V × 20A = 2400 VA capacity. Safe continuous: 1920 VA.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DOUBLE-VOLTAGE</div>
+      <h4>208 V or 240 V — data center</h4>
+      <p>Standard in data centers. Higher voltage = more power per circuit at the same amperage.</p>
+      <p><span class="accent">208V × 20A:</span> 4160 VA capacity. Safe continuous: 3328 VA.</p>
+      <p><span class="accent">208V × 30A:</span> 6240 VA capacity. Safe continuous: 4992 VA.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">THE 80% RULE</div>
+      <h4>Continuous-load derating</h4>
+      <p>The National Electrical Code (NEC, NFPA 70) requires continuous loads (running ≥ 3 hours) to be limited to <b>80% of the circuit rating</b>. A 20A breaker handles 20A briefly but only 16A continuously.</p>
+      <p><span class="accent">WHY:</span> Heat dissipation in breakers and wiring under sustained load.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PDU</div>
+      <h4>Power Distribution Unit</h4>
+      <p>The "fancy power strip" in a rack. Distributes power from one input (UPS output or wall) to multiple outlets. Models range from basic (just outlets) to <b>switched</b> (remotely toggle each outlet) and <b>metered</b> (per-outlet wattage reporting).</p>
+    </div>
+  </div>
+
+  <div class="section-head">UPS — Uninterruptible Power Supply</div>
+  <p>A UPS provides <b>three benefits</b>:</p>
+  <ul>
+    <li><b>Runtime during outages</b> — battery backup keeps gear running long enough to fail over to a generator or gracefully shut down.</li>
+    <li><b>Power conditioning</b> — filters spikes, sags, brownouts, and electrical noise.</li>
+    <li><b>Surge suppression</b> — protects against lightning-induced and grid transient surges.</li>
+  </ul>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>UPS type</th><th>How it works</th><th>Cost</th><th>Use</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Standby (Offline)</td><td>Equipment runs on utility power; switches to battery only on failure. Brief transfer time (~4-10 ms).</td><td class="num">$</td><td>Home, small office desktops.</td></tr>
+      <tr><td class="label">Line-Interactive</td><td>Adds an autotransformer for voltage regulation (boost/buck) without going to battery. Smoother conditioning.</td><td class="num">$$</td><td>Small server room. Most common in IDFs.</td></tr>
+      <tr><td class="label">Online (Double-Conversion)</td><td>Equipment always runs from battery (AC→DC→battery→DC→AC). No transfer time. Perfect output regardless of input quality.</td><td class="num">$$$</td><td>Data centers, mission-critical systems.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Environmental Controls</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">TEMPERATURE</div>
+      <h4>ASHRAE recommended: 64-81°F (18-27°C)</h4>
+      <p>The ASHRAE TC 9.9 thermal guidelines define the recommended envelope for IT equipment. <b>Above 81°F:</b> thermal throttling, accelerated component aging. <b>Below 64°F:</b> condensation risk when warm air re-enters, energy waste.</p>
+      <p><span class="accent">DESIGN:</span> Hot-aisle/cold-aisle layout — server intakes face cold supply air, exhausts face hot return air.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">HUMIDITY</div>
+      <h4>Recommended: 40-60% RH</h4>
+      <p><b>Too dry (&lt;30%):</b> Electrostatic discharge (ESD) — a 3500V spark can damage components silently. Carpet and synthetic clothing exacerbate this.</p>
+      <p><b>Too humid (&gt;70%):</b> Condensation, corrosion of contacts and connectors, mold.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">AIRFLOW</div>
+      <h4>Hot aisle / cold aisle</h4>
+      <p>Rows of racks alternate orientation so fronts (intakes) face each other across a "cold aisle" and backs (exhausts) face each other across a "hot aisle." Prevents hot exhaust from being re-ingested by another rack.</p>
+      <p><span class="accent">UPGRADE:</span> Containment — physical curtains or ceilings sealing hot or cold aisles.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">FIRE SUPPRESSION</div>
+      <h4>Clean agent for data centers</h4>
+      <p><b>Wet-pipe sprinklers</b> — cheap but water destroys gear. Bad fit for DC.<br>
+      <b>Pre-action (dry-pipe)</b> — water releases only after fire detected (two-step). Better.<br>
+      <b>Clean agent (FM-200, Novec 1230, FE-13)</b> — gaseous, leaves no residue, safe for people. Industry standard for data centers.<br>
+      <b>Inert gas (Inergen, Argonite)</b> — displaces O₂ but maintains breathable level.<br>
+      <b>CO₂</b> — effective but kills people. Mostly deprecated.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Cabling — Plenum vs Riser</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PLENUM (CMP)</div>
+      <h4>Air-handling spaces</h4>
+      <p>Cable jackets made of low-smoke, low-toxicity material. Required in <b>plenum spaces</b> — the air-return paths above ceilings and below raised floors that share air with the rest of the building.</p>
+      <p><span class="accent">WHY:</span> If non-plenum cable burns, toxic smoke spreads through HVAC to every room.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RISER (CMR)</div>
+      <h4>Between floors</h4>
+      <p>Cable rated for vertical runs between floors. Less stringent than plenum but designed to resist flame spreading floor-to-floor.</p>
+      <p><span class="accent">RULE:</span> Plenum-rated cable can substitute for riser, but riser cannot substitute for plenum.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>1 U = 1.75 inches.</b> Not 1.5, not 2. Exam testers love trick units.</li>
+    <li><b>VA × Power Factor = Watts.</b> A 1500 VA UPS at PF 0.9 delivers 1350W. Don't size by VA alone.</li>
+    <li><b>NEC 80% rule applies to continuous loads.</b> A 20A circuit's safe continuous capacity is 16A (1920 VA at 120V).</li>
+    <li><b>208V/240V is data-center standard.</b> 120V is for offices and small IDFs.</li>
+    <li><b>ASHRAE recommended temp is 64-81°F.</b> The upper bound was raised over the years — older sources say 68-77°F.</li>
+    <li><b>Low humidity = static electricity. High humidity = corrosion.</b> Both bad; both cause silent damage.</li>
+    <li><b>Clean agents (FM-200, Novec 1230) are the right answer for data center fire suppression.</b> Not water, not CO₂.</li>
+    <li><b>Plenum-rated &gt; riser-rated &gt; general-purpose.</b> Plenum can sub for riser; riser cannot sub for plenum.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · POWER BUDGET CALCULATOR ============== -->
+<section class="panel" id="panel-calc">
+  <h2>Power budget <em>calculator.</em></h2>
+  <p>Define your circuit, your UPS, and the equipment in your rack. The calculator computes total wattage, circuit utilization (with the NEC 80% rule applied), UPS utilization, and estimated runtime. All three utilization meters turn gold above 60% and red above 80%. The final verdict reflects the worst of the three.</p>
+
+  <div class="calc-wrap">
+    <!-- Step 1: Circuit -->
+    <div class="calc-step">
+      <div class="calc-step-head"><span class="num">01</span>Define your circuit</div>
+      <div class="input-row">
+        <div class="input-cell">
+          <label>Voltage</label>
+          <select id="voltage">
+            <option value="120">120 V (US single-phase, office)</option>
+            <option value="208" selected>208 V (US 3-phase, data center)</option>
+            <option value="240">240 V (split-phase / heavy circuit)</option>
+          </select>
+        </div>
+        <div class="input-cell">
+          <label>Amperage (breaker rating)</label>
+          <select id="amperage">
+            <option value="15">15 A</option>
+            <option value="20" selected>20 A</option>
+            <option value="30">30 A</option>
+            <option value="60">60 A</option>
+          </select>
+        </div>
+      </div>
+      <div class="computed-line" id="circuitCalc"></div>
+    </div>
+
+    <!-- Step 2: UPS -->
+    <div class="calc-step">
+      <div class="calc-step-head"><span class="num">02</span>Define your UPS</div>
+      <div class="input-row three-col">
+        <div class="input-cell">
+          <label>UPS rating (VA)</label>
+          <input id="upsVA" type="number" value="1500" min="100" max="20000" step="100">
+        </div>
+        <div class="input-cell">
+          <label>Power factor</label>
+          <select id="upsPF">
+            <option value="0.7">0.7 (older gear)</option>
+            <option value="0.8">0.8</option>
+            <option value="0.9" selected>0.9 (typical IT)</option>
+            <option value="0.95">0.95 (high efficiency)</option>
+            <option value="1.0">1.0 (true VA = W)</option>
+          </select>
+        </div>
+        <div class="input-cell">
+          <label>Battery capacity (Wh)</label>
+          <input id="upsBatteryWh" type="number" value="250" min="50" max="50000" step="50">
+        </div>
+      </div>
+      <div class="computed-line" id="upsCalc"></div>
+    </div>
+
+    <!-- Step 3: Equipment -->
+    <div class="calc-step">
+      <div class="calc-step-head"><span class="num">03</span>Add your equipment</div>
+      <div class="input-row" style="grid-template-columns: 2fr 80px 80px auto; align-items: end;">
+        <div class="input-cell">
+          <label>Device type</label>
+          <select id="deviceSelect"></select>
+        </div>
+        <div class="input-cell">
+          <label>Qty</label>
+          <input id="deviceQty" type="number" value="1" min="1" max="50">
+        </div>
+        <div class="input-cell">
+          <label>Rack</label>
+          <select id="rackSize">
+            <option value="24">24U</option>
+            <option value="42" selected>42U</option>
+            <option value="48">48U</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="addEquipment()">Add</button>
+      </div>
+
+      <div class="equipment-list" id="equipmentList">
+        <div class="equip-row header">
+          <div>Device</div>
+          <div style="text-align: right;">Watts each</div>
+          <div style="text-align: right;">U each</div>
+          <div style="text-align: right;">Qty</div>
+          <div></div>
+        </div>
+        <div class="equip-row empty" id="emptyMsg">No equipment added yet. Pick a device above and click Add.</div>
+      </div>
+
+      <div class="button-bar">
+        <button class="btn-secondary" onclick="loadPreset('small')">Load: Small IDF</button>
+        <button class="btn-secondary" onclick="loadPreset('medium')">Load: Mid server room</button>
+        <button class="btn-secondary" onclick="loadPreset('dense')">Load: Dense DC rack</button>
+        <button class="btn-secondary" onclick="clearEquipment()">Clear all</button>
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="verdict-section">
+      <h3>Live utilization</h3>
+
+      <div class="util-bar">
+        <div class="util-bar-head">
+          <div class="util-bar-name">Circuit · NEC 80% safe limit</div>
+          <div class="util-bar-value" id="circuitLoadVal">0 W <span class="pct">0%</span></div>
+        </div>
+        <div class="util-bar-track" style="position: relative;">
+          <div class="util-bar-fill ok" id="circuitFill" style="width: 0%;"></div>
+          <div class="util-bar-line eighty"><div class="util-bar-line-label">80% NEC</div></div>
+        </div>
+        <div class="util-bar-note" id="circuitNote"></div>
+      </div>
+
+      <div class="util-bar">
+        <div class="util-bar-head">
+          <div class="util-bar-name">UPS · Max real power output</div>
+          <div class="util-bar-value" id="upsLoadVal">0 W <span class="pct">0%</span></div>
+        </div>
+        <div class="util-bar-track" style="position: relative;">
+          <div class="util-bar-fill ok" id="upsFill" style="width: 0%;"></div>
+          <div class="util-bar-line eighty"><div class="util-bar-line-label">80%</div></div>
+        </div>
+        <div class="util-bar-note" id="upsNote"></div>
+      </div>
+
+      <div class="util-bar">
+        <div class="util-bar-head">
+          <div class="util-bar-name">Rack · U-space</div>
+          <div class="util-bar-value" id="rackVal">0 U <span class="pct">0%</span></div>
+        </div>
+        <div class="util-bar-track" style="position: relative;">
+          <div class="util-bar-fill ok" id="rackFill" style="width: 0%;"></div>
+        </div>
+        <div class="util-bar-note" id="rackNote"></div>
+      </div>
+
+      <div class="final-verdict" id="finalVerdict">Add equipment to see the verdict.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">How to read this</h3>
+  <ul>
+    <li><b>Green (≤60%) means safe.</b> Plenty of headroom for growth and inrush surges.</li>
+    <li><b>Gold (60-80%) means warning.</b> Approaching capacity. Plan for redundancy or upsize before adding more.</li>
+    <li><b>Red (&gt;80%) means trouble.</b> Either you're past NEC code (continuous loads must stay ≤ 80%) or your UPS is overcommitted.</li>
+    <li><b>The 80% line on each bar</b> marks the NEC safe-continuous threshold. Cross it and you risk breaker trips, code violations, or UPS shutdown.</li>
+    <li><b>Power and rack space are independent.</b> A heavily-loaded but mostly-empty rack is fine; a packed but lightly-loaded rack is also fine. Both at once is when you have a problem.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · ENVIRONMENTAL ============== -->
+<section class="panel" id="panel-env">
+  <h2>Environmental <em>compliance.</em></h2>
+  <p>Adjust the temperature and humidity sliders to see whether your data center hits the <b>ASHRAE recommended envelope</b> (64-81°F, 40-60% RH). Pick a fire suppression option to see its fit for a data center. The status badges turn green inside the recommended zone, gold in the allowable range, and red outside it.</p>
+
+  <div class="env-wrap">
+    <div class="env-control">
+      <div class="env-control-head">
+        <div class="env-control-name">Temperature</div>
+        <div class="env-control-value"><span id="tempF">72</span> °F <span style="font-size: 14px; color: var(--ink-mute);">(<span id="tempC">22.2</span> °C)</span></div>
+      </div>
+      <input type="range" min="40" max="100" value="72" class="env-slider" id="tempSlider">
+      <div class="env-range-labels"><span>40°F</span><span>64-81°F · ASHRAE recommended</span><span>100°F</span></div>
+      <div class="env-status ok" id="tempStatus">✓ Within ASHRAE recommended envelope (64-81°F)</div>
+    </div>
+
+    <div class="env-control">
+      <div class="env-control-head">
+        <div class="env-control-name">Relative Humidity</div>
+        <div class="env-control-value"><span id="humVal">50</span>%</div>
+      </div>
+      <input type="range" min="10" max="90" value="50" class="env-slider" id="humSlider">
+      <div class="env-range-labels"><span>10%</span><span>40-60% · ASHRAE recommended</span><span>90%</span></div>
+      <div class="env-status ok" id="humStatus">✓ Within ASHRAE recommended envelope (40-60% RH)</div>
+    </div>
+
+    <div class="env-control">
+      <div class="env-control-head">
+        <div class="env-control-name">Fire Suppression System</div>
+        <div class="env-control-value" id="fireRating" style="font-size: 16px;">—</div>
+      </div>
+      <div class="fire-grid">
+        <button class="fire-opt" data-fire="wetpipe">
+          <div class="name">Wet pipe sprinkler</div>
+          <div class="desc">Water — cheap, but destructive to electronics</div>
+        </button>
+        <button class="fire-opt" data-fire="preaction">
+          <div class="name">Pre-action (dry pipe)</div>
+          <div class="desc">Water released only after fire confirmed</div>
+        </button>
+        <button class="fire-opt active" data-fire="cleanagent">
+          <div class="name">Clean agent (FM-200 / Novec 1230)</div>
+          <div class="desc">Gaseous, no residue, safe for people</div>
+        </button>
+        <button class="fire-opt" data-fire="inertgas">
+          <div class="name">Inert gas (Inergen / Argonite)</div>
+          <div class="desc">Displaces O₂ but keeps breathable level</div>
+        </button>
+        <button class="fire-opt" data-fire="co2">
+          <div class="name">CO₂ flooding</div>
+          <div class="desc">Effective on fire but lethal to humans</div>
+        </button>
+        <button class="fire-opt" data-fire="none">
+          <div class="name">No automatic suppression</div>
+          <div class="desc">Handheld extinguishers only</div>
+        </button>
+      </div>
+      <div class="env-status ok" id="fireStatus">✓ Clean agent — industry standard for data centers</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">Why these ranges</h3>
+  <ul>
+    <li><b>Why not run cold (under 64°F)?</b> Risk of condensation when warm room air mixes with cold cabinet air. Also wastes cooling energy — every degree of unnecessary cooling adds operating cost.</li>
+    <li><b>Why not run hot (over 81°F)?</b> Component lifetimes shrink rapidly with temperature. Most electronics rate for 25°C operating; for every 10°C increase, failure rates roughly double (Arrhenius-type rule of thumb).</li>
+    <li><b>Why not too dry (under 40%)?</b> Electrostatic discharge — a barely-noticed spark can be 3500V+ and silently damage components. Carpet and synthetic clothing make this worse.</li>
+    <li><b>Why not too humid (over 60%)?</b> Corrosion on contacts and PCB traces. Above 70%, condensation forms on cool surfaces. Mold becomes a long-term risk.</li>
+    <li><b>Why clean agent over water?</b> Water suppresses fire effectively but instantly ruins every powered device it touches. Clean agents (heptafluoropropane, fluoroketone) absorb heat and break the combustion chain reaction without conducting electricity or leaving residue.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Physical-install <em>scenarios.</em></h2>
+  <p>Six scenarios across MDF/IDF placement, cable distances, rack sizing, circuit math, UPS sizing, and fire-suppression selection.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KNOWLEDGE CHECK ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 2.4: MDF/IDF, rack U math, voltage, NEC 80% rule, UPS purposes, environmental ranges, and fire suppression.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ROUND ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire physical-install questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 2.4: Physical Installations. Covers MDF/IDF placement, rack-mounted equipment, U measurement, power load calculations (watts vs VA), UPS sizing, PDU selection, voltage choices, the NEC 80% rule, environmental controls (temperature/humidity/airflow), and fire suppression options.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 2 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Build virtual racks in the Power Budget Calculator.</p>
+      <p>· Test environmental tolerances and fire suppression selection.</p>
+      <p>· Practice in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 2.4 quiz in Canvas, the Domain 2 module artifacts (2.1 Routing, 2.2 Switching, 2.3 Wireless), and Domain 1 (1.5 Media &amp; Transceivers for the cabling foundation).</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 2.4 · Physical Installations</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · POWER BUDGET CALCULATOR ============== */
+var DEVICE_CATALOG = [
+  { id: 'srv1u',   name: '1U server (mid-range)',           watts: 250,  u: 1 },
+  { id: 'srv2u',   name: '2U server (dual-CPU)',            watts: 400,  u: 2 },
+  { id: 'srv4u',   name: '4U storage array',                watts: 600,  u: 4 },
+  { id: 'sw48n',   name: '48-port switch (no PoE)',         watts: 50,   u: 1 },
+  { id: 'sw48p',   name: '48-port switch (PoE+ full load)', watts: 1000, u: 1 },
+  { id: 'sw24n',   name: '24-port switch (no PoE)',         watts: 35,   u: 1 },
+  { id: 'fw',      name: 'Firewall (mid-range)',            watts: 150,  u: 1 },
+  { id: 'rtr',     name: 'Router (mid-range)',              watts: 120,  u: 1 },
+  { id: 'wlc',     name: 'Wireless LAN Controller',         watts: 100,  u: 1 },
+  { id: 'kvm',     name: 'KVM switch',                      watts: 25,   u: 1 },
+  { id: 'pdu',     name: 'PDU (occupies 1U, no draw)',      watts: 0,    u: 1 },
+  { id: 'ups2u',   name: 'UPS unit (2U chassis, no draw)',  watts: 0,    u: 2 }
+];
+
+var state = {
+  voltage: 208,
+  amperage: 20,
+  upsVA: 1500,
+  upsPF: 0.9,
+  upsBatteryWh: 250,
+  rackSize: 42,
+  equipment: []
+};
+
+function initDeviceSelect() {
+  var sel = document.getElementById('deviceSelect');
+  var html = '';
+  DEVICE_CATALOG.forEach(function(d) {
+    html += '<option value="' + d.id + '">' + d.name + ' · ' + d.watts + 'W · ' + d.u + 'U</option>';
+  });
+  sel.innerHTML = html;
+}
+
+function addEquipment() {
+  var devId = document.getElementById('deviceSelect').value;
+  var qty = parseInt(document.getElementById('deviceQty').value, 10) || 1;
+  var device = DEVICE_CATALOG.find(function(d) { return d.id === devId; });
+  if (!device) return;
+
+  // Merge with existing entry if same device
+  var existing = state.equipment.find(function(e) { return e.id === devId; });
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    state.equipment.push({ id: devId, name: device.name, watts: device.watts, u: device.u, qty: qty });
+  }
+  recalculate();
+}
+
+function removeEquipment(idx) {
+  state.equipment.splice(idx, 1);
+  recalculate();
+}
+
+function clearEquipment() {
+  state.equipment = [];
+  recalculate();
+}
+
+function loadPreset(name) {
+  state.equipment = [];
+  if (name === 'small') {
+    // Small IDF — switch, router, firewall, mini UPS
+    state.equipment = [
+      { id: 'sw48n', name: '48-port switch (no PoE)', watts: 50, u: 1, qty: 2 },
+      { id: 'rtr', name: 'Router (mid-range)', watts: 120, u: 1, qty: 1 },
+      { id: 'fw', name: 'Firewall (mid-range)', watts: 150, u: 1, qty: 1 }
+    ];
+  } else if (name === 'medium') {
+    // Mid server room — couple servers + switching + firewall
+    state.equipment = [
+      { id: 'srv1u', name: '1U server (mid-range)', watts: 250, u: 1, qty: 4 },
+      { id: 'sw48p', name: '48-port switch (PoE+ full load)', watts: 1000, u: 1, qty: 1 },
+      { id: 'sw48n', name: '48-port switch (no PoE)', watts: 50, u: 1, qty: 1 },
+      { id: 'fw', name: 'Firewall (mid-range)', watts: 150, u: 1, qty: 2 },
+      { id: 'rtr', name: 'Router (mid-range)', watts: 120, u: 1, qty: 1 }
+    ];
+  } else if (name === 'dense') {
+    // Dense DC rack — many servers
+    state.equipment = [
+      { id: 'srv1u', name: '1U server (mid-range)', watts: 250, u: 1, qty: 12 },
+      { id: 'srv2u', name: '2U server (dual-CPU)', watts: 400, u: 2, qty: 4 },
+      { id: 'srv4u', name: '4U storage array', watts: 600, u: 4, qty: 1 },
+      { id: 'sw48n', name: '48-port switch (no PoE)', watts: 50, u: 1, qty: 2 }
+    ];
+  }
+  recalculate();
+}
+
+function getCircuitCapacity() {
+  var va = state.voltage * state.amperage;
+  var safeVA = va * 0.8;
+  return { totalVA: va, safeVA: safeVA, totalW: va * state.upsPF, safeW: safeVA * state.upsPF };
+}
+
+function getUpsCapacity() {
+  return state.upsVA * state.upsPF;
+}
+
+function getTotalLoad() {
+  var watts = 0;
+  var u = 0;
+  state.equipment.forEach(function(e) {
+    watts += e.watts * e.qty;
+    u += e.u * e.qty;
+  });
+  return { watts: watts, u: u };
+}
+
+function fmt(n) {
+  if (n >= 1000) return Math.round(n).toLocaleString('en-US');
+  return Math.round(n).toString();
+}
+
+function recalculate() {
+  // Read state from inputs
+  state.voltage = parseInt(document.getElementById('voltage').value, 10);
+  state.amperage = parseInt(document.getElementById('amperage').value, 10);
+  state.upsVA = parseInt(document.getElementById('upsVA').value, 10) || 0;
+  state.upsPF = parseFloat(document.getElementById('upsPF').value);
+  state.upsBatteryWh = parseInt(document.getElementById('upsBatteryWh').value, 10) || 0;
+  state.rackSize = parseInt(document.getElementById('rackSize').value, 10);
+
+  // Circuit
+  var circuit = getCircuitCapacity();
+  document.getElementById('circuitCalc').innerHTML =
+    '<b>' + state.voltage + ' V × ' + state.amperage + ' A = ' + fmt(circuit.totalVA) + ' VA</b> circuit capacity. ' +
+    'NEC 80% safe continuous: <b>' + fmt(circuit.safeVA) + ' VA</b> ' +
+    '<span class="formula">≈ ' + fmt(circuit.safeW) + ' W at PF ' + state.upsPF + '</span>';
+
+  // UPS
+  var upsMaxW = getUpsCapacity();
+  var totalLoad = getTotalLoad();
+  var runtimeMin = totalLoad.watts > 0 ? (state.upsBatteryWh / totalLoad.watts) * 60 : null;
+  document.getElementById('upsCalc').innerHTML =
+    '<b>' + fmt(state.upsVA) + ' VA × PF ' + state.upsPF + ' = ' + fmt(upsMaxW) + ' W</b> max real power. ' +
+    (runtimeMin !== null
+      ? 'At current load (' + fmt(totalLoad.watts) + 'W): <b>~' + Math.round(runtimeMin) + ' min</b> runtime.'
+      : 'Add equipment to estimate runtime.');
+
+  // Equipment list rendering
+  var listEl = document.getElementById('equipmentList');
+  var html = '<div class="equip-row header"><div>Device</div><div style="text-align: right;">Watts each</div><div style="text-align: right;">U each</div><div style="text-align: right;">Qty</div><div></div></div>';
+  if (state.equipment.length === 0) {
+    html += '<div class="equip-row empty">No equipment added yet. Pick a device above and click Add.</div>';
+  } else {
+    state.equipment.forEach(function(e, idx) {
+      html += '<div class="equip-row">' +
+        '<div class="name">' + e.name + '</div>' +
+        '<div class="num-cell">' + e.watts + ' W</div>' +
+        '<div class="num-cell">' + e.u + ' U</div>' +
+        '<div class="num-cell">× ' + e.qty + '</div>' +
+        '<button class="remove-btn" onclick="removeEquipment(' + idx + ')" title="Remove">×</button>' +
+        '</div>';
+    });
+  }
+  listEl.innerHTML = html;
+
+  // Utilization
+  var circuitPct = circuit.safeW > 0 ? (totalLoad.watts / circuit.safeW) * 100 : 0;
+  var upsPct = upsMaxW > 0 ? (totalLoad.watts / upsMaxW) * 100 : 0;
+  var rackPct = state.rackSize > 0 ? (totalLoad.u / state.rackSize) * 100 : 0;
+
+  setUtilBar('circuit', circuitPct, totalLoad.watts + ' W',
+    'Safe limit (80% of ' + state.voltage + 'V × ' + state.amperage + 'A): ' + fmt(circuit.safeW) + 'W. ' +
+    (circuitPct > 100 ? 'OVER NEC CONTINUOUS LIMIT — risk of breaker trip and code violation.' :
+     circuitPct > 80 ? 'Above 80% — at or near NEC continuous limit.' :
+     'Within safe continuous capacity.'));
+
+  setUtilBar('ups', upsPct, totalLoad.watts + ' W',
+    'UPS max real power: ' + fmt(upsMaxW) + 'W. ' +
+    (runtimeMin !== null ? 'Estimated runtime: ~' + Math.round(runtimeMin) + ' min. ' : '') +
+    (upsPct > 100 ? 'UPS OVERLOADED — will trip on overload protection.' :
+     upsPct > 80 ? 'UPS nearing capacity — no headroom for inrush surges.' :
+     'UPS has headroom.'));
+
+  setUtilBar('rack', rackPct, totalLoad.u + ' of ' + state.rackSize + ' U',
+    (rackPct > 100 ? 'EXCEEDS RACK CAPACITY — equipment will not fit.' :
+     rackPct > 80 ? 'Rack nearly full — limited room for growth or cable management.' :
+     'Rack has space remaining.'));
+
+  // Final verdict — worst-case of the three bars
+  var worst = Math.max(circuitPct, upsPct, rackPct);
+  var verdict = document.getElementById('finalVerdict');
+  if (totalLoad.watts === 0 && totalLoad.u === 0) {
+    verdict.className = 'final-verdict';
+    verdict.style.background = 'var(--bg-warm)';
+    verdict.style.color = 'var(--ink-mute)';
+    verdict.textContent = 'Add equipment above to see the verdict.';
+  } else if (worst > 100) {
+    verdict.className = 'final-verdict bad';
+    verdict.style.background = '';
+    verdict.style.color = '';
+    verdict.textContent = '✗ OVERLOADED — one or more constraints exceeded. Fix before deploying.';
+  } else if (worst > 80) {
+    verdict.className = 'final-verdict warn';
+    verdict.style.background = '';
+    verdict.style.color = '';
+    verdict.textContent = '⚠ WARNING — operating above 80%. Add capacity or reduce load before adding more.';
+  } else {
+    verdict.className = 'final-verdict ok';
+    verdict.style.background = '';
+    verdict.style.color = '';
+    verdict.textContent = '✓ SAFE — all utilization below 80%. Headroom for growth.';
+  }
+}
+
+function setUtilBar(prefix, pct, mainVal, note) {
+  var fill = document.getElementById(prefix + 'Fill');
+  var val = document.getElementById(prefix + (prefix === 'rack' ? 'Val' : 'LoadVal'));
+  var noteEl = document.getElementById(prefix + 'Note');
+  var clampedPct = Math.min(100, Math.max(0, pct));
+  fill.style.width = clampedPct + '%';
+  fill.className = 'util-bar-fill ' + (pct > 80 ? 'bad' : pct > 60 ? 'warn' : 'ok');
+  val.innerHTML = mainVal + ' <span class="pct">' + Math.round(pct) + '%</span>';
+  noteEl.textContent = note;
+}
+
+// Wire up input change listeners
+['voltage', 'amperage', 'upsVA', 'upsPF', 'upsBatteryWh', 'rackSize'].forEach(function(id) {
+  document.getElementById(id).addEventListener('change', recalculate);
+  document.getElementById(id).addEventListener('input', recalculate);
+});
+
+initDeviceSelect();
+recalculate();
+
+/* ============== TAB 3 · ENVIRONMENTAL CHECKER ============== */
+function updateTemp() {
+  var f = parseInt(document.getElementById('tempSlider').value, 10);
+  var c = ((f - 32) * 5 / 9).toFixed(1);
+  document.getElementById('tempF').textContent = f;
+  document.getElementById('tempC').textContent = c;
+  var status = document.getElementById('tempStatus');
+  if (f >= 64 && f <= 81) {
+    status.className = 'env-status ok';
+    status.textContent = '✓ Within ASHRAE recommended envelope (64-81°F)';
+  } else if (f >= 50 && f < 64) {
+    status.className = 'env-status warn';
+    status.textContent = '⚠ Cooler than recommended — condensation risk, energy waste cooling unnecessarily';
+  } else if (f > 81 && f <= 90) {
+    status.className = 'env-status warn';
+    status.textContent = '⚠ Warmer than recommended — accelerated component aging, thermal throttling risk';
+  } else if (f < 50) {
+    status.className = 'env-status bad';
+    status.textContent = '✗ Too cold — high condensation risk when warm air enters';
+  } else {
+    status.className = 'env-status bad';
+    status.textContent = '✗ Too hot — equipment failure imminent, throttling guaranteed';
+  }
+}
+document.getElementById('tempSlider').addEventListener('input', updateTemp);
+updateTemp();
+
+function updateHum() {
+  var h = parseInt(document.getElementById('humSlider').value, 10);
+  document.getElementById('humVal').textContent = h;
+  var status = document.getElementById('humStatus');
+  if (h >= 40 && h <= 60) {
+    status.className = 'env-status ok';
+    status.textContent = '✓ Within ASHRAE recommended envelope (40-60% RH)';
+  } else if (h >= 30 && h < 40) {
+    status.className = 'env-status warn';
+    status.textContent = '⚠ Drier than recommended — ESD risk rises sharply below 30%';
+  } else if (h > 60 && h <= 70) {
+    status.className = 'env-status warn';
+    status.textContent = '⚠ More humid than recommended — corrosion risk increases';
+  } else if (h < 30) {
+    status.className = 'env-status bad';
+    status.textContent = '✗ Too dry — static electricity will silently damage components';
+  } else {
+    status.className = 'env-status bad';
+    status.textContent = '✗ Too humid — condensation and corrosion are guaranteed long-term';
+  }
+}
+document.getElementById('humSlider').addEventListener('input', updateHum);
+updateHum();
+
+var FIRE_RATINGS = {
+  wetpipe:    { rating: 'BAD',     class: 'bad',  msg: '✗ Wet pipe sprinklers destroy every powered device they touch. Wrong for data centers.' },
+  preaction:  { rating: 'WARN',    class: 'warn', msg: '⚠ Pre-action is better than wet pipe but still water-based. Acceptable for mixed-use spaces, not ideal for DC.' },
+  cleanagent: { rating: 'BEST',    class: 'ok',   msg: '✓ Clean agent (FM-200 / Novec 1230) — industry standard for data centers. No residue, safe for people.' },
+  inertgas:   { rating: 'GOOD',    class: 'ok',   msg: '✓ Inert gas displaces O₂ but keeps a breathable level. Used in large DCs and museums.' },
+  co2:        { rating: 'DANGER',  class: 'bad', msg: '✗ CO₂ is effective on fire but lethal to humans. Mostly deprecated for occupied spaces.' },
+  none:       { rating: 'INSUFFICIENT', class: 'bad', msg: '✗ No automatic suppression means fire can spread for minutes before manual response.' }
+};
+
+document.querySelectorAll('.fire-opt').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.fire-opt').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    var r = FIRE_RATINGS[b.dataset.fire];
+    document.getElementById('fireRating').textContent = r.rating;
+    var status = document.getElementById('fireStatus');
+    status.className = 'env-status ' + r.class;
+    status.textContent = r.msg;
+  });
+});
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'MDF/IDF placement',
+    body: 'A four-floor office building has its server room and ISP demarc on the ground floor. The network designer plans where to put wiring closets. Where should the MDF go, and how many IDFs are needed?',
+    choices: [
+      { letter: 'A', text: 'MDF on each floor; no IDFs needed', correct: false },
+      { letter: 'B', text: 'MDF on ground floor (near demarc); one IDF per floor (floors 2, 3, 4)', correct: true },
+      { letter: 'C', text: 'MDF on top floor; IDFs in basement only', correct: false },
+      { letter: 'D', text: 'No MDF needed; just use a single switch in the basement', correct: false }
+    ],
+    explain: 'Best practice is <b>one MDF per building</b> (the central hub, usually near the ISP demarc) and <b>one IDF per floor</b> (or anywhere user ports would otherwise exceed 100m of copper from the MDF). Ground-floor MDF + per-floor IDFs lets every user be within 100m of an IDF via copper, with fiber risers connecting each IDF up to the MDF.'
+  },
+  {
+    tag: 'Cable distance',
+    body: 'A new conference room in a far corner of a building measures <b>118 meters</b> of cable run from the nearest IDF to where the user port would terminate. The cable plant is Cat 6 copper. What\'s the correct response?',
+    choices: [
+      { letter: 'A', text: 'Run the cable anyway — Cat 6 supports up to 200m', correct: false },
+      { letter: 'B', text: 'Add a midpoint splice to extend the copper run', correct: false },
+      { letter: 'C', text: 'Add a closer IDF, or run fiber to a media converter near the conference room', correct: true },
+      { letter: 'D', text: 'Use a longer Ethernet patch cable to make up the distance', correct: false }
+    ],
+    explain: 'Cat 5e / Cat 6 / Cat 6a all have a <b>100-meter limit</b> for the channel (cable + patch cords + connectors). 118m exceeds the spec. Splicing copper does not solve this; the impedance and crosstalk specs were designed assuming 100m. The fix is either a closer IDF (most common) or a fiber run to a smaller switch / media converter at the far end.'
+  },
+  {
+    tag: 'Rack space',
+    body: 'A small server room has a <b>42U rack</b> already populated with: 2 × 2U servers, 1 × 4U storage array, 3 × 1U switches, 1 × 1U firewall, and 1 × 2U UPS chassis. How many U of free space remain?',
+    choices: [
+      { letter: 'A', text: '42 U', correct: false },
+      { letter: 'B', text: '14 U used, 28 U free', correct: true },
+      { letter: 'C', text: '20 U used, 22 U free', correct: false },
+      { letter: 'D', text: '7 U used, 35 U free', correct: false }
+    ],
+    explain: 'Total U used = (2×2) + 4 + (3×1) + 1 + 2 = <b>4 + 4 + 3 + 1 + 2 = 14 U</b>. With a 42U rack, that leaves 42 − 14 = <b>28 U free</b>. Always count both the qty and the size of each device. PDUs typically take 0U if they\'re mounted to vertical rails, or 1U if horizontal — the question implies neither is counted here.'
+  },
+  {
+    tag: 'Circuit sizing',
+    body: 'A small server room is connected to a <b>20A circuit at 120V</b>. The technician needs to know how many watts of <b>continuous</b> load this circuit can safely support, per NEC code.',
+    choices: [
+      { letter: 'A', text: '2400 W (20A × 120V)', correct: false },
+      { letter: 'B', text: '1920 W (80% of 2400)', correct: true },
+      { letter: 'C', text: '1500 W (an arbitrary safe value)', correct: false },
+      { letter: 'D', text: '3000 W (with a buffer for surges)', correct: false }
+    ],
+    explain: 'A 20A × 120V circuit has a total capacity of <b>2400 VA</b>. NEC code requires <b>continuous loads</b> (running for 3 hours or more) to be limited to <b>80%</b> of the circuit rating, giving a safe continuous capacity of <b>1920 VA</b>. At a typical 1.0 PF approximation (or close to 1.0 for resistive math), that\'s 1920 W. For PF 0.9 IT equipment, ~1728 W of real power can safely run continuously.'
+  },
+  {
+    tag: 'UPS sizing',
+    body: 'A networking team needs a UPS to support a load of approximately <b>1200 W of real power</b> with reasonable headroom. The team is considering UPS units rated in VA. Assuming IT equipment with PF 0.9, which UPS rating is the <b>minimum</b> appropriate choice?',
+    choices: [
+      { letter: 'A', text: '1000 VA UPS — provides ~900 W', correct: false },
+      { letter: 'B', text: '1200 VA UPS — provides ~1080 W', correct: false },
+      { letter: 'C', text: '1500 VA UPS — provides ~1350 W', correct: true },
+      { letter: 'D', text: '2000 VA UPS — provides ~1800 W', correct: false }
+    ],
+    explain: 'At PF 0.9, multiply VA by 0.9 to get real watts. 1500 VA × 0.9 = <b>1350 W</b> — just above the 1200 W load with a modest ~12% headroom. Smaller UPSes (1000 / 1200 VA) cannot deliver 1200 W of real power. 2000 VA would also work but is oversized and more expensive — best practice is choosing the smallest UPS that gives reasonable headroom (typically 20-30%, so 1500 VA is the sweet spot here).'
+  },
+  {
+    tag: 'Fire suppression',
+    body: 'A new data center is being designed. The team needs fire suppression that <b>protects expensive electronics</b>, leaves <b>no residue</b>, and is <b>safe for staff</b> who occasionally enter the room. Which option fits all three requirements?',
+    choices: [
+      { letter: 'A', text: 'Wet-pipe sprinklers', correct: false },
+      { letter: 'B', text: 'CO₂ flooding', correct: false },
+      { letter: 'C', text: 'Clean agent (FM-200 or Novec 1230)', correct: true },
+      { letter: 'D', text: 'No automatic suppression — handheld extinguishers only', correct: false }
+    ],
+    explain: '<b>Clean agents</b> (FM-200/heptafluoropropane, Novec 1230/fluoroketone) are <b>gaseous</b>, leave no residue on equipment, and are safe at design concentrations for people. Wet pipe destroys electronics with water. CO₂ flooding is lethal at fire-suppression concentrations. No automatic suppression is insufficient for a data center. Clean agents are the industry standard for data center fire suppression.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'How many inches of vertical rack space does 1 U represent?',
+    choices: ['1.0 inch', '1.5 inches', '1.75 inches', '2.0 inches'],
+    correct: 2,
+    explain: '<b>1 U = 1.75 inches (44.45 mm)</b>. This is a fixed industry standard since the 1960s. A 1U device occupies 1.75" of vertical space; a 2U is 3.5"; a 4U is 7".'
+  },
+  {
+    q: 'In a multi-floor building, where does the MDF typically reside?',
+    choices: [
+      'On every floor — one per floor',
+      'On the top floor, central location',
+      'On the ground floor, near the ISP demarc / building entrance',
+      'In the basement, far from everything'
+    ],
+    correct: 2,
+    explain: 'The <b>MDF (Main Distribution Frame)</b> is typically located near the ISP demarcation point — usually on the ground floor or basement near the building entrance. IDFs (one per floor) connect back to the MDF via vertical risers (often fiber). One MDF per building.'
+  },
+  {
+    q: 'A 20-amp circuit at 120V has a total capacity of 2400 VA. Per NEC code, what is the safe continuous-load capacity?',
+    choices: ['2400 VA — full rating', '1920 VA — 80% of total', '1500 VA — 60% of total', '1200 VA — 50% of total'],
+    correct: 1,
+    explain: 'NEC requires <b>continuous loads</b> (running 3+ hours) to be limited to <b>80%</b> of the circuit rating. 2400 VA × 80% = <b>1920 VA</b> safe continuous. Brief peaks above 80% are fine; sustained loads above 80% violate code and risk thermal damage.'
+  },
+  {
+    q: 'What is the approximate real power output of a 2000 VA UPS supporting IT equipment with a typical power factor of 0.9?',
+    choices: ['~1000 W', '~1800 W', '~2000 W', '~2400 W'],
+    correct: 1,
+    explain: '<b>Watts = VA × PF</b>. For 2000 VA at PF 0.9: 2000 × 0.9 = <b>1800 W</b>. UPSes are rated in VA but devices draw watts — never assume VA equals watts.'
+  },
+  {
+    q: 'Which voltage is most common for high-density rack power circuits in modern data centers?',
+    choices: ['120 V single-phase', '208 V (or 240 V) two-phase / split-phase', '480 V three-phase to the rack', '12 V DC'],
+    correct: 1,
+    explain: 'Data center rack power is most commonly <b>208V or 240V</b>. Higher voltage = more power per circuit at the same amperage (208 × 20 = 4160 VA vs 120 × 20 = 2400 VA). 120V single-phase is common in office IDFs but rare in dense racks.'
+  },
+  {
+    q: 'What is the primary purpose of a UPS in addition to providing battery backup during outages?',
+    choices: [
+      'Increase Ethernet bandwidth',
+      'Conditions power: filters surges, sags, brownouts, and electrical noise',
+      'Provides Wi-Fi failover',
+      'Converts AC to DC for solar panels'
+    ],
+    correct: 1,
+    explain: 'A UPS provides three benefits: (1) battery <b>runtime</b> during outages, (2) <b>power conditioning</b> — smoothing out voltage sags, spikes, and noise, and (3) <b>surge suppression</b>. Online (double-conversion) UPSes do this continuously; line-interactive UPSes do it through autotransformers.'
+  },
+  {
+    q: 'According to ASHRAE TC 9.9 guidelines, the recommended temperature range for IT equipment in a data center is approximately:',
+    choices: ['50-60°F (10-15°C)', '64-81°F (18-27°C)', '85-95°F (29-35°C)', 'Any temperature is fine'],
+    correct: 1,
+    explain: '<b>ASHRAE recommended: 64.4-80.6°F (18-27°C).</b> This range balances equipment longevity with cooling energy efficiency. The allowable range (Class A1) extends from 59-89.6°F, but staying within the recommended envelope is best practice.'
+  },
+  {
+    q: 'A data center maintains a relative humidity of 25%. What problem is most likely?',
+    choices: [
+      'Mold growth on cables and racks',
+      'Condensation on cold surfaces',
+      'Electrostatic discharge (ESD) damaging components',
+      'Hardware overheating'
+    ],
+    correct: 2,
+    explain: 'At <b>low humidity (under 30%)</b>, electrostatic charge builds up easily on people and surfaces. A barely-felt spark can be 3500+ volts and silently damage semiconductors. ASHRAE recommends staying above 40% RH to mitigate ESD. Mold and condensation are high-humidity problems.'
+  },
+  {
+    q: 'Which fire suppression system is most appropriate for a modern data center protecting expensive electronics?',
+    choices: [
+      'Wet-pipe sprinklers throughout the room',
+      'CO₂ flooding system',
+      'Clean agent (FM-200 / Novec 1230 / FE-13)',
+      'Foam-based suppression'
+    ],
+    correct: 2,
+    explain: '<b>Clean agents</b> (heptafluoropropane, fluoroketone) are gaseous, leave no residue, and are safe at design concentrations for people. They\'re the industry standard for data centers. Water destroys electronics, CO₂ is lethal to humans at fire-suppression concentrations, foam is for industrial fires (chemicals, fuel) not electronics.'
+  },
+  {
+    q: 'What does a PDU do in a rack?',
+    choices: [
+      'Distributes power from one input to multiple device outlets',
+      'Converts AC to DC for low-voltage equipment',
+      'Provides battery backup during outages',
+      'Manages PoE (Power over Ethernet) on copper cables'
+    ],
+    correct: 0,
+    explain: 'A <b>PDU (Power Distribution Unit)</b> distributes power from one input (often from a UPS) to multiple outlets that feed rack equipment. Basic PDUs are essentially fancy power strips; advanced models offer per-outlet switching, metering, and remote control. PDUs don\'t do AC-DC conversion or provide backup themselves.'
+  },
+  {
+    q: 'A cable run from an IDF passes through the air-return space above a drop ceiling that\'s shared with the building HVAC. What cable rating is required?',
+    choices: ['CMG (general purpose)', 'CMR (riser)', 'CMP (plenum)', 'No special rating needed'],
+    correct: 2,
+    explain: '<b>Plenum-rated (CMP)</b> cable is required in plenum spaces — air-handling spaces shared with HVAC. The jackets are made of low-smoke, low-toxicity material so that a fire doesn\'t spread toxic smoke through the air handling system to every part of the building. Plenum can substitute for riser or general-purpose, but not vice versa.'
+  },
+  {
+    q: 'A rack contains 4 × 1U servers (250W each), 2 × 1U switches (50W each), and 1 × 1U firewall (150W). What is the total power load?',
+    choices: ['450 W', '1000 W', '1250 W', '1500 W'],
+    correct: 2,
+    explain: '4 × 250 = 1000W. 2 × 50 = 100W. 1 × 150 = 150W. Total = 1000 + 100 + 150 = <b>1250 W</b>. On a 20A × 120V circuit (1920 VA safe), this is ~65% of capacity — within safe limits. On a 1500 VA UPS at PF 0.9 (1350W max), this is ~93% of UPS capacity — too tight, the UPS is undersized for this load.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ROUND ============== */
+var LIGHTNING_BANK = [
+  { q: '1 U equals how many inches?', choices: ['1.5', '1.75', '2.0', '2.5'], correct: 1 },
+  { q: 'Standard full-height rack?', choices: ['24U', '36U', '42U', '60U'], correct: 2 },
+  { q: 'Watts = VA × ?', choices: ['Voltage', 'Power Factor', 'Amperage', 'Resistance'], correct: 1 },
+  { q: 'Typical PF for IT equipment?', choices: ['~0.5', '~0.7', '~0.9', '~1.5'], correct: 2 },
+  { q: 'NEC continuous-load derating?', choices: ['50%', '60%', '80%', '100%'], correct: 2 },
+  { q: 'US single-phase wall voltage?', choices: ['100V', '120V', '208V', '240V'], correct: 1 },
+  { q: 'Common data-center rack voltage?', choices: ['12V', '48V', '208V or 240V', '480V'], correct: 2 },
+  { q: '20A × 120V circuit total VA?', choices: ['1800', '2000', '2400', '3000'], correct: 2 },
+  { q: '20A × 120V safe continuous VA (80%)?', choices: ['1500', '1920', '2400', '2880'], correct: 1 },
+  { q: '1500 VA UPS at PF 0.9 watts?', choices: ['900', '1200', '1350', '1500'], correct: 2 },
+  { q: 'ASHRAE recommended low temp?', choices: ['50°F', '60°F', '64°F', '70°F'], correct: 2 },
+  { q: 'ASHRAE recommended high temp?', choices: ['75°F', '81°F', '90°F', '100°F'], correct: 1 },
+  { q: 'ASHRAE recommended low humidity?', choices: ['20%', '30%', '40%', '50%'], correct: 2 },
+  { q: 'ASHRAE recommended high humidity?', choices: ['50%', '60%', '70%', '80%'], correct: 1 },
+  { q: 'Low humidity main risk?', choices: ['Mold', 'ESD / static', 'Condensation', 'Overheating'], correct: 1 },
+  { q: 'High humidity main risk?', choices: ['Static', 'Corrosion', 'Hotspots', 'EMI'], correct: 1 },
+  { q: 'Best DC fire suppression?', choices: ['Wet pipe', 'Foam', 'Clean agent', 'CO₂'], correct: 2 },
+  { q: 'Clean agent examples?', choices: ['Water', 'FM-200 / Novec 1230', 'Foam', 'CO₂'], correct: 1 },
+  { q: 'CO₂ suppression problem?', choices: ['Too expensive', 'Lethal to humans', 'Damages electronics', 'Slow to deploy'], correct: 1 },
+  { q: 'Cable rating for HVAC return air space?', choices: ['CMG', 'CMR (riser)', 'CMP (plenum)', 'No rating'], correct: 2 },
+  { q: 'Online double-conversion UPS feature?', choices: ['Battery only on outage', 'No transfer time, always on battery output', 'No surge protection', 'Cheaper than standby'], correct: 1 },
+  { q: 'PDU primary purpose?', choices: ['Battery backup', 'Distribute power to outlets', 'Convert AC to DC', 'Filter EMI'], correct: 1 },
+  { q: 'Copper Ethernet max length?', choices: ['50m', '100m', '200m', '500m'], correct: 1 },
+  { q: 'IDF means?', choices: ['Intermediate Distribution Frame', 'Internet Demarc Facility', 'Internal Data Frame', 'Industrial Distribution Fabric'], correct: 0 },
+  { q: 'MDF means?', choices: ['Main Distribution Frame', 'Master Demarc Facility', 'Mid-Distribution Floor', 'Multi-Domain Filter'], correct: 0 },
+  { q: 'Static threshold to damage equipment?', choices: ['350V', '3500V', '35000V', '350000V'], correct: 1 },
+  { q: 'Hot aisle / cold aisle goal?', choices: ['Reduce noise', 'Separate intake and exhaust airflow', 'Save floor space', 'Reduce humidity'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
