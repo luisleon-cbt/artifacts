@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 Switching Technologies · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== TAB 1 · ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  /* Specs table — reusable for port states, PoE standards, etc. */
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 22%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 110px; }
+
+  /* ============== TAB 2 · STP ELECTION ============== */
+  .stp-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .stp-controls { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; margin-bottom: 20px; }
+  .stp-pri-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .stp-pri { background: var(--bg-warm); padding: 10px 12px; }
+  .stp-pri label { display: block; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 6px; }
+  .stp-pri select { width: 100%; padding: 7px 10px; font-family: var(--ff-mono); font-size: 13px; font-weight: 700; color: var(--navy-deep); background: white; border: 1.5px solid var(--line-soft); cursor: pointer; }
+  .stp-pri select:focus { outline: none; border-color: var(--sky); }
+  .stp-pri .mac { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+  .button-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+  .stp-canvas { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 16px; margin: 16px 0; }
+  .stp-svg { width: 100%; height: 360px; display: block; }
+
+  .stp-legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 14px 0; font-family: var(--ff-mono); font-size: 11px; }
+  .stp-legend-item { display: flex; align-items: center; gap: 6px; }
+  .stp-legend-dot { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .stp-log { background: var(--bg-warm); border-left: 4px solid var(--gold); padding: 16px 22px; margin-top: 16px; }
+  .stp-log h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin: 0 0 10px; font-weight: 700; }
+  .stp-log ol { margin: 0; padding-left: 22px; font-size: 13.5px; line-height: 1.65; color: var(--ink); }
+  .stp-log ol li { margin-bottom: 5px; }
+  .stp-log ol li b { color: var(--navy-deep); }
+  .stp-log .verdict { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line-soft); font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--green); }
+
+  /* ============== TAB 3 · VLAN/TRUNK PATH TRACER ============== */
+  .vlan-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .vlan-controls { display: grid; grid-template-columns: 1fr 1fr auto; gap: 14px; align-items: end; margin-bottom: 20px; }
+  .vlan-pick { background: var(--bg-warm); padding: 12px 14px; }
+  .vlan-pick label { display: block; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 6px; }
+  .vlan-pick select { width: 100%; padding: 9px 12px; font-family: var(--ff-mono); font-size: 14px; font-weight: 700; color: var(--navy-deep); background: white; border: 1.5px solid var(--line-soft); cursor: pointer; }
+  .vlan-pick select:focus { outline: none; border-color: var(--sky); }
+
+  .vlan-canvas { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 16px; margin: 14px 0; }
+  .vlan-svg { width: 100%; height: 320px; display: block; }
+
+  .vlan-verdict { padding: 14px 20px; font-family: var(--ff-display); font-size: 18px; font-weight: 700; margin: 14px 0; }
+  .vlan-verdict.success { background: var(--green-bg); color: var(--green); border-left: 4px solid var(--green); }
+  .vlan-verdict.fail { background: var(--red-bg); color: var(--red); border-left: 4px solid var(--red); }
+
+  .vlan-trace { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 14px 20px; margin-top: 12px; }
+  .vlan-trace h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 10px; font-weight: 700; }
+  .vlan-trace ol { margin: 0; padding-left: 22px; font-size: 13.5px; line-height: 1.65; color: var(--ink); }
+  .vlan-trace ol li { margin-bottom: 5px; }
+  .vlan-trace ol li b { color: var(--navy-deep); }
+  .vlan-trace ol li code { font-family: var(--ff-mono); background: var(--surface); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 700; }
+
+  /* ============== TAB 4 · ACCESS-LAYER SECURITY SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ROUND ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  /* Footer */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .stp-pri-grid { grid-template-columns: repeat(2, 1fr); }
+    .vlan-controls { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.2 Switching Technologies</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 2.2 · Switching Technologies &amp; Features</div>
+    <h1>How switches <em>keep frames moving.</em></h1>
+    <p class="lede">Switches forward frames based on MAC addresses, but a modern enterprise switch does far more: VLANs to segment broadcast domains, 802.1Q trunks to carry many VLANs over one link, Spanning Tree to prevent loops in redundant topologies, link aggregation to combine bandwidth, port security to lock down access, and DHCP snooping to block rogue servers. This artifact walks through each — and lets you watch STP elect a root bridge and trace a frame across a VLAN topology.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">VLAN</span><span class="desc">Logical Layer-2 segment — 1 broadcast domain per VLAN</span></div>
+    <div class="ref-row"><span class="name">802.1Q</span><span class="desc">Trunk tagging — 4-byte tag with VLAN ID</span></div>
+    <div class="ref-row"><span class="name">Native VLAN</span><span class="desc">Untagged VLAN on a trunk — default VLAN 1</span></div>
+    <div class="ref-row"><span class="name">STP</span><span class="desc">802.1D — blocks loops in redundant topologies</span></div>
+    <div class="ref-row"><span class="name">RSTP</span><span class="desc">802.1w — rapid version, ~6 sec convergence</span></div>
+    <div class="ref-row"><span class="name">MSTP</span><span class="desc">802.1s — multiple STP instances per VLAN group</span></div>
+    <div class="ref-row"><span class="name">LACP</span><span class="desc">802.3ad — open-standard link aggregation</span></div>
+    <div class="ref-row"><span class="name">PAgP</span><span class="desc">Cisco-proprietary link aggregation</span></div>
+    <div class="footer-note">
+      <b>STP ELECTION ORDER</b><br>
+      1. Lowest bridge ID = Root.<br>
+      2. Each non-root: lowest cost = Root Port.<br>
+      3. Each link: lowest cost = Designated Port.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">4</div><div class="label">STP variants compared</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Switching features covered</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="stp"><span class="num">02</span>STP Election</button>
+  <button class="tab" data-tab="vlan"><span class="num">03</span>VLAN / Trunk Tracer</button>
+  <button class="tab" data-tab="security"><span class="num">04</span>Access-Layer Security</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== TAB 1 · ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>A switch operates at Layer 2 of the OSI model. It learns where MAC addresses live by watching the source addresses of incoming frames (building its <b>MAC address table</b>, also called the <b>CAM table</b>), and forwards frames based on the destination MAC. Beyond basic forwarding, modern switches implement a stack of features for segmentation, redundancy, and security.</p>
+
+  <div class="section-head">VLANs — Virtual LANs</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">VLAN BASICS</div>
+      <h4>One broadcast domain per VLAN</h4>
+      <p>A VLAN logically segments a switch into separate Layer-2 networks. Devices in different VLANs cannot reach each other without a router or Layer-3 switch — even on the same physical switch.</p>
+      <p><span class="accent">VLAN 1:</span> Default VLAN on most switches. Best practice: don't use it for user traffic.</p>
+      <p><span class="accent">VLAN range:</span> 1-4094 (with reserved IDs at the high end). 12-bit field in the 802.1Q tag.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ACCESS PORT</div>
+      <h4>One VLAN, untagged</h4>
+      <p>A switch port assigned to a single VLAN. Connects to end devices (PCs, printers, IoT). Frames enter and leave <b>untagged</b> — the switch handles VLAN tagging internally.</p>
+      <p><span class="accent">CONFIG:</span> <code>switchport mode access</code> + <code>switchport access vlan 10</code></p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">TRUNK PORT</div>
+      <h4>Many VLANs, tagged</h4>
+      <p>A port that carries traffic for multiple VLANs simultaneously. Used between switches or between a switch and a router. Frames are <b>tagged</b> with their VLAN ID using 802.1Q.</p>
+      <p><span class="accent">CONFIG:</span> <code>switchport mode trunk</code> + <code>switchport trunk allowed vlan 10,20,30</code></p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">VOICE VLAN</div>
+      <h4>VoIP phone on the same port as a PC</h4>
+      <p>A special access-port config where a phone passes a tagged voice VLAN to the switch and the PC plugged into the phone uses the untagged data VLAN. One physical port, two VLANs.</p>
+      <p><span class="accent">CONFIG:</span> <code>switchport voice vlan 100</code> on top of access config</p>
+    </div>
+  </div>
+
+  <div class="section-head">802.1Q Trunking</div>
+  <p>The IEEE standard for tagging frames with a VLAN ID. The 802.1Q tag is a <b>4-byte field inserted into the Ethernet header</b> between the source MAC and the EtherType. It contains a 12-bit VLAN ID and a 3-bit priority field (used for class-of-service).</p>
+  <p><b>Native VLAN:</b> One special VLAN on a trunk is sent <b>untagged</b> — the "native" VLAN. By default this is VLAN 1. Both ends of a trunk must agree on the native VLAN; a mismatch causes traffic to leak between VLANs and STP confusion.</p>
+
+  <div class="section-head">Inter-VLAN Routing — three ways</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">ROUTER-ON-A-STICK</div>
+      <h4>One router, sub-interfaces, one trunk</h4>
+      <p>A single physical router interface divided into sub-interfaces (<code>Gi0/1.10</code>, <code>Gi0/1.20</code>...), each handling one VLAN via 802.1Q. The trunk between switch and router carries all VLANs.</p>
+      <p><span class="accent">USE:</span> Small networks, fewer than 5-6 VLANs. Cheap.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LAYER 3 SWITCH (SVI)</div>
+      <h4>Switch Virtual Interfaces</h4>
+      <p>A multilayer switch creates one virtual interface per VLAN (<code>interface vlan 10</code>) and routes between them at wire-speed using hardware ASICs. The modern enterprise approach.</p>
+      <p><span class="accent">USE:</span> Any campus network with multiple VLANs.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Spanning Tree Protocol (STP) — Loop Prevention</div>
+  <p>If two switches connect to each other with two cables (for redundancy), a broadcast frame loops forever because Ethernet has no TTL. STP solves this by <b>logically blocking redundant paths</b> — only opening them if the primary path fails. The protocol elects a single <b>root bridge</b> and computes a loop-free path from every switch to that root.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Variant</th><th>Standard</th><th>Convergence</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">STP (classic)</td>
+        <td class="num">802.1D</td>
+        <td class="num">30-50 sec</td>
+        <td>Original (1985). One STP instance for all VLANs.</td>
+      </tr>
+      <tr>
+        <td class="label">RSTP</td>
+        <td class="num">802.1w</td>
+        <td class="num">~6 sec</td>
+        <td>Rapid STP. Most common variant today. One instance for all VLANs.</td>
+      </tr>
+      <tr>
+        <td class="label">MSTP</td>
+        <td class="num">802.1s</td>
+        <td class="num">~6 sec</td>
+        <td>Multiple instances — group VLANs into instances, each runs its own STP.</td>
+      </tr>
+      <tr>
+        <td class="label">PVST+ / RPVST+</td>
+        <td class="num">Cisco</td>
+        <td class="num">~6 sec</td>
+        <td>Per-VLAN STP — one STP instance per VLAN. Cisco proprietary.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><b>STP Port States (classic 802.1D):</b> Blocking → Listening → Learning → Forwarding (or Disabled). RSTP simplifies to Discarding → Learning → Forwarding.</p>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PORTFAST</div>
+      <h4>Skip the wait on access ports</h4>
+      <p>On a port connected to a single end device (PC), going through the full STP convergence cycle is wasteful. PortFast jumps directly to Forwarding state. Always pair with BPDU Guard.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BPDU GUARD</div>
+      <h4>Shut down ports that receive BPDUs</h4>
+      <p>If a port configured for PortFast receives a BPDU (meaning someone plugged in a switch), it immediately shuts the port. Prevents accidental loops from rogue switches.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ROOT GUARD</div>
+      <h4>Prevents a downstream switch from becoming root</h4>
+      <p>On trunk ports facing the access layer, blocks BPDUs that would make a downstream switch take over the root bridge role.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LOOP GUARD</div>
+      <h4>Protects against unidirectional link failures</h4>
+      <p>If BPDUs stop arriving on a non-designated port, instead of unblocking (and potentially creating a loop), loop guard places the port in a loop-inconsistent state.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Link Aggregation — Bundling Ports</div>
+  <p>Combine multiple physical links into one logical link for higher bandwidth and redundancy. If one cable fails, the bundle continues operating with reduced bandwidth.</p>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">LACP (802.3ad)</div>
+      <h4>Open standard</h4>
+      <p>Link Aggregation Control Protocol. Works across vendors. Sends LACPDUs to negotiate the bundle. Modes: <b>active</b> (initiates negotiation) and <b>passive</b> (responds only). Both sides cannot be passive.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PAgP</div>
+      <h4>Cisco proprietary</h4>
+      <p>Port Aggregation Protocol — Cisco's version. Modes: <b>desirable</b> (initiates) and <b>auto</b> (responds only). Both sides cannot be auto. Use LACP for new deployments.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Port Security</div>
+  <p>Limits which MAC addresses can use a switch port. Detects port theft (someone unplugging a PC and plugging in their own laptop) or rogue device attachment.</p>
+  <ul>
+    <li><b>Maximum MAC addresses</b> — e.g., 2 per port (allows a phone + PC). Frames from any additional MAC trigger a violation.</li>
+    <li><b>Sticky MAC</b> — port dynamically learns the first N MACs and saves them to running-config. Convenient for unmanaged endpoint inventories.</li>
+    <li><b>Violation actions:</b>
+      <ul style="margin-top: 4px;">
+        <li><b>Protect</b> — silently drop frames from unknown MACs (no logging).</li>
+        <li><b>Restrict</b> — drop frames AND log/counter the violation.</li>
+        <li><b>Shutdown</b> (default) — disable the port, requires manual <code>no shutdown</code> to recover.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="section-head">DHCP Snooping &amp; Dynamic ARP Inspection (DAI)</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">DHCP SNOOPING</div>
+      <h4>Block rogue DHCP servers</h4>
+      <p>Configure switch ports as <b>trusted</b> (DHCP-server-facing) or <b>untrusted</b> (user-facing). The switch only forwards DHCP server responses (OFFER, ACK) from trusted ports. Blocks an attacker from running a fake DHCP server on a user port.</p>
+      <p><span class="accent">BUILDS:</span> the DHCP snooping binding table — a list of legitimate IP-MAC-port mappings.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DYNAMIC ARP INSPECTION (DAI)</div>
+      <h4>Block ARP spoofing</h4>
+      <p>Uses the DHCP snooping binding table to validate ARP messages. Drops ARP replies where the IP-MAC pair doesn't match a legitimate entry. Stops man-in-the-middle attacks.</p>
+      <p><span class="accent">DEPENDS ON:</span> DHCP snooping must be enabled first.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">IP SOURCE GUARD</div>
+      <h4>Block spoofed source IPs</h4>
+      <p>Also uses the DHCP snooping binding table. Drops packets whose source IP doesn't match the binding for that port. Stops IP spoofing on access ports.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">802.1X</div>
+      <h4>Port-based authentication</h4>
+      <p>Before a port allows any traffic, the connected device must authenticate (typically via RADIUS). Often paired with a NAC (Network Access Control) system to enforce policy based on user identity.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Jumbo Frames, Flow Control, PoE</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">JUMBO FRAMES</div>
+      <h4>MTU greater than 1500</h4>
+      <p>Standard Ethernet MTU is <b>1500 bytes</b>. Jumbo frames raise it to typically <b>9000 bytes</b>, reducing per-frame overhead for high-bandwidth flows. Common for storage networks (iSCSI, NFS) and backups.</p>
+      <p><span class="accent">CATCH:</span> all devices in the path must agree on MTU. A mismatch causes mysterious packet drops.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">FLOW CONTROL (802.3x)</div>
+      <h4>Pause frames</h4>
+      <p>When a switch buffer fills, it can send a PAUSE frame to the source asking it to stop transmitting briefly. Largely deprecated in favor of QoS but appears on exam questions.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">POE / POE+ / POE++</div>
+      <h4>Power over Ethernet</h4>
+      <p><b>PoE (802.3af):</b> ~15W per port — IP phones, basic APs.<br>
+      <b>PoE+ (802.3at):</b> ~30W per port — modern APs, PTZ cameras.<br>
+      <b>PoE++ Type 3 (802.3bt):</b> 60W — high-power APs, displays.<br>
+      <b>PoE++ Type 4 (802.3bt):</b> 90W+ — pan/tilt cameras, kiosks.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MAC ADDRESS TABLE</div>
+      <h4>The switch's brain</h4>
+      <p>Also called the <b>CAM table</b> (Content-Addressable Memory). Lists every MAC address the switch has seen, mapped to the port it came from. Entries age out after a default ~5 minutes. <code>show mac address-table</code> displays it.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>Native VLAN must match on both ends of a trunk.</b> A mismatch lets traffic leak between VLANs (security risk) and causes STP confusion.</li>
+    <li><b>Access port = 1 VLAN; trunk port = many VLANs (tagged).</b> The phrase "carries multiple VLANs" always points to a trunk.</li>
+    <li><b>STP root bridge: lowest priority wins; lowest MAC is the tiebreaker.</b> Default priority is 32768; admin sets it lower (e.g., 4096) on the switch you WANT as root.</li>
+    <li><b>RSTP convergence ~6 seconds vs classic STP ~30-50.</b> If a question says "fast convergence required" → RSTP.</li>
+    <li><b>LACP = open standard. PAgP = Cisco only.</b> Multi-vendor scenario → LACP.</li>
+    <li><b>DAI requires DHCP snooping to work.</b> They're paired — DAI can't validate anything without the snooping binding table.</li>
+    <li><b>Port security violation default = shutdown.</b> The port goes err-disabled and stays down until manually restored.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · STP ELECTION ============== -->
+<section class="panel" id="panel-stp">
+  <h2>Watch STP <em>elect a root bridge.</em></h2>
+  <p>Four switches connected in a redundant topology. STP elects the switch with the <b>lowest bridge ID</b> as the root, then computes the best path from every other switch to that root. Adjust each switch's priority below and click <b>Run Election</b> to watch the algorithm play out.</p>
+
+  <div class="stp-wrap">
+    <div class="stp-pri-grid">
+      <div class="stp-pri">
+        <label>Switch A · MAC AA:00:11:11:11:11</label>
+        <select id="priA">
+          <option value="32768" selected>32768 (default)</option>
+          <option value="4096">4096 (set as root)</option>
+          <option value="8192">8192</option>
+          <option value="16384">16384</option>
+          <option value="61440">61440 (lowest priority)</option>
+        </select>
+      </div>
+      <div class="stp-pri">
+        <label>Switch B · MAC BB:00:22:22:22:22</label>
+        <select id="priB">
+          <option value="32768" selected>32768 (default)</option>
+          <option value="4096">4096 (set as root)</option>
+          <option value="8192">8192</option>
+          <option value="16384">16384</option>
+          <option value="61440">61440 (lowest priority)</option>
+        </select>
+      </div>
+      <div class="stp-pri">
+        <label>Switch C · MAC CC:00:33:33:33:33</label>
+        <select id="priC">
+          <option value="32768" selected>32768 (default)</option>
+          <option value="4096">4096 (set as root)</option>
+          <option value="8192">8192</option>
+          <option value="16384">16384</option>
+          <option value="61440">61440 (lowest priority)</option>
+        </select>
+      </div>
+      <div class="stp-pri">
+        <label>Switch D · MAC DD:00:44:44:44:44</label>
+        <select id="priD">
+          <option value="32768" selected>32768 (default)</option>
+          <option value="4096">4096 (set as root)</option>
+          <option value="8192">8192</option>
+          <option value="16384">16384</option>
+          <option value="61440">61440 (lowest priority)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-bar">
+      <button class="btn-primary" onclick="runSTP()">Run Election</button>
+      <button class="btn-secondary" onclick="stpPreset('default')">Reset to defaults</button>
+      <button class="btn-secondary" onclick="stpPreset('forceB')">Force B as root</button>
+      <button class="btn-secondary" onclick="stpPreset('tieAll')">Tied priorities → MAC tiebreaker</button>
+    </div>
+
+    <div class="stp-canvas">
+      <svg class="stp-svg" viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- Links rendered first so they're behind switches -->
+        <g id="stpLinks">
+          <!-- A-B link (top) -->
+          <line id="link-AB" x1="170" y1="80" x2="530" y2="80" stroke="#989890" stroke-width="3"/>
+          <text x="350" y="68" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">cost 4</text>
+          <!-- B-D link (right) -->
+          <line id="link-BD" x1="530" y1="100" x2="530" y2="280" stroke="#989890" stroke-width="3"/>
+          <text x="546" y="195" font-family="JetBrains Mono" font-size="11" fill="#404758">cost 4</text>
+          <!-- A-C link (left) -->
+          <line id="link-AC" x1="170" y1="100" x2="170" y2="280" stroke="#989890" stroke-width="3"/>
+          <text x="146" y="195" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#404758">cost 4</text>
+          <!-- C-D link (bottom) -->
+          <line id="link-CD" x1="170" y1="300" x2="530" y2="300" stroke="#989890" stroke-width="3"/>
+          <text x="350" y="322" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">cost 4</text>
+          <!-- A-D diagonal -->
+          <line id="link-AD" x1="195" y1="100" x2="505" y2="280" stroke="#989890" stroke-width="3" stroke-dasharray="0"/>
+          <text x="358" y="184" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758" font-style="italic">cost 19</text>
+        </g>
+
+        <!-- Switch A (top-left) -->
+        <g id="sw-A">
+          <rect x="100" y="40" width="140" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+          <text x="170" y="62" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch A</text>
+          <text x="170" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" id="sw-A-bid">BID: 32768/AA:...:11</text>
+          <text x="170" y="93" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#C6C6BE" id="sw-A-role">—</text>
+        </g>
+        <!-- Switch B (top-right) -->
+        <g id="sw-B">
+          <rect x="460" y="40" width="140" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+          <text x="530" y="62" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch B</text>
+          <text x="530" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" id="sw-B-bid">BID: 32768/BB:...:22</text>
+          <text x="530" y="93" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#C6C6BE" id="sw-B-role">—</text>
+        </g>
+        <!-- Switch C (bottom-left) -->
+        <g id="sw-C">
+          <rect x="100" y="280" width="140" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+          <text x="170" y="302" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch C</text>
+          <text x="170" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" id="sw-C-bid">BID: 32768/CC:...:33</text>
+          <text x="170" y="333" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#C6C6BE" id="sw-C-role">—</text>
+        </g>
+        <!-- Switch D (bottom-right) -->
+        <g id="sw-D">
+          <rect x="460" y="280" width="140" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+          <text x="530" y="302" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch D</text>
+          <text x="530" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840" id="sw-D-bid">BID: 32768/DD:...:44</text>
+          <text x="530" y="333" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#C6C6BE" id="sw-D-role">—</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="stp-legend">
+      <div class="stp-legend-item"><div class="stp-legend-dot" style="background: #E0B840;"></div>Root Bridge</div>
+      <div class="stp-legend-item"><div class="stp-legend-dot" style="background: #2A6049;"></div>Forwarding (RP / DP)</div>
+      <div class="stp-legend-item"><div class="stp-legend-dot" style="background: #8E1F2E;"></div>Blocked</div>
+      <div class="stp-legend-item" style="margin-left: 18px; font-style: italic; color: var(--ink-mute);">Diagonal A-D link has cost 19 (slow Gig vs Fast Ethernet).</div>
+    </div>
+
+    <div class="stp-log" id="stpLog" style="display: none;">
+      <h4>★ Election trace</h4>
+      <ol id="stpSteps"></ol>
+      <div class="verdict" id="stpVerdict"></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">How to read the diagram</h3>
+  <p>After running, the <b>Root Bridge</b> appears in gold. All four of its ports are designated and forwarding. On each non-root switch, the <b>Root Port</b> (the port leading toward the root via the lowest-cost path) is the path to the root. <b>Blocked links</b> are shown in red dashed — they exist physically but STP has logically disabled them to prevent loops. If the primary path fails, STP unblocks the redundant link.</p>
+  <p>Try setting <b>Switch B priority to 4096</b> while leaving others at default — B becomes root. Try the "Tied priorities → MAC tiebreaker" preset to see the MAC address break the tie (AA:... has the lowest first octet pair, so Switch A wins).</p>
+</section>
+
+<!-- ============== TAB 3 · VLAN / TRUNK TRACER ============== -->
+<section class="panel" id="panel-vlan">
+  <h2>Trace a frame <em>through VLANs and trunks.</em></h2>
+  <p>Pick a source host and a destination host. The tracer walks the frame across the topology, showing where it's <b>tagged</b> (on trunks) and <b>untagged</b> (on access ports), and explains why it either reaches its destination or gets dropped. The topology has two switches connected by a trunk, with hosts on different VLANs.</p>
+
+  <div class="vlan-wrap">
+    <div class="vlan-controls">
+      <div class="vlan-pick">
+        <label>Source Host</label>
+        <select id="srcHost">
+          <option value="PC1">PC1 (Switch A, VLAN 10)</option>
+          <option value="PC2">PC2 (Switch A, VLAN 20)</option>
+          <option value="PC3">PC3 (Switch B, VLAN 10)</option>
+          <option value="PC4">PC4 (Switch B, VLAN 20)</option>
+          <option value="PC5">PC5 (Switch B, VLAN 30)</option>
+        </select>
+      </div>
+      <div class="vlan-pick">
+        <label>Destination Host</label>
+        <select id="dstHost">
+          <option value="PC1">PC1 (Switch A, VLAN 10)</option>
+          <option value="PC2">PC2 (Switch A, VLAN 20)</option>
+          <option value="PC3" selected>PC3 (Switch B, VLAN 10)</option>
+          <option value="PC4">PC4 (Switch B, VLAN 20)</option>
+          <option value="PC5">PC5 (Switch B, VLAN 30)</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="traceVLAN()">Trace Frame</button>
+    </div>
+
+    <div class="vlan-canvas">
+      <svg class="vlan-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Trunk link -->
+        <line id="trunk" x1="280" y1="160" x2="520" y2="160" stroke="#989890" stroke-width="4"/>
+        <text x="400" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#404758">802.1Q trunk · allowed: 10, 20</text>
+        <text x="400" y="176" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-style="italic">VLAN 30 NOT in allowed list</text>
+
+        <!-- Switch A -->
+        <rect x="160" y="130" width="120" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+        <text x="220" y="155" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch A</text>
+        <text x="220" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840">VLANs 10, 20</text>
+
+        <!-- Switch B -->
+        <rect x="520" y="130" width="120" height="60" fill="#283068" stroke="#1A2050" stroke-width="2"/>
+        <text x="580" y="155" text-anchor="middle" font-family="Bricolage Grotesque" font-size="16" font-weight="700" fill="#fff">Switch B</text>
+        <text x="580" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E0B840">VLANs 10, 20, 30</text>
+
+        <!-- Hosts on Switch A -->
+        <line id="link-PC1" x1="180" y1="130" x2="120" y2="80" stroke="#989890" stroke-width="2"/>
+        <rect id="host-PC1" x="60" y="50" width="80" height="40" fill="#fff" stroke="#1A2050" stroke-width="2"/>
+        <text x="100" y="68" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#1A2050">PC1</text>
+        <text x="100" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">VLAN 10</text>
+
+        <line id="link-PC2" x1="260" y1="130" x2="320" y2="80" stroke="#989890" stroke-width="2"/>
+        <rect id="host-PC2" x="280" y="50" width="80" height="40" fill="#fff" stroke="#1A2050" stroke-width="2"/>
+        <text x="320" y="68" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#1A2050">PC2</text>
+        <text x="320" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">VLAN 20</text>
+
+        <!-- Hosts on Switch B -->
+        <line id="link-PC3" x1="540" y1="190" x2="460" y2="250" stroke="#989890" stroke-width="2"/>
+        <rect id="host-PC3" x="420" y="240" width="80" height="40" fill="#fff" stroke="#1A2050" stroke-width="2"/>
+        <text x="460" y="258" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#1A2050">PC3</text>
+        <text x="460" y="272" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">VLAN 10</text>
+
+        <line id="link-PC4" x1="580" y1="190" x2="580" y2="250" stroke="#989890" stroke-width="2"/>
+        <rect id="host-PC4" x="540" y="250" width="80" height="40" fill="#fff" stroke="#1A2050" stroke-width="2"/>
+        <text x="580" y="268" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#1A2050">PC4</text>
+        <text x="580" y="282" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">VLAN 20</text>
+
+        <line id="link-PC5" x1="620" y1="190" x2="700" y2="250" stroke="#989890" stroke-width="2"/>
+        <rect id="host-PC5" x="660" y="240" width="80" height="40" fill="#fff" stroke="#1A2050" stroke-width="2"/>
+        <text x="700" y="258" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#1A2050">PC5</text>
+        <text x="700" y="272" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">VLAN 30</text>
+      </svg>
+    </div>
+
+    <div id="vlanVerdict" class="vlan-verdict" style="display: none;"></div>
+
+    <div class="vlan-trace" id="vlanTrace" style="display: none;">
+      <h4>★ Frame trace</h4>
+      <ol id="vlanSteps"></ol>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What to try</h3>
+  <ul>
+    <li><b>PC1 → PC3</b> — same VLAN 10, different switches. Frame is tagged on the trunk, untagged at the access port. Should succeed.</li>
+    <li><b>PC1 → PC2</b> — different VLANs on the same switch. Same Layer 2 broadcast domain doesn't apply. Fails without a Layer 3 device.</li>
+    <li><b>PC1 → PC5</b> — PC5 is on VLAN 30 but VLAN 30 is NOT in the trunk's allowed VLAN list. Frame gets stranded.</li>
+    <li><b>PC2 → PC4</b> — same VLAN 20, both switches have VLAN 20, and 20 is in the allowed list. Should work.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 4 · ACCESS-LAYER SECURITY ============== -->
+<section class="panel" id="panel-security">
+  <h2>Access-layer <em>security scenarios.</em></h2>
+  <p>Six scenarios covering port security, DHCP snooping, Dynamic ARP Inspection (DAI), IP Source Guard, and 802.1X. These features cluster together as the access-layer hardening stack — the questions on the exam tend to mix and match them, so knowing what each one stops is critical.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KNOWLEDGE CHECK ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style multiple-choice questions covering the breadth of Objective 2.2: VLANs and trunking, STP variants and elections, link aggregation, port security, DHCP snooping, DAI, jumbo frames, PoE, and inter-VLAN routing. Pick an answer to lock it in.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ROUND ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Answer as many rapid-fire switching questions as you can before the clock runs out. Wrong answers cost you 2 seconds. Builds the instant-recall mental muscle you need for the real exam.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+
+    <div class="lr-timer" id="lrTimer">30</div>
+
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q">
+        <div class="qt" id="lrFinalScore"></div>
+      </div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 2.2: Switching Technologies and Features. Covers VLANs, 802.1Q trunking, inter-VLAN routing, STP variants, link aggregation (LACP/PAgP), port security, DHCP snooping, DAI, jumbo frames, and PoE.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 2 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab to absorb the concepts.</p>
+      <p>· Watch STP elect a root bridge with different priorities.</p>
+      <p>· Trace VLAN frames to see tagging and trunk filtering.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair this artifact with the 2.2 quiz in Canvas, the 2.1 Routing artifact, and the Domain 1 OSI / appliance prerequisites.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 2.2 · Switching Technologies &amp; Features</span>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   TAB SWITCHING
+   ========================================================= */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* =========================================================
+   TAB 2 · STP ROOT BRIDGE ELECTION
+   ========================================================= */
+// Topology: 4 switches in a ring + one diagonal
+// Links: A-B, B-D, C-D, A-C, A-D (diagonal, cost 19, others cost 4)
+var STP_TOPO = {
+  switches: ['A', 'B', 'C', 'D'],
+  macs: {
+    'A': 'AA:00:11:11:11:11',
+    'B': 'BB:00:22:22:22:22',
+    'C': 'CC:00:33:33:33:33',
+    'D': 'DD:00:44:44:44:44'
+  },
+  // Adjacency list with link costs (Fast Ethernet = 19, Gig = 4)
+  links: [
+    { a: 'A', b: 'B', cost: 4, id: 'AB' },
+    { a: 'B', b: 'D', cost: 4, id: 'BD' },
+    { a: 'C', b: 'D', cost: 4, id: 'CD' },
+    { a: 'A', b: 'C', cost: 4, id: 'AC' },
+    { a: 'A', b: 'D', cost: 19, id: 'AD' }
+  ]
+};
+
+function stpPreset(p) {
+  if (p === 'default') {
+    ['priA', 'priB', 'priC', 'priD'].forEach(function(id) {
+      document.getElementById(id).value = '32768';
+    });
+  } else if (p === 'forceB') {
+    document.getElementById('priA').value = '32768';
+    document.getElementById('priB').value = '4096';
+    document.getElementById('priC').value = '32768';
+    document.getElementById('priD').value = '32768';
+  } else if (p === 'tieAll') {
+    ['priA', 'priB', 'priC', 'priD'].forEach(function(id) {
+      document.getElementById(id).value = '32768';
+    });
+  }
+  runSTP();
+}
+
+function getBridgeID(sw) {
+  var pri = parseInt(document.getElementById('pri' + sw).value, 10);
+  var mac = STP_TOPO.macs[sw];
+  return { sw: sw, pri: pri, mac: mac, key: pri + ':' + mac };
+}
+
+// Dijkstra from a source to all switches via links
+function shortestPaths(source) {
+  var dist = {};
+  var prev = {}; // previous switch in shortest path
+  var prevLink = {};
+  STP_TOPO.switches.forEach(function(s) { dist[s] = Infinity; });
+  dist[source] = 0;
+  var visited = {};
+  while (true) {
+    var u = null;
+    var minDist = Infinity;
+    STP_TOPO.switches.forEach(function(s) {
+      if (!visited[s] && dist[s] < minDist) {
+        minDist = dist[s];
+        u = s;
+      }
+    });
+    if (u === null) break;
+    visited[u] = true;
+    STP_TOPO.links.forEach(function(link) {
+      var neighbor = null;
+      if (link.a === u) neighbor = link.b;
+      else if (link.b === u) neighbor = link.a;
+      if (neighbor && !visited[neighbor]) {
+        var alt = dist[u] + link.cost;
+        if (alt < dist[neighbor]) {
+          dist[neighbor] = alt;
+          prev[neighbor] = u;
+          prevLink[neighbor] = link.id;
+        }
+      }
+    });
+  }
+  return { dist: dist, prev: prev, prevLink: prevLink };
+}
+
+function runSTP() {
+  var bids = STP_TOPO.switches.map(getBridgeID);
+
+  // Update displayed BIDs
+  bids.forEach(function(b) {
+    document.getElementById('sw-' + b.sw + '-bid').textContent =
+      'BID: ' + b.pri + '/' + b.mac.substring(0, 5) + '...:' + b.mac.substring(15);
+  });
+
+  // Find root: lowest priority, then lowest MAC
+  var sorted = bids.slice().sort(function(x, y) {
+    if (x.pri !== y.pri) return x.pri - y.pri;
+    return x.mac.localeCompare(y.mac);
+  });
+  var root = sorted[0];
+
+  // Compute shortest paths from root
+  var paths = shortestPaths(root.sw);
+
+  // Determine role for each switch
+  STP_TOPO.switches.forEach(function(sw) {
+    var roleEl = document.getElementById('sw-' + sw + '-role');
+    var rectEl = document.querySelector('#sw-' + sw + ' rect');
+    if (sw === root.sw) {
+      roleEl.textContent = '★ ROOT BRIDGE';
+      roleEl.setAttribute('fill', '#E0B840');
+      rectEl.setAttribute('fill', '#B8932A');
+      rectEl.setAttribute('stroke', '#E0B840');
+    } else {
+      roleEl.textContent = 'cost to root: ' + paths.dist[sw] + ' · RP via link ' + paths.prevLink[sw];
+      roleEl.setAttribute('fill', '#C6C6BE');
+      rectEl.setAttribute('fill', '#283068');
+      rectEl.setAttribute('stroke', '#1A2050');
+    }
+  });
+
+  // Determine link status: forwarding (on shortest-path tree) vs blocked
+  // The tree includes any link used by paths.prevLink
+  var treeLinks = {};
+  Object.keys(paths.prevLink).forEach(function(sw) {
+    treeLinks[paths.prevLink[sw]] = true;
+  });
+
+  STP_TOPO.links.forEach(function(link) {
+    var lineEl = document.getElementById('link-' + link.id);
+    if (treeLinks[link.id]) {
+      lineEl.setAttribute('stroke', '#2A6049');
+      lineEl.setAttribute('stroke-width', '4');
+      lineEl.setAttribute('stroke-dasharray', '');
+    } else {
+      lineEl.setAttribute('stroke', '#8E1F2E');
+      lineEl.setAttribute('stroke-width', '3');
+      lineEl.setAttribute('stroke-dasharray', '6,4');
+    }
+  });
+
+  // Build the trace log
+  var log = document.getElementById('stpLog');
+  var steps = document.getElementById('stpSteps');
+  var verdict = document.getElementById('stpVerdict');
+  log.style.display = 'block';
+  steps.innerHTML = '';
+
+  var step = 1;
+  // Step 1: Bridge IDs
+  steps.innerHTML += '<li><b>Step ' + (step++) + ' · Compute bridge IDs.</b> Each switch combines its priority with its MAC. Lower BID is more trusted.</li>';
+
+  // Step 2: Identify root
+  var minPri = Math.min.apply(null, bids.map(function(b) { return b.pri; }));
+  var tied = bids.filter(function(b) { return b.pri === minPri; });
+  if (tied.length === 1) {
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · Elect root bridge.</b> Switch ' + root.sw +
+      ' has the lowest priority (<b>' + root.pri + '</b>). No MAC tiebreaker needed.</li>';
+  } else {
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · Elect root bridge.</b> ' + tied.length +
+      ' switches tied at priority <b>' + minPri + '</b>. MAC tiebreaker: lowest MAC wins. ' +
+      'Switch ' + root.sw + ' (MAC ' + root.mac + ') wins.</li>';
+  }
+
+  // Step 3: Root ports
+  var rpDescriptions = STP_TOPO.switches.filter(function(s) { return s !== root.sw; }).map(function(sw) {
+    return 'Switch ' + sw + ' → cost ' + paths.dist[sw] + ' (via link ' + paths.prevLink[sw] + ')';
+  }).join('; ');
+  steps.innerHTML += '<li><b>Step ' + (step++) + ' · Compute root ports.</b> On each non-root switch, the port with the lowest cost to the root is the <b>Root Port</b>. ' + rpDescriptions + '.</li>';
+
+  // Step 4: Blocked links
+  var blockedLinks = STP_TOPO.links.filter(function(l) { return !treeLinks[l.id]; });
+  if (blockedLinks.length > 0) {
+    var blockedDesc = blockedLinks.map(function(l) { return l.a + '↔' + l.b + ' (cost ' + l.cost + ')'; }).join(', ');
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · Block redundant paths.</b> Links not on the shortest-path tree are blocked: <b>' + blockedDesc + '</b>. They become standby paths.</li>';
+  } else {
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · No links blocked.</b> Every link is on the shortest-path tree (no loops in topology).</li>';
+  }
+
+  verdict.textContent = '★ ROOT BRIDGE: Switch ' + root.sw + ' (priority ' + root.pri + ', MAC ' + root.mac + ')';
+}
+
+runSTP();
+
+/* =========================================================
+   TAB 3 · VLAN / TRUNK PATH TRACER
+   ========================================================= */
+var HOSTS = {
+  'PC1': { sw: 'A', vlan: 10 },
+  'PC2': { sw: 'A', vlan: 20 },
+  'PC3': { sw: 'B', vlan: 10 },
+  'PC4': { sw: 'B', vlan: 20 },
+  'PC5': { sw: 'B', vlan: 30 }
+};
+var SWITCH_VLANS = {
+  'A': [10, 20],
+  'B': [10, 20, 30]
+};
+var TRUNK_ALLOWED = [10, 20]; // VLAN 30 not allowed on trunk
+
+function traceVLAN() {
+  var src = document.getElementById('srcHost').value;
+  var dst = document.getElementById('dstHost').value;
+  var verdictEl = document.getElementById('vlanVerdict');
+  var traceEl = document.getElementById('vlanTrace');
+  var stepsEl = document.getElementById('vlanSteps');
+
+  // Reset all link colors
+  ['PC1', 'PC2', 'PC3', 'PC4', 'PC5'].forEach(function(h) {
+    document.getElementById('link-' + h).setAttribute('stroke', '#989890');
+    document.getElementById('link-' + h).setAttribute('stroke-width', '2');
+  });
+  document.getElementById('trunk').setAttribute('stroke', '#989890');
+  document.getElementById('trunk').setAttribute('stroke-width', '4');
+
+  verdictEl.style.display = 'block';
+  traceEl.style.display = 'block';
+  stepsEl.innerHTML = '';
+
+  if (src === dst) {
+    verdictEl.className = 'vlan-verdict fail';
+    verdictEl.textContent = '⚠ Same host selected — pick a different destination.';
+    stepsEl.innerHTML = '<li>Source and destination are the same host.</li>';
+    return;
+  }
+
+  var s = HOSTS[src], d = HOSTS[dst];
+  var step = 1;
+
+  stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Frame originates at <b>' + src + '</b> (Switch ' + s.sw + ', VLAN ' + s.vlan + '). Source port is an access port — frame enters <b>untagged</b>. Switch tags it internally with VLAN ' + s.vlan + '.</li>';
+
+  // Different VLAN = different broadcast domain, fails without L3
+  if (s.vlan !== d.vlan) {
+    verdictEl.className = 'vlan-verdict fail';
+    verdictEl.textContent = '✗ FAIL — Source on VLAN ' + s.vlan + ', destination on VLAN ' + d.vlan + '. Different broadcast domains.';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + ' · VLAN mismatch.</b> ' + src + ' is on VLAN ' + s.vlan + '; ' + dst + ' is on VLAN ' + d.vlan + '. Layer 2 switches do not route between VLANs.</li>';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Frame stays in VLAN ' + s.vlan + ' broadcast domain and never reaches ' + dst + '. A router or Layer-3 switch with SVIs would be required for inter-VLAN traffic.</li>';
+    document.getElementById('link-' + src).setAttribute('stroke', '#8E1F2E');
+    document.getElementById('link-' + src).setAttribute('stroke-width', '4');
+    return;
+  }
+
+  // Same VLAN, same switch
+  if (s.sw === d.sw) {
+    verdictEl.className = 'vlan-verdict success';
+    verdictEl.textContent = '✓ SUCCESS — Same switch, same VLAN. Frame forwarded directly.';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> ' + dst + ' is on the same switch and same VLAN. Switch ' + s.sw + ' consults its CAM table, finds the destination MAC on the local port, and forwards the frame.</li>';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Frame exits at ' + dst + '\'s access port — VLAN tag stripped, frame is untagged.</li>';
+    document.getElementById('link-' + src).setAttribute('stroke', '#2A6049');
+    document.getElementById('link-' + src).setAttribute('stroke-width', '4');
+    document.getElementById('link-' + dst).setAttribute('stroke', '#2A6049');
+    document.getElementById('link-' + dst).setAttribute('stroke-width', '4');
+    return;
+  }
+
+  // Same VLAN, different switches — needs trunk
+  if (TRUNK_ALLOWED.indexOf(s.vlan) === -1) {
+    verdictEl.className = 'vlan-verdict fail';
+    verdictEl.textContent = '✗ FAIL — VLAN ' + s.vlan + ' is not in the trunk\'s allowed VLAN list.';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + ' · Trunk filtering.</b> The 802.1Q trunk between Switch A and Switch B has allowed VLANs <code>' + TRUNK_ALLOWED.join(', ') + '</code>. VLAN ' + s.vlan + ' is NOT on this list.</li>';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Switch ' + s.sw + ' attempts to forward the frame across the trunk but the trunk drops it because VLAN ' + s.vlan + ' is not allowed.</li>';
+    stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> ' + dst + ' never receives the frame. To fix: add VLAN ' + s.vlan + ' to the trunk\'s allowed VLAN list on both ends with <code>switchport trunk allowed vlan add ' + s.vlan + '</code>.</li>';
+    document.getElementById('link-' + src).setAttribute('stroke', '#8E1F2E');
+    document.getElementById('link-' + src).setAttribute('stroke-width', '4');
+    return;
+  }
+
+  // Same VLAN, different switches, VLAN allowed on trunk
+  verdictEl.className = 'vlan-verdict success';
+  verdictEl.textContent = '✓ SUCCESS — Same VLAN, traversed trunk with 802.1Q tagging.';
+  stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Switch ' + s.sw + ' looks up the destination MAC — not local. Floods the frame on the trunk (or sends to known port if already learned).</li>';
+  stepsEl.innerHTML += '<li><b>Step ' + (step++) + ' · 802.1Q tagging.</b> Before sending across the trunk, Switch ' + s.sw + ' adds a 4-byte 802.1Q tag containing VLAN ID <b>' + s.vlan + '</b>. Frame is now <b>tagged</b>.</li>';
+  stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Trunk carries the tagged frame to Switch ' + d.sw + '. Switch ' + d.sw + ' reads the tag, recognizes VLAN ' + s.vlan + ', and forwards within that VLAN.</li>';
+  stepsEl.innerHTML += '<li><b>Step ' + (step++) + '.</b> Frame exits ' + dst + '\'s access port — VLAN tag stripped, frame is untagged. ' + dst + ' has no idea VLANs were involved.</li>';
+  document.getElementById('link-' + src).setAttribute('stroke', '#2A6049');
+  document.getElementById('link-' + src).setAttribute('stroke-width', '4');
+  document.getElementById('trunk').setAttribute('stroke', '#2A6049');
+  document.getElementById('trunk').setAttribute('stroke-width', '5');
+  document.getElementById('link-' + dst).setAttribute('stroke', '#2A6049');
+  document.getElementById('link-' + dst).setAttribute('stroke-width', '4');
+}
+
+traceVLAN();
+
+/* =========================================================
+   TAB 4 · ACCESS-LAYER SECURITY SCENARIOS
+   ========================================================= */
+var SCENARIOS = [
+  {
+    tag: 'Port security',
+    body: 'A technician configures port security on an access port: maximum 1 MAC, violation action <code>shutdown</code>, sticky MAC enabled. A user plugs their laptop in (learned as the sticky MAC). Later, they plug in a different laptop without warning the admin. What happens?',
+    choices: [
+      { letter: 'A', text: 'The port silently accepts the new MAC after a timeout', correct: false },
+      { letter: 'B', text: 'The port goes err-disabled and stops forwarding all traffic until manually restored', correct: true },
+      { letter: 'C', text: 'The port allows both MACs simultaneously', correct: false },
+      { letter: 'D', text: 'The new MAC is logged but traffic is still forwarded', correct: false }
+    ],
+    explain: 'With <b>violation action = shutdown</b> (the default), any frame from an unauthorized MAC puts the port in <b>err-disabled</b> state. The port stays down until an admin issues <code>shutdown</code> followed by <code>no shutdown</code> (or err-disable recovery is configured). "Protect" silently drops; "Restrict" drops + logs.'
+  },
+  {
+    tag: 'DHCP snooping',
+    body: 'An attacker connects a rogue DHCP server to a user access port, attempting to hand out malicious DHCP responses with themselves as the default gateway. <b>DHCP snooping is enabled</b> on the switch. What happens?',
+    choices: [
+      { letter: 'A', text: 'The rogue DHCP server\'s responses are blocked because the access port is <b>untrusted</b>', correct: true },
+      { letter: 'B', text: 'The legitimate DHCP server stops working', correct: false },
+      { letter: 'C', text: 'The attacker becomes the new gateway for all VLAN clients', correct: false },
+      { letter: 'D', text: 'DHCP snooping has no effect on this scenario', correct: false }
+    ],
+    explain: 'DHCP snooping classifies ports as <b>trusted</b> (server-facing) or <b>untrusted</b> (user-facing). Access ports default to untrusted. The switch only forwards DHCP server messages (OFFER, ACK) from trusted ports. The attacker\'s rogue DHCP responses are dropped at the switch port before reaching any user.'
+  },
+  {
+    tag: 'DAI dependency',
+    body: 'A junior admin wants to enable Dynamic ARP Inspection (DAI) on the switch to block ARP spoofing attacks. They enable DAI but discover all ARP traffic is being dropped — the network breaks. What did they miss?',
+    choices: [
+      { letter: 'A', text: 'They needed to enable port security first', correct: false },
+      { letter: 'B', text: 'They needed to enable DHCP snooping first — DAI uses its binding table', correct: true },
+      { letter: 'C', text: 'They needed to disable 802.1Q on trunks', correct: false },
+      { letter: 'D', text: 'They needed to enable RSTP first', correct: false }
+    ],
+    explain: '<b>DAI depends on the DHCP snooping binding table</b> to validate ARP messages. Without DHCP snooping populating the binding table (mapping IP-MAC-port-VLAN), DAI has no source of truth and drops all ARP traffic. The fix: enable DHCP snooping first, let it build the table, then enable DAI.'
+  },
+  {
+    tag: '802.1X',
+    body: 'A hospital wants to ensure that only authenticated, authorized devices can use the network — even if someone physically plugs a laptop into a wall jack. They want users to authenticate with their AD credentials before any traffic is allowed. Which feature fits?',
+    choices: [
+      { letter: 'A', text: 'Port security with sticky MAC', correct: false },
+      { letter: 'B', text: 'DHCP snooping', correct: false },
+      { letter: 'C', text: '802.1X port-based authentication (typically with RADIUS)', correct: true },
+      { letter: 'D', text: 'Storm control', correct: false }
+    ],
+    explain: '<b>802.1X</b> is the IEEE standard for port-based network access control. Before any traffic is forwarded, the connected device (supplicant) authenticates via EAP to a RADIUS server (authentication server) through the switch (authenticator). Without successful auth, the port stays in unauthorized state. Common in enterprise environments paired with Active Directory or LDAP.'
+  },
+  {
+    tag: 'PoE budgeting',
+    body: 'A 48-port PoE+ switch is rated for 740W total PoE budget. The technician needs to power 48 access points that each require 25W. Will the budget hold?',
+    choices: [
+      { letter: 'A', text: 'Yes — 48 × 25W = 1200W, well within 740W', correct: false },
+      { letter: 'B', text: 'Yes — switch always provides enough power', correct: false },
+      { letter: 'C', text: 'No — 48 × 25W = 1200W, exceeds the 740W budget', correct: true },
+      { letter: 'D', text: 'Depends on the cable type', correct: false }
+    ],
+    explain: '<b>48 × 25W = 1200W</b>, which significantly exceeds the 740W PoE budget. The switch will power as many APs as it can (~29 fully) and then stop providing power to additional devices, or downgrade everyone to lower power. PoE budgeting is a key planning task — always sum the power draw of all powered devices and compare to the switch\'s total PoE budget.'
+  },
+  {
+    tag: 'Jumbo frames',
+    body: 'A storage team enables jumbo frames (MTU 9000) on their iSCSI servers and storage array, but performance gets worse with mysterious packet drops. What\'s the most likely cause?',
+    choices: [
+      { letter: 'A', text: 'Jumbo frames are not supported on iSCSI', correct: false },
+      { letter: 'B', text: 'A device in the path (switch, router, NIC) does NOT have matching MTU configured', correct: true },
+      { letter: 'C', text: 'Jumbo frames require special licensing', correct: false },
+      { letter: 'D', text: 'Jumbo frames only work over fiber', correct: false }
+    ],
+    explain: 'For jumbo frames to work, <b>every device along the path</b> must agree on the MTU. If one switch is still at MTU 1500, oversized frames get dropped silently (or fragmented if IP allows it, which adds overhead). Best practice: enable jumbo frames end-to-end on dedicated storage VLANs/links where you control every device. Test with a large ping (e.g., <code>ping -l 8972 -f &lt;dest&gt;</code>) to verify.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* =========================================================
+   TAB 5 · KNOWLEDGE CHECK
+   ========================================================= */
+var KC_QUESTIONS = [
+  {
+    q: 'What is the standard IEEE protocol for tagging frames with VLAN IDs on a trunk?',
+    choices: ['ISL (Inter-Switch Link)', '802.1Q', '802.1X', '802.3ad'],
+    correct: 1,
+    explain: '<b>802.1Q</b> is the open IEEE standard for VLAN tagging — a 4-byte tag inserted into the Ethernet header containing a 12-bit VLAN ID. ISL was Cisco\'s proprietary predecessor and is largely obsolete. 802.1X is port-based authentication. 802.3ad is LACP.'
+  },
+  {
+    q: 'A trunk between two switches has a native VLAN mismatch: Switch A says VLAN 1, Switch B says VLAN 99. What is the most serious consequence?',
+    choices: ['STP loops form immediately', 'Traffic from one native VLAN can leak into the other VLAN (security risk)', 'The trunk link physically fails', 'All VLANs stop working'],
+    correct: 1,
+    explain: 'A <b>native VLAN mismatch</b> can let traffic leak between VLANs because frames untagged on one side end up in the other side\'s native VLAN — a serious security risk (VLAN hopping). STP can also generate warnings. The trunk usually still works but with incorrect VLAN semantics. Always match native VLANs on both ends.'
+  },
+  {
+    q: 'Which STP variant converges fastest after a topology change?',
+    choices: ['Classic STP (802.1D) — 30-50 seconds', 'RSTP (802.1w) — ~6 seconds', 'MSTP (802.1s) — same as classic STP', 'PVST+'],
+    correct: 1,
+    explain: '<b>RSTP (Rapid Spanning Tree, 802.1w)</b> converges in roughly 6 seconds versus 30-50 for classic STP. MSTP (802.1s) is based on RSTP and converges quickly too, but RSTP is the simplest fast-converging variant. PVST+ is Cisco\'s per-VLAN extension.'
+  },
+  {
+    q: 'In STP root bridge election, switches A, B, C, D all have priority 32768. What is the tiebreaker?',
+    choices: ['Highest IP address', 'Lowest MAC address', 'Highest MAC address', 'Lowest IP address'],
+    correct: 1,
+    explain: 'When priorities tie, the <b>lowest MAC address</b> breaks the tie. The Bridge ID is concatenated as <code>priority + MAC</code>, so when priorities are equal, MAC dominates. To force a specific switch to be root, lower its priority (typically to 4096 or 0).'
+  },
+  {
+    q: 'Which port aggregation protocol is the open IEEE standard, suitable for multi-vendor environments?',
+    choices: ['PAgP', 'LACP (802.3ad)', 'EtherChannel', 'STP'],
+    correct: 1,
+    explain: '<b>LACP (802.3ad)</b> is the open IEEE standard for link aggregation. Works across vendors. PAgP is Cisco-proprietary. "EtherChannel" is Cisco\'s term for the combined logical interface — it can use either LACP or PAgP underneath, or be statically configured. STP is loop prevention, not aggregation.'
+  },
+  {
+    q: 'A port security violation action of <code>restrict</code> differs from <code>shutdown</code> in what way?',
+    choices: ['Restrict silently drops; shutdown disables the port', 'Restrict drops frames AND logs the violation; shutdown disables the port entirely', 'They are functionally identical', 'Restrict only works on trunk ports'],
+    correct: 1,
+    explain: '<b>Restrict</b> drops frames from unauthorized MACs AND increments the violation counter and sends a syslog/SNMP trap. <b>Shutdown</b> (the default) disables the entire port — it goes into err-disabled state and stops forwarding everything until manually recovered. <b>Protect</b> silently drops without logging.'
+  },
+  {
+    q: 'A switch shows VLAN 10 and VLAN 20 configured. A PC in VLAN 10 wants to reach a server in VLAN 20. What is required to make this work?',
+    choices: ['Add both VLANs to the same broadcast domain', 'A Layer 3 device — router with sub-interfaces or a Layer-3 switch with SVIs', 'Disable STP on the switch', 'Configure a trunk between the PC and server'],
+    correct: 1,
+    explain: 'Layer 2 switches do <b>not</b> route between VLANs. You need a <b>Layer 3 device</b>: either a router with sub-interfaces (router-on-a-stick) or a multilayer switch with Switch Virtual Interfaces (SVIs, one per VLAN). The Layer 3 device performs inter-VLAN routing.'
+  },
+  {
+    q: 'On an access port connecting a VoIP phone (which has a PC plugged into its passthrough), how is VLAN tagging handled?',
+    choices: ['Both traffic streams are untagged', 'Voice traffic is tagged (voice VLAN); PC traffic is untagged (access VLAN)', 'Both are tagged with the same VLAN', 'Only the PC traffic is tagged'],
+    correct: 1,
+    explain: 'With a <b>voice VLAN configuration</b>, the phone tags its voice traffic with the voice VLAN ID (e.g., 100), while the PC plugged into the phone\'s passthrough port sends untagged traffic that the switch assigns to the access (data) VLAN. One physical port, two VLANs — a special case enabled by the voice VLAN feature.'
+  },
+  {
+    q: 'Dynamic ARP Inspection (DAI) on a switch validates ARP messages against what data source?',
+    choices: ['A manually configured ARP whitelist', 'The DHCP snooping binding table', 'A RADIUS server', 'The MAC address table'],
+    correct: 1,
+    explain: '<b>DAI relies on the DHCP snooping binding table</b> for its source of truth — the table maps IP-MAC-port-VLAN for every legitimate DHCP lease. ARP messages that don\'t match a binding are dropped. This is why DHCP snooping is a prerequisite for DAI.'
+  },
+  {
+    q: 'A switch port configured with PortFast and BPDU Guard receives a BPDU. What happens?',
+    choices: ['The port silently ignores the BPDU', 'The port immediately goes err-disabled — protecting against rogue switches', 'The switch becomes the new root bridge', 'Nothing — BPDU Guard requires manual triggering'],
+    correct: 1,
+    explain: '<b>PortFast</b> skips STP\'s listening/learning states for fast connection of end devices. <b>BPDU Guard</b> assumes that if a BPDU arrives on a PortFast port, someone has accidentally plugged in a switch — and shuts the port immediately to prevent loops. Always pair PortFast with BPDU Guard on access ports.'
+  },
+  {
+    q: 'Which PoE standard provides up to ~30W per port, sufficient for modern access points and PTZ cameras?',
+    choices: ['PoE (802.3af) — 15W', 'PoE+ (802.3at) — 30W', 'PoE++ Type 3 (802.3bt) — 60W', 'PoE++ Type 4 (802.3bt) — 90W'],
+    correct: 1,
+    explain: '<b>PoE+ (802.3at)</b> delivers up to about 30W per port, the workhorse standard for modern Wi-Fi APs and PTZ cameras. Original PoE (802.3af) is ~15W. PoE++ Type 3 is 60W; Type 4 is 90W+ (used for high-power displays, kiosks).'
+  },
+  {
+    q: 'A network designer wants to combine 4 physical 1 Gbps links between two switches into one logical 4 Gbps link. Which technology does this?',
+    choices: ['Spanning Tree Protocol', 'Link aggregation (LACP / EtherChannel)', 'VLAN trunking', 'Port mirroring'],
+    correct: 1,
+    explain: '<b>Link aggregation</b> (LACP under 802.3ad, or Cisco\'s EtherChannel using LACP or PAgP) bundles multiple physical links into one logical link with combined bandwidth and built-in redundancy. If one link fails, the bundle continues at reduced bandwidth. STP would actually block 3 of the 4 redundant links — LACP/EtherChannel uses all 4 in parallel.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* =========================================================
+   TAB 6 · LIGHTNING ROUND
+   ========================================================= */
+var LIGHTNING_BANK = [
+  { q: 'Standard VLAN tagging protocol?', choices: ['ISL', '802.1Q', '802.1X', '802.3ad'], correct: 1 },
+  { q: 'Default VLAN on most switches?', choices: ['VLAN 0', 'VLAN 1', 'VLAN 100', 'VLAN 4094'], correct: 1 },
+  { q: 'Access port carries how many VLANs?', choices: ['1', '2', '4094', 'Unlimited'], correct: 0 },
+  { q: 'Trunk port carries how many VLANs?', choices: ['1', '2', 'Multiple (configurable)', 'Always 4094'], correct: 2 },
+  { q: 'Native VLAN traffic on a trunk is?', choices: ['Tagged', 'Untagged', 'Dropped', 'Encrypted'], correct: 1 },
+  { q: 'Classic STP standard?', choices: ['802.1D', '802.1Q', '802.1w', '802.1s'], correct: 0 },
+  { q: 'Rapid STP standard?', choices: ['802.1D', '802.1Q', '802.1w', '802.1s'], correct: 2 },
+  { q: 'Multiple STP standard?', choices: ['802.1D', '802.1Q', '802.1w', '802.1s'], correct: 3 },
+  { q: 'STP root election — lowest what wins?', choices: ['MAC only', 'Priority, then MAC', 'IP', 'Cost'], correct: 1 },
+  { q: 'Default STP priority?', choices: ['0', '4096', '32768', '65535'], correct: 2 },
+  { q: 'Open-standard link aggregation?', choices: ['PAgP', 'LACP', 'GLBP', 'EtherChannel'], correct: 1 },
+  { q: 'Cisco link aggregation protocol?', choices: ['LACP', 'PAgP', 'GLBP', 'STP'], correct: 1 },
+  { q: 'Port security default violation action?', choices: ['Protect', 'Restrict', 'Shutdown', 'Log only'], correct: 2 },
+  { q: 'Sticky MAC means?', choices: ['Permanent block', 'Dynamically learned then saved', 'Forwards all MACs', 'Disables port'], correct: 1 },
+  { q: 'DHCP snooping classifies ports as?', choices: ['Open/Closed', 'Trusted/Untrusted', 'Tagged/Untagged', 'Up/Down'], correct: 1 },
+  { q: 'DAI requires what enabled first?', choices: ['Port security', 'DHCP snooping', '802.1X', 'STP'], correct: 1 },
+  { q: 'Standard Ethernet MTU?', choices: ['1000', '1500', '9000', '65535'], correct: 1 },
+  { q: 'Typical jumbo frame MTU?', choices: ['1500', '2048', '9000', '65535'], correct: 2 },
+  { q: 'PoE (802.3af) max watts per port?', choices: ['~15W', '~30W', '~60W', '~90W'], correct: 0 },
+  { q: 'PoE+ (802.3at) max watts per port?', choices: ['~15W', '~30W', '~60W', '~90W'], correct: 1 },
+  { q: 'PoE++ Type 4 (802.3bt) max watts?', choices: ['~15W', '~30W', '~60W', '~90W'], correct: 3 },
+  { q: 'Layer 3 switch uses what for inter-VLAN?', choices: ['Sub-interfaces', 'SVIs', 'Trunk ports', 'NAT'], correct: 1 },
+  { q: 'Router-on-a-stick uses what?', choices: ['SVIs', 'Sub-interfaces over trunk', 'STP', 'PAgP'], correct: 1 },
+  { q: '802.1X provides?', choices: ['VLAN tagging', 'Port authentication', 'Link aggregation', 'Loop prevention'], correct: 1 },
+  { q: 'BPDU Guard protects what feature?', choices: ['LACP', 'PortFast access ports', 'Sticky MAC', 'Jumbo frames'], correct: 1 },
+  { q: 'VLAN range max?', choices: ['255', '1024', '4094', '65535'], correct: 2 },
+  { q: 'Voice VLAN allows what on one port?', choices: ['Two voice VLANs', 'Voice tagged + data untagged', 'Trunk + access', 'Two access VLANs'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0;
+  lrCorrectCount = 0;
+  lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
