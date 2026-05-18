@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.1 Routing Technologies · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== TAB 1 · ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  /* AD Values reference table */
+  .ad-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .ad-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .ad-table th:last-child { border-right: none; }
+  .ad-table td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .ad-table td:last-child { border-right: none; }
+  .ad-table td.src { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .ad-table td.ad { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 80px; font-size: 16px; }
+  .ad-table tr.best td.ad { background: var(--green-bg); color: var(--green); }
+
+  /* ============== TAB 2 · ROUTE DECISION ENGINE ============== */
+  .decision-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .decision-controls { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: end; margin-bottom: 24px; }
+  .decision-controls label { display: block; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; font-weight: 700; }
+  .decision-controls input { width: 100%; padding: 12px 14px; font-family: var(--ff-mono); font-size: 16px; font-weight: 600; color: var(--navy-deep); background: var(--bg-warm); border: 2px solid var(--line); }
+  .decision-controls input:focus { outline: none; border-color: var(--sky); background: white; }
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+  .example-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+
+  .route-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; font-family: var(--ff-mono); font-size: 13px; }
+  .route-table th { background: var(--navy-deep); color: white; padding: 10px 12px; text-align: left; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .route-table th:last-child { border-right: none; }
+  .route-table td { padding: 9px 12px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); transition: background 0.3s ease; }
+  .route-table td:last-child { border-right: none; }
+  .route-table tr.match td { background: rgba(56,176,224,0.15); }
+  .route-table tr.winner td { background: var(--green-bg); border-color: var(--green); font-weight: 700; }
+  .route-table tr.winner td:first-child::before { content: '★ '; color: var(--green); font-weight: 800; }
+  .route-table tr.eliminated td { color: var(--ink-mute); text-decoration: line-through; opacity: 0.55; }
+
+  .decision-log { margin-top: 22px; background: var(--bg-warm); border-left: 4px solid var(--gold); padding: 16px 22px; }
+  .decision-log h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin: 0 0 10px; font-weight: 700; }
+  .decision-log ol { margin: 0; padding-left: 22px; font-size: 13.5px; line-height: 1.65; color: var(--ink); }
+  .decision-log ol li { margin-bottom: 4px; }
+  .decision-log ol li b { color: var(--navy-deep); }
+  .decision-log .verdict { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line-soft); font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--green); }
+
+  /* ============== TAB 3 · PROTOCOL VISUALIZER ============== */
+  .proto-grid { display: grid; grid-template-columns: 220px 1fr; gap: 22px; }
+  .proto-list { display: flex; flex-direction: column; gap: 8px; }
+  .proto-btn { background: var(--surface); border: 2px solid var(--line-soft); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.15s; font-family: var(--ff-body); }
+  .proto-btn:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .proto-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .proto-btn .pname { font-family: var(--ff-display); font-weight: 700; font-size: 16px; color: var(--navy-deep); }
+  .proto-btn.active .pname { color: var(--gold); }
+  .proto-btn .pfull { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
+  .proto-btn.active .pfull { color: var(--gray-soft); }
+
+  .proto-detail { background: var(--surface); border: 1px solid var(--line); padding: 24px 26px; min-height: 460px; }
+  .proto-detail h3 { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); margin: 0 0 4px; letter-spacing: -0.02em; }
+  .proto-detail h3 em { font-style: italic; color: var(--sky); font-weight: 600; font-size: 18px; margin-left: 6px; }
+  .proto-detail .summary { color: var(--ink-mid); font-size: 14px; margin: 0 0 18px; line-height: 1.55; }
+  .proto-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0 18px; }
+  .proto-spec { background: var(--bg-warm); padding: 10px 14px; }
+  .proto-spec .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .proto-spec .v { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin-top: 3px; }
+  .proto-detail .when { background: rgba(56,176,224,0.08); border-left: 3px solid var(--sky); padding: 12px 16px; margin: 14px 0; }
+  .proto-detail .when h5 { margin: 0 0 4px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .proto-detail .when p { margin: 0; font-size: 13px; color: var(--ink); }
+  .proto-detail .trap { background: rgba(224,184,64,0.10); border-left: 3px solid var(--gold); padding: 12px 16px; margin: 14px 0; }
+  .proto-detail .trap h5 { margin: 0 0 4px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); font-weight: 700; }
+  .proto-detail .trap p { margin: 0; font-size: 13px; color: var(--ink); }
+
+  /* ============== TAB 4 · FHRP SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ROUND ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  /* Footer */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .proto-grid { grid-template-columns: 1fr; }
+    .proto-specs { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.1 Routing Technologies</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 2.1 · Routing Technologies</div>
+    <h1>How routers <em>choose paths.</em></h1>
+    <p class="lede">Routing is the Layer 3 decision process: when a packet arrives, the router compares its destination IP against every entry in the routing table and picks the best match. This artifact walks you through the mechanics: longest-prefix-match, administrative distance, metric tiebreakers, the five common protocols (static, RIP, OSPF, EIGRP, BGP), and the FHRP family (HSRP, VRRP, GLBP) that keeps default gateways alive when a router fails.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">Connected</span><span class="desc">AD = 0 — directly attached interfaces</span></div>
+    <div class="ref-row"><span class="name">Static</span><span class="desc">AD = 1 — manually configured by admin</span></div>
+    <div class="ref-row"><span class="name">EIGRP</span><span class="desc">AD = 90 — Cisco hybrid, fastest dynamic</span></div>
+    <div class="ref-row"><span class="name">OSPF</span><span class="desc">AD = 110 — open-standard link-state</span></div>
+    <div class="ref-row"><span class="name">RIP</span><span class="desc">AD = 120 — distance-vector, 15-hop max</span></div>
+    <div class="ref-row"><span class="name">BGP (ext)</span><span class="desc">AD = 20 — between autonomous systems</span></div>
+    <div class="ref-row"><span class="name">FHRP</span><span class="desc">HSRP · VRRP · GLBP — gateway redundancy</span></div>
+    <div class="footer-note">
+      <b>SELECTION ORDER</b><br>
+      1. Longest prefix match wins.<br>
+      2. Tie → lowest AD wins.<br>
+      3. Tie → lowest metric wins.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">5</div><div class="label">Routing protocols compared</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">FHRPs — HSRP · VRRP · GLBP</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="decision"><span class="num">02</span>Route Decision Engine</button>
+  <button class="tab" data-tab="protocols"><span class="num">03</span>Protocol Comparison</button>
+  <button class="tab" data-tab="fhrp"><span class="num">04</span>FHRP Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== TAB 1 · ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Routing is how a router decides where to forward a packet. The router maintains a <b>routing table</b> — a list of known destination networks, each with a next-hop and a cost. When a packet arrives, the router compares the destination IP against the table and applies three tiebreakers in order: <b>longest prefix match → lowest administrative distance → lowest metric</b>.</p>
+
+  <div class="section-head">Static vs Dynamic Routing</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">STATIC</div>
+      <h4>Manually configured routes</h4>
+      <p>The administrator types each route into the router. No protocol traffic, no CPU overhead, complete control.</p>
+      <p><span class="accent">PROS:</span> Predictable. Secure (no advertisements). Zero protocol overhead.</p>
+      <p><span class="accent">CONS:</span> Doesn't adapt to failures. Doesn't scale beyond ~50 routes.</p>
+      <p><span class="accent">USE WHEN:</span> Stub networks, small office routers, default routes pointing at an ISP.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DYNAMIC</div>
+      <h4>Routes learned from neighbors</h4>
+      <p>Routers run a protocol (OSPF, EIGRP, BGP, RIP) and exchange route information automatically. Adapts to topology changes.</p>
+      <p><span class="accent">PROS:</span> Self-healing. Scales to thousands of routes. Reacts to link failures.</p>
+      <p><span class="accent">CONS:</span> Protocol overhead. More complex to troubleshoot.</p>
+      <p><span class="accent">USE WHEN:</span> Any network with redundant paths or more than a handful of routers.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Default Route — the catch-all</div>
+  <p>A default route is the route of last resort. Written as <code>0.0.0.0/0</code> in IPv4 or <code>::/0</code> in IPv6, it matches <b>any</b> destination not covered by a more specific route. Almost every router has one pointing at the next hop toward the internet — typically the ISP. Without a default route, packets to unknown destinations are silently dropped.</p>
+
+  <div class="section-head">Administrative Distance — protocol trust ranking</div>
+  <p>When multiple routing sources offer a route to the same destination with the same prefix length, the router picks the source with the <b>lowest AD</b>. AD is a measure of trustworthiness — lower means more trusted. Memorize the common values:</p>
+
+  <table class="ad-table">
+    <thead>
+      <tr><th>Source</th><th>AD Value</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr class="best"><td class="src">Directly Connected</td><td class="ad">0</td><td>Interface up + IP configured → automatic route. Most trusted.</td></tr>
+      <tr class="best"><td class="src">Static Route</td><td class="ad">1</td><td>Admin manually typed it. High trust.</td></tr>
+      <tr><td class="src">EIGRP (internal)</td><td class="ad">90</td><td>Cisco hybrid protocol — fastest dynamic convergence.</td></tr>
+      <tr><td class="src">OSPF</td><td class="ad">110</td><td>Open standard, link-state. Industry workhorse.</td></tr>
+      <tr><td class="src">RIP</td><td class="ad">120</td><td>Legacy distance-vector. Don't use in new deployments.</td></tr>
+      <tr><td class="src">External BGP (eBGP)</td><td class="ad">20</td><td>Between autonomous systems — internet backbone protocol.</td></tr>
+      <tr><td class="src">Internal BGP (iBGP)</td><td class="ad">200</td><td>Inside one AS — least trusted (long convergence times).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">VLSM — Variable Length Subnet Masking</div>
+  <p>VLSM is the practice of subnetting a network into <b>different-sized subnets</b> based on actual host requirements, rather than splitting everything into equal-sized pieces. Saves address space and reflects real-world needs (a 2-host point-to-point link doesn't need 254 addresses).</p>
+  <p>Example: a /24 (256 addresses) might split into a /25 (126 hosts for the office LAN), a /27 (30 hosts for a small department), several /30 (2 hosts each for router-to-router WAN links). All from the same parent /24, all working together via CIDR-aware routing.</p>
+
+  <div class="section-head">NAT and PAT — Network/Port Address Translation</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">NAT (1-to-1)</div>
+      <h4>Network Address Translation</h4>
+      <p>Maps one private IP to one public IP. Each internal host gets a dedicated public address. Used when each server needs its own public IP — rare in modern networks.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PAT (1-to-many)</div>
+      <h4>Port Address Translation (NAT overload)</h4>
+      <p>Maps many private IPs to one public IP, using different source ports to distinguish flows. This is what your home router does — every device in your house shares one public IP. The dominant form of NAT today.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Sub-Interfaces — router-on-a-stick</div>
+  <p>A single physical router interface can be split into multiple <b>logical sub-interfaces</b>, each handling a different VLAN. Notation: <code>GigabitEthernet0/1.10</code> is sub-interface 10 on physical interface Gi0/1. Each sub-interface gets its own IP and 802.1Q VLAN tag. This is the classic "router on a stick" design for inter-VLAN routing on smaller networks before Layer-3 switches became affordable.</p>
+
+  <div class="section-head">First-Hop Redundancy Protocols (FHRP)</div>
+  <p>End hosts have one configured default gateway. If that gateway router dies, every host on the subnet loses internet access — until they're manually reconfigured. <b>FHRP solves this</b>: two or more routers share a virtual IP that hosts use as the gateway. If the active router fails, the standby takes over the virtual IP transparently. Hosts don't notice.</p>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">HSRP</div>
+      <h4>Hot Standby Router Protocol</h4>
+      <p><b>Cisco proprietary.</b> One active, one or more standby. Only the active router forwards traffic at any time.</p>
+      <p><span class="accent">USE:</span> All-Cisco environments.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">VRRP</div>
+      <h4>Virtual Router Redundancy Protocol</h4>
+      <p><b>Open standard (RFC 5798).</b> Functionally similar to HSRP but works across multi-vendor environments.</p>
+      <p><span class="accent">USE:</span> Mixed-vendor networks (Cisco + Juniper + Arista, etc.).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">GLBP</div>
+      <h4>Gateway Load Balancing Protocol</h4>
+      <p><b>Cisco proprietary.</b> Unlike HSRP/VRRP, GLBP load-balances traffic across multiple routers simultaneously — not just active/standby.</p>
+      <p><span class="accent">USE:</span> Cisco environments where you want active-active load distribution.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CRP / VRRPv3</div>
+      <h4>Modern alternatives</h4>
+      <p>VRRPv3 supports IPv6. Common Address Redundancy Protocol (CARP) is the open BSD/firewall equivalent.</p>
+      <p><span class="accent">USE:</span> IPv6 redundancy, open-source firewall HA (pfSense, OPNsense).</p>
+    </div>
+  </div>
+
+  <div class="section-head">Algorithm Families — How Protocols Compute Paths</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">DISTANCE-VECTOR</div>
+      <h4>"Tell me what you know"</h4>
+      <p>Each router shares its entire routing table with neighbors periodically. Routes are evaluated by hop count or composite metric. Simple but slow to converge.</p>
+      <p><span class="accent">EXAMPLES:</span> RIP, RIPv2, IGRP (legacy).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LINK-STATE</div>
+      <h4>"Tell me what's connected"</h4>
+      <p>Each router floods its link information to all routers in the area. Every router builds an identical topology map and computes shortest paths using Dijkstra. Fast convergence, scales well.</p>
+      <p><span class="accent">EXAMPLES:</span> OSPF, IS-IS.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PATH-VECTOR</div>
+      <h4>"Tell me the AS path"</h4>
+      <p>Used between autonomous systems on the internet. Routes carry the full list of AS numbers they've traversed — used for loop prevention and policy.</p>
+      <p><span class="accent">EXAMPLES:</span> BGP.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">HYBRID (Advanced D-V)</div>
+      <h4>"Best of both"</h4>
+      <p>EIGRP technically a distance-vector protocol but uses partial updates and DUAL algorithm for fast loop-free convergence. Behaves more like a link-state protocol.</p>
+      <p><span class="accent">EXAMPLES:</span> EIGRP (Cisco).</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>"Lowest AD wins, lowest metric wins" — order matters.</b> AD is checked FIRST after longest prefix match. Metric is only consulted when two routes have the same AD (same protocol).</li>
+    <li><b>BGP comes in two flavors with very different AD values.</b> External BGP (eBGP, between ASes): AD 20. Internal BGP (iBGP, inside one AS): AD 200.</li>
+    <li><b>HSRP is Cisco; VRRP is open standard.</b> If a question mentions a mixed-vendor environment, the answer is VRRP. If it specifies Cisco-only and load balancing, GLBP.</li>
+    <li><b>RIP's 15-hop limit.</b> RIP considers a destination unreachable at 16 hops. Why RIP doesn't scale.</li>
+    <li><b>OSPF requires areas for large deployments.</b> Single-area OSPF (Area 0 only) works for small networks. Large networks divide into multiple areas to limit LSA flooding.</li>
+    <li><b>"Connected" beats "Static" beats everything else.</b> AD 0 → 1 → dynamic protocols. A static route to a network the router is directly connected to is silently overridden by the connected route.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · ROUTE DECISION ENGINE ============== -->
+<section class="panel" id="panel-decision">
+  <h2>Watch a router <em>pick the best route.</em></h2>
+  <p>Enter a destination IP. The engine evaluates each route in the sample routing table, applies <b>longest prefix match</b> first, then <b>lowest administrative distance</b> as a tiebreaker, then <b>lowest metric</b> as a final tiebreaker. Watch which routes match, which get eliminated, and which one wins.</p>
+
+  <div class="decision-wrap">
+    <div class="example-btns">
+      <span style="font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); align-self: center; margin-right: 6px;">Try:</span>
+      <button class="btn-secondary" onclick="setIP('192.168.10.50')">192.168.10.50</button>
+      <button class="btn-secondary" onclick="setIP('172.16.5.100')">172.16.5.100</button>
+      <button class="btn-secondary" onclick="setIP('10.20.30.40')">10.20.30.40</button>
+      <button class="btn-secondary" onclick="setIP('8.8.8.8')">8.8.8.8 (default route)</button>
+      <button class="btn-secondary" onclick="setIP('192.168.10.130')">192.168.10.130 (tiebreaker)</button>
+    </div>
+    <div class="decision-controls">
+      <div>
+        <label for="destIP">Destination IP Address</label>
+        <input id="destIP" type="text" value="192.168.10.50" placeholder="e.g., 192.168.10.50">
+      </div>
+      <button class="btn-primary" onclick="runDecision()">Find Route</button>
+    </div>
+
+    <h3 style="margin-top: 24px;">Sample Routing Table</h3>
+    <table class="route-table" id="routeTable">
+      <thead>
+        <tr><th>Destination</th><th>Mask</th><th>Source</th><th>AD</th><th>Metric</th><th>Next Hop</th><th>Interface</th></tr>
+      </thead>
+      <tbody>
+        <tr data-net="192.168.10.0" data-mask="24" data-src="OSPF" data-ad="110" data-metric="20" data-hop="10.0.0.2" data-iface="Gi0/0">
+          <td>192.168.10.0</td><td>/24</td><td>OSPF</td><td>110</td><td>20</td><td>10.0.0.2</td><td>Gi0/0</td>
+        </tr>
+        <tr data-net="192.168.10.128" data-mask="25" data-src="EIGRP" data-ad="90" data-metric="2816" data-hop="10.0.0.6" data-iface="Gi0/1">
+          <td>192.168.10.128</td><td>/25</td><td>EIGRP</td><td>90</td><td>2816</td><td>10.0.0.6</td><td>Gi0/1</td>
+        </tr>
+        <tr data-net="192.168.10.0" data-mask="24" data-src="Static" data-ad="1" data-metric="0" data-hop="10.0.0.10" data-iface="Gi0/2">
+          <td>192.168.10.0</td><td>/24</td><td>Static</td><td>1</td><td>0</td><td>10.0.0.10</td><td>Gi0/2</td>
+        </tr>
+        <tr data-net="172.16.0.0" data-mask="16" data-src="OSPF" data-ad="110" data-metric="45" data-hop="10.0.0.14" data-iface="Gi0/3">
+          <td>172.16.0.0</td><td>/16</td><td>OSPF</td><td>110</td><td>45</td><td>10.0.0.14</td><td>Gi0/3</td>
+        </tr>
+        <tr data-net="172.16.5.0" data-mask="24" data-src="RIP" data-ad="120" data-metric="3" data-hop="10.0.0.18" data-iface="Gi0/4">
+          <td>172.16.5.0</td><td>/24</td><td>RIP</td><td>120</td><td>3</td><td>10.0.0.18</td><td>Gi0/4</td>
+        </tr>
+        <tr data-net="10.20.30.0" data-mask="24" data-src="Connected" data-ad="0" data-metric="0" data-hop="—" data-iface="Gi0/5">
+          <td>10.20.30.0</td><td>/24</td><td>Connected</td><td>0</td><td>0</td><td>—</td><td>Gi0/5</td>
+        </tr>
+        <tr data-net="0.0.0.0" data-mask="0" data-src="Static" data-ad="1" data-metric="0" data-hop="10.0.0.1" data-iface="Gi0/0">
+          <td>0.0.0.0</td><td>/0 (default)</td><td>Static</td><td>1</td><td>0</td><td>10.0.0.1</td><td>Gi0/0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="decision-log" id="decisionLog" style="display: none;">
+      <h4>★ Decision trace</h4>
+      <ol id="decisionSteps"></ol>
+      <div class="verdict" id="decisionVerdict"></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">Read the trace</h3>
+  <p>For the IP <code>192.168.10.130</code>, both the /24 routes match — but only the EIGRP /25 (192.168.10.128/25) covers .130 with a longer prefix. <b>Longest prefix wins immediately</b>, regardless of AD. The static /24 route is more "trusted" by AD, but specificity beats trust.</p>
+  <p>For <code>192.168.10.50</code>, only the /24 routes match. They tie on prefix length, so AD breaks the tie: Static AD 1 beats OSPF AD 110.</p>
+  <p>For <code>8.8.8.8</code>, no specific route matches. The default route <code>0.0.0.0/0</code> catches it and forwards toward the ISP.</p>
+</section>
+
+<!-- ============== TAB 3 · PROTOCOL COMPARISON ============== -->
+<section class="panel" id="panel-protocols">
+  <h2>Five protocols, <em>side by side.</em></h2>
+  <p>Click any protocol to see its specs, when to use it, and the most common exam trap. The differences between these protocols are heavily tested — particularly the AD values, the algorithm families, and which ones are open-standard vs vendor-proprietary.</p>
+
+  <div class="proto-grid">
+    <div class="proto-list">
+      <button class="proto-btn active" data-proto="static">
+        <div class="pname">Static</div>
+        <div class="pfull">Manually configured</div>
+      </button>
+      <button class="proto-btn" data-proto="rip">
+        <div class="pname">RIP / RIPv2</div>
+        <div class="pfull">Routing Information Protocol</div>
+      </button>
+      <button class="proto-btn" data-proto="ospf">
+        <div class="pname">OSPF</div>
+        <div class="pfull">Open Shortest Path First</div>
+      </button>
+      <button class="proto-btn" data-proto="eigrp">
+        <div class="pname">EIGRP</div>
+        <div class="pfull">Enhanced Interior Gateway</div>
+      </button>
+      <button class="proto-btn" data-proto="bgp">
+        <div class="pname">BGP</div>
+        <div class="pfull">Border Gateway Protocol</div>
+      </button>
+    </div>
+
+    <div class="proto-detail" id="protoDetail"></div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · FHRP SCENARIOS ============== -->
+<section class="panel" id="panel-fhrp">
+  <h2>FHRP <em>scenarios.</em></h2>
+  <p>First-Hop Redundancy Protocols keep your default gateway alive when a router fails. There are three you need to know — HSRP (Cisco active/standby), VRRP (open-standard active/standby), and GLBP (Cisco active/active load-balancing). Each scenario below presents a situation; pick the right FHRP for the job.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KNOWLEDGE CHECK ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style multiple-choice questions covering the breadth of Objective 2.1: route selection mechanics, AD values, protocol identification, FHRP, VLSM, NAT/PAT, and sub-interfaces. Pick an answer to lock it in; an explanation appears immediately.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ROUND ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Answer as many rapid-fire routing questions as you can before the clock runs out. Wrong answers cost you 2 seconds. Builds the instant-recall mental muscle you need for the real exam.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+
+    <div class="lr-timer" id="lrTimer">30</div>
+
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q">
+        <div class="qt" id="lrFinalScore"></div>
+      </div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 2.1: Routing Technologies. Covers static vs dynamic routing, the five most-tested protocols, administrative distance, route selection mechanics, FHRP, VLSM, NAT/PAT, and sub-interfaces.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 2 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab to absorb the concepts.</p>
+      <p>· Use the Decision Engine to see route selection in action.</p>
+      <p>· Compare protocols in Tab 3 to internalize differences.</p>
+      <p>· Test yourself in Knowledge Check and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair this artifact with the 2.1 quiz in Canvas, the Domain 1 prerequisite artifacts (OSI, IPv4, ports), and Professor Messer's free Net+ video series.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 2.1 · Routing Technologies</span>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   TAB SWITCHING
+   ========================================================= */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* =========================================================
+   TAB 2 · ROUTE DECISION ENGINE
+   ========================================================= */
+function setIP(ip) {
+  document.getElementById('destIP').value = ip;
+  runDecision();
+}
+
+function ipToInt(ip) {
+  var parts = ip.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(function(p) { return isNaN(p) || p < 0 || p > 255; })) {
+    return null;
+  }
+  // Use unsigned 32-bit arithmetic
+  return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+}
+
+function routeMatches(destInt, netStr, maskLen) {
+  var netInt = ipToInt(netStr);
+  if (netInt === null) return false;
+  if (maskLen === 0) return true; // default route matches everything
+  var maskInt = ((0xFFFFFFFF << (32 - maskLen)) >>> 0);
+  return (destInt & maskInt) === (netInt & maskInt);
+}
+
+function runDecision() {
+  var ipText = document.getElementById('destIP').value.trim();
+  var destInt = ipToInt(ipText);
+  var rows = document.querySelectorAll('#routeTable tbody tr');
+
+  // Clear previous styling
+  rows.forEach(function(r) { r.classList.remove('match', 'winner', 'eliminated'); });
+
+  var log = document.getElementById('decisionLog');
+  var steps = document.getElementById('decisionSteps');
+  var verdict = document.getElementById('decisionVerdict');
+  steps.innerHTML = '';
+  log.style.display = 'block';
+
+  if (destInt === null) {
+    verdict.textContent = '✗ Invalid IP address';
+    verdict.style.color = 'var(--red)';
+    return;
+  }
+
+  // Find matching routes
+  var matches = [];
+  rows.forEach(function(r) {
+    var net = r.dataset.net;
+    var mask = parseInt(r.dataset.mask, 10);
+    if (routeMatches(destInt, net, mask)) {
+      r.classList.add('match');
+      matches.push({
+        row: r,
+        net: net,
+        mask: mask,
+        src: r.dataset.src,
+        ad: parseInt(r.dataset.ad, 10),
+        metric: parseInt(r.dataset.metric, 10),
+        hop: r.dataset.hop,
+        iface: r.dataset.iface
+      });
+    }
+  });
+
+  var step = 1;
+  if (matches.length === 0) {
+    steps.innerHTML = '<li>No routes match — packet would be dropped.</li>';
+    verdict.textContent = '✗ DESTINATION UNREACHABLE';
+    verdict.style.color = 'var(--red)';
+    return;
+  }
+
+  steps.innerHTML += '<li><b>Step ' + (step++) + ' · Find matching routes.</b> Of ' + rows.length + ' routes, <b>' + matches.length + '</b> match the destination ' + ipText + '.</li>';
+
+  // Find longest prefix
+  var maxPrefix = Math.max.apply(null, matches.map(function(m) { return m.mask; }));
+  var longest = matches.filter(function(m) { return m.mask === maxPrefix; });
+
+  if (matches.length > 1) {
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · Longest prefix match.</b> The longest matching prefix is <b>/' + maxPrefix + '</b>. ' +
+      (longest.length < matches.length ?
+        (matches.length - longest.length) + ' route(s) with shorter prefixes eliminated.' :
+        'All matches tie on prefix length.') + '</li>';
+
+    matches.forEach(function(m) {
+      if (m.mask < maxPrefix) m.row.classList.add('eliminated');
+    });
+  }
+
+  var winner;
+  if (longest.length === 1) {
+    winner = longest[0];
+    if (matches.length === 1) {
+      steps.innerHTML += '<li><b>Step ' + (step++) + ' · Only one match.</b> No tiebreaker needed.</li>';
+    }
+  } else {
+    // Tiebreaker: lowest AD
+    var minAD = Math.min.apply(null, longest.map(function(m) { return m.ad; }));
+    var byAD = longest.filter(function(m) { return m.ad === minAD; });
+
+    steps.innerHTML += '<li><b>Step ' + (step++) + ' · Administrative distance tiebreaker.</b> Lowest AD wins. The lowest AD among the tied routes is <b>' + minAD + '</b>. ' +
+      (byAD.length < longest.length ? (longest.length - byAD.length) + ' route(s) with higher AD eliminated.' : 'Still tied on AD.') + '</li>';
+
+    longest.forEach(function(m) {
+      if (m.ad > minAD) m.row.classList.add('eliminated');
+    });
+
+    if (byAD.length === 1) {
+      winner = byAD[0];
+    } else {
+      // Final tiebreaker: lowest metric
+      var minMetric = Math.min.apply(null, byAD.map(function(m) { return m.metric; }));
+      var byMetric = byAD.filter(function(m) { return m.metric === minMetric; });
+      steps.innerHTML += '<li><b>Step ' + (step++) + ' · Metric tiebreaker.</b> Lowest metric wins. Winner has metric <b>' + minMetric + '</b>.</li>';
+      byAD.forEach(function(m) {
+        if (m.metric > minMetric) m.row.classList.add('eliminated');
+      });
+      winner = byMetric[0];
+    }
+  }
+
+  winner.row.classList.add('winner');
+  verdict.style.color = 'var(--green)';
+  verdict.textContent = '★ WINNER: ' + winner.net + '/' + winner.mask + ' via ' + winner.src + ' (AD ' + winner.ad + ', metric ' + winner.metric + ') — next hop ' + winner.hop + ' on ' + winner.iface;
+}
+
+runDecision();
+
+/* =========================================================
+   TAB 3 · PROTOCOL COMPARISON
+   ========================================================= */
+var PROTOCOLS = {
+  'static': {
+    name: 'Static Routing',
+    full: 'Manually configured',
+    summary: 'Not really a protocol — just routes typed in by the administrator. No traffic exchanged, no automatic adaptation.',
+    specs: { 'Algorithm': 'None (manual)', 'AD': '1', 'Metric': 'None', 'Scale': 'Small (≤50 routes)' },
+    when: 'Stub networks with one path out. Default routes pointing at an ISP. Small office routers where the topology never changes.',
+    trap: 'A static route survives reboots and never adapts. If the path goes down, traffic black-holes until someone manually changes the config. For redundancy, use floating static routes or pair with a dynamic protocol.'
+  },
+  'rip': {
+    name: 'RIP / RIPv2',
+    full: 'Routing Information Protocol',
+    summary: 'Legacy distance-vector protocol. Advertises full routing table every 30 seconds. RIPv2 added VLSM and authentication; RIPng supports IPv6.',
+    specs: { 'Algorithm': 'Distance-vector', 'AD': '120', 'Metric': 'Hop count', 'Scale': '≤15 hops max' },
+    when: 'You almost never use RIP in new deployments. Sometimes encountered in legacy environments or small test labs. CompTIA tests it because it\'s the simplest dynamic protocol.',
+    trap: 'The 15-hop maximum is hard — 16 means "unreachable." Slow convergence and high update overhead are why RIP doesn\'t scale. Don\'t recommend RIP for any modern design.'
+  },
+  'ospf': {
+    name: 'OSPF',
+    full: 'Open Shortest Path First',
+    summary: 'Open-standard link-state protocol. Routers exchange link-state advertisements (LSAs) and each builds an identical topology map, then runs Dijkstra to compute shortest paths.',
+    specs: { 'Algorithm': 'Link-state (Dijkstra)', 'AD': '110', 'Metric': 'Cost (bandwidth-based)', 'Scale': 'Large enterprise' },
+    when: 'The industry standard for interior routing in multi-vendor enterprise environments. Used inside one organization (autonomous system). Scales with the use of areas to limit LSA flooding.',
+    trap: 'OSPF requires all routers in an area to agree on a shared link-state database. A misconfigured area ID, mismatched authentication, or duplicate router ID will prevent neighbor adjacency. The Designated Router (DR) and Backup DR are elected on multi-access segments.'
+  },
+  'eigrp': {
+    name: 'EIGRP',
+    full: 'Enhanced Interior Gateway Routing Protocol',
+    summary: 'Cisco-developed advanced distance-vector protocol. Uses the Diffusing Update Algorithm (DUAL) for fast loop-free convergence. Became an open standard in 2013 but is still primarily a Cisco-shop choice.',
+    specs: { 'Algorithm': 'Advanced D-V (DUAL)', 'AD': '90', 'Metric': 'Composite (BW + delay)', 'Scale': 'Medium-large enterprise' },
+    when: 'Cisco-only environments where you want fast convergence with simpler configuration than OSPF. Lowest AD of any dynamic protocol — preferred if available.',
+    trap: 'EIGRP has been "open" since 2013 (informational RFC 7868) but other vendors rarely implement it. In a mixed-vendor exam scenario, the answer is OSPF, not EIGRP — even though EIGRP is technically open.'
+  },
+  'bgp': {
+    name: 'BGP',
+    full: 'Border Gateway Protocol',
+    summary: 'The routing protocol of the internet. Path-vector protocol that exchanges reachability information between autonomous systems (AS). External BGP (eBGP) runs between ASes; internal BGP (iBGP) runs inside an AS.',
+    specs: { 'Algorithm': 'Path-vector', 'AD (eBGP)': '20', 'AD (iBGP)': '200', 'Scale': 'Global internet' },
+    when: 'Connecting an organization to two or more ISPs (multihoming). Internet service providers run BGP everywhere. Some enterprises use iBGP internally when other protocols don\'t fit.',
+    trap: 'BGP is policy-driven, not metric-driven — administrators apply complex rules to prefer certain paths for business reasons. Convergence is slow (seconds to minutes). eBGP AD = 20 (highly trusted, comes from outside); iBGP AD = 200 (least trusted, slow convergence).'
+  }
+};
+
+function renderProtocol(key) {
+  var p = PROTOCOLS[key];
+  var detail = document.getElementById('protoDetail');
+  var specsHTML = '';
+  Object.keys(p.specs).forEach(function(k) {
+    specsHTML += '<div class="proto-spec"><div class="k">' + k + '</div><div class="v">' + p.specs[k] + '</div></div>';
+  });
+
+  detail.innerHTML = '<h3>' + p.name + '<em>' + p.full + '</em></h3>' +
+    '<p class="summary">' + p.summary + '</p>' +
+    '<div class="proto-specs">' + specsHTML + '</div>' +
+    '<div class="when"><h5>★ When to use</h5><p>' + p.when + '</p></div>' +
+    '<div class="trap"><h5>⚠ Common exam trap</h5><p>' + p.trap + '</p></div>';
+}
+
+document.querySelectorAll('.proto-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.proto-btn').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    renderProtocol(b.dataset.proto);
+  });
+});
+renderProtocol('static');
+
+/* =========================================================
+   TAB 4 · FHRP SCENARIOS
+   ========================================================= */
+var SCENARIOS = [
+  {
+    tag: 'Vendor selection',
+    body: 'A datacenter has Cisco edge routers and Juniper distribution routers. The team wants gateway redundancy that works across both vendors. Which FHRP fits?',
+    choices: [
+      { letter: 'A', text: 'HSRP — works across all vendors', correct: false },
+      { letter: 'B', text: 'VRRP — open standard (RFC 5798)', correct: true },
+      { letter: 'C', text: 'GLBP — multi-vendor by design', correct: false },
+      { letter: 'D', text: 'CARP — required for mixed environments', correct: false }
+    ],
+    explain: '<b>VRRP</b> is the open-standard FHRP defined in RFC 5798. HSRP and GLBP are Cisco-proprietary; even if the Cisco devices could run them, the Juniper devices cannot participate. CARP exists but is most commonly found in BSD-based firewalls (pfSense, OPNsense), not enterprise routing equipment.'
+  },
+  {
+    tag: 'Load distribution',
+    body: 'A regional bank wants its two distribution-layer Cisco routers to <b>both forward traffic simultaneously</b>, with traffic spread across them — not just active/standby. Which FHRP supports this natively?',
+    choices: [
+      { letter: 'A', text: 'HSRP with multiple groups', correct: false },
+      { letter: 'B', text: 'VRRP with priority adjustment', correct: false },
+      { letter: 'C', text: 'GLBP', correct: true },
+      { letter: 'D', text: 'OSPF equal-cost multipath', correct: false }
+    ],
+    explain: '<b>GLBP (Gateway Load Balancing Protocol)</b> is Cisco-proprietary and is designed specifically for active-active load distribution. Multiple routers share one virtual IP, but ARP responses point different hosts to different MAC addresses, distributing load. HSRP/VRRP are active/standby by default — you can simulate load-balancing with multiple groups but GLBP does it natively.'
+  },
+  {
+    tag: 'Failover mechanics',
+    body: 'A network admin sees this in the HSRP status output: <code>Router A: Active</code>, <code>Router B: Standby</code>. Router A fails. What happens to packets currently in flight that were addressed to the virtual IP?',
+    choices: [
+      { letter: 'A', text: 'They are buffered on Router A until it recovers', correct: false },
+      { letter: 'B', text: 'They are lost until Router B detects failure and assumes the active role (~10 sec default)', correct: true },
+      { letter: 'C', text: 'They are automatically rerouted via OSPF', correct: false },
+      { letter: 'D', text: 'They are sent to both routers simultaneously', correct: false }
+    ],
+    explain: 'During the brief failover window, in-flight packets <b>are lost</b>. HSRP\'s default hello time is 3 seconds and hold time is 10 seconds — Router B must miss enough hellos to declare A dead before taking over. After failover, new packets resume normal flow. This is why aggressive timers (sub-second BFD) are sometimes used for sensitive applications.'
+  },
+  {
+    tag: 'IPv6 support',
+    body: 'A company is rolling out IPv6 and needs redundant default gateways. Their current FHRP is HSRP version 1, which is IPv4 only. What\'s their best option?',
+    choices: [
+      { letter: 'A', text: 'Continue with HSRPv1 — IPv6 doesn\'t need redundancy', correct: false },
+      { letter: 'B', text: 'Upgrade to HSRPv2 or VRRPv3 — both support IPv6', correct: true },
+      { letter: 'C', text: 'Use static IPv6 routes only', correct: false },
+      { letter: 'D', text: 'BGP between the gateways', correct: false }
+    ],
+    explain: '<b>HSRPv2 and VRRPv3</b> both support IPv6. HSRPv1 is IPv4-only. IPv6 has its own neighbor discovery and router advertisement mechanics, but FHRP is still useful to provide a stable virtual gateway address. GLBP also supports IPv6 in newer Cisco IOS versions.'
+  },
+  {
+    tag: 'Open-source/firewall HA',
+    body: 'A small business runs two pfSense firewalls and wants automatic failover between them. Which redundancy protocol does pfSense use?',
+    choices: [
+      { letter: 'A', text: 'HSRP', correct: false },
+      { letter: 'B', text: 'VRRP', correct: false },
+      { letter: 'C', text: 'CARP — Common Address Redundancy Protocol', correct: true },
+      { letter: 'D', text: 'GLBP', correct: false }
+    ],
+    explain: '<b>CARP (Common Address Redundancy Protocol)</b> is the open BSD-licensed alternative to VRRP, created because Cisco\'s patent claims on HSRP made VRRP legally complicated for BSD developers in the early 2000s. CARP is used by pfSense, OPNsense, OpenBSD, and FreeBSD-based products. Functionally similar to VRRP.'
+  },
+  {
+    tag: 'Configuration trap',
+    body: 'A new admin configures HSRP on two routers with different group numbers — Router A in group 1, Router B in group 2. Both have the same virtual IP. The hosts can\'t reach the gateway. What\'s wrong?',
+    choices: [
+      { letter: 'A', text: 'Two routers can\'t share the same virtual IP', correct: false },
+      { letter: 'B', text: 'HSRP requires both routers in the SAME group to share state', correct: true },
+      { letter: 'C', text: 'HSRP doesn\'t support virtual IPs', correct: false },
+      { letter: 'D', text: 'They should use VRRP instead', correct: false }
+    ],
+    explain: '<b>Both routers must be in the same HSRP group</b> to negotiate active/standby roles. Different groups means each router thinks it\'s the sole active router for its own group, both will try to ARP for the virtual IP, and the network breaks. The HSRP group number identifies a redundancy cluster — only routers in the same group cooperate.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* =========================================================
+   TAB 5 · KNOWLEDGE CHECK
+   ========================================================= */
+var KC_QUESTIONS = [
+  {
+    q: 'When a router has multiple routes to the same destination, what is the FIRST tiebreaker applied to select the best route?',
+    choices: ['Lowest administrative distance', 'Lowest metric', 'Longest prefix match', 'Highest interface bandwidth'],
+    correct: 2,
+    explain: '<b>Longest prefix match</b> is checked first. A more specific route (longer prefix) always wins over a less specific one, even if the less specific route has a lower administrative distance.'
+  },
+  {
+    q: 'What is the administrative distance of a directly connected network?',
+    choices: ['0', '1', '90', '110'],
+    correct: 0,
+    explain: '<b>Directly connected routes have AD 0</b> — the highest possible trust. The router knows the network is reachable because its own interface is up and configured.'
+  },
+  {
+    q: 'A router has both an OSPF route (AD 110) and a RIP route (AD 120) to the same /24 network. Which one is installed in the routing table?',
+    choices: ['RIP — lower hop count', 'OSPF — lower AD', 'Both — load balanced', 'Neither — manual tiebreaker needed'],
+    correct: 1,
+    explain: '<b>OSPF wins.</b> Lower AD means higher trust. OSPF (AD 110) beats RIP (AD 120). The router installs only the OSPF route and ignores RIP for that destination.'
+  },
+  {
+    q: 'Which FHRP is open-standard (not vendor proprietary)?',
+    choices: ['HSRP', 'GLBP', 'VRRP', 'EIGRP'],
+    correct: 2,
+    explain: '<b>VRRP</b> is defined in RFC 5798 and is implemented across vendors. HSRP and GLBP are Cisco-proprietary. EIGRP is a routing protocol, not an FHRP.'
+  },
+  {
+    q: 'A static route is configured to <code>0.0.0.0/0</code> via next-hop <code>10.0.0.1</code>. What is this route called?',
+    choices: ['Black hole route', 'Floating static route', 'Default route', 'Summary route'],
+    correct: 2,
+    explain: 'A <b>default route</b> uses <code>0.0.0.0/0</code> as the destination — meaning "any destination not covered by a more specific route." It\'s the route of last resort and typically points to the next hop toward the internet.'
+  },
+  {
+    q: 'Which routing protocol is the primary protocol of the public internet, exchanging routes between autonomous systems?',
+    choices: ['OSPF', 'EIGRP', 'BGP', 'RIPv2'],
+    correct: 2,
+    explain: '<b>BGP (Border Gateway Protocol)</b> runs the internet. External BGP (eBGP, AD 20) exchanges routes between autonomous systems. OSPF and EIGRP are interior protocols (within one organization). RIP is legacy.'
+  },
+  {
+    q: 'A small office\'s router has VLAN 10, 20, and 30 configured. The router has only ONE physical Ethernet interface available. What technique allows it to route between all three VLANs through that single interface?',
+    choices: ['Trunk bonding', 'Layer 3 switching', 'Router-on-a-stick using sub-interfaces', 'NAT'],
+    correct: 2,
+    explain: '<b>Router-on-a-stick</b> divides a single physical interface into multiple logical sub-interfaces (Gi0/1.10, Gi0/1.20, Gi0/1.30), each handling one VLAN via 802.1Q tagging. The trunk between the switch and router carries all VLANs.'
+  },
+  {
+    q: 'A router has 192.168.0.0/16 via OSPF, 192.168.5.0/24 via RIP, and 192.168.5.0/26 via static. A packet arrives for 192.168.5.10. Which route is used?',
+    choices: ['OSPF /16 — lowest AD among dynamic protocols', 'RIP /24', 'Static /26', 'All three load-balanced'],
+    correct: 2,
+    explain: '<b>The static /26 wins.</b> Longest prefix match is checked first — /26 is more specific than /24 or /16. AD doesn\'t matter when prefix lengths differ. The /26 covers 192.168.5.0-.63, which includes .10.'
+  },
+  {
+    q: 'In VLSM, what is the smallest subnet size needed for a point-to-point WAN link between two routers?',
+    choices: ['/24 (256 addresses)', '/28 (16 addresses)', '/30 (4 addresses, 2 usable)', '/32 (1 address)'],
+    correct: 2,
+    explain: 'A <b>/30 subnet</b> has 4 addresses total, with 2 usable (subtract network and broadcast). That\'s exactly enough for a point-to-point WAN link — one address per router. VLSM lets you allocate /30s for WAN links and larger subnets where needed.'
+  },
+  {
+    q: 'A home router has 50 devices, all sharing a single public IP from the ISP. Each device can browse the internet independently. Which technology makes this possible?',
+    choices: ['NAT (1-to-1)', 'PAT / NAT overload', 'Direct routing', 'Static NAT'],
+    correct: 1,
+    explain: '<b>PAT (Port Address Translation), also called NAT overload</b>, maps many internal IPs to one external IP by using different source port numbers to distinguish each flow. This is what every home router does. Pure 1-to-1 NAT would require 50 public IPs.'
+  },
+  {
+    q: 'Which routing protocol uses link-state advertisements (LSAs) and the Dijkstra algorithm?',
+    choices: ['RIP', 'EIGRP', 'OSPF', 'BGP'],
+    correct: 2,
+    explain: '<b>OSPF</b> is a link-state protocol. Each router floods LSAs describing its connections, builds an identical topology database, and runs Dijkstra\'s shortest-path-first algorithm to compute routes. RIP is distance-vector. EIGRP is advanced D-V. BGP is path-vector.'
+  },
+  {
+    q: 'A multinational company connects to two ISPs for internet redundancy and wants to control which traffic uses which ISP based on business policy. Which routing protocol fits?',
+    choices: ['Static routing only', 'OSPF — fast convergence between ISPs', 'EIGRP — Cisco-optimized', 'BGP — policy-based with multiple ISPs'],
+    correct: 3,
+    explain: '<b>BGP</b> is policy-driven and is the protocol used when an organization peers with multiple ISPs (multihoming). Routes can be filtered, prefixed, weighted, and prepended based on business policy. OSPF and EIGRP are interior protocols and don\'t scale to inter-AS routing.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* =========================================================
+   TAB 6 · LIGHTNING ROUND
+   ========================================================= */
+var LIGHTNING_BANK = [
+  { q: 'AD of a connected route?', choices: ['0', '1', '90', '110'], correct: 0 },
+  { q: 'AD of a static route?', choices: ['0', '1', '90', '120'], correct: 1 },
+  { q: 'AD of OSPF?', choices: ['90', '100', '110', '120'], correct: 2 },
+  { q: 'AD of EIGRP (internal)?', choices: ['90', '100', '110', '170'], correct: 0 },
+  { q: 'AD of RIP?', choices: ['100', '110', '120', '200'], correct: 2 },
+  { q: 'AD of external BGP (eBGP)?', choices: ['20', '90', '110', '200'], correct: 0 },
+  { q: 'AD of internal BGP (iBGP)?', choices: ['20', '110', '120', '200'], correct: 3 },
+  { q: 'OSPF algorithm family?', choices: ['Distance-vector', 'Link-state', 'Path-vector', 'Hybrid'], correct: 1 },
+  { q: 'BGP algorithm family?', choices: ['Distance-vector', 'Link-state', 'Path-vector', 'Hybrid'], correct: 2 },
+  { q: 'EIGRP algorithm family?', choices: ['Distance-vector', 'Link-state', 'Path-vector', 'Advanced D-V / Hybrid'], correct: 3 },
+  { q: 'RIP algorithm family?', choices: ['Distance-vector', 'Link-state', 'Path-vector', 'Hybrid'], correct: 0 },
+  { q: 'Default route in IPv4?', choices: ['127.0.0.0/8', '0.0.0.0/0', '255.255.255.255/32', '169.254.0.0/16'], correct: 1 },
+  { q: 'RIP maximum hop count?', choices: ['10', '15', '255', 'Unlimited'], correct: 1 },
+  { q: 'Open-standard FHRP?', choices: ['HSRP', 'VRRP', 'GLBP', 'CARP'], correct: 1 },
+  { q: 'Cisco active/active FHRP?', choices: ['HSRP', 'VRRP', 'GLBP', 'CARP'], correct: 2 },
+  { q: 'Cisco active/standby FHRP?', choices: ['HSRP', 'VRRP', 'GLBP', 'OSPF'], correct: 0 },
+  { q: 'OSPF metric is based on?', choices: ['Hop count', 'Bandwidth (cost)', 'Delay', 'Reliability'], correct: 1 },
+  { q: 'RIP metric is based on?', choices: ['Hop count', 'Bandwidth', 'Delay', 'Cost'], correct: 0 },
+  { q: 'First tiebreaker in route selection?', choices: ['Lowest AD', 'Longest prefix', 'Lowest metric', 'Newest route'], correct: 1 },
+  { q: 'Smallest subnet for a P2P WAN link?', choices: ['/24', '/28', '/30', '/32'], correct: 2 },
+  { q: 'NAT overload = ?', choices: ['1-to-1 NAT', 'PAT', 'Dynamic NAT', 'Static NAT'], correct: 1 },
+  { q: 'Router-on-a-stick uses?', choices: ['Sub-interfaces', 'NAT', 'Trunk bonding', 'GLBP'], correct: 0 },
+  { q: 'IPv6 default route?', choices: ['::1/128', '::/0', 'fe80::/10', 'ff00::/8'], correct: 1 },
+  { q: 'Loopback IPv4 range?', choices: ['10.0.0.0/8', '127.0.0.0/8', '169.254.0.0/16', '192.168.0.0/16'], correct: 1 },
+  { q: 'BGP is mostly used for?', choices: ['LAN routing', 'WAN routing inside one company', 'Internet inter-AS routing', 'Wi-Fi roaming'], correct: 2 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return; // can't change mid-drill
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0;
+  lrCorrectCount = 0;
+  lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q.replace(/<code>/g, '<code>').replace(/<\/code>/g, '</code>');
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2); // penalty
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
