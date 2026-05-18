@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.3 Wireless Devices &amp; Technologies · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 22%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; }
+
+  /* ============== TAB 2 · CHANNEL PLANNER ============== */
+  .planner-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; margin-bottom: 18px; }
+  .planner-wrap h3 { margin-top: 0; }
+
+  .channel-buttons { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; margin: 14px 0; }
+  .ch-btn { background: var(--bg-warm); border: 2px solid var(--line-soft); padding: 14px 6px; cursor: pointer; font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--ink); transition: all 0.15s; text-align: center; }
+  .ch-btn:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .ch-btn.deployed-1 { background: rgba(56,176,224,0.25); border-color: var(--sky); color: var(--sky-deep); }
+  .ch-btn.deployed-2 { background: rgba(224,184,64,0.25); border-color: var(--gold); color: var(--gold-deep); }
+  .ch-btn.deployed-3 { background: rgba(42,96,73,0.25); border-color: var(--green); color: var(--green); }
+  .ch-btn.deployed-4 { background: rgba(142,31,46,0.25); border-color: var(--red); color: var(--red); }
+
+  .spectrum-canvas { background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 12px 16px; margin: 14px 0; }
+  .spectrum-svg { width: 100%; height: 200px; display: block; }
+
+  .verdict-box { padding: 16px 22px; font-family: var(--ff-display); font-size: 17px; font-weight: 700; margin: 16px 0 12px; }
+  .verdict-box.good { background: var(--green-bg); color: var(--green); border-left: 4px solid var(--green); }
+  .verdict-box.bad { background: var(--red-bg); color: var(--red); border-left: 4px solid var(--red); }
+  .verdict-box.empty { background: var(--bg-warm); color: var(--ink-mute); border-left: 4px solid var(--gray); }
+  .verdict-box ul { margin: 10px 0 0; padding-left: 22px; font-family: var(--ff-body); font-size: 14px; font-weight: 500; }
+  .verdict-box ul li { margin-bottom: 4px; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 12px 22px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+  .button-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+  .planner-secondary { background: var(--surface); border: 1px solid var(--line-soft); padding: 20px 24px; margin-bottom: 18px; }
+  .planner-secondary h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ghz5-svg { width: 100%; height: 130px; display: block; margin-top: 10px; }
+
+  /* ============== TAB 3 · STANDARDS COMPARATOR ============== */
+  .proto-grid { display: grid; grid-template-columns: 220px 1fr; gap: 22px; }
+  .proto-list { display: flex; flex-direction: column; gap: 8px; }
+  .proto-btn { background: var(--surface); border: 2px solid var(--line-soft); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.15s; font-family: var(--ff-body); }
+  .proto-btn:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .proto-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .proto-btn .pname { font-family: var(--ff-display); font-weight: 700; font-size: 16px; color: var(--navy-deep); }
+  .proto-btn.active .pname { color: var(--gold); }
+  .proto-btn .pfull { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
+  .proto-btn.active .pfull { color: var(--gray-soft); }
+
+  .proto-detail { background: var(--surface); border: 1px solid var(--line); padding: 24px 26px; min-height: 460px; }
+  .proto-detail h3 { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); margin: 0 0 4px; letter-spacing: -0.02em; }
+  .proto-detail h3 em { font-style: italic; color: var(--sky); font-weight: 600; font-size: 18px; margin-left: 6px; }
+  .proto-detail .summary { color: var(--ink-mid); font-size: 14px; margin: 0 0 18px; line-height: 1.55; }
+  .proto-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0 18px; }
+  .proto-spec { background: var(--bg-warm); padding: 10px 14px; }
+  .proto-spec .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .proto-spec .v { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin-top: 3px; }
+  .proto-detail .when { background: rgba(56,176,224,0.08); border-left: 3px solid var(--sky); padding: 12px 16px; margin: 14px 0; }
+  .proto-detail .when h5 { margin: 0 0 4px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .proto-detail .when p { margin: 0; font-size: 13px; color: var(--ink); }
+  .proto-detail .trap { background: rgba(224,184,64,0.10); border-left: 3px solid var(--gold); padding: 12px 16px; margin: 14px 0; }
+  .proto-detail .trap h5 { margin: 0 0 4px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); font-weight: 700; }
+  .proto-detail .trap p { margin: 0; font-size: 13px; color: var(--ink); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ROUND ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .channel-buttons { grid-template-columns: repeat(6, 1fr); }
+    .proto-grid { grid-template-columns: 1fr; }
+    .proto-specs { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.3 Wireless</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 2.3 · Wireless Devices &amp; Technologies</div>
+    <h1>How Wi-Fi <em>shares the air.</em></h1>
+    <p class="lede">Wireless networks aren't just "Ethernet without cables." Every AP shares a slice of radio spectrum with every other AP in earshot — and with microwaves, Bluetooth, and old cordless phones. This artifact teaches you to plan channels properly (1/6/11 in 2.4 GHz), pick the right Wi-Fi generation, configure security (WPA2/WPA3, Personal vs Enterprise), choose antennas for the job, and design coverage that supports roaming.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">2.4 GHz</span><span class="desc">Long range, 3 non-overlap channels: 1 · 6 · 11</span></div>
+    <div class="ref-row"><span class="name">5 GHz</span><span class="desc">Higher throughput, ~24 non-overlap, less interference</span></div>
+    <div class="ref-row"><span class="name">6 GHz</span><span class="desc">New band (Wi-Fi 6E+), no legacy clutter</span></div>
+    <div class="ref-row"><span class="name">Wi-Fi 4</span><span class="desc">802.11n · 2.4 + 5 GHz · MIMO intro</span></div>
+    <div class="ref-row"><span class="name">Wi-Fi 5</span><span class="desc">802.11ac · 5 GHz only · MU-MIMO downlink</span></div>
+    <div class="ref-row"><span class="name">Wi-Fi 6</span><span class="desc">802.11ax · 2.4 + 5 GHz · OFDMA</span></div>
+    <div class="ref-row"><span class="name">Wi-Fi 6E</span><span class="desc">Wi-Fi 6 + 6 GHz band</span></div>
+    <div class="ref-row"><span class="name">WPA3</span><span class="desc">SAE replaces PSK · PMF mandatory</span></div>
+    <div class="footer-note">
+      <b>EXAM MUST-KNOW</b><br>
+      2.4 GHz non-overlapping: <b>1, 6, 11</b>.<br>
+      Wi-Fi 5 (ac) is <b>5 GHz only</b>.<br>
+      WPA3 personal uses <b>SAE</b>, not PSK.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">7</div><div class="label">Wi-Fi generations covered</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Frequency bands · 2.4/5/6 GHz</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="planner"><span class="num">02</span>Channel Planner</button>
+  <button class="tab" data-tab="standards"><span class="num">03</span>Standards Comparator</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Design Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Wireless networking is layered: radios occupy <b>frequency bands</b> (2.4/5/6 GHz), divided into <b>channels</b>, transmitting frames according to a <b>standard</b> (Wi-Fi 4/5/6/6E/7), with traffic secured by an <b>authentication and encryption stack</b> (WPA2/WPA3). Access points come in two flavors: standalone (autonomous) or centrally managed (controller-based). Add antenna selection and proper placement for coverage planning.</p>
+
+  <div class="section-head">Frequency Bands — The Big Three</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">2.4 GHz</div>
+      <h4>Long range, crowded</h4>
+      <p>Range: ~300 ft indoors. Penetrates walls well. <b>Only 3 non-overlapping channels (1, 6, 11)</b> in the US, 13 channels available but they overlap heavily.</p>
+      <p><span class="accent">CROWDED:</span> Bluetooth, microwave ovens, cordless phones, baby monitors, and every neighbor's Wi-Fi.</p>
+      <p><span class="accent">CHANNELS:</span> 1-11 (US), 1-13 (EU), 1-14 (Japan, ch 14 only for 802.11b).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">5 GHz</div>
+      <h4>Higher throughput, shorter range</h4>
+      <p>Range: ~150 ft indoors. Worse wall penetration. <b>~24 non-overlapping 20 MHz channels.</b> Much less interference because fewer consumer devices use it.</p>
+      <p><span class="accent">DFS:</span> Many 5 GHz channels are shared with radar. APs must use Dynamic Frequency Selection — listen for radar, vacate the channel if detected.</p>
+      <p><span class="accent">WIDTH:</span> Supports 40/80/160 MHz channel widths for higher throughput.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">6 GHz · Wi-Fi 6E+</div>
+      <h4>New, uncluttered, fast</h4>
+      <p>Range: similar to 5 GHz, slightly worse. <b>~59 non-overlapping 20 MHz channels.</b> No legacy devices — only Wi-Fi 6E and Wi-Fi 7 capable clients.</p>
+      <p><span class="accent">WIDTH:</span> Supports up to 320 MHz channel widths (Wi-Fi 7).</p>
+      <p><span class="accent">CATCH:</span> Worse wall penetration than 5 GHz. Limited client adoption (only Wi-Fi 6E+).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CHANNEL WIDTH</div>
+      <h4>Wider = faster but greedier</h4>
+      <p>Default is 20 MHz. Wider channels (40/80/160 MHz) provide higher throughput but use more spectrum — fewer non-overlapping channels available.</p>
+      <p><span class="accent">2.4 GHz:</span> Avoid 40 MHz. Only one 40 MHz channel fits without overlap.</p>
+      <p><span class="accent">5 GHz:</span> 80 MHz is standard. 160 MHz where supported by clients and free spectrum.</p>
+    </div>
+  </div>
+
+  <div class="section-head">802.11 Standards (Wi-Fi Generations)</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Standard</th><th>Wi-Fi #</th><th>Bands</th><th>Max throughput</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">802.11a</td><td class="num">—</td><td class="num">5 GHz only</td><td class="num">54 Mbps</td><td>1999. Original 5 GHz.</td></tr>
+      <tr><td class="label">802.11b</td><td class="num">—</td><td class="num">2.4 GHz only</td><td class="num">11 Mbps</td><td>1999. DSSS. The slow one.</td></tr>
+      <tr><td class="label">802.11g</td><td class="num">—</td><td class="num">2.4 GHz only</td><td class="num">54 Mbps</td><td>2003. Backwards compat with b.</td></tr>
+      <tr><td class="label">802.11n</td><td class="num">Wi-Fi 4</td><td class="num">2.4 + 5 GHz</td><td class="num">~600 Mbps</td><td>2009. First MIMO + first dual-band.</td></tr>
+      <tr><td class="label">802.11ac</td><td class="num">Wi-Fi 5</td><td class="num">5 GHz only</td><td class="num">~3.5 Gbps</td><td>2013. Downlink MU-MIMO. Gigabit Wi-Fi.</td></tr>
+      <tr><td class="label">802.11ax</td><td class="num">Wi-Fi 6</td><td class="num">2.4 + 5 GHz</td><td class="num">~9.6 Gbps</td><td>2019. OFDMA. Uplink MU-MIMO.</td></tr>
+      <tr><td class="label">802.11ax (6E)</td><td class="num">Wi-Fi 6E</td><td class="num">2.4 + 5 + 6 GHz</td><td class="num">~9.6 Gbps</td><td>2021. Same standard, 6 GHz added.</td></tr>
+      <tr><td class="label">802.11be</td><td class="num">Wi-Fi 7</td><td class="num">2.4 + 5 + 6 GHz</td><td class="num">~46 Gbps</td><td>2024. MLO, 320 MHz channels, 4K-QAM.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">SSIDs, BSSIDs, and ESSIDs</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SSID</div>
+      <h4>The network name you see</h4>
+      <p>"Service Set Identifier" — the human-readable network name (e.g., "CBT-WiFi"). Up to 32 characters. Can be hidden (not broadcast in beacons), but that's <b>not</b> a security feature — easily discovered by sniffing.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BSSID</div>
+      <h4>One specific AP's MAC</h4>
+      <p>"Basic Service Set Identifier" — the MAC address of a specific AP radio. One BSSID per AP per band. Clients see this in the air; users see only the SSID.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ESSID</div>
+      <h4>The roaming group</h4>
+      <p>"Extended Service Set Identifier" — multiple APs sharing the same SSID act as one roaming domain. A client moves between BSSIDs (APs) without seeing the network name change.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MULTI-SSID</div>
+      <h4>One AP, many networks</h4>
+      <p>One physical AP can broadcast multiple SSIDs (Corporate, Guest, IoT) each mapped to a different VLAN. Each gets its own BSSID. Common in enterprise to segregate traffic.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Security — WPA Generations</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Standard</th><th>Year</th><th>Encryption</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">WEP</td><td class="num">1997</td><td class="num">RC4 (broken)</td><td>NEVER USE — crackable in minutes</td></tr>
+      <tr><td class="label">WPA</td><td class="num">2003</td><td class="num">TKIP</td><td>Deprecated — temporary fix between WEP and WPA2</td></tr>
+      <tr><td class="label">WPA2</td><td class="num">2004</td><td class="num">AES-CCMP</td><td>Still widely used. Personal (PSK) or Enterprise (802.1X).</td></tr>
+      <tr><td class="label">WPA3</td><td class="num">2018</td><td class="num">AES-GCMP / SAE</td><td>Current standard. Mandatory PMF, SAE replaces 4-way PSK handshake.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PERSONAL</div>
+      <h4>One shared password</h4>
+      <p>WPA2-Personal uses a pre-shared key (PSK) — everyone uses the same password. WPA3-Personal replaces PSK with <b>SAE (Simultaneous Authentication of Equals)</b>, resistant to offline dictionary attacks.</p>
+      <p><span class="accent">USE:</span> Home networks. Small offices without a directory.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ENTERPRISE</div>
+      <h4>Per-user authentication</h4>
+      <p>WPA2/WPA3-Enterprise uses 802.1X — each user authenticates against a RADIUS server with their own credentials (typically Active Directory). When someone leaves, you disable their account, not change a shared password.</p>
+      <p><span class="accent">USE:</span> Any organization with a directory. Healthcare, education, business.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PMF</div>
+      <h4>Protected Management Frames</h4>
+      <p>Encrypts management frames (disassociation, deauthentication). Stops deauth attacks that knock clients off Wi-Fi. <b>Mandatory in WPA3</b>, optional in WPA2.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">EAP TYPES</div>
+      <h4>How Enterprise auths</h4>
+      <p><b>EAP-TLS:</b> Cert on both server and client. Most secure. Common in BYOD-strict environments.<br>
+      <b>PEAP:</b> Server cert only; client password (often MSCHAPv2). Common in Windows shops.<br>
+      <b>EAP-FAST:</b> Cisco. Replaces older LEAP. Uses a Protected Access Credential.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Antennas</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">OMNIDIRECTIONAL</div>
+      <h4>360° in the horizontal plane</h4>
+      <p>Default for most APs. Signal radiates outward in a "donut" pattern (no signal directly above or below). Good for general coverage of a room or floor.</p>
+      <p><span class="accent">USE:</span> Standard indoor AP coverage. Most ceiling-mount APs.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DIRECTIONAL · YAGI</div>
+      <h4>Pencil-beam, medium gain</h4>
+      <p>Focused signal in one direction. Looks like a TV antenna. Used for point-to-point bridges between buildings up to a few miles apart.</p>
+      <p><span class="accent">USE:</span> Linking two buildings on a campus. Outdoor line-of-sight.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DIRECTIONAL · PARABOLIC</div>
+      <h4>Highest gain, narrow beam</h4>
+      <p>Dish-shaped, focuses signal extremely narrow. Used for long-distance point-to-point links over many miles.</p>
+      <p><span class="accent">USE:</span> Wireless ISP backhaul. Multi-mile bridges with line of sight.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PATCH / PANEL</div>
+      <h4>Sector coverage</h4>
+      <p>Flat panel that radiates in a defined sector (e.g., 60°-120° forward). Mounted on walls to cover a specific area (warehouse aisle, classroom).</p>
+      <p><span class="accent">USE:</span> Indoor wall mount with directional coverage. Carrier base station sectors.</p>
+    </div>
+  </div>
+
+  <div class="section-head">AP Architecture — Autonomous vs Controller-Based</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">AUTONOMOUS</div>
+      <h4>Standalone, configured one at a time</h4>
+      <p>Each AP has its own config — SSID, security, VLANs, channel. No central controller. Manageable up to maybe 5-10 APs.</p>
+      <p><span class="accent">USE:</span> Small office or single-site home installations.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CONTROLLER-BASED</div>
+      <h4>Lightweight APs + WLC</h4>
+      <p>APs are "thin" — they don't store config. They tunnel back to a <b>Wireless LAN Controller (WLC)</b> using <b>CAPWAP</b>. Controller pushes config, manages roaming, balances load.</p>
+      <p><span class="accent">USE:</span> Anything with more than ~10 APs. Hospitals, campuses, hotels.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CLOUD-MANAGED</div>
+      <h4>Controller in the cloud</h4>
+      <p>Modern variant — APs report to a cloud dashboard (Cisco Meraki, Ubiquiti UniFi Cloud, Aruba Central). No on-prem controller needed. Easy multi-site management.</p>
+      <p><span class="accent">USE:</span> Distributed branches, lean IT teams.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CAPWAP</div>
+      <h4>The thin-AP control protocol</h4>
+      <p>"Control and Provisioning of Wireless Access Points" — RFC 5415. Encapsulates AP-to-controller traffic. Replaced older LWAPP. Runs over UDP 5246 (control) and 5247 (data).</p>
+    </div>
+  </div>
+
+  <div class="section-head">MIMO, MU-MIMO, OFDMA</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">MIMO</div>
+      <h4>Multiple antennas, one client at a time</h4>
+      <p>"Multiple Input Multiple Output" — uses multiple antennas to send/receive multiple data streams simultaneously to ONE client at a time. Introduced in 802.11n. Increases throughput per client.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MU-MIMO</div>
+      <h4>Multiple clients, simultaneously</h4>
+      <p>"Multi-User MIMO" — same time slot, different spatial streams to DIFFERENT clients. Wi-Fi 5 added downlink MU-MIMO. Wi-Fi 6 added uplink MU-MIMO.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">OFDMA</div>
+      <h4>Sub-channels per client</h4>
+      <p>"Orthogonal Frequency-Division Multiple Access" — splits a channel into sub-channels (resource units) that can be assigned to different clients simultaneously. Introduced in Wi-Fi 6 (802.11ax). Massive improvement for dense environments with many small clients.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BEAMFORMING</div>
+      <h4>Directional signal shaping</h4>
+      <p>The AP electronically focuses signal toward a specific client instead of radiating equally. Improves range and reliability. Standardized in 802.11ac.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Roaming &amp; Site Surveys</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">ROAMING BASICS</div>
+      <h4>Same SSID, overlapping coverage</h4>
+      <p>For seamless roaming, all APs must broadcast the <b>same SSID</b> and have <b>overlapping coverage zones</b> (~15-20% overlap). The client decides when to switch to a stronger AP.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">FAST TRANSITION</div>
+      <h4>802.11r, k, v</h4>
+      <p><b>802.11r:</b> Fast BSS Transition — skip 4-way handshake on roaming. Critical for VoIP.<br>
+      <b>802.11k:</b> Neighbor reports — AP tells the client about nearby APs.<br>
+      <b>802.11v:</b> BSS transition management — AP can suggest the client should move.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SITE SURVEY</div>
+      <h4>Plan before you deploy</h4>
+      <p>A walk-through measurement of signal strength, interference, and AP placement before deployment. Produces a <b>heat map</b> showing coverage. Tools: Ekahau, NetSpot, AirMagnet.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CAPTIVE PORTAL</div>
+      <h4>The "agree to terms" page</h4>
+      <p>Intercepts new clients and forces them through a web page (terms, login, hotel room number) before they get internet. Common in hotels, airports, guest networks.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>2.4 GHz non-overlapping channels are ONLY 1, 6, and 11.</b> Any other combination overlaps. Memorize this.</li>
+    <li><b>Wi-Fi 5 (802.11ac) is 5 GHz only.</b> 802.11a is also 5 GHz only. Both end in "a" — useful mnemonic.</li>
+    <li><b>Wi-Fi generation numbers started with 802.11n = Wi-Fi 4.</b> 802.11a/b/g have no generation number.</li>
+    <li><b>WPA3-Personal uses SAE, not PSK.</b> SAE = Simultaneous Authentication of Equals (Dragonfly handshake). Replaces the vulnerable 4-way PSK handshake.</li>
+    <li><b>Hidden SSID is NOT security.</b> Easily discovered by sniffing the air. Real security is WPA2/WPA3 + good password.</li>
+    <li><b>Enterprise = 802.1X + RADIUS.</b> Personal = pre-shared key (or SAE in WPA3).</li>
+    <li><b>Yagi and parabolic = directional</b> (point-to-point). <b>Omnidirectional</b> is default for AP coverage.</li>
+    <li><b>CAPWAP = thin AP to controller protocol.</b> Without controller, APs are autonomous and configured individually.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · CHANNEL PLANNER ============== -->
+<section class="panel" id="panel-planner">
+  <h2>The <em>1, 6, 11</em> rule made visible.</h2>
+  <p>Each 2.4 GHz channel is <b>22 MHz wide</b>, but channel centers are spaced only <b>5 MHz apart</b>. Two channels overlap if their numeric difference is less than 5. <b>Click channel numbers below to deploy APs</b> — the spectrum visualization will show overlap in real time. The verdict below tells you whether your channel plan is conflict-free, has adjacent-channel interference, or has co-channel collisions.</p>
+
+  <div class="planner-wrap">
+    <h3>2.4 GHz Channel Planner</h3>
+    <p style="margin-bottom: 6px;">Click a channel number to toggle an AP on/off. Up to 4 APs.</p>
+
+    <div class="channel-buttons" id="channelButtons">
+      <!-- Dynamically rendered -->
+    </div>
+
+    <div class="spectrum-canvas">
+      <svg class="spectrum-svg" id="spectrumSvg" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Frequency axis (bottom) -->
+        <line x1="40" y1="160" x2="660" y2="160" stroke="#404758" stroke-width="2"/>
+        <text x="40" y="185" font-family="JetBrains Mono" font-size="11" fill="#404758">2.401 GHz</text>
+        <text x="660" y="185" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#404758">2.473 GHz</text>
+        <text x="350" y="185" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#767E92" font-style="italic">2.4 GHz ISM band · 72 MHz wide</text>
+
+        <!-- Channel tick marks (will be drawn dynamically) -->
+        <g id="channelTicks"></g>
+
+        <!-- AP footprints (drawn dynamically) -->
+        <g id="apFootprints"></g>
+      </svg>
+    </div>
+
+    <div class="verdict-box empty" id="plannerVerdict">
+      <div>Click channel buttons above to deploy APs and see the analysis.</div>
+    </div>
+
+    <div class="button-bar">
+      <button class="btn-primary" onclick="setPreset('best')">Best practice (1, 6, 11)</button>
+      <button class="btn-secondary" onclick="setPreset('overlap')">Bad plan (1, 4, 8, 11)</button>
+      <button class="btn-secondary" onclick="setPreset('cochannel')">Co-channel (6, 6, 6)</button>
+      <button class="btn-secondary" onclick="setPreset('messy')">Messy (3, 7, 9)</button>
+      <button class="btn-secondary" onclick="setPreset('clear')">Clear all</button>
+    </div>
+  </div>
+
+  <div class="planner-secondary">
+    <h4>5 GHz Comparison · Why It's Easier</h4>
+    <p style="margin: 0 0 8px;">5 GHz has <b>~24 non-overlapping 20 MHz channels</b> in the US. Even with 80 MHz wide channels (more throughput), you still get ~6 non-overlapping channels — plenty for a dense AP deployment.</p>
+    <svg class="ghz5-svg" viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="100" x2="660" y2="100" stroke="#404758" stroke-width="2"/>
+      <text x="40" y="125" font-family="JetBrains Mono" font-size="11" fill="#404758">5.150 GHz</text>
+      <text x="660" y="125" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#404758">5.825 GHz</text>
+      <!-- Draw 24 channel slots -->
+      <g id="ghz5Channels"></g>
+      <text x="350" y="22" text-anchor="middle" font-family="Bricolage Grotesque" font-size="13" font-weight="700" fill="#283068">24 non-overlapping 20 MHz channels</text>
+      <text x="350" y="40" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#767E92" font-style="italic">Shaded = DFS channels (must yield to radar)</text>
+    </svg>
+  </div>
+
+  <h3 style="margin-top: 32px;">How to read this</h3>
+  <ul>
+    <li><b>Best practice (1, 6, 11)</b> — three APs each get a clean 22 MHz of spectrum with no overlap. Maximum capacity in 2.4 GHz.</li>
+    <li><b>Adjacent-channel interference</b> — two APs on nearby (but not same) channels (e.g., 1 and 4) overlap in frequency. Both APs end up wasting airtime fighting through each other's signal.</li>
+    <li><b>Co-channel interference</b> — two APs on the SAME channel. Slightly less bad than adjacent-channel because the radios coordinate via CSMA/CA (they take turns), but capacity is halved.</li>
+    <li><b>5 GHz is just easier.</b> Plenty of channels, less consumer device clutter. Plan with 80 MHz wide channels in mind for most enterprise deployments.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · STANDARDS COMPARATOR ============== -->
+<section class="panel" id="panel-standards">
+  <h2>The <em>seven generations</em> of Wi-Fi.</h2>
+  <p>Click any standard below to see its specs, band(s), key feature introductions, and the most common exam trap. Pay particular attention to the <b>band</b> column — 802.11a, 802.11ac (Wi-Fi 5), and the original 802.11 spec all use 5 GHz only. 802.11b/g are 2.4 GHz only. Everything from Wi-Fi 4 (n) onward is dual-band.</p>
+
+  <div class="proto-grid">
+    <div class="proto-list">
+      <button class="proto-btn active" data-proto="abg">
+        <div class="pname">802.11 a / b / g</div>
+        <div class="pfull">The legacy trio</div>
+      </button>
+      <button class="proto-btn" data-proto="n">
+        <div class="pname">Wi-Fi 4 · 802.11n</div>
+        <div class="pfull">First dual-band + MIMO</div>
+      </button>
+      <button class="proto-btn" data-proto="ac">
+        <div class="pname">Wi-Fi 5 · 802.11ac</div>
+        <div class="pfull">5 GHz only · Gigabit Wi-Fi</div>
+      </button>
+      <button class="proto-btn" data-proto="ax">
+        <div class="pname">Wi-Fi 6 · 802.11ax</div>
+        <div class="pfull">OFDMA + uplink MU-MIMO</div>
+      </button>
+      <button class="proto-btn" data-proto="ax6e">
+        <div class="pname">Wi-Fi 6E</div>
+        <div class="pfull">Wi-Fi 6 + 6 GHz band</div>
+      </button>
+      <button class="proto-btn" data-proto="be">
+        <div class="pname">Wi-Fi 7 · 802.11be</div>
+        <div class="pfull">Multi-link, 320 MHz, 4K-QAM</div>
+      </button>
+    </div>
+
+    <div class="proto-detail" id="protoDetail"></div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Wireless <em>design scenarios.</em></h2>
+  <p>Six scenarios mixing channel planning, antenna selection, security choice, band selection, AP placement, and authentication design. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KNOWLEDGE CHECK ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 2.3: 802.11 standards, bands and channels, WPA versions, EAP types, antennas, AP architectures, and roaming.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ROUND ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire wireless questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+
+    <div class="lr-timer" id="lrTimer">30</div>
+
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 2.3: Wireless Devices and Technologies. Covers 802.11 standards, frequency bands and channel planning, security (WPA2/WPA3 Personal and Enterprise), EAP types, antenna selection, AP architecture (autonomous vs controller-based), and roaming.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 2 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab to absorb the concepts.</p>
+      <p>· Use the Channel Planner to internalize 1/6/11.</p>
+      <p>· Compare Wi-Fi generations side by side.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair this artifact with the 2.3 quiz in Canvas, the 2.1 Routing artifact, the 2.2 Switching artifact, and the Domain 1 media/transceivers prerequisite.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 2.3 · Wireless Devices &amp; Technologies</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · CHANNEL PLANNER ============== */
+// 2.4 GHz channels 1-11 (US). Center freq = 2412 + (ch-1)*5 MHz. Each 22 MHz wide.
+// SVG viewbox: x=40 to x=660 represents 2401 MHz to 2473 MHz (72 MHz of spectrum).
+// 620 SVG units / 72 MHz = 8.611 units per MHz.
+
+var SVG_X_START = 40;
+var SVG_X_END = 660;
+var FREQ_START = 2401;
+var FREQ_END = 2473;
+var SPECTRUM_WIDTH = SVG_X_END - SVG_X_START;
+var FREQ_WIDTH = FREQ_END - FREQ_START;
+
+function freqToX(mhz) {
+  return SVG_X_START + (mhz - FREQ_START) / FREQ_WIDTH * SPECTRUM_WIDTH;
+}
+
+function channelCenter(ch) {
+  return 2412 + (ch - 1) * 5;
+}
+
+var AP_COLORS = ['var(--sky)', 'var(--gold)', 'var(--green)', 'var(--red)'];
+var AP_COLOR_HEX = ['#38B0E0', '#E0B840', '#2A6049', '#8E1F2E'];
+var AP_COLOR_NAMES = ['blue', 'gold', 'green', 'red'];
+
+var deployedAPs = []; // array of {ch: int, slot: int}
+
+function renderChannelButtons() {
+  var grid = document.getElementById('channelButtons');
+  var html = '';
+  for (var ch = 1; ch <= 11; ch++) {
+    var deployed = deployedAPs.find(function(ap) { return ap.ch === ch; });
+    var cls = deployed ? ('ch-btn deployed-' + (deployed.slot + 1)) : 'ch-btn';
+    html += '<button class="' + cls + '" data-ch="' + ch + '">' + ch + '</button>';
+  }
+  grid.innerHTML = html;
+  grid.querySelectorAll('.ch-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      toggleChannel(parseInt(btn.dataset.ch, 10));
+    });
+  });
+}
+
+function toggleChannel(ch) {
+  var existingIdx = deployedAPs.findIndex(function(ap) { return ap.ch === ch; });
+  if (existingIdx >= 0) {
+    deployedAPs.splice(existingIdx, 1);
+    // Reassign slot numbers
+    deployedAPs.forEach(function(ap, i) { ap.slot = i; });
+  } else {
+    if (deployedAPs.length >= 4) {
+      deployedAPs.shift(); // remove oldest
+      deployedAPs.forEach(function(ap, i) { ap.slot = i; });
+    }
+    deployedAPs.push({ ch: ch, slot: deployedAPs.length });
+  }
+  renderChannelButtons();
+  renderSpectrum();
+  renderVerdict();
+}
+
+function renderChannelTicks() {
+  var ticks = document.getElementById('channelTicks');
+  var html = '';
+  for (var ch = 1; ch <= 11; ch++) {
+    var x = freqToX(channelCenter(ch));
+    html += '<line x1="' + x + '" y1="158" x2="' + x + '" y2="166" stroke="#404758" stroke-width="1.5"/>';
+    html += '<text x="' + x + '" y="155" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#404758">ch ' + ch + '</text>';
+  }
+  ticks.innerHTML = html;
+}
+
+function renderSpectrum() {
+  var fp = document.getElementById('apFootprints');
+  var html = '';
+  deployedAPs.forEach(function(ap, idx) {
+    var center = channelCenter(ap.ch);
+    var xLeft = freqToX(center - 11); // 22 MHz wide, ±11 from center
+    var xRight = freqToX(center + 11);
+    var width = xRight - xLeft;
+    // Stack vertically — y position based on slot
+    var yTop = 30 + (idx * 28);
+    var height = 22;
+    var color = AP_COLOR_HEX[ap.slot];
+    html += '<rect x="' + xLeft + '" y="' + yTop + '" width="' + width + '" height="' + height + '" ' +
+      'fill="' + color + '" fill-opacity="0.4" stroke="' + color + '" stroke-width="2"/>';
+    var labelX = freqToX(center);
+    html += '<text x="' + labelX + '" y="' + (yTop + 15) + '" text-anchor="middle" ' +
+      'font-family="JetBrains Mono" font-size="11" fill="' + color + '" font-weight="700">AP' + (idx + 1) + ' · ch ' + ap.ch + '</text>';
+  });
+  fp.innerHTML = html;
+}
+
+function renderVerdict() {
+  var box = document.getElementById('plannerVerdict');
+  if (deployedAPs.length === 0) {
+    box.className = 'verdict-box empty';
+    box.innerHTML = '<div>Click channel buttons above to deploy APs and see the analysis.</div>';
+    return;
+  }
+
+  var conflicts = [];
+  for (var i = 0; i < deployedAPs.length; i++) {
+    for (var j = i + 1; j < deployedAPs.length; j++) {
+      var a = deployedAPs[i], b = deployedAPs[j];
+      var diff = Math.abs(a.ch - b.ch);
+      if (diff === 0) {
+        conflicts.push({ type: 'co', a: a, b: b, diff: diff });
+      } else if (diff < 5) {
+        conflicts.push({ type: 'adj', a: a, b: b, diff: diff });
+      }
+    }
+  }
+
+  if (conflicts.length === 0) {
+    box.className = 'verdict-box good';
+    var chList = deployedAPs.map(function(ap) { return 'ch ' + ap.ch; }).join(', ');
+    box.innerHTML = '<div>✓ CONFLICT-FREE PLAN — ' + chList + ' have no overlap. Maximum spectral efficiency.</div>';
+    return;
+  }
+
+  // Build conflict description
+  box.className = 'verdict-box bad';
+  var coConflicts = conflicts.filter(function(c) { return c.type === 'co'; });
+  var adjConflicts = conflicts.filter(function(c) { return c.type === 'adj'; });
+  var msgs = [];
+  if (coConflicts.length > 0) {
+    coConflicts.forEach(function(c) {
+      msgs.push('Co-channel: APs on the same channel ' + c.a.ch + ' — they must share airtime (CSMA/CA)');
+    });
+  }
+  if (adjConflicts.length > 0) {
+    adjConflicts.forEach(function(c) {
+      var freqDiff = c.diff * 5;
+      msgs.push('Adjacent-channel: ch ' + c.a.ch + ' and ch ' + c.b.ch + ' centers only ' + freqDiff + ' MHz apart (need ≥25 MHz)');
+    });
+  }
+  box.innerHTML = '<div>⚠ INTERFERENCE DETECTED — ' + conflicts.length + ' conflict(s):</div>' +
+    '<ul>' + msgs.map(function(m) { return '<li>' + m + '</li>'; }).join('') + '</ul>';
+}
+
+function setPreset(name) {
+  deployedAPs = [];
+  if (name === 'best') {
+    deployedAPs = [{ch: 1, slot: 0}, {ch: 6, slot: 1}, {ch: 11, slot: 2}];
+  } else if (name === 'overlap') {
+    deployedAPs = [{ch: 1, slot: 0}, {ch: 4, slot: 1}, {ch: 8, slot: 2}, {ch: 11, slot: 3}];
+  } else if (name === 'cochannel') {
+    // Can't have three APs on the same channel in this UI (toggle), but illustrate two on same
+    deployedAPs = [{ch: 6, slot: 0}, {ch: 6, slot: 1}, {ch: 6, slot: 2}];
+  } else if (name === 'messy') {
+    deployedAPs = [{ch: 3, slot: 0}, {ch: 7, slot: 1}, {ch: 9, slot: 2}];
+  }
+  // 'clear' leaves empty
+  renderChannelButtons();
+  renderSpectrum();
+  renderVerdict();
+}
+
+// 5 GHz illustration
+function renderGhz5() {
+  var g = document.getElementById('ghz5Channels');
+  var html = '';
+  // 24 channels representing the major UNII bands. Mark some as DFS.
+  // Channels: 36, 40, 44, 48 (UNII-1), 52, 56, 60, 64 (UNII-2A — DFS),
+  //           100-144 (UNII-2C — DFS, 11 channels), 149, 153, 157, 161, 165 (UNII-3)
+  // We'll lay these out as 24 equal-width bars
+  var dfsRange = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // indices 4..18 (UNII-2A and 2C)
+  var totalChannels = 24;
+  var areaStartX = 40, areaEndX = 660;
+  var areaWidth = areaEndX - areaStartX;
+  var barWidth = areaWidth / totalChannels - 1;
+  for (var i = 0; i < totalChannels; i++) {
+    var x = areaStartX + i * (areaWidth / totalChannels);
+    var isDfs = dfsRange.indexOf(i) >= 0;
+    var fill = isDfs ? '#E0B840' : '#38B0E0';
+    var opacity = isDfs ? 0.35 : 0.6;
+    html += '<rect x="' + x + '" y="60" width="' + barWidth + '" height="35" ' +
+      'fill="' + fill + '" fill-opacity="' + opacity + '" stroke="' + fill + '" stroke-width="1"/>';
+  }
+  g.innerHTML = html;
+}
+
+renderChannelTicks();
+renderChannelButtons();
+renderSpectrum();
+renderVerdict();
+renderGhz5();
+
+/* ============== TAB 3 · STANDARDS COMPARATOR ============== */
+var PROTOCOLS = {
+  'abg': {
+    name: '802.11 a / b / g',
+    full: 'The legacy trio',
+    summary: 'The first generation of widely-deployed Wi-Fi. 802.11b and 802.11g share the 2.4 GHz band (g backwards-compatible with b). 802.11a took the 5 GHz path early but had limited adoption.',
+    specs: { 'Released': '1999-2003', '802.11a': '5 GHz, 54 Mbps', '802.11b': '2.4 GHz, 11 Mbps', '802.11g': '2.4 GHz, 54 Mbps' },
+    when: 'You will never deploy these in new networks. The exam still asks about them — especially that 802.11a is 5 GHz only, while b and g are 2.4 GHz only.',
+    trap: '802.11a is 5 GHz ONLY (54 Mbps). Easy to confuse with 802.11ac (Wi-Fi 5) which is also 5 GHz only. Difference: 802.11a is slow legacy, 802.11ac is modern gigabit. Both end in "a" — they\'re both 5 GHz only.'
+  },
+  'n': {
+    name: 'Wi-Fi 4 · 802.11n',
+    full: 'First dual-band + MIMO',
+    summary: '2009. First standard to support both 2.4 GHz and 5 GHz. Introduced MIMO (Multiple Input Multiple Output) for higher throughput per client.',
+    specs: { 'Released': '2009', 'Bands': '2.4 + 5 GHz', 'Max throughput': '~600 Mbps', 'Key feature': 'MIMO, 40 MHz channels' },
+    when: 'Older deployments still in service. Most laptops 2009-2014 are Wi-Fi 4. Mostly being replaced by Wi-Fi 5/6 in enterprise refresh cycles.',
+    trap: 'Wi-Fi 4 was the FIRST generation given a number. Earlier standards (a/b/g) have no Wi-Fi generation number. If a question asks "the first Wi-Fi generation" — that\'s Wi-Fi 4 / 802.11n, not 802.11a.'
+  },
+  'ac': {
+    name: 'Wi-Fi 5 · 802.11ac',
+    full: '5 GHz only · Gigabit Wi-Fi',
+    summary: '2013. The first gigabit Wi-Fi. Operates only on 5 GHz with wider channels (40/80/160 MHz). Introduced downlink MU-MIMO. Backwards-compat clients on 2.4 GHz use Wi-Fi 4 (n).',
+    specs: { 'Released': '2013', 'Bands': '5 GHz only', 'Max throughput': '~3.5 Gbps', 'Key feature': 'MU-MIMO (downlink), 80/160 MHz' },
+    when: 'Workhorse of enterprise Wi-Fi from 2014-2020. Still very common. Most modern devices support it. Being replaced by Wi-Fi 6 in new deployments.',
+    trap: 'Wi-Fi 5 is <b>5 GHz ONLY</b>. Despite being the dominant standard, it cannot serve 2.4 GHz clients — those fall back to Wi-Fi 4 on the same AP. Often tested: "client connects at Wi-Fi 5 speeds" → must be on 5 GHz.'
+  },
+  'ax': {
+    name: 'Wi-Fi 6 · 802.11ax',
+    full: 'OFDMA + uplink MU-MIMO',
+    summary: '2019. Dual-band again (2.4 + 5 GHz). Major efficiency improvements for high-density environments via OFDMA. Adds uplink MU-MIMO (Wi-Fi 5 was downlink only). Better for crowded venues.',
+    specs: { 'Released': '2019', 'Bands': '2.4 + 5 GHz', 'Max throughput': '~9.6 Gbps', 'Key feature': 'OFDMA, uplink MU-MIMO, target wake time' },
+    when: 'New enterprise deployments. High-density environments (stadiums, conference centers, schools, hospitals) benefit most. 2020+ flagship laptops and phones support it.',
+    trap: 'Wi-Fi 6 alone does NOT include the 6 GHz band — that\'s Wi-Fi 6E. Don\'t confuse "Wi-Fi 6" with "6 GHz." Wi-Fi 6 = 802.11ax in 2.4 + 5 GHz. Wi-Fi 6E = same standard + 6 GHz added.'
+  },
+  'ax6e': {
+    name: 'Wi-Fi 6E',
+    full: 'Wi-Fi 6 + 6 GHz band',
+    summary: '2021. Same 802.11ax standard, extended into the newly-opened 6 GHz spectrum. The 6 GHz band has no legacy clutter (only Wi-Fi 6E+ clients use it) and provides 59 non-overlapping 20 MHz channels.',
+    specs: { 'Released': '2021', 'Bands': '2.4 + 5 + 6 GHz', 'Max throughput': '~9.6 Gbps', 'Key feature': '6 GHz band (clean spectrum)' },
+    when: 'Current enterprise sweet spot. Excellent for high-throughput, low-interference deployments. Client adoption is growing but not yet universal.',
+    trap: 'The "E" in Wi-Fi 6E stands for "Extended" — extended into the 6 GHz spectrum. The IEEE standard is still 802.11ax. The only thing that changed is regulatory access to the 6 GHz band.'
+  },
+  'be': {
+    name: 'Wi-Fi 7 · 802.11be',
+    full: 'Multi-link, 320 MHz, 4K-QAM',
+    summary: '2024. Tri-band (2.4 + 5 + 6 GHz). Introduces Multi-Link Operation (MLO) — a client can use multiple bands simultaneously. 320 MHz channels in 6 GHz. 4096-QAM modulation. Designed for low-latency apps (AR/VR, real-time gaming, industrial).',
+    specs: { 'Released': '2024', 'Bands': '2.4 + 5 + 6 GHz', 'Max throughput': '~46 Gbps', 'Key feature': 'MLO, 320 MHz, 4K-QAM' },
+    when: 'Cutting edge. Rolling out in flagship devices and high-end APs. Most production networks won\'t see it as a default until 2027+.',
+    trap: 'Wi-Fi 7 is NOT in the N10-009 official objectives explicitly — those go up to Wi-Fi 6E. But it\'s become reality and worth knowing. Multi-Link Operation (MLO) is the standout feature: a client can bond 2.4 GHz + 5 GHz + 6 GHz simultaneously for one connection.'
+  }
+};
+
+function renderProtocol(key) {
+  var p = PROTOCOLS[key];
+  var detail = document.getElementById('protoDetail');
+  var specsHTML = '';
+  Object.keys(p.specs).forEach(function(k) {
+    specsHTML += '<div class="proto-spec"><div class="k">' + k + '</div><div class="v">' + p.specs[k] + '</div></div>';
+  });
+
+  detail.innerHTML = '<h3>' + p.name + '<em>' + p.full + '</em></h3>' +
+    '<p class="summary">' + p.summary + '</p>' +
+    '<div class="proto-specs">' + specsHTML + '</div>' +
+    '<div class="when"><h5>★ When you\'d encounter it</h5><p>' + p.when + '</p></div>' +
+    '<div class="trap"><h5>⚠ Common exam trap</h5><p>' + p.trap + '</p></div>';
+}
+
+document.querySelectorAll('.proto-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.proto-btn').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    renderProtocol(b.dataset.proto);
+  });
+});
+renderProtocol('abg');
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'Channel plan',
+    body: 'A coffee shop installs three APs across the seating area. After deployment, customers complain about slow Wi-Fi during busy hours. The technician checks the APs and finds all three set to <b>channel 6</b>. What\'s wrong and what\'s the fix?',
+    choices: [
+      { letter: 'A', text: 'Co-channel interference — three APs on channel 6 must share airtime. Reassign to channels 1, 6, 11', correct: true },
+      { letter: 'B', text: 'Channel 6 is for legacy 802.11b only — upgrade APs to channel 11', correct: false },
+      { letter: 'C', text: 'Three APs is too many for a small space — remove two', correct: false },
+      { letter: 'D', text: 'Channel 6 is in the DFS range — switch to channel 1', correct: false }
+    ],
+    explain: '<b>Co-channel interference</b> happens when multiple APs share the same channel. CSMA/CA forces them to take turns, so capacity is divided among the APs and any clients on that channel. The fix is the classic <b>1, 6, 11</b> distribution — the three non-overlapping 2.4 GHz channels in the US. Each AP gets a clean 22 MHz of spectrum. (DFS is a 5 GHz concept, not 2.4 GHz.)'
+  },
+  {
+    tag: 'Antenna selection',
+    body: 'A campus needs to extend network connectivity from the main building to a remote building <b>1.2 km away</b> with clear line-of-sight between the rooftops. Which antenna type fits both endpoints of the wireless bridge?',
+    choices: [
+      { letter: 'A', text: 'Omnidirectional — 360° coverage at both ends', correct: false },
+      { letter: 'B', text: 'Directional antennas (Yagi or parabolic) — focus signal between the two endpoints', correct: true },
+      { letter: 'C', text: 'Indoor ceiling-mount APs at both ends', correct: false },
+      { letter: 'D', text: 'Hidden SSID with WPA3-Personal', correct: false }
+    ],
+    explain: 'Long-distance point-to-point bridges require <b>directional antennas</b> at both ends — typically Yagi or parabolic dishes. They focus signal in one direction, achieving much higher effective range than omnidirectional. Omnidirectional antennas would waste 99% of their power radiating in unhelpful directions. Line-of-sight is critical for the 1.2 km hop.'
+  },
+  {
+    tag: 'Security selection',
+    body: 'A university wants every student and faculty member to authenticate to Wi-Fi using their <b>existing campus account credentials</b>. When someone leaves the university, their access should be revoked automatically. Which solution fits?',
+    choices: [
+      { letter: 'A', text: 'WPA2-Personal with a shared password posted on the syllabus', correct: false },
+      { letter: 'B', text: 'WPA3-Personal with a shared password', correct: false },
+      { letter: 'C', text: 'WPA2-Enterprise (or WPA3-Enterprise) with 802.1X + RADIUS tied to the campus directory', correct: true },
+      { letter: 'D', text: 'No security — open guest network for everyone', correct: false }
+    ],
+    explain: '<b>Enterprise mode</b> uses 802.1X with a RADIUS server connected to the directory (LDAP, Active Directory). Each user authenticates with their own credentials. When an account is disabled, Wi-Fi access stops automatically. Personal mode (shared password) means changing the password every time someone leaves — impractical at university scale.'
+  },
+  {
+    tag: 'WPA3 mechanics',
+    body: 'A security audit identifies that the company\'s WPA2-Personal password could be captured and cracked offline (via the 4-way handshake). The team upgrades to <b>WPA3-Personal</b>. What change makes this attack much harder?',
+    choices: [
+      { letter: 'A', text: 'WPA3-Personal uses a 32-character password by default', correct: false },
+      { letter: 'B', text: 'WPA3-Personal replaces PSK with SAE (Simultaneous Authentication of Equals) — resistant to offline dictionary attacks', correct: true },
+      { letter: 'C', text: 'WPA3 hides the SSID by default', correct: false },
+      { letter: 'D', text: 'WPA3 uses TKIP instead of AES', correct: false }
+    ],
+    explain: '<b>WPA3-Personal uses SAE</b> (also called Dragonfly handshake) instead of the WPA2 4-way handshake with a PSK. SAE creates a per-session shared secret using a process that doesn\'t expose enough material for an attacker to mount an offline brute-force attack. Even capturing the handshake doesn\'t allow the attacker to test passwords offline. PMF (Protected Management Frames) is also mandatory in WPA3.'
+  },
+  {
+    tag: 'Roaming design',
+    body: 'A hospital deploys Wi-Fi across multiple floors. Nurses using <b>VoIP phones</b> need to walk between rooms without dropping calls. The current deployment has each AP broadcasting a different SSID per floor. What change is needed?',
+    choices: [
+      { letter: 'A', text: 'Use ONE SSID across all APs with overlapping coverage and enable 802.11r fast transition', correct: true },
+      { letter: 'B', text: 'Increase TX power on all APs to maximum', correct: false },
+      { letter: 'C', text: 'Disable WPA2 to speed up association', correct: false },
+      { letter: 'D', text: 'Replace VoIP phones with cellular devices', correct: false }
+    ],
+    explain: 'Seamless roaming requires <b>one SSID across all APs</b> with overlapping coverage zones (~15-20% overlap). Different SSIDs per floor force phones to fully disassociate and reauthenticate when changing networks — too slow for VoIP. <b>802.11r (Fast BSS Transition)</b> skips the 4-way handshake on roaming, critical for sub-50ms handoff that VoIP needs.'
+  },
+  {
+    tag: 'Band selection',
+    body: 'A small office has thick concrete walls between rooms. Users on the far side of the building report intermittent Wi-Fi from the central AP. The AP is dual-band. Which band/configuration is most likely to improve far-room coverage?',
+    choices: [
+      { letter: 'A', text: '5 GHz with maximum channel width (160 MHz)', correct: false },
+      { letter: 'B', text: '2.4 GHz — longer range and better wall penetration', correct: true },
+      { letter: 'C', text: '6 GHz — newest band, best for thick walls', correct: false },
+      { letter: 'D', text: 'Switch to 802.11g for better penetration', correct: false }
+    ],
+    explain: '<b>2.4 GHz penetrates walls better than 5 or 6 GHz</b> — longer wavelength, less attenuation. The tradeoff is lower throughput and more interference, but for a far room with thick concrete walls, the better wall penetration matters more. (Higher channel width on 5 GHz would make things worse — wider channels = lower power per Hz, less reach.) A better fix would be adding a second AP closer to the far rooms, but among the listed options, switching to 2.4 GHz is correct.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'In the 2.4 GHz band, which set of channels is non-overlapping in the United States?',
+    choices: ['1, 4, 7, 10', '1, 5, 9', '1, 6, 11', '2, 6, 10'],
+    correct: 2,
+    explain: '<b>1, 6, 11</b> are the only non-overlapping channels in the 2.4 GHz US band. Channels are spaced 5 MHz apart in center frequency but are 22 MHz wide — they don\'t overlap if their numeric difference is ≥ 5. (1, 6, 11 all differ by 5 or 10.) Any other plan has at least some overlap.'
+  },
+  {
+    q: 'Which Wi-Fi generation introduced OFDMA?',
+    choices: ['Wi-Fi 4 (802.11n)', 'Wi-Fi 5 (802.11ac)', 'Wi-Fi 6 (802.11ax)', 'Wi-Fi 7 (802.11be)'],
+    correct: 2,
+    explain: '<b>Wi-Fi 6 (802.11ax)</b> introduced OFDMA (Orthogonal Frequency-Division Multiple Access), which splits a channel into sub-channels (resource units) that can serve different clients simultaneously. Major efficiency improvement in dense environments. Wi-Fi 5 introduced MU-MIMO (downlink). Wi-Fi 6 added uplink MU-MIMO too.'
+  },
+  {
+    q: 'Which 802.11 standard operates exclusively in the 5 GHz band and delivers gigabit Wi-Fi speeds?',
+    choices: ['802.11g', '802.11n', '802.11ac (Wi-Fi 5)', '802.11ax (Wi-Fi 6)'],
+    correct: 2,
+    explain: '<b>802.11ac (Wi-Fi 5)</b> is 5 GHz only and was the first standard to bring gigabit Wi-Fi. 802.11g is 2.4 GHz only. 802.11n is dual-band. 802.11ax is also dual-band. Don\'t confuse Wi-Fi 5 (ac, modern) with 802.11a (also 5 GHz only but very slow legacy).'
+  },
+  {
+    q: 'What feature does WPA3-Personal use instead of the WPA2-Personal pre-shared key (PSK) 4-way handshake?',
+    choices: ['TKIP encryption', 'Simultaneous Authentication of Equals (SAE)', 'EAP-TLS certificates', 'WPS push-button setup'],
+    correct: 1,
+    explain: 'WPA3-Personal uses <b>SAE (Simultaneous Authentication of Equals)</b>, also called the Dragonfly handshake. It\'s resistant to offline dictionary attacks because the handshake doesn\'t expose information an attacker can use to guess passwords offline. Replaces the vulnerable WPA2 4-way handshake.'
+  },
+  {
+    q: 'A company uses a RADIUS server for wireless authentication, allowing each user to log in with their corporate username and password. What WPA2/WPA3 mode is this?',
+    choices: ['WPA2-Personal', 'WPA2-Enterprise (802.1X)', 'WPA3-SAE', 'WPS Push-Button'],
+    correct: 1,
+    explain: '<b>Enterprise mode (802.1X)</b> uses an external authentication server — typically RADIUS, which often forwards to LDAP or Active Directory. Each user gets per-account credentials. Personal mode uses a single shared password.'
+  },
+  {
+    q: 'Which EAP type uses certificates on BOTH the server and the client?',
+    choices: ['EAP-TLS', 'PEAP', 'EAP-FAST', 'LEAP'],
+    correct: 0,
+    explain: '<b>EAP-TLS</b> requires certificates on both ends — most secure but requires PKI infrastructure to issue and manage client certificates. PEAP uses a server certificate and password client auth. EAP-FAST is Cisco\'s replacement for the broken LEAP, using a Protected Access Credential (PAC) instead of certificates.'
+  },
+  {
+    q: 'A point-to-point wireless link is needed between two buildings 800 meters apart with clear line of sight. Which antenna type is most appropriate?',
+    choices: ['Omnidirectional dipole', 'Yagi or parabolic directional antenna', 'Indoor patch antenna', 'Sector antenna pointing skyward'],
+    correct: 1,
+    explain: '<b>Directional antennas (Yagi or parabolic)</b> focus signal in one direction, providing the gain and range needed for long-distance point-to-point links. Omnidirectional radiates in all directions, wasting power that doesn\'t reach the target.'
+  },
+  {
+    q: 'In a controller-based wireless deployment, what protocol is used between the lightweight APs and the wireless LAN controller?',
+    choices: ['802.1X', 'CAPWAP', 'OSPF', 'STP'],
+    correct: 1,
+    explain: '<b>CAPWAP</b> (Control and Provisioning of Wireless Access Points) is the IETF protocol used by lightweight APs to tunnel control and (optionally) data traffic to the WLC. RFC 5415. Runs over UDP 5246 (control) and 5247 (data). Replaced the older proprietary LWAPP.'
+  },
+  {
+    q: 'A wireless network in a hospital uses one SSID across many APs to support seamless roaming for VoIP phones. What additional 802.11 amendment helps phones hand off between APs without dropping calls?',
+    choices: ['802.11n', '802.11r (Fast BSS Transition)', '802.11s', '802.11ac'],
+    correct: 1,
+    explain: '<b>802.11r (Fast BSS Transition)</b> reduces roaming time by caching authentication keys, allowing phones to skip the full 4-way handshake when moving between APs. Sub-50ms roaming, critical for VoIP. 802.11k provides neighbor reports; 802.11v helps APs suggest client transitions.'
+  },
+  {
+    q: 'Which of the following is NOT a security benefit of WPA3?',
+    choices: [
+      'Mandatory Protected Management Frames (PMF)',
+      'SAE handshake resistant to offline attacks',
+      'Forward secrecy for encrypted sessions',
+      'Automatic SSID hiding for stealth'
+    ],
+    correct: 3,
+    explain: '<b>WPA3 does not automatically hide SSIDs</b> — and SSID hiding is not a real security feature anyway (easily discovered by passive sniffing). WPA3 DOES add: mandatory PMF, SAE replacing PSK, forward secrecy, and a 192-bit option for Enterprise.'
+  },
+  {
+    q: 'A 5 GHz channel is marked "DFS" — what does this mean?',
+    choices: [
+      'The channel uses Dynamic Frequency Selection — the AP must vacate if radar is detected',
+      'The channel runs at Double Frequency Speed',
+      'The channel is for Direct File Sharing only',
+      'The channel uses Distance Fast Switching'
+    ],
+    correct: 0,
+    explain: '<b>DFS = Dynamic Frequency Selection.</b> Many 5 GHz channels (UNII-2A and UNII-2C bands) are shared with weather and military radar. APs on DFS channels must listen for radar signals and automatically move to a different channel if detected — to avoid interfering with radar operations. This is a regulatory requirement, not a feature.'
+  },
+  {
+    q: 'Hiding an SSID provides what level of security against a determined attacker?',
+    choices: [
+      'High — the network is completely invisible',
+      'Medium — only sophisticated attackers can find it',
+      'Low — the SSID is easily discovered by passive sniffing when any client connects',
+      'None — clients refuse to connect to hidden SSIDs'
+    ],
+    correct: 2,
+    explain: '<b>Hidden SSIDs offer minimal security</b>. When any legitimate client connects or reconnects, the SSID is sent in probe requests and association frames — observable by anyone sniffing the air with a tool like Wireshark or Kismet. Hiding the SSID also creates usability issues. Real security comes from strong WPA2/WPA3 authentication.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ROUND ============== */
+var LIGHTNING_BANK = [
+  { q: '2.4 GHz non-overlapping channels in US?', choices: ['1, 5, 9', '1, 6, 11', '2, 6, 10', '1, 4, 7, 10'], correct: 1 },
+  { q: 'Wi-Fi 4 = which 802.11?', choices: ['802.11ac', '802.11n', '802.11ax', '802.11g'], correct: 1 },
+  { q: 'Wi-Fi 5 = which 802.11?', choices: ['802.11ac', '802.11n', '802.11ax', '802.11be'], correct: 0 },
+  { q: 'Wi-Fi 6 = which 802.11?', choices: ['802.11ac', '802.11n', '802.11ax', '802.11be'], correct: 2 },
+  { q: 'Wi-Fi 7 = which 802.11?', choices: ['802.11ac', '802.11n', '802.11ax', '802.11be'], correct: 3 },
+  { q: 'Wi-Fi 5 (802.11ac) bands?', choices: ['2.4 GHz only', '5 GHz only', '2.4 + 5 GHz', '2.4 + 5 + 6 GHz'], correct: 1 },
+  { q: 'Wi-Fi 6 bands?', choices: ['2.4 GHz only', '5 GHz only', '2.4 + 5 GHz', '6 GHz only'], correct: 2 },
+  { q: 'Wi-Fi 6E bands?', choices: ['5 GHz only', '6 GHz only', '2.4 + 5 GHz', '2.4 + 5 + 6 GHz'], correct: 3 },
+  { q: '802.11b bands?', choices: ['2.4 GHz only', '5 GHz only', '6 GHz only', 'Both 2.4 and 5'], correct: 0 },
+  { q: '802.11a bands?', choices: ['2.4 GHz only', '5 GHz only', '6 GHz only', 'Both 2.4 and 5'], correct: 1 },
+  { q: 'OFDMA was introduced in?', choices: ['Wi-Fi 4', 'Wi-Fi 5', 'Wi-Fi 6', 'Wi-Fi 7'], correct: 2 },
+  { q: 'Downlink MU-MIMO introduced in?', choices: ['Wi-Fi 4', 'Wi-Fi 5', 'Wi-Fi 6', 'Wi-Fi 7'], correct: 1 },
+  { q: 'WPA3-Personal uses?', choices: ['PSK', 'SAE', 'TKIP', 'WEP'], correct: 1 },
+  { q: 'WPA3 mandatory feature?', choices: ['Hidden SSID', 'WPS', 'PMF', 'MAC filtering'], correct: 2 },
+  { q: 'Enterprise WPA uses?', choices: ['802.1X + RADIUS', 'PSK', 'Open auth', 'WEP'], correct: 0 },
+  { q: 'EAP type using certs on both ends?', choices: ['PEAP', 'EAP-TLS', 'EAP-FAST', 'LEAP'], correct: 1 },
+  { q: 'Long-range point-to-point antenna?', choices: ['Omnidirectional', 'Directional (Yagi/parabolic)', 'Patch', 'Dipole'], correct: 1 },
+  { q: 'Default AP antenna type?', choices: ['Omnidirectional', 'Yagi', 'Parabolic', 'Sector'], correct: 0 },
+  { q: 'Thin AP to controller protocol?', choices: ['LWAPP', 'CAPWAP', 'OSPF', '802.1X'], correct: 1 },
+  { q: 'Standard 802.11 channel width?', choices: ['10 MHz', '20 MHz', '40 MHz', '80 MHz'], correct: 1 },
+  { q: 'Fast roaming standard?', choices: ['802.11k', '802.11r', '802.11v', '802.11ac'], correct: 1 },
+  { q: 'Neighbor reports standard?', choices: ['802.11k', '802.11r', '802.11v', '802.11n'], correct: 0 },
+  { q: 'Best band for thick wall penetration?', choices: ['2.4 GHz', '5 GHz', '6 GHz', 'They are identical'], correct: 0 },
+  { q: 'Best band for high throughput?', choices: ['2.4 GHz', '5/6 GHz', 'They are identical', 'Depends on weather'], correct: 1 },
+  { q: 'DFS forces APs to do what?', choices: ['Increase power', 'Vacate channel if radar detected', 'Send beacons faster', 'Use 2.4 GHz'], correct: 1 },
+  { q: 'Hidden SSID provides what security?', choices: ['Very high', 'Medium', 'Low (still discoverable)', 'Encrypts the network'], correct: 2 },
+  { q: 'BSSID is?', choices: ['Network name', 'AP MAC address', 'Client MAC', 'Encryption key'], correct: 1 },
+  { q: 'SSID max length?', choices: ['8 chars', '16 chars', '32 chars', '64 chars'], correct: 2 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0;
+  lrCorrectCount = 0;
+  lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
