@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NetAcad & Packet Tracer · Getting Started · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cbt-navy:#2F3068;
+  --cbt-navy-deep:#1E1F4A;
+  --cbt-sky:#3FB1E5;
+  --cbt-sky-deep:#1F7AAB;
+  --cbt-sky-soft:rgba(63,177,229,.13);
+  --cbt-sky-line:rgba(63,177,229,.40);
+  --cbt-gold:#E4C048;
+  --cbt-gold-deep:#8B6914;
+  --cbt-gold-soft:rgba(228,192,72,.18);
+  --cbt-gold-line:rgba(228,192,72,.55);
+  --success:#1F9D5A;
+  --success-soft:rgba(31,157,90,.10);
+  --bg:#F6F8FC;
+  --bg-2:#FFFFFF;
+  --bg-3:#FBFCFE;
+  --surface-soft:#EEF0F6;
+  --line:rgba(15,20,50,.07);
+  --line-strong:rgba(15,20,50,.14);
+  --text:#1A1F36;
+  --text-mute:#4F5868;
+  --text-dim:#8A93A6;
+  --shadow-sm:0 1px 3px rgba(15,20,50,.05);
+  --shadow-md:0 4px 14px rgba(15,20,50,.08);
+  --shadow-lg:0 10px 28px rgba(15,20,50,.10);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Manrope',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11"}
+body{
+  background:
+    radial-gradient(ellipse 1200px 600px at 90% -10%, rgba(63,177,229,.07), transparent 60%),
+    radial-gradient(ellipse 1000px 500px at -10% 10%, rgba(228,192,72,.05), transparent 60%),
+    radial-gradient(ellipse 800px 400px at 50% 100%, rgba(47,48,104,.04), transparent 70%),
+    var(--bg);
+  min-height:100vh;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 32px 80px}
+
+/* header */
+.brand-row{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.brand-logo{height:110px;width:auto;display:block;filter:drop-shadow(0 4px 14px rgba(47,48,104,.16))}
+.brand-meta{text-align:right;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);letter-spacing:.16em;text-transform:uppercase;line-height:1.8}
+.brand-meta b{color:var(--cbt-sky-deep);font-weight:600}
+.brand-meta .tag{color:var(--cbt-gold-deep);font-style:italic;font-family:var(--serif);text-transform:none;letter-spacing:.02em;font-size:13px;font-weight:500;display:block;margin-top:2px}
+
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--text-dim);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cbt-sky);box-shadow:0 0 12px rgba(63,177,229,.50)}
+.eyebrow .institution{color:var(--cbt-sky-deep)}
+.eyebrow .sep{color:var(--text-dim)}
+
+h1.title{
+  font-family:var(--serif);font-weight:500;font-size:clamp(36px,5vw,60px);
+  line-height:1.02;letter-spacing:-.02em;margin:0 0 16px;
+  font-variation-settings:"opsz" 144,"SOFT" 30;color:var(--text);
+}
+h1.title em{font-style:italic;color:var(--cbt-sky-deep);font-variation-settings:"opsz" 144,"SOFT" 100}
+.sub{font-size:16.5px;color:var(--text-mute);max-width:760px;line-height:1.55;margin:0 0 32px}
+.sub b{color:var(--text);font-weight:600}
+
+.meta-row{display:flex;flex-wrap:wrap;gap:24px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
+.meta{display:flex;flex-direction:column;gap:4px}
+.meta .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.meta .v{font-family:var(--mono);font-size:13px;color:var(--text)}
+
+/* progress */
+.progress-block{margin-bottom:24px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.progress-info{display:flex;flex-direction:column;gap:6px}
+.progress-info .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.progress-info .count{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:-.01em}
+.progress-info .count b{color:var(--cbt-sky-deep);font-weight:600}
+.progress-bar{flex:1;min-width:240px;max-width:600px;height:10px;background:var(--surface-soft);border-radius:6px;overflow:hidden;position:relative}
+.progress-bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cbt-sky),var(--cbt-gold));border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.reset-btn{
+  background:transparent;border:1px solid var(--line-strong);color:var(--text-mute);
+  font-family:var(--sans);font-weight:600;font-size:12px;padding:8px 14px;border-radius:8px;cursor:pointer;
+  transition:all .15s;letter-spacing:.02em;
+}
+.reset-btn:hover{color:var(--text);border-color:var(--text-dim);background:var(--bg-3)}
+
+/* OS toggle */
+.os-toggle{display:flex;gap:6px;background:var(--surface-soft);padding:4px;border-radius:10px;border:1px solid var(--line);margin-bottom:28px;width:fit-content}
+.os-toggle button{
+  background:transparent;border:0;color:var(--text-mute);font-family:var(--sans);font-weight:600;font-size:13px;
+  padding:9px 18px;border-radius:7px;cursor:pointer;letter-spacing:.02em;transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.os-toggle button:hover{color:var(--text)}
+.os-toggle button.active{background:#fff;color:var(--text);box-shadow:var(--shadow-sm)}
+.os-toggle button svg{width:14px;height:14px}
+
+/* phase divider */
+.phase{margin:48px 0 20px;display:flex;align-items:baseline;gap:18px}
+.phase .num{font-family:var(--serif);font-style:italic;font-size:42px;color:var(--cbt-sky-deep);line-height:1;font-weight:500;letter-spacing:-.03em;font-variation-settings:"opsz" 144,"SOFT" 100}
+.phase .name{font-family:var(--serif);font-size:28px;font-weight:500;letter-spacing:-.01em;line-height:1.2;color:var(--text)}
+.phase .name small{display:block;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text-dim);letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
+
+/* step card */
+.step{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:16px;
+  padding:24px 28px;margin-bottom:14px;display:grid;grid-template-columns:64px 1fr;gap:22px;align-items:start;
+  box-shadow:var(--shadow-sm);transition:border-color .2s,box-shadow .25s,transform .15s,background .3s;position:relative;
+}
+.step:hover{border-color:var(--line-strong);box-shadow:var(--shadow-md)}
+.step.done{background:linear-gradient(180deg,var(--success-soft),#fff 60%);border-color:rgba(31,157,90,.30)}
+.step.done .step-num{background:var(--success);color:#fff;border-color:var(--success)}
+.step.done .step-num::after{content:'';position:absolute;inset:0;background:none}
+.step.done .step-num span{display:none}
+.step.done .step-num::before{
+  content:'';display:block;width:18px;height:18px;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+}
+
+.step-num{
+  width:48px;height:48px;border-radius:50%;background:var(--bg-2);border:2px solid var(--cbt-sky);
+  font-family:var(--mono);font-weight:600;font-size:15px;color:var(--cbt-sky-deep);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;
+  user-select:none;position:relative;
+}
+.step-num:hover{background:var(--cbt-sky-soft);transform:scale(1.05)}
+.step-num span{transition:opacity .2s}
+
+.step-body h3{
+  font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.01em;margin:2px 0 10px;line-height:1.25;color:var(--text);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.step-body h3 .pill{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:5px;background:var(--cbt-gold-soft);color:var(--cbt-gold-deep);border:1px solid var(--cbt-gold-line);
+}
+.step-body p{margin:0 0 12px;color:var(--text-mute);font-size:14.5px;line-height:1.6}
+.step-body p:last-child{margin-bottom:0}
+.step-body p strong{color:var(--text);font-weight:600}
+.step-body code{
+  font-family:var(--mono);font-size:12.5px;color:var(--cbt-navy-deep);
+  background:var(--surface-soft);padding:2px 7px;border-radius:5px;border:1px solid var(--line);font-weight:500;
+}
+.step-body a.url{
+  font-family:var(--mono);font-size:12.5px;color:var(--cbt-sky-deep);text-decoration:none;font-weight:600;
+  background:var(--cbt-sky-soft);padding:3px 9px;border-radius:5px;border:1px solid var(--cbt-sky-line);
+  transition:background .15s,border-color .15s;display:inline-flex;align-items:center;gap:5px;
+}
+.step-body a.url:hover{background:rgba(63,177,229,.22);border-color:var(--cbt-sky)}
+.step-body a.url::after{content:'↗';font-size:11px;opacity:.7}
+
+.step-body ul{margin:8px 0 12px;padding:0;list-style:none}
+.step-body ul li{
+  position:relative;padding:6px 0 6px 24px;color:var(--text-mute);font-size:14px;line-height:1.55;
+  border-bottom:1px dashed var(--line);
+}
+.step-body ul li:last-child{border-bottom:none}
+.step-body ul li::before{
+  content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;
+  background:var(--cbt-sky);box-shadow:0 0 0 3px var(--cbt-sky-soft);
+}
+
+.callout{
+  margin-top:14px;padding:12px 16px;border-radius:10px;font-size:13.5px;line-height:1.55;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.callout.tip{background:var(--cbt-sky-soft);border:1px solid var(--cbt-sky-line);color:var(--cbt-navy-deep)}
+.callout.warn{background:var(--cbt-gold-soft);border:1px solid var(--cbt-gold-line);color:var(--cbt-gold-deep)}
+.callout.info{background:var(--surface-soft);border:1px solid var(--line-strong);color:var(--text-mute)}
+.callout svg{flex-shrink:0;margin-top:1px}
+.callout b{font-weight:600;color:inherit}
+
+/* OS-specific blocks */
+.os-block{display:none}
+.os-block.show{display:block}
+
+/* completion banner */
+.complete-banner{
+  margin-top:48px;padding:42px 36px;border-radius:18px;
+  background:linear-gradient(135deg,var(--cbt-sky-soft),var(--cbt-gold-soft));
+  border:1px solid var(--cbt-sky-line);
+  display:none;text-align:center;
+  box-shadow:var(--shadow-md);
+}
+.complete-banner.show{display:block;animation:fadeUp .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.complete-banner .icon{
+  width:64px;height:64px;margin:0 auto 18px;background:var(--success);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(31,157,90,.30);
+}
+.complete-banner h2{font-family:var(--serif);font-size:32px;font-weight:500;letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.complete-banner h2 em{font-style:italic;color:var(--cbt-sky-deep)}
+.complete-banner p{margin:0;font-size:15px;color:var(--text-mute);line-height:1.55;max-width:540px;margin:0 auto}
+.complete-banner .actions{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.complete-banner .actions a{
+  display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--text);
+  font-family:var(--sans);font-weight:600;font-size:13px;padding:11px 18px;border-radius:10px;
+  text-decoration:none;border:1px solid var(--line-strong);box-shadow:var(--shadow-sm);transition:all .15s;
+}
+.complete-banner .actions a:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--cbt-sky)}
+
+/* footer */
+.foot{margin-top:48px;display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line);color:var(--text-dim);font-size:12px;flex-wrap:wrap;gap:16px}
+.foot .legend{font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.foot .credit{font-family:var(--mono)}
+.foot .credit b{color:var(--cbt-sky-deep);font-weight:600}
+
+/* responsive */
+@media (max-width:780px){
+  .wrap{padding:32px 20px 60px}
+  .brand-logo{height:78px}
+  .brand-meta{text-align:left}
+  .step{grid-template-columns:48px 1fr;gap:14px;padding:20px}
+  .step-num{width:40px;height:40px;font-size:13px}
+  .phase{flex-direction:column;align-items:flex-start;gap:6px}
+  .phase .num{font-size:32px}
+  .phase .name{font-size:22px}
+  .step-body h3{font-size:18px}
+  .complete-banner{padding:30px 22px}
+}
+@media print{
+  body{background:white}
+  .os-toggle,.reset-btn,.progress-block{display:none}
+  .step,.complete-banner{background:white;border-color:#ccc;box-shadow:none}
+  .os-block{display:block !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand-row">
+    <img class="brand-logo" alt="CBT Technology Institute" src="cbtlogo.png">
+    <div class="brand-meta">
+      <div><b>School of Information Technology</b></div>
+      <div>Network Administration · Cisco Networking</div>
+      <span class="tag">Tradition Meets Innovation</span>
+    </div>
+  </div>
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    <span class="institution">CBT Technology Institute</span>
+    <span class="sep">·</span>
+    <span>Lab Setup Guide</span>
+  </div>
+
+  <h1 class="title">Get into <em>NetAcad</em>.<br>Install <em>Packet Tracer</em>.</h1>
+  <p class="sub">A step-by-step companion for your first lab session. Follow each step in order, tap the circle on the left to mark it complete, and watch your progress fill the bar. The guide adapts to <b>Windows</b>, <b>macOS</b>, or <b>Linux</b> — pick yours below.</p>
+
+  <div class="meta-row">
+    <div class="meta"><span class="k">What you'll set up</span><span class="v">NetAcad account · Packet Tracer 9.0</span></div>
+    <div class="meta"><span class="k">Time</span><span class="v">≈ 15–20 minutes</span></div>
+    <div class="meta"><span class="k">Cost</span><span class="v">Free</span></div>
+    <div class="meta"><span class="k">Works on</span><span class="v">Win 10/11 · macOS · Ubuntu</span></div>
+  </div>
+
+  <div class="progress-block">
+    <div class="progress-info">
+      <span class="label">Your Progress</span>
+      <span class="count"><b id="done-count">0</b> of <span id="total-count">10</span> steps complete</span>
+    </div>
+    <div class="progress-bar"><i id="progress-fill"></i></div>
+    <button class="reset-btn" onclick="resetProgress()">Reset</button>
+  </div>
+
+  <div class="os-toggle" role="tablist" aria-label="Operating system">
+    <button class="active" data-os="win" onclick="setOS('win')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699m10.949-8.099H24V24l-12.9-1.801"/></svg>
+      Windows
+    </button>
+    <button data-os="mac" onclick="setOS('mac')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      macOS
+    </button>
+    <button data-os="linux" onclick="setOS('linux')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.84-.41 1.694-.287 2.516.117.5.31 1.057.595 1.561a3.49 3.49 0 0 0 1.103 1.245c.467.348 1.022.6 1.66.728 1.094.221 2.218.119 3.123-.183.91-.302 1.614-.798 2.117-1.32.503-.522.805-1.077.928-1.594.124-.517.07-.99-.117-1.355a1.876 1.876 0 0 0-.594-.685c-.247-.18-.527-.297-.83-.378-.302-.082-.629-.13-.94-.165-.31-.036-.605-.058-.842-.094-.235-.035-.401-.082-.484-.118a.69.69 0 0 1-.183-.106 6.81 6.81 0 0 0-.083-.094c-.025-.029-.05-.064-.073-.106a.66.66 0 0 1-.05-.211c-.001-.155.04-.359.151-.616.227-.515.66-1.142 1.183-1.738.523-.595 1.135-1.155 1.671-1.616a8.16 8.16 0 0 1 .73-.563c.205-.135.387-.235.534-.295zm.34 19.998c.466 1.082 1.265 2.011 2.31 2.659 1.045.648 2.337 1.014 3.659.99 1.323-.024 2.674-.439 3.851-1.265 1.178-.825 2.184-2.06 2.74-3.626.557-1.566.658-3.465.07-5.32-.587-1.853-1.865-3.659-3.948-5.143-1.043-.738-1.66-1.522-1.95-2.27-.288-.748-.252-1.46-.05-2.034.202-.575.575-1.014.97-1.281.396-.267.815-.367 1.137-.346.323.021.55.166.682.43.132.265.165.65-.012 1.107-.176.456-.564.984-1.157 1.461-.594.477-1.394.903-2.298 1.124-.904.221-1.913.237-2.95-.04-1.036-.277-2.099-.84-3.066-1.713a8.65 8.65 0 0 1-.726-.738c.07.108.146.214.232.317.866 1.034 2.001 1.672 3.094 1.965 1.094.293 2.146.241 3.06.022.913-.219 1.687-.594 2.27-.984.583-.39.971-.794 1.156-1.124.184-.331.176-.586.117-.7-.06-.114-.193-.135-.36-.094a.85.85 0 0 0-.456.294c-.156.165-.292.404-.4.673-.107.27-.184.566-.221.847-.037.282-.034.547.012.778.046.231.139.428.252.567a.94.94 0 0 0 .353.264c.157.067.353.094.564.073.21-.022.435-.087.66-.198a4.39 4.39 0 0 0 .624-.378c.176-.135.328-.282.443-.43.115-.149.193-.298.221-.43.029-.131.013-.246-.046-.323-.061-.077-.166-.114-.292-.108-.127.007-.276.057-.412.146-.137.09-.26.218-.353.353a.98.98 0 0 0-.165.353.39.39 0 0 0 .002.184c.012.043.034.075.061.085.027.011.054.005.075-.014.022-.019.038-.052.046-.09a.31.31 0 0 0 0-.139.39.39 0 0 0-.062-.139.41.41 0 0 0-.119-.114.45.45 0 0 0-.156-.057.42.42 0 0 0-.165.014.4.4 0 0 0-.146.083.36.36 0 0 0-.094.137.31.31 0 0 0-.022.176c.012.06.043.114.087.156s.097.07.156.085c.06.014.121.014.18-.001s.114-.046.158-.087c.044-.041.075-.094.087-.151z"/></svg>
+      Linux
+    </button>
+  </div>
+
+  <!-- ============================ PHASE 1 ============================ -->
+  <div class="phase">
+    <span class="num">01</span>
+    <div class="name">Create your NetAcad account<small>Cisco Networking Academy · cisco.com</small></div>
+  </div>
+
+  <div class="step" data-step="1">
+    <div class="step-num" onclick="toggleStep(1)"><span>01</span></div>
+    <div class="step-body">
+      <h3>Open the NetAcad sign-up page</h3>
+      <p>In your browser go to <a class="url" href="https://www.netacad.com" target="_blank" rel="noopener">netacad.com</a> and click <strong>Sign Up</strong> (top-right corner). Cisco Networking Academy is free and open to everyone — you don't need a CBT-issued course code for the Packet Tracer download itself.</p>
+      <div class="callout tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span><b>Use your CBT student email</b> (the one ending in your CBT domain). It will keep your NetAcad transcript tied to your CBT enrollment if your instructor ever needs to verify completion.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step" data-step="2">
+    <div class="step-num" onclick="toggleStep(2)"><span>02</span></div>
+    <div class="step-body">
+      <h3>Fill in your details &amp; confirm email</h3>
+      <p>Enter your name, email, country (<code>United States</code>), and a strong password. Cisco emails you a confirmation link — open your inbox and click it. Without confirmation you can't enroll in courses.</p>
+      <div class="callout warn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><b>If the email doesn't arrive in 5 minutes,</b> check your spam folder. Add <code>do-not-reply@netacad.com</code> to your safe sender list.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step" data-step="3">
+    <div class="step-num" onclick="toggleStep(3)"><span>03</span></div>
+    <div class="step-body">
+      <h3>Sign in and reach the Resource Hub</h3>
+      <p>Once your email is confirmed, log in at <a class="url" href="https://www.netacad.com" target="_blank" rel="noopener">netacad.com</a>. From any page on the site, navigate to the Resource Hub at <a class="url" href="https://www.netacad.com/resources/lab-downloads" target="_blank" rel="noopener">netacad.com/resources/lab-downloads</a>. This is your one-stop page for Packet Tracer, virtual machines, and other lab files.</p>
+    </div>
+  </div>
+
+  <!-- ============================ PHASE 2 ============================ -->
+  <div class="phase">
+    <span class="num">02</span>
+    <div class="name">Download &amp; install Packet Tracer<small>Version 9.0 · ≈ 250 MB</small></div>
+  </div>
+
+  <div class="step" data-step="4">
+    <div class="step-num" onclick="toggleStep(4)"><span>04</span></div>
+    <div class="step-body">
+      <h3>Pick the installer for your operating system</h3>
+      <p>On the Resource Hub, scroll to the <strong>Cisco Packet Tracer</strong> section. You'll see download buttons for each platform. Click the one matching your computer:</p>
+      <ul>
+        <li><strong>Windows</strong> — <code>CiscoPacketTracer_900_Windows_64bit.exe</code></li>
+        <li><strong>macOS</strong> — <code>CiscoPacketTracer_900_macOS.dmg</code> (works on Intel &amp; Apple Silicon)</li>
+        <li><strong>Linux (Ubuntu/Debian)</strong> — <code>CiscoPacketTracer_900_Ubuntu_64bit.deb</code></li>
+      </ul>
+      <div class="callout info">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Packet Tracer is <b>not available for iPad, iPhone, Android, or Chromebooks</b>. You need a Windows PC, Mac, or Linux machine.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step" data-step="5">
+    <div class="step-num" onclick="toggleStep(5)"><span>05</span></div>
+    <div class="step-body">
+      <h3>Run the installer</h3>
+
+      <!-- Windows -->
+      <div class="os-block show" data-osblock="win">
+        <p><strong>Windows:</strong></p>
+        <ul>
+          <li>Double-click <code>CiscoPacketTracer_900_Windows_64bit.exe</code> in your Downloads folder.</li>
+          <li>Accept the <strong>License Agreement</strong> → <strong>Next</strong>.</li>
+          <li>Accept the default <strong>destination folder</strong> (<code>C:\Program Files\Cisco Packet Tracer</code>) → <strong>Next</strong>.</li>
+          <li>Accept the default <strong>Start Menu folder</strong> → <strong>Next</strong>.</li>
+          <li>Choose your shortcut options (Desktop icon recommended) → <strong>Next</strong>.</li>
+          <li>Click <strong>Install</strong>. Windows may ask for administrator permission — say <strong>Yes</strong>.</li>
+        </ul>
+      </div>
+
+      <!-- macOS -->
+      <div class="os-block" data-osblock="mac">
+        <p><strong>macOS:</strong></p>
+        <ul>
+          <li>Double-click <code>CiscoPacketTracer_900_macOS.dmg</code> to mount the disk image.</li>
+          <li>Click <strong>Open</strong> if macOS warns it was downloaded from the internet.</li>
+          <li>Click <strong>Continue</strong> on the welcome screen, then accept the <strong>License Agreement</strong>.</li>
+          <li>Click <strong>Install</strong> — you'll be prompted for your <strong>Mac account password</strong> or Touch ID.</li>
+          <li>When the <em>Create Maintenance Tool</em> window appears, click <strong>Continue</strong>, then <strong>Done</strong>.</li>
+        </ul>
+        <div class="callout tip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-2"/><polyline points="9 11 12 14 15 11"/><line x1="12" y1="14" x2="12" y2="2"/></svg>
+          <span><b>If macOS blocks the installer with "cannot be opened because Apple cannot check it":</b> open <strong>System Settings → Privacy &amp; Security</strong>, scroll down, and click <strong>Open Anyway</strong> next to the Packet Tracer entry.</span>
+        </div>
+      </div>
+
+      <!-- Linux -->
+      <div class="os-block" data-osblock="linux">
+        <p><strong>Ubuntu / Debian Linux:</strong> Packet Tracer installs from the terminal. Open a terminal and navigate to where you saved the <code>.deb</code> file (typically <code>~/Downloads</code>):</p>
+        <ul>
+          <li><code>cd ~/Downloads</code></li>
+          <li><code>sudo apt-get install ./CiscoPacketTracer_900_Ubuntu_64bit.deb</code></li>
+          <li>Enter your <strong>user password</strong> when prompted.</li>
+          <li>On the License Agreement screen, use <strong>Tab</strong> to highlight <code>&lt;OK&gt;</code> and press <strong>Enter</strong>.</li>
+          <li>Tab to <code>&lt;Yes&gt;</code> and press <strong>Enter</strong> to accept the agreement.</li>
+        </ul>
+        <div class="callout info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>The <b>mouse will not work during the License Agreement prompt</b>. Use <code>Tab</code> to navigate and <code>Enter</code> to confirm. Once the install finishes, launch Packet Tracer from your Applications menu or by running <code>packettracer</code> in a terminal.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step" data-step="6">
+    <div class="step-num" onclick="toggleStep(6)"><span>06</span></div>
+    <div class="step-body">
+      <h3>Finish the installer and launch</h3>
+      <p>When the installer completes, leave the <strong>Launch Cisco Packet Tracer</strong> checkbox ticked and click <strong>Finish</strong>. On macOS or Linux, open Packet Tracer from your Applications folder or Activities menu.</p>
+      <p>The first time you launch, you'll see a prompt asking <em>"Would you like to run multi-user when the application starts?"</em> — click <strong>No</strong> for now (multi-user is for advanced shared labs).</p>
+      <div class="callout warn os-block show" data-osblock="win">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><b>Windows Security Alert?</b> Check both <strong>Private networks</strong> and <strong>Public networks</strong> and click <strong>Allow Access</strong>. Packet Tracer needs network access for the multi-user feature later in the course.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ PHASE 3 ============================ -->
+  <div class="phase">
+    <span class="num">03</span>
+    <div class="name">Activate with your NetAcad login<small>One-time linking · keeps your install authorized</small></div>
+  </div>
+
+  <div class="step" data-step="7">
+    <div class="step-num" onclick="toggleStep(7)"><span>07</span></div>
+    <div class="step-body">
+      <h3>Sign in from the Packet Tracer login window</h3>
+      <p>Packet Tracer opens to a <strong>Cisco Packet Tracer Login</strong> window. You'll see a "Keep me logged in (for 3 months)" toggle — turn it <strong>on</strong> if you're on your personal computer, leave it <strong>off</strong> on shared or lab computers.</p>
+      <p>Click the big <strong>LOGIN</strong> button. Packet Tracer will open a browser tab to authenticate against NetAcad.</p>
+    </div>
+  </div>
+
+  <div class="step" data-step="8">
+    <div class="step-num" onclick="toggleStep(8)"><span>08</span></div>
+    <div class="step-body">
+      <h3>Authorize the browser tab</h3>
+      <p>One of two things happens in the browser:</p>
+      <ul>
+        <li><strong>If you're still logged in to netacad.com</strong> — you'll see <em>"You have successfully logged in to Cisco Packet Tracer. You may close this tab."</em> Close it and return to Packet Tracer.</li>
+        <li><strong>If your session has expired</strong> — sign back in to NetAcad with the credentials you created in Phase 1. Same success message appears. Close the tab.</li>
+      </ul>
+      <div class="callout tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Packet Tracer authenticates against your NetAcad account every 3 months (or every launch if "Keep me logged in" is off). Just keep your NetAcad password handy.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ PHASE 4 ============================ -->
+  <div class="phase">
+    <span class="num">04</span>
+    <div class="name">Verify your install<small>Two quick checks before lab day</small></div>
+  </div>
+
+  <div class="step" data-step="9">
+    <div class="step-num" onclick="toggleStep(9)"><span>09</span></div>
+    <div class="step-body">
+      <h3>Confirm the version</h3>
+      <p>In Packet Tracer's menu bar, click <strong>Help → About</strong>. You should see <code>Cisco Packet Tracer 9.0.0</code> (build numbers may vary). If you see an older version (8.x), the installer was outdated — re-download from the Resource Hub.</p>
+    </div>
+  </div>
+
+  <div class="step" data-step="10">
+    <div class="step-num" onclick="toggleStep(10)"><span>10</span></div>
+    <div class="step-body">
+      <h3>Drop a router and switch on the canvas</h3>
+      <p>Try a quick smoke test:</p>
+      <ul>
+        <li>In the bottom-left device tray, click the <strong>Routers</strong> icon and drag a <code>2911</code> router onto the workspace.</li>
+        <li>Click the <strong>Switches</strong> icon and drag a <code>2960</code> switch next to it.</li>
+        <li>Click the <strong>Connections</strong> (lightning bolt) icon, choose the straight copper cable, and connect <code>GigabitEthernet0/0</code> on the router to <code>GigabitEthernet0/1</code> on the switch.</li>
+      </ul>
+      <p>If the devices appear and you can connect them, <strong>you're ready for the first lab</strong>.</p>
+      <div class="callout tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Save the file as <code>cbt-smoke-test.pkt</code> — it's your first piece of evidence that the environment is working. Keep it; instructors sometimes ask to see it on day one.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- completion banner -->
+  <div class="complete-banner" id="banner">
+    <div class="icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>You're <em>ready</em> for lab day.</h2>
+    <p>NetAcad account created, Packet Tracer 9.0 installed and authorized, smoke test passed. Open your Canvas course and head to the first networking module to begin.</p>
+    <div class="actions">
+      <a href="https://www.netacad.com" target="_blank" rel="noopener">Open NetAcad ↗</a>
+      <a href="https://www.netacad.com/courses/getting-started-cisco-packet-tracer" target="_blank" rel="noopener">Free intro course ↗</a>
+      <a href="javascript:window.print()">Print this guide</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="legend">Tap any numbered circle to mark a step complete. Progress is saved in your browser.</div>
+    <div class="credit">Built for <b>Professor De León</b> · CBT Tech · IT Programs</div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- progress state ---------- */
+const TOTAL = document.querySelectorAll('.step').length;
+document.getElementById('total-count').textContent = TOTAL;
+const STORAGE_KEY = 'cbt-netacad-pt-progress';
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){return {}}
+}
+function saveProgress(state){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+let progress = loadProgress();
+
+function renderProgress(){
+  let done = 0;
+  document.querySelectorAll('.step').forEach(s=>{
+    const id = s.dataset.step;
+    if(progress[id]){ s.classList.add('done'); done++; }
+    else s.classList.remove('done');
+  });
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('progress-fill').style.width = (done/TOTAL*100)+'%';
+  document.getElementById('banner').classList.toggle('show', done===TOTAL);
+  if(done===TOTAL){
+    setTimeout(()=>{
+      document.getElementById('banner').scrollIntoView({behavior:'smooth',block:'center'});
+    },200);
+  }
+}
+
+function toggleStep(n){
+  progress[n] = !progress[n];
+  saveProgress(progress);
+  renderProgress();
+}
+
+function resetProgress(){
+  if(!confirm('Clear all progress and start over?')) return;
+  progress = {};
+  saveProgress(progress);
+  renderProgress();
+}
+
+/* ---------- OS toggle ---------- */
+function setOS(os){
+  document.querySelectorAll('.os-toggle button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.os===os);
+  });
+  document.querySelectorAll('.os-block').forEach(b=>{
+    b.classList.toggle('show', b.dataset.osblock===os);
+  });
+  try{ localStorage.setItem('cbt-netacad-pt-os', os); }catch(e){}
+}
+
+/* restore OS choice */
+try{
+  const savedOS = localStorage.getItem('cbt-netacad-pt-os');
+  if(savedOS) setOS(savedOS);
+  else {
+    // auto-detect
+    const ua = navigator.userAgent.toLowerCase();
+    if(ua.includes('mac')) setOS('mac');
+    else if(ua.includes('linux') && !ua.includes('android')) setOS('linux');
+    else setOS('win');
+  }
+}catch(e){ setOS('win'); }
+
+renderProgress();
+</script>
+</body>
+</html>
