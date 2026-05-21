@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.2 Network Monitoring Technologies · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --terminal-bg:#0F1419; --terminal-fg:#E6E1CF;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 18%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 60px; }
+  .specs-table tr.severity-0 td.num, .specs-table tr.severity-1 td.num, .specs-table tr.severity-2 td.num { color: var(--red); }
+  .specs-table tr.severity-3 td.num { color: var(--red); }
+  .specs-table tr.severity-4 td.num { color: var(--gold-deep); }
+  .specs-table tr.severity-5 td.num, .specs-table tr.severity-6 td.num, .specs-table tr.severity-7 td.num { color: var(--green); }
+
+  /* ============== TAB 2 · DIAGNOSTIC LAB ============== */
+  .lab-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+
+  .problem-card { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 16px 22px; margin-bottom: 18px; }
+  .problem-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .problem-id { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .problem-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: white; color: var(--navy-deep); letter-spacing: 0.08em; border: 1px solid var(--line-soft); }
+  .problem-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .problem-desc { font-size: 14px; color: var(--ink); margin: 0; }
+
+  .problem-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .problem-btn { background: white; border: 2px solid var(--line-soft); padding: 12px 14px; cursor: pointer; text-align: left; font-family: var(--ff-body); transition: all 0.15s; }
+  .problem-btn:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .problem-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .problem-btn .ptitle { font-family: var(--ff-display); font-weight: 700; font-size: 13px; color: var(--navy-deep); }
+  .problem-btn.active .ptitle { color: var(--gold); }
+  .problem-btn .pdesc { font-size: 11px; color: var(--ink-mute); margin-top: 4px; line-height: 1.4; }
+  .problem-btn.active .pdesc { color: var(--gray-soft); }
+
+  .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+  .tool-btn { background: white; border: 2px solid var(--line-soft); padding: 12px 10px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; color: var(--navy-deep); transition: all 0.15s; text-align: center; }
+  .tool-btn:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .tool-btn.locked { cursor: default; opacity: 0.7; }
+  .tool-btn.right-tool { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .tool-btn.wrong-tool { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .tool-btn.selected { border-width: 3px; }
+
+  .terminal-out { background: var(--terminal-bg); color: var(--terminal-fg); padding: 16px 20px; font-family: var(--ff-mono); font-size: 12.5px; line-height: 1.6; margin: 14px 0; overflow-x: auto; white-space: pre; border-left: 3px solid var(--sky); }
+  .terminal-out .prompt { color: var(--sky-soft); }
+  .terminal-out .ok { color: #7fc97f; }
+  .terminal-out .warn { color: #fdc086; }
+  .terminal-out .err { color: #f0717d; }
+  .terminal-out .dim { color: var(--gray); }
+  .terminal-out .hi { color: var(--gold); font-weight: 700; }
+
+  .lab-verdict { padding: 14px 20px; margin-top: 12px; font-size: 14px; line-height: 1.55; }
+  .lab-verdict.ok { background: var(--green-bg); border-left: 3px solid var(--green); color: var(--ink); }
+  .lab-verdict.partial { background: rgba(224,184,64,0.18); border-left: 3px solid var(--gold); color: var(--ink); }
+  .lab-verdict.bad { background: var(--red-bg); border-left: 3px solid var(--red); color: var(--ink); }
+  .lab-verdict b { color: var(--navy-deep); }
+
+  .lab-instructions { background: var(--bg-warm); padding: 14px 20px; margin-top: 14px; font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
+  .lab-instructions b { color: var(--navy-deep); }
+
+  /* ============== TAB 3 · LOG SEVERITY MATCHER ============== */
+  .sev-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .sev-intro { font-size: 14px; color: var(--ink-mid); margin-bottom: 14px; }
+  .sev-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 22px; }
+  .sev-pill { padding: 8px 10px; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; text-align: center; color: white; border-left: 3px solid; }
+  .sev-pill.s0 { background: #6b1f2e; border-color: var(--red); }
+  .sev-pill.s1 { background: #8e1f2e; border-color: var(--red); }
+  .sev-pill.s2 { background: #a83342; border-color: var(--red); }
+  .sev-pill.s3 { background: #c44a5a; border-color: var(--red); }
+  .sev-pill.s4 { background: #b8932a; border-color: var(--gold); }
+  .sev-pill.s5 { background: #4a7548; border-color: var(--green); }
+  .sev-pill.s6 { background: #2a6049; border-color: var(--green); }
+  .sev-pill.s7 { background: #5e7b6e; border-color: var(--green); }
+
+  .sev-cases { display: grid; gap: 12px; }
+  .sev-case { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 14px 20px; }
+  .sev-msg { font-family: var(--ff-mono); font-size: 13px; color: var(--ink); background: white; padding: 10px 14px; margin-bottom: 12px; border-left: 2px solid var(--gold); white-space: pre-wrap; }
+  .sev-prompt { font-size: 13px; color: var(--ink-mid); margin-bottom: 8px; }
+  .sev-prompt b { color: var(--navy-deep); }
+  .sev-choices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sev-choice { background: white; border: 1.5px solid var(--line-soft); padding: 8px 6px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink); transition: all 0.15s; text-align: center; }
+  .sev-choice:hover:not(.locked) { background: var(--bg); border-color: var(--navy-deep); }
+  .sev-choice.locked { cursor: default; }
+  .sev-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .sev-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .sev-explain { display: none; margin-top: 10px; padding: 10px 14px; background: white; border-left: 3px solid var(--sky); font-size: 12.5px; line-height: 1.5; color: var(--ink); }
+  .sev-explain.show { display: block; }
+  .sev-explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .problem-picker { grid-template-columns: 1fr; }
+    .tool-grid { grid-template-columns: 1fr 1fr; }
+    .sev-legend { grid-template-columns: repeat(2, 1fr); }
+    .sev-choices { grid-template-columns: repeat(2, 1fr); }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.2 Network Monitoring</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 3.2 · Network Monitoring Technologies</div>
+    <h1>The right tool <em>for what you're hunting.</em></h1>
+    <p class="lede">Every monitoring tool sees a different slice of the network. SNMP polls device counters; syslog captures events; NetFlow shows who talked to whom; packet capture shows the bytes themselves; baselines reveal "different from normal." The exam — and your real-world job — depends on knowing which tool answers which question. This artifact teaches you to pick the right one and to recognize what each one's output looks like.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">SNMP</span><span class="desc">Device counters — interface stats, CPU, memory</span></div>
+    <div class="ref-row"><span class="name">Syslog</span><span class="desc">Event messages — what just happened, when</span></div>
+    <div class="ref-row"><span class="name">NetFlow</span><span class="desc">Conversation records — src/dst/port/bytes</span></div>
+    <div class="ref-row"><span class="name">sFlow</span><span class="desc">Sampled flow — every Nth packet</span></div>
+    <div class="ref-row"><span class="name">IPFIX</span><span class="desc">IETF standard — NetFlow v10</span></div>
+    <div class="ref-row"><span class="name">PCAP</span><span class="desc">Full packet capture — Wireshark, tcpdump</span></div>
+    <div class="ref-row"><span class="name">LLDP/CDP</span><span class="desc">Neighbor discovery — what's connected</span></div>
+    <div class="ref-row"><span class="name">SPAN</span><span class="desc">Port mirror — copy traffic to analyzer</span></div>
+    <div class="footer-note">
+      <b>SYSLOG SEVERITY</b><br>
+      0 Emergency · 1 Alert · 2 Critical<br>
+      3 Error · 4 Warning · 5 Notice<br>
+      6 Info · 7 Debug. <b>Lower = worse.</b>
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">6</div><div class="label">Monitoring tools to compare</div></div>
+  <div class="stat"><div class="num">8</div><div class="label">Syslog severity levels</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="lab"><span class="num">02</span>Diagnostic Lab</button>
+  <button class="tab" data-tab="severity"><span class="num">03</span>Syslog Severity</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Monitoring Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Network monitoring is layered. <b>SNMP</b> and <b>flow records</b> tell you about counters and conversations over time. <b>Syslog</b> tells you about discrete events. <b>Packet capture</b> shows you the actual bytes. <b>Discovery protocols</b> (LLDP, CDP) show physical neighbor relationships. <b>APIs</b> let you query everything programmatically. <b>Baselines</b> turn raw numbers into "normal vs abnormal." Knowing which tool fits which question is half the exam.</p>
+
+  <div class="section-head">SNMP — Simple Network Management Protocol</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">HOW IT WORKS</div>
+      <h4>Manager polls agents</h4>
+      <p>A central SNMP manager (e.g., PRTG, SolarWinds, LibreNMS) sends GET requests to SNMP agents on devices. Agents respond with values from their MIB (Management Information Base). Polling typically every 1-5 minutes.</p>
+      <p><span class="accent">PORTS:</span> UDP 161 (polling), UDP 162 (traps).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">POLLING vs TRAPS</div>
+      <h4>Pull vs Push</h4>
+      <p><b>Polling:</b> manager asks agent "what's the current interface utilization?" on a schedule. Predictable load, but you miss events between polls.</p>
+      <p><b>Traps:</b> agent pushes an unsolicited notification to manager when something happens ("interface down!"). Event-driven, no waiting.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">VERSIONS</div>
+      <h4>v1 / v2c / v3</h4>
+      <p><b>SNMPv1:</b> original, plaintext community strings (security disaster).<br>
+      <b>SNMPv2c:</b> adds bulk operations, still plaintext community strings.<br>
+      <b>SNMPv3:</b> adds <b>authentication</b> (SHA/MD5) and <b>encryption</b> (AES/DES). Use this in production.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MIB / OID</div>
+      <h4>What you can query</h4>
+      <p>The MIB is the hierarchical database of monitored values. Each value has an OID (Object Identifier) like <code>1.3.6.1.2.1.2.2.1.10.1</code>. Vendor MIBs add device-specific OIDs on top of standard MIB-II.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Flow Data — Who Talked To Whom</div>
+  <p>Flow records summarize traffic as <b>conversations</b>: source IP, dest IP, source port, dest port, protocol, packets, bytes, start time, end time. A router or switch exports flow records to a collector. Much smaller than full packet capture but still answers most traffic questions.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Protocol</th><th>Origin</th><th>Sampling</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">NetFlow</td><td>Cisco</td><td>1:1 (all packets)</td><td>v5 dominant historically, v9 added template flexibility.</td></tr>
+      <tr><td class="label">sFlow</td><td>InMon / multi-vendor</td><td>1:N sampled</td><td>Designed for sampling — better for very high-speed links. Light on switch CPU.</td></tr>
+      <tr><td class="label">IPFIX</td><td>IETF standard</td><td>Configurable</td><td>NetFlow v10 effectively — the open IETF standard (RFC 7011). Modern default.</td></tr>
+      <tr><td class="label">J-Flow</td><td>Juniper</td><td>Configurable</td><td>Juniper's flow export. Functionally similar to NetFlow.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Syslog — Event Logging</div>
+  <p>Syslog is the universal event logging protocol. Devices send messages to a syslog collector with a <b>severity</b> (0-7) and <b>facility</b> (which subsystem). Centralized syslog is essential — without it, every device holds its own logs and correlation is impossible.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Level</th><th>Name</th><th>Mnemonic</th><th>Meaning</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr class="severity-0"><td class="num">0</td><td class="label">Emergency</td><td>EMERG</td><td>System is unusable</td><td>Kernel panic, complete failure</td></tr>
+      <tr class="severity-1"><td class="num">1</td><td class="label">Alert</td><td>ALERT</td><td>Immediate action required</td><td>Primary DB lost, building flooding</td></tr>
+      <tr class="severity-2"><td class="num">2</td><td class="label">Critical</td><td>CRIT</td><td>Critical conditions</td><td>Hardware failure, primary site down</td></tr>
+      <tr class="severity-3"><td class="num">3</td><td class="label">Error</td><td>ERR</td><td>Error conditions</td><td>Link down, service crash</td></tr>
+      <tr class="severity-4"><td class="num">4</td><td class="label">Warning</td><td>WARNING</td><td>Warning conditions</td><td>Disk filling up, high CPU</td></tr>
+      <tr class="severity-5"><td class="num">5</td><td class="label">Notice</td><td>NOTICE</td><td>Normal but significant</td><td>Service restart, config change</td></tr>
+      <tr class="severity-6"><td class="num">6</td><td class="label">Informational</td><td>INFO</td><td>Informational messages</td><td>User login, scheduled task</td></tr>
+      <tr class="severity-7"><td class="num">7</td><td class="label">Debug</td><td>DEBUG</td><td>Debug-level messages</td><td>Verbose troubleshooting</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-style: italic; color: var(--ink-mute);">Memory aid: "Every Awesome Cisco Engineer Will Need Ice cream Daily" — Emergency, Alert, Critical, Error, Warning, Notice, Info, Debug. Lower numbers are worse. 0 = system unusable, 7 = debug noise.</p>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SYSLOG TRANSPORT</div>
+      <h4>UDP 514 (traditional)</h4>
+      <p>Classic syslog uses UDP 514. Fast and lightweight but no delivery guarantee. Modern variants: TCP for reliability, TLS for confidentiality (RFC 5425).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SIEM</div>
+      <h4>Security Information &amp; Event Management</h4>
+      <p>A SIEM (Splunk, QRadar, ELK/Wazuh, Microsoft Sentinel) collects logs from many sources, normalizes them, correlates events, and triggers alerts. The syslog server on steroids.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LOG AGGREGATION</div>
+      <h4>One place to look</h4>
+      <p>Centralize logs from every device into a single collector. Without aggregation, every troubleshooting session means SSH'ing to each device — slow and easy to miss correlated events.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LOG RETENTION</div>
+      <h4>How long to keep them</h4>
+      <p>Retention is driven by compliance (PCI: 1 year, HIPAA: 6 years, GDPR: contextual). Hot storage for recent (queryable in seconds), cold storage for archive (queryable in minutes-hours).</p>
+    </div>
+  </div>
+
+  <div class="section-head">Packet Capture &amp; Port Mirroring</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PACKET CAPTURE</div>
+      <h4>The deepest view</h4>
+      <p>Capture the actual packet bytes. Tools: <b>Wireshark</b> (GUI), <b>tcpdump</b> (CLI), tshark (CLI Wireshark). Saved as <code>.pcap</code> files. The only tool that shows packet payloads and protocol-level errors.</p>
+      <p><span class="accent">USE WHEN:</span> Deep protocol issues, application-layer debugging, security forensics.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PORT MIRRORING / SPAN</div>
+      <h4>Copy traffic to an analyzer</h4>
+      <p>Configure a switch to copy traffic from one or more ports to a dedicated "monitor" port where a packet capture device sits. Switched Port Analyzer (Cisco term: SPAN). Remote variant: RSPAN, ERSPAN over IP.</p>
+      <p><span class="accent">USE WHEN:</span> You need packet capture from a switched network and can't tap inline.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">TAP</div>
+      <h4>Test Access Point — hardware</h4>
+      <p>A physical hardware device inserted into a cable run that mirrors all traffic to a monitor port. Lossless (SPAN can drop under load); doesn't impact switch CPU. Used in security forensics and high-throughput monitoring.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CAPTURE VOLUME</div>
+      <h4>Bytes add up fast</h4>
+      <p>A 1 Gbps link at line rate generates ~10 GB/minute of captures. Use <b>capture filters</b> (BPF syntax) to narrow what's saved. Long-term continuous capture is rarely feasible — capture targeted to a problem window.</p>
+    </div>
+  </div>
+
+  <div class="section-head">API Integration — Programmable Monitoring</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">REST APIs</div>
+      <h4>Query devices via HTTPS</h4>
+      <p>Modern network devices expose REST APIs (often returning JSON) for both reading state and pushing configuration. Cisco DNAC, Meraki, Arista, Juniper — all expose REST. Authenticated with API keys or OAuth tokens.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NETCONF / RESTCONF</div>
+      <h4>Standardized device APIs</h4>
+      <p>NETCONF (IETF RFC 6241) uses YANG data models and XML over SSH/TLS. RESTCONF is the HTTP/JSON variant. Both let you read and write device config programmatically without screen-scraping CLI output.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">WEBHOOKS</div>
+      <h4>Push notifications</h4>
+      <p>Monitoring system POSTs to a configured URL when an event fires. Common for chat integrations (Slack, Teams), ticketing (ServiceNow), and orchestration platforms.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">AUTOMATION TOOLS</div>
+      <h4>Ansible · Python · Terraform</h4>
+      <p>Use API integration with automation frameworks. Ansible network modules, Python Netmiko/NAPALM/Nornir libraries, and Terraform providers for major vendors all rely on these APIs.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Network Discovery — What's Out There</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">LLDP</div>
+      <h4>Link Layer Discovery Protocol</h4>
+      <p>IEEE 802.1AB. Open-standard neighbor discovery — switches/routers advertise their identity, capabilities, port info to directly connected devices. <code>show lldp neighbors</code> shows what's on each port.</p>
+      <p><span class="accent">USE:</span> Vendor-agnostic L2 discovery. Find what's connected to each switch port.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CDP</div>
+      <h4>Cisco Discovery Protocol</h4>
+      <p>Cisco's older proprietary equivalent of LLDP. Works only between Cisco devices (and some compatible Cisco-derived gear). Still common in all-Cisco environments.</p>
+      <p><span class="accent">USE:</span> All-Cisco shops. For mixed-vendor → LLDP.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SCANNING TOOLS</div>
+      <h4>nmap, network discovery scanners</h4>
+      <p>Active scanning (sends probes) to map subnets, identify hosts, fingerprint OSes, find open ports. <code>nmap -sn 10.0.0.0/24</code> for host discovery. Often combined with passive flow data for completeness.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NDP (IPv6)</div>
+      <h4>Neighbor Discovery Protocol</h4>
+      <p>IPv6's replacement for ARP plus router discovery. Uses ICMPv6 messages. Provides neighbor reachability, prefix advertisement, and duplicate address detection.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Baselines &amp; Metrics</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PERFORMANCE BASELINE</div>
+      <h4>What "normal" looks like</h4>
+      <p>Measured average and range of metrics (CPU, RAM, link utilization, latency) over a representative period — typically 30 days. Deviations from baseline drive alerts and capacity planning.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">METRICS TO TRACK</div>
+      <h4>The standard four</h4>
+      <p><b>Utilization:</b> bandwidth used vs available.<br>
+      <b>Errors:</b> CRC errors, dropped packets per interface.<br>
+      <b>Latency:</b> RTT to key destinations.<br>
+      <b>Availability:</b> uptime percentage.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ANOMALY DETECTION</div>
+      <h4>Alert on the unusual</h4>
+      <p>Tools alert when current value differs significantly from baseline — not just when it exceeds a fixed threshold. Catches "Tuesday at 9am the network is normally quiet but today it's saturated" without manually defining thresholds for every time-of-day.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">TRENDING</div>
+      <h4>Growth over time</h4>
+      <p>Long-term graphs (months/years) of key metrics. Used for capacity planning: when do we need to upgrade the WAN link? When does our switch run out of ports?</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>SNMP v3 is the only secure version.</b> v1 and v2c use plaintext community strings. v3 adds authentication and encryption. Production should always be v3.</li>
+    <li><b>NetFlow shows conversations, not packets.</b> It summarizes flow records (src/dst/port/bytes). Use packet capture (Wireshark/tcpdump) for actual packet contents.</li>
+    <li><b>Syslog severity 0 is WORST, 7 is least urgent.</b> Lower number = higher severity. Backwards from how you might think.</li>
+    <li><b>SPAN / port mirror is for getting traffic TO a packet capture device.</b> It's not capture itself; it's how you feed traffic to the capture tool.</li>
+    <li><b>LLDP is open standard; CDP is Cisco proprietary.</b> Mixed-vendor → LLDP.</li>
+    <li><b>SNMP traps push from device; polls pull from manager.</b> Direction matters.</li>
+    <li><b>Baselines exist BEFORE the problem.</b> You can't compare "now" to "normal" if you never measured normal in calm times.</li>
+    <li><b>SIEM is broader than syslog.</b> SIEMs ingest syslog and other sources (Windows Event Log, NetFlow, app logs) and correlate.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · DIAGNOSTIC LAB ============== -->
+<section class="panel" id="panel-lab">
+  <h2>Pick the <em>right tool for the symptom.</em></h2>
+  <p>Each problem below describes a real network symptom. You pick which monitoring tool to use — and see what its output would actually look like. Each tool reveals something different. Wrong-tool choices show realistic output that doesn't help; right-tool choices show output that points to the actual cause. The goal is to internalize <b>which signal each tool produces</b>.</p>
+
+  <div class="lab-wrap">
+    <div class="problem-picker" id="problemPicker"></div>
+
+    <div class="problem-card" id="problemCard" style="display: none;">
+      <div class="problem-head">
+        <span class="problem-id" id="problemId">CASE 1</span>
+        <span class="problem-tag" id="problemTag">Performance</span>
+      </div>
+      <div class="problem-title" id="problemTitle"></div>
+      <div class="problem-desc" id="problemDesc"></div>
+    </div>
+
+    <div id="toolArea" style="display: none;">
+      <div style="font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; font-weight: 700;">
+        Pick a tool to investigate:
+      </div>
+      <div class="tool-grid" id="toolGrid"></div>
+      <div id="toolOutput"></div>
+      <div id="labVerdict"></div>
+    </div>
+
+    <div id="labInstructions" class="lab-instructions">
+      Pick a case above to begin. Then choose which monitoring tool you'd reach for first. Each tool reveals what it would actually show in that scenario — including when it would <b>not</b> help.
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>The tools see different things.</b> SNMP shows counters over time. Syslog shows discrete events. NetFlow shows conversations. Packet capture shows actual bytes. Discovery shows topology.</li>
+    <li><b>The first tool you reach for matters.</b> A user complaint about "slow internet" might be a saturated WAN link (NetFlow shows top talkers), a misconfigured DNS (packet capture shows DNS timeouts), or a CPU-pegged firewall (SNMP shows CPU spike). Each tool tells a different story.</li>
+    <li><b>Recognize the output format.</b> Real exam questions show snippets of syslog, SNMP, or NetFlow output. If you've seen these formats in this lab, you'll recognize them on the test.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · SYSLOG SEVERITY ============== -->
+<section class="panel" id="panel-severity">
+  <h2>Match the <em>severity</em> to the message.</h2>
+  <p class="sev-intro">Syslog severity levels (0-7) are heavily tested. Each real-world log message below — pick the appropriate severity level. <b>Lower number = more severe.</b> The exam will sometimes give you the number and ask for the name, sometimes give you a message and ask for the level — practice both.</p>
+
+  <div class="sev-wrap">
+    <div class="sev-legend">
+      <div class="sev-pill s0">0 · Emergency</div>
+      <div class="sev-pill s1">1 · Alert</div>
+      <div class="sev-pill s2">2 · Critical</div>
+      <div class="sev-pill s3">3 · Error</div>
+      <div class="sev-pill s4">4 · Warning</div>
+      <div class="sev-pill s5">5 · Notice</div>
+      <div class="sev-pill s6">6 · Informational</div>
+      <div class="sev-pill s7">7 · Debug</div>
+    </div>
+
+    <div class="sev-cases" id="sevCases"></div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Monitoring <em>scenarios.</em></h2>
+  <p>Six scenarios mixing tool selection, SNMP versions, syslog/SIEM, NetFlow, baselines, and API integration. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 3.2: SNMP, syslog, flow data, packet capture, discovery, API integration, and baselines.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire monitoring questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 3.2: Network Monitoring Technologies. Covers SNMP (v1/v2c/v3, polling vs traps, MIB/OID), syslog (severity levels, SIEM, log aggregation), flow data (NetFlow, sFlow, IPFIX, J-Flow), packet capture (Wireshark, tcpdump, SPAN, TAP), API integration (REST, NETCONF, webhooks), discovery (LLDP, CDP, nmap), and baselines.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 3 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Investigate real symptoms in the Diagnostic Lab.</p>
+      <p>· Match syslog messages to severity levels.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 3.2 quiz in Canvas, 3.1 organizational processes for documentation context, and Domain 2 artifacts for protocol fundamentals.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 3.2 · Network Monitoring Technologies</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · DIAGNOSTIC LAB ============== */
+/*
+6 problems × 6 tool choices each. Each tool reveals realistic output for that problem.
+The "best tool" is right-tool (green); other tools may be partially-useful (gold) or
+not-helpful (red). The student learns by comparing what each tool would show.
+*/
+
+var TOOLS = ['snmp', 'syslog', 'netflow', 'pcap', 'lldp', 'baseline'];
+var TOOL_LABELS = {
+  snmp: 'SNMP poll',
+  syslog: 'Syslog',
+  netflow: 'NetFlow',
+  pcap: 'Packet capture',
+  lldp: 'LLDP discovery',
+  baseline: 'Baseline compare'
+};
+
+var PROBLEMS = [
+  {
+    id: 'slow-monday-vpn',
+    title: 'Slow VPN every Monday 9am',
+    tag: 'Performance · time-based',
+    desc: 'Users complain that the corporate VPN is unusably slow every Monday between 9 and 10am, then recovers. Other times it works fine. The IT manager wants to know why.',
+    bestTool: 'netflow',
+    toolOutputs: {
+      snmp: {
+        verdict: 'partial',
+        output: '<span class="prompt">snmp-mgr&gt;</span> get firewall-edge-01 sysUpTime, ifInOctets, cpuUtilization\n\nsysUpTime.0    = <span class="ok">42 days, 03:14:22</span>\nifInOctets.1   = <span class="hi">847,239,442,108</span> bytes (delta: 12.4 Mbps avg over 5min)\nifInOctets.2   = 124,883,729,402 bytes (delta: 1.2 Mbps)\ncpuUtilization = <span class="warn">68%</span>\nmemoryUsed     = 42%\n\n<span class="dim"># SNMP shows the firewall is busy but doesn\'t tell you WHO\n# is using the bandwidth or WHY Monday 9am specifically.</span>',
+        comment: '<b>SNMP confirms the link is busy</b> and the firewall is moderately loaded, but it can\'t tell you who or what is consuming the bandwidth. You need a tool that breaks down traffic by conversation.'
+      },
+      syslog: {
+        verdict: 'bad',
+        output: '<span class="prompt">syslog-server&gt;</span> grep -i vpn /var/log/firewall-edge-01\n\n<span class="dim">Mon 09:02:14</span> firewall-edge-01 vpnd[2142]: <span class="ok">INFO</span> tunnel established for user jdoe\n<span class="dim">Mon 09:04:33</span> firewall-edge-01 vpnd[2142]: <span class="ok">INFO</span> tunnel established for user mchen\n<span class="dim">Mon 09:11:08</span> firewall-edge-01 vpnd[2142]: <span class="ok">INFO</span> tunnel established for user tpark\n<span class="dim">Mon 09:18:22</span> firewall-edge-01 vpnd[2142]: <span class="ok">INFO</span> tunnel established for user kbrown\n\n<span class="dim"># No errors. VPN tunnels are establishing normally.\n# Syslog shows EVENTS, not bandwidth usage patterns.</span>',
+        comment: '<b>Syslog shows VPN tunnels establishing normally — no errors.</b> Syslog captures discrete events but doesn\'t reveal bandwidth consumption. This tool can\'t answer the "why is it slow?" question.'
+      },
+      netflow: {
+        verdict: 'ok',
+        output: '<span class="prompt">flow-collector&gt;</span> top-talkers --interval mon-09:00-10:00 --interface wan0\n\n<span class="hi">Rank  Src IP            Dst IP             Port    Bytes        % WAN</span>\n  1   10.42.0.0/16     <span class="warn">backup-cloud.example.com</span>  443    <span class="err">312 GB</span>     <span class="err">62.1%</span>\n  2   10.42.18.7       198.51.100.8      443     14.2 GB      2.8%\n  3   10.42.21.13      203.0.113.42      443     11.8 GB      2.3%\n  4   vpn-clients/24   internal-apps     443     8.4 GB       1.7%\n\n<span class="ok"># Found it.</span> Backup traffic to cloud is using 62% of the WAN every Mon 9-10am.\n# Reschedule the backup job for off-hours or QoS the backup traffic.',
+        comment: '<b>NetFlow nailed it.</b> The Monday backup job is consuming most of the WAN, starving the VPN. Top-talker analysis by time window is exactly what NetFlow excels at. Solution: reschedule the backup OR apply QoS to deprioritize backup traffic.'
+      },
+      pcap: {
+        verdict: 'bad',
+        output: '<span class="prompt">tcpdump -i any -w monday-9am.pcap host vpn-gateway and port 443</span>\n\nlistening on any, link-type LINUX_SLL (Linux cooked v1), capture size 262144 bytes\n\n<span class="warn">^C82,481,237 packets captured</span>\n<span class="warn">82,481,237 packets received by filter</span>\n<span class="warn">2,144,892 packets dropped by kernel (capture overflow)</span>\n\n<span class="dim"># Captured 82M packets in an hour. File is now 187 GB.\n# Useful for deep protocol issues but NOT for "why slow?"\n# You\'d spend hours analyzing this when NetFlow answers in seconds.</span>',
+        comment: '<b>Packet capture is overkill here.</b> You\'d collect 100+ GB of pcap and still need to summarize it to find the cause — which is exactly what NetFlow already does in summary form. Use PCAP when you need protocol-level detail, not for "what\'s using bandwidth?"'
+      },
+      lldp: {
+        verdict: 'bad',
+        output: '<span class="prompt">firewall-edge-01#</span> show lldp neighbors\n\n<span class="hi">Local Port    Neighbor Device         Neighbor Port    Capabilities</span>\nGi0/0         core-sw-01              Te1/0/24         Bridge, Router\nGi0/1         isp-router-prod.exa     1.1              Router\nGi0/2         core-sw-02              Te1/0/24         Bridge, Router\n\n<span class="dim"># Shows what\'s physically connected. Doesn\'t help with\n# "why is VPN slow at 9am?" — that\'s a traffic question.</span>',
+        comment: '<b>LLDP is the wrong layer.</b> Discovery protocols tell you which devices are connected to which ports — useful for topology mapping, not for diagnosing performance over time.'
+      },
+      baseline: {
+        verdict: 'partial',
+        output: '<span class="prompt">baseline-tool&gt;</span> compare wan0-throughput --window mon-9am --baseline 30-day\n\n<span class="hi">Metric            30-day avg     Current (Mon 9am)    Deviation</span>\nwan0 utilization  <span class="ok">38%</span>            <span class="err">91%</span>                  <span class="err">+139%</span>\nvpn-rtt-ms        <span class="ok">18 ms</span>          <span class="err">340 ms</span>               <span class="err">+1789%</span>\ndns-resp-ms       <span class="ok">12 ms</span>          18 ms                +50%\nfirewall-cpu      <span class="ok">42%</span>            68%                  +62%\n\n<span class="dim"># Baseline confirms: WAN saturated at this time, VPN RTT jumps 19x.\n# Tells you SOMETHING is unusual. NetFlow tells you WHAT.</span>',
+        comment: '<b>Baseline confirms the symptom is real and severe</b> (WAN 91% vs 38% normal, VPN latency 19x normal). But baseline tools tell you "different from normal" — they don\'t identify the culprit. Pair this with NetFlow.'
+      }
+    }
+  },
+  {
+    id: 'router-crash',
+    title: 'Core router rebooted unexpectedly at 03:42',
+    tag: 'Outage · postmortem',
+    desc: 'A core router rebooted itself at 03:42 last night. You need to understand WHY before declaring the incident closed.',
+    bestTool: 'syslog',
+    toolOutputs: {
+      snmp: {
+        verdict: 'partial',
+        output: '<span class="prompt">snmp-mgr&gt;</span> get core-rtr-01 sysUpTime\n\nsysUpTime.0  = <span class="warn">6 hours, 22 minutes</span>\n\n<span class="prompt">snmp-mgr&gt;</span> graph cpuUtilization --start 03:30 --end 04:00\n\n03:30 ████████████░░ 58%\n03:35 ███████████░░░ 54%\n03:40 ███████████████ <span class="err">98%</span>\n03:42 <span class="dim">— device unreachable —</span>\n03:47 ████░░░░░░░░░░ 18%\n03:50 █████████░░░░░ 42%\n\n<span class="dim"># Confirms reboot at 03:42 and CPU spike right before.\n# Doesn\'t tell you what caused the CPU spike.</span>',
+        comment: '<b>SNMP confirms the timeline</b> (CPU spike to 98% right before the crash) but can\'t tell you why. The "why" lives in the device\'s log messages — which is what syslog captures.'
+      },
+      syslog: {
+        verdict: 'ok',
+        output: '<span class="prompt">syslog-server&gt;</span> grep core-rtr-01 /var/log/syslog | tail -20\n\n<span class="dim">03:41:18</span> core-rtr-01 %SYS-<span class="warn">4</span>-MEMORY: Memory pool above 80% utilization\n<span class="dim">03:41:42</span> core-rtr-01 %SYS-<span class="warn">4</span>-MEMORY: Memory pool above 85% utilization\n<span class="dim">03:41:58</span> core-rtr-01 %SYS-<span class="err">3</span>-MEMORY: Memory pool above 95% utilization\n<span class="dim">03:42:03</span> core-rtr-01 %SYS-<span class="err">2</span>-MALLOCFAIL: Memory allocation of 1572864 bytes failed\n<span class="dim">03:42:04</span> core-rtr-01 %SYS-<span class="err">2</span>-WATCHDOG: Process \'BGP Router\' last ran for 14000ms; watchdog triggered\n<span class="dim">03:42:05</span> core-rtr-01 %SYS-<span class="err">0</span>-SYSTEM_RELOAD: System reload requested by watchdog\n<span class="dim">03:47:12</span> core-rtr-01 %SYS-<span class="ok">5</span>-RESTART: System restarted, image ios-15.6.4M\n\n<span class="ok"># Memory exhaustion → process hang → watchdog reboot.\n# Likely a memory leak in the BGP process. Patch or restart on schedule.</span>',
+        comment: '<b>Syslog tells the whole story.</b> Memory pool climbed (severity 4 warnings), hit 95% (severity 3), allocation failed (severity 2), BGP process hung (severity 2), watchdog triggered reboot (severity 0). Classic memory leak pattern. Open a vendor TAC case with this evidence.'
+      },
+      netflow: {
+        verdict: 'bad',
+        output: '<span class="prompt">flow-collector&gt;</span> show flows --device core-rtr-01 --start 03:30 --end 03:42\n\n<span class="hi">No flow records received from core-rtr-01 between 03:42 and 03:47</span>\n\nPrior to 03:42:\n  Active flows: 247,883\n  Avg packet rate: 412k pps\n  Top talkers: normal distribution, no anomalies\n\n<span class="dim"># NetFlow can confirm "no traffic anomalies before crash" but\n# can\'t tell you why the device itself crashed. NetFlow is about\n# the TRAFFIC, not the DEVICE STATE.</span>',
+        comment: '<b>NetFlow shows nothing unusual about traffic</b> — useful as a control (rules out attack-driven crash) but doesn\'t explain the reboot. Device-state issues need syslog.'
+      },
+      pcap: {
+        verdict: 'bad',
+        output: '<span class="prompt">tcpdump</span> archives have nothing for 03:30-03:42 unless you happened\nto be running an active capture session. PCAPs are usually targeted\nto a specific problem window, not continuously running.\n\n<span class="dim"># Even if you had a PCAP, packet capture shows traffic FLOWING THROUGH\n# the device — not the device\'s internal state (memory, CPU, processes).</span>',
+        comment: '<b>Packet capture sees what crosses the wire, not what the device itself was doing.</b> A router can crash because of internal memory leak with the traffic looking perfectly normal in PCAP.'
+      },
+      lldp: {
+        verdict: 'bad',
+        output: '<span class="prompt">core-rtr-01#</span> show lldp neighbors\n\n<span class="dim"># Post-reboot topology — same as before. LLDP doesn\'t store history.\n# Can\'t tell you anything about why the reboot happened.</span>\n\n<span class="hi">Local Port    Neighbor</span>\nGi0/0         dist-sw-01\nGi0/1         dist-sw-02\nGi0/2         core-rtr-02',
+        comment: '<b>LLDP shows what\'s connected right now</b> — useful for topology mapping, useless for forensics on a crash.'
+      },
+      baseline: {
+        verdict: 'partial',
+        output: '<span class="prompt">baseline-tool&gt;</span> show core-rtr-01 anomalies --start 03:00\n\n03:00-03:30  Memory: normal (45% avg)\n03:30-03:42  Memory: <span class="warn">trending up sharply</span>\n             Rate: +2% per minute (alert: +0.5%/min threshold)\n\n<span class="ok"># Baseline alerting could have FIRED EARLIER:\n# If you had alerts at "memory growth rate > 0.5%/min",\n# you would have been paged at 03:32, 10 min before crash.</span>',
+        comment: '<b>Baseline shows the memory anomaly was building for 12 minutes before the crash.</b> Tells you alerts could be tuned to catch this earlier next time. But for understanding the actual cause, syslog is the primary tool.'
+      }
+    }
+  },
+  {
+    id: 'unknown-device',
+    title: 'Unknown device responding on the network',
+    tag: 'Security · inventory',
+    desc: 'Your IPAM shows 10.0.5.142 as unassigned, but the device is responding to ping and is on the network. You need to find out what it is and which switch port it\'s plugged into.',
+    bestTool: 'lldp',
+    toolOutputs: {
+      snmp: {
+        verdict: 'partial',
+        output: '<span class="prompt">snmp-mgr&gt;</span> walk 10.0.5.142 system\n\n<span class="warn">Timeout — no SNMP response</span>\n\n<span class="dim"># Many endpoint devices don\'t run SNMP, or use custom community\n# strings. SNMP won\'t identify a random rogue device.</span>',
+        comment: '<b>SNMP only works on devices configured to respond to it</b> — typically your managed network gear, not random endpoints. A rogue laptop or IoT device probably won\'t answer SNMP at all.'
+      },
+      syslog: {
+        verdict: 'partial',
+        output: '<span class="prompt">syslog-server&gt;</span> grep "10.0.5.142" /var/log/*\n\n<span class="dim">14:22:08</span> access-sw-12 %LINEPROTO-5-UPDOWN: Line protocol on Gi0/14 changed to up\n<span class="dim">14:22:13</span> dhcp-server %DHCPD-INFO: Lease assigned to <span class="warn">aa:bb:cc:dd:ee:ff</span> ip=10.0.5.142\n\n<span class="dim"># Useful! DHCP log shows the MAC. Now you need to find which\n# switch port that MAC is on — syslog doesn\'t answer that directly.</span>',
+        comment: '<b>Syslog gives you the MAC address from the DHCP lease.</b> Good start, but to find the physical port you\'ll need another tool (search the CAM table on access-sw-12, or use discovery info).'
+      },
+      netflow: {
+        verdict: 'partial',
+        output: '<span class="prompt">flow-collector&gt;</span> show flows --src 10.0.5.142 --last 1h\n\n<span class="hi">Src IP          Dst IP            Port   Bytes</span>\n10.0.5.142      8.8.8.8           53     842\n10.0.5.142      time.windows.com  123    248\n10.0.5.142      192.168.1.1       80     2.1K\n10.0.5.142      <span class="warn">unknown.malware.example</span>  443    <span class="warn">14 MB</span>\n\n<span class="dim"># Shows what the device is talking to. Useful for security review\n# but doesn\'t tell you which physical port it\'s on.</span>',
+        comment: '<b>NetFlow shows the device\'s conversations</b> — useful for understanding what it\'s doing and assessing risk. But to find its physical port, you need discovery or CAM table lookups.'
+      },
+      pcap: {
+        verdict: 'partial',
+        output: '<span class="prompt">tcpdump -i any host 10.0.5.142 -c 50</span>\n\n<span class="dim">14:33:22.142</span> arp who-has 10.0.5.1 tell 10.0.5.142\n<span class="dim">14:33:22.143</span> arp reply 10.0.5.1 is-at <span class="warn">aa:bb:cc:dd:ee:ff</span>\n<span class="dim">14:33:22.241</span> 10.0.5.142.49283 &gt; 8.8.8.8.53: DNS A? mqtt.example.com\n<span class="dim">14:33:22.589</span> 10.0.5.142.49284 &gt; <span class="warn">unknown.example.com</span>.443: TCP SYN\n\n<span class="dim"># Shows traffic content. MAC visible in ARP. Still doesn\'t answer\n# "which switch port?" directly — that\'s a CAM-table or discovery question.</span>',
+        comment: '<b>Packet capture shows the device\'s MAC and traffic patterns</b>, which is useful but indirect for finding the port. LLDP/CAM table lookup is more direct.'
+      },
+      lldp: {
+        verdict: 'ok',
+        output: '<span class="prompt">access-sw-12#</span> show mac address-table | include aa:bb:cc:dd:ee:ff\n\nVLAN  MAC Address       Type     Port\n50    aa:bb:cc:dd:ee:ff DYNAMIC  <span class="hi">Gi0/14</span>\n\n<span class="prompt">access-sw-12#</span> show lldp neighbors Gi0/14\n\n<span class="hi">Port      Device ID              Description           Capabilities</span>\nGi0/14    <span class="warn">unknown-device</span>         (none)                <span class="warn">unknown</span>\n\n<span class="prompt">access-sw-12#</span> show cdp neighbors Gi0/14\n\n<span class="warn">No CDP neighbors found on Gi0/14</span>\n\n<span class="ok"># Found it: physical port Gi0/14 on access-sw-12, VLAN 50.\n# Walk to the patch panel, find Gi0/14 in your cable map,\n# identify the wall jack and physical location.</span>',
+        comment: '<b>Discovery protocols + CAM table = full answer.</b> CAM table maps MAC to switch port; LLDP/CDP would tell you if it\'s a managed device (it isn\'t — likely an endpoint). Now use your cable map to find the physical jack.'
+      },
+      baseline: {
+        verdict: 'bad',
+        output: '<span class="prompt">baseline-tool&gt;</span> show 10.0.5.142 history\n\n<span class="warn">No baseline data — IP not previously seen</span>\n\n<span class="dim"># Baselines are about comparing current behavior to historical norm.\n# A brand-new unknown device has no history to compare against.</span>',
+        comment: '<b>Baseline comparison needs historical data</b> — useless for a device that just appeared. Baseline is for "is THIS device behaving differently than usual?" not for finding new devices.'
+      }
+    }
+  },
+  {
+    id: 'dns-lookups-failing',
+    title: 'Intermittent DNS lookup failures from one subnet',
+    tag: 'Application · L7',
+    desc: 'Users on the 10.20.30.0/24 subnet report that some websites occasionally fail to load. They get back "server not found" then it works on retry. Other subnets are fine.',
+    bestTool: 'pcap',
+    toolOutputs: {
+      snmp: {
+        verdict: 'bad',
+        output: '<span class="prompt">snmp-mgr&gt;</span> get dns-server-01 cpuUtilization, memoryUsed, interfaceErrors\n\ncpuUtilization     = <span class="ok">12%</span>\nmemoryUsed         = 38%\ninterfaceErrors    = 0\nifInOctets delta   = 4.2 Mbps\n\n<span class="dim"># DNS server looks healthy. SNMP shows the server isn\'t overloaded.\n# Doesn\'t reveal the actual DNS query failures.</span>',
+        comment: '<b>SNMP shows the DNS server is healthy</b> — which is useful as a control but doesn\'t explain why specific queries are failing intermittently. The problem is in the protocol exchange itself.'
+      },
+      syslog: {
+        verdict: 'partial',
+        output: '<span class="prompt">syslog-server&gt;</span> grep dns /var/log/firewall*\n\n<span class="dim">14:02:18</span> firewall-edge-01 dnsfilter[2847]: <span class="ok">PASS</span> 10.20.30.45 → 8.8.8.8 query=example.com\n<span class="dim">14:02:18</span> firewall-edge-01 dnsfilter[2847]: <span class="ok">PASS</span> 10.20.30.45 → 8.8.8.8 query=cdn.example.com\n<span class="dim">14:02:18</span> firewall-edge-01 dnsfilter[2847]: <span class="err">BLOCK</span> 10.20.30.45 → 8.8.8.8 query=cdn-edge-7.example.com (<span class="warn">policy=dns-rate-limit</span>)\n\n<span class="dim"># Found a clue: firewall DNS filter is blocking queries when rate-limit\n# hits. But syslog alone doesn\'t show the full DNS exchange.</span>',
+        comment: '<b>Firewall syslog shows DNS queries being blocked by rate limiting</b> on this subnet. Useful pointer! But to confirm the exact mechanism and identify why some queries pass while others fail, packet capture gives the complete protocol detail.'
+      },
+      netflow: {
+        verdict: 'bad',
+        output: '<span class="prompt">flow-collector&gt;</span> show flows --subnet 10.20.30.0/24 --port 53\n\n<span class="hi">Src             Dst         Port   Bytes  Packets</span>\n10.20.30.0/24   8.8.8.8     53     142K   2,142\n10.20.30.0/24   1.1.1.1     53     8K     128\n\n<span class="dim"># Confirms DNS traffic exists. Doesn\'t show success vs failure or\n# the content of queries. NetFlow is a summary, not a packet view.</span>',
+        comment: '<b>NetFlow confirms DNS traffic is flowing</b> but doesn\'t show which specific queries fail or why. For application-protocol troubleshooting at this depth, packet capture is the right tool.'
+      },
+      pcap: {
+        verdict: 'ok',
+        output: '<span class="prompt">tcpdump -i any -n port 53 and net 10.20.30.0/24 -c 20</span>\n\n<span class="dim">14:02:18.142</span> 10.20.30.45.53842 &gt; 8.8.8.8.53: <span class="ok">A? example.com</span>\n<span class="dim">14:02:18.198</span> 8.8.8.8.53 &gt; 10.20.30.45.53842: <span class="ok">A 93.184.216.34</span>\n<span class="dim">14:02:18.201</span> 10.20.30.45.53843 &gt; 8.8.8.8.53: A? cdn.example.com\n<span class="dim">14:02:18.252</span> 8.8.8.8.53 &gt; 10.20.30.45.53843: A 151.101.1.7\n<span class="dim">14:02:18.255</span> 10.20.30.45.53844 &gt; 8.8.8.8.53: A? cdn-edge-7.example.com\n<span class="dim">14:02:18.501</span> <span class="err">ICMP unreachable: 10.20.30.45 udp port 53 unreachable from 10.20.30.1</span>\n<span class="dim">14:02:18.510</span> 10.20.30.45.53844 &gt; 8.8.8.8.53: A? cdn-edge-7.example.com (retry)\n\n<span class="ok"># Found it: firewall is rate-limiting DNS, returning ICMP unreachable\n# for some queries. Client retries; sometimes retry succeeds. Combine\n# this with the firewall syslog — the policy is too aggressive for this subnet.</span>',
+        comment: '<b>Packet capture shows the exact mechanism.</b> The firewall is rate-limiting DNS queries from this subnet and dropping some with ICMP unreachable. Clients retry and sometimes succeed (the "works on second try" symptom). Now you can adjust the rate-limit policy for this subnet.'
+      },
+      lldp: {
+        verdict: 'bad',
+        output: '<span class="prompt">access-sw-12#</span> show lldp neighbors\n\n<span class="dim"># Topology is unchanged. LLDP doesn\'t help with application-layer\n# failures.</span>',
+        comment: '<b>LLDP is layer-2 topology</b> — irrelevant to DNS query failures, which happen at layer 7.'
+      },
+      baseline: {
+        verdict: 'partial',
+        output: '<span class="prompt">baseline-tool&gt;</span> compare dns-success-rate --subnet 10.20.30.0/24\n\nMetric              30-day avg     Current        Deviation\nDNS success rate    99.6%          <span class="err">94.2%</span>          -5.4 points\nDNS query rate      120 qps        <span class="warn">340 qps</span>        +183%\nAvg DNS RTT         48 ms          51 ms          +6%\n\n<span class="dim"># Baseline shows query rate is unusually high. Could explain\n# rate-limit triggering. But to confirm the mechanism — pcap.</span>',
+        comment: '<b>Baseline reveals the subnet is generating 3x normal DNS queries</b> — which is hitting the firewall\'s rate-limit policy. Combine with PCAP to see exactly how the limit manifests.'
+      }
+    }
+  },
+  {
+    id: 'wan-saturated',
+    title: 'WAN link 100% utilized for the last hour',
+    tag: 'Performance · acute',
+    desc: 'Monitoring is paging that your WAN uplink has been at 100% for 60 minutes. Everyone\'s complaining the internet is slow. You need to find out what\'s eating the bandwidth — fast.',
+    bestTool: 'netflow',
+    toolOutputs: {
+      snmp: {
+        verdict: 'partial',
+        output: '<span class="prompt">snmp-mgr&gt;</span> graph wan-link --last 60min\n\n14:00 ████░░░░░░ 38%\n14:15 ████████░░ 78%\n14:20 <span class="err">██████████ 100%</span>\n14:30 <span class="err">██████████ 100%</span>\n14:45 <span class="err">██████████ 100%</span>\n15:00 <span class="err">██████████ 100%</span>\n\n<span class="dim"># Confirms saturation. Tells you WHEN it started but not WHO.</span>',
+        comment: '<b>SNMP confirms the link is fully saturated</b> and shows when it started (around 14:15). But it doesn\'t identify which source/destination is consuming the bandwidth.'
+      },
+      syslog: {
+        verdict: 'partial',
+        output: '<span class="prompt">syslog-server&gt;</span> grep -i "high|util|congest" /var/log/wan-rtr-01\n\n<span class="dim">14:18:42</span> wan-rtr-01 %INTERFACE-<span class="warn">4</span>-UTILIZATION: Gi0/0 utilization above 90% threshold\n<span class="dim">14:19:08</span> wan-rtr-01 %QOS-<span class="warn">4</span>-DROP: Class default dropping packets (queue full)\n<span class="dim">14:23:14</span> wan-rtr-01 %QOS-<span class="warn">4</span>-DROP: Class default dropping packets (queue full)\n\n<span class="dim"># Syslog confirms drops are happening at WAN egress.\n# Doesn\'t tell you WHAT is consuming the bandwidth.</span>',
+        comment: '<b>Syslog confirms QoS drops on the WAN</b> — the link is overcommitted and the lowest-priority class is shedding traffic. But this doesn\'t identify the culprit.'
+      },
+      netflow: {
+        verdict: 'ok',
+        output: '<span class="prompt">flow-collector&gt;</span> top-talkers --interface wan0 --last 30min\n\n<span class="hi">Rank  Src IP            Dst IP                     Port   Bytes      % WAN</span>\n  1   10.30.18.42       <span class="warn">cdn-streaming.example</span>      443    <span class="err">68 GB</span>      <span class="err">71%</span>\n  2   10.30.4.118       update.microsoft.com         443    8.4 GB     8.7%\n  3   10.30.5.0/24      various                      443    6.1 GB     6.3%\n\n<span class="ok"># Single host 10.30.18.42 streaming/downloading 68 GB in 30 min.\n# Resolve MAC, find user via DHCP logs, and have a conversation.</span>',
+        comment: '<b>NetFlow finds the culprit in seconds.</b> A single host is consuming 71% of the WAN with streaming or large download traffic. Now you can block, rate-limit, or talk to the user — whatever your policy dictates.'
+      },
+      pcap: {
+        verdict: 'partial',
+        output: '<span class="prompt">tcpdump -i wan0 -c 100</span>\n\n<span class="dim">15:04:18.142</span> 10.30.18.42.54283 &gt; 203.0.113.18.443: TCP, length 1460\n<span class="dim">15:04:18.143</span> 10.30.18.42.54283 &gt; 203.0.113.18.443: TCP, length 1460\n<span class="dim">15:04:18.144</span> 10.30.18.42.54283 &gt; 203.0.113.18.443: TCP, length 1460\n...\n\n<span class="dim"># Captures packets but at 100% WAN utilization you risk capture overflow.\n# NetFlow gives the same answer (top talker) with far less overhead.</span>',
+        comment: '<b>PCAP would work but is heavyweight</b> for a top-talker question. Capturing at line rate on a saturated WAN often drops packets in the capture itself. NetFlow gives the same answer instantly.'
+      },
+      lldp: {
+        verdict: 'bad',
+        output: '<span class="prompt">wan-rtr-01#</span> show lldp neighbors\n\n<span class="dim"># Topology is unchanged. LLDP doesn\'t help with WAN utilization.</span>',
+        comment: '<b>LLDP is the wrong tool entirely</b> for bandwidth questions.'
+      },
+      baseline: {
+        verdict: 'partial',
+        output: '<span class="prompt">baseline-tool&gt;</span> compare wan0 --current\n\nMetric               30-day avg    Current      Deviation\nwan0 utilization     32%           <span class="err">100%</span>         <span class="err">+213%</span>\nwan0 packets-out     180 kpps      420 kpps     +133%\n\n<span class="dim"># Confirms massive anomaly. Doesn\'t identify the source.</span>',
+        comment: '<b>Baseline confirms the anomaly is real and severe</b> but doesn\'t identify the top talker. Pair with NetFlow.'
+      }
+    }
+  },
+  {
+    id: 'switch-port-flapping',
+    title: 'Switch port flapping up/down repeatedly',
+    tag: 'Hardware · log analysis',
+    desc: 'A switch port keeps reporting "interface up" and "interface down" alternately every 30-60 seconds. The user connected to that port complains of constant network drops.',
+    bestTool: 'syslog',
+    toolOutputs: {
+      snmp: {
+        verdict: 'partial',
+        output: '<span class="prompt">snmp-mgr&gt;</span> get access-sw-08 ifOperStatus.14, ifInErrors.14\n\nifOperStatus.14    = <span class="warn">up</span> (right now)\nifInErrors.14      = <span class="err">2,847</span> (climbing)\nifInDiscards.14    = <span class="err">412</span>\nifLastChange.14    = <span class="warn">23 seconds ago</span>\n\n<span class="dim"># Counters increasing. Status was last changed 23s ago.\n# Suggests flapping but you only see point-in-time data with SNMP poll.</span>',
+        comment: '<b>SNMP shows current state and error counters</b> — useful but you see one snapshot per poll. To see the actual up/down events you want the device\'s own event log, not periodic polling.'
+      },
+      syslog: {
+        verdict: 'ok',
+        output: '<span class="prompt">syslog-server&gt;</span> grep "access-sw-08.*Gi0/14" /var/log/syslog | tail -20\n\n<span class="dim">14:42:18</span> access-sw-08 %LINK-<span class="err">3</span>-UPDOWN: Interface GigabitEthernet0/14, changed state to <span class="err">down</span>\n<span class="dim">14:42:23</span> access-sw-08 %LINK-<span class="ok">3</span>-UPDOWN: Interface GigabitEthernet0/14, changed state to <span class="ok">up</span>\n<span class="dim">14:43:08</span> access-sw-08 %LINK-<span class="err">3</span>-UPDOWN: Interface GigabitEthernet0/14, changed state to <span class="err">down</span>\n<span class="dim">14:43:14</span> access-sw-08 %LINK-<span class="ok">3</span>-UPDOWN: Interface GigabitEthernet0/14, changed state to <span class="ok">up</span>\n<span class="dim">14:43:52</span> access-sw-08 %LINK-<span class="err">3</span>-UPDOWN: Interface GigabitEthernet0/14, changed state to <span class="err">down</span>\n<span class="dim">14:43:58</span> access-sw-08 %PM-<span class="warn">4</span>-ERR_DISABLE: link-flap error detected on Gi0/14, putting Gi0/14 in err-disable state\n\n<span class="ok"># Repeated link transitions in &lt;1 minute intervals. Switch eventually\n# err-disabled the port. Likely cable, NIC, or SFP problem on the user end.</span>',
+        comment: '<b>Syslog gives you the complete event timeline.</b> Five up/down transitions in 90 seconds — the switch finally err-disabled the port. Likely causes: bad patch cable, failing NIC, duplex mismatch, or bad SFP. Walk to the port and check the cable physically first.'
+      },
+      netflow: {
+        verdict: 'bad',
+        output: '<span class="prompt">flow-collector&gt;</span> show flows --port Gi0/14 --device access-sw-08\n\n<span class="dim"># Sporadic short flows. NetFlow exports won\'t directly show port\n# up/down — they show traffic that crossed the port while it was up.</span>\n\n<span class="hi">Time     Bytes (5-min interval)</span>\n14:40    1.2 MB\n14:45    <span class="warn">0.4 MB (significantly lower)</span>\n14:50    <span class="warn">0.2 MB</span>\n14:55    <span class="warn">0 (port down)</span>',
+        comment: '<b>NetFlow shows decreasing traffic</b> — a side effect of the flapping, but the event log is the direct answer.'
+      },
+      pcap: {
+        verdict: 'bad',
+        output: '<span class="prompt">tcpdump -i Gi0/14</span>\n\n<span class="dim"># Capture on a flapping port: you\'ll get bursts of packets when the\n# port is up, nothing when it\'s down. The flap itself is a physical-layer\n# event — packet capture sees the result, not the cause.</span>',
+        comment: '<b>Packet capture can\'t see physical-layer events.</b> When the link is up you\'ll capture traffic; when it\'s down there\'s nothing to capture. The actual up/down events are device-state changes, captured in syslog.'
+      },
+      lldp: {
+        verdict: 'partial',
+        output: '<span class="prompt">access-sw-08#</span> show lldp neighbors Gi0/14\n\n<span class="warn">No LLDP neighbors on Gi0/14</span>\n\n<span class="dim"># LLDP relies on neighbor advertisements every 30s. On a flapping port,\n# the neighbor disappears whenever the port goes down.</span>',
+        comment: '<b>LLDP confirms the port has no stable neighbor</b> — consistent with flapping. But it doesn\'t give you the timeline of when each flap happened. Use syslog for that.'
+      },
+      baseline: {
+        verdict: 'partial',
+        output: '<span class="prompt">baseline-tool&gt;</span> show access-sw-08 anomalies --interface Gi0/14\n\nMetric               30-day baseline    Current\nLink state changes   0.3 per day        <span class="err">47 per hour</span>\nInput errors         2 per day          <span class="err">2,847 in 30min</span>\n\n<span class="dim"># Catches the anomaly clearly. The "why" is in syslog.</span>',
+        comment: '<b>Baseline catches the anomaly</b> — 47 link transitions per hour vs 0.3 per day normal. Confirms flapping is real. But syslog tells you WHEN each flap happened, which is what you need for cable troubleshooting.'
+      }
+    }
+  }
+];
+
+var labState = { problemIdx: null, problem: null, picked: {} };
+
+function renderProblemPicker() {
+  var picker = document.getElementById('problemPicker');
+  var html = '';
+  PROBLEMS.forEach(function(p, i) {
+    html += '<button class="problem-btn" data-i="' + i + '">' +
+      '<div class="ptitle">Case ' + (i + 1) + ' · ' + p.title + '</div>' +
+      '<div class="pdesc">' + p.tag + '</div>' +
+      '</button>';
+  });
+  picker.innerHTML = html;
+  picker.querySelectorAll('.problem-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      startCase(parseInt(btn.dataset.i, 10));
+    });
+  });
+}
+
+function startCase(idx) {
+  labState.problemIdx = idx;
+  labState.problem = PROBLEMS[idx];
+  labState.picked = {};
+
+  document.querySelectorAll('.problem-btn').forEach(function(b, i) {
+    b.classList.toggle('active', i === idx);
+  });
+
+  var card = document.getElementById('problemCard');
+  card.style.display = 'block';
+  document.getElementById('problemId').textContent = 'CASE ' + (idx + 1);
+  document.getElementById('problemTag').textContent = labState.problem.tag;
+  document.getElementById('problemTitle').textContent = labState.problem.title;
+  document.getElementById('problemDesc').textContent = labState.problem.desc;
+
+  document.getElementById('toolArea').style.display = 'block';
+  document.getElementById('labInstructions').style.display = 'none';
+  document.getElementById('toolOutput').innerHTML = '';
+  document.getElementById('labVerdict').innerHTML = '';
+
+  renderToolGrid();
+}
+
+function renderToolGrid() {
+  var grid = document.getElementById('toolGrid');
+  var html = '';
+  TOOLS.forEach(function(t) {
+    var picked = labState.picked[t];
+    var cls = 'tool-btn';
+    if (picked) {
+      cls += ' locked';
+      var verdict = labState.problem.toolOutputs[t].verdict;
+      if (verdict === 'ok') cls += ' right-tool';
+      else if (verdict === 'bad') cls += ' wrong-tool';
+      else cls += ' wrong-tool'; // partial — also tinted but less aggressively
+    }
+    html += '<button class="' + cls + '" data-tool="' + t + '">' + TOOL_LABELS[t] + '</button>';
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll('.tool-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      pickTool(btn.dataset.tool);
+    });
+  });
+}
+
+function pickTool(tool) {
+  if (labState.picked[tool]) return; // already picked
+  labState.picked[tool] = true;
+
+  var out = labState.problem.toolOutputs[tool];
+  var outArea = document.getElementById('toolOutput');
+  outArea.innerHTML = '<div style="font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-top: 14px; margin-bottom: 4px; font-weight: 700;">Tool output · ' + TOOL_LABELS[tool] + '</div>' +
+    '<div class="terminal-out">' + out.output + '</div>';
+
+  var verdict = document.getElementById('labVerdict');
+  var cls = out.verdict === 'ok' ? 'ok' : (out.verdict === 'partial' ? 'partial' : 'bad');
+  var label = out.verdict === 'ok' ? '✓ Right tool for this job' : (out.verdict === 'partial' ? '⚠ Partially useful' : '✗ Wrong tool for this symptom');
+  verdict.innerHTML = '<div class="lab-verdict ' + cls + '"><b>' + label + '.</b> ' + out.comment + '</div>';
+
+  renderToolGrid();
+}
+
+renderProblemPicker();
+
+/* ============== TAB 3 · SYSLOG SEVERITY MATCHER ============== */
+var SEV_CASES = [
+  {
+    msg: '%SYS-?-SYSTEM_RELOAD: System reload requested by watchdog',
+    correct: 0,
+    explain: 'A system reload is <b>Emergency (0)</b>. The system has crashed or has been forced to restart — it is unusable until it comes back up. Compare with severity 5 messages about scheduled restarts, which are notice-level events.'
+  },
+  {
+    msg: '%LINK-?-UPDOWN: Interface GigabitEthernet0/14 changed state to down',
+    correct: 3,
+    explain: 'A link going down is an <b>Error (3)</b> — it represents an error condition affecting service but not a system-level catastrophe. The corresponding "up" event would also typically be logged at severity 3 in Cisco IOS.'
+  },
+  {
+    msg: '%SYS-?-CONFIG_I: Configured from console by admin',
+    correct: 5,
+    explain: 'A configuration change is <b>Notice (5)</b> — a normal but significant event. Not an error, but worth logging because configuration changes are auditable events.'
+  },
+  {
+    msg: '%CRYPTO-?-DEBUG: ISAKMP packet received, message ID 0x12AB48F1, exchange type 2',
+    correct: 7,
+    explain: '<b>Debug (7)</b> — verbose protocol-level detail useful for troubleshooting specific protocol exchanges. Normally suppressed in production; enabled temporarily during investigation.'
+  },
+  {
+    msg: '%SYS-?-MEMORY: Memory pool above 85% utilization',
+    correct: 4,
+    explain: '<b>Warning (4)</b> — a condition that needs attention but isn\'t yet causing service impact. If memory continues climbing past 95% you\'d see severity 3 (Error) or worse. Warnings are your early-detection signal.'
+  },
+  {
+    msg: '%FIRE-?-DETECTED: Fire suppression system activated, evacuating data center',
+    correct: 1,
+    explain: '<b>Alert (1)</b> — action must be taken immediately. Fire suppression is one step below Emergency (which would be "all systems are gone"). If the building flooded next, severity might be 0.'
+  },
+  {
+    msg: '%DHCP-?-INFO: Lease assigned to aa:bb:cc:dd:ee:ff ip=10.20.30.45',
+    correct: 6,
+    explain: '<b>Informational (6)</b> — routine operational event. DHCP leases happen constantly in normal operation. Useful for audit/forensic purposes but not actionable on its own.'
+  },
+  {
+    msg: '%HW-?-FAN_FAIL: Power supply fan 2 of 4 failed, system thermal margin reduced',
+    correct: 2,
+    explain: '<b>Critical (2)</b> — hardware fault that threatens service continuity. The system continues running (3 of 4 fans still operating) but redundancy is degraded and replacement is urgent. Below Alert/Emergency because no immediate action prevents disaster.'
+  }
+];
+
+function renderSeverity() {
+  var container = document.getElementById('sevCases');
+  var html = '';
+  SEV_CASES.forEach(function(c, idx) {
+    var choicesHTML = '';
+    for (var lvl = 0; lvl <= 7; lvl++) {
+      choicesHTML += '<button class="sev-choice" data-idx="' + idx + '" data-lvl="' + lvl + '">' + lvl + '</button>';
+    }
+    html += '<div class="sev-case" data-idx="' + idx + '">' +
+      '<div class="sev-prompt"><b>Case ' + (idx + 1) + '.</b> What severity should this message be?</div>' +
+      '<div class="sev-msg">' + c.msg + '</div>' +
+      '<div class="sev-choices">' + choicesHTML + '</div>' +
+      '<div class="sev-explain" id="sevExplain-' + idx + '"></div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.sev-choice').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = parseInt(btn.dataset.idx, 10);
+      var picked = parseInt(btn.dataset.lvl, 10);
+      var c = SEV_CASES[idx];
+      var caseEl = container.querySelectorAll('.sev-case')[idx];
+      var isCorrect = picked === c.correct;
+
+      caseEl.querySelectorAll('.sev-choice').forEach(function(b) {
+        b.classList.add('locked');
+        var lvl = parseInt(b.dataset.lvl, 10);
+        if (lvl === c.correct) b.classList.add('correct');
+        else if (lvl === picked && !isCorrect) b.classList.add('wrong');
+      });
+
+      var explain = document.getElementById('sevExplain-' + idx);
+      explain.innerHTML = '<b>' + (isCorrect ? '✓ Correct.' : '✗ Not quite.') + '</b> ' + c.explain;
+      explain.classList.add('show');
+    });
+  });
+}
+renderSeverity();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'Tool selection',
+    body: 'A network engineer needs to determine <b>which application is using the most WAN bandwidth</b> right now. Which tool fits best?',
+    choices: [
+      { letter: 'A', text: 'SNMP poll of interface counters', correct: false },
+      { letter: 'B', text: 'Syslog message search', correct: false },
+      { letter: 'C', text: 'NetFlow / IPFIX flow records', correct: true },
+      { letter: 'D', text: 'LLDP neighbor discovery', correct: false }
+    ],
+    explain: '<b>NetFlow (or IPFIX) flow records</b> summarize traffic as conversations: source IP, dest IP, port, and bytes. The "top talkers by application" analysis is its core use case. SNMP shows interface totals but not per-application breakdown. Syslog shows events, not traffic volumes. LLDP is topology.'
+  },
+  {
+    tag: 'SNMP security',
+    body: 'A security audit flags that the network team uses SNMPv2c community strings configured as <code>public</code> and <code>private</code>. What is the security risk?',
+    choices: [
+      { letter: 'A', text: 'No risk — these are standard names', correct: false },
+      { letter: 'B', text: 'Community strings travel in cleartext and these defaults are publicly known — anyone on the network can poll/configure devices', correct: true },
+      { letter: 'C', text: 'SNMP v2c is encrypted; only the default names are weak', correct: false },
+      { letter: 'D', text: 'Risk applies only to SNMPv1', correct: false }
+    ],
+    explain: '<b>SNMPv1 and v2c send community strings in cleartext</b> — anyone who sniffs the network can capture them. "Public" and "private" are the universal defaults that every script-kid scanner tries first. Migrate to SNMPv3 with authentication (SHA) and encryption (AES) for any production use.'
+  },
+  {
+    tag: 'Syslog severity',
+    body: 'A syslog message has severity level <code>2</code>. How serious is this?',
+    choices: [
+      { letter: 'A', text: 'Lowest severity — debug noise', correct: false },
+      { letter: 'B', text: 'Moderate severity — warning condition', correct: false },
+      { letter: 'C', text: 'High severity — Critical (hardware fault, primary service down)', correct: true },
+      { letter: 'D', text: 'Severity 2 is the default informational level', correct: false }
+    ],
+    explain: '<b>Severity 2 = Critical.</b> Remember: lower number = more severe. 0 = Emergency (system unusable), 1 = Alert (immediate action needed), 2 = Critical (hardware failure, primary service down), 3 = Error, 4 = Warning, 5 = Notice, 6 = Info, 7 = Debug. Severity 2 is one step below Emergency/Alert.'
+  },
+  {
+    tag: 'Discovery protocols',
+    body: 'A network team needs to discover what device is plugged into each switch port. The environment includes Cisco, Juniper, and Arista switches. Which discovery protocol works across all three vendors?',
+    choices: [
+      { letter: 'A', text: 'CDP (Cisco Discovery Protocol)', correct: false },
+      { letter: 'B', text: 'LLDP (Link Layer Discovery Protocol)', correct: true },
+      { letter: 'C', text: 'PAgP', correct: false },
+      { letter: 'D', text: 'STP', correct: false }
+    ],
+    explain: '<b>LLDP</b> (IEEE 802.1AB) is the open-standard neighbor discovery protocol that works across vendors. CDP is Cisco proprietary; though some non-Cisco devices can listen to CDP, they don\'t advertise via CDP. For multi-vendor environments, LLDP is the right choice. PAgP is link aggregation; STP is loop prevention.'
+  },
+  {
+    tag: 'Packet capture',
+    body: 'A team wants to capture all traffic between two specific hosts on a switched network for security analysis. The capture device sits on a separate switch port. What feature on the switch enables this?',
+    choices: [
+      { letter: 'A', text: 'Spanning Tree Protocol (STP)', correct: false },
+      { letter: 'B', text: 'Port mirroring / SPAN (Switched Port Analyzer)', correct: true },
+      { letter: 'C', text: 'NetFlow export', correct: false },
+      { letter: 'D', text: 'LLDP', correct: false }
+    ],
+    explain: '<b>Port mirroring (Cisco: SPAN, Switched Port Analyzer)</b> configures the switch to copy traffic from one or more "source" ports to a dedicated "destination" port where a packet analyzer (Wireshark, IDS) sits. Variants: RSPAN spans across switches via VLAN; ERSPAN tunnels mirrored traffic over IP.'
+  },
+  {
+    tag: 'API integration',
+    body: 'A team wants to programmatically pull interface statistics from 200 switches every 60 seconds and feed them to a custom dashboard. Which approach scales best in 2026?',
+    choices: [
+      { letter: 'A', text: 'SSH to each switch and screen-scrape "show interfaces"', correct: false },
+      { letter: 'B', text: 'Use device REST APIs (or NETCONF/RESTCONF with YANG models)', correct: true },
+      { letter: 'C', text: 'Email the network team for daily updates', correct: false },
+      { letter: 'D', text: 'Manual spreadsheet updated by an intern', correct: false }
+    ],
+    explain: '<b>REST APIs or NETCONF/RESTCONF</b> are the modern approach. Network devices return structured JSON or XML directly — no screen-scraping fragile CLI output. Authenticated with API keys or OAuth. Tools like Python (Netmiko, NAPALM, Nornir), Ansible network modules, and Terraform providers all use these APIs. The N10-009 exam emphasizes API integration as a current best practice.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'Which SNMP version provides BOTH authentication AND encryption?',
+    choices: ['SNMPv1', 'SNMPv2c', 'SNMPv3', 'All three versions include encryption'],
+    correct: 2,
+    explain: '<b>SNMPv3</b> is the only version with security features built in — authentication (SHA/MD5) and encryption (AES/DES). v1 and v2c rely on plaintext community strings. Production deployments should always use v3.'
+  },
+  {
+    q: 'A network device pushes an unsolicited notification to the SNMP manager whenever an interface goes down. This is called:',
+    choices: ['SNMP poll', 'SNMP trap', 'SNMP walk', 'SNMP get'],
+    correct: 1,
+    explain: '<b>SNMP traps</b> are pushed from agents to the manager when events occur — UDP 162. Polls (GET requests) are initiated by the manager — UDP 161. Walks iterate through MIB branches. Traps deliver event-driven alerts without waiting for the next poll.'
+  },
+  {
+    q: 'What is the syslog severity level for a "Warning" message?',
+    choices: ['1', '3', '4', '6'],
+    correct: 2,
+    explain: 'Severity <b>4 = Warning</b>. Remember the order: 0 Emergency, 1 Alert, 2 Critical, 3 Error, 4 Warning, 5 Notice, 6 Informational, 7 Debug. Lower number = more severe.'
+  },
+  {
+    q: 'Which protocol is the IETF open standard equivalent of Cisco NetFlow?',
+    choices: ['sFlow', 'IPFIX', 'J-Flow', 'SNMPv3'],
+    correct: 1,
+    explain: '<b>IPFIX</b> (RFC 7011) is the IETF standard, effectively NetFlow v10 — derived from Cisco\'s NetFlow but standardized for multi-vendor use. sFlow is a different sampled-flow protocol from InMon. J-Flow is Juniper\'s flow export. SNMPv3 is for device management, not flow data.'
+  },
+  {
+    q: 'A network team wants to capture every packet to a specific server for forensic analysis. Which tool fits BEST?',
+    choices: [
+      'NetFlow flow records',
+      'SNMP polling',
+      'Packet capture (tcpdump or Wireshark) via port mirror / SPAN',
+      'LLDP neighbor table'
+    ],
+    correct: 2,
+    explain: '<b>Packet capture</b> records full packet contents, including payloads. NetFlow summarizes conversations (no payloads). SNMP gives counters. LLDP discovers neighbors. To inspect actual packet bytes (forensics, application debugging, protocol-level errors), use Wireshark or tcpdump — typically fed traffic by a SPAN/mirror port or a TAP.'
+  },
+  {
+    q: 'Which protocol allows multi-vendor switches and routers to advertise their identity and capabilities to directly connected devices?',
+    choices: ['CDP', 'LLDP', 'STP', 'EIGRP'],
+    correct: 1,
+    explain: '<b>LLDP</b> (IEEE 802.1AB) is the open-standard neighbor discovery — vendor agnostic. CDP is Cisco proprietary. STP is loop prevention. EIGRP is a routing protocol. For mixed-vendor networks, LLDP is the discovery protocol of choice.'
+  },
+  {
+    q: 'What is the primary purpose of a performance baseline?',
+    choices: [
+      'Document the maximum theoretical bandwidth of each link',
+      'Establish what "normal" looks like so that deviations can be detected and alerted',
+      'Encrypt monitoring data in transit',
+      'Replace the need for SNMP polling'
+    ],
+    correct: 1,
+    explain: '<b>A performance baseline measures the typical range of metrics</b> (CPU, link utilization, latency, errors) over a representative period so that abnormal behavior can be detected by comparison. Without a baseline, "the network feels slow" has no measurable basis. Modern monitoring tools use baselines for anomaly-based alerting that adapts to time-of-day patterns.'
+  },
+  {
+    q: 'A SIEM (Security Information and Event Management) tool does what?',
+    choices: [
+      'Replaces SNMP polling',
+      'Collects logs from many sources, correlates events, and triggers security alerts',
+      'Provides only intrusion detection — nothing else',
+      'Encrypts syslog traffic'
+    ],
+    correct: 1,
+    explain: '<b>A SIEM aggregates logs from many sources</b> (syslog, Windows Event Log, firewall logs, NetFlow, application logs), normalizes them, correlates events across systems, and triggers alerts on patterns. Examples: Splunk, QRadar, Microsoft Sentinel, ELK + Wazuh. Goes far beyond syslog by adding correlation and analytics.'
+  },
+  {
+    q: 'Why would a network admin enable port mirroring (SPAN) on a switch?',
+    choices: [
+      'To create redundant paths for STP',
+      'To increase available bandwidth on the mirrored port',
+      'To copy traffic from one or more ports to a destination port where a capture device or IDS can analyze it',
+      'To enable VLAN tagging'
+    ],
+    correct: 2,
+    explain: '<b>Port mirroring (SPAN)</b> duplicates traffic from selected source ports to a designated destination port for monitoring purposes. The capture device (Wireshark host, IDS appliance, network analyzer) plugs into the destination port. RSPAN spans VLANs across switches; ERSPAN tunnels mirrored traffic over IP.'
+  },
+  {
+    q: 'A device exports flow records showing src=10.20.30.42, dst=8.8.8.8, sport=49283, dport=53, protocol=UDP, bytes=128, packets=2. What kind of monitoring data is this?',
+    choices: ['Syslog message', 'SNMP MIB query', 'NetFlow/IPFIX record', 'Packet capture frame'],
+    correct: 2,
+    explain: '<b>NetFlow or IPFIX</b> records summarize traffic as conversations (src/dst IP, ports, protocol, bytes, packets) — exactly the fields shown. Syslog has timestamps and severity-tagged messages. SNMP returns scalar counter values from OIDs. Packet capture shows individual packets with their full headers and payload.'
+  },
+  {
+    q: 'Which is NOT a typical metric tracked by network performance monitoring?',
+    choices: ['Interface utilization (Mbps used)', 'Interface errors (CRC, drops)', 'Round-trip latency to key services', 'Music streaming preferences of users'],
+    correct: 3,
+    explain: 'The standard four network performance metrics are: <b>utilization</b> (bandwidth used vs available), <b>errors</b> (CRC, drops, discards), <b>latency</b> (round-trip time), and <b>availability</b> (uptime percentage). User preferences aren\'t a network metric — they\'re an HR or marketing concern.'
+  },
+  {
+    q: 'A network team wants to automate config changes across 50 switches using Ansible. What capability on the switches enables this?',
+    choices: [
+      'SNMPv1 community strings',
+      'API integration (REST APIs, NETCONF/RESTCONF, or SSH-based programmatic CLI)',
+      'CDP advertisements',
+      'STP root election'
+    ],
+    correct: 1,
+    explain: '<b>API integration</b> is the foundation of network automation. Modern devices expose REST APIs (often returning JSON), NETCONF/RESTCONF with YANG data models, or accept programmatic SSH-based CLI commands. Ansible network modules, Python libraries (Netmiko, NAPALM, Nornir), and Terraform providers all leverage these APIs to make changes at scale.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'SNMP poll port?', choices: ['UDP 161', 'UDP 162', 'TCP 22', 'TCP 514'], correct: 0 },
+  { q: 'SNMP trap port?', choices: ['UDP 161', 'UDP 162', 'TCP 22', 'TCP 514'], correct: 1 },
+  { q: 'Only secure SNMP version?', choices: ['v1', 'v2c', 'v3', 'v2'], correct: 2 },
+  { q: 'Syslog default port?', choices: ['TCP 22', 'UDP 161', 'UDP 514', 'TCP 443'], correct: 2 },
+  { q: 'Syslog severity 0 = ?', choices: ['Debug', 'Info', 'Error', 'Emergency'], correct: 3 },
+  { q: 'Syslog severity 7 = ?', choices: ['Emergency', 'Critical', 'Warning', 'Debug'], correct: 3 },
+  { q: 'Lower syslog number = ?', choices: ['Less severe', 'More severe', 'Always informational', 'Always debug'], correct: 1 },
+  { q: 'Syslog 3 = ?', choices: ['Critical', 'Error', 'Warning', 'Notice'], correct: 1 },
+  { q: 'Syslog 4 = ?', choices: ['Error', 'Warning', 'Notice', 'Info'], correct: 1 },
+  { q: 'Syslog 6 = ?', choices: ['Notice', 'Informational', 'Debug', 'Warning'], correct: 1 },
+  { q: 'Open IETF flow standard?', choices: ['NetFlow', 'IPFIX', 'J-Flow', 'sFlow'], correct: 1 },
+  { q: 'Sampled flow protocol?', choices: ['NetFlow v5', 'sFlow', 'IPFIX', 'SNMP'], correct: 1 },
+  { q: 'Cisco proprietary discovery protocol?', choices: ['LLDP', 'CDP', 'STP', 'BPDU'], correct: 1 },
+  { q: 'Open-standard discovery protocol?', choices: ['CDP', 'LLDP', 'OSPF', 'EIGRP'], correct: 1 },
+  { q: 'Tool for deep packet inspection?', choices: ['SNMP', 'Wireshark', 'IPAM', 'LLDP'], correct: 1 },
+  { q: 'Port mirror copies traffic to ?', choices: ['Capture/analysis port', 'Internet', 'STP root', 'VLAN 0'], correct: 0 },
+  { q: 'SPAN stands for?', choices: ['Source Port Active Node', 'Switched Port Analyzer', 'Standard Protocol Address Notation', 'System Path Analytics Node'], correct: 1 },
+  { q: 'SIEM purpose?', choices: ['Routing', 'Log correlation & security alerts', 'NAT translation', 'VLAN tagging'], correct: 1 },
+  { q: 'Baseline used to detect?', choices: ['Default route', 'Anomalies vs normal', 'VLAN tags', 'Frame size'], correct: 1 },
+  { q: 'NetFlow shows?', choices: ['Packet contents', 'Conversations (src/dst/bytes)', 'Routing tables', 'STP topology'], correct: 1 },
+  { q: 'Packet capture saves as?', choices: ['.csv', '.pcap', '.log', '.xml'], correct: 1 },
+  { q: 'NETCONF runs over?', choices: ['SSH/TLS with YANG', 'UDP 514', 'ICMP', 'TFTP'], correct: 0 },
+  { q: 'REST APIs typically return?', choices: ['Binary', 'JSON (or XML)', 'PCAP files', 'Syslog text'], correct: 1 },
+  { q: 'CDP/LLDP advertise every?', choices: ['Second', '30 seconds (default)', 'Hour', 'Day'], correct: 1 },
+  { q: 'Hardware-level capture point?', choices: ['SIEM', 'TAP', 'IPAM', 'BPDU'], correct: 1 },
+  { q: 'Best for "what crashed and why"?', choices: ['LLDP', 'Syslog', 'NetFlow', 'Baseline'], correct: 1 },
+  { q: 'Best for "what app uses bandwidth"?', choices: ['Syslog', 'NetFlow', 'LLDP', 'CDP'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
