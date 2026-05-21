@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.1 Security Concepts · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --auth-purple:#6B3FA0; --auth-purple-bg:#E5D9F0;
+    --terminal-bg:#0F1419; --terminal-fg:#E6E1CF;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 95px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .cia-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 22px; }
+  .cia-card { padding: 22px 24px; border-left: 5px solid; }
+  .cia-card.c { background: rgba(56,176,224,0.08); border-color: var(--sky); }
+  .cia-card.i { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .cia-card.a { background: rgba(42,96,73,0.08); border-color: var(--green); }
+  .cia-card .letter { font-family: var(--ff-display); font-size: 64px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+  .cia-card.c .letter { color: var(--sky-deep); }
+  .cia-card.i .letter { color: var(--gold-deep); }
+  .cia-card.a .letter { color: var(--green); }
+  .cia-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 6px 0 8px; letter-spacing: -0.01em; }
+  .cia-card p { font-size: 13.5px; color: var(--ink); margin: 0 0 6px; line-height: 1.5; }
+  .cia-card p:last-child { margin-bottom: 0; }
+  .cia-card .threats { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); margin-top: 8px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 16%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 100px; }
+  .specs-table td code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* ============== TAB 2 · ARCHITECT ============== */
+  .architect-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; }
+  .scenario-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px; }
+  .scen-btn { background: var(--bg-warm); border: 2px solid var(--line-soft); padding: 12px 14px; cursor: pointer; font-family: var(--ff-body); transition: all 0.15s; text-align: left; }
+  .scen-btn:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .scen-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .scen-btn .sname { font-family: var(--ff-display); font-size: 14px; font-weight: 700; color: var(--navy-deep); line-height: 1.2; margin-bottom: 4px; }
+  .scen-btn.active .sname { color: var(--gold); }
+  .scen-btn .scontext { font-size: 11px; color: var(--ink-mute); font-family: var(--ff-mono); line-height: 1.3; }
+  .scen-btn.active .scontext { color: var(--gray-soft); }
+
+  .scenario-detail { background: var(--bg-warm); padding: 18px 22px; margin-bottom: 18px; border-left: 4px solid var(--sky); }
+  .scenario-detail .sd-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 6px; }
+  .scenario-detail .sd-name { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .scenario-detail .sd-context { font-size: 14px; color: var(--ink); line-height: 1.55; }
+
+  .recommendation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .rec-block { background: var(--surface); border: 1.5px solid var(--line); padding: 20px 22px; }
+  .rec-block.auth { border-top: 4px solid var(--auth-purple); }
+  .rec-block.def { border-top: 4px solid var(--gold); }
+  .rec-block .rec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .rec-block .rec-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 18px; color: white; }
+  .rec-block.auth .rec-icon { background: var(--auth-purple); }
+  .rec-block.def .rec-icon { background: var(--gold-deep); }
+  .rec-block .rec-title { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; }
+  .rec-list { padding: 0; margin: 0; list-style: none; }
+  .rec-list li { padding: 10px 0; border-bottom: 1px dashed var(--line-soft); font-size: 13.5px; line-height: 1.5; color: var(--ink); display: grid; grid-template-columns: 24px 1fr; gap: 10px; }
+  .rec-list li:last-child { border-bottom: none; }
+  .rec-list li .marker { font-family: var(--ff-mono); font-weight: 700; }
+  .rec-block.auth .rec-list li .marker { color: var(--auth-purple); }
+  .rec-block.def .rec-list li .marker { color: var(--gold-deep); }
+  .rec-list li b { color: var(--navy-deep); }
+  .rec-list li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .lesson-callout { background: var(--navy-deep); color: white; padding: 18px 22px; border-left: 4px solid var(--gold); }
+  .lesson-callout .lc-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); font-weight: 700; margin-bottom: 6px; }
+  .lesson-callout .lc-body { font-size: 14px; line-height: 1.6; }
+  .lesson-callout .lc-body b { color: var(--gold); }
+
+  /* ============== TAB 3 · AUTH METHOD SELECTOR ============== */
+  .auth-wrap { background: var(--surface); border: 1px solid var(--line); padding: 24px 28px; }
+  .auth-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); }
+  .auth-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .auth-table th:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.1); }
+  .auth-table td { padding: 12px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13px; color: var(--ink); vertical-align: top; }
+  .auth-table td:last-child { border-right: none; }
+  .auth-table .method { font-family: var(--ff-display); font-weight: 700; color: var(--auth-purple); font-size: 15px; width: 14%; }
+  .auth-table .port { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 14%; }
+
+  .auth-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  .auth-quick-card { background: var(--auth-purple-bg); padding: 14px 18px; border-left: 3px solid var(--auth-purple); }
+  .auth-quick-card h5 { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; letter-spacing: -0.01em; }
+  .auth-quick-card p { font-size: 13px; line-height: 1.5; color: var(--ink); margin: 0; }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .atlas-grid-3 { grid-template-columns: 1fr; }
+    .cia-grid { grid-template-columns: 1fr; }
+    .scenario-picker { grid-template-columns: 1fr; }
+    .recommendation-grid { grid-template-columns: 1fr; }
+    .auth-quick { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 4 · Network Security</span>
+    <span class="crumb">4.1 Security Concepts</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 4.1 · Basic Network Security Concepts</div>
+    <h1>Defense in depth, <em>verified at every layer.</em></h1>
+    <p class="lede">Security isn't a product you buy — it's a posture you build. The CIA triad sets the goals. Defense in depth layers controls so no single failure becomes a breach. Authentication methods (MFA, RADIUS, TACACS+, SAML, Kerberos) verify who's connecting and what they may do. Zero Trust assumes the perimeter is gone and re-verifies everything. This artifact maps every 4.1 concept to a real architecture decision.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">CIA</span><span class="desc">Confidentiality · Integrity · Availability</span></div>
+    <div class="ref-row"><span class="name">MFA</span><span class="desc">Two+ factors from: know, have, are</span></div>
+    <div class="ref-row"><span class="name">RADIUS</span><span class="desc">UDP 1812/1813 · network access</span></div>
+    <div class="ref-row"><span class="name">TACACS+</span><span class="desc">TCP 49 · device admin, per-cmd authz</span></div>
+    <div class="ref-row"><span class="name">LDAP</span><span class="desc">TCP 389 (LDAPS: TCP 636)</span></div>
+    <div class="ref-row"><span class="name">Kerberos</span><span class="desc">UDP/TCP 88 · ticket-based, AD default</span></div>
+    <div class="ref-row"><span class="name">SAML</span><span class="desc">XML-based federation for SSO</span></div>
+    <div class="ref-row"><span class="name">Zero Trust</span><span class="desc">Never trust, always verify</span></div>
+    <div class="footer-note">
+      <b>DEFENSE IN DEPTH</b><br>
+      Many layers of overlapping controls.<br>
+      Any single failure is not a breach.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">CIA triad pillars · C · I · A</div></div>
+  <div class="stat"><div class="num">8</div><div class="label">Authentication methods to know</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Architect scenarios</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="architect"><span class="num">02</span>Defense Architect</button>
+  <button class="tab" data-tab="authmethods"><span class="num">03</span>Auth Methods</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Domain 4.1 has four major concept families: the <b>CIA triad</b> (the goals security tries to protect), <b>threats, vulnerabilities, and exploits</b> (the vocabulary of risk), <b>access control models</b> (least privilege, RBAC, Zero Trust), and <b>defense in depth</b> with its authentication methods (MFA, RADIUS, TACACS+, SSO, LDAP, Kerberos, SAML, local) plus network-layer controls (segmentation, NAC, screened subnet, honeypot, separation of duties). Plus risk management, SIEM, encryption, and certificate trust.</p>
+
+  <div class="section-head">CIA Triad — What Security Protects</div>
+  <div class="cia-grid">
+    <div class="cia-card c">
+      <div class="letter">C</div>
+      <h4>Confidentiality</h4>
+      <p>Only authorized parties can read the data. Achieved via encryption (TLS, full-disk, file-level), access controls, and authentication.</p>
+      <div class="threats">Threats: eavesdropping, data theft, unauthorized disclosure</div>
+    </div>
+    <div class="cia-card i">
+      <div class="letter">I</div>
+      <h4>Integrity</h4>
+      <p>Data hasn't been altered by unauthorized parties. Achieved via cryptographic hashes (SHA-256), digital signatures, message authentication codes (HMAC).</p>
+      <div class="threats">Threats: tampering, replay attacks, unauthorized modification</div>
+    </div>
+    <div class="cia-card a">
+      <div class="letter">A</div>
+      <h4>Availability</h4>
+      <p>The data and services are usable when needed. Achieved via redundancy, capacity planning, DR/HA, DDoS protection.</p>
+      <div class="threats">Threats: DoS/DDoS, ransomware, hardware failure</div>
+    </div>
+  </div>
+  <p>The triad is the foundation of all security thinking. Every control either supports C, I, or A — and many support more than one. <b>Encryption supports C and I.</b> <b>Backups support I and A.</b> <b>Authentication supports C and I (by preventing unauthorized actions).</b></p>
+
+  <div class="section-head">Threats, Vulnerabilities, Exploits — The Vocabulary of Risk</div>
+  <div class="atlas-grid-3">
+    <div class="atlas-card">
+      <div class="card-eyebrow">THREAT</div>
+      <h4>What could go wrong</h4>
+      <p>An actor or event that could harm the organization. Internal (employee, contractor) or external (cybercriminal, nation-state, hacktivist, script kiddie).</p>
+      <p><span class="accent">EXAMPLES:</span> ransomware gang, malicious insider, accidental data deletion.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">VULNERABILITY</div>
+      <h4>A weakness that could be exploited</h4>
+      <p>A flaw in software, hardware, configuration, or process. Tracked in the CVE (Common Vulnerabilities and Exposures) database with CVSS scores.</p>
+      <p><span class="accent">EXAMPLE:</span> unpatched OpenSSL flaw with a known CVE.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">EXPLOIT</div>
+      <h4>The technique to use the vulnerability</h4>
+      <p>The actual code or method that takes advantage of a vulnerability. A vulnerability without a known exploit is less dangerous; one with public exploit code is critical.</p>
+      <p><span class="accent">EXAMPLE:</span> Metasploit module for a CVE.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ZERO-DAY</div>
+      <h4>Vulnerability with no patch yet</h4>
+      <p>A flaw that's being actively exploited <b>before</b> the vendor knows about it (or before a patch exists). Extremely dangerous because no signature-based defense exists yet.</p>
+      <p><span class="accent">DEFENSE:</span> defense in depth, behavioral detection, rapid patching when patch arrives.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RISK</div>
+      <h4>Threat × Vulnerability × Impact</h4>
+      <p>The likelihood of a threat exploiting a vulnerability, weighted by the potential damage. Risk management = identify, assess, treat (accept, transfer, mitigate, or avoid).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">INTERNAL vs EXTERNAL</div>
+      <h4>Where the threat lives</h4>
+      <p><b>Internal:</b> employees, contractors, vendors with legitimate access. Often the highest-impact because they're already inside.<br>
+      <b>External:</b> anyone outside the organization. Far more numerous but starts with no access.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Access Control Models</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">LEAST PRIVILEGE</div>
+      <h4>Give the minimum access needed for the job</h4>
+      <p>A user gets ONLY the permissions required for their role — no more. Reduces blast radius when accounts are compromised. Apply to users, services, and systems.</p>
+      <p><span class="accent">CONTRAST WITH:</span> "everyone is local admin" — opposite of least privilege.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RBAC</div>
+      <h4>Role-Based Access Control</h4>
+      <p>Permissions are assigned to ROLES, not individual users. Users get a role (or several). Easier to manage at scale: when someone changes jobs, you change their role, not edit every individual permission.</p>
+      <p><span class="accent">EXAMPLES:</span> AD groups, AWS IAM roles, GCP IAM roles.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ZERO TRUST</div>
+      <h4>Never trust, always verify</h4>
+      <p>The traditional "trusted internal network" model is dead. Zero Trust verifies EVERY request — user, device, location, behavior — even from the LAN. No implicit trust based on network position.</p>
+      <p><span class="accent">PILLARS:</span> verify explicitly, least-privilege access, assume breach.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SEPARATION OF DUTIES</div>
+      <h4>No one person controls a full process</h4>
+      <p>Critical functions split between multiple people so fraud or accidents require collusion. Classic examples: developer can write code but not deploy; admin can create users but not approve their access.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Defense in Depth — The Layered Approach</div>
+  <p>Defense in depth is the strategy of <b>stacking multiple independent controls</b> so that bypassing one doesn't compromise the whole. If a single layer fails, the others catch it. A real-world example: an attacker has to defeat your edge firewall AND your IDS AND your network segmentation AND your host firewall AND your endpoint detection AND your authentication AND your authorization — all separately — to reach sensitive data.</p>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">NETWORK SEGMENTATION</div>
+      <h4>Divide into security zones</h4>
+      <p>VLANs, subnets, firewalls between zones. Limits lateral movement. Production ≠ Dev. Finance ≠ Marketing. IoT ≠ Corporate. Each zone has its own ACL policy.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SCREENED SUBNET (DMZ)</div>
+      <h4>Buffer zone for public-facing servers</h4>
+      <p>A network segment between the internet and your internal network, holding servers that MUST be internet-reachable (web servers, mail relays). If they\'re compromised, attackers can\'t directly reach internal systems.</p>
+      <p><span class="accent">OLD NAME:</span> DMZ (demilitarized zone) — still used colloquially.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NAC</div>
+      <h4>Network Access Control</h4>
+      <p>Before a device gets a normal IP on the network, NAC checks it — is the OS patched? AV running? Disk encrypted? Domain-joined? If not, device is denied or sent to a remediation VLAN. Often implemented via 802.1X.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">HONEYPOT</div>
+      <h4>Fake target that detects attackers</h4>
+      <p>A decoy system designed to look attractive to attackers but isolated from real assets. Any interaction with it is suspicious — legitimate users have no reason to touch it. Provides early warning of intrusion.</p>
+      <p><span class="accent">SCALE UP:</span> honeynet = network of multiple honeypots.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SIEM</div>
+      <h4>Security Information &amp; Event Management</h4>
+      <p>A platform that aggregates logs from firewalls, servers, EDR, IDS, etc., then correlates events to detect attacks. Centralized visibility + alerting + investigation workflow. Examples: Splunk, Elastic SIEM, Sentinel.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ENCRYPTION</div>
+      <h4>At rest and in transit</h4>
+      <p><b>Full-disk encryption</b> (BitLocker, FileVault, LUKS) — protects data if laptop is stolen.<br>
+      <b>File-level encryption</b> — protects specific files even within the same disk.<br>
+      <b>In-transit</b> — TLS, IPsec.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Authentication Methods — Who You Are, Centralized</div>
+  <p>Authentication answers "who is this?" — and modern networks rarely store credentials directly on each device. Centralized authentication uses a single identity store with protocols that ask "is this user valid?" on every login.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Method</th><th>Port / Transport</th><th>Use Case</th><th>Note</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">MFA</td>
+        <td class="num">N/A</td>
+        <td>Adding a second factor on top of any method above</td>
+        <td>Factors: know (password), have (phone, token), are (biometric). 2+ from different categories.</td>
+      </tr>
+      <tr>
+        <td class="label">RADIUS</td>
+        <td class="num">UDP 1812/1813</td>
+        <td>Network access — VPN, wireless 802.1X</td>
+        <td>De facto standard for "is this user allowed onto the network?"</td>
+      </tr>
+      <tr>
+        <td class="label">TACACS+</td>
+        <td class="num">TCP 49</td>
+        <td>Device administration — router/switch CLI</td>
+        <td>Better than RADIUS for admin: per-command authorization, full TCP, encrypts entire payload.</td>
+      </tr>
+      <tr>
+        <td class="label">LDAP / LDAPS</td>
+        <td class="num">TCP 389 / 636</td>
+        <td>Querying a directory service (AD, OpenLDAP)</td>
+        <td>The DATABASE protocol. RADIUS and Kerberos often query LDAP for the actual user info.</td>
+      </tr>
+      <tr>
+        <td class="label">Kerberos</td>
+        <td class="num">TCP/UDP 88</td>
+        <td>Single-sign-on inside an Active Directory domain</td>
+        <td>Ticket-based. Default for Windows AD. Time-sensitive (clocks must sync within 5 min).</td>
+      </tr>
+      <tr>
+        <td class="label">SAML</td>
+        <td class="num">over HTTPS</td>
+        <td>Federation between organizations / SSO to SaaS</td>
+        <td>XML-based. Identity Provider (IdP) → Service Provider (SP). Powers most SaaS SSO.</td>
+      </tr>
+      <tr>
+        <td class="label">SSO</td>
+        <td class="num">varies</td>
+        <td>One login that grants access to many apps</td>
+        <td>Implementation pattern — uses SAML, OIDC, or Kerberos under the hood.</td>
+      </tr>
+      <tr>
+        <td class="label">Local auth</td>
+        <td class="num">on-device</td>
+        <td>Fallback / device-local admin account</td>
+        <td>No central store. Hard to manage at scale. Used as <em>break-glass</em> when central auth is down.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Certificates — Self-Signed vs Publicly Trusted</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SELF-SIGNED CERTIFICATE</div>
+      <h4>Signed by the device itself</h4>
+      <p>The device generates a key pair and signs its own certificate. Free, instant, but <b>browsers and clients won\'t trust it</b> by default — users see a security warning. Acceptable for internal-only services where you control all clients (and can pre-install the cert).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PUBLICLY TRUSTED CA</div>
+      <h4>Signed by a recognized authority</h4>
+      <p>A Certificate Authority (Let\'s Encrypt, DigiCert, Sectigo) that browsers and OSes trust out of the box validates your domain and signs your cert. Required for any public-facing service so users don\'t see warnings.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">INTERNAL CA</div>
+      <h4>Your own CA for internal use</h4>
+      <p>You stand up a CA (Windows ADCS, OpenSSL) and configure your endpoints to trust it. Then you can issue trusted certs for internal services without per-cert vendor cost. Used for 802.1X device certs, internal HTTPS, mutual TLS.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PKI</div>
+      <h4>Public Key Infrastructure</h4>
+      <p>The whole system that issues, distributes, validates, and revokes certificates. Includes the CA, the registration authority, the revocation lists (CRL), OCSP responders, and the trust chain back to a root CA.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>RADIUS for network access; TACACS+ for device admin.</b> Both authenticate users to network devices but have different specialties. RADIUS combines authentication+authorization into one step; TACACS+ separates them and supports per-command authorization.</li>
+    <li><b>Kerberos is the default in AD environments.</b> When a Windows user logs into a domain-joined PC, they get a TGT (ticket-granting ticket) and use it to access AD-integrated services without re-entering passwords. Requires time sync.</li>
+    <li><b>SAML for federation (cross-org SSO).</b> When you log into Salesforce or Workday with your corporate credentials, that\'s typically SAML. Browsers redirect the user to your IdP, IdP returns a signed assertion, the SaaS app trusts it.</li>
+    <li><b>MFA is two factors from different CATEGORIES.</b> Two passwords are not MFA. Password + SMS code IS MFA (something you know + something you have). Password + fingerprint IS MFA.</li>
+    <li><b>Zero Trust ≠ "trust nothing."</b> It means "never trust based on network position alone — verify every request explicitly." Users still get access; the access is just continuously verified.</li>
+    <li><b>Honeypot has NO legitimate users.</b> Any interaction with it is a security event. That\'s the whole point — separates signal from noise.</li>
+    <li><b>Self-signed certs are not insecure</b> — they just lack public trust. If you control the clients, self-signed is fine. For public services, you need a publicly-trusted CA.</li>
+    <li><b>Defense in depth ≠ buying more products.</b> It\'s about LAYERED INDEPENDENT controls. Two firewalls from the same vendor isn\'t defense in depth — they\'ll have the same vulnerabilities.</li>
+    <li><b>CVE = Common Vulnerabilities and Exposures.</b> Each tracked vulnerability gets a CVE ID (CVE-2024-12345). CVSS scores rate severity from 0-10.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · DEFENSE ARCHITECT ============== -->
+<section class="panel" id="panel-architect">
+  <h2>Map scenarios to <em>authentication and defense.</em></h2>
+  <p>Real security architecture pairs the right authentication method with the right network defense layers — and the answer depends on WHO is accessing WHAT. Pick a scenario below to see how each role gets a different combination. The lesson at the bottom of each scenario explains the pattern the exam loves to test.</p>
+
+  <div class="architect-wrap">
+    <div style="font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; font-weight: 700;">
+      Pick a user scenario
+    </div>
+    <div class="scenario-picker" id="scenarioPicker"></div>
+    <div id="architectStage"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>Different users need different auth + defense combinations.</b> Employees use SSO with RBAC. Admins use TACACS+ and jump boxes. Vendors use time-limited DMZ accounts. IoT uses certificate-based 802.1X. The exam\'s "scenario → architecture" questions reward students who recognize the pattern.</li>
+    <li><b>Defense in depth is the consistent thread.</b> Every scenario stacks multiple controls — segmentation + authentication + monitoring + audit — so no single failure exposes the asset.</li>
+    <li><b>Least privilege scales with sensitivity.</b> A read-only employee account is fine for most apps; an admin account needs MFA, separation of duties, and session recording.</li>
+    <li><b>Zero Trust applies everywhere.</b> "They\'re on the VPN" is not a reason to grant broad access. Continuous verification + network segmentation behind the VPN limits damage when (not if) credentials are stolen.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · AUTH METHODS ============== -->
+<section class="panel" id="panel-authmethods">
+  <h2>Authentication <em>methods compared.</em></h2>
+  <p>The exam tests whether you can pick the right authentication method for a scenario. Each method has a specialty — RADIUS for network access, TACACS+ for device admin, Kerberos inside AD, SAML for SaaS SSO, LDAP as the underlying directory. Memorize the ports, but more importantly memorize the use-case.</p>
+
+  <div class="auth-wrap">
+    <table class="auth-table">
+      <thead>
+        <tr><th>Method</th><th>Port</th><th>Best For</th><th>Key Properties</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="method">MFA</td>
+          <td class="port">N/A</td>
+          <td>Any authentication — layer it on top</td>
+          <td>Two or more factors from different categories: <b>know</b> (password, PIN), <b>have</b> (phone, hardware token, smart card), <b>are</b> (fingerprint, face). 2FA = exactly 2; MFA = 2 or more.</td>
+        </tr>
+        <tr>
+          <td class="method">RADIUS</td>
+          <td class="port">UDP 1812 (auth), UDP 1813 (acct)</td>
+          <td>Network access — VPN, 802.1X wireless, dial-up</td>
+          <td>Combines authentication and authorization in one exchange. Encrypts only the password, not the full payload. UDP-based. De facto standard for "is this user allowed onto the network?"</td>
+        </tr>
+        <tr>
+          <td class="method">TACACS+</td>
+          <td class="port">TCP 49</td>
+          <td>Device administration — switch/router CLI, firewall console</td>
+          <td>Separates Authentication, Authorization, and Accounting (AAA). Per-command authorization. Encrypts the entire payload. TCP-based (reliable). Cisco-developed but supported widely.</td>
+        </tr>
+        <tr>
+          <td class="method">LDAP / LDAPS</td>
+          <td class="port">TCP 389 / 636</td>
+          <td>Directory queries — looking up user attributes</td>
+          <td>The protocol for talking to a directory service (Active Directory, OpenLDAP). Other auth methods (RADIUS, Kerberos, SAML) often use LDAP as the back-end identity store. LDAPS adds TLS.</td>
+        </tr>
+        <tr>
+          <td class="method">Kerberos</td>
+          <td class="port">TCP/UDP 88</td>
+          <td>SSO inside an Active Directory domain</td>
+          <td>Ticket-based. User authenticates once to get a TGT (Ticket-Granting Ticket), then uses it to request service tickets without re-entering passwords. Default for Windows AD logins. <b>Time-sensitive</b> — clocks must be within ~5 minutes.</td>
+        </tr>
+        <tr>
+          <td class="method">SAML</td>
+          <td class="port">over HTTPS (443)</td>
+          <td>Federation — SSO to SaaS apps and cross-org</td>
+          <td>XML-based identity assertions passed between an Identity Provider (IdP — like Okta, Azure AD, ADFS) and a Service Provider (SP — like Salesforce, Workday). Browser redirects do the heavy lifting. The standard for SaaS SSO.</td>
+        </tr>
+        <tr>
+          <td class="method">SSO</td>
+          <td class="port">varies</td>
+          <td>Pattern, not a protocol</td>
+          <td>"Sign in once, access many apps." Implemented via SAML, OIDC, Kerberos, or others depending on environment. Reduces password fatigue and centralizes audit. Requires MFA at the front door because one compromised SSO password = all apps compromised.</td>
+        </tr>
+        <tr>
+          <td class="method">Local auth</td>
+          <td class="port">on-device</td>
+          <td>Break-glass / device-only admin</td>
+          <td>Credentials stored on the device itself, not a central server. Doesn\'t scale (can\'t reset 1000 device passwords easily). Use as fallback when central auth is unreachable. Audit and rotate regularly.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="auth-quick">
+      <div class="auth-quick-card">
+        <h5>Need network access (VPN, Wi-Fi)?</h5>
+        <p><b>RADIUS.</b> Built for this exact use case. Add MFA for any admin/sensitive access.</p>
+      </div>
+      <div class="auth-quick-card">
+        <h5>Need device admin (router CLI)?</h5>
+        <p><b>TACACS+.</b> Better than RADIUS here because it supports per-command authorization and encrypts the whole session.</p>
+      </div>
+      <div class="auth-quick-card">
+        <h5>Need SaaS SSO (Salesforce, Workday)?</h5>
+        <p><b>SAML.</b> The dominant standard for cross-org SSO. OIDC is its modern JSON-based alternative.</p>
+      </div>
+      <div class="auth-quick-card">
+        <h5>Need Windows domain login?</h5>
+        <p><b>Kerberos.</b> Default for AD-joined machines. Make sure NTP is configured.</p>
+      </div>
+      <div class="auth-quick-card">
+        <h5>Need the user directory?</h5>
+        <p><b>LDAP / LDAPS.</b> The query protocol behind the scenes. AD speaks LDAP.</p>
+      </div>
+      <div class="auth-quick-card">
+        <h5>Need MFA?</h5>
+        <p><b>Always.</b> Layer it on whatever primary method you use. Password + phone push covers most cases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Security <em>scenarios.</em></h2>
+  <p>Six scenarios mixing CIA triad, threat/vuln vocabulary, authentication method selection, defense-in-depth choices, and certificate trust. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 4.1: CIA, threats/vulnerabilities/exploits, access control models, authentication methods, defense in depth, and certificates.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire security-concept questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 4.1: Basic Network Security Concepts. Covers the CIA triad (confidentiality, integrity, availability), threats / vulnerabilities (CVE, zero-day) / exploits / risk management, access control models (least privilege, RBAC, Zero Trust, separation of duties), defense in depth (network segmentation, screened subnet, NAC, honeypot, SIEM), authentication methods (MFA, RADIUS UDP 1812, TACACS+ TCP 49, LDAP TCP 389/636, Kerberos UDP/TCP 88, SAML federation, SSO, local), encryption at rest and in transit, and certificate trust (self-signed vs publicly-trusted CA vs internal CA, PKI).</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 4 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Walk scenarios through the Defense Architect.</p>
+      <p>· Compare auth methods in the methods reference.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 4.1 quiz in Canvas. The vocabulary covered here is foundational for 4.2 (attacks) and 4.3 (defense techniques) — everything in Domain 4 builds on these concepts.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 4.1 · Basic Network Security Concepts</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · DEFENSE ARCHITECT ============== */
+var ARCHITECT_SCENARIOS = [
+  {
+    name: 'Corporate Employee',
+    context: 'Managed laptop · internal apps + SaaS',
+    fullName: 'Full-time employee on AD-joined laptop',
+    fullContext: 'A regular full-time employee uses a corporate-managed Windows laptop. They need access to internal AD-integrated apps (file shares, intranet, line-of-business apps) and to SaaS tools (Salesforce, Workday, Office 365).',
+    auth: [
+      { marker: '01', html: '<b>SSO via SAML or OIDC</b> — one identity provider (Okta, Azure AD, ADFS) front-ends every SaaS app so the user signs in once.' },
+      { marker: '02', html: '<b>MFA required</b> — password + phone push (or hardware token) is mandatory because one compromised SSO password = many apps compromised.' },
+      { marker: '03', html: '<b>Kerberos for internal AD-integrated apps</b> — once the user is signed into the domain, the file share and intranet authenticate automatically via Kerberos tickets.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Network segmentation</b> — corporate VLAN separate from guest, IoT, lab, and production. The employee\'s laptop sits in the corp VLAN with appropriate ACLs.' },
+      { marker: '02', html: '<b>NAC enforces compliance</b> — before issuing a corporate IP, NAC verifies the device is domain-joined, patched, has EDR running, and disk-encrypted. Non-compliant devices land in a remediation VLAN.' },
+      { marker: '03', html: '<b>Least privilege via RBAC</b> — the user\'s AD group memberships control what they can access; nobody is local admin by default.' },
+      { marker: '04', html: '<b>SIEM monitors</b> all auth events for anomalies — impossible-travel logins, abnormal data access, etc.' }
+    ],
+    lesson: 'The <b>default modern enterprise pattern</b>. SSO reduces password fatigue; MFA defeats stolen passwords; NAC ensures only compliant devices enter corp VLAN; SIEM catches what slips through. <b>Every layer is independent</b> — defeating one doesn\'t defeat the rest. That\'s defense in depth.'
+  },
+  {
+    name: 'Network Admin',
+    context: 'Managing switches via CLI · jump box → SSH',
+    fullName: 'Sysadmin managing network devices',
+    fullContext: 'A senior network admin needs to SSH into hundreds of Cisco switches and routers to make config changes. They access these devices daily and need to be able to log in, make changes, and have those changes audited.',
+    auth: [
+      { marker: '01', html: '<b>TACACS+ (TCP 49)</b> on every device — separates authentication, authorization, and accounting (AAA); supports <b>per-command authorization</b> so junior admins can ping but not erase configs.' },
+      { marker: '02', html: '<b>MFA on the jump box</b> — admin must MFA into the bastion before they can reach any device.' },
+      { marker: '03', html: '<b>Centralized identity</b> — admin\'s credentials live in AD/LDAP, not on each switch. When they leave the company, one disable disables all access.' },
+      { marker: '04', html: '<b>Local auth as break-glass only</b> — a single local admin account exists on each device for use when TACACS+ is unreachable; its credential is in a password vault.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Jump box / bastion host</b> as the single entry point — admins SSH to the jump box first, then to devices. All sessions recorded.' },
+      { marker: '02', html: '<b>Separation of duties</b> — the person making changes is not the same person approving them; security admin ≠ network admin.' },
+      { marker: '03', html: '<b>Out-of-band management network</b> — admin access path is separate from the data plane so admins can still log in when the production network breaks.' },
+      { marker: '04', html: '<b>SIEM ingests TACACS+ accounting logs</b> so every command run on every device is auditable.' }
+    ],
+    lesson: '<b>TACACS+ is specifically designed for device admin</b>. It separates AAA and can authorize commands per-user. RADIUS technically works but doesn\'t do per-command authz nearly as well. The exam loves "which AAA protocol for admin CLI access?" — the answer is almost always TACACS+.'
+  },
+  {
+    name: 'Remote VPN User',
+    context: 'Employee on personal Wi-Fi · SSL VPN',
+    fullName: 'Remote employee connecting via VPN',
+    fullContext: 'A full-time employee is working from a coffee shop and needs to connect to corporate resources via SSL VPN. Their laptop is corporate-issued but right now they\'re on an untrusted public Wi-Fi.',
+    auth: [
+      { marker: '01', html: '<b>RADIUS (UDP 1812)</b> on the VPN concentrator authenticates the user against the central identity store.' },
+      { marker: '02', html: '<b>MFA on VPN login</b> — password + push notification or TOTP. Untrusted networks make MFA non-negotiable.' },
+      { marker: '03', html: '<b>Device certificate check</b> — the VPN also validates a cert installed on the corporate laptop, preventing logins from unmanaged personal devices even with stolen credentials.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Zero Trust</b> — being on the VPN does not grant broad internal access. Every internal request is re-authenticated and authorized.' },
+      { marker: '02', html: '<b>Network segmentation behind the VPN</b> — the VPN drops the user into a limited segment, not a flat corporate LAN. ACLs restrict reachable resources to what the user actually needs.' },
+      { marker: '03', html: '<b>SIEM correlates VPN logins with other activity</b> — impossible-travel detection, unusual times, sensitive resource access trigger alerts.' },
+      { marker: '04', html: '<b>Full-disk encryption</b> on the laptop protects data if the device is lost or stolen at the coffee shop.' }
+    ],
+    lesson: '<b>RADIUS is the standard for network-access authentication</b> (VPN, wireless). The big modern shift: <b>Zero Trust</b> replaces "trusted internal network" with continuous verification. Being inside the VPN means nothing on its own — you still need to authenticate to each resource.'
+  },
+  {
+    name: 'External Vendor',
+    context: 'HVAC tech · one server · one afternoon',
+    fullName: 'Third-party vendor with limited access',
+    fullContext: 'An HVAC vendor needs access to a specific building-control server to update firmware. They\'ll need access for one afternoon only. They are not an employee and shouldn\'t be able to reach anything beyond that one server.',
+    auth: [
+      { marker: '01', html: '<b>Time-limited account</b> created in advance, set to <b>auto-disable at end of day</b>.' },
+      { marker: '02', html: '<b>MFA mandatory</b> — vendor uses their phone or a corporate-issued OTP token to MFA on each session.' },
+      { marker: '03', html: '<b>No domain account</b> — vendor gets a guest account on the jump box only, not in corporate AD.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Screened subnet (DMZ)</b> — the HVAC server lives in a separate segment from corporate. Vendor never has a path to internal networks.' },
+      { marker: '02', html: '<b>Least privilege</b> — vendor account can SSH to the one server only; firewall ACL denies everything else.' },
+      { marker: '03', html: '<b>Session recording</b> on the jump box — every keystroke captured for audit.' },
+      { marker: '04', html: '<b>Honeypot on adjacent segments</b> — if the vendor (or someone using their stolen creds) probes laterally, the honeypot fires an alert.' },
+      { marker: '05', html: '<b>SIEM monitors</b> for any unexpected behavior — file transfers, port scans, after-hours activity.' }
+    ],
+    lesson: '<b>Vendor access is high-risk</b>: external party with limited business trust, often with credentials that get reused or shared. Use a <b>DMZ-pattern setup with minimum-needed privilege and aggressive auditing</b>. The exam tests this pattern as "principle of least privilege" applied to non-employees.'
+  },
+  {
+    name: 'IoT Camera',
+    context: 'Security cam → DVR upload · no user',
+    fullName: 'IoT device on segmented network',
+    fullContext: 'A company has 50 IP security cameras that need to upload footage to a central NVR (Network Video Recorder). No human user logs into the cameras directly. The cameras are commodity hardware and the firmware is known to be patched irregularly.',
+    auth: [
+      { marker: '01', html: '<b>Certificate-based device auth</b> — each camera holds a unique certificate from the internal CA. The NVR validates the cert before accepting connections.' },
+      { marker: '02', html: '<b>802.1X port authentication</b> on the access switch — the switch port stays disabled until the connected camera presents a valid cert via EAP-TLS.' },
+      { marker: '03', html: '<b>No interactive login at all</b> — cameras have no user-facing authentication path; admin access is via a separate management VLAN.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Dedicated IoT VLAN</b> — completely isolated from corporate, guest, and production networks.' },
+      { marker: '02', html: '<b>Strict ACL</b> — cameras can talk to the NVR only. No internet, no other internal hosts, no DNS to external resolvers.' },
+      { marker: '03', html: '<b>Assume compromise</b> — IoT firmware is rarely patched promptly; defense in depth means the camera being owned shouldn\'t expose anything else.' },
+      { marker: '04', html: '<b>Honeypot fake camera</b> on the IoT VLAN — any scanning of the camera network from somewhere other than the NVR fires an alert.' }
+    ],
+    lesson: '<b>IoT devices can\'t do interactive authentication</b> like users. Use <b>certificate-based 802.1X</b> and assume the device itself will eventually be compromised — <b>segment aggressively</b> so a compromised camera can\'t pivot to anything valuable. This is the canonical case for network segmentation as a defense-in-depth layer.'
+  },
+  {
+    name: 'Public Web Server',
+    context: 'Company website · DB on internal network',
+    fullName: 'Public-facing web server with internal DB',
+    fullContext: 'The company\'s public website lives on a web server that must accept connections from the internet AND must query an internal database to render dynamic content. How do you secure this?',
+    auth: [
+      { marker: '01', html: '<b>No user authentication at the perimeter</b> — public website by definition; anonymous access is the point.' },
+      { marker: '02', html: '<b>TLS cert from publicly-trusted CA</b> — Let\'s Encrypt, DigiCert, or similar. <b>Never self-signed for public sites</b> — browsers will warn users and they\'ll bounce.' },
+      { marker: '03', html: '<b>App-level authentication</b> for admin functions (CMS login) — separate from the public-facing surface, with MFA.' },
+      { marker: '04', html: '<b>DB authentication uses a service account</b> with a credential stored in a secrets manager; web server reads it at runtime.' }
+    ],
+    defense: [
+      { marker: '01', html: '<b>Screened subnet (DMZ)</b> — web server sits between trusted (internal) and untrusted (internet) zones. Even if it\'s compromised, attackers can\'t directly reach internal systems.' },
+      { marker: '02', html: '<b>Web Application Firewall (WAF)</b> in front — filters SQL injection, XSS, common web attacks.' },
+      { marker: '03', html: '<b>Database accessible only from the web server\'s IP</b> — firewall ACL is strictly source-IP gated.' },
+      { marker: '04', html: '<b>Defense-in-depth stack</b> — edge firewall → WAF → host firewall on the web server → DB ACL → application-layer auth. Five independent layers.' },
+      { marker: '05', html: '<b>SIEM correlates web traffic with backend queries</b> — unusual query patterns from the web tier raise alerts.' }
+    ],
+    lesson: '<b>Public-facing servers MUST live in a screened subnet (DMZ)</b>. The TLS certificate must be <b>publicly-trusted</b> (not self-signed) so browsers don\'t warn users. Internal services accessed from the DMZ should have tightly-scoped IP allowlists — this is "defense in depth" in its classical form.'
+  }
+];
+
+function renderScenarioPicker() {
+  var picker = document.getElementById('scenarioPicker');
+  var html = '';
+  ARCHITECT_SCENARIOS.forEach(function(s, i) {
+    html += '<button class="scen-btn' + (i === 0 ? ' active' : '') + '" data-i="' + i + '">' +
+      '<div class="sname">' + s.name + '</div>' +
+      '<div class="scontext">' + s.context + '</div>' +
+      '</button>';
+  });
+  picker.innerHTML = html;
+  picker.querySelectorAll('.scen-btn').forEach(function(b) {
+    b.addEventListener('click', function() {
+      picker.querySelectorAll('.scen-btn').forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      renderArchitectScenario(parseInt(b.dataset.i, 10));
+    });
+  });
+  renderArchitectScenario(0);
+}
+
+function renderArchitectScenario(i) {
+  var s = ARCHITECT_SCENARIOS[i];
+  var stage = document.getElementById('architectStage');
+
+  var authHTML = s.auth.map(function(a) {
+    return '<li><span class="marker">' + a.marker + '</span><span>' + a.html + '</span></li>';
+  }).join('');
+
+  var defHTML = s.defense.map(function(d) {
+    return '<li><span class="marker">' + d.marker + '</span><span>' + d.html + '</span></li>';
+  }).join('');
+
+  stage.innerHTML =
+    '<div class="scenario-detail">' +
+      '<div class="sd-eyebrow">Scenario</div>' +
+      '<div class="sd-name">' + s.fullName + '</div>' +
+      '<div class="sd-context">' + s.fullContext + '</div>' +
+    '</div>' +
+    '<div class="recommendation-grid">' +
+      '<div class="rec-block auth">' +
+        '<div class="rec-head">' +
+          '<div class="rec-icon">A</div>' +
+          '<div class="rec-title">Authentication</div>' +
+        '</div>' +
+        '<ul class="rec-list">' + authHTML + '</ul>' +
+      '</div>' +
+      '<div class="rec-block def">' +
+        '<div class="rec-head">' +
+          '<div class="rec-icon">D</div>' +
+          '<div class="rec-title">Defense Layers</div>' +
+        '</div>' +
+        '<ul class="rec-list">' + defHTML + '</ul>' +
+      '</div>' +
+    '</div>' +
+    '<div class="lesson-callout">' +
+      '<div class="lc-eyebrow">Pattern to remember</div>' +
+      '<div class="lc-body">' + s.lesson + '</div>' +
+    '</div>';
+}
+
+renderScenarioPicker();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'CIA triad',
+    body: 'A ransomware attack encrypts all the company\'s files, making them inaccessible to the business. Which element of the CIA triad is being directly violated?',
+    choices: [
+      { letter: 'A', text: 'Confidentiality only', correct: false },
+      { letter: 'B', text: 'Integrity only', correct: false },
+      { letter: 'C', text: 'Availability (files cannot be read by anyone, including authorized users)', correct: true },
+      { letter: 'D', text: 'None of the above', correct: false }
+    ],
+    explain: '<b>Ransomware primarily attacks availability</b> — data still exists, but no one can use it. If the attackers also exfiltrate the data and threaten to publish it (double-extortion ransomware), that adds a confidentiality violation. Integrity is violated if files are altered. The exam tests the core pillar most directly affected — for classic crypto-ransomware, that\'s availability.'
+  },
+  {
+    tag: 'Auth method',
+    body: 'A network administrator needs to authenticate to a Cisco switch CLI. The organization wants to be able to authorize specific commands per administrator (e.g., junior admins can <code>show</code> but not <code>configure</code>). Which AAA protocol fits best?',
+    choices: [
+      { letter: 'A', text: 'RADIUS — uses UDP 1812', correct: false },
+      { letter: 'B', text: 'TACACS+ — uses TCP 49, supports per-command authorization', correct: true },
+      { letter: 'C', text: 'LDAP — direct directory lookup', correct: false },
+      { letter: 'D', text: 'Kerberos — domain login', correct: false }
+    ],
+    explain: '<b>TACACS+</b> is purpose-built for device administration. It separates authentication, authorization, and accounting (AAA), supports per-command authorization (which RADIUS does not, cleanly), and encrypts the entire payload. RADIUS combines auth+authz in one exchange and only encrypts the password, making it less suitable for device admin. RADIUS is preferred for network-access scenarios (VPN, 802.1X wireless).'
+  },
+  {
+    tag: 'MFA',
+    body: 'A user logs in with their password and a one-time code sent to their phone via SMS. Is this multifactor authentication?',
+    choices: [
+      { letter: 'A', text: 'Yes — password (know) + SMS code (have) are two different factor categories', correct: true },
+      { letter: 'B', text: 'No — both are passwords', correct: false },
+      { letter: 'C', text: 'No — SMS is not a factor', correct: false },
+      { letter: 'D', text: 'Only if a fingerprint is also used', correct: false }
+    ],
+    explain: '<b>This IS MFA.</b> The three factor categories are: <b>something you know</b> (password, PIN), <b>something you have</b> (phone, hardware token, smart card), and <b>something you are</b> (fingerprint, face). Password (know) + SMS code received on phone (have) = two different categories = MFA. <b>Note:</b> SMS-based MFA is the weakest form (vulnerable to SIM-swap attacks) — push notification or hardware token is stronger — but it still qualifies as MFA.'
+  },
+  {
+    tag: 'Zero Trust',
+    body: 'A company\'s security strategy is described as "the network perimeter is gone — every request, even from inside, must be authenticated, authorized, and verified before access is granted." Which model is this?',
+    choices: [
+      { letter: 'A', text: 'Defense in depth', correct: false },
+      { letter: 'B', text: 'Zero Trust', correct: true },
+      { letter: 'C', text: 'Least privilege', correct: false },
+      { letter: 'D', text: 'Honeypot', correct: false }
+    ],
+    explain: '<b>Zero Trust</b> — "never trust, always verify." It replaces the old "castle and moat" model (trusted internal LAN, untrusted internet) with continuous verification of every request regardless of where the request originates. Pillars: verify explicitly, use least-privilege access, and assume breach. Often combined with defense in depth and least privilege as a holistic strategy.'
+  },
+  {
+    tag: 'Certificate',
+    body: 'A company is launching a public e-commerce site. Their internal CA has issued a TLS certificate for the web server. When users browse to the site, their browsers show "Not secure" warnings. What is the fix?',
+    choices: [
+      { letter: 'A', text: 'Replace the cert with one from a publicly-trusted CA (Let\'s Encrypt, DigiCert, etc.)', correct: true },
+      { letter: 'B', text: 'Disable HTTPS on the site', correct: false },
+      { letter: 'C', text: 'Tell users to click through the warning', correct: false },
+      { letter: 'D', text: 'Add a longer key length', correct: false }
+    ],
+    explain: '<b>Public sites need certs from publicly-trusted CAs</b> — Let\'s Encrypt (free), DigiCert, Sectigo, etc. These CAs are already trusted by browsers and OSes worldwide. An internal CA is fine for internal services (you can pre-distribute its root cert to clients), but the public internet doesn\'t trust your internal CA, so browsers warn users. Self-signed certs have the same problem and aren\'t safer than properly-issued public certs.'
+  },
+  {
+    tag: 'Defense in depth',
+    body: 'A company has placed two firewalls from the same vendor, with the same ruleset, back-to-back. The security team calls this "defense in depth." Is this characterization accurate?',
+    choices: [
+      { letter: 'A', text: 'Yes — two firewalls means double security', correct: false },
+      { letter: 'B', text: 'No — defense in depth requires INDEPENDENT layers (different vendors, different controls); two identical firewalls share the same vulnerabilities', correct: true },
+      { letter: 'C', text: 'Yes — as long as the firewalls are in different racks', correct: false },
+      { letter: 'D', text: 'No — defense in depth requires three layers minimum', correct: false }
+    ],
+    explain: '<b>Defense in depth requires INDEPENDENT layers.</b> Two identical firewalls share the same vulnerabilities — a zero-day in vendor X\'s firmware defeats both. Real defense in depth combines DIFFERENT control types: firewall + IDS + WAF + endpoint protection + MFA + network segmentation. The point is that bypassing one layer doesn\'t bypass them all because they fail differently.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'What does the "C" in CIA triad stand for?',
+    choices: ['Compliance', 'Confidentiality', 'Control', 'Centralization'],
+    correct: 1,
+    explain: '<b>Confidentiality</b> — only authorized parties can read the data. Achieved via encryption, access controls, and authentication. The CIA triad: Confidentiality, Integrity, Availability.'
+  },
+  {
+    q: 'A zero-day vulnerability is:',
+    choices: [
+      'A vulnerability that has been known for zero days (i.e., known forever)',
+      'A vulnerability with no patch available yet — being exploited before the vendor knows about it',
+      'A low-severity vulnerability',
+      'A vulnerability that requires zero authentication'
+    ],
+    correct: 1,
+    explain: '<b>Zero-day</b> means the vendor has had zero days to develop a patch. Attackers know about and exploit it before any defense exists. Extremely dangerous because signature-based defenses haven\'t been built yet. Defense: defense in depth, behavioral detection, rapid patching when one becomes available.'
+  },
+  {
+    q: 'Which access control model assigns permissions to ROLES, not individual users?',
+    choices: ['Discretionary Access Control (DAC)', 'Role-Based Access Control (RBAC)', 'Mandatory Access Control (MAC)', 'Least privilege'],
+    correct: 1,
+    explain: '<b>RBAC</b> assigns permissions to roles; users get roles. When someone changes jobs, you change their role membership — you don\'t edit every individual permission. Easier to manage and audit at scale. Examples: AD groups, AWS IAM roles, GCP IAM roles.'
+  },
+  {
+    q: 'Which AAA protocol is best suited for authenticating administrators to network device CLIs, with per-command authorization?',
+    choices: ['RADIUS', 'TACACS+', 'Kerberos', 'SAML'],
+    correct: 1,
+    explain: '<b>TACACS+ (TCP 49)</b> is purpose-built for device admin: separates authentication, authorization, and accounting; supports per-command authorization; encrypts the entire payload. RADIUS (UDP 1812) is better for network access (VPN, 802.1X wireless).'
+  },
+  {
+    q: 'Which protocol does Kerberos use, and what is its key requirement?',
+    choices: [
+      'TCP/UDP 88; time sync within ~5 minutes between client and KDC',
+      'TCP 49; symmetric key encryption',
+      'UDP 1812; PSK only',
+      'TCP 443; certificate-based only'
+    ],
+    correct: 0,
+    explain: '<b>Kerberos uses TCP/UDP 88</b> and is the default authentication protocol for Windows Active Directory. Tickets are time-stamped, so the system relies on tight clock synchronization — typically within 5 minutes. If clocks drift too far, Kerberos fails. Always run NTP on AD-joined machines.'
+  },
+  {
+    q: 'A user authenticates with password + a code from a hardware token. Is this multifactor authentication?',
+    choices: [
+      'No — two methods of the same type',
+      'Yes — password (know) and hardware token (have) are different factor categories',
+      'No — hardware tokens are not MFA',
+      'Only if biometrics are also used'
+    ],
+    correct: 1,
+    explain: 'Yes — this is MFA. <b>Two different factor categories:</b> password is "something you know"; hardware token is "something you have." The three categories are know / have / are. Two passwords would NOT be MFA because they\'re both "know."'
+  },
+  {
+    q: 'A screened subnet (DMZ) is:',
+    choices: [
+      'A network segment for internal-only servers',
+      'A network segment between trusted (internal) and untrusted (internet) zones, holding internet-facing servers',
+      'A wireless guest network',
+      'A backup site'
+    ],
+    correct: 1,
+    explain: '<b>Screened subnet (formerly called DMZ)</b> — a buffer zone between the internet and your internal network. Internet-facing servers (web, mail relays, public DNS) live here. If they\'re compromised, attackers can\'t directly reach internal systems because the firewall between DMZ and internal blocks the path. Classic defense-in-depth pattern.'
+  },
+  {
+    q: 'A "honeypot" is best described as:',
+    choices: [
+      'A backup server',
+      'A decoy system with no legitimate users — any interaction is suspicious',
+      'An encrypted file share',
+      'A jump box'
+    ],
+    correct: 1,
+    explain: '<b>Honeypot</b> = decoy system designed to attract attackers. Has no legitimate users — so any connection to it is suspicious by definition. Provides early warning of intrusion attempts and helps identify attack techniques. A network of honeypots is called a honeynet.'
+  },
+  {
+    q: 'For a publicly-accessible e-commerce site, what type of TLS certificate should be used?',
+    choices: [
+      'Self-signed by the web server',
+      'Signed by an internal CA',
+      'Signed by a publicly-trusted CA (e.g., Let\'s Encrypt, DigiCert)',
+      'No certificate is needed'
+    ],
+    correct: 2,
+    explain: '<b>Publicly-trusted CA.</b> Browsers and operating systems already trust these CAs out of the box. Self-signed certs trigger "Not secure" warnings. Internal CA certs are fine for internal services where you can pre-distribute the root cert to clients, but not for the public internet — strangers\' browsers don\'t trust your internal CA.'
+  },
+  {
+    q: 'The principle of least privilege means:',
+    choices: [
+      'Disable accounts that haven\'t logged in for 90 days',
+      'Grant the MINIMUM access required to perform the job — no more',
+      'Always require MFA',
+      'Encrypt everything'
+    ],
+    correct: 1,
+    explain: '<b>Least privilege:</b> give the minimum permissions needed for the role. A finance analyst doesn\'t need server admin rights. A developer doesn\'t need to read HR data. Reduces blast radius when an account is compromised. Apply to users, service accounts, system processes — everything.'
+  },
+  {
+    q: 'What does SIEM stand for, and what does it do?',
+    choices: [
+      'Secure Internet Email Monitor — filters spam',
+      'Security Information and Event Management — aggregates and correlates logs from many sources to detect attacks',
+      'System Identity Encryption Module — handles credential storage',
+      'Standard Interface for Email Messaging'
+    ],
+    correct: 1,
+    explain: '<b>SIEM = Security Information and Event Management.</b> A platform that ingests logs from firewalls, servers, EDR, IDS, VPN, etc., then correlates events across sources to identify attacks. Provides centralized visibility, alerting, and investigation workflows. Examples: Splunk, Elastic SIEM, Microsoft Sentinel, IBM QRadar.'
+  },
+  {
+    q: 'A user reports they want to log into Salesforce using their corporate credentials. The IT team configures the IdP (e.g., Okta) so users authenticate there and Salesforce trusts the assertion. Which protocol is most commonly used for this?',
+    choices: ['Kerberos', 'RADIUS', 'SAML', 'LDAP'],
+    correct: 2,
+    explain: '<b>SAML</b> is the standard for cross-org SSO and SaaS federation. XML-based assertions are passed between the Identity Provider (Okta) and the Service Provider (Salesforce). Browser redirects do the heavy lifting; the user signs in once at the IdP and Salesforce trusts the SAML assertion. OIDC is the modern JSON-based alternative.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'C in CIA?', choices: ['Confidentiality', 'Compliance', 'Control', 'Centralization'], correct: 0 },
+  { q: 'I in CIA?', choices: ['Identity', 'Integrity', 'Inspection', 'Index'], correct: 1 },
+  { q: 'A in CIA?', choices: ['Authentication', 'Authorization', 'Availability', 'Access'], correct: 2 },
+  { q: 'Ransomware primarily violates?', choices: ['Confidentiality', 'Integrity', 'Availability', 'Authentication'], correct: 2 },
+  { q: 'Eavesdropping primarily violates?', choices: ['Confidentiality', 'Integrity', 'Availability', 'Audit'], correct: 0 },
+  { q: 'Tampering primarily violates?', choices: ['Confidentiality', 'Integrity', 'Availability', 'Access'], correct: 1 },
+  { q: 'CVE stands for?', choices: ['Common Vulns & Exposures', 'Computer Virus Engine', 'Critical Vendor Endpoint', 'Cyber Verified Exploit'], correct: 0 },
+  { q: 'Zero-day means?', choices: ['Old patched flaw', 'No patch yet — unknown to vendor', 'Zero severity', 'No auth required'], correct: 1 },
+  { q: 'Threat is?', choices: ['A weakness', 'Actor/event that could harm', 'A patch', 'A backup'], correct: 1 },
+  { q: 'Vulnerability is?', choices: ['Actor that attacks', 'A weakness that could be exploited', 'A patch', 'A backup'], correct: 1 },
+  { q: 'Exploit is?', choices: ['A patch', 'Technique that uses a vuln', 'A backup', 'A firewall'], correct: 1 },
+  { q: 'Least privilege means?', choices: ['MFA always', 'Minimum access needed for the job', 'No access', 'Encrypted disks'], correct: 1 },
+  { q: 'RBAC bases access on?', choices: ['Random', 'Role', 'IP address', 'Time of day'], correct: 1 },
+  { q: 'Zero Trust principle?', choices: ['Trust LAN', 'Never trust, always verify', 'Trust VPN', 'Trust admin'], correct: 1 },
+  { q: 'RADIUS port?', choices: ['TCP 49', 'UDP 1812', 'TCP 389', 'TCP 88'], correct: 1 },
+  { q: 'TACACS+ port?', choices: ['UDP 1812', 'TCP 49', 'TCP 636', 'UDP 88'], correct: 1 },
+  { q: 'LDAP port?', choices: ['TCP 389', 'TCP 49', 'UDP 88', 'TCP 25'], correct: 0 },
+  { q: 'LDAPS port?', choices: ['TCP 389', 'TCP 636', 'UDP 1812', 'TCP 443'], correct: 1 },
+  { q: 'Kerberos port?', choices: ['TCP 49', 'TCP/UDP 88', 'UDP 1812', 'TCP 389'], correct: 1 },
+  { q: 'RADIUS best for?', choices: ['Device admin CLI', 'Network access (VPN, Wi-Fi)', 'Email', 'DNS'], correct: 1 },
+  { q: 'TACACS+ best for?', choices: ['Wi-Fi', 'Device admin (CLI)', 'SaaS SSO', 'Email'], correct: 1 },
+  { q: 'Kerberos default in?', choices: ['Linux', 'Active Directory', 'macOS', 'iOS'], correct: 1 },
+  { q: 'SAML used for?', choices: ['Routing', 'Federation / SaaS SSO', 'DNS', 'NTP'], correct: 1 },
+  { q: 'MFA = factors from?', choices: ['Same category', 'Different categories', 'Just two passwords', 'Only biometrics'], correct: 1 },
+  { q: 'Password + phone push is?', choices: ['Not MFA', 'MFA (know + have)', 'Single factor', 'Only 2FA'], correct: 1 },
+  { q: 'Defense in depth =?', choices: ['One strong firewall', 'Many INDEPENDENT layers', 'Two same firewalls', 'Just MFA'], correct: 1 },
+  { q: 'Screened subnet =?', choices: ['Internal-only', 'DMZ for internet-facing servers', 'Backup site', 'Guest Wi-Fi'], correct: 1 },
+  { q: 'Honeypot has?', choices: ['Real users', 'No legitimate users (decoy)', 'Backup data', 'Admin tools'], correct: 1 },
+  { q: 'NAC checks?', choices: ['Bandwidth', 'Device compliance before granting access', 'Password length', 'TLS version'], correct: 1 },
+  { q: 'SIEM does?', choices: ['Routes packets', 'Aggregates & correlates logs', 'Encrypts disks', 'Replaces firewalls'], correct: 1 },
+  { q: 'Public site needs cert from?', choices: ['Self-signed', 'Internal CA', 'Publicly-trusted CA', 'No cert'], correct: 2 },
+  { q: 'Internal-only service can use?', choices: ['Only public CA', 'Self-signed or internal CA', 'No cert', 'Telnet'], correct: 1 },
+  { q: 'Full-disk encryption protects against?', choices: ['DDoS', 'Lost/stolen device data theft', 'Phishing', 'DNS poisoning'], correct: 1 },
+  { q: 'Separation of duties prevents?', choices: ['DDoS', 'Single person controlling whole process', 'Fast access', 'MFA'], correct: 1 },
+  { q: 'Internal threat is?', choices: ['Internet attacker', 'Employee/contractor with access', 'Weather', 'Backup'], correct: 1 },
+  { q: 'PKI is?', choices: ['Protocol', 'System for issuing/managing certs', 'A firewall', 'An OS'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
