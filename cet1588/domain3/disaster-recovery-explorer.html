@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.3 Disaster Recovery · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --cold:#5E7B8C; --cold-bg:#DCE6EE;
+    --warm:#C77B3C; --warm-bg:#F5E2D0;
+    --hot:#C44A4A; --hot-bg:#F5D6D6;
+    --aa:#6B3FA0; --aa-bg:#E5D9F0;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 18%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; }
+
+  .specs-table tr.cold td.label { color: var(--cold); }
+  .specs-table tr.warm td.label { color: var(--warm); }
+  .specs-table tr.hot td.label { color: var(--hot); }
+  .specs-table tr.aa td.label { color: var(--aa); }
+
+  /* ============== TAB 2 · RPO/RTO SELECTOR ============== */
+  .selector-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; }
+  .selector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+
+  .preset-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 22px; }
+  .preset-btn { background: var(--bg-warm); border: 2px solid var(--line-soft); padding: 10px 8px; cursor: pointer; font-family: var(--ff-body); transition: all 0.15s; text-align: center; }
+  .preset-btn:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .preset-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .preset-btn .pname { font-family: var(--ff-display); font-weight: 700; font-size: 12px; color: var(--navy-deep); line-height: 1.2; }
+  .preset-btn.active .pname { color: var(--gold); }
+  .preset-btn .pdesc { font-size: 10px; color: var(--ink-mute); margin-top: 4px; font-family: var(--ff-mono); }
+  .preset-btn.active .pdesc { color: var(--gray-soft); }
+
+  .slider-block { background: var(--bg-warm); padding: 20px 24px; margin-bottom: 14px; }
+  .slider-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .slider-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .slider-value { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--sky-deep); letter-spacing: -0.01em; }
+  .slider-desc { font-size: 12px; color: var(--ink-mute); margin-bottom: 14px; line-height: 1.4; }
+  .slider-desc b { color: var(--navy-deep); }
+  input[type="range"].dr-slider { width: 100%; -webkit-appearance: none; appearance: none; background: white; height: 8px; border: 1px solid var(--line); outline: none; cursor: pointer; }
+  input[type="range"].dr-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: var(--gold); border: 2px solid var(--navy-deep); cursor: pointer; }
+  input[type="range"].dr-slider::-moz-range-thumb { width: 22px; height: 22px; background: var(--gold); border: 2px solid var(--navy-deep); cursor: pointer; }
+  .slider-ticks { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); }
+
+  .result-panel { background: var(--navy-deep); color: white; padding: 24px 26px; min-height: 360px; }
+  .result-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-soft); margin-bottom: 12px; }
+  .result-site { font-family: var(--ff-display); font-size: 32px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .result-site.tier-cold { color: var(--sky-soft); }
+  .result-site.tier-warm { color: var(--gold-soft); }
+  .result-site.tier-hot { color: #ff8080; }
+  .result-site.tier-aa { color: #c4a8e8; }
+  .result-strategy { font-family: var(--ff-body); font-size: 14px; color: var(--gray-soft); margin-bottom: 18px; line-height: 1.5; }
+  .result-strategy b { color: white; }
+
+  .result-tier-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 18px; }
+  .tier-cell { background: rgba(255,255,255,0.08); padding: 8px 6px; text-align: center; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--gray-soft); border-bottom: 3px solid transparent; }
+  .tier-cell.active { background: rgba(255,255,255,0.18); color: white; }
+  .tier-cell.active.tier-cold { border-color: var(--sky-soft); }
+  .tier-cell.active.tier-warm { border-color: var(--gold-soft); }
+  .tier-cell.active.tier-hot { border-color: #ff8080; }
+  .tier-cell.active.tier-aa { border-color: #c4a8e8; }
+
+  .result-metric-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .result-metric { padding: 12px 14px; background: rgba(255,255,255,0.08); }
+  .result-metric .mlabel { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-soft); margin-bottom: 4px; }
+  .result-metric .mvalue { font-family: var(--ff-display); font-size: 16px; font-weight: 700; line-height: 1.2; }
+
+  .cost-display { padding: 14px 16px; background: rgba(255,255,255,0.08); margin-bottom: 14px; }
+  .cost-display .clabel { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-soft); margin-bottom: 6px; }
+  .cost-bars { display: flex; gap: 4px; }
+  .cost-bar { flex: 1; height: 22px; background: rgba(255,255,255,0.1); }
+  .cost-bar.lit { background: var(--gold); }
+
+  .result-rationale { padding: 12px 14px; background: rgba(56,176,224,0.15); border-left: 3px solid var(--sky); font-size: 13px; line-height: 1.55; color: white; }
+  .result-rationale b { color: var(--gold); }
+
+  /* ============== TAB 3 · BACKUP STRATEGY VIZ ============== */
+  .backup-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; }
+  .backup-strategy-picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+  .strategy-btn { background: var(--bg-warm); border: 2px solid var(--line-soft); padding: 14px 14px; cursor: pointer; text-align: center; font-family: var(--ff-body); transition: all 0.15s; }
+  .strategy-btn:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .strategy-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .strategy-btn .sname { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); }
+  .strategy-btn.active .sname { color: var(--gold); }
+  .strategy-btn .sdesc { font-size: 11px; color: var(--ink-mute); margin-top: 4px; font-family: var(--ff-mono); }
+  .strategy-btn.active .sdesc { color: var(--gray-soft); }
+
+  .timeline-wrap { background: var(--bg-warm); padding: 24px; margin-bottom: 18px; }
+  .timeline-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; font-weight: 700; }
+  .timeline-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .timeline-day { background: white; border: 1px solid var(--line-soft); padding: 10px 8px; text-align: center; min-height: 90px; display: flex; flex-direction: column; justify-content: space-between; }
+  .timeline-day .dname { font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); letter-spacing: 0.1em; }
+  .timeline-day .dbackup { font-family: var(--ff-display); font-weight: 700; font-size: 13px; line-height: 1.2; padding: 6px 4px; margin-top: 4px; }
+  .timeline-day .dsize { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+  .timeline-day.full .dbackup { background: var(--sky); color: white; }
+  .timeline-day.inc .dbackup { background: var(--gold); color: var(--navy-deep); }
+  .timeline-day.diff .dbackup { background: var(--green); color: white; }
+  .timeline-day.snap .dbackup { background: var(--aa); color: white; font-size: 11px; }
+
+  .restore-demo { background: var(--surface); padding: 18px 22px; border-left: 4px solid var(--gold); }
+  .restore-head { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin-bottom: 8px; }
+  .restore-body { font-size: 14px; line-height: 1.6; color: var(--ink); margin-bottom: 10px; }
+  .restore-body b { color: var(--navy-deep); }
+  .restore-chain { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 10px 0; font-family: var(--ff-mono); font-size: 12px; }
+  .restore-chain .chip { background: var(--bg-warm); border: 1px solid var(--line); padding: 4px 10px; font-weight: 700; color: var(--navy-deep); }
+  .restore-chain .chip.full { background: var(--sky); color: white; }
+  .restore-chain .chip.inc { background: var(--gold); color: var(--navy-deep); }
+  .restore-chain .chip.diff { background: var(--green); color: white; }
+  .restore-chain .chip.snap { background: var(--aa); color: white; }
+  .restore-chain .arrow { color: var(--ink-mute); font-weight: 700; }
+
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .pros-cons .pc-col { padding: 12px 16px; }
+  .pros-cons .pc-pros { background: var(--green-bg); border-left: 3px solid var(--green); }
+  .pros-cons .pc-cons { background: var(--red-bg); border-left: 3px solid var(--red); }
+  .pros-cons h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 8px; font-weight: 700; }
+  .pros-cons .pc-pros h5 { color: var(--green); }
+  .pros-cons .pc-cons h5 { color: var(--red); }
+  .pros-cons ul { padding-left: 18px; margin: 0; }
+  .pros-cons li { font-size: 13px; line-height: 1.5; margin-bottom: 4px; color: var(--ink); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .selector-grid { grid-template-columns: 1fr; }
+    .preset-row { grid-template-columns: 1fr 1fr; }
+    .backup-strategy-picker { grid-template-columns: 1fr 1fr; }
+    .timeline-days { grid-template-columns: repeat(4, 1fr); }
+    .pros-cons { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.3 Disaster Recovery</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 3.3 · Disaster Recovery Concepts</div>
+    <h1>Plan for <em>when, not if.</em></h1>
+    <p class="lede">Every system fails eventually — drives die, fires happen, ransomware hits, hurricanes flood data centers. Disaster recovery is the discipline of knowing what to do <b>before</b> any of that happens. This artifact teaches the metrics (RPO, RTO, MTTR, MTBF), the site types (cold, warm, hot, active-active), the backup strategies (full, incremental, differential, snapshots), and the business-driven thinking that ties them all together.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">RPO</span><span class="desc">Max data loss tolerated → backup frequency</span></div>
+    <div class="ref-row"><span class="name">RTO</span><span class="desc">Max downtime tolerated → site type</span></div>
+    <div class="ref-row"><span class="name">MTTR</span><span class="desc">Mean Time To Repair — speed of fix</span></div>
+    <div class="ref-row"><span class="name">MTBF</span><span class="desc">Mean Time Between Failures — reliability</span></div>
+    <div class="ref-row"><span class="name">Cold</span><span class="desc">Empty space — days to recover, $ cheap</span></div>
+    <div class="ref-row"><span class="name">Warm</span><span class="desc">Some gear, partial data — hours, $$</span></div>
+    <div class="ref-row"><span class="name">Hot</span><span class="desc">Fully running standby — minutes, $$$</span></div>
+    <div class="ref-row"><span class="name">Active-Active</span><span class="desc">Zero downtime, both live, $$$$</span></div>
+    <div class="footer-note">
+      <b>RULE OF THUMB</b><br>
+      RPO → backup frequency.<br>
+      RTO → site type.<br>
+      Cost grows exponentially as both approach zero.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">4</div><div class="label">Key DR metrics · RPO RTO MTTR MTBF</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Site tiers · cold warm hot active-active</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Backup strategies to master</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="selector"><span class="num">02</span>RPO/RTO Selector</button>
+  <button class="tab" data-tab="backup"><span class="num">03</span>Backup Strategy</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>DR Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Disaster recovery has four concept families that the exam tests heavily: <b>metrics</b> (RPO, RTO, MTTR, MTBF — and how they relate to availability), <b>recovery sites</b> (cold, warm, hot, active-active — what each can do and what each costs), <b>backup strategies</b> (full, incremental, differential, snapshots — the tradeoffs between backup speed, restore speed, and storage cost), and <b>high availability</b> (the architectures that prevent failures from causing downtime in the first place).</p>
+
+  <div class="section-head">The Four Metrics</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">RPO</div>
+      <h4>Recovery Point Objective</h4>
+      <p>The <b>maximum amount of data loss</b> the business can tolerate, measured in time. RPO = 1 hour means "if we lose everything since the last backup, we can lose at most 1 hour of data."</p>
+      <p><span class="accent">DRIVES:</span> Backup frequency. RPO 1h → back up at least every hour. RPO 5min → near-continuous replication. RPO 0 → synchronous replication.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RTO</div>
+      <h4>Recovery Time Objective</h4>
+      <p>The <b>maximum downtime</b> the business can tolerate after a failure, measured in time. RTO = 4 hours means "we must be back up within 4 hours of any disaster."</p>
+      <p><span class="accent">DRIVES:</span> Site type. RTO 5 min → hot site. RTO 24h → warm site. RTO 1 week → cold site. RTO 0 → active-active.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MTTR</div>
+      <h4>Mean Time To Repair</h4>
+      <p>The <b>average time to repair</b> a failed component. Includes detection, diagnosis, parts acquisition, fix, and verification. Lower is better.</p>
+      <p><span class="accent">EXAMPLE:</span> Vendor 4-hour MTTR means parts and tech arrive within 4 hours of opening a case. Affects RTO directly.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MTBF</div>
+      <h4>Mean Time Between Failures</h4>
+      <p>The <b>average time a component runs before failing</b>. Higher is better. Manufacturer estimate, typically 50,000-300,000 hours for server-grade hardware.</p>
+      <p><span class="accent">EXAMPLE:</span> Hard drive rated MTBF 100,000 hours doesn't mean each drive lasts 100k hours — it means a population averages 1 failure per 100k drive-hours.</p>
+    </div>
+  </div>
+
+  <p>The availability formula links MTBF and MTTR: <code>Availability = MTBF / (MTBF + MTTR)</code>. This is the math behind the "nines" of uptime — 99.9% means 43 minutes downtime per month, 99.99% means 4 minutes, 99.999% means 26 seconds. Each additional nine typically costs 10x more.</p>
+
+  <div class="section-head">Recovery Sites</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Site Type</th><th>Hardware</th><th>Data</th><th>RTO</th><th>Cost</th><th>When to use</th></tr>
+    </thead>
+    <tbody>
+      <tr class="cold">
+        <td class="label">Cold</td>
+        <td>Empty space, power, HVAC, network</td>
+        <td>None — restore from offsite backup</td>
+        <td class="num">Days–weeks</td>
+        <td class="num">$</td>
+        <td>Long downtime acceptable. Archive systems, low-risk apps.</td>
+      </tr>
+      <tr class="warm">
+        <td class="label">Warm</td>
+        <td>Powered hardware in place</td>
+        <td>Recent data (lagging hours-days)</td>
+        <td class="num">Hours</td>
+        <td class="num">$$</td>
+        <td>Most business workloads. Standard DR site.</td>
+      </tr>
+      <tr class="hot">
+        <td class="label">Hot</td>
+        <td>Fully equivalent to primary</td>
+        <td>Real-time replication (lagging minutes or less)</td>
+        <td class="num">Minutes</td>
+        <td class="num">$$$</td>
+        <td>Critical apps. Healthcare records, customer-facing systems.</td>
+      </tr>
+      <tr class="aa">
+        <td class="label">Active-Active</td>
+        <td>Two equally-active sites</td>
+        <td>Synchronously replicated</td>
+        <td class="num">~0</td>
+        <td class="num">$$$$</td>
+        <td>Zero-downtime systems. Financial trading, real-time payments.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Backup Strategies</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Strategy</th><th>What it captures</th><th>Backup speed</th><th>Restore speed</th><th>Storage</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">Full</td>
+        <td>Every file, every time</td>
+        <td class="num">Slow</td>
+        <td class="num">Fast</td>
+        <td class="num">Most</td>
+      </tr>
+      <tr>
+        <td class="label">Incremental</td>
+        <td>Only what changed since LAST backup (full or incr)</td>
+        <td class="num">Fast</td>
+        <td class="num">Slow</td>
+        <td class="num">Least</td>
+      </tr>
+      <tr>
+        <td class="label">Differential</td>
+        <td>Only what changed since LAST FULL</td>
+        <td class="num">Medium</td>
+        <td class="num">Medium</td>
+        <td class="num">Medium</td>
+      </tr>
+      <tr>
+        <td class="label">Snapshots</td>
+        <td>Point-in-time reference (block/file system level)</td>
+        <td class="num">Instant</td>
+        <td class="num">Instant</td>
+        <td class="num">Small + growth</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><b>The full-vs-incremental tradeoff:</b> Incrementals are tiny and fast to take, but to restore Wednesday afternoon you need Sunday's full + Monday's incr + Tuesday's incr + Wednesday's incr — four files in sequence. Differentials are larger but only require Sunday's full + Wednesday's differential — two files. Snapshots are nearly-instantaneous reference points but typically depend on the underlying storage system continuing to function.</p>
+
+  <div class="section-head">High Availability — Preventing Failures From Becoming Outages</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">REDUNDANCY</div>
+      <h4>N+1, 2N, 2N+1</h4>
+      <p><b>N+1:</b> one extra component beyond what's needed (4 power supplies when 3 are required).<br>
+      <b>2N:</b> full duplicate (two independent power feeds, two PSUs each).<br>
+      <b>2N+1:</b> duplicate plus one spare.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LOAD BALANCING</div>
+      <h4>Distribute traffic across many servers</h4>
+      <p>A load balancer distributes connections across a pool of backend servers. When one fails, traffic flows to the rest. Eliminates single points of failure for application servers.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CLUSTERING</div>
+      <h4>Multiple servers acting as one</h4>
+      <p><b>Active/passive:</b> one node serves, others wait to take over.<br>
+      <b>Active/active:</b> all nodes serve simultaneously. Faster failover than single-server with backup.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NIC TEAMING</div>
+      <h4>Redundant network connections</h4>
+      <p>Multiple physical NICs bonded into a logical interface. Survives single NIC, cable, or switch port failure. Modes: active/passive failover, or load-balanced active/active (LACP).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DUAL POWER</div>
+      <h4>Redundant power supplies</h4>
+      <p>Enterprise servers have 2 PSUs, each fed from a different circuit (often A-side and B-side feeds from independent UPS systems). Survives a single PSU failure, a single circuit failure, or a single UPS failure.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">GEOGRAPHIC REDUNDANCY</div>
+      <h4>Multiple sites</h4>
+      <p>Multiple data centers in different regions. Survives site-level disasters (fire, flood, regional power outage). Often combined with active-active or hot-site DR architectures.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Testing the Plan — Tabletop, Walkthrough, Failover</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Test type</th><th>What happens</th><th>Risk</th><th>Recommended frequency</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">Tabletop</td>
+        <td>Team discusses the DR plan around a table. Walk through scenarios verbally.</td>
+        <td class="num">None</td>
+        <td class="num">Quarterly</td>
+      </tr>
+      <tr>
+        <td class="label">Walkthrough</td>
+        <td>Team physically goes through the recovery steps without actually failing over production.</td>
+        <td class="num">Low</td>
+        <td class="num">Semi-annually</td>
+      </tr>
+      <tr>
+        <td class="label">Simulation</td>
+        <td>Test the DR site by activating it in parallel with production but without cutting over.</td>
+        <td class="num">Low-Med</td>
+        <td class="num">Annually</td>
+      </tr>
+      <tr>
+        <td class="label">Full failover</td>
+        <td>Actually cut production over to the DR site. The most realistic but riskiest test.</td>
+        <td class="num">High</td>
+        <td class="num">Annually (or per regulation)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>RPO drives backup frequency. RTO drives site type.</b> They're related but not the same thing — a system can have a small RPO (frequent backups) and a large RTO (slow restoration acceptable) or vice versa.</li>
+    <li><b>Lower MTBF = LESS reliable.</b> MTBF measures time between failures, so a higher number means longer intervals between failures = more reliable.</li>
+    <li><b>Lower MTTR = MORE recoverable.</b> MTTR is repair time — shorter is better.</li>
+    <li><b>Cold site has SPACE only.</b> No equipment in place. Recovery means shipping hardware, installing, restoring data — days to weeks.</li>
+    <li><b>Hot site has REAL-TIME data replication.</b> If the data isn't replicating continuously, it's a warm site.</li>
+    <li><b>Incremental restore needs the full chain.</b> Lose any one incremental backup file and the restore breaks. Differential needs only the most recent full + most recent differential.</li>
+    <li><b>Snapshots are NOT backups.</b> A snapshot of a volume on the same array dies when the array dies. Backups must be on different media, preferably offsite.</li>
+    <li><b>The 3-2-1 backup rule:</b> 3 copies of data, on 2 different media, with 1 offsite.</li>
+    <li><b>Active-active and hot site are different.</b> Active-active means both sites serve traffic concurrently. Hot site means a standby site ready to take over — but it's not serving traffic until failover.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · RPO/RTO SELECTOR ============== -->
+<section class="panel" id="panel-selector">
+  <h2>Pick the <em>right strategy</em> for the business need.</h2>
+  <p>Set RPO (data loss tolerance) and RTO (downtime tolerance) below — the selector will show you which site type and backup strategy fit, plus relative cost. Try the presets first to see real-world examples, then experiment with the sliders to see how requirements drive architecture. The key insight: <b>cost grows exponentially as both numbers approach zero.</b></p>
+
+  <div class="selector-wrap">
+    <div style="font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; font-weight: 700;">
+      Try a real-world preset
+    </div>
+    <div class="preset-row" id="presetRow"></div>
+
+    <div class="selector-grid">
+      <div>
+        <div class="slider-block">
+          <div class="slider-head">
+            <div class="slider-label">RPO · Max data loss</div>
+            <div class="slider-value" id="rpoValue">4 hours</div>
+          </div>
+          <div class="slider-desc">How much data can you afford to lose? <b>Smaller RPO → more frequent backups → higher cost.</b></div>
+          <input type="range" class="dr-slider" id="rpoSlider" min="0" max="9" step="1" value="5">
+          <div class="slider-ticks">
+            <span>0s</span><span>5m</span><span>1h</span><span>4h</span><span>1d</span><span>1wk</span>
+          </div>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-head">
+            <div class="slider-label">RTO · Max downtime</div>
+            <div class="slider-value" id="rtoValue">24 hours</div>
+          </div>
+          <div class="slider-desc">How long can you be offline before business is hurt? <b>Smaller RTO → faster failover site → higher cost.</b></div>
+          <input type="range" class="dr-slider" id="rtoSlider" min="0" max="9" step="1" value="6">
+          <div class="slider-ticks">
+            <span>0s</span><span>15m</span><span>1h</span><span>4h</span><span>1d</span><span>2wk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-panel" id="resultPanel">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>Business requirements drive technical architecture, not the reverse.</b> The right starting question is "how much data loss and downtime can the business tolerate?" Not "what backup product should we buy?"</li>
+    <li><b>Cost grows exponentially.</b> Going from a warm site to a hot site might be 2-3x cost. Going from hot to active-active is another 2-3x. Going from RTO 4h to RTO 1m might be 10x. Most organizations cannot afford zero RPO/RTO for everything — so they tier their applications by criticality.</li>
+    <li><b>RPO and RTO are independent.</b> A document archive might have RPO 24h (lose a day of writes) but RTO 1 week (can be slow to restore). A trading system has RPO 0 AND RTO 0.</li>
+    <li><b>The exam loves matching scenarios to architectures.</b> Practice mapping "this kind of business" → "this kind of site" → "this kind of backup." That mapping is what this selector trains.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · BACKUP STRATEGY ============== -->
+<section class="panel" id="panel-backup">
+  <h2>The <em>full / incremental / differential</em> tradeoff.</h2>
+  <p>Each backup strategy makes a different tradeoff between backup speed, restore speed, and storage cost. Pick a strategy below to see how it plays out over a week. The crucial difference is what you need to restore a given day's data — which directly affects how long restore takes.</p>
+
+  <div class="backup-wrap">
+    <div class="backup-strategy-picker" id="strategyPicker"></div>
+    <div class="timeline-wrap">
+      <div class="timeline-head">Backup timeline · Sunday through Saturday</div>
+      <div class="timeline-days" id="timelineDays"></div>
+    </div>
+
+    <div class="restore-demo" id="restoreDemo"></div>
+
+    <div class="pros-cons" id="prosCons"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">The 3-2-1 rule</h3>
+  <p>Industry standard for backup architecture: <b>3 copies</b> of data, on <b>2 different media</b>, with <b>1 offsite</b>. Example: production data + on-prem backup appliance + cloud archive. Defends against single-drive failure, single-site disaster, and ransomware that encrypts all online storage. The modern variant is <b>3-2-1-1-0</b>: add 1 immutable/offline copy and 0 errors in verification.</p>
+
+  <h3>Common backup mistakes</h3>
+  <ul>
+    <li><b>Backups exist; restores have never been tested.</b> Untested backups have a startling tendency to be unrestorable when you actually need them. Test restores quarterly at minimum.</li>
+    <li><b>Snapshot = backup.</b> A snapshot is a point-in-time view on the same storage system. When the array dies, so do all the snapshots. Snapshots are great for "oops I deleted that file 10 minutes ago" — not for disaster recovery.</li>
+    <li><b>Backups all on the same network.</b> Ransomware that encrypts production also encrypts network-reachable backups. The "1 offline" in 3-2-1-1-0 specifically defends against this — air-gapped or write-once media.</li>
+    <li><b>Backup retention is too short.</b> Some malware sits dormant for weeks. If you only retain 7 days of backups, you'll restore the infection. Long retention (with tiered storage) matters.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>DR <em>scenarios.</em></h2>
+  <p>Six scenarios mixing RPO/RTO sizing, site type selection, backup strategy choice, HA architecture, and DR testing. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 3.3: RPO/RTO/MTTR/MTBF, site types, backup strategies, HA architectures, and DR testing.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire DR questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 3.3: Disaster Recovery Concepts. Covers the four key metrics (RPO, RTO, MTTR, MTBF), the four recovery site types (cold, warm, hot, active-active), the four backup strategies (full, incremental, differential, snapshots), high-availability architectures (redundancy, load balancing, clustering, NIC teaming, geographic redundancy), and DR testing methodologies (tabletop, walkthrough, simulation, full failover).</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 3 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Explore tradeoffs in the RPO/RTO Strategy Selector.</p>
+      <p>· Compare backup strategies in the timeline visualizer.</p>
+      <p>· Test yourself in DR Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 3.3 quiz in Canvas. Real-world skills here transfer directly to BCDR, business continuity, ISO 22301, and IT operations roles.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 3.3 · Disaster Recovery Concepts</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · RPO/RTO SELECTOR ============== */
+/*
+Slider scales (10 positions each):
+  0: continuous (0)       — 0 seconds
+  1: 1 minute
+  2: 5 minutes
+  3: 15 minutes
+  4: 1 hour
+  5: 4 hours
+  6: 24 hours (1 day)
+  7: 3 days
+  8: 1 week
+  9: 2 weeks
+*/
+
+var RPO_LEVELS = [
+  { sec: 0,        label: 'Continuous (0)',  short: '0s' },
+  { sec: 60,       label: '1 minute',        short: '1m' },
+  { sec: 300,      label: '5 minutes',       short: '5m' },
+  { sec: 900,      label: '15 minutes',      short: '15m' },
+  { sec: 3600,     label: '1 hour',          short: '1h' },
+  { sec: 14400,    label: '4 hours',         short: '4h' },
+  { sec: 86400,    label: '24 hours',        short: '1d' },
+  { sec: 259200,   label: '3 days',          short: '3d' },
+  { sec: 604800,   label: '1 week',          short: '1wk' },
+  { sec: 1209600,  label: '2 weeks',         short: '2wk' }
+];
+
+var RTO_LEVELS = [
+  { sec: 0,        label: 'Zero downtime',   short: '0s' },
+  { sec: 60,       label: '1 minute',        short: '1m' },
+  { sec: 300,      label: '5 minutes',       short: '5m' },
+  { sec: 900,      label: '15 minutes',      short: '15m' },
+  { sec: 3600,     label: '1 hour',          short: '1h' },
+  { sec: 14400,    label: '4 hours',         short: '4h' },
+  { sec: 86400,    label: '24 hours',        short: '1d' },
+  { sec: 259200,   label: '3 days',          short: '3d' },
+  { sec: 604800,   label: '1 week',          short: '1wk' },
+  { sec: 1209600,  label: '2 weeks',         short: '2wk' }
+];
+
+var PRESETS = [
+  {
+    name: 'Bank trading',
+    desc: 'RPO 0 · RTO 0',
+    rpoIdx: 0, rtoIdx: 0,
+    context: 'Financial trading platform — every millisecond of downtime or lost trade is regulatory and financial catastrophe.'
+  },
+  {
+    name: 'Hospital EHR',
+    desc: 'RPO 5m · RTO 15m',
+    rpoIdx: 2, rtoIdx: 3,
+    context: 'Hospital electronic health records — clinicians need patient data immediately, lost records can cause direct patient harm.'
+  },
+  {
+    name: 'E-commerce',
+    desc: 'RPO 1h · RTO 4h',
+    rpoIdx: 4, rtoIdx: 5,
+    context: 'Online store — lost orders hurt revenue, but customers will retry if site is back within hours.'
+  },
+  {
+    name: 'Manufacturing ERP',
+    desc: 'RPO 4h · RTO 1d',
+    rpoIdx: 5, rtoIdx: 6,
+    context: 'Manufacturing planning system — schedules can be reconstructed; a day offline halts but does not destroy the business.'
+  },
+  {
+    name: 'Document archive',
+    desc: 'RPO 1d · RTO 1wk',
+    rpoIdx: 6, rtoIdx: 8,
+    context: 'Long-term document archive — rarely accessed, low operational urgency, cost-sensitive.'
+  }
+];
+
+function determineSite(rpoIdx, rtoIdx) {
+  // RTO drives the site type primarily
+  if (rtoIdx === 0 && rpoIdx === 0) {
+    return {
+      tier: 'aa', name: 'Active-Active',
+      cost: 4,
+      siteDesc: 'Two equally-active sites serving traffic concurrently. Synchronous replication keeps data in lockstep. A site failure causes zero downtime because the other site is already taking traffic.',
+      strategy: 'Synchronous replication between sites + transactional consistency + automatic load balancing across sites.',
+      examples: 'Stock exchanges, payment processors, real-time financial systems.'
+    };
+  }
+  if (rtoIdx <= 3) { // ≤ 15 min
+    return {
+      tier: 'hot', name: 'Hot Site',
+      cost: 3,
+      siteDesc: 'Fully equipped standby site with hardware identical to production. Data replicates in near-real-time. On failure, traffic cuts over to the hot site within minutes.',
+      strategy: rpoIdx <= 2
+        ? 'Asynchronous or near-synchronous replication. Database log shipping. Frequent (sub-minute) snapshots replicated offsite.'
+        : 'Asynchronous replication every few minutes. Hourly snapshots replicated to the hot site.',
+      examples: 'Hospital systems, mission-critical SaaS, customer-facing e-commerce during peak season.'
+    };
+  }
+  if (rtoIdx <= 5) { // ≤ 4 hours
+    return {
+      tier: 'hot', name: 'Hot Site',
+      cost: 3,
+      siteDesc: 'Standby site ready to take over within hours. Data is replicated frequently but not necessarily synchronously.',
+      strategy: rpoIdx <= 3
+        ? 'Replication every few minutes. Frequent snapshots with offsite copies. Database log shipping.'
+        : 'Hourly snapshots + nightly full backup. Replicated to the standby site.',
+      examples: 'Standard business applications, internal apps with paying users, mid-tier e-commerce.'
+    };
+  }
+  if (rtoIdx <= 7) { // ≤ 3 days
+    return {
+      tier: 'warm', name: 'Warm Site',
+      cost: 2,
+      siteDesc: 'Site with hardware in place but not actively serving traffic. Data is lagging (hours to days). Recovery means activating the standby hardware and applying recent backups.',
+      strategy: rpoIdx <= 5
+        ? 'Snapshots every few hours, replicated to the warm site. Optional weekly full backup.'
+        : 'Daily incremental + weekly full backup, copied to the warm site or to cloud storage.',
+      examples: 'Internal apps, file servers, departmental systems, most general business workloads.'
+    };
+  }
+  // ≤ 2 weeks
+  return {
+    tier: 'cold', name: 'Cold Site',
+    cost: 1,
+    siteDesc: 'Empty facility with power, HVAC, and network — but no hardware in place. Recovery means shipping equipment, racking it, configuring, and restoring data from offsite backups. Slow but cheap.',
+    strategy: rpoIdx <= 6
+      ? 'Daily incremental + weekly full backup, kept offsite (cloud or tape).'
+      : 'Weekly full backup + monthly archive. Cloud or tape storage offsite.',
+    examples: 'Document archives, low-priority systems, compliance-only storage, organizations with very limited DR budget.'
+  };
+}
+
+function renderResultPanel(rpoIdx, rtoIdx) {
+  var rpo = RPO_LEVELS[rpoIdx];
+  var rto = RTO_LEVELS[rtoIdx];
+  var result = determineSite(rpoIdx, rtoIdx);
+
+  var tierBarHTML = '';
+  var tiers = [
+    { id: 'cold', label: 'COLD' },
+    { id: 'warm', label: 'WARM' },
+    { id: 'hot',  label: 'HOT' },
+    { id: 'aa',   label: 'ACTIVE-ACTIVE' }
+  ];
+  tiers.forEach(function(t) {
+    var cls = 'tier-cell tier-' + t.id;
+    if (t.id === result.tier) cls += ' active';
+    tierBarHTML += '<div class="' + cls + '">' + t.label + '</div>';
+  });
+
+  var costBarsHTML = '';
+  for (var c = 1; c <= 4; c++) {
+    costBarsHTML += '<div class="cost-bar' + (c <= result.cost ? ' lit' : '') + '"></div>';
+  }
+
+  document.getElementById('resultPanel').innerHTML =
+    '<div class="result-eyebrow">Recommended architecture</div>' +
+    '<div class="result-site tier-' + result.tier + '">' + result.name + '</div>' +
+    '<div class="result-strategy">' + result.siteDesc + '</div>' +
+    '<div class="result-tier-bar">' + tierBarHTML + '</div>' +
+    '<div class="result-metric-row">' +
+      '<div class="result-metric">' +
+        '<div class="mlabel">Your RPO</div>' +
+        '<div class="mvalue">' + rpo.label + '</div>' +
+      '</div>' +
+      '<div class="result-metric">' +
+        '<div class="mlabel">Your RTO</div>' +
+        '<div class="mvalue">' + rto.label + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="cost-display">' +
+      '<div class="clabel">Relative cost</div>' +
+      '<div class="cost-bars">' + costBarsHTML + '</div>' +
+    '</div>' +
+    '<div class="result-rationale">' +
+      '<b>BACKUP STRATEGY:</b> ' + result.strategy + '<br><br>' +
+      '<b>TYPICAL USE:</b> ' + result.examples +
+    '</div>';
+}
+
+function renderPresets() {
+  var row = document.getElementById('presetRow');
+  var html = '';
+  PRESETS.forEach(function(p, i) {
+    html += '<button class="preset-btn" data-i="' + i + '">' +
+      '<div class="pname">' + p.name + '</div>' +
+      '<div class="pdesc">' + p.desc + '</div>' +
+      '</button>';
+  });
+  row.innerHTML = html;
+  row.querySelectorAll('.preset-btn').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var i = parseInt(b.dataset.i, 10);
+      var p = PRESETS[i];
+      document.getElementById('rpoSlider').value = p.rpoIdx;
+      document.getElementById('rtoSlider').value = p.rtoIdx;
+      row.querySelectorAll('.preset-btn').forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      updateSelector();
+    });
+  });
+}
+
+function updateSelector() {
+  var rpoIdx = parseInt(document.getElementById('rpoSlider').value, 10);
+  var rtoIdx = parseInt(document.getElementById('rtoSlider').value, 10);
+  document.getElementById('rpoValue').textContent = RPO_LEVELS[rpoIdx].label;
+  document.getElementById('rtoValue').textContent = RTO_LEVELS[rtoIdx].label;
+  renderResultPanel(rpoIdx, rtoIdx);
+  // Clear preset selection if user moves sliders manually
+  var matchedPreset = null;
+  PRESETS.forEach(function(p, i) {
+    if (p.rpoIdx === rpoIdx && p.rtoIdx === rtoIdx) matchedPreset = i;
+  });
+  document.querySelectorAll('.preset-btn').forEach(function(b, i) {
+    b.classList.toggle('active', i === matchedPreset);
+  });
+}
+
+document.getElementById('rpoSlider').addEventListener('input', updateSelector);
+document.getElementById('rtoSlider').addEventListener('input', updateSelector);
+renderPresets();
+updateSelector();
+
+/* ============== TAB 3 · BACKUP STRATEGY VISUALIZER ============== */
+var BACKUP_STRATEGIES = {
+  full: {
+    name: 'Full',
+    short: 'Daily full backups',
+    timeline: [
+      { day: 'SUN', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'MON', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'TUE', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'WED', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'THU', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'FRI', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'SAT', type: 'full', label: 'Full', size: '500 GB' }
+    ],
+    restoreDescription: 'To restore Wednesday afternoon, you need exactly one file: Wednesday\'s full backup. Fast and simple.',
+    restoreChain: [{ label: 'Wed FULL', type: 'full' }],
+    pros: [
+      'Fastest restore — single file needed',
+      'Simplest to manage and verify',
+      'Each backup is independent — losing one doesn\'t affect others'
+    ],
+    cons: [
+      'Slowest backup — captures everything every time',
+      'Largest storage cost — 7×500 GB = 3.5 TB/week',
+      'Heaviest network/IO impact during backup window'
+    ]
+  },
+  incremental: {
+    name: 'Incremental',
+    short: 'Sunday full + daily incrementals',
+    timeline: [
+      { day: 'SUN', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'MON', type: 'inc', label: 'Incr', size: '12 GB' },
+      { day: 'TUE', type: 'inc', label: 'Incr', size: '14 GB' },
+      { day: 'WED', type: 'inc', label: 'Incr', size: '11 GB' },
+      { day: 'THU', type: 'inc', label: 'Incr', size: '13 GB' },
+      { day: 'FRI', type: 'inc', label: 'Incr', size: '15 GB' },
+      { day: 'SAT', type: 'inc', label: 'Incr', size: '12 GB' }
+    ],
+    restoreDescription: 'To restore Wednesday afternoon, you need Sunday\'s full + Monday\'s incr + Tuesday\'s incr + Wednesday\'s incr — applied in sequence. If any one file is corrupted, the chain breaks.',
+    restoreChain: [
+      { label: 'Sun FULL', type: 'full' },
+      { label: 'Mon INCR', type: 'inc' },
+      { label: 'Tue INCR', type: 'inc' },
+      { label: 'Wed INCR', type: 'inc' }
+    ],
+    pros: [
+      'Fastest daily backup window — only changes since yesterday',
+      'Smallest storage cost — 500 GB + 6×12 GB ≈ 572 GB/week',
+      'Lightest impact on production during nightly backup'
+    ],
+    cons: [
+      'Slowest restore — chain of files must be applied in order',
+      'Chain fragility — losing one incremental breaks restoration from that point',
+      'More complex to manage and verify'
+    ]
+  },
+  differential: {
+    name: 'Differential',
+    short: 'Sunday full + daily differentials',
+    timeline: [
+      { day: 'SUN', type: 'full', label: 'Full', size: '500 GB' },
+      { day: 'MON', type: 'diff', label: 'Diff', size: '12 GB' },
+      { day: 'TUE', type: 'diff', label: 'Diff', size: '26 GB' },
+      { day: 'WED', type: 'diff', label: 'Diff', size: '37 GB' },
+      { day: 'THU', type: 'diff', label: 'Diff', size: '50 GB' },
+      { day: 'FRI', type: 'diff', label: 'Diff', size: '65 GB' },
+      { day: 'SAT', type: 'diff', label: 'Diff', size: '77 GB' }
+    ],
+    restoreDescription: 'To restore Wednesday afternoon, you need only two files: Sunday\'s full + Wednesday\'s differential. Differentials grow over the week because each contains ALL changes since the last full.',
+    restoreChain: [
+      { label: 'Sun FULL', type: 'full' },
+      { label: 'Wed DIFF', type: 'diff' }
+    ],
+    pros: [
+      'Faster restore than incremental — only 2 files needed',
+      'Backup window stays reasonable (not as long as full)',
+      'Less chain-fragility — fewer files to depend on'
+    ],
+    cons: [
+      'Storage grows through the week — each differential is bigger than the last',
+      'Daily backup window grows toward the weekend',
+      'Bigger than incremental — 500 + (12+26+37+50+65+77) ≈ 767 GB/week'
+    ]
+  },
+  snapshot: {
+    name: 'Snapshots',
+    short: 'Hourly storage snapshots',
+    timeline: [
+      { day: 'SUN', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'MON', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'TUE', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'WED', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'THU', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'FRI', type: 'snap', label: '24× snap', size: 'small refs' },
+      { day: 'SAT', type: 'snap', label: '24× snap', size: 'small refs' }
+    ],
+    restoreDescription: 'To restore Wednesday afternoon at 3pm, you simply roll back the volume to the 3pm snapshot. Near-instant. But snapshots typically live ON the same storage system — if that array dies, all snapshots die with it. Snapshots are NOT a substitute for offsite backups.',
+    restoreChain: [
+      { label: 'Wed 15:00 SNAPSHOT', type: 'snap' }
+    ],
+    pros: [
+      'Instant point-in-time recovery — seconds to roll back',
+      'Very small footprint (copy-on-write references)',
+      'Easy to take hundreds per day — fine-grained RPO'
+    ],
+    cons: [
+      'NOT a backup — snapshots die with the array they live on',
+      'Doesn\'t protect against site disaster, ransomware affecting the array, or array hardware failure',
+      'Should be combined with offsite backups (incremental or full) for real DR'
+    ]
+  }
+};
+
+function renderBackupTab() {
+  var picker = document.getElementById('strategyPicker');
+  var keys = Object.keys(BACKUP_STRATEGIES);
+  var html = '';
+  keys.forEach(function(k, i) {
+    var s = BACKUP_STRATEGIES[k];
+    html += '<button class="strategy-btn' + (i === 0 ? ' active' : '') + '" data-key="' + k + '">' +
+      '<div class="sname">' + s.name + '</div>' +
+      '<div class="sdesc">' + s.short + '</div>' +
+      '</button>';
+  });
+  picker.innerHTML = html;
+  picker.querySelectorAll('.strategy-btn').forEach(function(b) {
+    b.addEventListener('click', function() {
+      picker.querySelectorAll('.strategy-btn').forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      renderBackupStrategy(b.dataset.key);
+    });
+  });
+  renderBackupStrategy('full');
+}
+
+function renderBackupStrategy(key) {
+  var s = BACKUP_STRATEGIES[key];
+  var days = document.getElementById('timelineDays');
+  var dHTML = '';
+  s.timeline.forEach(function(d) {
+    dHTML += '<div class="timeline-day ' + d.type + '">' +
+      '<div class="dname">' + d.day + '</div>' +
+      '<div class="dbackup">' + d.label + '</div>' +
+      '<div class="dsize">' + d.size + '</div>' +
+      '</div>';
+  });
+  days.innerHTML = dHTML;
+
+  var chainHTML = '';
+  s.restoreChain.forEach(function(c, i) {
+    if (i > 0) chainHTML += '<span class="arrow">→</span>';
+    chainHTML += '<span class="chip ' + c.type + '">' + c.label + '</span>';
+  });
+
+  document.getElementById('restoreDemo').innerHTML =
+    '<div class="restore-head">Restoring Wednesday afternoon · ' + s.name + '</div>' +
+    '<div class="restore-body">' + s.restoreDescription + '</div>' +
+    '<div class="restore-chain">' + chainHTML + '</div>';
+
+  var pcHTML =
+    '<div class="pc-col pc-pros"><h5>PROS</h5><ul>' +
+    s.pros.map(function(p) { return '<li>' + p + '</li>'; }).join('') +
+    '</ul></div>' +
+    '<div class="pc-col pc-cons"><h5>CONS</h5><ul>' +
+    s.cons.map(function(c) { return '<li>' + c + '</li>'; }).join('') +
+    '</ul></div>';
+  document.getElementById('prosCons').innerHTML = pcHTML;
+}
+
+renderBackupTab();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'RPO/RTO mapping',
+    body: 'A regional hospital says the patient records system <b>must never lose more than 5 minutes of data</b> and <b>must be back up within 15 minutes of any failure</b>. Which DR architecture fits?',
+    choices: [
+      { letter: 'A', text: 'Cold site with weekly full backups', correct: false },
+      { letter: 'B', text: 'Warm site with daily incrementals', correct: false },
+      { letter: 'C', text: 'Hot site with near-real-time replication', correct: true },
+      { letter: 'D', text: 'No DR needed — just take more backups', correct: false }
+    ],
+    explain: '<b>Hot site with continuous replication.</b> RTO 15 min rules out cold (days) and warm (hours) — only hot or active-active can meet it. RPO 5 min requires sub-minute replication, which is hot-site territory. Active-active would also work but at much higher cost; hot site is the cost-efficient match.'
+  },
+  {
+    tag: 'Metric definitions',
+    body: 'A vendor advertises that their new SAN array has <b>MTBF of 1,500,000 hours</b>. What does this mean?',
+    choices: [
+      { letter: 'A', text: 'Each individual array will run for 1.5 million hours before failing', correct: false },
+      { letter: 'B', text: 'A population of arrays averages one failure per 1.5 million hours of operation', correct: true },
+      { letter: 'C', text: 'The vendor guarantees replacement within 1.5 million hours', correct: false },
+      { letter: 'D', text: 'It refers to repair time, not failure rate', correct: false }
+    ],
+    explain: '<b>MTBF is a statistical aggregate, not a per-unit guarantee.</b> 1.5M hours MTBF means that across a large population of arrays, you should expect roughly one failure per 1.5M cumulative operating hours. An individual unit might fail at 6 months or last 10 years — the average across many is what matters. Don\'t confuse MTBF (between failures, reliability) with MTTR (mean time to REPAIR, recovery speed).'
+  },
+  {
+    tag: 'Backup strategy',
+    body: 'A team uses Sunday full + daily incrementals. The Tuesday incremental backup file is corrupted. The team tries to restore data from Friday. What happens?',
+    choices: [
+      { letter: 'A', text: 'Restore succeeds — incrementals are independent', correct: false },
+      { letter: 'B', text: 'Restore fails — incremental chain is broken at Tuesday, so Wednesday, Thursday, and Friday increments cannot be applied', correct: true },
+      { letter: 'C', text: 'Restore succeeds but takes longer', correct: false },
+      { letter: 'D', text: 'The system automatically recreates the missing file', correct: false }
+    ],
+    explain: '<b>Incremental backups chain.</b> Each one captures only what changed since the LAST backup (full or incremental). To restore Friday, you need Sunday full + Mon incr + Tue incr + Wed incr + Thu incr + Fri incr. If Tuesday is missing or corrupt, Wednesday and beyond can\'t be applied. This is the main weakness of incrementals — differentials avoid this because each differential is independent of the others, only depending on the last full.'
+  },
+  {
+    tag: 'Snapshots',
+    body: 'A storage admin takes hourly snapshots of all VM volumes on the SAN. The SAN suffers a catastrophic controller failure that wipes the entire array. How many of the snapshots are recoverable?',
+    choices: [
+      { letter: 'A', text: 'All of them — snapshots are independent', correct: false },
+      { letter: 'B', text: 'Only the most recent', correct: false },
+      { letter: 'C', text: 'None — snapshots live ON the array that failed', correct: true },
+      { letter: 'D', text: 'They automatically failover to backup storage', correct: false }
+    ],
+    explain: '<b>Snapshots are not backups.</b> They\'re point-in-time references that live on the same storage system as the source data. When the underlying array dies, all snapshots die with it. Snapshots protect against logical mistakes ("oops I deleted that file") and corruption, not against hardware failure or site disaster. Real DR requires backups to <b>different media</b> and ideally <b>different sites</b> — the 3-2-1 rule.'
+  },
+  {
+    tag: 'Site type',
+    body: 'A company\'s DR contract specifies: "Standby site with identical hardware racked and powered, but data is replicated via overnight tape rotation; recovery requires loading the most recent tapes and starting services." Which site type is this?',
+    choices: [
+      { letter: 'A', text: 'Cold site', correct: false },
+      { letter: 'B', text: 'Warm site', correct: true },
+      { letter: 'C', text: 'Hot site', correct: false },
+      { letter: 'D', text: 'Active-active', correct: false }
+    ],
+    explain: '<b>Warm site.</b> Hardware is in place and powered (rules out cold). Data lags by at least a day (rules out hot, which has real-time replication). Recovery requires manual steps (loading tapes, starting services) — typical of a warm site, which can come online in hours, not minutes. RTO would be measured in hours; RPO would be roughly 1 day.'
+  },
+  {
+    tag: 'HA architecture',
+    body: 'A data center has servers with two power supplies, each fed from a different circuit. Each circuit has its own UPS, and the two UPS systems are fed from different utility transformers. What level of power redundancy is this?',
+    choices: [
+      { letter: 'A', text: 'N (no redundancy)', correct: false },
+      { letter: 'B', text: 'N+1 (one extra)', correct: false },
+      { letter: 'C', text: '2N (full duplicate)', correct: true },
+      { letter: 'D', text: '2N+1', correct: false }
+    ],
+    explain: '<b>2N power redundancy.</b> Two completely independent power paths from utility to PSU. A failure anywhere in path A doesn\'t affect path B. The server keeps running on either path alone. <b>N+1</b> would be "one extra component in a shared path" (e.g., 4 PSUs in a chassis when only 3 are needed). <b>2N+1</b> would be 2N plus an additional spare. Tier III data centers typically require N+1; Tier IV requires 2N or 2N+1 for fault tolerance.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KNOWLEDGE CHECK ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'What does RPO (Recovery Point Objective) measure?',
+    choices: [
+      'The maximum amount of downtime tolerated before business is hurt',
+      'The maximum amount of data loss tolerated, measured in time',
+      'The average time between hardware failures',
+      'The average time to repair a failed device'
+    ],
+    correct: 1,
+    explain: '<b>RPO measures the maximum tolerable data loss</b>, expressed in time. RPO = 1 hour means "we can afford to lose up to 1 hour of data." RPO drives backup frequency — if your RPO is 1 hour, you must back up at least every hour. The downtime metric is RTO, not RPO.'
+  },
+  {
+    q: 'What does RTO (Recovery Time Objective) measure?',
+    choices: [
+      'The maximum amount of data loss tolerated',
+      'The maximum amount of downtime tolerated before business is hurt',
+      'The age of the oldest backup file',
+      'The cost of a recovery site'
+    ],
+    correct: 1,
+    explain: '<b>RTO measures the maximum tolerable downtime</b>, expressed in time. RTO = 4 hours means "we must be back up within 4 hours of a disaster." RTO drives site type — RTO of minutes requires hot site, RTO of hours allows warm site, RTO of days/weeks allows cold site.'
+  },
+  {
+    q: 'Which of the following has the SHORTEST RTO?',
+    choices: ['Cold site', 'Warm site', 'Hot site', 'Active-active configuration'],
+    correct: 3,
+    explain: '<b>Active-active has the shortest RTO (effectively zero)</b> because both sites are already serving traffic. If one fails, the other simply continues with no failover delay. Hot site is next (minutes — failover required). Warm site = hours. Cold site = days to weeks.'
+  },
+  {
+    q: 'What is the relationship between MTBF and reliability?',
+    choices: [
+      'Lower MTBF = more reliable',
+      'Higher MTBF = more reliable',
+      'MTBF doesn\'t indicate reliability',
+      'MTBF only applies to network connections'
+    ],
+    correct: 1,
+    explain: '<b>Higher MTBF = more reliable.</b> MTBF is "Mean Time Between Failures" — longer interval means failures are rarer. A drive with MTBF 1,500,000 hours is statistically more reliable than one with MTBF 50,000 hours. (MTTR — mean time to repair — is the opposite: lower is better.)'
+  },
+  {
+    q: 'A company uses Sunday full + daily incremental backups. To restore data from Friday, which files are needed?',
+    choices: [
+      'Just Friday\'s incremental',
+      'Sunday\'s full + Friday\'s incremental',
+      'Sunday\'s full + every incremental from Monday through Friday',
+      'Just Sunday\'s full'
+    ],
+    correct: 2,
+    explain: '<b>The full restore chain is needed for incrementals.</b> Sunday full + Mon incr + Tue incr + Wed incr + Thu incr + Fri incr — applied in sequence. Each incremental captures only what changed since the last backup (full or incremental). If you used <b>differential</b> backups instead, you\'d only need Sunday\'s full + Friday\'s differential (2 files).'
+  },
+  {
+    q: 'A "cold site" disaster recovery facility primarily provides:',
+    choices: [
+      'Pre-deployed equivalent hardware with real-time data replication',
+      'Pre-deployed hardware but data is hours-days lagging',
+      'Physical space with power, HVAC, and network — but no equipment in place',
+      'A fully active backup site sharing live load with production'
+    ],
+    correct: 2,
+    explain: '<b>A cold site provides only physical infrastructure</b> — space, power, HVAC, and network connectivity. There\'s no equipment in place when disaster strikes; you have to ship hardware, install it, configure it, and restore data from offsite backups. Recovery takes days to weeks. The advantage is much lower ongoing cost than warm or hot sites.'
+  },
+  {
+    q: 'A storage admin says "we don\'t need offsite backups because we take hourly snapshots of every volume." What is the flaw in this reasoning?',
+    choices: [
+      'Snapshots are too expensive',
+      'Snapshots live on the same storage system — if the array fails or is encrypted by ransomware, all snapshots are also lost',
+      'Snapshots are not legally compliant',
+      'There is no flaw — snapshots are a complete DR solution'
+    ],
+    correct: 1,
+    explain: '<b>Snapshots are not backups.</b> A snapshot is a point-in-time reference stored on the same storage system as the source data. Array failure, ransomware that encrypts the array, or any disaster affecting that storage destroys all the snapshots. The 3-2-1 rule (3 copies, 2 media, 1 offsite) exists precisely because of this. Use snapshots for quick rollback of small mistakes; use real backups for DR.'
+  },
+  {
+    q: 'A company\'s server has two power supplies, each connected to a separate UPS, each fed from a different utility transformer. This is an example of:',
+    choices: [
+      'N (no redundancy)',
+      'N+1 redundancy',
+      '2N redundancy',
+      'Load balancing'
+    ],
+    correct: 2,
+    explain: '<b>2N redundancy</b> — two complete independent power paths from utility through transformer through UPS to PSU. A failure anywhere in path A doesn\'t affect path B. Tier IV data centers require 2N (or 2N+1) for fault tolerance. N+1 is "one extra component in a shared path" (e.g., 4 PSUs when 3 are needed). N+1 protects against single-component failure; 2N protects against any single path failure.'
+  },
+  {
+    q: 'Which DR test is the LOWEST risk?',
+    choices: [
+      'Full failover (cut production to DR site)',
+      'Walkthrough (physically execute recovery steps without cutover)',
+      'Tabletop exercise (team discusses scenarios verbally)',
+      'Simulation (activate DR site in parallel with production)'
+    ],
+    correct: 2,
+    explain: '<b>Tabletop exercise has the lowest risk</b> — no systems are touched. The team discusses scenarios around a table, walking through the plan verbally. Identifies plan gaps without any production risk. Walkthrough adds physical execution of recovery steps (low risk). Simulation activates the DR site without cutover (medium). Full failover actually cuts production over (highest risk, most realistic test).'
+  },
+  {
+    q: 'What is the 3-2-1 backup rule?',
+    choices: [
+      '3 days of retention, 2 copies, 1 admin',
+      '3 copies of data, on 2 different media, with 1 offsite',
+      '3 backup servers, 2 networks, 1 cloud account',
+      '3 incremental backups + 2 differentials + 1 full per week'
+    ],
+    correct: 1,
+    explain: '<b>3-2-1 rule: 3 copies of data, on 2 different media, with 1 offsite.</b> Defends against drive failure (3 copies), media-specific issues like tape degradation (2 media types), and site disasters or ransomware (1 offsite). The modern variant is 3-2-1-1-0: add 1 immutable/offline copy (against ransomware) and 0 errors in verification.'
+  },
+  {
+    q: 'A trading platform requires zero data loss and zero downtime. Which architecture fits?',
+    choices: [
+      'Hot site with hourly snapshots',
+      'Warm site with daily replication',
+      'Active-active with synchronous replication across sites',
+      'Cold site with weekly fulls'
+    ],
+    correct: 2,
+    explain: '<b>Active-active with synchronous replication.</b> Both sites serve traffic concurrently; data is committed to both sites before being acknowledged to the client (synchronous). A site failure causes zero data loss (RPO = 0) and zero downtime (RTO = 0) because the other site is already taking traffic. This is the most expensive option — used only when business requirements truly demand it, typically financial trading, real-time payments, and safety-critical systems.'
+  },
+  {
+    q: 'NIC teaming on a server primarily provides:',
+    choices: [
+      'Faster CPU performance',
+      'Network connection redundancy (and optionally aggregate bandwidth)',
+      'Better encryption',
+      'Larger MTU'
+    ],
+    correct: 1,
+    explain: '<b>NIC teaming bonds multiple physical NICs into a logical interface for redundancy</b> (and optionally aggregate bandwidth, depending on mode). Active/passive mode provides failover only. Active/active modes (like LACP) also load-balance traffic across both NICs. Either way, the server survives a single NIC failure, cable failure, or switch port failure — eliminating that single point of failure.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'RPO measures?', choices: ['Max data loss', 'Max downtime', 'Repair time', 'Failures per year'], correct: 0 },
+  { q: 'RTO measures?', choices: ['Max data loss', 'Max downtime', 'Repair speed', 'Backup size'], correct: 1 },
+  { q: 'MTTR measures?', choices: ['Time between failures', 'Time to repair', 'Data loss tolerance', 'Backup duration'], correct: 1 },
+  { q: 'MTBF measures?', choices: ['Repair time', 'Time between failures', 'Downtime tolerance', 'Storage cost'], correct: 1 },
+  { q: 'Higher MTBF = ?', choices: ['Less reliable', 'More reliable', 'Faster repair', 'More expensive'], correct: 1 },
+  { q: 'Lower MTTR = ?', choices: ['Less reliable', 'More expensive', 'Faster recovery', 'Slower backup'], correct: 2 },
+  { q: 'RPO drives ?', choices: ['Site type', 'Backup frequency', 'CPU speed', 'Network MTU'], correct: 1 },
+  { q: 'RTO drives ?', choices: ['Backup frequency', 'Site type', 'Drive size', 'NIC speed'], correct: 1 },
+  { q: 'Cold site has?', choices: ['Real-time data', 'Hardware + data lag', 'Space only — no gear', 'Active load'], correct: 2 },
+  { q: 'Warm site has?', choices: ['Empty space', 'Hardware + recent data', 'Active load', 'Nothing'], correct: 1 },
+  { q: 'Hot site has?', choices: ['No hardware', 'Hardware + near-real-time data', 'Tape archive only', 'Cold storage'], correct: 1 },
+  { q: 'Active-active means?', choices: ['One site standby', 'Both sites serve traffic', 'Tape only', 'No backups'], correct: 1 },
+  { q: 'Lowest cost site?', choices: ['Cold', 'Warm', 'Hot', 'Active-active'], correct: 0 },
+  { q: 'Highest cost site?', choices: ['Cold', 'Warm', 'Hot', 'Active-active'], correct: 3 },
+  { q: 'Fastest restore strategy?', choices: ['Incremental', 'Differential', 'Full', 'Tape archive'], correct: 2 },
+  { q: 'Smallest daily backup?', choices: ['Full', 'Incremental', 'Differential', 'Snapshot full'], correct: 1 },
+  { q: 'Differential backs up?', choices: ['Changes since last full', 'Changes since last backup', 'Everything', 'Random'], correct: 0 },
+  { q: 'Incremental backs up?', choices: ['Changes since last full', 'Changes since last backup', 'Everything', 'Random'], correct: 1 },
+  { q: 'Snapshot is on?', choices: ['Same array', 'Tape', 'Cloud', 'Floppy'], correct: 0 },
+  { q: 'Snapshot survives array failure?', choices: ['Yes always', 'No', 'Sometimes', 'Only with NFS'], correct: 1 },
+  { q: '3-2-1 means?', choices: ['3 copies, 2 media, 1 offsite', '3 days, 2 hours, 1 minute', '3 servers, 2 disks, 1 NIC', '3 GB, 2 TB, 1 PB'], correct: 0 },
+  { q: 'N+1 redundancy?', choices: ['Full duplicate path', 'One extra component', 'No redundancy', 'Two spare'], correct: 1 },
+  { q: '2N redundancy?', choices: ['One spare', 'Full duplicate independent paths', 'No spare', 'Half capacity'], correct: 1 },
+  { q: 'NIC teaming protects against?', choices: ['Power loss', 'NIC/cable/port failure', 'Ransomware', 'Disk failure'], correct: 1 },
+  { q: 'Lowest-risk DR test?', choices: ['Full failover', 'Walkthrough', 'Tabletop', 'Simulation'], correct: 2 },
+  { q: 'Highest-realism DR test?', choices: ['Tabletop', 'Walkthrough', 'Simulation', 'Full failover'], correct: 3 },
+  { q: 'Availability formula?', choices: ['MTBF + MTTR', 'MTBF / (MTBF + MTTR)', 'MTTR / MTBF', '1 / MTBF'], correct: 1 },
+  { q: '99.9% allows monthly?', choices: ['~4 min', '~43 min', '~7 hr', '~30 hr'], correct: 1 },
+  { q: '99.99% allows monthly?', choices: ['~4 min', '~43 min', '~7 hr', '~24 hr'], correct: 0 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
