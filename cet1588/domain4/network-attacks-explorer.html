@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.2 Network Attacks · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --terminal-bg:#0F1419; --terminal-fg:#E6E1CF;
+    --layer-l2:#C77B3C; --layer-l3:#1E8FBE; --layer-l7:#6B3FA0; --layer-wireless:#2A6049; --layer-social:#B8932A; --layer-physical:#8E1F2E;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .attack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .attack-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .attack-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; position: relative; }
+  .attack-card .layer-pill { display: inline-block; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; padding: 3px 9px; color: white; margin-bottom: 10px; }
+  .attack-card .layer-pill.l2 { background: var(--layer-l2); }
+  .attack-card .layer-pill.l3 { background: var(--layer-l3); }
+  .attack-card .layer-pill.l7 { background: var(--layer-l7); }
+  .attack-card .layer-pill.wireless { background: var(--layer-wireless); }
+  .attack-card .layer-pill.social { background: var(--layer-social); color: var(--navy-deep); }
+  .attack-card .layer-pill.physical { background: var(--layer-physical); }
+  .attack-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .attack-card p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.5; }
+  .attack-card p:last-child { margin-bottom: 0; }
+  .attack-card .cm { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line-soft); font-size: 12.5px; color: var(--ink); }
+  .attack-card .cm b { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); display: block; margin-bottom: 4px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--red); width: 22%; }
+  .specs-table td code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* ============== TAB 2 · ATTACK ID LAB ============== */
+  .lab-wrap { background: var(--surface); border: 1px solid var(--line); padding: 24px 28px; }
+  .lab-intro { background: var(--terminal-bg); color: var(--terminal-fg); padding: 16px 22px; font-family: var(--ff-mono); font-size: 12.5px; line-height: 1.6; margin-bottom: 20px; border-left: 3px solid var(--gold); }
+  .lab-intro .hi { color: var(--gold); font-weight: 700; }
+  .lab-intro .dim { color: var(--gray); }
+
+  .lab-picker { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 22px; }
+  .lab-btn { background: var(--bg-warm); border: 2px solid var(--line-soft); padding: 10px 8px; cursor: pointer; font-family: var(--ff-mono); transition: all 0.15s; text-align: center; font-size: 11px; font-weight: 700; color: var(--navy-deep); letter-spacing: 0.04em; }
+  .lab-btn:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .lab-btn.active { background: var(--navy-deep); border-color: var(--gold); color: var(--gold); }
+  .lab-btn.solved { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .lab-btn.solved.active { background: var(--green); border-color: var(--gold); color: white; }
+
+  .lab-scenario { background: var(--bg-warm); padding: 22px 26px; border-left: 4px solid var(--red); margin-bottom: 18px; }
+  .lab-scenario .scenario-label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 8px; }
+  .lab-scenario .scenario-title { font-family: var(--ff-display); font-size: 20px; font-weight: 700; color: var(--navy-deep); margin-bottom: 10px; letter-spacing: -0.01em; }
+  .lab-scenario .scenario-narrative { font-size: 14px; color: var(--ink); line-height: 1.6; }
+  .lab-scenario .scenario-narrative b { color: var(--navy-deep); }
+
+  .lab-evidence { background: var(--terminal-bg); color: var(--terminal-fg); padding: 16px 22px; font-family: var(--ff-mono); font-size: 12.5px; line-height: 1.55; margin-bottom: 18px; white-space: pre; overflow-x: auto; border-left: 3px solid var(--sky); }
+  .lab-evidence .hi { color: var(--gold); font-weight: 700; }
+  .lab-evidence .ok { color: #7fc97f; }
+  .lab-evidence .warn { color: #fdc086; }
+  .lab-evidence .err { color: #f0717d; }
+  .lab-evidence .dim { color: var(--gray); }
+
+  .lab-question { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .lab-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .lab-choice { background: white; border: 2px solid var(--line); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .lab-choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--sky); }
+  .lab-choice.locked { cursor: default; }
+  .lab-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lab-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lab-choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+
+  .lab-result { display: none; background: var(--navy-deep); color: white; padding: 22px 26px; margin-bottom: 16px; border-left: 4px solid var(--gold); }
+  .lab-result.show { display: block; }
+  .lab-result .lr-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 6px; font-weight: 700; }
+  .lab-result .lr-attack { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 10px; letter-spacing: -0.01em; }
+  .lab-result .lr-body { font-size: 14px; line-height: 1.6; color: white; margin-bottom: 14px; }
+  .lab-result .lr-body b { color: var(--gold); }
+  .lab-result .lr-cm { background: rgba(42,96,73,0.25); padding: 14px 18px; border-left: 3px solid #7fc97f; font-size: 14px; line-height: 1.55; color: white; }
+  .lab-result .lr-cm b { color: #7fc97f; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+
+  /* ============== TAB 3 · SOCIAL ENGINEERING ============== */
+  .se-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .se-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .se-card { background: var(--bg-warm); padding: 18px 22px; border-left: 4px solid var(--layer-social); }
+  .se-card .se-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); font-weight: 700; margin-bottom: 6px; }
+  .se-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .se-card .se-def { font-size: 13.5px; color: var(--ink); line-height: 1.55; margin-bottom: 10px; }
+  .se-card .se-def b { color: var(--navy-deep); }
+  .se-card .se-example { background: white; padding: 10px 14px; border-left: 3px solid var(--sky); font-size: 12.5px; line-height: 1.5; color: var(--ink-mid); font-style: italic; margin-bottom: 8px; }
+  .se-card .se-example b { color: var(--navy-deep); font-style: normal; }
+  .se-card .se-cm { font-size: 12px; color: var(--green); font-family: var(--ff-mono); font-weight: 600; line-height: 1.5; }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .attack-grid { grid-template-columns: 1fr; }
+    .attack-grid-3 { grid-template-columns: 1fr; }
+    .lab-picker { grid-template-columns: repeat(2, 1fr); }
+    .lab-choices { grid-template-columns: 1fr; }
+    .se-grid { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 4 · Network Security</span>
+    <span class="crumb">4.2 Network Attacks</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 4.2 · Network Attacks &amp; Their Impact</div>
+    <h1>Know the <em>signal of an attack.</em></h1>
+    <p class="lede">The exam tests whether you can look at a set of symptoms and name the attack — a switch flooding everything, a workstation impersonating a gateway, a duplicate Wi-Fi SSID, an email from a typo-domain pretending to be IT. This artifact catalogs every attack on the official 4.2 list, gives you 10 hands-on identification exercises with real evidence, and pairs each attack with its countermeasure.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">MAC Flood</span><span class="desc">Overflow CAM table → fail-open</span></div>
+    <div class="ref-row"><span class="name">VLAN Hop</span><span class="desc">Double-tag or switch-spoof via DTP</span></div>
+    <div class="ref-row"><span class="name">ARP Poison</span><span class="desc">Forge ARP replies for gateway IP</span></div>
+    <div class="ref-row"><span class="name">DNS Poison</span><span class="desc">Inject false records into resolver cache</span></div>
+    <div class="ref-row"><span class="name">DoS / DDoS</span><span class="desc">Volumetric · amplification · asymmetric</span></div>
+    <div class="ref-row"><span class="name">Rogue DHCP</span><span class="desc">Hand out wrong gateway/DNS</span></div>
+    <div class="ref-row"><span class="name">Evil Twin</span><span class="desc">Rogue AP with same SSID, stronger signal</span></div>
+    <div class="ref-row"><span class="name">On-path</span><span class="desc">MITM intercept/modify traffic</span></div>
+    <div class="footer-note">
+      <b>SOCIAL ENGINEERING</b><br>
+      Phishing · spear · dumpster · shoulder<br>
+      Tailgating · pharming · typosquatting
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">9</div><div class="label">Attack families on the 4.2 objective</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Hands-on identification scenarios</div></div>
+  <div class="stat"><div class="num">7</div><div class="label">Social-engineering subtypes</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="lab"><span class="num">02</span>Attack ID Lab</button>
+  <button class="tab" data-tab="social"><span class="num">03</span>Social Engineering</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>attack catalog.</em></h2>
+  <p>The N10-009 attack list groups into four categories: <b>Layer 2 attacks</b> (MAC flooding, VLAN hopping, ARP poisoning) targeting the local switch domain; <b>Layer 3/4/7 attacks</b> (DNS poisoning, on-path/MITM, DoS/DDoS) targeting routing, names, and bandwidth; <b>wireless attacks</b> (rogue AP, evil twin); and <b>social engineering</b> (phishing and friends) targeting the human at the keyboard. Every attack pairs with at least one countermeasure — knowing both is what the exam tests.</p>
+
+  <div class="section-head">Layer 2 Attacks — On the Switch</div>
+  <div class="attack-grid">
+    <div class="attack-card">
+      <div class="layer-pill l2">Layer 2</div>
+      <h4>MAC Flooding (CAM Table Overflow)</h4>
+      <p>The attacker generates thousands of frames with forged source MAC addresses. The switch\'s CAM (Content-Addressable Memory) table fills up. Once full, the switch <b>fails open</b> — it floods unknown unicast frames to all ports, including the attacker\'s, allowing them to capture traffic intended for other devices.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">Port security with </b>max-mac<b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);"> limits — each switchport allows only N MACs; excess triggers shutdown or restrict mode.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l2">Layer 2</div>
+      <h4>VLAN Hopping</h4>
+      <p>Attacker reaches a VLAN they shouldn\'t. Two techniques:<br>
+      <b>Switch spoofing:</b> attacker pretends to be a switch using DTP (Dynamic Trunking Protocol) and negotiates a trunk — gaining access to all VLANs.<br>
+      <b>Double tagging:</b> attacker sends a frame with TWO 802.1Q tags. The first switch strips the outer tag (the native VLAN); the second switch forwards the inner tag\'s VLAN, delivering the attacker\'s frame to a different VLAN.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">Disable DTP (set ports to access mode), change native VLAN from default 1 to something unused, explicitly configure trunks and access ports.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l2">Layer 2</div>
+      <h4>ARP Poisoning / Spoofing</h4>
+      <p>Attacker sends forged ARP replies on the LAN claiming the gateway\'s IP. Victims update their ARP caches to point the gateway IP at the attacker\'s MAC. Now all traffic flows through the attacker — classic on-path setup. Affects only the local broadcast domain.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">Dynamic ARP Inspection (DAI) on managed switches — drops ARP replies inconsistent with DHCP snooping bindings. Static ARP entries for critical hosts. 802.1X.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l2">Layer 2</div>
+      <h4>Rogue DHCP Server</h4>
+      <p>Attacker plugs in a device running DHCP. Some clients get leases from the rogue server — with the attacker\'s IP as the default gateway and DNS. Now those clients\' traffic flows through the attacker.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">DHCP snooping — switch trusts only specific ports for DHCP server responses; untrusted port responses are dropped.</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">Layer 3/4/7 Attacks — Routing, Names, Bandwidth</div>
+  <div class="attack-grid">
+    <div class="attack-card">
+      <div class="layer-pill l7">Layer 7</div>
+      <h4>DNS Poisoning / Spoofing</h4>
+      <p>Attacker injects false records into a DNS resolver\'s cache. Subsequent users querying that name receive the attacker\'s IP — directing them to a phishing site, malware download, or attacker proxy. The user types the correct domain in the URL bar; they land on the attacker\'s server.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">DNSSEC validation (signed records), secure recursive resolvers, randomize source ports and transaction IDs, DoH/DoT to encrypt queries.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l3">Layer 3/4</div>
+      <h4>DoS — Denial of Service</h4>
+      <p>One attacker overwhelms a service so legitimate users can\'t reach it. Can target bandwidth (volumetric), resources (TCP SYN flood, memory exhaustion), or application logic (slow loris).</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">Rate limiting at the edge, upstream provider scrubbing, application-layer rate limiting, fail2ban, blackhole routing.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l3">Layer 3/4</div>
+      <h4>DDoS — Distributed DoS</h4>
+      <p>Many attackers (often a botnet of compromised devices) overwhelm a target simultaneously. Much harder to filter than DoS because traffic comes from many sources. <b>Amplification / reflection</b> variant: attacker sends small queries with spoofed source IP (the victim) to services like open DNS resolvers or NTP servers; their large responses get sent to the victim, "amplifying" the attack. <b>Asymmetric threat</b>: attacker uses few resources to take down systems with many resources.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">DDoS scrubbing service (Cloudflare, Akamai), anycast, BGP-based blackholing, BCP38 source-IP validation at the ISP, geographic blocking.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill l7">Layer 4-7</div>
+      <h4>On-path Attack (formerly MITM)</h4>
+      <p>Attacker positions themselves between two communicating parties — intercepting, reading, and optionally modifying traffic. ARP poisoning, evil twin, and rogue DHCP all create on-path positions. Once on-path, attacker can downgrade TLS, harvest credentials, inject malicious payloads.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">End-to-end TLS with certificate validation, HSTS, certificate pinning, mutual TLS, encrypted DNS (DoH/DoT), user training to heed certificate warnings.</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">Wireless Attacks</div>
+  <div class="attack-grid">
+    <div class="attack-card">
+      <div class="layer-pill wireless">Wireless</div>
+      <h4>Rogue Access Point</h4>
+      <p>An unauthorized AP plugged into the corporate network — typically by a well-meaning employee who wanted Wi-Fi in their office. Bypasses all corporate Wi-Fi security (no NAC, no 802.1X). May be open or weakly secured, providing an entry point for outsiders into the corporate LAN.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">WIDS/WIPS to detect rogue APs by RF signature and connection patterns. NAC / 802.1X on wired ports so plugged-in APs can\'t reach corporate network.</b>
+      </div>
+    </div>
+    <div class="attack-card">
+      <div class="layer-pill wireless">Wireless</div>
+      <h4>Evil Twin</h4>
+      <p>An attacker stands up an AP broadcasting the SAME SSID as the legitimate Wi-Fi but with stronger signal. Devices auto-connect to the stronger signal; the attacker harvests credentials and intercepts traffic. Common in coffee shops, airports, conferences.</p>
+      <div class="cm">
+        <b>Countermeasure</b>
+        <b style="font-family:var(--ff-body);font-size:13px;color:var(--ink);">WPA3-Enterprise with 802.1X and certificate-based auth (clients validate the AP\'s certificate). User training. Disable auto-join for unsaved networks.</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">Social Engineering — Attacking the Human</div>
+  <p>Social engineering exploits people instead of technology. It\'s often the cheapest, easiest, and most effective path for an attacker. Every employee — not just IT — is a potential target. Full coverage of subtypes is in the <b>Social Engineering</b> tab.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Attack</th><th>What it is</th><th>Countermeasure</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Phishing</td><td>Mass-sent email impersonating a trusted entity, tricking the user into clicking a link or providing credentials.</td><td>SPF/DKIM/DMARC, mail filtering, user training, MFA.</td></tr>
+      <tr><td class="label">Spear Phishing</td><td>Highly targeted phishing — attacker researches the victim and crafts a personalized message.</td><td>Out-of-band verification for high-value requests, training.</td></tr>
+      <tr><td class="label">Dumpster Diving</td><td>Sifting trash for sensitive printouts, sticky-note passwords, configs, hardware.</td><td>Shredding policy, locked disposal bins, secure media destruction.</td></tr>
+      <tr><td class="label">Shoulder Surfing</td><td>Visually observing someone enter credentials or sensitive data.</td><td>Privacy screens, screen lock policies, awareness training.</td></tr>
+      <tr><td class="label">Tailgating</td><td>Following an authorized person through a secured door without badging in.</td><td>Mantraps / turnstiles, security awareness, anti-tailgate culture.</td></tr>
+      <tr><td class="label">Pharming</td><td>Redirecting users to a fake site via DNS manipulation or local HOSTS file changes — the user types the correct URL but lands on the attacker\'s site.</td><td>DNSSEC, endpoint protection, HOSTS file integrity monitoring.</td></tr>
+      <tr><td class="label">Typosquatting</td><td>Registering lookalike domains (gooogle.com, paypa1.com) to catch users who mistype.</td><td>Browser warnings, DNS-layer filtering, brand protection services.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>Evil twin needs the SAME SSID; rogue AP can be any SSID.</b> A rogue AP plugged in by an employee just to share Wi-Fi is still a rogue AP — even with its own SSID. An evil twin specifically impersonates the corporate SSID to trick users into connecting.</li>
+    <li><b>MAC flooding fills the CAM table; ARP poisoning forges ARP replies.</b> Different layer-2 attacks, different mechanisms, different countermeasures (port security vs DAI).</li>
+    <li><b>DNS poisoning attacks the resolver; pharming targets the endpoint.</b> Both produce the same user experience (right URL, wrong site) but operate at different layers.</li>
+    <li><b>On-path attack = MITM.</b> CompTIA renamed "man in the middle" to "on-path attack." Same attack, less gendered terminology.</li>
+    <li><b>DDoS amplification uses spoofed source IP.</b> Attacker spoofs the VICTIM\'s IP as the source, sends small queries to a service (open DNS, NTP), the service\'s big responses get reflected to the victim.</li>
+    <li><b>Phishing is broad; spear phishing is targeted; whaling targets executives.</b> All three appear on the exam — phishing is by far the most common.</li>
+    <li><b>Pharming and DNS poisoning overlap.</b> Pharming is the EFFECT (user redirected to wrong site without their action); DNS poisoning is one MECHANISM that achieves it.</li>
+    <li><b>Tailgating is also called piggybacking.</b> Both terms appear on the exam.</li>
+    <li><b>Typosquatting requires the user to mistype.</b> Pharming doesn\'t — the user types correctly and still ends up on the wrong site.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · ATTACK ID LAB ============== -->
+<section class="panel" id="panel-lab">
+  <h2>Identify the <em>attack from the symptoms.</em></h2>
+  <p>Each scenario below shows real-world evidence — terminal output, packet captures, log snippets, or witness descriptions. Your job is to identify what attack is happening. After you pick, the explanation reveals the attack name, the mechanism, and the right countermeasure. This is exactly the skill the exam tests in scenario questions.</p>
+
+  <div class="lab-wrap">
+    <div class="lab-intro">
+<span class="hi">$ tail -f /var/log/security-incidents</span>
+<span class="dim"># 10 incidents waiting for triage. Pick a scenario below.</span>
+<span class="dim"># Symptoms shown are realistic but condensed.</span>
+<span class="ok">Ready.</span></div>
+
+    <div class="lab-picker" id="labPicker"></div>
+
+    <div id="labStage"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>Symptom recognition is the exam\'s most-tested attack skill.</b> Each attack leaves distinctive evidence — CAM table state, ARP table state, DNS responses, packet captures, log patterns. Train the pattern recognition.</li>
+    <li><b>Multiple attacks can share symptoms.</b> ARP poisoning, rogue DHCP, and evil twin can all create on-path positions. Look at the <em>specific</em> evidence (what\'s the ARP table say? What does the DHCP lease show? What\'s the BSSID?) to distinguish them.</li>
+    <li><b>Every attack pairs with a primary countermeasure.</b> CAM overflow ↔ port security. ARP poison ↔ DAI. Rogue DHCP ↔ DHCP snooping. Evil twin ↔ WPA3-Enterprise + 802.1X. The exam tests these pairings constantly.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · SOCIAL ENGINEERING ============== -->
+<section class="panel" id="panel-social">
+  <h2>Social engineering <em>subtypes.</em></h2>
+  <p>Social engineering exploits humans rather than systems. The exam tests whether you can distinguish phishing variants and physical attacks. Each subtype below has a definition, a concrete example, and the appropriate countermeasure.</p>
+
+  <div class="se-wrap">
+    <div class="se-grid" id="seGrid"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">How to tell them apart</h3>
+  <ul>
+    <li><b>Phishing (broad) vs spear phishing (targeted).</b> Phishing is mass-mailed — same message to thousands. Spear phishing is researched and personalized — names, recent events, internal jargon.</li>
+    <li><b>Pharming vs typosquatting.</b> Pharming = right URL, wrong site (via DNS/HOSTS manipulation). Typosquatting = wrong URL (lookalike), right load (attacker\'s site loads because the user mistyped).</li>
+    <li><b>Tailgating vs piggybacking.</b> Often used interchangeably. Strictly: tailgating is sneaking through; piggybacking is being let through deliberately by a polite person. Both = unauthorized physical entry.</li>
+    <li><b>Dumpster diving vs shoulder surfing.</b> Dumpster diving is physical info gathering from trash. Shoulder surfing is visual eavesdropping while someone uses a device.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Attack <em>scenarios.</em></h2>
+  <p>Six broader scenarios mixing attack identification, countermeasure selection, and impact analysis. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 4.2: DoS/DDoS, Layer 2 attacks, DNS poisoning, rogue devices, evil twin, on-path, and social engineering.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire attack-identification questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 4.2: Network Attacks and Their Impact. Covers DoS/DDoS (volumetric, amplification/reflection, asymmetric), Layer 2 attacks (MAC flooding/CAM overflow, VLAN hopping via switch spoofing or double tagging, ARP poisoning, rogue DHCP), routing/name attacks (DNS poisoning, on-path/MITM), wireless attacks (rogue AP, evil twin), and the full social engineering subtype list (phishing, spear phishing, dumpster diving, shoulder surfing, tailgating, pharming, typosquatting).</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 4 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the attack catalog.</p>
+      <p>· Work through the 10 Attack ID Lab scenarios.</p>
+      <p>· Review Social Engineering subtypes.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 4.2 quiz in Canvas. Attacks covered here are tested directly in 4.3 (defenses) — every attack here pairs with a defense technique there.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 4.2 · Network Attacks &amp; Their Impact</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · ATTACK ID LAB ============== */
+var LAB_SCENARIOS = [
+  {
+    label: '01',
+    title: 'Switch behaving strangely after lunch',
+    narrative: 'A user reports they\'re seeing other users\' web traffic on their workstation. You log into the access switch and check the MAC address table. It\'s completely full of unfamiliar MACs that don\'t match any known device.',
+    evidence:
+'<span class="hi">switch# show mac address-table count</span>\n' +
+'\n' +
+'Total Mac Addresses for VLAN 10: <span class="err">8191 / 8192</span>\n' +
+'\n' +
+'<span class="hi">switch# show mac address-table | include Gi0/12 | count</span>\n' +
+'<span class="err">5847</span> matching entries\n' +
+'\n' +
+'<span class="dim"># Gi0/12 — that\'s a single user port. 5847 MACs?</span>\n' +
+'<span class="dim"># Normal would be 1-2 (the user\'s laptop + maybe a phone).</span>',
+    choices: [
+      'ARP poisoning attack against the gateway',
+      'MAC flooding (CAM table overflow) — switch is failing open',
+      'Rogue DHCP server',
+      'VLAN hopping via double tagging'
+    ],
+    correct: 1,
+    attack: 'MAC Flooding · CAM Table Overflow',
+    explain: 'The CAM table is full and a single user port has 5847 source MACs — far beyond any legitimate scenario. The attacker is sending forged frames with thousands of different source MACs to overflow the CAM table. When the table fills, the switch fails open and floods unknown unicast frames to ALL ports, allowing the attacker to capture traffic intended for other users.',
+    cm: 'Configure <b>port security</b> on access ports. Set a maximum number of MACs per port (typically 1-2). When the limit is exceeded, the port enters err-disable, restrict, or protect mode. Most modern enterprise networks default port security to 1 MAC per access port.'
+  },
+  {
+    label: '02',
+    title: 'Frames with two VLAN tags in the capture',
+    narrative: 'A junior admin captured suspicious traffic on the network analyzer. Many frames have stacked 802.1Q tags. You also notice traffic from VLAN 20 (Guest) is appearing on VLAN 10 (Corporate).',
+    evidence:
+'<span class="hi">Wireshark — frame breakdown</span>\n' +
+'\n' +
+'Ethernet II\n' +
+'  Destination: <span class="warn">00:1a:2b:3c:4d:5e</span> (server in VLAN 10)\n' +
+'  Source:      <span class="warn">aa:bb:cc:dd:ee:ff</span> (attacker in VLAN 20)\n' +
+'<span class="err">802.1Q VLAN: <b>20</b></span>     <span class="dim">← outer tag (attacker\'s VLAN)</span>\n' +
+'<span class="err">802.1Q VLAN: <b>10</b></span>     <span class="dim">← inner tag (target VLAN)</span>\n' +
+'IPv4\n' +
+'  ...\n' +
+'\n' +
+'<span class="dim"># Native VLAN on trunk is 1 (default), and access port is in VLAN 20.</span>',
+    choices: [
+      'MAC flooding',
+      'VLAN hopping (double tagging)',
+      'DNS poisoning',
+      'Rogue access point'
+    ],
+    correct: 1,
+    attack: 'VLAN Hopping · Double Tagging',
+    explain: 'Two 802.1Q tags in one frame is the signature of a double-tagging VLAN hopping attack. The first switch strips the outer tag (because the attacker\'s port is in that VLAN — or the outer tag matches the trunk\'s native VLAN), then forwards the frame across the trunk. The receiving switch sees the inner tag and delivers the frame to a VLAN the attacker should never have reached.',
+    cm: 'Three things: (1) <b>disable DTP</b> by setting access ports to <b>switchport mode access</b> explicitly — never let auto-negotiation create a trunk; (2) change the trunk\'s <b>native VLAN</b> from default 1 to an unused VLAN that has no user ports; (3) consider tagging the native VLAN on the trunk (<b>vlan dot1q tag native</b>).'
+  },
+  {
+    label: '03',
+    title: 'Internet feels slow; ARP table looks wrong',
+    narrative: 'Multiple users complain about slow internet. You SSH into a user\'s workstation and check the ARP table. The gateway IP (192.168.1.1) is mapped to a MAC that doesn\'t match the router. Same on several other workstations.',
+    evidence:
+'<span class="hi">user@laptop:~$ arp -a</span>\n' +
+'\n' +
+'? (192.168.1.1) at <span class="err">f8:e4:e3:90:21:5c</span> [ether] on eth0\n' +
+'? (192.168.1.50) at <span class="warn">f8:e4:e3:90:21:5c</span> [ether] on eth0\n' +
+'                              <span class="dim">^^^^^^^^^^^^^^^^^</span>\n' +
+'                              <span class="dim">Same MAC for two IPs!</span>\n' +
+'\n' +
+'<span class="dim"># Router\'s real MAC (from network docs): 64:0e:94:c2:1a:08</span>\n' +
+'<span class="dim"># MAC f8:e4:e3:90:21:5c belongs to a workstation on the floor.</span>',
+    choices: [
+      'ARP poisoning / ARP spoofing',
+      'DNS amplification attack',
+      'MAC flooding',
+      'Evil twin Wi-Fi attack'
+    ],
+    correct: 0,
+    attack: 'ARP Poisoning',
+    explain: 'A workstation\'s MAC is claiming both the gateway IP (192.168.1.1) AND its own IP (192.168.1.50). The attacker is sending gratuitous ARP replies asserting "I am 192.168.1.1." Victim workstations update their caches accordingly and now route all internet traffic through the attacker — a classic on-path setup. Slow internet is a common symptom because traffic is being intercepted and rebroadcast.',
+    cm: 'Enable <b>Dynamic ARP Inspection (DAI)</b> on managed switches. DAI uses the DHCP snooping binding database to validate that ARP replies match legitimate IP-MAC bindings. Replies that don\'t match are dropped. For critical servers, also use <b>static ARP entries</b> so the gateway MAC can\'t be poisoned. 802.1X port authentication makes unauthorized devices harder to plug in.'
+  },
+  {
+    label: '04',
+    title: 'Users land on phishing clone when typing correct URL',
+    narrative: 'Multiple users report that when they type bank.com in their browser, the page looks like the bank but the URL bar still shows bank.com. The site has no certificate warning. Investigation of the DNS resolver reveals something unusual.',
+    evidence:
+'<span class="hi">user@laptop:~$ nslookup bank.com</span>\n' +
+'\n' +
+'Server:    192.168.1.5 <span class="dim">(corporate DNS resolver)</span>\n' +
+'Address:   192.168.1.5#53\n' +
+'\n' +
+'Non-authoritative answer:\n' +
+'Name:    bank.com\n' +
+'Address: <span class="err">185.220.101.42</span>   <span class="dim">← attacker IP (in Romania)</span>\n' +
+'\n' +
+'<span class="hi">user@laptop:~$ nslookup bank.com 8.8.8.8</span>\n' +
+'\n' +
+'Server:    8.8.8.8\n' +
+'Address:   8.8.8.8#53\n' +
+'\n' +
+'Name:    bank.com\n' +
+'Address: <span class="ok">203.0.113.18</span>     <span class="dim">← real bank.com from Google</span>',
+    choices: [
+      'Phishing email opened by users',
+      'DNS poisoning — corporate resolver cache compromised',
+      'ARP poisoning of gateway',
+      'Tailgating'
+    ],
+    correct: 1,
+    attack: 'DNS Poisoning · Cache Compromise',
+    explain: 'The corporate resolver returns the attacker IP for bank.com. The same query against a known-good external resolver (8.8.8.8) returns the real IP. This is DNS cache poisoning — the resolver\'s cache has been corrupted with false records. Users typing the correct URL get directed to the attacker\'s site without any signal that something is wrong (browser shows correct URL in the address bar).',
+    cm: 'Enable <b>DNSSEC validation</b> on the recursive resolver — signed responses can\'t be forged by an attacker without breaking the chain of trust. Randomize source ports and transaction IDs (defends against Kaminsky-class attacks). Use trusted upstream resolvers. Monitor for cache discrepancies. <b>DoH/DoT</b> protects in-transit queries from on-path tampering.'
+  },
+  {
+    label: '05',
+    title: 'Web server saturated with DNS responses',
+    narrative: 'Your company\'s public web server is unreachable. Bandwidth graphs show inbound traffic at 100x normal levels. Tcpdump on the server\'s edge shows the flood is composed of DNS responses — but the web server doesn\'t make outbound DNS queries.',
+    evidence:
+'<span class="hi">root@edge-firewall:~# tcpdump -i eth0 -n udp port 53 | head -10</span>\n' +
+'\n' +
+'17:42:08.123 IP <span class="warn">203.0.113.5.53</span>  &gt; <span class="err">198.51.100.7.36281</span>: <span class="warn">2841 bytes</span> response\n' +
+'17:42:08.123 IP <span class="warn">198.18.45.22.53</span> &gt; <span class="err">198.51.100.7.51029</span>: <span class="warn">3104 bytes</span> response\n' +
+'17:42:08.124 IP <span class="warn">192.0.2.99.53</span>  &gt; <span class="err">198.51.100.7.47119</span>: <span class="warn">2756 bytes</span> response\n' +
+'17:42:08.124 IP <span class="warn">203.0.113.5.53</span>  &gt; <span class="err">198.51.100.7.21042</span>: <span class="warn">2891 bytes</span> response\n' +
+'<span class="dim">... 10000+ pps from random open DNS resolvers</span>\n' +
+'\n' +
+'<span class="dim"># 198.51.100.7 = our public web server.</span>\n' +
+'<span class="dim"># It never queried these resolvers. Yet they\'re sending big responses.</span>',
+    choices: [
+      'DDoS amplification / reflection attack',
+      'DNS poisoning',
+      'Rogue DHCP server',
+      'VLAN hopping'
+    ],
+    correct: 0,
+    attack: 'DDoS Amplification / Reflection',
+    explain: 'The flood is composed of large DNS responses (~3000 bytes each) from many different open DNS resolvers, sent to a web server that never queried them. The attacker is sending small DNS queries with the victim\'s IP as the spoofed source to open resolvers. The resolvers respond with big answers — sent to the victim. Small input from the attacker (~60 bytes) gets amplified by ~50x. This is the asymmetric threat property of amplification attacks.',
+    cm: '<b>DDoS scrubbing service</b> (Cloudflare, Akamai, Imperva) absorbs and filters the flood upstream of your edge. <b>Anycast</b> distributes the load across global PoPs. <b>BGP-based blackholing</b> drops attack traffic at the ISP level. <b>BCP38 source-IP validation</b> at ISPs prevents source-IP spoofing, eliminating the prerequisite for amplification attacks (but requires ISP cooperation).'
+  },
+  {
+    label: '06',
+    title: 'Two APs with the same SSID at the coffee shop',
+    narrative: 'A user reports that their corporate laptop "auto-connected" to a familiar-looking Wi-Fi at the coffee shop. They saw a sign-in page that looked off and entered their credentials anyway. A Wi-Fi survey reveals two APs broadcasting "CoffeeWiFi" — with very different signal strengths.',
+    evidence:
+'<span class="hi">$ sudo airodump-ng wlan0mon</span>\n' +
+'\n' +
+'BSSID              PWR  CH ENC  CIPHER  AUTH ESSID\n' +
+'------------------ ---  -- ---  ------  ---- -----------\n' +
+'<span class="ok">d4:6d:50:91:a2:b1</span>  -78  6  WPA2 CCMP    PSK  <span class="warn">CoffeeWiFi</span>\n' +
+'<span class="err">aa:bb:cc:dd:ee:ff</span>  -45  6  WPA2 CCMP    PSK  <span class="warn">CoffeeWiFi</span>\n' +
+'                   <span class="dim">↑</span>\n' +
+'                   <span class="dim">Stronger! Devices auto-connect here.</span>\n' +
+'\n' +
+'<span class="dim"># Real coffee shop AP: d4:6d:50:91:a2:b1 (signage matches sticker on counter).</span>\n' +
+'<span class="dim"># Second AP appeared today, same SSID, much closer signal.</span>',
+    choices: [
+      'Rogue access point (just unauthorized)',
+      'Evil twin — rogue AP impersonating the legitimate SSID',
+      'MAC flooding of the wireless controller',
+      'DNS poisoning of the captive portal'
+    ],
+    correct: 1,
+    attack: 'Evil Twin',
+    explain: 'Two APs broadcasting the same SSID, one with a much stronger signal — the attacker\'s. Devices auto-connect to the strongest signal with a known SSID. The attacker captures credentials via a fake captive portal and can intercept all subsequent traffic. The key marker that distinguishes "evil twin" from "rogue AP" is the <b>SSID impersonation</b> — an evil twin specifically duplicates a legitimate network\'s name to lure users.',
+    cm: '<b>WPA3-Enterprise with 802.1X and certificate-based authentication</b> — clients validate the AP\'s certificate before connecting, defeating evil twin attacks even if the SSID matches. For consumer/coffee-shop networks where this isn\'t possible: <b>user training</b> to spot signs (no captive portal, suddenly stronger signal, certificate warnings) and disable auto-join for unsaved networks. <b>WIDS</b> systems can detect rogue/evil-twin APs by RF signature.'
+  },
+  {
+    label: '07',
+    title: 'Some users get wrong default gateway',
+    narrative: 'Help desk reports intermittent connectivity issues. Some users can browse the web; others can\'t. ipconfig on the affected machines shows an unusual default gateway. The official DHCP server is configured to give 192.168.1.1 — but some clients are getting something different.',
+    evidence:
+'<span class="hi">affected-laptop&gt; ipconfig /all</span>\n' +
+'\n' +
+'Ethernet adapter Ethernet:\n' +
+'   IPv4 Address......: 192.168.1.143\n' +
+'   Subnet Mask.......: 255.255.255.0\n' +
+'   Default Gateway...: <span class="err">192.168.1.50</span>   ← user workstation IP!\n' +
+'   DNS Server........: <span class="err">192.168.1.50</span>\n' +
+'\n' +
+'<span class="hi">normal-laptop&gt; ipconfig /all</span>\n' +
+'\n' +
+'Ethernet adapter Ethernet:\n' +
+'   IPv4 Address......: 192.168.1.87\n' +
+'   Subnet Mask.......: 255.255.255.0\n' +
+'   Default Gateway...: <span class="ok">192.168.1.1</span>    ← correct router\n' +
+'   DNS Server........: <span class="ok">192.168.1.5</span>\n' +
+'\n' +
+'<span class="dim"># 192.168.1.50 is a regular user workstation, not a router.</span>',
+    choices: [
+      'ARP poisoning',
+      'Rogue DHCP server',
+      'DNS spoofing',
+      'MAC flooding'
+    ],
+    correct: 1,
+    attack: 'Rogue DHCP Server',
+    explain: 'Some clients are receiving DHCP leases with a workstation\'s IP (192.168.1.50) as the default gateway and DNS server. There\'s an unauthorized DHCP server on the network. Whichever DHCP server responds first to a client\'s Discover wins — so leases are split between the real and rogue server. The rogue server\'s clients route all traffic through the attacker, who can intercept everything.',
+    cm: '<b>DHCP snooping</b> on managed switches. Configure the port facing the legitimate DHCP server as <b>trusted</b>; all other ports are <b>untrusted</b>. DHCP server messages (Offer, Ack) from untrusted ports are dropped. This is one of the cleanest L2 defenses available and is also the foundation for Dynamic ARP Inspection.'
+  },
+  {
+    label: '08',
+    title: 'TLS warnings on every HTTPS site',
+    narrative: 'A user at a co-working space reports that her browser shows certificate warnings on every HTTPS site she visits — including major sites like Google and her bank. The cert subject names look correct, but every cert is issued by an "Unknown CA" with a generic name.',
+    evidence:
+'<span class="hi">Browser certificate details — bank.com</span>\n' +
+'\n' +
+'Subject:  CN = bank.com\n' +
+'          O  = Bank of Example\n' +
+'<span class="warn">Issued by:</span> <span class="err">CN = SuperFreeWiFi Root CA</span>\n' +
+'          <span class="err">O  = (unknown organization)</span>\n' +
+'Valid:    today through 90 days\n' +
+'\n' +
+'<span class="dim"># bank.com\'s real cert is issued by DigiCert Global Root, not "SuperFreeWiFi"</span>\n' +
+'<span class="dim"># Every HTTPS site she visits shows certs issued by the same fake CA</span>',
+    choices: [
+      'DNS poisoning',
+      'On-path attack (MITM) intercepting TLS',
+      'Phishing email',
+      'Tailgating'
+    ],
+    correct: 1,
+    attack: 'On-path Attack · TLS Interception',
+    explain: 'Someone on the network path is intercepting HTTPS connections. For each connection, the attacker generates a fresh cert signed by their own CA (the "SuperFreeWiFi Root CA"), terminates the user\'s TLS on themselves, and opens a separate TLS connection to the real site. Because the user\'s browser doesn\'t trust the attacker\'s CA, certificate warnings appear. (If the attacker had somehow tricked the user into installing their CA as trusted, no warning would appear — that\'s why "click through TLS warnings" is dangerous.)',
+    cm: '<b>HEED THE TLS WARNINGS</b> — never click through them on a public network. Use a <b>VPN</b> to tunnel out of the untrusted network. <b>HSTS</b> prevents HTTP→HTTPS downgrade attacks. <b>Certificate pinning</b> in apps refuses connections with unexpected certs. <b>Mutual TLS</b> in enterprise scenarios. <b>DoH/DoT</b> protects DNS queries from being seen or tampered with by the on-path attacker.'
+  },
+  {
+    label: '09',
+    title: 'Email from "IT" asks for password verification',
+    narrative: 'A user forwards a suspicious email to security. The message claims to be from IT Support, says the user\'s password is "expiring" and asks them to click a link to "verify." The display name shows "IT Support" but the actual sender domain is suspect.',
+    evidence:
+'<span class="hi">From:</span>    IT Support &lt;<span class="err">support@it-suport.example-corp.com</span>&gt;\n' +
+'         <span class="dim">                  ^^^^^^^ — note: "suport" missing a "p"</span>\n' +
+'<span class="hi">To:</span>      jane.doe@example-corp.com\n' +
+'<span class="hi">Subject:</span> URGENT: Verify your password before it expires today\n' +
+'\n' +
+'<span class="dim">--- body ---</span>\n' +
+'\n' +
+'Dear User,\n' +
+'\n' +
+'Our records indicate your password expires today. To prevent\n' +
+'account lockout, please click the link below to verify and\n' +
+'update your credentials:\n' +
+'\n' +
+'  <span class="err">https://it-suport.example-corp.com/verify?u=jane.doe</span>\n' +
+'\n' +
+'Failure to comply within 24 hours will result in account\n' +
+'suspension.\n' +
+'\n' +
+'IT Support Team',
+    choices: [
+      'Phishing',
+      'On-path attack',
+      'ARP poisoning',
+      'Tailgating'
+    ],
+    correct: 0,
+    attack: 'Phishing',
+    explain: 'Classic phishing markers all present: (1) <b>typosquat domain</b> (it-<b>suport</b> instead of it-<b>support</b>), (2) <b>urgency</b> ("expires today", "24 hours"), (3) <b>authority pretext</b> (impersonating IT), (4) <b>password request</b> (legitimate IT never asks for passwords via email link). This is broad phishing — same message likely sent to many recipients. If it had been personalized with specific details about the recipient ("Hi Jane, regarding the Hernandez project..."), it would be spear phishing.',
+    cm: '<b>SPF/DKIM/DMARC</b> on the receiving mail server can detect spoofed sender domains. <b>Mail filters</b> with reputation scoring catch many phishing emails. <b>User awareness training</b> — recognize urgency + credential request as red flags. <b>MFA</b> on all accounts so that even if a password is phished, the attacker can\'t log in without the second factor. <b>Report-phishing button</b> in Outlook/Gmail lets users escalate quickly.'
+  },
+  {
+    label: '10',
+    title: 'Person without badge enters through secure door',
+    narrative: 'Security cam footage at the data center entrance shows employee Maria badge in at 3:42pm. Immediately behind her, a person carrying coffee and a folder walks through the same door before it closes — without badging in. Maria didn\'t notice. The person was on-site for 45 minutes before being challenged.',
+    evidence:
+'<span class="hi">Camera review — Entrance B, 15:42:08</span>\n' +
+'\n' +
+'<span class="dim">[15:42:08]</span> Maria Hernandez taps badge\n' +
+'<span class="dim">[15:42:09]</span> Door unlocks (green LED)\n' +
+'<span class="dim">[15:42:10]</span> Maria enters, holds door briefly\n' +
+'<span class="dim">[15:42:12]</span> <span class="err">Unknown person follows through</span>\n' +
+'<span class="dim">          ↑ no badge presented, no log entry</span>\n' +
+'<span class="dim">[15:42:14]</span> Door closes (red LED)\n' +
+'\n' +
+'<span class="dim">Maria\'s account: "He had coffee and a folder, looked like he</span>\n' +
+'<span class="dim">  worked here. Didn\'t want to be rude."</span>\n' +
+'\n' +
+'<span class="dim">Access logs at 15:42 — only Maria badged in.</span>',
+    choices: [
+      'Shoulder surfing',
+      'Tailgating (also called piggybacking)',
+      'Dumpster diving',
+      'Pharming'
+    ],
+    correct: 1,
+    attack: 'Tailgating · Piggybacking',
+    explain: 'Tailgating (also called piggybacking) — an unauthorized person follows an authorized person through a controlled access point without their own credentials. This works because of human politeness ("don\'t want to be rude") and props (coffee + folder = "I work here"). Note the distinction from <b>shoulder surfing</b> (visually observing credentials) and <b>dumpster diving</b> (gathering info from trash) — both are also social engineering but different mechanisms.',
+    cm: '<b>Mantraps / interlocking doors</b> — only one person can pass at a time. <b>Turnstiles</b> with badge readers physically restrict to single-person passage. <b>Security awareness training</b> teaches employees to politely challenge people without visible badges ("Hi, can I help you find someone?"). <b>Anti-tailgate culture</b> — it\'s OK to ask, expected to be asked. Cameras at all access points for post-incident review.'
+  }
+];
+
+var labState = { current: 0, solved: {} };
+
+function renderLabPicker() {
+  var picker = document.getElementById('labPicker');
+  var html = '';
+  LAB_SCENARIOS.forEach(function(s, i) {
+    var cls = 'lab-btn';
+    if (i === labState.current) cls += ' active';
+    if (labState.solved[i]) cls += ' solved';
+    html += '<button class="' + cls + '" data-i="' + i + '">' + s.label + '</button>';
+  });
+  picker.innerHTML = html;
+  picker.querySelectorAll('.lab-btn').forEach(function(b) {
+    b.addEventListener('click', function() {
+      labState.current = parseInt(b.dataset.i, 10);
+      renderLabPicker();
+      renderLabScenario();
+    });
+  });
+}
+
+function renderLabScenario() {
+  var s = LAB_SCENARIOS[labState.current];
+  var stage = document.getElementById('labStage');
+  var alreadyAnswered = labState.solved[labState.current];
+
+  var choicesHTML = s.choices.map(function(c, i) {
+    var letter = String.fromCharCode(65 + i);
+    var cls = 'lab-choice';
+    if (alreadyAnswered) {
+      cls += ' locked';
+      if (i === s.correct) cls += ' correct';
+    }
+    return '<button class="' + cls + '" data-i="' + i + '"><b>' + letter + '.</b> ' + c + '</button>';
+  }).join('');
+
+  var resultHTML = '';
+  if (alreadyAnswered) {
+    resultHTML =
+      '<div class="lab-result show">' +
+        '<div class="lr-eyebrow">The attack is</div>' +
+        '<div class="lr-attack">' + s.attack + '</div>' +
+        '<div class="lr-body">' + s.explain + '</div>' +
+        '<div class="lr-cm"><b>Countermeasure</b>' + s.cm + '</div>' +
+      '</div>';
+  }
+
+  stage.innerHTML =
+    '<div class="lab-scenario">' +
+      '<div class="scenario-label">Incident ' + s.label + ' of ' + (LAB_SCENARIOS.length < 10 ? '0' + LAB_SCENARIOS.length : LAB_SCENARIOS.length) + '</div>' +
+      '<div class="scenario-title">' + s.title + '</div>' +
+      '<div class="scenario-narrative">' + s.narrative + '</div>' +
+    '</div>' +
+    '<div class="lab-evidence">' + s.evidence + '</div>' +
+    '<div class="lab-question">Which attack is this?</div>' +
+    '<div class="lab-choices">' + choicesHTML + '</div>' +
+    resultHTML;
+
+  if (!alreadyAnswered) {
+    stage.querySelectorAll('.lab-choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        var picked = parseInt(c.dataset.i, 10);
+        var isCorrect = picked === s.correct;
+        labState.solved[labState.current] = true;
+        stage.querySelectorAll('.lab-choice').forEach(function(x, i) {
+          x.classList.add('locked');
+          if (i === s.correct) x.classList.add('correct');
+          else if (i === picked && !isCorrect) x.classList.add('wrong');
+        });
+        renderLabPicker();
+        // Append result block
+        var resultDiv = document.createElement('div');
+        resultDiv.innerHTML =
+          '<div class="lab-result show">' +
+            '<div class="lr-eyebrow">The attack is</div>' +
+            '<div class="lr-attack">' + s.attack + '</div>' +
+            '<div class="lr-body">' + s.explain + '</div>' +
+            '<div class="lr-cm"><b>Countermeasure</b>' + s.cm + '</div>' +
+          '</div>';
+        stage.appendChild(resultDiv.firstChild);
+      });
+    });
+  }
+}
+
+renderLabPicker();
+renderLabScenario();
+
+/* ============== TAB 3 · SOCIAL ENGINEERING ============== */
+var SE_ITEMS = [
+  {
+    tag: 'Email — broad',
+    name: 'Phishing',
+    def: 'Mass-emailed messages impersonating a trusted entity (bank, IT department, vendor) to trick the user into clicking a link, opening an attachment, or revealing credentials.',
+    example: 'An email "from your bank" asks you to <b>"verify your account"</b> by clicking a link. The link goes to bank-secure-login.evilsite.tk — a phishing page that captures your password.',
+    cm: 'SPF/DKIM/DMARC · mail filtering · user training · MFA · report-phishing button'
+  },
+  {
+    tag: 'Email — targeted',
+    name: 'Spear Phishing',
+    def: 'Highly customized phishing aimed at a specific person or small group. The attacker researches the target (LinkedIn, company website, breached data) and crafts a personalized message that\'s much more convincing than mass phishing.',
+    example: '<b>"Hi Jane, regarding the Hernandez Industries proposal we discussed yesterday — I\'ve updated the pricing per Brian\'s request. Can you review the attached doc before the 3pm call?"</b> The attachment is malware. Jane\'s coworker Brian and the Hernandez deal are real, gleaned from LinkedIn.',
+    cm: 'Out-of-band verification for high-value requests · training · MFA · privileged action approvals'
+  },
+  {
+    tag: 'Email — executive',
+    name: 'Whaling',
+    def: 'Spear phishing targeting executives (CEO, CFO). The payoff per successful attack is huge — executives have authority to approve wire transfers, share strategic info, etc.',
+    example: 'CFO receives an email "from the CEO" while the CEO is traveling: <b>"In a closing meeting, urgent — wire $250K to this account by EOD, will explain when I land."</b> The attacker has researched executive travel schedules.',
+    cm: 'Executive-specific training · OOB callback verification on all wire transfers · multi-approver for large transactions'
+  },
+  {
+    tag: 'Physical',
+    name: 'Dumpster Diving',
+    def: 'Sifting through trash or recycle bins for sensitive information — printed credentials, network diagrams, configuration printouts, hardware that wasn\'t wiped, sticky notes with passwords.',
+    example: 'Attacker waits until after-hours, climbs into the dumpster behind the office, and finds <b>printed copies of a network audit with internal IPs, hostnames, and admin usernames</b>. Plus three sticky notes with passwords. They never had to touch a keyboard.',
+    cm: 'Shredding policy · locked disposal bins · secure media destruction · physical security around dumpsters'
+  },
+  {
+    tag: 'Visual',
+    name: 'Shoulder Surfing',
+    def: 'Observing someone enter credentials or sensitive data — over their shoulder on a train, through a coffee shop window, via security camera footage at an ATM.',
+    example: 'On a crowded flight, the person next to you watches you type your <b>laptop password</b> and the PIN to your password manager. By landing, they have the full set.',
+    cm: 'Privacy screens · screen lock policies · awareness training · MFA so password alone is insufficient'
+  },
+  {
+    tag: 'Physical',
+    name: 'Tailgating · Piggybacking',
+    def: 'Following an authorized person through a secured door without using your own credentials. Often combined with props (coffee, folder, friendly conversation) to lower suspicion.',
+    example: 'Attacker carries two coffees and a laptop bag, approaches the back door right behind an employee, and says <b>"Could you hold that? Thanks!"</b> The employee complies. Attacker is now inside a secure facility.',
+    cm: 'Mantraps / turnstiles · security awareness · anti-tailgate culture · cameras at all entries'
+  },
+  {
+    tag: 'DNS-level',
+    name: 'Pharming',
+    def: 'Redirecting users from a legitimate site to a fake one by manipulating DNS — either at the resolver (DNS poisoning) or on the user\'s device (modifying the HOSTS file via malware). User types the correct URL and still lands on the attacker\'s site.',
+    example: '<b>Malware on the user\'s laptop adds an entry to the HOSTS file:</b> 185.220.101.42 bank.com. Now any time the user types bank.com, Windows looks it up locally first, gets the attacker\'s IP, and bypasses DNS entirely.',
+    cm: 'Endpoint protection · HOSTS file integrity monitoring · DNSSEC · DNS-layer filtering'
+  },
+  {
+    tag: 'URL-based',
+    name: 'Typosquatting',
+    def: 'Registering domains that look like legitimate ones (gooogle.com, paypa1.com, micros0ft.com) and waiting for users to mistype. The attacker\'s site loads when the user fat-fingers the URL.',
+    example: 'User wants paypal.com but types <b>paypa1.com</b> (number 1 instead of letter l). The attacker\'s lookalike site loads, capturing login credentials. Attacker may even redirect to the real site after harvesting creds, so the user doesn\'t notice.',
+    cm: 'DNS-layer filtering · browser typo correction · brand protection services (register variants yourself)'
+  }
+];
+
+function renderSocial() {
+  var grid = document.getElementById('seGrid');
+  var html = '';
+  SE_ITEMS.forEach(function(s) {
+    html += '<div class="se-card">' +
+      '<div class="se-tag">' + s.tag + '</div>' +
+      '<h4>' + s.name + '</h4>' +
+      '<div class="se-def">' + s.def + '</div>' +
+      '<div class="se-example">' + s.example + '</div>' +
+      '<div class="se-cm">Countermeasure: ' + s.cm + '</div>' +
+      '</div>';
+  });
+  grid.innerHTML = html;
+}
+renderSocial();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'Layer 2',
+    body: 'A switchport has 4,000 different source MAC addresses associated with it in a 60-second window. The legitimate user device should have 1-2 MACs. What attack is most likely, and what is the right countermeasure?',
+    choices: [
+      { letter: 'A', text: 'ARP poisoning — enable DAI', correct: false },
+      { letter: 'B', text: 'MAC flooding (CAM overflow) — enable port security with a max-MAC limit', correct: true },
+      { letter: 'C', text: 'Rogue DHCP — enable DHCP snooping', correct: false },
+      { letter: 'D', text: 'VLAN hopping — change native VLAN', correct: false }
+    ],
+    explain: '<b>MAC flooding</b>. Thousands of MACs from one port is the signature — the attacker is generating forged source MACs to overflow the switch\'s CAM (MAC address) table. When the table fills, the switch fails open and floods unknown unicast frames everywhere, exposing user traffic. Countermeasure: <b>port security</b> limits MACs per port (typically 1 or 2). When exceeded, the port can be shut down, restricted, or set to protect mode.'
+  },
+  {
+    tag: 'DDoS',
+    body: 'A web server is overwhelmed by inbound traffic. Analysis shows the flood is composed of large DNS responses sent FROM open DNS resolvers TO the server, but the server never made any DNS queries. Which DDoS technique is being used?',
+    choices: [
+      { letter: 'A', text: 'TCP SYN flood', correct: false },
+      { letter: 'B', text: 'Amplification / reflection — attacker spoofed the server\'s IP in queries to open resolvers; the resolvers send big responses to the server', correct: true },
+      { letter: 'C', text: 'ARP poisoning', correct: false },
+      { letter: 'D', text: 'Phishing campaign', correct: false }
+    ],
+    explain: '<b>DDoS amplification (also called reflection)</b>. The attacker sends tiny DNS queries with a spoofed source IP (the victim\'s) to many open DNS resolvers. The resolvers send their normal-sized responses... to the victim. Small input creates large output traffic, which is the <b>amplification</b>. The "asymmetric threat" — attacker uses few resources to flood a much bigger system. Other amplifiers: NTP, memcached, CLDAP. Defense: DDoS scrubbing service, BCP38 source-IP validation by ISPs.'
+  },
+  {
+    tag: 'Wireless',
+    body: 'An attacker sets up a Wi-Fi access point with SSID "CorpWiFi" in the building parking lot, broadcasting on the same channel as the real corporate Wi-Fi but with stronger signal. Employees\' devices auto-connect to the attacker\'s AP. Which attack is this?',
+    choices: [
+      { letter: 'A', text: 'Just a rogue AP — unauthorized but not specifically impersonating', correct: false },
+      { letter: 'B', text: 'Evil twin — rogue AP that specifically duplicates a legitimate SSID', correct: true },
+      { letter: 'C', text: 'WPA cracking', correct: false },
+      { letter: 'D', text: 'DDoS', correct: false }
+    ],
+    explain: '<b>Evil twin</b> — an attacker AP that specifically <b>impersonates a legitimate SSID</b>. The defining feature vs a generic rogue AP is the SSID duplication. Devices auto-connect to the strongest signal for a known SSID. Once connected, the attacker can capture credentials via fake captive portals and intercept all traffic. Defense: WPA3-Enterprise with 802.1X certificate auth (clients validate the AP\'s cert), WIDS to detect, user training, disable auto-join.'
+  },
+  {
+    tag: 'Social engineering',
+    body: 'An email arrives that appears to be from the CEO (display name "John Smith, CEO") sent to the CFO. It mentions a specific business deal the company recently announced and urgently asks the CFO to wire $250,000 to a new vendor account "to close before market open." Sender email is johnsmith@acme-cfo.com (the real CEO\'s domain is acme.com). Which attack?',
+    choices: [
+      { letter: 'A', text: 'Generic phishing', correct: false },
+      { letter: 'B', text: 'Whaling — a targeted spear-phishing attack on an executive', correct: true },
+      { letter: 'C', text: 'Pharming', correct: false },
+      { letter: 'D', text: 'Tailgating', correct: false }
+    ],
+    explain: '<b>Whaling</b> — a spear-phishing attack specifically targeting executives or high-value targets. The attack is personalized (mentions specific deal, CEO impersonation, exec-to-exec context) and high-payoff ($250K wire). Note the typosquat domain: acme-<b>cfo</b>.com vs acme.com. Defenses: out-of-band callback verification (CFO calls CEO directly before any wire), multi-approver workflows for large transactions, executive-specific awareness training, and DMARC enforcement against spoofed corporate domains.'
+  },
+  {
+    tag: 'On-path',
+    body: 'A user on a public Wi-Fi network sees their browser flagging EVERY HTTPS site with a certificate warning. The warnings indicate the certificates are signed by "Public-WiFi Root CA" instead of the expected public CAs. Which attack is happening?',
+    choices: [
+      { letter: 'A', text: 'DNS poisoning of public DNS', correct: false },
+      { letter: 'B', text: 'On-path attack (MITM) — someone is intercepting TLS and presenting forged certificates', correct: true },
+      { letter: 'C', text: 'Phishing email', correct: false },
+      { letter: 'D', text: 'Dumpster diving', correct: false }
+    ],
+    explain: '<b>On-path attack (MITM)</b>. The attacker is intercepting HTTPS connections — terminating each one on themselves, generating forged certificates signed by their own CA, and forwarding to the real destination. Since the user\'s browser doesn\'t trust "Public-WiFi Root CA," every TLS site shows warnings. <b>NEVER click through</b> these warnings. Use a VPN to tunnel out of the untrusted network. HSTS and certificate pinning provide additional defenses in apps that implement them.'
+  },
+  {
+    tag: 'DNS / pharming',
+    body: 'A user types www.bank.com correctly in their browser and lands on a phishing clone. The URL bar still shows www.bank.com. Investigation reveals the user\'s computer has malware that modified the local HOSTS file. Which attack technique is this?',
+    choices: [
+      { letter: 'A', text: 'Phishing', correct: false },
+      { letter: 'B', text: 'Pharming (DNS redirection — HOSTS file variant)', correct: true },
+      { letter: 'C', text: 'Typosquatting', correct: false },
+      { letter: 'D', text: 'Tailgating', correct: false }
+    ],
+    explain: '<b>Pharming</b> — redirecting users to a fake site without their action. The user types the correct URL and lands on the attacker\'s site because DNS resolution is compromised. Pharming can happen at the resolver level (DNS poisoning) OR at the endpoint level (HOSTS file manipulation by malware). Both have the same user-facing effect: right URL, wrong site. Contrast with <b>typosquatting</b>, where the user must mistype to land on the attacker\'s site.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'An attacker floods a switch with thousands of forged source MAC addresses, filling the CAM table. The switch begins flooding unknown unicast frames to all ports. Which attack is this?',
+    choices: ['ARP poisoning', 'MAC flooding (CAM table overflow)', 'DNS poisoning', 'VLAN hopping'],
+    correct: 1,
+    explain: '<b>MAC flooding</b> — the attacker overflows the switch\'s CAM (Content-Addressable Memory) table with thousands of forged MAC addresses. When the table is full, the switch fails open: it floods unknown unicast frames to all ports, allowing the attacker to capture traffic for other users. Countermeasure: <b>port security</b> with max-MAC limits per port.'
+  },
+  {
+    q: 'Which countermeasure is specifically designed to prevent ARP poisoning on managed switches?',
+    choices: [
+      'STP root guard',
+      'Dynamic ARP Inspection (DAI)',
+      'Port security',
+      'DHCP snooping'
+    ],
+    correct: 1,
+    explain: '<b>Dynamic ARP Inspection (DAI)</b> validates ARP replies against the DHCP snooping binding table — if the ARP reply\'s IP-MAC binding doesn\'t match, the reply is dropped. This blocks ARP poisoning. DAI requires DHCP snooping to be enabled first (which builds the binding table). Port security limits MACs per port (defense against MAC flooding). STP root guard prevents spanning-tree manipulation.'
+  },
+  {
+    q: 'In a VLAN hopping double-tagging attack, what does the first switch do with the incoming frame that allows the attack to succeed?',
+    choices: [
+      'Drops the frame entirely',
+      'Strips the outer 802.1Q tag (which matches the native or attacker\'s VLAN) and forwards the inner-tagged frame across the trunk',
+      'Forwards it to the management VLAN',
+      'Adds a third VLAN tag'
+    ],
+    correct: 1,
+    explain: 'The first switch strips the outer 802.1Q tag because it matches the native VLAN (or the attacker\'s port VLAN). The remaining inner tag is then carried across the trunk to the next switch, which forwards the frame to whichever VLAN that inner tag specifies — potentially a VLAN the attacker should never have reached. Defense: change the native VLAN from default 1, disable DTP, set ports to explicit access mode.'
+  },
+  {
+    q: 'Which technology is the foundation for DHCP snooping and Dynamic ARP Inspection on managed switches?',
+    choices: [
+      'A binding table that maps trusted IP-MAC-port relationships, built from observed DHCP exchanges',
+      'BGP route filtering',
+      'Spanning Tree Protocol',
+      'LLDP'
+    ],
+    correct: 0,
+    explain: 'DHCP snooping builds a <b>binding table</b> from observed DHCP exchanges on trusted ports — mapping IP addresses to MACs to specific switch ports. DAI then validates ARP replies against this binding table. The two features work together: snooping builds the truth; DAI enforces it.'
+  },
+  {
+    q: 'A DDoS amplification attack uses a small query with a spoofed source IP. Which IP does the attacker spoof as the source?',
+    choices: [
+      'Their own IP', 'Random IPs', 'The VICTIM\'s IP — so the amplified response goes to the victim', 'A randomly-generated private IP'
+    ],
+    correct: 2,
+    explain: 'The attacker spoofs the <b>victim\'s IP</b> as the source of the small queries sent to open services (DNS resolvers, NTP servers, memcached, etc.). The services respond with their normal-sized answers — sent to the victim because that\'s the source IP in the query. This is the asymmetric threat: small input, large output, sent to a target the attacker chose. Defense: BCP38 source-IP validation at ISPs prevents source spoofing in the first place.'
+  },
+  {
+    q: 'Which attack involves an unauthorized Wi-Fi AP broadcasting the SAME SSID as a legitimate network, typically with stronger signal?',
+    choices: ['Rogue AP', 'Evil twin', 'War driving', 'DDoS amplification'],
+    correct: 1,
+    explain: '<b>Evil twin</b> specifically duplicates a legitimate SSID to lure users. Devices auto-connect to the strongest signal for a known SSID. Once connected, the attacker captures credentials and intercepts traffic. A <b>rogue AP</b> is any unauthorized AP — it may use the same SSID (evil twin) or any other SSID. Defense: WPA3-Enterprise with 802.1X cert auth so clients validate the AP\'s identity.'
+  },
+  {
+    q: 'A user reports their default gateway has changed to a workstation IP, not the real router. Other users on the same network have the correct gateway. What\'s the most likely attack?',
+    choices: ['ARP poisoning', 'Rogue DHCP server', 'DNS poisoning', 'Phishing'],
+    correct: 1,
+    explain: '<b>Rogue DHCP server.</b> The unauthorized DHCP server is handing out leases with the attacker\'s IP as the gateway. Whichever DHCP server responds first to a client\'s Discover wins — so some clients get poisoned leases. Defense: <b>DHCP snooping</b> on managed switches, trusting only the port to the legitimate DHCP server and untrusting all others. DHCP responses from untrusted ports are dropped.'
+  },
+  {
+    q: 'CompTIA renamed "man in the middle" (MITM) to which term in the N10-009 objectives?',
+    choices: ['On-path attack', 'Side-channel attack', 'Replay attack', 'Pivot attack'],
+    correct: 0,
+    explain: 'CompTIA renamed MITM to <b>"on-path attack"</b> for inclusive terminology. Same attack: the attacker positions themselves between two communicating parties to intercept, read, or modify traffic. ARP poisoning, rogue DHCP, evil twin, and DNS poisoning are all <b>techniques</b> that establish an on-path position. Defenses: end-to-end TLS with cert validation, HSTS, cert pinning, mutual TLS, encrypted DNS.'
+  },
+  {
+    q: 'A user mistypes "paypal.com" as "paypa1.com" (with a number 1) and lands on a phishing site. What is this attack called?',
+    choices: ['Phishing', 'Pharming', 'Typosquatting', 'DNS poisoning'],
+    correct: 2,
+    explain: '<b>Typosquatting</b> — the attacker registers domain names that look like legitimate ones (paypa1.com, gooogle.com, micros0ft.com) and waits for users to mistype. The user is sent to the WRONG URL (their typo), but the attacker\'s site loads there. Contrast with <b>pharming</b>, where the user types the CORRECT URL but DNS or HOSTS file manipulation redirects them to the attacker\'s site.'
+  },
+  {
+    q: 'A user types "bank.com" correctly in the URL bar but lands on a clone phishing site. The URL bar still shows bank.com. Investigation finds malware on the user\'s laptop modified the local HOSTS file. What technique is this?',
+    choices: ['Phishing', 'Pharming', 'Typosquatting', 'Spear phishing'],
+    correct: 1,
+    explain: '<b>Pharming</b> — redirecting users to fake sites WITHOUT their action. User types the correct URL, name resolution returns the attacker\'s IP, attacker\'s site loads. The redirect can happen at the resolver level (DNS poisoning) or at the endpoint level (HOSTS file manipulation via malware). Same user experience: right URL, wrong site. Defense: DNSSEC, endpoint protection, HOSTS file integrity monitoring.'
+  },
+  {
+    q: 'An email impersonating IT asks a user to "verify your password" by clicking a link. The link goes to a typosquat domain. This is an example of:',
+    choices: ['On-path attack', 'Phishing', 'ARP poisoning', 'Dumpster diving'],
+    correct: 1,
+    explain: '<b>Phishing</b> — impersonation via email to trick the user into revealing credentials or clicking a malicious link. Classic markers: authority pretext (IT), urgency, password request, link to a typosquat domain. If the email had been highly personalized to the specific user with details from their job, it would be <b>spear phishing</b>. If targeting an executive, <b>whaling</b>. Defense: SPF/DKIM/DMARC, mail filtering, user training, MFA so password leaks don\'t = compromise.'
+  },
+  {
+    q: 'An attacker dresses smartly, carries coffee, and walks closely behind an employee through a secured door without badging in. The employee holds the door politely. What is this attack?',
+    choices: ['Tailgating (also called piggybacking)', 'Pharming', 'Phishing', 'On-path attack'],
+    correct: 0,
+    explain: '<b>Tailgating</b> (also called <b>piggybacking</b>) — following an authorized person through a secured access point without your own credentials. Exploits human politeness and trust. Often paired with props (coffee, folder, friendly conversation) to lower suspicion. Defense: <b>mantraps</b> or turnstiles that physically restrict to one person at a time; security awareness training; an anti-tailgate culture where it\'s normal to politely challenge people.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'CAM table overflow attack?', choices: ['ARP poison', 'MAC flooding', 'DNS poison', 'Phishing'], correct: 1 },
+  { q: 'MAC flooding countermeasure?', choices: ['DAI', 'Port security', 'DHCP snooping', 'DNSSEC'], correct: 1 },
+  { q: 'ARP poisoning targets?', choices: ['Switch CAM', 'IP-to-MAC bindings', 'DNS cache', 'WiFi auth'], correct: 1 },
+  { q: 'ARP poisoning countermeasure?', choices: ['Port security', 'Dynamic ARP Inspection', 'DNSSEC', 'TLS'], correct: 1 },
+  { q: 'VLAN hopping via?', choices: ['ARP forge', 'Double tag or DTP switch spoof', 'DNS reply', 'Phish'], correct: 1 },
+  { q: 'VLAN hopping mitigation?', choices: ['Enable DTP', 'Disable DTP, change native VLAN', 'Allow all VLANs', 'STP'], correct: 1 },
+  { q: 'Rogue DHCP gives clients?', choices: ['Right gateway', 'Attacker gateway/DNS', 'Random IPs', 'Nothing'], correct: 1 },
+  { q: 'Rogue DHCP countermeasure?', choices: ['STP root guard', 'DHCP snooping with trusted ports', 'DAI alone', 'NAT'], correct: 1 },
+  { q: 'DNS poisoning effect?', choices: ['Server crash', 'Wrong IP returned', 'Slow Wi-Fi', 'High CPU'], correct: 1 },
+  { q: 'DNS poisoning countermeasure?', choices: ['DNSSEC', 'Telnet', 'ARP', 'STP'], correct: 0 },
+  { q: 'DoS vs DDoS?', choices: ['Same', 'DDoS uses many sources', 'DDoS is slower', 'DoS uses many sources'], correct: 1 },
+  { q: 'Amplification spoofs?', choices: ['No IP', 'Victim IP as source', 'Random IPs', 'Resolver IP'], correct: 1 },
+  { q: 'Amplification leverages?', choices: ['DNS, NTP, memcached responses', 'TCP SYN', 'TLS', 'DHCP'], correct: 0 },
+  { q: 'Asymmetric threat means?', choices: ['Equal resources', 'Small attacker, big victim', 'Two attackers', 'Symmetric routing'], correct: 1 },
+  { q: 'DDoS scrubbing service does?', choices: ['Encrypts', 'Filters attack traffic upstream', 'Routes BGP', 'Caches DNS'], correct: 1 },
+  { q: 'On-path attack = ?', choices: ['Side channel', 'MITM (renamed)', 'DDoS', 'Phish'], correct: 1 },
+  { q: 'On-path defense?', choices: ['HTTP', 'TLS + cert validation, HSTS', 'Telnet', 'No defense'], correct: 1 },
+  { q: 'Rogue AP is?', choices: ['Required AP', 'Unauthorized AP on network', 'Encrypted AP', 'Cloud AP'], correct: 1 },
+  { q: 'Evil twin is?', choices: ['Just rogue AP', 'Rogue AP with same SSID as real', 'Backup AP', 'Mesh node'], correct: 1 },
+  { q: 'Evil twin defense?', choices: ['WPA3-Enterprise + 802.1X', 'Open Wi-Fi', 'Telnet', 'STP'], correct: 0 },
+  { q: 'Phishing is?', choices: ['Physical attack', 'Mass email impersonation', 'DDoS', 'Wi-Fi attack'], correct: 1 },
+  { q: 'Spear phishing differs how?', choices: ['Random', 'Targeted and personalized', 'Broadcasted', 'No content'], correct: 1 },
+  { q: 'Whaling targets?', choices: ['Random users', 'Executives', 'Servers', 'Wi-Fi'], correct: 1 },
+  { q: 'Dumpster diving is?', choices: ['Cloud attack', 'Trash for sensitive info', 'Wi-Fi survey', 'Phish'], correct: 1 },
+  { q: 'Shoulder surfing is?', choices: ['Wi-Fi crack', 'Visual eavesdropping', 'DDoS', 'Phish'], correct: 1 },
+  { q: 'Tailgating is also called?', choices: ['Pivoting', 'Piggybacking', 'War walking', 'Spraying'], correct: 1 },
+  { q: 'Tailgating defense?', choices: ['Faster doors', 'Mantraps and awareness', 'Cameras only', 'Wi-Fi'], correct: 1 },
+  { q: 'Pharming redirects via?', choices: ['Email link', 'DNS or HOSTS file', 'ARP', 'STP'], correct: 1 },
+  { q: 'Typosquatting needs?', choices: ['Correct URL', 'User mistypes URL', 'Hacked DNS', 'Wi-Fi'], correct: 1 },
+  { q: 'Pharming vs typosquatting?', choices: ['Same', 'Pharming: right URL, wrong site. Typo: wrong URL', 'Both need typo', 'Both need correct URL'], correct: 1 },
+  { q: 'Phishing primary defense?', choices: ['Telnet', 'SPF/DKIM/DMARC + training + MFA', 'STP', 'No defense'], correct: 1 },
+  { q: 'MFA helps against phishing because?', choices: ['Blocks email', 'Password alone is not enough', 'Disables mail', 'Encrypts file'], correct: 1 },
+  { q: 'SPF/DKIM/DMARC defend?', choices: ['VLANs', 'Email spoofing', 'Wi-Fi', 'DDoS'], correct: 1 },
+  { q: 'WIDS / WIPS detect?', choices: ['CAM overflow', 'Rogue/evil-twin APs', 'DDoS', 'Phish'], correct: 1 },
+  { q: 'BCP38 prevents?', choices: ['CAM overflow', 'Source IP spoofing at ISP', 'Phish', 'ARP poison'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
