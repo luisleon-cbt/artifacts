@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.1 Organizational Processes &amp; Procedures · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 22%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; }
+
+  /* ============== TAB 2 · CHANGE MANAGEMENT SIMULATOR ============== */
+  .sim-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+
+  .ticket-card { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 16px 22px; margin-bottom: 18px; }
+  .ticket-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .ticket-id { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .ticket-status { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: white; color: var(--navy-deep); letter-spacing: 0.08em; border: 1px solid var(--line-soft); }
+  .ticket-title { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .ticket-desc { font-size: 14px; color: var(--ink); margin: 0; }
+
+  .scenario-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .scenario-btn { background: white; border: 2px solid var(--line-soft); padding: 12px 14px; cursor: pointer; text-align: left; font-family: var(--ff-body); transition: all 0.15s; }
+  .scenario-btn:hover { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario-btn.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .scenario-btn .stitle { font-family: var(--ff-display); font-weight: 700; font-size: 14px; color: var(--navy-deep); }
+  .scenario-btn.active .stitle { color: var(--gold); }
+  .scenario-btn .sdesc { font-size: 12px; color: var(--ink-mute); margin-top: 4px; }
+  .scenario-btn.active .sdesc { color: var(--gray-soft); }
+
+  .step-timeline { display: flex; gap: 4px; margin: 18px 0; }
+  .step-pill { flex: 1; background: var(--bg-warm); padding: 8px 6px; text-align: center; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; border: 1px solid var(--line-soft); position: relative; }
+  .step-pill.done { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  .step-pill.current { background: var(--navy-deep); color: var(--gold); border-color: var(--gold); }
+  .step-pill.fail { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+  .step-pill .num { display: block; font-size: 14px; font-family: var(--ff-display); font-weight: 800; }
+
+  .step-area { background: var(--surface); border: 2px solid var(--navy-deep); padding: 22px 26px; min-height: 240px; }
+  .step-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+  .step-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .step-title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .step-prompt { font-size: 15px; line-height: 1.55; color: var(--ink); margin: 0 0 16px; }
+  .step-prompt b { color: var(--navy-deep); }
+  .step-prompt code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .step-choices { display: grid; gap: 10px; }
+  .step-choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 13px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; line-height: 1.4; }
+  .step-choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .step-choice.locked { cursor: default; }
+  .step-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .step-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .step-choice b { color: var(--navy-deep); font-family: var(--ff-mono); margin-right: 6px; }
+  .step-choice.correct b { color: var(--green); }
+  .step-choice.wrong b { color: var(--red); }
+
+  .step-feedback { margin-top: 14px; padding: 14px 18px; font-size: 14px; line-height: 1.55; }
+  .step-feedback.ok { background: var(--green-bg); border-left: 3px solid var(--green); color: var(--ink); }
+  .step-feedback.bad { background: var(--red-bg); border-left: 3px solid var(--red); color: var(--ink); }
+  .step-feedback b { color: var(--navy-deep); }
+
+  .sim-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-primary:disabled { background: var(--gray); cursor: not-allowed; opacity: 0.6; }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+
+  .sim-summary { margin-top: 18px; padding: 18px 24px; }
+  .sim-summary.success { background: var(--green-bg); border-left: 4px solid var(--green); }
+  .sim-summary.partial { background: rgba(224,184,64,0.20); border-left: 4px solid var(--gold); }
+  .sim-summary.fail { background: var(--red-bg); border-left: 4px solid var(--red); }
+  .sim-summary .stitle { font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 6px; }
+  .sim-summary.success .stitle { color: var(--green); }
+  .sim-summary.partial .stitle { color: var(--gold-deep); }
+  .sim-summary.fail .stitle { color: var(--red); }
+  .sim-summary p { margin: 0 0 4px; font-size: 14px; color: var(--ink); }
+  .sim-summary p b { color: var(--navy-deep); }
+
+  /* ============== TAB 3 · DOCUMENTATION MATCHER ============== */
+  .matcher-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .matcher-intro { font-size: 14px; color: var(--ink-mid); margin-bottom: 18px; }
+  .matcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .match-card { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 16px 22px; }
+  .match-scenario { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px; }
+  .match-context { font-size: 13px; color: var(--ink-mid); margin-bottom: 12px; line-height: 1.5; }
+  .match-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .match-doc { background: white; border: 1.5px solid var(--line-soft); padding: 10px 12px; cursor: pointer; font-family: var(--ff-body); font-size: 13px; color: var(--ink); transition: all 0.15s; text-align: left; }
+  .match-doc:hover:not(.locked) { background: var(--bg); border-color: var(--navy-deep); }
+  .match-doc.locked { cursor: default; }
+  .match-doc.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .match-doc.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .match-explain { display: none; margin-top: 10px; padding: 10px 14px; background: white; border-left: 3px solid var(--sky); font-size: 12.5px; line-height: 1.5; color: var(--ink); }
+  .match-explain.show { display: block; }
+  .match-explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .scenario-picker { grid-template-columns: 1fr; }
+    .step-timeline { flex-wrap: wrap; }
+    .step-pill { flex: 1 1 30%; }
+    .matcher-grid { grid-template-columns: 1fr; }
+    .match-choices { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.1 Organizational Processes</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 3.1 · Organizational Processes &amp; Procedures</div>
+    <h1>The paper trail <em>that keeps networks running.</em></h1>
+    <p class="lede">Networks don't just run on cables — they run on documentation, change control, and life-cycle discipline. This artifact teaches the documents you need (physical/logical diagrams, rack diagrams, IPAM, SLAs, heat maps, asset inventory), the life-cycle phases (EOL, EOS, decommissioning), and the change management workflow that prevents the most common kind of network outage: someone changing something without thinking it through.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">Physical Dx</span><span class="desc">What it looks like — cables, racks, ports</span></div>
+    <div class="ref-row"><span class="name">Logical Dx</span><span class="desc">How it flows — VLANs, IPs, subnets, routing</span></div>
+    <div class="ref-row"><span class="name">Rack Dx</span><span class="desc">Front view of rack — U positions, equipment</span></div>
+    <div class="ref-row"><span class="name">IPAM</span><span class="desc">IP Address Management — track every assignment</span></div>
+    <div class="ref-row"><span class="name">SLA</span><span class="desc">Service-Level Agreement — uptime guarantee</span></div>
+    <div class="ref-row"><span class="name">EOL</span><span class="desc">End-of-Life — no more sales</span></div>
+    <div class="ref-row"><span class="name">EOS</span><span class="desc">End-of-Support — no more patches, replace now</span></div>
+    <div class="ref-row"><span class="name">Golden Cfg</span><span class="desc">Approved baseline configuration template</span></div>
+    <div class="footer-note">
+      <b>CHANGE TYPES</b><br>
+      Standard = pre-approved repeatable.<br>
+      Normal = full CAB review needed.<br>
+      Emergency = act now, review after.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">Change types · Standard · Normal · Emergency</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Change workflow scenarios</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="sim"><span class="num">02</span>Change Mgmt Simulator</button>
+  <button class="tab" data-tab="docs"><span class="num">03</span>Documentation Matcher</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Process Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Domain 3.1 covers four interrelated topics: <b>documentation</b> (what records you maintain so someone else can understand and operate your network), <b>life-cycle management</b> (when to retire hardware and software), <b>change management</b> (how you make modifications without causing outages), and <b>configuration management</b> (how you track and restore device configurations). Get any of these wrong and you'll spend the rest of your career fighting fires.</p>
+
+  <div class="section-head">Documentation — The Records You Keep</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PHYSICAL DIAGRAM</div>
+      <h4>What it looks like</h4>
+      <p>Shows the <b>physical reality</b>: cabinets, racks, cables, switches, server locations, room layout. Used by technicians who need to find or troubleshoot equipment.</p>
+      <p><span class="accent">USE WHEN:</span> Tracing a bad cable, planning a hardware install, replacing equipment.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LOGICAL DIAGRAM</div>
+      <h4>How traffic flows</h4>
+      <p>Shows the <b>logical structure</b>: VLANs, IP subnets, routing relationships, security zones. Abstracts away physical layout to show how data moves.</p>
+      <p><span class="accent">USE WHEN:</span> Designing changes, troubleshooting routing, security audits.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LAYER 1 / 2 / 3 DIAGRAMS</div>
+      <h4>Layered network views</h4>
+      <p><b>Layer 1:</b> cables, ports, patch panels.<br>
+      <b>Layer 2:</b> switches, VLANs, MAC tables, STP.<br>
+      <b>Layer 3:</b> routers, IPs, subnets, routes. Separating layers keeps each diagram readable.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RACK DIAGRAM</div>
+      <h4>What's in each rack</h4>
+      <p>Front view of a rack showing U-by-U what equipment is mounted. Helps with capacity planning, equipment installation, and finding a specific device in a noisy data center.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CABLE MAP</div>
+      <h4>Cable inventory</h4>
+      <p>Records which patch panel port connects to which switch port and ultimately to which wall jack. Without it, tracing a cable means walking the building.</p>
+      <p><span class="accent">USE WHEN:</span> Adding new devices, troubleshooting outages, moves/adds/changes (MAC work).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">IPAM</div>
+      <h4>IP Address Management</h4>
+      <p>Tracks every IP allocation: who has what, when it was assigned, which subnet it lives in. Modern IPAM tools (Infoblox, phpIPAM, NetBox) integrate with DHCP and DNS.</p>
+      <p><span class="accent">USE WHEN:</span> Allocating new IPs, troubleshooting duplicate addresses, audit reports.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ASSET INVENTORY</div>
+      <h4>What you own and when it dies</h4>
+      <p>Database of all hardware/software with serial numbers, warranty dates, licenses, purchase dates, and lifecycle status. Critical for budget planning and audit compliance.</p>
+      <p><span class="accent">TRACK:</span> Hardware, software licenses, warranty support, location.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SLA</div>
+      <h4>Service-Level Agreement</h4>
+      <p>Contractual commitment between IT and customers (internal or external) about service availability and performance — e.g., "99.9% uptime, 4-hour response time."</p>
+      <p><span class="accent">METRICS:</span> Uptime %, response time, MTTR, hours of support coverage.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">WIRELESS HEAT MAP</div>
+      <h4>Wi-Fi coverage visualization</h4>
+      <p>Color-coded floor plan showing signal strength across the building. Produced by site survey tools (Ekahau, NetSpot). Shows weak spots, overlap zones, interference.</p>
+      <p><span class="accent">USE WHEN:</span> Planning AP placement, troubleshooting Wi-Fi complaints, validating coverage.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NETWORK DIAGRAM</div>
+      <h4>The big picture</h4>
+      <p>High-level overview of how sites, networks, and major systems interconnect. Often shown to executives. Less detail than Layer 1-3 diagrams but easier to absorb at a glance.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Life-Cycle Management — When Things Die</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Phase</th><th>What it means</th><th>What to do</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">Active</td>
+        <td>Vendor sells it. Full feature development and support.</td>
+        <td>Normal patching and operation.</td>
+      </tr>
+      <tr>
+        <td class="label">End-of-Sale</td>
+        <td>Vendor stops selling new units. Still supported.</td>
+        <td>Plan replacement procurement before EOS.</td>
+      </tr>
+      <tr>
+        <td class="label">End-of-Life (EOL)</td>
+        <td>Vendor stops feature development. Still releases critical security patches.</td>
+        <td>Begin replacement planning. New deployments must use successor product.</td>
+      </tr>
+      <tr>
+        <td class="label">End-of-Support (EOS)</td>
+        <td>Vendor stops ALL patches, including security. Hardware fails = total loss.</td>
+        <td>MUST be replaced before this date. Operating EOS gear is a security/compliance violation.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SOFTWARE MANAGEMENT</div>
+      <h4>Patches, OS, firmware</h4>
+      <p>Three types of software updates: <b>patches</b> (security and bug fixes), <b>OS upgrades</b> (major version jumps), <b>firmware</b> (low-level device software). All three follow a test → schedule → deploy → verify cycle.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DECOMMISSIONING</div>
+      <h4>Retiring equipment safely</h4>
+      <p>Removing equipment from service requires: (1) back up configs, (2) document what it did, (3) reassign or wipe data, (4) remove from monitoring/IPAM/asset inventory, (5) physically secure or destroy media before disposal.</p>
+      <p><span class="accent">SECURITY:</span> Drives must be wiped or destroyed before disposal — old configs and data can include passwords, SSH keys, customer data.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Change Management — Don't Break the Network</div>
+  <p>Change management exists because the most common cause of network outages isn't hardware failure or attacks — it's <b>human error during planned changes</b>. The change management process forces planning, peer review, scheduling, and verification.</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Change type</th><th>Risk level</th><th>Approval</th><th>Examples</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">Standard</td>
+        <td class="num">LOW</td>
+        <td>Pre-approved (no CAB review)</td>
+        <td>Failed switch replacement (same model), routine patches, new user setup, password reset.</td>
+      </tr>
+      <tr>
+        <td class="label">Normal</td>
+        <td class="num">MEDIUM</td>
+        <td>Full CAB review</td>
+        <td>VLAN migration, firewall rule changes, OS upgrades, new deployments.</td>
+      </tr>
+      <tr>
+        <td class="label">Emergency</td>
+        <td class="num">HIGH</td>
+        <td>Expedited; post-implementation review</td>
+        <td>Production outage requiring immediate action, security incident response.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">RFC</div>
+      <h4>Request For Change</h4>
+      <p>The formal ticket initiating a change. Contains: <b>what</b> is being changed, <b>why</b>, <b>when</b>, <b>impact</b>, <b>rollback plan</b>, and who is responsible.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CAB</div>
+      <h4>Change Advisory Board</h4>
+      <p>Cross-functional group that reviews and approves normal changes. Typically includes network, security, ops, application owners, and a business stakeholder.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ROLLBACK PLAN</div>
+      <h4>How you undo it</h4>
+      <p>Step-by-step recipe to revert the change if it fails. Should be tested in staging, not improvised at 3am during the change window. Required field on every RFC.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">MAINTENANCE WINDOW</div>
+      <h4>When changes happen</h4>
+      <p>Pre-scheduled period (typically late nights or weekends) when changes are allowed and users expect possible disruption. Outside the window: emergencies only.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">POST-IMPLEMENTATION REVIEW</div>
+      <h4>Did it work?</h4>
+      <p>After every change: verify success, check monitoring, document what happened. For emergency changes, this is where the full review happens (since it was skipped before implementation).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SERVICE REQUEST</div>
+      <h4>Not a change</h4>
+      <p>Routine user-facing tasks (account creation, software install, password reset) — handled through a service request workflow, not change management. Lower overhead, faster turnaround.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Configuration Management — Tracking What's Running</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">PRODUCTION CONFIG</div>
+      <h4>What's running right now</h4>
+      <p>The live configuration on the device. Should always match what's documented and approved. Drift between production and documentation is the #1 source of "it used to work" mysteries.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BACKUP CONFIG</div>
+      <h4>A copy you can restore</h4>
+      <p>Saved configuration that can be loaded onto replacement hardware or used to restore after a failed change. Best practice: <b>automated nightly backups</b> to a config repository with version history.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BASELINE / GOLDEN CONFIG</div>
+      <h4>The approved starting point</h4>
+      <p>Standardized configuration template applied to all devices of a given type (e.g., all access switches start from one golden config). Ensures consistency across the fleet.</p>
+      <p><span class="accent">TOOLS:</span> Ansible, Cisco DNAC, Nornir, Git-based config repos.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">VERSION CONTROL</div>
+      <h4>What changed and when</h4>
+      <p>Storing configs in Git or a similar system gives you per-line diffs of what changed, who changed it, and the ability to roll back to any previous version. Essential for compliance audits.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>Physical diagram vs logical diagram.</b> Physical = what it looks like (cables, racks). Logical = how it flows (VLANs, subnets, routes). Don't confuse them.</li>
+    <li><b>EOL vs EOS — different dates.</b> End-of-Life means feature dev stops; the product still gets security patches. End-of-Support means ALL updates stop — replace by this date or you're running unpatched gear.</li>
+    <li><b>"Standard" change is NOT the default.</b> Standard means pre-approved repeatable. Most non-trivial changes are "normal" requiring full CAB review.</li>
+    <li><b>Emergency changes still get reviewed — just AFTER.</b> Skipping the post-implementation review is the same as skipping the CAB review in non-emergency cases.</li>
+    <li><b>Rollback plan is a required field on RFCs.</b> "We'll figure it out" is not a rollback plan.</li>
+    <li><b>Golden config = template, not a backup.</b> Golden is your approved starting point; backup is a copy of the live running config.</li>
+    <li><b>IPAM ≠ DHCP.</b> DHCP hands out addresses dynamically. IPAM tracks all assignments (static and dynamic) for the entire network.</li>
+    <li><b>Decommissioning includes data destruction.</b> Old configs may contain passwords, SSH keys, customer data — wipe or destroy media before disposal.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · CHANGE MANAGEMENT SIMULATOR ============== -->
+<section class="panel" id="panel-sim">
+  <h2>Walk a change <em>through the pipeline.</em></h2>
+  <p>Pick a scenario below. Each one walks through five stages: <b>Categorize → Document → Approve → Implement → Verify</b>. At each step you make a decision; wrong choices show realistic consequences. The goal is to internalize <b>which steps each change type needs</b> and <b>why skipping any one of them tends to cause outages</b>.</p>
+
+  <div class="sim-wrap">
+    <div class="scenario-picker" id="scenarioPicker">
+      <!-- scenario buttons rendered by JS -->
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-head">
+        <span class="ticket-id" id="ticketId">RFC-2026-0001</span>
+        <span class="ticket-status" id="ticketStatus">Awaiting categorization</span>
+      </div>
+      <div class="ticket-title" id="ticketTitle">Select a scenario above to begin</div>
+      <div class="ticket-desc" id="ticketDesc">Each scenario walks through the change management pipeline. Choose carefully — wrong choices have consequences.</div>
+    </div>
+
+    <div class="step-timeline" id="stepTimeline">
+      <div class="step-pill" data-step="0"><span class="num">1</span>Categorize</div>
+      <div class="step-pill" data-step="1"><span class="num">2</span>Document</div>
+      <div class="step-pill" data-step="2"><span class="num">3</span>Approve</div>
+      <div class="step-pill" data-step="3"><span class="num">4</span>Implement</div>
+      <div class="step-pill" data-step="4"><span class="num">5</span>Verify</div>
+    </div>
+
+    <div class="step-area" id="stepArea">
+      <div style="text-align: center; color: var(--ink-mute); padding: 60px 20px; font-family: var(--ff-mono); font-size: 13px;">
+        Select a scenario above to begin.
+      </div>
+    </div>
+
+    <div class="sim-controls" id="simControls" style="display: none;">
+      <button class="btn-secondary" onclick="resetSim()">Restart scenario</button>
+      <button class="btn-primary" id="nextStepBtn" onclick="advanceStep()" style="display: none;">Next step →</button>
+    </div>
+
+    <div id="simSummary"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>Categorization matters.</b> The three change types (Standard / Normal / Emergency) drive every later decision. Misclassifying a normal change as standard bypasses CAB review — and frequently causes outages.</li>
+    <li><b>Documentation is not paperwork — it's insurance.</b> A rollback plan you wrote at 2pm is much more useful than the one you try to write at 3am after the change failed.</li>
+    <li><b>Maintenance windows exist for a reason.</b> Implementing changes during business hours guarantees that any failure affects users immediately and visibly.</li>
+    <li><b>Verification is when you find out it worked.</b> "Looks fine to me" is not verification. Check monitoring, test the impacted service, confirm the rollback plan is still ready.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · DOCUMENTATION MATCHER ============== -->
+<section class="panel" id="panel-docs">
+  <h2>Pick the <em>right document</em> for the situation.</h2>
+  <p>Each situation below describes a problem or task. Pick the documentation type that most directly helps. There's usually one obviously-correct answer plus one or two plausible distractors. Click your choice to lock it in and see why.</p>
+
+  <div class="matcher-wrap">
+    <div class="matcher-grid" id="matcherGrid">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Process <em>scenarios.</em></h2>
+  <p>Six scenarios mixing change management decisions, life-cycle calls, configuration management dilemmas, and documentation questions. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 3.1: documentation types, life-cycle phases, change management workflow, and configuration management.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire process and procedure questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 3.1: Organizational Processes &amp; Procedures. Covers all required documentation (physical, logical, rack, cable, IPAM, SLA, heat map, asset inventory), life-cycle management (EOL, EOS, decommissioning), change management (standard / normal / emergency), and configuration management (production, backup, golden).</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 3 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Walk a change through the Change Management Simulator.</p>
+      <p>· Match documents to situations in the Documentation Matcher.</p>
+      <p>· Test yourself in Process Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 3.1 quiz in Canvas, and Domain 2 prerequisite artifacts. Real-world skills here transfer directly to ITIL, ISO 20000, and IT operations roles.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 3.1 · Organizational Processes &amp; Procedures</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · CHANGE MANAGEMENT SIMULATOR ============== */
+/*
+The simulator has 6 scenarios, each tagged with the correct change type.
+Each scenario walks 5 steps: Categorize → Document → Approve → Implement → Verify.
+At each step the student picks from choices; wrong choices lose points (or trigger
+"consequences" branches) but the simulator still advances so they see the full flow.
+The summary tracks correct decisions out of 5.
+*/
+
+var SIM_SCENARIOS = [
+  {
+    id: 'switch-replace',
+    title: 'Replace failed access switch with identical spare',
+    desc: 'A 48-port access switch in IDF-3 died overnight. You have an identical spare on the shelf already imaged with the golden config. Users come back online in the morning.',
+    correctType: 'standard',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — pre-approved swap of identical hardware with no config change',
+        feedback_ok: '<b>Correct.</b> Replacing failed equipment with an identical spare using the golden config is a textbook standard change. It\'s pre-approved, repeatable, and low-risk.' },
+      { type: 'normal', text: 'Normal change — schedule for next CAB meeting',
+        feedback_bad: '<b>Overcautious.</b> Standard pre-approved swaps don\'t need CAB review. If you wait for the next CAB meeting, your users sit without network access for a day.' },
+      { type: 'emergency', text: 'Emergency change — this is a production outage',
+        feedback_bad: '<b>Wrong category.</b> The outage IS happening, but the swap is a routine standard change. Emergency changes are reserved for cases where the standard process can\'t handle the situation — e.g., the spare isn\'t available, or the procedure isn\'t pre-approved.' }
+    ]
+  },
+  {
+    id: 'vlan-migrate',
+    title: 'Migrate Finance department to a new VLAN',
+    desc: 'Security wants Finance separated into its own VLAN with restricted ACLs. Affects 35 users across 2 floors. New VLAN, new subnet, new firewall rules.',
+    correctType: 'normal',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — VLAN changes are routine',
+        feedback_bad: '<b>Wrong.</b> "Routine" doesn\'t mean "standard" in change management terms. Standard changes are <em>pre-approved, repeatable, low-risk</em>. A new VLAN, new subnet, and firewall rule changes affecting 35 users in two locations is none of those.' },
+      { type: 'normal', text: 'Normal change — full CAB review, risk assessment, maintenance window',
+        feedback_ok: '<b>Correct.</b> Significant scope (35 users), multiple systems touched (VLAN, subnet, firewall), and the potential for productivity loss if it fails — this needs full change management.' },
+      { type: 'emergency', text: 'Emergency change — security wants it ASAP',
+        feedback_bad: '<b>Wrong.</b> "ASAP" isn\'t emergency. Emergency means the network is broken NOW or a security incident is in progress. Security wanting a routine improvement doesn\'t bypass the CAB process — they sit on the CAB and approve it like normal.' }
+    ]
+  },
+  {
+    id: 'c2-block',
+    title: 'Block outbound traffic to a C2 server during active malware incident',
+    desc: 'SOC detects a workstation beaconing to a known malware command-and-control IP. They need the firewall to block 198.51.100.42 outbound immediately.',
+    correctType: 'emergency',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — firewall rule additions are routine',
+        feedback_bad: '<b>Wrong.</b> Active incident. There\'s no time for "routine." The longer this beacon runs, the more damage the attacker can do.' },
+      { type: 'normal', text: 'Normal change — wait for next maintenance window',
+        feedback_bad: '<b>Catastrophic.</b> By the next maintenance window the attacker has potentially exfiltrated data, moved laterally, and detonated payload. Active security incidents demand immediate action.' },
+      { type: 'emergency', text: 'Emergency change — implement now, full review after',
+        feedback_ok: '<b>Correct.</b> Active security incident requiring immediate containment. The change is implemented now and reviewed in the post-incident analysis.' }
+    ]
+  },
+  {
+    id: 'conf-room',
+    title: 'Add 10 new wall jacks for new conference room',
+    desc: 'Facilities is finishing construction on a new conference room. You need to add 10 Cat 6a wall jacks back to IDF-2, terminate them at a patch panel, and configure 10 access ports for the conference VLAN.',
+    correctType: 'normal',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — port configurations are pre-approved',
+        feedback_bad: '<b>Partial.</b> Port configs alone might be standard — but this also involves physical cable installation, patch panel work, and coordination with facilities. The cable plant change makes it a normal change.' },
+      { type: 'normal', text: 'Normal change — physical installation plus configuration plus coordination',
+        feedback_ok: '<b>Correct.</b> New physical infrastructure (jacks, cable runs, patch panel) combined with configuration changes and facilities coordination. Plenty of room for unforeseen issues — full process applies.' },
+      { type: 'emergency', text: 'Emergency change — construction is finishing this week',
+        feedback_bad: '<b>Wrong.</b> "Deadline pressure" isn\'t emergency. Plan ahead next time. If the construction schedule is too tight to allow normal CAB process, escalate as a planning failure, not an emergency.' }
+    ]
+  },
+  {
+    id: 'router-patch',
+    title: 'Patch core routers with vendor security update for CVE-2026-1234',
+    desc: 'Vendor released a critical patch for a known exploited vulnerability in the routing OS. Reboots required. You have 2 redundant core routers. Patch one at a time.',
+    correctType: 'normal',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — patches are routine',
+        feedback_bad: '<b>Wrong.</b> Each patch carries unique risk: it might break features your config depends on. The reboot itself causes a brief failover. Core router changes are never "standard" — they need CAB review.' },
+      { type: 'normal', text: 'Normal change — test in staging, schedule maintenance window, CAB review',
+        feedback_ok: '<b>Correct.</b> Critical infrastructure, code change, reboot required. Test the patch in staging first, schedule a maintenance window, and bring it to CAB.' },
+      { type: 'emergency', text: 'Emergency change — vendor says critical',
+        feedback_bad: '<b>Wrong context.</b> Vendor advisories give you time to plan. Emergency change is for active exploitation, not "we should patch eventually." A critical CVE warrants prioritization but still goes through normal review — just expedited.' }
+    ]
+  },
+  {
+    id: 'router-reboot',
+    title: 'Reboot crashed core router at 2am to restore production',
+    desc: 'Pager goes off: core router CR-01 is unresponsive but its redundant partner CR-02 is carrying load. To restore HA, you need to reboot CR-01 immediately or risk total outage if CR-02 also fails.',
+    correctType: 'emergency',
+    choices_categorize: [
+      { type: 'standard', text: 'Standard change — router reboots are routine',
+        feedback_bad: '<b>Wrong.</b> The router is crashed in production at 2am. There\'s no time for standard process; the standby is the only thing holding production up.' },
+      { type: 'normal', text: 'Normal change — schedule for next maintenance window',
+        feedback_bad: '<b>Wrong.</b> You\'re running on a single core router. If CR-02 fails before the next maintenance window, the entire network goes dark. This is the textbook case for emergency change.' },
+      { type: 'emergency', text: 'Emergency change — act now to restore HA, review after',
+        feedback_ok: '<b>Correct.</b> Production HA is degraded; the longer you wait, the higher the risk of total outage. Reboot CR-01 now, document during, and do post-implementation review later.' }
+    ]
+  }
+];
+
+// Step 2-5 prompts vary based on which change type was selected
+function getStepContent(simState) {
+  var step = simState.currentStep;
+  var type = simState.changeType;
+  var s = simState.scenario;
+
+  if (step === 1) {
+    // DOCUMENT step
+    return {
+      label: 'STEP 2 OF 5 · DOCUMENT',
+      title: 'What goes into the RFC?',
+      prompt: 'You\'re creating the Request for Change ticket for this ' + type.toUpperCase() + ' change. Which set of fields MUST be included?',
+      choices: [
+        { ok: false, text: '<b>A.</b> Just the description of what you\'re doing — anything else is overhead.',
+          feedback_bad: '<b>Insufficient.</b> Without impact analysis and rollback plan, the next person who has to debug this has no context. Bad documentation is the #1 cause of "why did we do this?" three months later.' },
+        { ok: true, text: '<b>B.</b> What, why, when, impact analysis, rollback plan, and responsible party.',
+          feedback_ok: '<b>Correct.</b> These are the core RFC fields. Even for emergency changes (where you might fill them in retrospectively), every change needs at minimum: WHAT was changed, WHY, the IMPACT it had, and the ROLLBACK plan if it had failed.' },
+        { ok: false, text: '<b>C.</b> Just the technical commands you\'ll run.',
+          feedback_bad: '<b>Technical-only docs miss the point.</b> Future you (or your replacement) needs to understand the BUSINESS reason for the change to make smart decisions later. "ip route add ..." doesn\'t explain why.' }
+      ]
+    };
+  }
+
+  if (step === 2) {
+    // APPROVE step — varies by change type
+    if (type === 'standard') {
+      return {
+        label: 'STEP 3 OF 5 · APPROVE',
+        title: 'Who approves a standard change?',
+        prompt: 'This is a standard change. What approval is required before implementation?',
+        choices: [
+          { ok: true, text: '<b>A.</b> No CAB review — standard changes are pre-approved by definition. Logged for audit only.',
+            feedback_ok: '<b>Correct.</b> Standard changes don\'t need CAB review on each occurrence — the change TYPE was pre-approved when it was first defined as standard. Each instance is logged so there\'s an audit trail.' },
+          { ok: false, text: '<b>B.</b> Full CAB review with risk assessment and stakeholder sign-off.',
+            feedback_bad: '<b>Overkill.</b> CAB review for every failed-spare swap would grind operations to a halt. The standard-change designation exists precisely to skip CAB on truly routine, low-risk work.' },
+          { ok: false, text: '<b>C.</b> Manager approval but no CAB review.',
+            feedback_bad: '<b>Wrong process.</b> Standard changes are pre-approved — you don\'t need management sign-off either. If your org requires this, the change isn\'t truly "standard" in the formal sense.' }
+        ]
+      };
+    } else if (type === 'normal') {
+      return {
+        label: 'STEP 3 OF 5 · APPROVE',
+        title: 'Who approves a normal change?',
+        prompt: 'This is a normal change. What approval process applies?',
+        choices: [
+          { ok: false, text: '<b>A.</b> Implement now — you\'ll write up the change ticket after.',
+            feedback_bad: '<b>Process violation.</b> Implementing before approval defeats the entire purpose of change management. Even if it works, you bypass risk review and create a precedent that others will follow.' },
+          { ok: true, text: '<b>B.</b> Submit RFC to CAB, get peer review, risk assessment, and CAB approval before implementing.',
+            feedback_ok: '<b>Correct.</b> Normal changes go through full CAB review. The CAB checks for conflicts with other planned changes, validates the rollback plan, and gives stakeholders a chance to flag concerns.' },
+          { ok: false, text: '<b>C.</b> Email your manager and start when they reply.',
+            feedback_bad: '<b>Insufficient.</b> Single-person approval misses the cross-functional review CAB provides. Security might flag a risk your manager wouldn\'t see; another team might be planning a conflicting change.' }
+        ]
+      };
+    } else { // emergency
+      return {
+        label: 'STEP 3 OF 5 · APPROVE',
+        title: 'How do emergency changes get authorized?',
+        prompt: 'This is an emergency change. What approval is needed before you can act?',
+        choices: [
+          { ok: false, text: '<b>A.</b> Wait for the regular CAB meeting tomorrow.',
+            feedback_bad: '<b>Defeats the purpose.</b> Emergency means the regular CAB process is too slow. Waiting until tomorrow lets the active problem cause more damage.' },
+          { ok: true, text: '<b>B.</b> Get verbal/written authorization from on-call manager or emergency CAB rep, then act. Full review post-implementation.',
+            feedback_ok: '<b>Correct.</b> Emergency changes still need authorization — just expedited. A designated emergency approver (often on-call ops manager or security lead) signs off, you act, then the full review happens afterward.' },
+          { ok: false, text: '<b>C.</b> Just act — emergencies skip all approval.',
+            feedback_bad: '<b>Wrong.</b> Emergency changes still need SOME authorization to prevent rogue action and ensure traceability. "Just acting" is how you end up explaining to leadership why you cut off internet access at 4am.' }
+        ]
+      };
+    }
+  }
+
+  if (step === 3) {
+    // IMPLEMENT step
+    return {
+      label: 'STEP 4 OF 5 · IMPLEMENT',
+      title: 'How and when do you make the change?',
+      prompt: 'You\'re ready to execute. Pick the right implementation approach for a ' + type.toUpperCase() + ' change.',
+      choices: type === 'emergency' ? [
+        { ok: true, text: '<b>A.</b> Implement immediately. Have a colleague observe if possible. Document every step taken as you take it.',
+          feedback_ok: '<b>Correct.</b> Emergencies don\'t wait for maintenance windows by definition. Having a second person observe catches mistakes, and real-time documentation captures details you\'ll forget later.' },
+        { ok: false, text: '<b>B.</b> Wait for the next maintenance window — even emergencies should follow the schedule.',
+          feedback_bad: '<b>Wrong.</b> If you can wait for a maintenance window, it wasn\'t an emergency. The categorization was incorrect.' },
+        { ok: false, text: '<b>C.</b> Implement immediately but don\'t document until tomorrow.',
+          feedback_bad: '<b>Bad practice.</b> Documenting after the fact loses critical detail. "Tomorrow" often becomes "never." Even for emergencies, capture timestamps and commands as you go.' }
+      ] : [
+        { ok: false, text: '<b>A.</b> Implement during business hours — easier to communicate with users if something goes wrong.',
+          feedback_bad: '<b>Wrong.</b> Implementing during business hours guarantees that any failure affects users immediately and visibly. The point of maintenance windows is to fail safely.' },
+        { ok: true, text: '<b>B.</b> Implement during the scheduled maintenance window. Have rollback plan ready. Have someone on standby.',
+          feedback_ok: '<b>Correct.</b> Maintenance windows exist for this. If anything goes wrong, you have time to roll back before users return. Standby support means you\'re not alone when something breaks.' },
+        { ok: false, text: '<b>C.</b> Implement whenever convenient — change management is just a formality.',
+          feedback_bad: '<b>Cavalier.</b> Skipping the scheduled window puts the network at risk and undermines the trust that makes change management work. Other teams plan around your maintenance windows.' }
+      ]
+    };
+  }
+
+  if (step === 4) {
+    // VERIFY step
+    return {
+      label: 'STEP 5 OF 5 · VERIFY',
+      title: 'How do you confirm the change succeeded?',
+      prompt: 'You\'ve implemented the change. Now what?',
+      choices: [
+        { ok: false, text: '<b>A.</b> Mark the ticket closed — if anything was broken, users would call.',
+          feedback_bad: '<b>Wrong.</b> Users don\'t always notice immediately, and silent failures are common (e.g., a backup pipeline broke but won\'t fail until tonight). Active verification is mandatory.' },
+        { ok: true, text: '<b>B.</b> Test the impacted service, check monitoring/alerts, confirm the change works end-to-end, then document results in the ticket.',
+          feedback_ok: '<b>Correct.</b> Verification includes: functional test of what you changed, check that monitoring shows healthy state, confirm dependent services still work, and write up what happened (including any surprises).' },
+        { ok: false, text: '<b>C.</b> Watch for tickets/calls for the next 24 hours — that\'s the verification.',
+          feedback_bad: '<b>Reactive, not proactive.</b> Verifying based on absence of complaints means problems are detected by users hitting them. Real verification proves the change worked through positive testing.' }
+      ]
+    };
+  }
+
+  return null;
+}
+
+var simState = {
+  scenarioIdx: null,
+  scenario: null,
+  changeType: null,
+  currentStep: 0,
+  decisions: [], // array of {correct: bool, step: int}
+  done: false
+};
+
+function renderScenarioPicker() {
+  var picker = document.getElementById('scenarioPicker');
+  var html = '';
+  SIM_SCENARIOS.forEach(function(s, i) {
+    html += '<button class="scenario-btn" data-i="' + i + '">' +
+      '<div class="stitle">' + s.title + '</div>' +
+      '<div class="sdesc">' + s.desc.substring(0, 90) + '...</div>' +
+      '</button>';
+  });
+  picker.innerHTML = html;
+  picker.querySelectorAll('.scenario-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      startSim(parseInt(btn.dataset.i, 10));
+    });
+  });
+}
+
+function startSim(idx) {
+  simState.scenarioIdx = idx;
+  simState.scenario = SIM_SCENARIOS[idx];
+  simState.changeType = null;
+  simState.currentStep = 0;
+  simState.decisions = [];
+  simState.done = false;
+
+  // Highlight picked scenario button
+  document.querySelectorAll('.scenario-btn').forEach(function(b, i) {
+    b.classList.toggle('active', i === idx);
+  });
+
+  // Update ticket card
+  document.getElementById('ticketId').textContent = 'RFC-2026-' + String(idx + 1).padStart(4, '0');
+  document.getElementById('ticketTitle').textContent = simState.scenario.title;
+  document.getElementById('ticketDesc').textContent = simState.scenario.desc;
+  document.getElementById('ticketStatus').textContent = 'Step 1 of 5 — Awaiting categorization';
+
+  document.getElementById('simSummary').innerHTML = '';
+  document.getElementById('simControls').style.display = 'flex';
+  document.getElementById('nextStepBtn').style.display = 'none';
+
+  updateTimeline();
+  renderStep();
+}
+
+function updateTimeline() {
+  document.querySelectorAll('#stepTimeline .step-pill').forEach(function(pill, i) {
+    pill.classList.remove('done', 'current', 'fail');
+    if (i < simState.currentStep) {
+      // Past step — done or fail based on decision
+      var d = simState.decisions[i];
+      pill.classList.add(d && d.correct ? 'done' : 'fail');
+    } else if (i === simState.currentStep && !simState.done) {
+      pill.classList.add('current');
+    }
+  });
+}
+
+function renderStep() {
+  var area = document.getElementById('stepArea');
+  if (simState.done) {
+    showSummary();
+    return;
+  }
+
+  if (simState.currentStep === 0) {
+    // Categorize step — uses scenario's choices
+    var html = '<div class="step-head">' +
+      '<span class="step-label">Step 1 of 5 · Categorize</span>' +
+      '</div>' +
+      '<h3 class="step-title">What kind of change is this?</h3>' +
+      '<div class="step-prompt">Review the ticket above and pick the appropriate change category. Your choice drives every later step.</div>' +
+      '<div class="step-choices">';
+    simState.scenario.choices_categorize.forEach(function(c, i) {
+      html += '<button class="step-choice" data-i="' + i + '">' + c.text + '</button>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+
+    area.querySelectorAll('.step-choice').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        handleCategorize(parseInt(btn.dataset.i, 10), btn);
+      });
+    });
+  } else {
+    var content = getStepContent(simState);
+    if (!content) return;
+    var html = '<div class="step-head">' +
+      '<span class="step-label">' + content.label + '</span>' +
+      '</div>' +
+      '<h3 class="step-title">' + content.title + '</h3>' +
+      '<div class="step-prompt">' + content.prompt + '</div>' +
+      '<div class="step-choices">';
+    content.choices.forEach(function(c, i) {
+      html += '<button class="step-choice" data-i="' + i + '">' + c.text + '</button>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+
+    area.querySelectorAll('.step-choice').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        handleStepChoice(parseInt(btn.dataset.i, 10), btn, content);
+      });
+    });
+  }
+}
+
+function handleCategorize(idx, btn) {
+  var choice = simState.scenario.choices_categorize[idx];
+  var correct = choice.type === simState.scenario.correctType;
+
+  // Lock all buttons
+  document.querySelectorAll('#stepArea .step-choice').forEach(function(b, i) {
+    b.classList.add('locked');
+    var c = simState.scenario.choices_categorize[i];
+    if (c.type === simState.scenario.correctType) {
+      b.classList.add('correct');
+    } else if (i === idx) {
+      b.classList.add('wrong');
+    }
+  });
+
+  // Show feedback
+  var feedbackText = correct ? choice.feedback_ok : choice.feedback_bad;
+  var feedbackDiv = document.createElement('div');
+  feedbackDiv.className = 'step-feedback ' + (correct ? 'ok' : 'bad');
+  feedbackDiv.innerHTML = feedbackText;
+  document.getElementById('stepArea').appendChild(feedbackDiv);
+
+  // Record decision — store the type the student picked (so subsequent steps reflect their reality),
+  // but record whether it matched the correct categorization for scoring
+  simState.changeType = choice.type;
+  simState.decisions.push({ correct: correct, step: 0 });
+
+  // Update timeline and show Next button
+  updateTimeline();
+  document.getElementById('nextStepBtn').style.display = 'inline-block';
+}
+
+function handleStepChoice(idx, btn, content) {
+  var choice = content.choices[idx];
+  var correct = choice.ok;
+
+  document.querySelectorAll('#stepArea .step-choice').forEach(function(b, i) {
+    b.classList.add('locked');
+    var c = content.choices[i];
+    if (c.ok) {
+      b.classList.add('correct');
+    } else if (i === idx) {
+      b.classList.add('wrong');
+    }
+  });
+
+  var feedbackText = correct ? choice.feedback_ok : choice.feedback_bad;
+  var feedbackDiv = document.createElement('div');
+  feedbackDiv.className = 'step-feedback ' + (correct ? 'ok' : 'bad');
+  feedbackDiv.innerHTML = feedbackText;
+  document.getElementById('stepArea').appendChild(feedbackDiv);
+
+  simState.decisions.push({ correct: correct, step: simState.currentStep });
+
+  updateTimeline();
+  document.getElementById('nextStepBtn').style.display = 'inline-block';
+}
+
+function advanceStep() {
+  simState.currentStep++;
+  document.getElementById('nextStepBtn').style.display = 'none';
+  if (simState.currentStep >= 5) {
+    simState.done = true;
+    document.getElementById('ticketStatus').textContent = 'Closed — review complete';
+    updateTimeline();
+    showSummary();
+    return;
+  }
+  document.getElementById('ticketStatus').textContent = 'Step ' + (simState.currentStep + 1) + ' of 5 in progress';
+  updateTimeline();
+  renderStep();
+}
+
+function showSummary() {
+  var correctCount = simState.decisions.filter(function(d) { return d.correct; }).length;
+  var summary = document.getElementById('simSummary');
+  var area = document.getElementById('stepArea');
+
+  area.innerHTML = '<div style="text-align: center; padding: 40px 20px;">' +
+    '<div style="font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); margin-bottom: 8px;">Ticket closed</div>' +
+    '<div style="font-family: var(--ff-mono); font-size: 13px; color: var(--ink-mute);">Review the summary below.</div>' +
+    '</div>';
+
+  var cls, title;
+  if (correctCount === 5) {
+    cls = 'success';
+    title = '✓ All five decisions correct';
+  } else if (correctCount >= 3) {
+    cls = 'partial';
+    title = '⚠ Partial credit · ' + correctCount + ' of 5 correct';
+  } else {
+    cls = 'fail';
+    title = '✗ This change would have caused an outage · ' + correctCount + ' of 5 correct';
+  }
+
+  var steps = ['Categorize', 'Document', 'Approve', 'Implement', 'Verify'];
+  var details = simState.decisions.map(function(d, i) {
+    var icon = d.correct ? '✓' : '✗';
+    var color = d.correct ? 'var(--green)' : 'var(--red)';
+    return '<span style="color: ' + color + '; font-weight: 700; margin-right: 12px;">' + icon + ' ' + steps[i] + '</span>';
+  }).join('');
+
+  summary.innerHTML = '<div class="sim-summary ' + cls + '">' +
+    '<div class="stitle">' + title + '</div>' +
+    '<p>' + details + '</p>' +
+    '<p style="margin-top: 8px;"><b>Try another scenario above</b> to practice different change types and decision paths.</p>' +
+    '</div>';
+}
+
+function resetSim() {
+  if (simState.scenarioIdx !== null) {
+    startSim(simState.scenarioIdx);
+  }
+}
+
+renderScenarioPicker();
+
+/* ============== TAB 3 · DOCUMENTATION MATCHER ============== */
+var MATCHER_ITEMS = [
+  {
+    scenario: 'Find which switch port the broken jack in conf room 5 connects to',
+    context: 'A user reports their network jack in conference room 5 doesn\'t work. You need to find the switch port at the other end to test it.',
+    choices: [
+      { text: 'Cable map / cable inventory', correct: true,
+        explain: 'A cable map records which patch panel port connects to which switch port and which wall jack. Walking the building to trace a cable wastes hours — the cable map gives you the answer in seconds.' },
+      { text: 'IPAM database', correct: false,
+        explain: 'IPAM tracks IP assignments, not physical cabling. The jack doesn\'t have an IP because nothing\'s connected yet.' },
+      { text: 'SLA document', correct: false,
+        explain: 'The SLA might say "4-hour response time" but won\'t help you find the cable.' },
+      { text: 'Wireless heat map', correct: false,
+        explain: 'Wireless heat maps cover Wi-Fi signal — irrelevant for a wired jack issue.' }
+    ]
+  },
+  {
+    scenario: 'Identify which IP addresses are still available in the 10.20.0.0/24 subnet',
+    context: 'A network admin needs to assign 5 new static IPs to printers in the warehouse subnet. They need to know which addresses are free.',
+    choices: [
+      { text: 'IPAM (IP Address Management)', correct: true,
+        explain: 'IPAM is exactly the tool for this — it tracks every IP allocation (static, dynamic, reserved) across your subnets and can report on availability. Without IPAM, you\'re guessing or pinging IPs (unreliable).' },
+      { text: 'Physical diagram', correct: false,
+        explain: 'Physical diagrams show cables and equipment, not IP assignments.' },
+      { text: 'Cable map', correct: false,
+        explain: 'Cable maps record physical connections, not IP addresses.' },
+      { text: 'Rack diagram', correct: false,
+        explain: 'Rack diagrams show what equipment is in which rack U — no IP information.' }
+    ]
+  },
+  {
+    scenario: 'Plan placement for new Wi-Fi access points in a 3-floor office building',
+    context: 'The office is expanding into the third floor. You need to design AP placement to ensure good coverage everywhere and avoid co-channel interference.',
+    choices: [
+      { text: 'Wireless site survey / heat map', correct: true,
+        explain: 'A wireless heat map (from a site survey tool like Ekahau or NetSpot) shows signal strength, dead zones, and interference. Essential input for AP placement decisions. Predictive surveys before deployment, validation after.' },
+      { text: 'SLA document', correct: false,
+        explain: 'The SLA might define uptime targets but doesn\'t help with physical AP placement.' },
+      { text: 'Asset inventory', correct: false,
+        explain: 'Asset inventory tells you what equipment you own — useful for purchasing but not for placement decisions.' },
+      { text: 'Logical diagram', correct: false,
+        explain: 'Logical diagrams show VLANs and routing, not radio coverage.' }
+    ]
+  },
+  {
+    scenario: 'Determine when a stack of older Cisco 2960 switches will lose security patches',
+    context: 'You\'re building next year\'s budget and need to justify replacing several aging access switches. Leadership wants to know exactly when they become unsupported.',
+    choices: [
+      { text: 'Asset inventory with EOL/EOS dates', correct: true,
+        explain: 'A proper asset inventory includes vendor-published EOL (End-of-Life) and EOS (End-of-Support) dates per model. This is the document leadership wants. Without it, you\'re running unpatched gear past EOS — a compliance risk.' },
+      { text: 'Physical diagram', correct: false,
+        explain: 'Physical diagrams show where switches are, not their EOL status.' },
+      { text: 'Cable map', correct: false,
+        explain: 'Cable maps are about cabling, not equipment lifecycle.' },
+      { text: 'IPAM database', correct: false,
+        explain: 'IPAM tracks IP addresses, not equipment lifecycle.' }
+    ]
+  },
+  {
+    scenario: 'Show executives how the new branch office connects to the corporate network',
+    context: 'A VP wants a high-level overview of the new Atlanta branch network for the quarterly review. They don\'t care about VLAN IDs or port numbers.',
+    choices: [
+      { text: 'Network diagram (high-level overview)', correct: true,
+        explain: 'High-level network diagrams show how sites and major systems interconnect — perfect for executive-level conversations. Skip the per-port detail; show the WAN link, firewall, main systems.' },
+      { text: 'Layer 1 (physical) diagram', correct: false,
+        explain: 'Layer 1 detail (cables, ports, patch panels) is far too granular for executive review.' },
+      { text: 'Rack diagram', correct: false,
+        explain: 'Rack diagrams show what\'s in each rack — useful for technicians, irrelevant for executives.' },
+      { text: 'Cable map', correct: false,
+        explain: 'Cable maps are a technician\'s reference, not appropriate for executive communication.' }
+    ]
+  },
+  {
+    scenario: 'Trace which VLANs and subnets exist on each switch',
+    context: 'A security audit asks you to document every VLAN in use, which subnets they map to, and which switches carry them.',
+    choices: [
+      { text: 'Layer 2 / Layer 3 logical diagrams', correct: true,
+        explain: 'Layer 2 diagrams show VLANs, trunks, and switch interconnections. Layer 3 diagrams show subnets, IP gateways, and routing. Together they answer the audit question. Physical diagrams won\'t — they show cabinets and cables.' },
+      { text: 'Rack diagram', correct: false,
+        explain: 'Rack diagrams show equipment positioning — no VLAN information.' },
+      { text: 'Wireless heat map', correct: false,
+        explain: 'Heat maps are about radio coverage, not wired VLAN configuration.' },
+      { text: 'SLA document', correct: false,
+        explain: 'SLAs define service expectations, not network topology.' }
+    ]
+  }
+];
+
+function renderMatcher() {
+  var grid = document.getElementById('matcherGrid');
+  var html = '';
+  MATCHER_ITEMS.forEach(function(item, idx) {
+    var choicesHTML = item.choices.map(function(c, ci) {
+      return '<button class="match-doc" data-correct="' + c.correct + '" data-idx="' + idx + '" data-ci="' + ci + '">' + c.text + '</button>';
+    }).join('');
+    html += '<div class="match-card" data-idx="' + idx + '">' +
+      '<div class="match-scenario">' + item.scenario + '</div>' +
+      '<div class="match-context">' + item.context + '</div>' +
+      '<div class="match-choices">' + choicesHTML + '</div>' +
+      '<div class="match-explain" id="matchExplain-' + idx + '"></div>' +
+      '</div>';
+  });
+  grid.innerHTML = html;
+
+  grid.querySelectorAll('.match-doc').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = parseInt(btn.dataset.idx, 10);
+      var ci = parseInt(btn.dataset.ci, 10);
+      var item = MATCHER_ITEMS[idx];
+      var card = grid.querySelectorAll('.match-card')[idx];
+      var isCorrect = btn.dataset.correct === 'true';
+
+      card.querySelectorAll('.match-doc').forEach(function(b, i) {
+        b.classList.add('locked');
+        if (item.choices[i].correct) b.classList.add('correct');
+        else if (i === ci && !isCorrect) b.classList.add('wrong');
+      });
+
+      var explain = document.getElementById('matchExplain-' + idx);
+      explain.innerHTML = '<b>' + (isCorrect ? '✓ Correct.' : '✗ Not quite.') + '</b> ' + item.choices[ci].explain;
+      explain.classList.add('show');
+    });
+  });
+}
+renderMatcher();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'Change classification',
+    body: 'A network engineer needs to add a new firewall rule allowing traffic from a partner network. The rule is similar to others already in place but targets a new partner. Which change category applies?',
+    choices: [
+      { letter: 'A', text: 'Standard change — adding firewall rules is routine', correct: false },
+      { letter: 'B', text: 'Normal change — security rule additions need risk review (new exposure)', correct: true },
+      { letter: 'C', text: 'Emergency change — partner needs access urgently', correct: false },
+      { letter: 'D', text: 'No change ticket needed — just add the rule', correct: false }
+    ],
+    explain: '<b>Normal change.</b> Even when similar rules exist, each new firewall rule represents new exposure that needs security review. The CAB validates whether the partner is legitimate, the scope is appropriate, and the rule doesn\'t conflict with other policy. "Standard" would only apply if your org has pre-approved a specific template for partner-rule additions with documented limits.'
+  },
+  {
+    tag: 'Documentation gap',
+    body: 'A new hire is troubleshooting an outage. They need to know which switch port a specific user\'s wall jack connects to. The cable plant has no labels and no documentation. What is the immediate problem this reveals?',
+    choices: [
+      { letter: 'A', text: 'The user must move to a different desk', correct: false },
+      { letter: 'B', text: 'Missing cable map and physical diagram — basic documentation gap', correct: true },
+      { letter: 'C', text: 'The switch is failing', correct: false },
+      { letter: 'D', text: 'The user needs Wi-Fi instead', correct: false }
+    ],
+    explain: 'Without a cable map and physical diagram, every cable trace becomes manual labor — walking the building, toning cables, asking the user to move. The cost compounds: every move/add/change takes hours instead of minutes. Cable maps and physical diagrams are basic infrastructure documentation; building them retroactively is painful but necessary.'
+  },
+  {
+    tag: 'Life cycle',
+    body: 'A vendor publishes that the routers running your core network reached <code>End-of-Life</code> last year but will receive <code>End-of-Support</code> in 9 months. Which action is most appropriate?',
+    choices: [
+      { letter: 'A', text: 'Keep using them indefinitely — they still work', correct: false },
+      { letter: 'B', text: 'Replace immediately — EOL means no patches', correct: false },
+      { letter: 'C', text: 'Begin replacement planning now to complete before EOS (no patches after that date)', correct: true },
+      { letter: 'D', text: 'EOL/EOS only applies to software, not hardware', correct: false }
+    ],
+    explain: 'EOL means feature development stopped but critical security patches still flow. EOS means ALL updates stop — including security patches. Running unpatched core routers after EOS is a security and compliance issue. The right move: begin replacement now (procurement, planning, migration) so the new gear is in production before EOS.'
+  },
+  {
+    tag: 'Configuration management',
+    body: 'A network admin makes a change directly on a switch via SSH at 3am to fix an issue. They forget to back up the config first or update the documented baseline. Two weeks later, the switch fails and the spare gets imaged from the documented baseline. What happens?',
+    choices: [
+      { letter: 'A', text: 'The spare comes up identically — baseline reflects production', correct: false },
+      { letter: 'B', text: 'The fix from two weeks ago is missing — the issue returns silently', correct: true },
+      { letter: 'C', text: 'The vendor automatically restores the change', correct: false },
+      { letter: 'D', text: 'The switch refuses to boot without the missing change', correct: false }
+    ],
+    explain: 'When production diverges from baseline (configuration drift), any restore-from-baseline loses the changes that were made directly. This is exactly why golden configs must be updated whenever the production config changes, and why automated nightly backups of running configs are best practice. "Two weeks later" is when you discover the documentation gap.'
+  },
+  {
+    tag: 'SLA enforcement',
+    body: 'Your IT department has an SLA committing to 99.9% uptime for critical services. Last month, services were down for 8 hours. Did you meet the SLA?',
+    choices: [
+      { letter: 'A', text: 'Yes — 99.9% allows for ~43 minutes of downtime per month, so 8 hours is fine', correct: false },
+      { letter: 'B', text: 'No — 99.9% allows ~43 minutes per month, 8 hours is ~11x the budget', correct: true },
+      { letter: 'C', text: 'SLAs don\'t apply to internal IT', correct: false },
+      { letter: 'D', text: 'Yes — 99.9% means 99.9% of users, not 99.9% of time', correct: false }
+    ],
+    explain: '99.9% uptime over a 30-day month = 99.9% × 30 × 24 × 60 ≈ 43 minutes downtime allowed. 8 hours = 480 minutes is roughly 11× the allowable budget — a clear SLA breach. SLA breaches typically trigger reporting requirements, root-cause analysis, and sometimes financial penalties.'
+  },
+  {
+    tag: 'Decommissioning',
+    body: 'You\'re retiring a server that previously stored sensitive customer data. The hardware will be donated to a local school. What\'s the most critical decommissioning step?',
+    choices: [
+      { letter: 'A', text: 'Power it off and ship it', correct: false },
+      { letter: 'B', text: 'Reformat the drives once before shipping', correct: false },
+      { letter: 'C', text: 'Securely wipe (multi-pass overwrite) or physically destroy the drives before shipping', correct: true },
+      { letter: 'D', text: 'Just remove the OS and ship the rest', correct: false }
+    ],
+    explain: 'Sensitive data must be unrecoverable before hardware leaves your possession. A simple format is not secure — forensic tools can recover data. Multi-pass secure wipe (DoD 5220.22-M or similar) or physical destruction (degausser, shredder) is required. Document the disposal method for compliance. This applies to switches and routers too — they store configs with passwords and keys.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'A network diagram shows the cables, racks, switches, and physical room layout of a data center. Which type of diagram is this?',
+    choices: ['Logical diagram', 'Physical diagram', 'IPAM report', 'Rack diagram (only)'],
+    correct: 1,
+    explain: 'A <b>physical diagram</b> shows the physical reality — cabinets, racks, cables, equipment locations. Logical diagrams show flow and abstractions (VLANs, subnets, routing). Rack diagrams are a specific subset of physical documentation showing one rack at a time.'
+  },
+  {
+    q: 'A vendor announces that a product line has reached "End-of-Support" (EOS). What does this mean for organizations still using the product?',
+    choices: [
+      'Feature development stopped but security patches still come',
+      'The product receives no further updates of any kind — including security patches',
+      'The product is no longer for sale but still works normally',
+      'The vendor will buy back the product at a discount'
+    ],
+    correct: 1,
+    explain: '<b>EOS = no more updates of any kind, including security patches.</b> Running EOS gear means newly discovered vulnerabilities are never fixed. EOL (earlier phase) means feature development stops but security patches continue. Plan replacement to complete before EOS.'
+  },
+  {
+    q: 'Which change management category applies to a pre-approved, low-risk, repeatable change such as swapping a failed switch for an identical spare loaded with the golden config?',
+    choices: ['Emergency change', 'Normal change', 'Standard change', 'Service request'],
+    correct: 2,
+    explain: '<b>Standard change</b> — pre-approved (the change TYPE was approved when defined), repeatable, low-risk. No CAB review needed per occurrence; just log it for audit. Normal changes require full CAB review; emergency changes bypass review and get a post-implementation review instead.'
+  },
+  {
+    q: 'A network admin needs to know which IP addresses in a subnet are already assigned and which are free. Which tool/document provides this directly?',
+    choices: ['DHCP server only', 'IPAM (IP Address Management)', 'Physical diagram', 'Rack diagram'],
+    correct: 1,
+    explain: '<b>IPAM</b> tracks every IP allocation (static, dynamic, reserved) across all subnets. DHCP only knows about its dynamic leases — not statically configured devices. Modern IPAM tools (Infoblox, phpIPAM, NetBox) integrate with both DHCP and DNS.'
+  },
+  {
+    q: 'What is the purpose of a "golden" or "baseline" configuration?',
+    choices: [
+      'A backup of the current running config',
+      'An approved template applied to all devices of a given type to ensure consistency',
+      'A historical archive of every config change ever made',
+      'A vendor-supplied default configuration'
+    ],
+    correct: 1,
+    explain: '<b>Golden/baseline config</b> is the approved standardized template applied to new devices of a given type (e.g., all access switches start from the same golden). Ensures consistency across the fleet. Backup configs are point-in-time copies of running configs — a different concept.'
+  },
+  {
+    q: 'An emergency change must be made to block an active security incident. Which step in the change management process is SKIPPED in this case?',
+    choices: [
+      'Implementation — emergency changes are deferred to maintenance windows',
+      'Pre-implementation CAB review — but post-implementation review is required',
+      'Documentation — emergencies don\'t need documentation',
+      'Verification — emergencies are too fast to verify'
+    ],
+    correct: 1,
+    explain: 'Emergency changes <b>skip the pre-implementation CAB review</b> because the situation can\'t wait. They still require: an authorizing approval (often emergency CAB rep or on-call manager), implementation, and full post-implementation review. Documentation and verification are never skipped.'
+  },
+  {
+    q: 'An SLA commits to 99.9% uptime per month. Approximately how much downtime per month does this allow?',
+    choices: ['About 5 minutes', 'About 43 minutes', 'About 7 hours', 'About 30 hours'],
+    correct: 1,
+    explain: '99.9% uptime means 0.1% downtime. Over a 30-day month (43,200 minutes), 0.1% ≈ <b>43 minutes</b> of allowable downtime. (Sometimes called "three nines.") 99.99% ("four nines") allows ~4 minutes. 99% ("two nines") allows ~7 hours.'
+  },
+  {
+    q: 'During a hardware decommissioning, which step is most critical for sensitive data?',
+    choices: [
+      'Power off the hardware and ship it to the disposal vendor',
+      'Securely wipe or physically destroy storage media before disposal',
+      'Reformat the drive once and ship',
+      'Remove only the operating system'
+    ],
+    correct: 1,
+    explain: 'Sensitive data — including device configs that contain passwords and keys — must be made unrecoverable before hardware leaves your possession. Standard formatting is NOT sufficient (forensic recovery is easy). Use secure-wipe utilities (multi-pass overwrite) or physical destruction (degausser, shredder).'
+  },
+  {
+    q: 'A wireless site survey produces what kind of documentation?',
+    choices: [
+      'A spreadsheet of all wireless device MAC addresses',
+      'A heat map showing signal strength across the floor plan',
+      'A logical diagram of VLAN trunks',
+      'A rack diagram'
+    ],
+    correct: 1,
+    explain: 'Site surveys produce <b>wireless heat maps</b> — color-coded floor plans showing signal strength, dead zones, and interference. Tools like Ekahau, NetSpot, and AirMagnet. Predictive surveys (before deployment) and validation surveys (after) are both common.'
+  },
+  {
+    q: 'A normal change is being prepared. Which is NOT a required field on the Request For Change (RFC)?',
+    choices: [
+      'What is being changed and why',
+      'Impact analysis and affected systems',
+      'Rollback plan',
+      'The change was already implemented yesterday'
+    ],
+    correct: 3,
+    explain: 'D is the trick answer — "already implemented" means change management was bypassed entirely. The other three (what/why, impact analysis, rollback plan) are core RFC fields that must be present BEFORE implementation. If you find yourself writing an RFC after the fact, the process failed.'
+  },
+  {
+    q: 'A network admin discovers that the running configuration on a production router differs from the documented baseline configuration. What is this called?',
+    choices: ['Configuration replication', 'Configuration drift', 'Configuration rollback', 'Configuration normalization'],
+    correct: 1,
+    explain: '<b>Configuration drift</b> is the gap between documented/approved baseline configurations and what\'s actually running in production. Caused by undocumented changes made directly on devices. Solutions: nightly automated config backups with diff reports, mandatory change management, version control systems for configs.'
+  },
+  {
+    q: 'A vendor advisory recommends installing a critical security patch. The patch requires a reboot of the affected device. Which is the most appropriate workflow?',
+    choices: [
+      'Standard change — security patches are routine',
+      'Normal change — test, schedule maintenance window, CAB review, implement, verify',
+      'Emergency change — security advisories require immediate action',
+      'No change ticket needed — patches are operational, not changes'
+    ],
+    correct: 1,
+    explain: 'A vendor advisory gives you TIME to plan — that\'s what distinguishes it from emergency change. The right approach: test the patch in staging (might break dependent features), schedule a maintenance window, CAB review (other teams may have conflicting changes), implement with rollback ready, verify post-patch. Only an actively exploited vulnerability with no time to test would push this to emergency.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'Physical diagram shows?', choices: ['Cables, racks, locations', 'VLANs and subnets', 'AP signal coverage', 'IP assignments'], correct: 0 },
+  { q: 'Logical diagram shows?', choices: ['Physical layout', 'VLANs, subnets, flows', 'Cable runs', 'Rack U positions'], correct: 1 },
+  { q: 'Rack diagram primarily shows?', choices: ['IP assignments', 'Equipment U positions in a rack', 'VLAN trunks', 'Cable routing'], correct: 1 },
+  { q: 'IPAM tracks?', choices: ['Cable plant', 'IP address allocations', 'Wi-Fi coverage', 'Equipment lifecycle'], correct: 1 },
+  { q: 'SLA stands for?', choices: ['Server Login Audit', 'Service Level Agreement', 'Subnet Layer Address', 'Software License Audit'], correct: 1 },
+  { q: 'EOL means?', choices: ['End-of-Life — feature dev stops', 'End-of-Lease', 'End-of-Logging', 'End-of-Link'], correct: 0 },
+  { q: 'EOS means?', choices: ['End-of-Sale only', 'End-of-Support — no more patches', 'End-of-Setup', 'End-of-Switch'], correct: 1 },
+  { q: 'After EOS, security patches?', choices: ['Continue indefinitely', 'Are no longer released', 'Are paid extra', 'Become open source'], correct: 1 },
+  { q: 'Standard change requires?', choices: ['Full CAB review', 'Pre-approval (no per-change CAB)', 'Emergency authorization', 'No documentation'], correct: 1 },
+  { q: 'Normal change requires?', choices: ['No review', 'Full CAB review', 'Just manager email', 'Emergency authorization'], correct: 1 },
+  { q: 'Emergency change requires?', choices: ['Pre-implementation CAB', 'Post-implementation review', 'No review at all', 'Three-month planning'], correct: 1 },
+  { q: 'RFC stands for?', choices: ['Routing Function Code', 'Request For Change', 'Remote Forwarding Control', 'Required Field Configuration'], correct: 1 },
+  { q: 'CAB stands for?', choices: ['Cabling Allocation Board', 'Change Advisory Board', 'Configuration Audit Bureau', 'Compliance Assignment Body'], correct: 1 },
+  { q: 'Rollback plan describes?', choices: ['Vendor refund policy', 'How to undo the change if it fails', 'Equipment shipping', 'License renewal'], correct: 1 },
+  { q: 'Maintenance window is?', choices: ['Office hours', 'Pre-scheduled change time, usually off-hours', 'Vendor support hours', 'Patch download time'], correct: 1 },
+  { q: 'Golden/baseline config is?', choices: ['Live running config', 'Approved standard template', 'Backup tape', 'Vendor default'], correct: 1 },
+  { q: 'Configuration drift means?', choices: ['Network slowdown', 'Production diverging from baseline', 'IP renumbering', 'Patch lag'], correct: 1 },
+  { q: 'Wireless heat map produced by?', choices: ['IPAM tool', 'Site survey software', 'STP', 'NetFlow'], correct: 1 },
+  { q: 'Asset inventory tracks?', choices: ['Only software', 'Only hardware', 'Hardware, software, licenses, warranty', 'Only network cables'], correct: 2 },
+  { q: 'Cable map answers?', choices: ['What VLAN am I on?', 'Which switch port is this jack on?', 'Who owns this IP?', 'When does my license expire?'], correct: 1 },
+  { q: 'Decommissioning includes?', choices: ['Just power-off', 'Data destruction before disposal', 'Reselling on eBay', 'Only documentation'], correct: 1 },
+  { q: '99.9% uptime allows about?', choices: ['~4 min/month', '~43 min/month', '~7 hr/month', '~30 hr/month'], correct: 1 },
+  { q: '99.99% ("four nines") allows?', choices: ['~4 min/month', '~43 min/month', '~7 hr/month', '~24 hr/month'], correct: 0 },
+  { q: '99% uptime allows?', choices: ['~4 min/month', '~43 min/month', '~7 hr/month', '~30 days'], correct: 2 },
+  { q: 'Production config means?', choices: ['Test environment only', 'Currently running on live device', 'Old archived config', 'Vendor default'], correct: 1 },
+  { q: 'Backup config purpose?', choices: ['Marketing material', 'Restore after failure or rollback', 'License compliance', 'User training'], correct: 1 },
+  { q: 'Change management primarily prevents?', choices: ['Vendor lock-in', 'Outages from poorly planned changes', 'IP exhaustion', 'Wireless interference'], correct: 1 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
