@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.5 Network Access &amp; Management · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --terminal-bg:#0F1419; --terminal-fg:#E6E1CF;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 95px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 18%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 100px; }
+  .specs-table td code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* ============== TAB 2 · DECISION TREE ============== */
+  .tree-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; }
+
+  .tree-progress { display: flex; gap: 4px; margin-bottom: 22px; }
+  .tree-pip { flex: 1; height: 28px; background: var(--bg-warm); border: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .tree-pip.done { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  .tree-pip.active { background: var(--navy-deep); color: var(--gold); border-color: var(--gold); }
+
+  .tree-question { background: var(--bg-warm); padding: 22px 26px; margin-bottom: 18px; border-left: 4px solid var(--sky); }
+  .tree-question .qlabel { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .tree-question h4 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.2; }
+  .tree-question p { font-size: 13.5px; color: var(--ink-mid); margin: 0 0 16px; line-height: 1.5; }
+
+  .tree-choices { display: grid; gap: 10px; }
+  .tree-choice { background: white; border: 2px solid var(--line); padding: 14px 18px; cursor: pointer; text-align: left; font-family: var(--ff-body); transition: all 0.15s; }
+  .tree-choice:hover { background: var(--bg); border-color: var(--navy-deep); }
+  .tree-choice .ctitle { font-family: var(--ff-display); font-weight: 700; font-size: 16px; color: var(--navy-deep); margin-bottom: 4px; }
+  .tree-choice .cdesc { font-size: 13px; color: var(--ink-mid); line-height: 1.45; }
+
+  .breadcrumb-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; font-family: var(--ff-mono); font-size: 11px; }
+  .breadcrumb-chip { background: var(--navy-deep); color: var(--gold); padding: 5px 12px; letter-spacing: 0.06em; font-weight: 700; }
+  .breadcrumb-arrow { color: var(--ink-mute); font-weight: 700; }
+
+  .tree-result { background: var(--navy-deep); color: white; padding: 28px 32px; }
+  .result-header { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-soft); margin-bottom: 10px; }
+  .result-arch { font-family: var(--ff-display); font-size: 30px; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px; }
+  .result-summary { font-size: 15px; line-height: 1.6; color: white; margin-bottom: 22px; }
+  .result-summary b { color: var(--gold); }
+
+  .result-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  .result-detail { background: rgba(255,255,255,0.08); padding: 14px 16px; }
+  .result-detail .dlabel { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-soft); margin-bottom: 6px; }
+  .result-detail .dvalue { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: white; line-height: 1.3; }
+  .result-detail .dvalue code { font-family: var(--ff-mono); background: rgba(0,0,0,0.3); padding: 1px 6px; font-size: 13px; color: var(--gold-soft); }
+
+  .result-rationale { padding: 14px 18px; background: rgba(56,176,224,0.15); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: white; margin-bottom: 14px; }
+  .result-rationale b { color: var(--gold); }
+
+  .result-watchouts { padding: 14px 18px; background: rgba(224,184,64,0.15); border-left: 3px solid var(--gold); font-size: 13.5px; line-height: 1.55; color: white; }
+  .result-watchouts b { color: var(--gold); }
+
+  .tree-controls { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+
+  /* ============== TAB 3 · TUNNEL COMPARATOR ============== */
+  .compare-wrap { background: var(--surface); border: 1px solid var(--line); padding: 24px 28px; }
+  .compare-toggle { display: flex; gap: 4px; margin-bottom: 22px; }
+  .compare-toggle .opt { flex: 1; background: var(--bg-warm); border: 2px solid var(--line); padding: 14px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--navy-deep); text-align: center; }
+  .compare-toggle .opt.active { background: var(--navy-deep); color: var(--gold); border-color: var(--gold); }
+
+  .compare-stage { background: var(--bg-warm); padding: 18px 20px; margin-bottom: 18px; }
+  .compare-stage svg { width: 100%; height: 280px; display: block; }
+
+  .traffic-line { stroke-width: 2.5; fill: none; }
+  .traffic-line.corp { stroke: var(--green); }
+  .traffic-line.internet-tunnel { stroke: var(--green); stroke-dasharray: 4 3; }
+  .traffic-line.internet-direct { stroke: var(--gold); }
+
+  .compare-callouts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .compare-callout { padding: 14px 18px; }
+  .compare-callout.pros { background: var(--green-bg); border-left: 3px solid var(--green); }
+  .compare-callout.cons { background: rgba(224,184,64,0.15); border-left: 3px solid var(--gold); }
+  .compare-callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 8px; font-weight: 700; }
+  .compare-callout.pros h5 { color: var(--green); }
+  .compare-callout.cons h5 { color: var(--gold-deep); }
+  .compare-callout ul { padding-left: 18px; margin: 0; }
+  .compare-callout li { font-size: 13px; line-height: 1.5; margin-bottom: 4px; color: var(--ink); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .result-details-grid { grid-template-columns: 1fr; }
+    .compare-callouts { grid-template-columns: 1fr; }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.5 Access &amp; Management</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 3.5 · Network Access &amp; Management Methods</div>
+    <h1>How you get in, <em>safely.</em></h1>
+    <p class="lede">Networks have to let people in — employees from home, vendors from across the world, admins managing infrastructure, branch offices over the public internet. Each scenario calls for a different architecture: site-to-site VPN, client VPN, SSL portal, SSH, jump box, or out-of-band console. The exam tests whether you can match the situation to the right method. This artifact walks you through the choices.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">SSH</span><span class="desc">TCP 22 — encrypted remote shell</span></div>
+    <div class="ref-row"><span class="name">Telnet</span><span class="desc">TCP 23 — plaintext, DEPRECATED</span></div>
+    <div class="ref-row"><span class="name">IPsec IKE</span><span class="desc">UDP 500 — key exchange</span></div>
+    <div class="ref-row"><span class="name">IPsec NAT-T</span><span class="desc">UDP 4500 — NAT traversal</span></div>
+    <div class="ref-row"><span class="name">ESP</span><span class="desc">IP proto 50 — encrypted payload</span></div>
+    <div class="ref-row"><span class="name">AH</span><span class="desc">IP proto 51 — integrity only, no encrypt</span></div>
+    <div class="ref-row"><span class="name">GRE</span><span class="desc">IP proto 47 — tunnel, no encrypt alone</span></div>
+    <div class="ref-row"><span class="name">SSL VPN</span><span class="desc">TCP 443 — works through any firewall</span></div>
+    <div class="footer-note">
+      <b>VPN MODES</b><br>
+      Tunnel = entire packet encapsulated.<br>
+      Transport = only payload encrypted.<br>
+      Site-to-site uses tunnel mode.
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">Major access scenarios</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Decision-tree outcomes</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="tree"><span class="num">02</span>Access Decision Tree</button>
+  <button class="tab" data-tab="tunnel"><span class="num">03</span>Split vs Full Tunnel</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Access Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Domain 3.5 covers the methods used to reach the network from outside, and the methods used by administrators to manage devices. The big categories: <b>VPNs</b> (site-to-site for connecting whole networks, client-to-site for connecting individual users), <b>remote management protocols</b> (SSH, console, RDP), <b>in-band vs out-of-band management</b> (managing through the data path vs through a separate path), <b>jump boxes</b> (single audited entry point), and <b>API access</b> (programmatic management).</p>
+
+  <div class="section-head">Site-to-Site VPN — Connecting Whole Networks</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">IPSEC SITE-TO-SITE</div>
+      <h4>The standard for office-to-office</h4>
+      <p>A persistent encrypted tunnel between two firewalls or routers. Each end has a public IP. Traffic between the two private networks is encrypted, encapsulated, and sent across the public internet as if the sites were physically connected.</p>
+      <p><span class="accent">PORTS:</span> UDP 500 (IKE), UDP 4500 (NAT-T), IP protocol 50 (ESP), IP protocol 51 (AH).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">IKE — INTERNET KEY EXCHANGE</div>
+      <h4>Two phases negotiate the tunnel</h4>
+      <p><b>Phase 1:</b> establishes a secure channel between the gateways (authentication, master keys). Two modes: <em>Main</em> (more secure) and <em>Aggressive</em> (faster, less identity protection).<br>
+      <b>Phase 2:</b> negotiates the actual IPsec Security Associations (the keys used to encrypt user data).</p>
+      <p><span class="accent">VERSIONS:</span> IKEv1 (legacy) and IKEv2 (modern, simpler, more reliable).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">ESP vs AH</div>
+      <h4>What IPsec actually does</h4>
+      <p><b>ESP (Encapsulating Security Payload):</b> encryption + authentication + integrity. The common choice. IP protocol 50.<br>
+      <b>AH (Authentication Header):</b> integrity and authentication, <em>no encryption</em>. Rarely used alone in modern deployments. IP protocol 51.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">TUNNEL vs TRANSPORT MODE</div>
+      <h4>What gets encapsulated</h4>
+      <p><b>Tunnel mode:</b> entire original IP packet (header + payload) is encrypted and given a new outer IP header. Used for gateway-to-gateway (site-to-site).<br>
+      <b>Transport mode:</b> only the payload is encrypted; original IP header preserved. Used for host-to-host end-to-end.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">GRE — GENERIC ROUTING ENCAPSULATION</div>
+      <h4>Tunnel without encryption</h4>
+      <p>GRE creates a logical tunnel between two endpoints but does <b>not encrypt</b>. Useful when you need to carry routing protocols, multicast, or non-IP traffic across an IP network. Often combined with IPsec (GRE-over-IPsec) to add encryption.</p>
+      <p><span class="accent">PROTOCOL:</span> IP protocol 47.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NAT TRAVERSAL (NAT-T)</div>
+      <h4>When your gateway is behind NAT</h4>
+      <p>IPsec doesn't naturally survive NAT (the IP header changes break authentication). NAT-T wraps IPsec inside UDP 4500 packets to traverse NAT devices. Both ends auto-detect NAT during IKE and switch to NAT-T if needed.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Client-to-Site VPN — Connecting Individual Users</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">IPSEC CLIENT VPN</div>
+      <h4>Native client on the endpoint</h4>
+      <p>An IPsec VPN client (Cisco AnyConnect, FortiClient, native OS clients) on the user's laptop creates an IPsec tunnel back to a corporate VPN concentrator. Strong encryption, mature standards, but can have NAT/firewall traversal issues.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SSL/TLS VPN (CLIENT-BASED)</div>
+      <h4>VPN over TLS — works through firewalls</h4>
+      <p>Uses TLS (TCP 443, same as HTTPS) so it traverses almost any firewall. A small VPN client runs on the user's device. Examples: OpenVPN, Cisco AnyConnect (SSL mode), GlobalProtect, Pulse Secure.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SSL/TLS VPN (CLIENTLESS)</div>
+      <h4>Browser-only access</h4>
+      <p>User browses to a corporate web portal over HTTPS, authenticates, and accesses internal web apps through a reverse proxy. No software install. Limited to web apps and some RDP/SSH via Java/HTML5. Great for kiosks, contractors, BYOD.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">FULL vs SPLIT TUNNEL</div>
+      <h4>Where does internet traffic go?</h4>
+      <p><b>Full tunnel:</b> ALL traffic from the user's device goes through the VPN — including internet browsing. Corporate firewall inspects everything. Better security; uses corporate bandwidth.<br>
+      <b>Split tunnel:</b> only traffic to corporate networks goes through VPN; internet traffic exits the user's local connection. Faster, less bandwidth, but less corporate visibility.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Remote Management Protocols</div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Protocol</th><th>Port</th><th>Secure?</th><th>Use case</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">SSH</td>
+        <td class="num">TCP 22</td>
+        <td>Yes — encrypted, integrity, authenticated</td>
+        <td>Universal admin protocol. CLI access to switches, routers, servers, firewalls.</td>
+      </tr>
+      <tr>
+        <td class="label">Telnet</td>
+        <td class="num">TCP 23</td>
+        <td><b>NO</b> — plaintext including passwords</td>
+        <td><b>DEPRECATED.</b> Never use in production. SSH replaces it.</td>
+      </tr>
+      <tr>
+        <td class="label">Console / Serial</td>
+        <td class="num">RJ-45 / USB</td>
+        <td>Physical access required</td>
+        <td>Initial device setup, recovery when network is down. Out-of-band.</td>
+      </tr>
+      <tr>
+        <td class="label">RDP</td>
+        <td class="num">TCP 3389</td>
+        <td>Encrypted; needs hardening (NLA, MFA)</td>
+        <td>Microsoft GUI remote access. Never expose directly to internet.</td>
+      </tr>
+      <tr>
+        <td class="label">REST API (HTTPS)</td>
+        <td class="num">TCP 443</td>
+        <td>Yes — TLS</td>
+        <td>Programmatic management. Ansible, Terraform, Python automation.</td>
+      </tr>
+      <tr>
+        <td class="label">NETCONF/RESTCONF</td>
+        <td class="num">TCP 830 / 443</td>
+        <td>Yes — over SSH or TLS</td>
+        <td>Structured device config using YANG models. Modern automation.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">In-Band vs Out-of-Band Management</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">IN-BAND</div>
+      <h4>Manage through the data path</h4>
+      <p>SSH into a switch over the same network the switch is forwarding user traffic on. Works fine when the network is healthy — but if the network is down, you can't manage it.</p>
+      <p><span class="accent">USE WHEN:</span> Routine admin work. Cheap, simple.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">OUT-OF-BAND (OOB)</div>
+      <h4>Separate management path</h4>
+      <p>A dedicated management network (or a console server with serial connections, or a cellular modem) reaches devices independently of the data plane. You can still log in even if the production network is broken.</p>
+      <p><span class="accent">USE WHEN:</span> Mission-critical infrastructure. After-hours emergencies. Initial bring-up.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">CONSOLE SERVER</div>
+      <h4>The OOB workhorse</h4>
+      <p>A device with many serial ports, each connected to the console port of a different switch/router. Admin SSHs into the console server (over OOB network or cellular), then connects to any device's console — even if its main network interfaces are dead.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DEDICATED MGMT NIC</div>
+      <h4>Server iLO / iDRAC / BMC</h4>
+      <p>Servers have a separate Lights-Out Management interface (Dell iDRAC, HPE iLO, Supermicro IPMI, generic BMC) on its own NIC. Lets you power-cycle, reinstall, and watch the console of a server that's completely down. Always put these on the OOB management network.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Jump Boxes &amp; Bastion Hosts</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">WHAT IT IS</div>
+      <h4>The single entry point</h4>
+      <p>A hardened server that's the ONLY path admins use to reach internal infrastructure. They SSH/RDP into the jump box, then from there reach other systems. Direct admin access to internal systems is blocked at the firewall.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">WHY USE ONE</div>
+      <h4>Reduce attack surface, get audit trail</h4>
+      <p><b>One thing to harden, monitor, and audit</b> instead of many. Session recording on the jump box gives complete logs of every admin action. Strong MFA on one box is easier than on dozens.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PROPER HARDENING</div>
+      <h4>Defense in depth</h4>
+      <p>Minimal services running, current patches, MFA required, IP allow-list, session timeout, audit logging, no outbound internet access. Treat the jump box itself as a high-value target.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">BASTION HOST</div>
+      <h4>Same concept, different terms</h4>
+      <p>"Bastion host" and "jump box" are often used interchangeably. Cloud platforms (AWS Session Manager, Azure Bastion, GCP IAP) provide managed bastion services so you don't have to run your own.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>Site-to-site connects networks; client-to-site connects users.</b> Don't confuse them. A branch office uses site-to-site; a remote employee uses client-to-site.</li>
+    <li><b>Telnet (TCP 23) is plaintext including passwords.</b> Don't propose it as a solution. SSH (TCP 22) replaces it in every modern scenario.</li>
+    <li><b>SSL VPN runs over TCP 443.</b> Goes through almost any firewall (looks like HTTPS). IPsec is harder to traverse strict firewalls because of its non-TCP/UDP protocols.</li>
+    <li><b>Tunnel mode is for gateways. Transport mode is for hosts.</b> Site-to-site VPNs use tunnel mode; host-to-host IPsec (rare) uses transport mode.</li>
+    <li><b>GRE doesn't encrypt.</b> It encapsulates but provides no confidentiality. Use GRE-over-IPsec when you need both routing flexibility and encryption.</li>
+    <li><b>Split tunnel ≠ less secure VPN.</b> It's a deliberate design choice trading some security visibility for bandwidth and speed. Many orgs use it.</li>
+    <li><b>Out-of-band is about a separate PATH, not a separate device.</b> The dedicated mgmt NIC, console server, or cellular modem reaches devices via a path independent of the data network.</li>
+    <li><b>Jump box ≠ firewall.</b> A firewall filters traffic; a jump box is the ONE host admins use to access many other hosts. They serve different purposes.</li>
+    <li><b>API access (REST over HTTPS) is preferred for automation.</b> Don't screen-scrape CLI output. Use the device's API.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · DECISION TREE ============== -->
+<section class="panel" id="panel-tree">
+  <h2>Walk to <em>the right architecture.</em></h2>
+  <p>Answer 2-3 questions about your access scenario; the tree walks you to the right method. Try every path — each one teaches a different real-world architecture, complete with port numbers, rationale, and watchouts. Use the breadcrumbs to see where you've been, and the "Reset" button to start over.</p>
+
+  <div class="tree-wrap">
+    <div class="tree-progress">
+      <div class="tree-pip" id="pip-1">STEP 1</div>
+      <div class="tree-pip" id="pip-2">STEP 2</div>
+      <div class="tree-pip" id="pip-3">STEP 3</div>
+      <div class="tree-pip" id="pip-r">RESULT</div>
+    </div>
+
+    <div id="treeBreadcrumb" style="display: none;"></div>
+    <div id="treeStage"></div>
+
+    <div class="tree-controls" id="treeControls" style="display: none;">
+      <button class="btn-secondary" onclick="resetTree()">Reset · try a different scenario</button>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>The right access method depends on WHO is connecting, not on what feels familiar.</b> A branch office and a remote employee both "need access to the corporate network" — but the architecture is completely different.</li>
+    <li><b>Encryption isn't free.</b> IPsec is robust but complex; SSL VPN traverses firewalls easily but is heavier per session. The choice depends on the deployment.</li>
+    <li><b>Out-of-band exists for a reason.</b> When the network is broken, you can't manage it over the network. Plan for this BEFORE you have an outage.</li>
+    <li><b>Jump boxes scale security, not access.</b> Many admins → one entry point → one place to harden and audit. Don't over-engineer it for a 5-person shop; do invest in it once your team grows.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · TUNNEL COMPARATOR ============== -->
+<section class="panel" id="panel-tunnel">
+  <h2>Split tunnel <em>vs full tunnel.</em></h2>
+  <p>One of the most heavily tested client-VPN topics. Both are valid; they make different tradeoffs. The diagram below shows the same remote user accessing the same resources — but the traffic flow is completely different based on the tunnel mode.</p>
+
+  <div class="compare-wrap">
+    <div class="compare-toggle">
+      <div class="opt active" data-mode="full">Full Tunnel</div>
+      <div class="opt" data-mode="split">Split Tunnel</div>
+    </div>
+
+    <div class="compare-stage">
+      <svg viewBox="0 0 700 280" id="tunnelSvg"></svg>
+    </div>
+
+    <div class="compare-callouts" id="compareCallouts"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">When to use which</h3>
+  <ul>
+    <li><b>Full tunnel</b> is the right default for regulated industries (healthcare, finance, government) and any organization that needs to <b>inspect 100% of user traffic</b> with a centralized security stack (DLP, web filtering, IDS).</li>
+    <li><b>Split tunnel</b> is the right default for organizations with bandwidth constraints, geographically distributed users, or heavy use of cloud apps (Office 365, Google Workspace) that work better with direct internet access. Microsoft and Google explicitly recommend split tunneling for their cloud services.</li>
+    <li><b>The compromise: dynamic split tunneling.</b> Some modern VPN products let you specify per-app or per-destination rules. Office 365 goes direct; everything else goes through the tunnel. Best of both worlds.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Access <em>scenarios.</em></h2>
+  <p>Six scenarios mixing VPN type selection, access protocol choice, OOB management, and jump-box decisions. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 3.5: VPN types, remote management, in-band vs OOB, jump boxes, and API access.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire access-method questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 3.5: Network Access and Management Methods. Covers site-to-site VPNs (IPsec, IKE phases, ESP vs AH, tunnel vs transport mode, GRE, NAT-T), client-to-site VPNs (IPsec client, SSL/TLS VPN client and clientless, full vs split tunnel), remote management protocols (SSH, console, RDP, REST API, NETCONF), in-band vs out-of-band management (console servers, dedicated mgmt NICs, BMC), and jump boxes / bastion hosts.</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 3 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Walk scenarios through the Access Decision Tree.</p>
+      <p>· Compare Split vs Full Tunnel traffic flow.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 3.5 quiz in Canvas. This subtopic transfers directly to Domain 4 (Security), where many of these access methods reappear in security contexts.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 3.5 · Network Access &amp; Management Methods</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · DECISION TREE ============== */
+/*
+The tree has 3 levels of questions branching into 9 distinct outcomes.
+Path is tracked as an array of choice keys; the current node is looked up
+from the TREE map.
+*/
+
+var TREE = {
+  // Step 1
+  'root': {
+    qlabel: 'Step 1 of up to 3 · Who needs access',
+    title: 'Who is connecting?',
+    hint: 'Different scenarios call for completely different architectures. Pick the answer that best matches what you\'re actually trying to enable.',
+    choices: [
+      { key: 'sites',  ctitle: 'Two entire offices/sites', cdesc: 'Always-on connection between branch offices, HQ, or data centers. Many users on both ends.' },
+      { key: 'users',  ctitle: 'Individual users from anywhere', cdesc: 'Remote employees, contractors, vendors — connecting from laptops or phones to corporate resources.' },
+      { key: 'admin',  ctitle: 'A network administrator', cdesc: 'You — managing switches, routers, servers, firewalls. Daily admin work or emergency response.' }
+    ]
+  },
+
+  // ===== Branch A: SITE-TO-SITE =====
+  'sites': {
+    qlabel: 'Step 2 of 3 · Encryption requirement',
+    title: 'Does the link cross the public internet?',
+    hint: 'If the path between sites is the public internet, you almost always need encryption. A private leased line or MPLS circuit can sometimes skip encryption — but check your compliance requirements first.',
+    choices: [
+      { key: 'encrypted',   ctitle: 'Yes — public internet, must encrypt', cdesc: 'Standard scenario. Two firewalls each with a public IP, separated by the internet, carrying business traffic.' },
+      { key: 'unencrypted', ctitle: 'Private circuit (MPLS) — encryption optional', cdesc: 'A carrier-provided private path. You may not legally need encryption — but you might want a tunnel for routing flexibility.' }
+    ]
+  },
+  'sites-encrypted': {
+    qlabel: 'Step 3 of 3 · NAT situation',
+    title: 'Is either gateway behind NAT?',
+    hint: 'Some IPsec deployments have a firewall (with the public IP) doing NAT in front of the VPN gateway. IPsec doesn\'t naturally traverse NAT — but NAT-T solves this.',
+    choices: [
+      { key: 'no_nat', ctitle: 'No — both gateways have public IPs', cdesc: 'Standard ISP edge deployment. The firewall/router IS the public endpoint.' },
+      { key: 'nat',    ctitle: 'Yes — one or both gateways behind NAT', cdesc: 'The VPN endpoint sits behind a separate device that does NAT. Need NAT Traversal.' }
+    ]
+  },
+
+  // ===== Branch B: CLIENT-TO-SITE =====
+  'users': {
+    qlabel: 'Step 2 of 3 · Client software',
+    title: 'Can the user install a VPN client?',
+    hint: 'Most employees have a corporate-managed laptop where you can deploy a VPN client. But contractors, BYOD users, kiosks, or quick-access scenarios may need browser-only access.',
+    choices: [
+      { key: 'client_ok',    ctitle: 'Yes — managed laptop with VPN client', cdesc: 'Corporate-managed device. You can deploy an IPsec or SSL VPN client (AnyConnect, GlobalProtect, OpenVPN).' },
+      { key: 'browser_only', ctitle: 'No — must be browser-only', cdesc: 'Contractor on personal device, kiosk, BYOD, or one-off access. Only a web browser is available.' }
+    ]
+  },
+  'users-client_ok': {
+    qlabel: 'Step 3 of 3 · Tunnel scope',
+    title: 'Should ALL of the user\'s internet traffic go through the corporate VPN?',
+    hint: 'This is a policy decision. Regulated industries usually require full inspection of user traffic. Cloud-heavy organizations often choose split tunneling so cloud apps go direct.',
+    choices: [
+      { key: 'full',  ctitle: 'Yes — full tunnel (route everything through corporate)', cdesc: 'Compliance, full DLP/IDS inspection, regulated environment. Uses corporate bandwidth for personal browsing too.' },
+      { key: 'split', ctitle: 'No — split tunnel (only corporate traffic via VPN)', cdesc: 'Corporate apps go through VPN; user\'s Netflix and Spotify go direct. Better performance for cloud apps.' }
+    ]
+  },
+
+  // ===== Branch C: ADMIN =====
+  'admin': {
+    qlabel: 'Step 2 of 3 · Network status',
+    title: 'Is the network itself currently working?',
+    hint: 'Routine admin work uses the data plane (in-band SSH). Emergency situations when the network is broken require out-of-band access — a path that doesn\'t depend on the network being healthy.',
+    choices: [
+      { key: 'network_up',   ctitle: 'Yes — routine admin work', cdesc: 'Standard day-to-day management. The network is healthy; you just need to SSH to a device.' },
+      { key: 'network_down', ctitle: 'No — network is down or device unreachable', cdesc: 'Emergency response. You need to fix something but can\'t reach it the normal way.' }
+    ]
+  },
+  'admin-network_up': {
+    qlabel: 'Step 3 of 3 · Team scale',
+    title: 'How many admins access how many systems?',
+    hint: 'A small shop with a couple of admins can manage with direct SSH. Larger teams need centralized audit trails, MFA enforcement, and session recording — which is what a jump box provides.',
+    choices: [
+      { key: 'simple',      ctitle: 'Just me / small team, occasional access', cdesc: '1-5 admins managing a small environment. Direct SSH from approved workstations is fine.' },
+      { key: 'many_admins', ctitle: 'Many admins, many systems, need audit trail', cdesc: 'Enterprise scale. Need centralized access control, MFA, session recording, and compliance auditing.' }
+    ]
+  }
+};
+
+// Outcomes — keyed by the full path
+var OUTCOMES = {
+  'sites-encrypted-no_nat': {
+    arch: 'IPsec Site-to-Site VPN',
+    summary: 'Persistent encrypted tunnel between two firewalls/routers, each with a public IP. Standard architecture for connecting offices across the internet.',
+    details: [
+      { label: 'Mode', value: 'Tunnel mode — entire packet encrypted, new outer IP header' },
+      { label: 'Encryption', value: 'ESP (Encapsulating Security Payload) — <code>IP protocol 50</code>' },
+      { label: 'Key Exchange', value: 'IKEv2 over <code>UDP 500</code>' },
+      { label: 'Direction', value: 'Always-on, bidirectional' }
+    ],
+    rationale: 'This is the textbook site-to-site setup. Each gateway authenticates the other (pre-shared key or certificate), IKE negotiates the IPsec SAs, then user traffic is encrypted with ESP in tunnel mode. Users on either side reach the other side transparently as if on one network.',
+    watchouts: '<b>Watchouts:</b> Asymmetric routing breaks IPsec — both sides must agree on which traffic enters the tunnel (the "interesting traffic" ACLs/policies must match). MTU issues are common because of IPsec overhead; consider lowering TCP MSS on tunnel interfaces.'
+  },
+  'sites-encrypted-nat': {
+    arch: 'IPsec Site-to-Site with NAT-T',
+    summary: 'Same as standard IPsec site-to-site, but with NAT Traversal enabled so the tunnel can survive an intermediate NAT device.',
+    details: [
+      { label: 'NAT Traversal', value: 'NAT-T encapsulates IPsec inside UDP — <code>UDP 4500</code>' },
+      { label: 'Why', value: 'NAT modifies IP headers, breaking ESP authentication. UDP wrap fixes it.' },
+      { label: 'Detection', value: 'Auto-negotiated during IKE phase 1' },
+      { label: 'Mode', value: 'Tunnel mode (gateway-to-gateway)' }
+    ],
+    rationale: 'NAT-T was created specifically because IPsec ESP traffic can\'t survive NAT in its native form. Both ends detect NAT during IKE phase 1 and automatically switch to UDP 4500 if NAT is detected on the path.',
+    watchouts: '<b>Watchouts:</b> Some older firewalls explicitly block UDP 4500. Open it. Also: if you can avoid NAT in front of the VPN gateway (give it a direct public IP), do — fewer moving parts.'
+  },
+  'sites-unencrypted': {
+    arch: 'GRE Tunnel (or no tunnel)',
+    summary: 'A logical tunnel between two endpoints over a private path that doesn\'t require encryption. Often used to carry routing protocols, multicast, or non-IP traffic between sites.',
+    details: [
+      { label: 'Protocol', value: 'GRE — <code>IP protocol 47</code>' },
+      { label: 'Encryption', value: '<b>NONE</b> — GRE encapsulates but does not encrypt' },
+      { label: 'Common combo', value: 'GRE-over-IPsec when both routing flexibility AND encryption are needed' },
+      { label: 'Alternative', value: 'No tunnel at all if private routing works directly' }
+    ],
+    rationale: 'GRE wraps any payload (IP, multicast, non-IP) inside an outer IP packet between two endpoints. It does NOT provide confidentiality. Often used on private MPLS or leased lines where the carrier provides physical isolation. If you need to carry OSPF or multicast across IPsec (which doesn\'t handle either natively), the standard pattern is GRE-over-IPsec.',
+    watchouts: '<b>Watchouts:</b> Verify your "private" circuit really is private — many "private" connections traverse shared infrastructure where data could be exposed. When in doubt, add IPsec on top. Compliance frameworks usually require encryption regardless of circuit type.'
+  },
+  'users-client_ok-full': {
+    arch: 'Client-to-Site VPN · Full Tunnel',
+    summary: 'A VPN client on the user\'s laptop establishes an encrypted tunnel to the corporate VPN concentrator. ALL traffic from the device, including internet browsing, goes through the tunnel.',
+    details: [
+      { label: 'Client', value: 'IPsec or SSL VPN client (e.g., AnyConnect, GlobalProtect, OpenVPN)' },
+      { label: 'Transport', value: 'SSL VPN: <code>TCP 443</code> · IPsec: <code>UDP 500/4500</code>' },
+      { label: 'Internet traffic', value: 'Tunneled to corporate, exits through corporate firewall' },
+      { label: 'Visibility', value: 'Full — corporate sees and inspects all user traffic' }
+    ],
+    rationale: 'Full tunnel is the strict security posture. Every byte the user sends or receives is inspected by corporate security tools (DLP, IDS, web filter). Standard in healthcare, financial services, government, and any regulated industry. The tradeoff: heavier load on the corporate firewall and slower performance for cloud apps because traffic goes the long way around.',
+    watchouts: '<b>Watchouts:</b> Bandwidth: when 500 employees work from home full-tunnel, your corporate internet pipe sees ALL their Netflix too. Cost: cloud apps like Office 365 perform measurably worse because traffic detours through corporate. Microsoft explicitly recommends split-tunneling Office 365 endpoints.'
+  },
+  'users-client_ok-split': {
+    arch: 'Client-to-Site VPN · Split Tunnel',
+    summary: 'A VPN client on the user\'s laptop establishes a tunnel to corporate. Only traffic destined for corporate networks is tunneled; everything else (internet, cloud apps) goes directly out the user\'s local connection.',
+    details: [
+      { label: 'Client', value: 'IPsec or SSL VPN client' },
+      { label: 'Transport', value: 'SSL VPN: <code>TCP 443</code> · IPsec: <code>UDP 500/4500</code>' },
+      { label: 'Internet traffic', value: 'Direct from user\'s local network (bypasses corporate)' },
+      { label: 'Visibility', value: 'Corporate sees only corporate-destined traffic' }
+    ],
+    rationale: 'Split tunneling improves performance and reduces corporate bandwidth load by letting non-corporate traffic exit directly. This is increasingly common as organizations move workloads to SaaS (Office 365, Google Workspace, Salesforce). Direct cloud-app access is faster and cheaper than backhauling through corporate.',
+    watchouts: '<b>Watchouts:</b> Reduced security visibility — corporate DLP and IDS don\'t see the user\'s general internet activity. Compensate with endpoint security (EDR), strong endpoint policies, and cloud security tools (CASB). Make sure the split-tunnel ACL is correct: if you accidentally route 0.0.0.0/0 to "direct," ALL traffic bypasses VPN.'
+  },
+  'users-browser_only': {
+    arch: 'SSL/TLS Clientless Web VPN',
+    summary: 'User opens a web browser, navigates to the corporate VPN portal over HTTPS, authenticates, and accesses internal web apps through a reverse proxy. No software installed on the user\'s device.',
+    details: [
+      { label: 'Transport', value: '<code>TCP 443</code> (HTTPS) — works through any firewall' },
+      { label: 'Client', value: 'None — just a modern web browser' },
+      { label: 'Apps supported', value: 'Internal web apps via reverse proxy; some RDP/SSH via HTML5 gateway' },
+      { label: 'Authentication', value: 'Username/password + MFA on the portal' }
+    ],
+    rationale: 'Perfect for unmanaged devices: contractors, BYOD, kiosks, customers, partner access. No software install means no support burden. The reverse-proxy approach means internal URLs (intranet.corp.local) become accessible via portal.corp.com/intranet without the user needing direct network access.',
+    watchouts: '<b>Watchouts:</b> Limited to apps the portal explicitly publishes — usually web apps. Native thick-client apps don\'t work. Per-session resource cost is high (each user gets a proxy session). Heavily depends on the portal\'s URL rewriting being correct, which can break complex apps. Major vendors: F5, Citrix, Pulse, Cisco AnyConnect (clientless mode).'
+  },
+  'admin-network_up-simple': {
+    arch: 'SSH Direct from Admin Workstation',
+    summary: 'Admin SSHs directly to network devices from their workstation. Simplest pattern for small teams.',
+    details: [
+      { label: 'Protocol', value: 'SSH — <code>TCP 22</code>' },
+      { label: 'Authentication', value: 'SSH key + passphrase, ideally with MFA' },
+      { label: 'Scope', value: 'Admin workstation IPs whitelisted at firewall' },
+      { label: 'Alternative', value: 'Telnet is <b>NEVER</b> appropriate here (plaintext passwords)' }
+    ],
+    rationale: 'For a small team managing a small environment, direct SSH from a few approved admin workstations is sufficient. Public-key authentication, source-IP allowlisting at the firewall, and a strong audit log on devices cover most needs.',
+    watchouts: '<b>Watchouts:</b> Use SSH keys, not passwords. Allowlist source IPs on the management interface ACLs. Enable command logging or AAA accounting (RADIUS/TACACS+) so you have an audit trail. As your team grows past 3-5 people, plan to introduce a jump box.'
+  },
+  'admin-network_up-many_admins': {
+    arch: 'Jump Box / Bastion Host',
+    summary: 'A single hardened server acts as the only entry point for admins to reach internal systems. All admin sessions are logged and recorded at the jump box.',
+    details: [
+      { label: 'Access', value: 'Admins SSH/RDP into the jump box first; from there access internal systems' },
+      { label: 'Authentication', value: 'MFA required at the jump box' },
+      { label: 'Auditing', value: 'Session recording, command logging, centralized audit trail' },
+      { label: 'Firewall', value: 'Direct admin access to internal systems is BLOCKED — only jump box can reach them' }
+    ],
+    rationale: 'A jump box centralizes the things that scale poorly: MFA enforcement, session recording, audit trails, allowlisting. Instead of hardening 200 devices, you harden one. Instead of auditing every device, you audit one. This is how every mature ops team manages large fleets.',
+    watchouts: '<b>Watchouts:</b> The jump box itself becomes a high-value target — harden it accordingly. Plan for jump box redundancy (HA pair) so a single failure doesn\'t lock you out. Cloud alternatives like AWS Session Manager, Azure Bastion, and GCP IAP let you skip running your own.'
+  },
+  'admin-network_down': {
+    arch: 'Out-of-Band Console Server',
+    summary: 'A console server (with cellular modem or dedicated separate network) provides serial-console access to network devices independently of the data plane. You can still log in even when the network is broken.',
+    details: [
+      { label: 'Path', value: 'Cellular modem or dedicated mgmt network — NOT the data plane' },
+      { label: 'Access', value: 'SSH to console server, then connect to any device\'s serial console' },
+      { label: 'Server iLO/iDRAC', value: 'Dedicated mgmt NIC on each server, on OOB network — power-cycle and console access' },
+      { label: 'Coverage', value: 'Every critical device should have OOB access available' }
+    ],
+    rationale: 'When the data network is broken, you need a path that isn\'t. Console servers (Opengear, Lantronix, Avocent) consolidate serial-console connections from many devices and let you log in via a separate path — cellular, separate ISP, or dedicated mgmt VLAN. Combined with server BMC interfaces (iLO/iDRAC/IPMI) on the same OOB network, you can recover from total data-plane failure.',
+    watchouts: '<b>Watchouts:</b> The OOB path itself needs maintenance — test it quarterly so you discover the cellular modem is unprovisioned BEFORE you need it. Secure it too: anything that gives full device console access is a major target. Place it on its own network, MFA-protect it, and audit it tightly.'
+  }
+};
+
+var treeState = { path: [] };
+
+function renderTreeNode() {
+  var nodeKey = treeState.path.length === 0 ? 'root' : treeState.path.join('-');
+  var node = TREE[nodeKey];
+
+  // If no further question node, we've reached an outcome
+  if (!node) {
+    renderTreeOutcome(nodeKey);
+    return;
+  }
+
+  // Update progress pips
+  updateTreePips();
+
+  // Render the question
+  var stage = document.getElementById('treeStage');
+  var html = '<div class="tree-question">' +
+    '<div class="qlabel">' + node.qlabel + '</div>' +
+    '<h4>' + node.title + '</h4>' +
+    '<p>' + node.hint + '</p>' +
+    '<div class="tree-choices">';
+  node.choices.forEach(function(c) {
+    html += '<button class="tree-choice" data-key="' + c.key + '">' +
+      '<div class="ctitle">' + c.ctitle + '</div>' +
+      '<div class="cdesc">' + c.cdesc + '</div>' +
+      '</button>';
+  });
+  html += '</div></div>';
+  stage.innerHTML = html;
+
+  stage.querySelectorAll('.tree-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      treeState.path.push(b.dataset.key);
+      renderTreeNode();
+      renderBreadcrumbs();
+    });
+  });
+
+  document.getElementById('treeControls').style.display = treeState.path.length > 0 ? 'flex' : 'none';
+  document.getElementById('treeBreadcrumb').style.display = treeState.path.length > 0 ? 'block' : 'none';
+}
+
+function renderTreeOutcome(nodeKey) {
+  // The path itself is the key. The last "question" step led to an outcome.
+  var outcome = OUTCOMES[nodeKey];
+  if (!outcome) {
+    document.getElementById('treeStage').innerHTML = '<div class="tree-question"><h4>Path not yet defined</h4><p>This combination doesn\'t map to a defined outcome yet.</p></div>';
+    return;
+  }
+
+  updateTreePips(true);
+
+  var detailsHTML = outcome.details.map(function(d) {
+    return '<div class="result-detail"><div class="dlabel">' + d.label + '</div><div class="dvalue">' + d.value + '</div></div>';
+  }).join('');
+
+  document.getElementById('treeStage').innerHTML =
+    '<div class="tree-result">' +
+      '<div class="result-header">Recommended architecture</div>' +
+      '<div class="result-arch">' + outcome.arch + '</div>' +
+      '<div class="result-summary">' + outcome.summary + '</div>' +
+      '<div class="result-details-grid">' + detailsHTML + '</div>' +
+      '<div class="result-rationale"><b>WHY:</b> ' + outcome.rationale + '</div>' +
+      '<div class="result-watchouts">' + outcome.watchouts + '</div>' +
+    '</div>';
+}
+
+function updateTreePips(isResult) {
+  var pipIds = ['pip-1', 'pip-2', 'pip-3', 'pip-r'];
+  pipIds.forEach(function(id, i) {
+    var el = document.getElementById(id);
+    el.classList.remove('done', 'active');
+    if (i < treeState.path.length) el.classList.add('done');
+    else if (i === treeState.path.length && !isResult) el.classList.add('active');
+    else if (i === 3 && isResult) el.classList.add('active');
+  });
+}
+
+function renderBreadcrumbs() {
+  var bc = document.getElementById('treeBreadcrumb');
+  if (treeState.path.length === 0) {
+    bc.innerHTML = '';
+    bc.style.display = 'none';
+    return;
+  }
+  var html = '<div class="breadcrumb-row">';
+  treeState.path.forEach(function(key, i) {
+    if (i > 0) html += '<span class="breadcrumb-arrow">→</span>';
+    html += '<span class="breadcrumb-chip">' + key.replace(/_/g, ' ').toUpperCase() + '</span>';
+  });
+  html += '</div>';
+  bc.innerHTML = html;
+  bc.style.display = 'block';
+}
+
+function resetTree() {
+  treeState.path = [];
+  renderTreeNode();
+  renderBreadcrumbs();
+}
+
+renderTreeNode();
+
+/* ============== TAB 3 · TUNNEL COMPARATOR ============== */
+var TUNNEL_DATA = {
+  full: {
+    pros: ['Corporate inspects ALL user traffic (DLP, IDS, web filter)', 'Consistent security posture wherever user is', 'Single egress point — easier compliance', 'Required by many regulated industries'],
+    cons: ['Cloud apps (O365, Google) perform poorly via detour', 'Corporate internet bandwidth carries personal traffic too', 'Latency added to all user traffic', 'Single point of failure for user internet'],
+    description: 'Full tunnel — all traffic, including internet browsing, routes through the corporate VPN.'
+  },
+  split: {
+    pros: ['Better performance for cloud apps (direct path)', 'Lower corporate bandwidth load', 'Reduced latency for non-corporate traffic', 'Microsoft/Google explicitly recommend for SaaS'],
+    cons: ['Reduced corporate visibility into user internet activity', 'Need endpoint security (EDR) to compensate', 'Risk of misconfiguration (accidental 0.0.0.0/0 exposure)', 'DLP doesn\'t see traffic going direct'],
+    description: 'Split tunnel — only corporate traffic via VPN; internet goes direct from user\'s local network.'
+  }
+};
+
+function renderTunnelDiagram(mode) {
+  var svg = document.getElementById('tunnelSvg');
+  var corpColor = '#2A6049';
+  var splitColor = '#B8932A';
+
+  // Common elements
+  var html = '<defs>' +
+    '<marker id="arrow-corp" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="' + corpColor + '"/></marker>' +
+    '<marker id="arrow-split" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="' + splitColor + '"/></marker>' +
+    '</defs>';
+
+  // User node (left)
+  html += '<rect x="20" y="115" width="120" height="60" fill="#e0f4f9" stroke="#1E8FBE" stroke-width="1.5" rx="3"/>';
+  html += '<text x="80" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#1A2050">REMOTE USER</text>';
+  html += '<text x="80" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">home network</text>';
+
+  // VPN concentrator (center)
+  html += '<rect x="290" y="115" width="120" height="60" fill="#f0eada" stroke="#B8932A" stroke-width="1.5" rx="3"/>';
+  html += '<text x="350" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#1A2050">VPN GATEWAY</text>';
+  html += '<text x="350" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">corporate edge</text>';
+
+  // Corporate apps (top right)
+  html += '<rect x="540" y="40" width="140" height="50" fill="#dce6ee" stroke="#283068" stroke-width="1.5" rx="3"/>';
+  html += '<text x="610" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#1A2050">CORP APPS</text>';
+  html += '<text x="610" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">intranet, file shares</text>';
+
+  // Internet / SaaS (bottom right)
+  html += '<rect x="540" y="200" width="140" height="50" fill="#f4dada" stroke="#a8334a" stroke-width="1.5" rx="3"/>';
+  html += '<text x="610" y="222" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#1A2050">INTERNET / SAAS</text>';
+  html += '<text x="610" y="238" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#767E92">Netflix, O365, Google</text>';
+
+  if (mode === 'full') {
+    // All traffic goes through tunnel — user → vpn → both destinations
+    // Tunnel from user to VPN
+    html += '<path d="M 140 145 L 290 145" stroke="' + corpColor + '" stroke-width="3" fill="none" marker-end="url(#arrow-corp)"/>';
+    html += '<text x="180" y="138" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="' + corpColor + '">ENCRYPTED VPN</text>';
+
+    // From VPN to corp
+    html += '<path d="M 410 130 Q 470 100 540 65" stroke="' + corpColor + '" stroke-width="2.5" fill="none" marker-end="url(#arrow-corp)"/>';
+    html += '<text x="445" y="100" font-family="JetBrains Mono" font-size="10" fill="' + corpColor + '">corp traffic</text>';
+
+    // From VPN to internet (this is the key difference — internet goes through corp)
+    html += '<path d="M 410 160 Q 470 195 540 225" stroke="' + corpColor + '" stroke-width="2.5" fill="none" marker-end="url(#arrow-corp)"/>';
+    html += '<text x="430" y="200" font-family="JetBrains Mono" font-size="10" fill="' + corpColor + '">+ internet too!</text>';
+
+  } else {
+    // Split: corp traffic through VPN; internet goes direct from user
+    // Tunnel from user to VPN (only for corp)
+    html += '<path d="M 140 130 L 290 130" stroke="' + corpColor + '" stroke-width="3" fill="none" marker-end="url(#arrow-corp)"/>';
+    html += '<text x="170" y="122" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="' + corpColor + '">VPN (corp only)</text>';
+
+    // From VPN to corp
+    html += '<path d="M 410 130 Q 470 100 540 65" stroke="' + corpColor + '" stroke-width="2.5" fill="none" marker-end="url(#arrow-corp)"/>';
+    html += '<text x="450" y="100" font-family="JetBrains Mono" font-size="10" fill="' + corpColor + '">corp traffic</text>';
+
+    // Direct path from user to internet (bypassing VPN!)
+    html += '<path d="M 140 165 Q 280 230 540 225" stroke="' + splitColor + '" stroke-width="3" stroke-dasharray="5 3" fill="none" marker-end="url(#arrow-split)"/>';
+    html += '<text x="240" y="248" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="' + splitColor + '">DIRECT (bypasses VPN)</text>';
+  }
+
+  svg.innerHTML = html;
+
+  // Render callouts
+  var data = TUNNEL_DATA[mode];
+  document.getElementById('compareCallouts').innerHTML =
+    '<div class="compare-callout pros"><h5>PROS</h5><ul>' +
+    data.pros.map(function(p) { return '<li>' + p + '</li>'; }).join('') +
+    '</ul></div>' +
+    '<div class="compare-callout cons"><h5>TRADEOFFS</h5><ul>' +
+    data.cons.map(function(c) { return '<li>' + c + '</li>'; }).join('') +
+    '</ul></div>';
+}
+
+document.querySelectorAll('.compare-toggle .opt').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.compare-toggle .opt').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    renderTunnelDiagram(b.dataset.mode);
+  });
+});
+renderTunnelDiagram('full');
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'VPN type',
+    body: 'A company is opening a new branch office. Both the HQ and the branch have firewalls with public IPs. They want all traffic between the two offices to be encrypted across the internet. Which technology fits best?',
+    choices: [
+      { letter: 'A', text: 'Client-to-site SSL VPN for each employee', correct: false },
+      { letter: 'B', text: 'Site-to-site IPsec VPN between the two firewalls', correct: true },
+      { letter: 'C', text: 'Telnet with strong passwords', correct: false },
+      { letter: 'D', text: 'A jump box at HQ', correct: false }
+    ],
+    explain: '<b>Site-to-site IPsec VPN</b> connects two whole networks, persistently, with encryption. Users on either side reach the other side transparently — no per-user client setup. Client-to-site is for individual users; jump boxes are admin tools; telnet is plaintext and never appropriate.'
+  },
+  {
+    tag: 'Remote management',
+    body: 'A network admin needs to log into a switch via the network. Their organization\'s security policy requires that <b>passwords never traverse the network in plaintext</b>. Which protocol fits?',
+    choices: [
+      { letter: 'A', text: 'Telnet (TCP 23)', correct: false },
+      { letter: 'B', text: 'SSH (TCP 22)', correct: true },
+      { letter: 'C', text: 'HTTP (TCP 80)', correct: false },
+      { letter: 'D', text: 'FTP (TCP 21)', correct: false }
+    ],
+    explain: '<b>SSH (TCP 22)</b> encrypts the entire session including the password exchange. Telnet sends passwords in plaintext, which is why it\'s deprecated. HTTP and FTP are also plaintext. SSH replaced Telnet decades ago — there is no modern justification for using Telnet on a real network.'
+  },
+  {
+    tag: 'Out-of-band',
+    body: 'A network admin needs to access network equipment in a remote data center during an active outage where the data network is down. What architecture should be in place to support this?',
+    choices: [
+      { letter: 'A', text: 'SSH over the production network', correct: false },
+      { letter: 'B', text: 'Out-of-band management via a console server reachable through a cellular modem or separate ISP', correct: true },
+      { letter: 'C', text: 'A jump box on the production network', correct: false },
+      { letter: 'D', text: 'Telnet directly to the switch', correct: false }
+    ],
+    explain: 'When the network is down, you can\'t SSH through it. <b>Out-of-band management</b> provides a separate path — typically a console server with serial connections to each device, accessible via a cellular modem or a separate ISP link. This is the architecture that lets you fix a broken network without driving to the data center.'
+  },
+  {
+    tag: 'Tunnel mode',
+    body: 'A user complains that their VPN works fine for accessing corporate apps but Office 365 is unusable. Investigation shows the VPN is configured as <b>full tunnel</b>. What is the most appropriate fix?',
+    choices: [
+      { letter: 'A', text: 'Disable Office 365', correct: false },
+      { letter: 'B', text: 'Switch to telnet', correct: false },
+      { letter: 'C', text: 'Reconfigure VPN to split-tunnel Office 365 endpoints (let O365 go direct)', correct: true },
+      { letter: 'D', text: 'Increase the VPN encryption strength', correct: false }
+    ],
+    explain: '<b>Microsoft explicitly recommends split-tunneling Office 365 endpoints.</b> When O365 traffic detours through the corporate VPN before reaching Microsoft\'s servers, latency adds up and performance degrades dramatically. Most modern VPN products support per-destination split-tunnel rules: send corporate-bound traffic through the VPN, let known SaaS endpoints (O365, Salesforce, Google) go direct.'
+  },
+  {
+    tag: 'Jump box',
+    body: 'A growing company has 25 engineers managing 200 servers via SSH. Compliance requires session recording and MFA for all admin access. What is the best architecture?',
+    choices: [
+      { letter: 'A', text: 'Install MFA on every server', correct: false },
+      { letter: 'B', text: 'Deploy a hardened jump box / bastion host that all admins must use, with MFA enforced and session recording', correct: true },
+      { letter: 'C', text: 'Allow direct SSH but log carefully', correct: false },
+      { letter: 'D', text: 'Switch to telnet for performance', correct: false }
+    ],
+    explain: '<b>Jump box / bastion host</b> scales these requirements. Instead of installing MFA and session recording on 200 servers, you install them once on the jump box. All admin sessions funnel through it, generating a unified audit trail. Firewall rules block direct admin access to the 200 servers — only the jump box can reach them. Cloud alternatives (AWS Session Manager, Azure Bastion) provide this as a managed service.'
+  },
+  {
+    tag: 'GRE',
+    body: 'A company needs to run OSPF between two sites across an IPsec VPN. The IPsec tunnel does not natively carry OSPF traffic (OSPF uses multicast, which IPsec tunnel mode doesn\'t handle). What is the standard solution?',
+    choices: [
+      { letter: 'A', text: 'Use static routes instead of OSPF', correct: false },
+      { letter: 'B', text: 'GRE-over-IPsec — GRE tunnel carries OSPF, IPsec encrypts the GRE', correct: true },
+      { letter: 'C', text: 'Disable encryption', correct: false },
+      { letter: 'D', text: 'Run OSPF inside HTTP', correct: false }
+    ],
+    explain: '<b>GRE-over-IPsec</b> is the standard pattern. GRE (IP protocol 47) provides a logical tunnel that can carry routing protocols, multicast, and non-IP traffic — all things IPsec tunnel mode struggles with alone. Wrapping IPsec around GRE gives you the routing flexibility of GRE plus the encryption of IPsec.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'A site-to-site IPsec VPN typically uses which IPsec mode?',
+    choices: ['Transport mode', 'Tunnel mode', 'Client mode', 'Bridge mode'],
+    correct: 1,
+    explain: '<b>Tunnel mode</b> is used for site-to-site (gateway-to-gateway) VPNs. The entire original IP packet is encrypted and given a new outer IP header (the gateways\' public IPs). Transport mode is used for host-to-host end-to-end IPsec, which is much less common.'
+  },
+  {
+    q: 'Which IPsec component provides encryption?',
+    choices: [
+      'AH (Authentication Header)',
+      'ESP (Encapsulating Security Payload)',
+      'IKE (Internet Key Exchange)',
+      'GRE'
+    ],
+    correct: 1,
+    explain: '<b>ESP encrypts the payload</b> (and provides authentication and integrity). IP protocol 50. AH (IP protocol 51) provides authentication and integrity but NOT encryption — rarely used alone in modern deployments. IKE is the key exchange protocol used to negotiate the SAs that ESP/AH then use. GRE is a separate tunneling protocol that doesn\'t encrypt at all.'
+  },
+  {
+    q: 'IKE Phase 1 typically uses which UDP port?',
+    choices: ['UDP 500', 'UDP 4500', 'UDP 1701', 'UDP 1812'],
+    correct: 0,
+    explain: '<b>UDP 500</b> is used for IKE (Internet Key Exchange) phase 1 negotiation. UDP 4500 is used for NAT-T (when IPsec must traverse a NAT device). UDP 1701 is L2TP. UDP 1812 is RADIUS.'
+  },
+  {
+    q: 'What is the primary difference between site-to-site and client-to-site VPNs?',
+    choices: [
+      'Site-to-site uses TCP; client-to-site uses UDP',
+      'Site-to-site connects two networks (gateway-to-gateway); client-to-site connects individual users to a network',
+      'They are the same — different vendor names',
+      'Site-to-site is unencrypted; client-to-site is encrypted'
+    ],
+    correct: 1,
+    explain: '<b>Site-to-site connects whole networks (e.g., two offices via firewalls); client-to-site connects individual users (typically remote employees on laptops).</b> Both can be IPsec or SSL based. Both are encrypted. The architectural difference is the endpoint: gateway-to-gateway vs. user-device-to-gateway.'
+  },
+  {
+    q: 'A user accesses corporate web apps via a browser pointed at a corporate portal over HTTPS. No software is installed on the user\'s device. What is this?',
+    choices: [
+      'IPsec client VPN',
+      'Site-to-site VPN',
+      'SSL/TLS clientless VPN (web portal)',
+      'GRE tunnel'
+    ],
+    correct: 2,
+    explain: '<b>SSL/TLS clientless VPN</b> uses a corporate web portal as a reverse proxy. Users log in via browser; the portal publishes internal apps (web apps, sometimes RDP/SSH via HTML5). No client software is needed — perfect for unmanaged devices, contractors, kiosks, BYOD.'
+  },
+  {
+    q: 'A VPN client is configured so the user\'s personal browsing (Netflix, social media) does NOT go through the corporate VPN. This is called:',
+    choices: ['Full tunnel', 'Split tunnel', 'Bypass tunnel', 'Tunnel-less mode'],
+    correct: 1,
+    explain: '<b>Split tunnel</b> sends only corporate-destined traffic through the VPN; everything else exits the user\'s local connection directly. Improves performance for cloud apps and reduces corporate bandwidth load. Full tunnel routes ALL traffic through the corporate VPN.'
+  },
+  {
+    q: 'Which port does SSH use?',
+    choices: ['TCP 22', 'TCP 23', 'UDP 53', 'TCP 443'],
+    correct: 0,
+    explain: '<b>SSH = TCP 22.</b> TCP 23 is Telnet (deprecated). UDP 53 is DNS. TCP 443 is HTTPS. SSH replaced Telnet because Telnet sends passwords in plaintext; SSH encrypts the entire session.'
+  },
+  {
+    q: 'Which protocol is deprecated due to sending passwords in plaintext?',
+    choices: ['SSH', 'Telnet', 'HTTPS', 'IPsec'],
+    correct: 1,
+    explain: '<b>Telnet (TCP 23) sends everything — including passwords — in plaintext.</b> Anyone who captures packets on the network sees the credentials. SSH replaced it decades ago. Telnet should be disabled on all production devices. Console (serial) access is still acceptable because the medium is physically separate.'
+  },
+  {
+    q: 'What is the primary purpose of a jump box (bastion host)?',
+    choices: [
+      'Replace firewalls',
+      'Provide a single hardened entry point for administrative access to internal systems, with auditing and MFA',
+      'Speed up SSH sessions',
+      'Route VLAN traffic'
+    ],
+    correct: 1,
+    explain: '<b>A jump box centralizes the entry point for admin access.</b> Instead of admins SSHing directly to 200 servers, they SSH to the jump box first, then connect outward. The jump box enforces MFA, records sessions, and provides one unified audit trail. Firewall rules ensure that direct admin access to internal systems is blocked — only the jump box can reach them.'
+  },
+  {
+    q: 'Out-of-band (OOB) management is best described as:',
+    choices: [
+      'Managing devices outside of normal business hours',
+      'Managing devices over a separate path that doesn\'t depend on the production data network',
+      'Using SNMP instead of SSH',
+      'Managing only wireless devices'
+    ],
+    correct: 1,
+    explain: '<b>Out-of-band management uses a separate path</b> — a dedicated management network, console server with serial connections, or cellular modem. The key property: it works even when the production network is broken. In-band management (SSH over the data plane) only works when the network is healthy.'
+  },
+  {
+    q: 'GRE (Generic Routing Encapsulation) provides:',
+    choices: [
+      'Encryption and tunneling',
+      'Tunneling but no encryption',
+      'Encryption only, no tunneling',
+      'Authentication only'
+    ],
+    correct: 1,
+    explain: '<b>GRE tunnels but does NOT encrypt.</b> It encapsulates one protocol inside another (useful for carrying multicast, routing protocols, or non-IP traffic over IP). When encryption is needed alongside GRE\'s flexibility, the common pattern is <b>GRE-over-IPsec</b>: GRE handles encapsulation, IPsec handles confidentiality.'
+  },
+  {
+    q: 'A team wants to programmatically push configuration to 100 switches using Python and Ansible. Which capability on the switches enables this most cleanly?',
+    choices: [
+      'Telnet with scripted login',
+      'REST APIs (or NETCONF/RESTCONF) over HTTPS',
+      'Manual console connections',
+      'Disabling SSH'
+    ],
+    correct: 1,
+    explain: '<b>REST APIs (or NETCONF/RESTCONF) over HTTPS</b> are the modern automation interface. Devices return structured JSON or XML, which automation tools parse directly without screen-scraping CLI output. Ansible network modules, NAPALM, Nornir, and Terraform providers all use these APIs. Telnet scripting is fragile, insecure, and deprecated.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'SSH port?', choices: ['TCP 22', 'TCP 23', 'TCP 80', 'TCP 443'], correct: 0 },
+  { q: 'Telnet port?', choices: ['TCP 22', 'TCP 23', 'UDP 53', 'TCP 443'], correct: 1 },
+  { q: 'Telnet status today?', choices: ['Preferred', 'Deprecated — plaintext passwords', 'Encrypted', 'IPv6 only'], correct: 1 },
+  { q: 'SSH replaces?', choices: ['HTTP', 'Telnet', 'DNS', 'NTP'], correct: 1 },
+  { q: 'RDP port?', choices: ['TCP 22', 'TCP 3389', 'TCP 23', 'UDP 514'], correct: 1 },
+  { q: 'IKE phase 1 port?', choices: ['UDP 500', 'UDP 4500', 'TCP 22', 'TCP 443'], correct: 0 },
+  { q: 'IPsec NAT-T port?', choices: ['UDP 500', 'UDP 4500', 'TCP 80', 'UDP 53'], correct: 1 },
+  { q: 'IPsec ESP protocol number?', choices: ['47', '50', '51', '6'], correct: 1 },
+  { q: 'IPsec AH protocol number?', choices: ['47', '50', '51', '17'], correct: 2 },
+  { q: 'GRE protocol number?', choices: ['47', '50', '51', '89'], correct: 0 },
+  { q: 'ESP provides?', choices: ['Integrity only', 'Encryption + integrity', 'Encryption only', 'Nothing'], correct: 1 },
+  { q: 'AH provides?', choices: ['Encryption', 'Integrity + authentication, NO encryption', 'Encryption + integrity', 'Nothing'], correct: 1 },
+  { q: 'Tunnel mode encrypts?', choices: ['Only payload', 'Entire IP packet (new outer header)', 'Headers only', 'Nothing'], correct: 1 },
+  { q: 'Transport mode encrypts?', choices: ['Only the payload', 'Entire packet', 'Headers only', 'Both equally'], correct: 0 },
+  { q: 'Site-to-site VPN connects?', choices: ['Two users', 'Two whole networks', 'User to internet', 'Nothing'], correct: 1 },
+  { q: 'Client-to-site VPN connects?', choices: ['Two offices', 'Individual user to network', 'Two firewalls', 'Two ISPs'], correct: 1 },
+  { q: 'SSL VPN runs over?', choices: ['UDP 500', 'TCP 443', 'TCP 22', 'UDP 53'], correct: 1 },
+  { q: 'GRE provides encryption?', choices: ['Yes always', 'No', 'Only with passwords', 'Only IPv6'], correct: 1 },
+  { q: 'GRE + IPsec is for?', choices: ['Less security', 'Both routing flexibility AND encryption', 'IPv4 only', 'Wi-Fi'], correct: 1 },
+  { q: 'Full tunnel routes?', choices: ['Nothing through VPN', 'Corp traffic only', 'ALL traffic through VPN', 'Random traffic'], correct: 2 },
+  { q: 'Split tunnel routes?', choices: ['All through VPN', 'Only corp through VPN; internet direct', 'Nothing', 'IPv6 only'], correct: 1 },
+  { q: 'Clientless VPN uses?', choices: ['Native client only', 'Web browser only', 'Telnet', 'No protocol'], correct: 1 },
+  { q: 'Jump box also called?', choices: ['Firewall', 'Bastion host', 'Router', 'Gateway'], correct: 1 },
+  { q: 'OOB management is?', choices: ['After-hours admin', 'Separate path independent of data plane', 'Older protocol', 'Encrypted'], correct: 1 },
+  { q: 'Console server provides?', choices: ['Encryption', 'Serial console access to many devices', 'Routing', 'DNS'], correct: 1 },
+  { q: 'iLO / iDRAC / BMC are?', choices: ['Storage protocols', 'Server lights-out mgmt interfaces', 'VPN clients', 'CPU types'], correct: 1 },
+  { q: 'API for automation runs over?', choices: ['Telnet', 'HTTPS (TCP 443)', 'UDP 53', 'TCP 23'], correct: 1 },
+  { q: 'IKEv2 vs IKEv1?', choices: ['v1 is newer', 'v2 is simpler, faster, more reliable', 'Same', 'v2 doesn\'t exist'], correct: 1 },
+  { q: 'L2TP commonly pairs with?', choices: ['IPsec for encryption', 'Telnet', 'STP', 'OSPF'], correct: 0 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
