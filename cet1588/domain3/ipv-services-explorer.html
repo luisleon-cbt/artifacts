@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.4 IPv4 and IPv6 Network Services · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --terminal-bg:#0F1419; --terminal-fg:#E6E1CF;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* ============== ATLAS ============== */
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atlas-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; }
+  .atlas-card .card-eyebrow { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; font-weight: 700; }
+  .atlas-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .atlas-card p { margin: 0 0 8px; font-size: 13.5px; }
+  .atlas-card p:last-child { margin-bottom: 0; }
+  .atlas-card .accent { color: var(--gold-deep); font-family: var(--ff-mono); font-weight: 700; font-size: 12px; }
+
+  .specs-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .specs-table th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .specs-table th:last-child { border-right: none; }
+  .specs-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); vertical-align: top; }
+  .specs-table td:last-child { border-right: none; }
+  .specs-table td.label { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); width: 16%; }
+  .specs-table td.num { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; width: 90px; }
+  .specs-table td code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* ============== TAB 2 · TRACER ============== */
+  .tracer-tabs { display: flex; gap: 4px; margin-bottom: 18px; }
+  .tracer-tab { background: var(--bg-warm); border: 2px solid var(--line); padding: 12px 22px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--navy-deep); }
+  .tracer-tab.active { background: var(--navy-deep); color: var(--gold); border-color: var(--gold); }
+
+  .tracer-wrap { background: var(--surface); border: 1px solid var(--line); padding: 24px 28px; }
+
+  .tracer-stage { background: var(--bg-warm); padding: 18px 22px; min-height: 260px; position: relative; overflow: hidden; }
+  .tracer-stage svg { width: 100%; height: 240px; display: block; }
+
+  .node-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .node-box.active-node { fill: var(--gold-soft); stroke: var(--gold-deep); stroke-width: 2; }
+  .node-box.client { fill: #e0f4f9; stroke: var(--sky-deep); }
+  .node-box.server { fill: #f0eada; stroke: var(--gold-deep); }
+  .node-box.dns-server { fill: #f4dada; stroke: #a8334a; }
+  .node-box.relay { fill: #dde2f4; stroke: var(--navy); }
+  .node-label { font-family: var(--ff-mono); font-size: 11px; font-weight: 700; fill: var(--navy-deep); text-anchor: middle; }
+  .node-sub { font-family: var(--ff-mono); font-size: 9px; fill: var(--ink-mute); text-anchor: middle; }
+
+  .packet-arrow { stroke: var(--navy); stroke-width: 2; fill: none; }
+  .packet-arrow.active { stroke: var(--sky-deep); stroke-width: 3; }
+  .packet-arrow.broadcast { stroke-dasharray: 4 4; }
+  .packet-label { font-family: var(--ff-mono); font-size: 10px; font-weight: 700; fill: var(--navy-deep); }
+  .packet-label.active { fill: var(--sky-deep); }
+
+  .step-controls { display: flex; gap: 10px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
+  .step-counter { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.12em; }
+  .step-counter b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 18px; font-weight: 700; margin: 0 4px; }
+  .step-progress { flex: 1; height: 4px; background: var(--line-soft); position: relative; min-width: 120px; }
+  .step-progress-fill { height: 100%; background: var(--gold); transition: width 0.3s; }
+
+  .btn-primary { background: var(--navy-deep); color: white; border: none; padding: 11px 20px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: var(--sky-deep); }
+  .btn-primary:disabled { background: var(--gray); cursor: not-allowed; opacity: 0.5; }
+  .btn-secondary { background: var(--bg-warm); color: var(--navy-deep); border: 1.5px solid var(--line); padding: 10px 18px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; cursor: pointer; }
+  .btn-secondary:hover { background: var(--navy-deep); color: white; }
+
+  .step-detail { background: var(--terminal-bg); color: var(--terminal-fg); padding: 18px 22px; font-family: var(--ff-mono); font-size: 12.5px; line-height: 1.55; margin: 14px 0; border-left: 3px solid var(--sky); white-space: pre; overflow-x: auto; }
+  .step-detail .hi { color: var(--gold); font-weight: 700; }
+  .step-detail .ok { color: #7fc97f; }
+  .step-detail .warn { color: #fdc086; }
+  .step-detail .err { color: #f0717d; }
+  .step-detail .dim { color: var(--gray); }
+
+  .step-narration { background: var(--surface); padding: 16px 20px; border-left: 4px solid var(--gold); margin: 14px 0; font-size: 14px; line-height: 1.6; }
+  .step-narration h5 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .step-narration h5 .step-tag { font-family: var(--ff-mono); font-size: 11px; background: var(--gold); color: var(--navy-deep); padding: 2px 8px; margin-right: 8px; vertical-align: middle; font-weight: 700; letter-spacing: 0.06em; }
+  .step-narration p { margin: 0 0 6px; font-size: 14px; color: var(--ink); }
+  .step-narration p b { color: var(--navy-deep); }
+
+  /* ============== TAB 3 · DNS RECORD MATCHER ============== */
+  .matcher-wrap { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px; }
+  .matcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .match-card { background: var(--bg-warm); border-left: 4px solid var(--sky); padding: 14px 20px; }
+  .match-scenario { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px; }
+  .match-context { font-size: 12.5px; color: var(--ink-mid); margin-bottom: 12px; line-height: 1.5; }
+  .match-context code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+  .match-choices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .match-rec { background: white; border: 1.5px solid var(--line-soft); padding: 8px 6px; cursor: pointer; font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--ink); transition: all 0.15s; text-align: center; }
+  .match-rec:hover:not(.locked) { background: var(--bg); border-color: var(--navy-deep); }
+  .match-rec.locked { cursor: default; }
+  .match-rec.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .match-rec.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .match-explain { display: none; margin-top: 10px; padding: 10px 14px; background: white; border-left: 3px solid var(--sky); font-size: 12.5px; line-height: 1.5; color: var(--ink); }
+  .match-explain.show { display: block; }
+  .match-explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 4 · SCENARIOS ============== */
+  .scenario { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 18px; }
+  .scenario .scenario-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .scenario .scenario-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .scenario .scenario-tag { font-family: var(--ff-mono); font-size: 10px; padding: 3px 10px; background: var(--bg-warm); color: var(--ink-mute); letter-spacing: 0.08em; }
+  .scenario .scenario-body { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0 0 16px; }
+  .scenario .scenario-body b { color: var(--navy-deep); }
+  .scenario .scenario-body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .scenario .choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .scenario .choice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 12px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; }
+  .scenario .choice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .scenario .choice.locked { cursor: default; }
+  .scenario .choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .scenario .choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .scenario .choice b { font-family: var(--ff-mono); margin-right: 8px; color: inherit; }
+  .scenario .explanation { display: none; margin-top: 14px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .scenario .explanation.show { display: block; }
+  .scenario .explanation b { color: var(--navy-deep); }
+
+  /* ============== TAB 5 · KC ============== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .kc-q { background: var(--surface); border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 16px; }
+  .kc-q .qnum { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 8px; }
+  .kc-q .qtext { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+  .kc-q .qtext code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 13px; color: var(--gold-deep); }
+  .kc-q .qchoices { display: grid; gap: 8px; }
+  .kc-q .qchoice { background: var(--bg); border: 1.5px solid var(--line-soft); padding: 11px 16px; cursor: pointer; text-align: left; font-family: var(--ff-body); font-size: 14px; color: var(--ink); transition: all 0.15s; display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: baseline; }
+  .kc-q .qchoice:hover:not(.locked) { background: var(--bg-warm); border-color: var(--navy-deep); }
+  .kc-q .qchoice.locked { cursor: default; }
+  .kc-q .qchoice .letter { font-family: var(--ff-mono); font-weight: 700; color: var(--navy-deep); }
+  .kc-q .qchoice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-q .qchoice.correct .letter { color: var(--green); }
+  .kc-q .qchoice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-q .qchoice.wrong .letter { color: var(--red); }
+  .kc-q .explain { display: none; margin-top: 12px; padding: 12px 16px; background: var(--bg-warm); border-left: 3px solid var(--sky); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .kc-q .explain.show { display: block; }
+  .kc-q .explain b { color: var(--navy-deep); }
+
+  /* ============== TAB 6 · LIGHTNING ============== */
+  .lr-wrap { background: var(--surface); border: 1px solid var(--line); padding: 28px 30px; text-align: center; }
+  .lr-config { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .lr-config .pick { background: var(--bg-warm); border: 2px solid var(--line); padding: 10px 18px; cursor: pointer; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+  .lr-config .pick.active { background: var(--navy-deep); border-color: var(--gold); color: white; }
+  .lr-timer { font-family: var(--ff-display); font-size: 88px; font-weight: 800; color: var(--navy-deep); line-height: 1; letter-spacing: -0.04em; transition: color 0.2s; margin: 12px 0; }
+  .lr-timer.warning { color: var(--gold-deep); }
+  .lr-timer.danger { color: var(--red); animation: pulse 0.5s ease infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .lr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 0 auto 22px; }
+  .lr-stat { background: var(--bg-warm); padding: 10px; }
+  .lr-stat .v { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .lr-stat .v.correct { color: var(--green); }
+  .lr-stat .v.wrong { color: var(--red); }
+  .lr-stat .l { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 5px; }
+  .lr-q { background: var(--bg-warm); padding: 22px 26px; margin: 18px 0; min-height: 120px; }
+  .lr-q .qt { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1.25; letter-spacing: -0.01em; }
+  .lr-q .qt code { font-family: var(--ff-mono); background: white; padding: 2px 8px; font-size: 18px; color: var(--gold-deep); font-weight: 700; }
+  .lr-choices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 700px; margin: 0 auto; }
+  .lr-choice { background: var(--surface); border: 2px solid var(--line); padding: 14px 16px; cursor: pointer; font-family: var(--ff-body); font-size: 15px; color: var(--ink); transition: all 0.12s; font-weight: 500; }
+  .lr-choice:hover:not(:disabled) { background: var(--bg-warm); border-color: var(--sky); }
+  .lr-choice.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lr-choice.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .lr-choice:disabled { cursor: default; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .atlas-grid { grid-template-columns: 1fr; }
+    .matcher-grid { grid-template-columns: 1fr; }
+    .match-choices { grid-template-columns: repeat(2, 1fr); }
+    .scenario .choices { grid-template-columns: 1fr; }
+    .lr-choices { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.4 IPv4 &amp; IPv6 Services</span>
+  </div>
+  <div class="topbar-right">Interactive Artifact</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Objective 3.4 · IPv4 and IPv6 Network Services</div>
+    <h1>The services <em>that make IP networks work.</em></h1>
+    <p class="lede">DHCP hands out the addresses. DNS turns names into numbers. NTP keeps every clock in sync. SLAAC lets IPv6 hosts configure themselves. None of this is glamorous — but when any of it breaks, nothing else works. This artifact walks through how each service actually behaves on the wire so the next time something breaks at this layer, you'll know exactly which question to ask.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Quick Reference</div>
+    <div class="ref-row"><span class="name">DHCP srv</span><span class="desc">UDP 67 (server) · UDP 68 (client)</span></div>
+    <div class="ref-row"><span class="name">DORA</span><span class="desc">Discover → Offer → Request → Ack</span></div>
+    <div class="ref-row"><span class="name">DNS</span><span class="desc">UDP 53 queries · TCP 53 zone xfers</span></div>
+    <div class="ref-row"><span class="name">NTP</span><span class="desc">UDP 123 · stratum 1-15</span></div>
+    <div class="ref-row"><span class="name">PTP</span><span class="desc">UDP 319/320 · sub-microsecond precision</span></div>
+    <div class="ref-row"><span class="name">SLAAC</span><span class="desc">IPv6 auto-config from RA + EUI-64</span></div>
+    <div class="ref-row"><span class="name">A</span><span class="desc">IPv4 host record</span></div>
+    <div class="ref-row"><span class="name">AAAA</span><span class="desc">IPv6 host record ("quad-A")</span></div>
+    <div class="footer-note">
+      <b>KEY DHCP OPTIONS</b><br>
+      1 Subnet mask · 3 Gateway · 6 DNS<br>
+      15 Domain · 51 Lease · 66 TFTP
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">4</div><div class="label">DORA steps · D · O · R · A</div></div>
+  <div class="stat"><div class="num">8+</div><div class="label">DNS record types covered</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Knowledge-check questions</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Lightning-round drill mode</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="atlas"><span class="num">01</span>Reference Atlas</button>
+  <button class="tab" data-tab="tracer"><span class="num">02</span>DHCP &amp; DNS Tracer</button>
+  <button class="tab" data-tab="records"><span class="num">03</span>DNS Record Types</button>
+  <button class="tab" data-tab="scenarios"><span class="num">04</span>Service Scenarios</button>
+  <button class="tab" data-tab="check"><span class="num">05</span>Knowledge Check</button>
+  <button class="tab" data-tab="lightning"><span class="num">06</span>Lightning Round</button>
+</nav>
+
+<!-- ============== ATLAS ============== -->
+<section class="panel active" id="panel-atlas">
+  <h2>The <em>complete reference.</em></h2>
+  <p>Domain 3.4 covers the four most important network services running on top of IP: <b>DHCP</b> (dynamic address allocation), <b>DNS</b> (name resolution), <b>time services</b> (NTP and PTP), and the IPv6-specific autoconfiguration mechanisms (<b>SLAAC</b>, NDP, dual-stack). Together these are what make a network usable — without them you'd be manually configuring IPs, typing IP addresses for every URL, and watching every clock drift independently.</p>
+
+  <div class="section-head">DHCP — Dynamic Host Configuration Protocol</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">THE DORA PROCESS</div>
+      <h4>D · O · R · A</h4>
+      <p><b>Discover:</b> client broadcasts "anyone got addresses?" (no IP yet, so it can't unicast).<br>
+      <b>Offer:</b> server replies with an offer of an IP.<br>
+      <b>Request:</b> client broadcasts "I accept that offer" (so OTHER servers learn their offers were declined).<br>
+      <b>Ack:</b> server confirms the lease.</p>
+      <p><span class="accent">PORTS:</span> UDP 67 (server) · UDP 68 (client).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">SCOPE</div>
+      <h4>The pool of IPs to hand out</h4>
+      <p>A DHCP scope defines: the subnet, the range of usable IPs, the gateway, DNS servers, lease duration, and any other options. One scope per subnet — multi-scope servers serve multiple subnets via DHCP relay.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">RESERVATION</div>
+      <h4>Static-by-MAC</h4>
+      <p>A reservation binds a specific IP to a specific MAC address. The client still uses DHCP (sends DORA) but always gets the same IP. Used for servers, printers, AP — anything that needs a stable IP without manual config on the device.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">EXCLUSION</div>
+      <h4>"Do not lease these"</h4>
+      <p>A range within the scope that DHCP will NOT hand out. Used to reserve IPs for statically-configured devices (printers with manual IPs, gateways, monitoring tools) so they don't collide with DHCP leases.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LEASE TIME</div>
+      <h4>How long the IP is yours</h4>
+      <p>Typical defaults: 8 hours to 8 days depending on environment. Short leases (1-4h) for guest Wi-Fi with high churn; long leases (7+ days) for stable corporate networks. Client renews at 50% of lease.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DHCP RELAY</div>
+      <h4>Crossing subnets</h4>
+      <p>DHCP Discover is broadcast — and broadcasts don't cross routers. A DHCP relay (ip helper-address) catches the broadcast on one subnet and forwards it as a unicast to a DHCP server on another subnet, allowing centralized DHCP for multi-subnet networks.</p>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Option</th><th>Name</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">1</td><td class="label">Subnet Mask</td><td>Network mask for the client subnet.</td></tr>
+      <tr><td class="num">3</td><td class="label">Router</td><td>Default gateway IP.</td></tr>
+      <tr><td class="num">6</td><td class="label">DNS Server</td><td>List of DNS server IPs (typically 2).</td></tr>
+      <tr><td class="num">15</td><td class="label">Domain Name</td><td>DNS domain suffix (e.g., <code>corp.example.com</code>).</td></tr>
+      <tr><td class="num">42</td><td class="label">NTP Servers</td><td>Time server IPs.</td></tr>
+      <tr><td class="num">51</td><td class="label">Lease Time</td><td>Lease duration in seconds.</td></tr>
+      <tr><td class="num">53</td><td class="label">Message Type</td><td>1=Discover, 2=Offer, 3=Request, 5=Ack, 6=Nak, 7=Release.</td></tr>
+      <tr><td class="num">66</td><td class="label">TFTP Server</td><td>VoIP phone provisioning, PXE boot images.</td></tr>
+      <tr><td class="num">67</td><td class="label">Boot File</td><td>Filename of boot image (used with option 66 for PXE).</td></tr>
+      <tr><td class="num">150</td><td class="label">TFTP (Cisco)</td><td>Cisco-specific TFTP for VoIP. Vendor extension.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">DNS — Domain Name System</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">RECURSIVE vs AUTHORITATIVE</div>
+      <h4>Two roles</h4>
+      <p><b>Recursive resolver:</b> follows the lookup chain on the client's behalf (root → TLD → authoritative → answer). Your ISP runs these. So does 8.8.8.8.<br>
+      <b>Authoritative:</b> holds the actual zone data. The "source of truth" for a specific domain.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">FORWARD vs REVERSE</div>
+      <h4>Two directions</h4>
+      <p><b>Forward zone:</b> name → IP. Most common direction. <code>www.example.com</code> → <code>93.184.216.34</code>.<br>
+      <b>Reverse zone:</b> IP → name. Used by mail servers (anti-spam), logging tools, and security software. Stored in <code>in-addr.arpa</code> (IPv4) or <code>ip6.arpa</code> (IPv6).</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">INTERNAL vs EXTERNAL</div>
+      <h4>Split DNS / split-horizon</h4>
+      <p>Same domain name can resolve to different IPs depending on who's asking. Internal DNS server answers internal queries with internal IPs (10.x); external DNS answers external queries with public IPs. Common pattern for corporate networks.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">TTL</div>
+      <h4>Time To Live</h4>
+      <p>Each DNS record has a TTL specifying how long resolvers may cache it. Short TTL (60s-300s) means changes propagate quickly but generates more queries. Long TTL (1h-24h) means less query volume but slower change propagation. Set TTL low BEFORE planned migrations.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DNSSEC</div>
+      <h4>Signed DNS responses</h4>
+      <p>DNSSEC adds cryptographic signatures (RRSIG records) to DNS responses, defending against DNS cache poisoning. Resolvers can validate that responses came from the legitimate authoritative server. Optional but increasingly common.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DOH / DOT</div>
+      <h4>Encrypted DNS</h4>
+      <p>DNS-over-HTTPS (port 443) and DNS-over-TLS (port 853) encrypt the query/response to prevent eavesdropping and tampering. Major browsers and OSes increasingly use these. A concern for enterprises that rely on monitoring DNS for security.</p>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th>Record</th><th>What it does</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">A</td><td>Maps name → IPv4 address (32-bit)</td><td><code>www.example.com → 93.184.216.34</code></td></tr>
+      <tr><td class="label">AAAA</td><td>Maps name → IPv6 address (128-bit, "quad-A")</td><td><code>www.example.com → 2606:2800:220:1::1</code></td></tr>
+      <tr><td class="label">CNAME</td><td>Alias of one name to another canonical name</td><td><code>blog → www.example.com</code></td></tr>
+      <tr><td class="label">MX</td><td>Mail eXchange — mail server for the domain (with priority)</td><td><code>example.com → 10 mail.example.com</code></td></tr>
+      <tr><td class="label">NS</td><td>Name Server — authoritative DNS server for the zone</td><td><code>example.com → ns1.example.com</code></td></tr>
+      <tr><td class="label">PTR</td><td>Pointer — reverse lookup (IP → name)</td><td><code>34.216.184.93.in-addr.arpa → www.example.com</code></td></tr>
+      <tr><td class="label">SOA</td><td>Start of Authority — zone metadata (serial, refresh, primary NS)</td><td>One per zone</td></tr>
+      <tr><td class="label">TXT</td><td>Arbitrary text — SPF, DKIM, DMARC, domain verification</td><td><code>"v=spf1 include:_spf.example.com -all"</code></td></tr>
+      <tr><td class="label">SRV</td><td>Service location — name+port for a service (LDAP, SIP, AD)</td><td><code>_ldap._tcp.example.com → 0 100 389 dc01...</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Time Services — NTP and PTP</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">NTP</div>
+      <h4>Network Time Protocol</h4>
+      <p>UDP 123. Synchronizes clocks across the internet to typically &lt;10ms accuracy. Uses a hierarchical "stratum" system: stratum 0 = reference clocks (atomic, GPS); stratum 1 = directly synced to stratum 0; each level adds latency and trust degradation.</p>
+      <p><span class="accent">USE WHEN:</span> Every networked device. Logs across systems are useless if clocks aren't synced.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">PTP</div>
+      <h4>Precision Time Protocol</h4>
+      <p>UDP 319 (event) and UDP 320 (general). IEEE 1588. Sub-microsecond accuracy via hardware timestamping. Used in financial trading (regulatory requirements), telecom, industrial automation, and scientific instruments.</p>
+      <p><span class="accent">USE WHEN:</span> Microsecond accuracy needed — financial markets, broadcast, industrial control.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">STRATUM</div>
+      <h4>The trust hierarchy</h4>
+      <p>Stratum 0: reference clocks (not on the network).<br>
+      Stratum 1: primary time servers.<br>
+      Stratum 2: synced to stratum 1.<br>
+      ...up to stratum 15.<br>
+      Stratum 16 = unsynchronized.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">WHY TIME MATTERS</div>
+      <h4>It's not just clocks</h4>
+      <p>Kerberos authentication tickets are time-limited (default ±5 min). TLS certificates check validity dates. Logs across servers can't be correlated if clocks differ. MFA TOTP codes are time-based. Distributed databases use timestamps for ordering. Bad time = many silent failures.</p>
+    </div>
+  </div>
+
+  <div class="section-head">IPv6 Autoconfiguration — SLAAC, NDP, EUI-64</div>
+  <div class="atlas-grid">
+    <div class="atlas-card">
+      <div class="card-eyebrow">SLAAC</div>
+      <h4>Stateless Address Autoconfiguration</h4>
+      <p>An IPv6 host can generate its own address from the network prefix (sent by the router in a Router Advertisement) + an interface identifier it generates locally. No DHCP server needed — but no central record either ("stateless").</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">EUI-64</div>
+      <h4>The interface ID trick</h4>
+      <p>Convert a 48-bit MAC into a 64-bit interface ID by inserting <code>FFFE</code> in the middle and flipping the 7th bit. Predictable from MAC — privacy concern, so modern OSes also generate random IIDs ("privacy addresses").</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">NDP</div>
+      <h4>Neighbor Discovery Protocol</h4>
+      <p>IPv6's replacement for ARP and ICMP router discovery. Uses ICMPv6 messages: Router Solicitation, Router Advertisement, Neighbor Solicitation, Neighbor Advertisement. Provides address resolution, prefix discovery, duplicate address detection.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DUAL STACK</div>
+      <h4>Run IPv4 AND IPv6 together</h4>
+      <p>A host (or network) runs both protocol stacks simultaneously. Each interface has both an IPv4 address and one or more IPv6 addresses. Apps prefer IPv6 when available, fall back to IPv4. The standard migration path during the IPv6 transition.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">DHCPv6</div>
+      <h4>DHCP for IPv6</h4>
+      <p>IPv6 also has DHCP. Two modes: <b>stateful</b> (assigns addresses, like IPv4 DHCP) and <b>stateless</b> (only provides options like DNS, address comes from SLAAC). The router's RA flags (M and O bits) tell hosts which mode to use.</p>
+    </div>
+    <div class="atlas-card">
+      <div class="card-eyebrow">LINK-LOCAL</div>
+      <h4>fe80::/10 addresses</h4>
+      <p>Every IPv6 interface auto-generates a link-local address (<code>fe80::</code>). Used for NDP, router discovery, and on-link communication. Routers never forward link-local traffic. Always present even if no global IPv6 address is configured.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Common Exam Traps</div>
+  <ul>
+    <li><b>DORA is the right order — Discover, Offer, Request, Ack.</b> Don't confuse with TCP's three-way handshake (SYN, SYN-ACK, ACK). DHCP is four steps.</li>
+    <li><b>DHCP Discover and Request are both BROADCAST.</b> Offer and Ack are unicast (back to the client's MAC). The client has no IP yet during Discover, so it must broadcast.</li>
+    <li><b>A record = IPv4. AAAA record = IPv6.</b> Easy to confuse. AAAA is "quad-A" because IPv6 is 4× longer than IPv4.</li>
+    <li><b>CNAME points to another NAME, not an IP.</b> If you need an IP, you need an A or AAAA record at the end of the chain.</li>
+    <li><b>MX records have a priority number.</b> Lower priority is preferred. <code>10 mail1</code> beats <code>20 mail2</code>.</li>
+    <li><b>PTR records are in the reverse zone (in-addr.arpa).</b> Required by many mail systems for anti-spam validation.</li>
+    <li><b>DHCP relay (helper address) is needed for centralized DHCP across subnets.</b> Without it, each subnet needs its own DHCP server (because broadcasts don't cross routers).</li>
+    <li><b>NTP UDP 123 vs PTP UDP 319/320.</b> Different services, different ports. PTP achieves much better accuracy but requires hardware support.</li>
+    <li><b>Lower NTP stratum = higher precision/trust.</b> Stratum 1 (primary servers) is better than stratum 5. Stratum 16 means unsynchronized.</li>
+    <li><b>SLAAC is stateless — no central server records who has which address.</b> DHCPv6 (stateful mode) does keep records, like IPv4 DHCP.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · TRACER ============== -->
+<section class="panel" id="panel-tracer">
+  <h2>Step through <em>the protocol on the wire.</em></h2>
+  <p>Pick a protocol below and walk through it packet by packet. Each step shows the actual fields in the packet, who's sending to whom, and (importantly) <b>why this step exists</b>. The DHCP DORA process and DNS recursive resolution are both heavily tested — understanding them as a sequence rather than a list of names makes the exam questions much easier.</p>
+
+  <div class="tracer-tabs">
+    <button class="tracer-tab active" data-tracer="dhcp">DHCP DORA</button>
+    <button class="tracer-tab" data-tracer="dns">DNS Resolution</button>
+  </div>
+
+  <div class="tracer-wrap">
+    <div class="tracer-stage" id="tracerStage">
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" id="tracerSvg">
+        <!-- nodes and arrows rendered by JS -->
+      </svg>
+    </div>
+
+    <div class="step-controls">
+      <button class="btn-secondary" id="prevStep" onclick="prevTracerStep()">← Prev</button>
+      <div class="step-counter">Step <b id="stepNum">0</b> of <b id="stepTotal">0</b></div>
+      <div class="step-progress"><div class="step-progress-fill" id="stepProgressFill" style="width: 0%;"></div></div>
+      <button class="btn-primary" id="nextStep" onclick="nextTracerStep()">Next →</button>
+      <button class="btn-secondary" onclick="resetTracer()">Reset</button>
+    </div>
+
+    <div class="step-narration" id="stepNarration"></div>
+    <div class="step-detail" id="stepDetail"></div>
+  </div>
+
+  <h3 style="margin-top: 32px;">What this teaches</h3>
+  <ul>
+    <li><b>DHCP's broadcast/unicast pattern is asymmetric.</b> Client broadcasts (Discover, Request); server unicasts (Offer, Ack). The Request broadcast is what informs OTHER DHCP servers that their offers were declined.</li>
+    <li><b>DNS resolution iterates through three tiers.</b> Root nameservers → TLD nameservers (.com) → authoritative for the domain. Each tier just answers "ask this next server" until you reach the authoritative tier with the actual data.</li>
+    <li><b>Caching hides almost all of this.</b> Resolvers cache aggressively — most lookups skip several steps because the answer (or a partial answer like "I know the .com NS") is already cached. The full chain is rare in practice but matters when debugging.</li>
+    <li><b>Recursive resolution is iterative under the hood.</b> The "recursive" resolver does iterative queries to root → TLD → authoritative. The CLIENT does one recursive query; the resolver does several iterative queries. Confusing terminology — but heavily tested.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 3 · DNS RECORD MATCHER ============== -->
+<section class="panel" id="panel-records">
+  <h2>Pick the <em>right DNS record</em> for the job.</h2>
+  <p>Each scenario below describes a real configuration need. Pick the DNS record type that solves it. Test yourself on the most commonly confused pairs: A vs AAAA, A vs CNAME, MX priorities, and when you'd reach for PTR or TXT.</p>
+
+  <div class="matcher-wrap">
+    <div class="matcher-grid" id="matcherGrid"></div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · SCENARIOS ============== -->
+<section class="panel" id="panel-scenarios">
+  <h2>Service <em>scenarios.</em></h2>
+  <p>Six scenarios mixing DHCP, DNS, NTP, and IPv6 topics. Pick the best answer; the explanation appears immediately.</p>
+
+  <div id="scenarioContainer"></div>
+</section>
+
+<!-- ============== TAB 5 · KC ============== -->
+<section class="panel" id="panel-check">
+  <h2>Knowledge <em>check.</em></h2>
+  <p>Twelve exam-style questions across Objective 3.4: DHCP DORA and options, DNS records and resolution, NTP/PTP, and IPv6 services.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo">Answered: <b id="kcAnswered">0</b> / 12</div>
+    <div class="pbar"><div class="pbar-fill" id="kcBarFill" style="width: 0;"></div></div>
+    <div class="pinfo">Correct: <b id="kcCorrect">0</b></div>
+  </div>
+
+  <div id="kcContainer"></div>
+</section>
+
+<!-- ============== TAB 6 · LIGHTNING ============== -->
+<section class="panel" id="panel-lightning">
+  <h2>Lightning <em>round.</em></h2>
+  <p>Pick a time limit. Rapid-fire network-service questions. Wrong answers cost you 2 seconds.</p>
+
+  <div class="lr-wrap">
+    <div class="lr-config">
+      <button class="pick active" data-time="30">30 seconds</button>
+      <button class="pick" data-time="60">60 seconds</button>
+      <button class="pick" data-time="90">90 seconds</button>
+    </div>
+    <div class="lr-timer" id="lrTimer">30</div>
+    <div class="lr-stats">
+      <div class="lr-stat"><div class="v" id="lrAnswered">0</div><div class="l">Answered</div></div>
+      <div class="lr-stat"><div class="v correct" id="lrCorrect">0</div><div class="l">Correct</div></div>
+      <div class="lr-stat"><div class="v wrong" id="lrWrong">0</div><div class="l">Wrong</div></div>
+    </div>
+    <button class="btn-primary" id="lrStartBtn" onclick="startLightning()">Start Drill</button>
+    <div id="lrQuestionArea" style="display: none;">
+      <div class="lr-q"><div class="qt" id="lrQText"></div></div>
+      <div class="lr-choices" id="lrChoices"></div>
+    </div>
+    <div id="lrResults" style="display: none; margin-top: 22px;">
+      <div class="lr-q"><div class="qt" id="lrFinalScore"></div></div>
+      <button class="btn-primary" onclick="resetLightning()">Run Again</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this Artifact</h4>
+      <p>An interactive walkthrough of CompTIA Network+ N10-009 Objective 3.4: IPv4 and IPv6 Network Services. Covers DHCP (DORA process, scopes, reservations, exclusions, options 1/3/6/15/42/51/53/66/67, relay/helper address), DNS (record types A/AAAA/CNAME/MX/NS/PTR/SOA/TXT/SRV, recursive vs authoritative, forward vs reverse, internal vs external/split-horizon, TTL, DNSSEC, DoH/DoT), time services (NTP UDP 123 with stratum levels, PTP UDP 319/320), and IPv6 autoconfiguration (SLAAC, EUI-64, NDP, DHCPv6, dual-stack, link-local).</p>
+      <p>Designed as supplemental practice alongside the per-subtopic Canvas quiz for the Domain 3 module.</p>
+    </div>
+    <div>
+      <h4>How to Use It</h4>
+      <p>· Start in the Atlas tab for the conceptual reference.</p>
+      <p>· Step through DORA and DNS resolution in the tracer.</p>
+      <p>· Match DNS records to scenarios.</p>
+      <p>· Test yourself in Scenarios, Knowledge Check, and Lightning Round.</p>
+    </div>
+    <div>
+      <h4>Companion Resources</h4>
+      <p>School of Information Technology · Network Administration program</p>
+      <p>Pair with the 3.4 quiz in Canvas. The services covered here are foundational — every other network topic depends on them working.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© CBT Technology Institute · Flagler · Hialeah · Cutler Bay</span>
+    <span>Network+ N10-009 · Objective 3.4 · IPv4 &amp; IPv6 Network Services</span>
+  </div>
+</footer>
+
+<script>
+/* ============== TAB SWITCHING ============== */
+document.querySelectorAll('.tab').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============== TAB 2 · TRACER ============== */
+/*
+The tracer has two modes (DHCP DORA and DNS resolution). Each has:
+  - A static stage (SVG with nodes positioned)
+  - A sequence of steps; each step highlights the active arrow + nodes,
+    shows narration explaining WHY, and shows packet details in terminal style.
+*/
+
+var currentTracer = 'dhcp';
+var currentStep = 0;
+
+var DHCP_STAGE = {
+  nodes: [
+    { id: 'client', x: 60,  y: 90,  w: 130, h: 60, label: 'CLIENT', sub: 'MAC: aa:bb:cc:dd:ee:ff', cls: 'client' },
+    { id: 'switch', x: 285, y: 90,  w: 130, h: 60, label: 'SWITCH', sub: 'L2 broadcast domain', cls: '' },
+    { id: 'server', x: 510, y: 90,  w: 130, h: 60, label: 'DHCP SERVER', sub: '10.0.0.10', cls: 'server' }
+  ]
+};
+
+var DHCP_STEPS = [
+  {
+    title: 'D — Discover',
+    tag: 'BROADCAST',
+    arrow: { from: 'client', to: 'server', via: 'switch', broadcast: true, label: 'DHCPDISCOVER' },
+    activeNodes: ['client', 'server'],
+    narration: 'The client has no IP address yet — so it cannot send a unicast packet to anyone. It <b>broadcasts</b> a DHCPDISCOVER to MAC <code>ff:ff:ff:ff:ff:ff</code>, IP <code>255.255.255.255</code>. Every device in the broadcast domain receives it, but only DHCP servers respond.',
+    detail:
+'<span class="dim"># Ethernet header</span>\n' +
+'Src MAC: <span class="hi">aa:bb:cc:dd:ee:ff</span>   (client)\n' +
+'Dst MAC: <span class="warn">ff:ff:ff:ff:ff:ff</span>   (broadcast)\n' +
+'\n' +
+'<span class="dim"># IP header</span>\n' +
+'Src IP:  <span class="hi">0.0.0.0</span>             (no IP yet!)\n' +
+'Dst IP:  <span class="warn">255.255.255.255</span>     (limited broadcast)\n' +
+'\n' +
+'<span class="dim"># UDP header</span>\n' +
+'Src port: 68    (DHCP client)\n' +
+'Dst port: 67    (DHCP server)\n' +
+'\n' +
+'<span class="dim"># DHCP payload</span>\n' +
+'op:           1 (BOOTREQUEST)\n' +
+'<span class="hi">Option 53:    1 (DHCPDISCOVER)</span>\n' +
+'Option 55:    Parameter request list (subnet, gateway, DNS, ...)\n' +
+'Client MAC:   aa:bb:cc:dd:ee:ff'
+  },
+  {
+    title: 'O — Offer',
+    tag: 'UNICAST',
+    arrow: { from: 'server', to: 'client', via: 'switch', broadcast: false, label: 'DHCPOFFER' },
+    activeNodes: ['server', 'client'],
+    narration: 'The DHCP server responds with a DHCPOFFER containing a proposed IP address from its scope, plus options like subnet mask, default gateway, DNS servers, and lease time. The offer is <b>unicast back to the client\'s MAC</b> — the server learned the MAC from the Discover.',
+    detail:
+'<span class="dim"># Ethernet header</span>\n' +
+'Src MAC: <span class="hi">11:22:33:44:55:66</span>   (DHCP server)\n' +
+'Dst MAC: <span class="ok">aa:bb:cc:dd:ee:ff</span>   (client — learned from Discover)\n' +
+'\n' +
+'<span class="dim"># IP header</span>\n' +
+'Src IP:  <span class="hi">10.0.0.10</span>           (DHCP server)\n' +
+'Dst IP:  <span class="ok">10.0.0.42</span>           (offered to client)\n' +
+'\n' +
+'<span class="dim"># DHCP payload</span>\n' +
+'op:           2 (BOOTREPLY)\n' +
+'<span class="hi">Option 53:    2 (DHCPOFFER)</span>\n' +
+'yiaddr:       <span class="ok">10.0.0.42</span>           ("your" IP address)\n' +
+'<span class="hi">Option 1:     255.255.255.0</span>       (subnet mask)\n' +
+'<span class="hi">Option 3:     10.0.0.1</span>            (default gateway)\n' +
+'<span class="hi">Option 6:     10.0.0.5, 10.0.0.6</span>   (DNS servers)\n' +
+'<span class="hi">Option 51:    86400</span>               (lease: 24 hours)\n' +
+'Option 54:    10.0.0.10              (DHCP server ID)'
+  },
+  {
+    title: 'R — Request',
+    tag: 'BROADCAST',
+    arrow: { from: 'client', to: 'server', via: 'switch', broadcast: true, label: 'DHCPREQUEST' },
+    activeNodes: ['client', 'server'],
+    narration: 'The client accepts the offer with a DHCPREQUEST. This is <b>broadcast again</b> — deliberately. If multiple DHCP servers had offered, this broadcast tells the OTHER servers their offers were declined so they can return their reserved IPs to the pool.',
+    detail:
+'<span class="dim"># Still using broadcast — telling ALL DHCP servers about the choice</span>\n' +
+'Src MAC: <span class="hi">aa:bb:cc:dd:ee:ff</span>   (client)\n' +
+'Dst MAC: <span class="warn">ff:ff:ff:ff:ff:ff</span>   (broadcast)\n' +
+'\n' +
+'Src IP:  <span class="hi">0.0.0.0</span>             (still!)\n' +
+'Dst IP:  <span class="warn">255.255.255.255</span>\n' +
+'\n' +
+'<span class="dim"># DHCP payload</span>\n' +
+'op:           1 (BOOTREQUEST)\n' +
+'<span class="hi">Option 53:    3 (DHCPREQUEST)</span>\n' +
+'<span class="hi">Option 50:    10.0.0.42</span>           (requested IP from Offer)\n' +
+'<span class="hi">Option 54:    10.0.0.10</span>           (server identifier — which Offer)\n' +
+'Client MAC:   aa:bb:cc:dd:ee:ff\n' +
+'\n' +
+'<span class="dim"># Other DHCP servers see this broadcast and know:</span>\n' +
+'<span class="dim"># "client picked server 10.0.0.10 — my reserved IP can return to pool."</span>'
+  },
+  {
+    title: 'A — Acknowledge',
+    tag: 'UNICAST',
+    arrow: { from: 'server', to: 'client', via: 'switch', broadcast: false, label: 'DHCPACK' },
+    activeNodes: ['server', 'client'],
+    narration: 'The server finalizes the lease with a DHCPACK. The client now <b>owns</b> the IP for the lease duration. The client will attempt to renew at 50% of the lease time (T1) and rebind at 87.5% (T2) if renewal fails.',
+    detail:
+'<span class="dim"># Ethernet header</span>\n' +
+'Src MAC: <span class="hi">11:22:33:44:55:66</span>   (DHCP server)\n' +
+'Dst MAC: <span class="ok">aa:bb:cc:dd:ee:ff</span>   (client)\n' +
+'\n' +
+'<span class="dim"># IP header</span>\n' +
+'Src IP:  <span class="hi">10.0.0.10</span>\n' +
+'Dst IP:  <span class="ok">10.0.0.42</span>            (client now has IP)\n' +
+'\n' +
+'<span class="dim"># DHCP payload</span>\n' +
+'op:           2 (BOOTREPLY)\n' +
+'<span class="hi">Option 53:    5 (DHCPACK)</span>\n' +
+'yiaddr:       <span class="ok">10.0.0.42</span>            (confirmed lease)\n' +
+'Option 51:    86400                  (lease: 24 hours)\n' +
+'Option 58:    43200                  (T1 renewal: 12 hours)\n' +
+'Option 59:    75600                  (T2 rebind: 21 hours)\n' +
+'\n' +
+'<span class="ok"># Client is now configured. It can talk to the network.</span>'
+  }
+];
+
+var DNS_STAGE = {
+  nodes: [
+    { id: 'client',   x: 30,  y: 30,  w: 110, h: 50, label: 'CLIENT', sub: 'web browser', cls: 'client' },
+    { id: 'resolver', x: 280, y: 30,  w: 130, h: 50, label: 'RESOLVER', sub: '8.8.8.8 (recursive)', cls: 'dns-server' },
+    { id: 'root',     x: 555, y: 30,  w: 110, h: 50, label: 'ROOT NS', sub: 'a.root-servers.net', cls: 'server' },
+    { id: 'tld',      x: 555, y: 100, w: 110, h: 50, label: '.com TLD', sub: 'a.gtld-servers.net', cls: 'server' },
+    { id: 'auth',     x: 555, y: 170, w: 110, h: 50, label: 'example.com', sub: 'authoritative NS', cls: 'server' }
+  ]
+};
+
+var DNS_STEPS = [
+  {
+    title: 'Client → Resolver',
+    tag: 'RECURSIVE QUERY',
+    arrow: { from: 'client', to: 'resolver', broadcast: false, label: 'A? www.example.com' },
+    activeNodes: ['client', 'resolver'],
+    narration: 'The user types <code>www.example.com</code> in a browser. The OS sends a <b>recursive query</b> to the configured DNS resolver (often the ISP\'s server, or 8.8.8.8). "Recursive" means: <b>do all the work and bring me the answer</b>.',
+    detail:
+'<span class="dim"># Query from client (UDP 53)</span>\n' +
+'Src: 10.0.0.42:51842\n' +
+'Dst: <span class="hi">8.8.8.8:53</span>\n' +
+'\n' +
+'<span class="dim"># DNS header flags</span>\n' +
+'<span class="hi">RD = 1   (Recursion Desired)</span>\n' +
+'Opcode = 0 (standard query)\n' +
+'\n' +
+'<span class="dim"># Question section</span>\n' +
+'Name:   www.example.com\n' +
+'<span class="hi">Type:   A</span>             (IPv4 address requested)\n' +
+'Class:  IN            (Internet)\n' +
+'\n' +
+'<span class="dim"># Resolver receives. Checks cache: not present. Begins iterative work.</span>'
+  },
+  {
+    title: 'Resolver → Root',
+    tag: 'ITERATIVE QUERY 1',
+    arrow: { from: 'resolver', to: 'root', broadcast: false, label: 'A? www.example.com' },
+    activeNodes: ['resolver', 'root'],
+    narration: 'The resolver doesn\'t know about <code>example.com</code> yet, so it starts at the top. It asks a <b>root nameserver</b> (one of 13 root server clusters). Root nameservers don\'t know your specific domain — but they know who owns each top-level domain (TLD).',
+    detail:
+'<span class="dim"># Resolver → root nameserver</span>\n' +
+'Dst: <span class="hi">198.41.0.4:53</span>      (a.root-servers.net)\n' +
+'\n' +
+'<span class="dim"># Question</span>\n' +
+'Name:   www.example.com\n' +
+'Type:   A\n' +
+'\n' +
+'<span class="dim"># Root response — does NOT contain the answer:</span>\n' +
+'Authority section (NS records for .com):\n' +
+'  <span class="ok">com.    172800  NS  a.gtld-servers.net.</span>\n' +
+'  <span class="ok">com.    172800  NS  b.gtld-servers.net.</span>\n' +
+'  ... (13 .com NS servers)\n' +
+'\n' +
+'Additional section (glue records — IPs for those NS):\n' +
+'  <span class="ok">a.gtld-servers.net.  A  192.5.6.30</span>\n' +
+'  ...\n' +
+'\n' +
+'<span class="dim"># Root says: "Ask the .com nameservers."</span>'
+  },
+  {
+    title: 'Resolver → .com TLD',
+    tag: 'ITERATIVE QUERY 2',
+    arrow: { from: 'resolver', to: 'tld', broadcast: false, label: 'A? www.example.com' },
+    activeNodes: ['resolver', 'tld'],
+    narration: 'The resolver now asks a <b>.com TLD nameserver</b>. TLD servers know who owns each domain registered under .com — but they still don\'t have the actual answer. They <b>refer the resolver downward</b> to the authoritative nameserver for example.com.',
+    detail:
+'<span class="dim"># Resolver → .com TLD nameserver</span>\n' +
+'Dst: <span class="hi">192.5.6.30:53</span>      (a.gtld-servers.net)\n' +
+'\n' +
+'<span class="dim"># Question</span>\n' +
+'Name:   www.example.com\n' +
+'Type:   A\n' +
+'\n' +
+'<span class="dim"># TLD response — also a referral, not the answer:</span>\n' +
+'Authority section (NS for example.com):\n' +
+'  <span class="ok">example.com.  172800  NS  ns1.example.com.</span>\n' +
+'  <span class="ok">example.com.  172800  NS  ns2.example.com.</span>\n' +
+'\n' +
+'Additional section (glue):\n' +
+'  <span class="ok">ns1.example.com.  A  93.184.216.34</span>\n' +
+'  <span class="ok">ns2.example.com.  A  93.184.216.35</span>\n' +
+'\n' +
+'<span class="dim"># .com says: "Ask the example.com nameservers."</span>'
+  },
+  {
+    title: 'Resolver → Authoritative',
+    tag: 'ITERATIVE QUERY 3',
+    arrow: { from: 'resolver', to: 'auth', broadcast: false, label: 'A? www.example.com' },
+    activeNodes: ['resolver', 'auth'],
+    narration: 'Finally the resolver reaches the <b>authoritative nameserver</b> for <code>example.com</code> — the one that actually holds the zone file with the answer. This server returns the A record with the actual IP address.',
+    detail:
+'<span class="dim"># Resolver → authoritative nameserver for example.com</span>\n' +
+'Dst: <span class="hi">93.184.216.34:53</span>    (ns1.example.com)\n' +
+'\n' +
+'<span class="dim"># Question</span>\n' +
+'Name:   www.example.com\n' +
+'Type:   A\n' +
+'\n' +
+'<span class="dim"># Authoritative response — has the answer!</span>\n' +
+'<span class="hi">AA = 1   (Authoritative Answer flag set)</span>\n' +
+'\n' +
+'Answer section:\n' +
+'  <span class="ok">www.example.com.  3600  IN  A  93.184.216.34</span>\n' +
+'\n' +
+'<span class="dim"># TTL = 3600 means resolvers may cache this for 1 hour.</span>'
+  },
+  {
+    title: 'Resolver → Client',
+    tag: 'FINAL ANSWER',
+    arrow: { from: 'resolver', to: 'client', broadcast: false, label: 'A 93.184.216.34' },
+    activeNodes: ['resolver', 'client'],
+    narration: 'The resolver returns the answer to the client. It also <b>caches the answer</b> for the TTL (1 hour here) — and caches the intermediate NS records too. Next time anyone asks for anything under <code>example.com</code>, the resolver skips root and TLD steps.',
+    detail:
+'<span class="dim"># Resolver → client (UDP 53)</span>\n' +
+'Src: 8.8.8.8:53\n' +
+'Dst: 10.0.0.42:51842\n' +
+'\n' +
+'<span class="dim"># Response flags</span>\n' +
+'<span class="hi">RD = 1     (Recursion Desired — echoed)</span>\n' +
+'<span class="hi">RA = 1     (Recursion Available — yes, I did it)</span>\n' +
+'AA = 0     (Resolver is not authoritative — answer came from cache/upstream)\n' +
+'\n' +
+'<span class="dim"># Answer section</span>\n' +
+'<span class="ok">www.example.com.  3600  IN  A  93.184.216.34</span>\n' +
+'\n' +
+'<span class="ok"># Client now has the IP. Browser opens TCP connection to 93.184.216.34:443</span>\n' +
+'\n' +
+'<span class="dim"># NEXT TIME any client asks for ANYTHING.example.com:</span>\n' +
+'<span class="dim">#   - Resolver still has .com NS cached → skip root</span>\n' +
+'<span class="dim">#   - Resolver still has example.com NS cached → skip TLD</span>\n' +
+'<span class="dim">#   - Only the authoritative query is needed</span>'
+  }
+];
+
+function renderTracer() {
+  var stage, steps;
+  if (currentTracer === 'dhcp') {
+    stage = DHCP_STAGE; steps = DHCP_STEPS;
+  } else {
+    stage = DNS_STAGE; steps = DNS_STEPS;
+  }
+
+  var step = steps[currentStep];
+  var activeSet = {};
+  if (step && step.activeNodes) step.activeNodes.forEach(function(n) { activeSet[n] = true; });
+
+  var svg = document.getElementById('tracerSvg');
+  var html = '';
+
+  // Render arrow first (so it sits behind boxes)
+  if (step && step.arrow) {
+    var fromNode = stage.nodes.find(function(n) { return n.id === step.arrow.from; });
+    var toNode = stage.nodes.find(function(n) { return n.id === step.arrow.to; });
+    if (fromNode && toNode) {
+      var x1 = fromNode.x + fromNode.w;
+      var y1 = fromNode.y + fromNode.h / 2;
+      var x2 = toNode.x;
+      var y2 = toNode.y + toNode.h / 2;
+
+      // For DHCP, route through switch in the middle
+      if (currentTracer === 'dhcp' && step.arrow.via === 'switch') {
+        // Use straight path through center; switch box is between them
+        var pathD;
+        if (step.arrow.from === 'client') {
+          // client → server: enter switch from left, exit right
+          pathD = 'M ' + x1 + ' ' + y1 + ' L ' + x2 + ' ' + y2;
+        } else {
+          // server → client: enter switch from right, exit left
+          // For visual clarity, offset slightly below
+          pathD = 'M ' + (toNode.x + toNode.w) + ' ' + (toNode.y + toNode.h / 2 + 8) + ' L ' + fromNode.x + ' ' + (fromNode.y + fromNode.h / 2 + 8);
+        }
+        var cls = 'packet-arrow active' + (step.arrow.broadcast ? ' broadcast' : '');
+        html += '<path d="' + pathD + '" class="' + cls + '" marker-end="url(#arrowhead)"/>';
+
+        // Label position
+        var lx = (fromNode.x + toNode.x + toNode.w) / 2 - 30;
+        var ly = (y1 + y2) / 2 - 8;
+        if (step.arrow.from === 'server') ly = y1 + 22;
+        html += '<text x="' + lx + '" y="' + ly + '" class="packet-label active">' + step.arrow.label + '</text>';
+      } else {
+        // DNS — adjust arrows for vertical positions
+        var cls2 = 'packet-arrow active';
+        // Compute proper edges
+        var fx, fy, tx, ty;
+        if (fromNode.x < toNode.x) {
+          // Arrow going right
+          fx = fromNode.x + fromNode.w;
+          tx = toNode.x;
+        } else if (fromNode.x > toNode.x) {
+          // Arrow going left
+          fx = fromNode.x;
+          tx = toNode.x + toNode.w;
+        } else {
+          // Same column
+          fx = fromNode.x + fromNode.w / 2;
+          tx = toNode.x + toNode.w / 2;
+        }
+        fy = fromNode.y + fromNode.h / 2;
+        ty = toNode.y + toNode.h / 2;
+
+        var pathD2 = 'M ' + fx + ' ' + fy + ' L ' + tx + ' ' + ty;
+        html += '<path d="' + pathD2 + '" class="' + cls2 + '" marker-end="url(#arrowhead)"/>';
+
+        var lx2 = (fx + tx) / 2 - 60;
+        var ly2 = (fy + ty) / 2 - 8;
+        html += '<text x="' + lx2 + '" y="' + ly2 + '" class="packet-label active">' + step.arrow.label + '</text>';
+      }
+    }
+  }
+
+  // Render nodes on top
+  stage.nodes.forEach(function(n) {
+    var cls = 'node-box ' + (n.cls || '');
+    if (activeSet[n.id]) cls += ' active-node';
+    html += '<rect x="' + n.x + '" y="' + n.y + '" width="' + n.w + '" height="' + n.h + '" class="' + cls + '" rx="3"/>';
+    html += '<text x="' + (n.x + n.w / 2) + '" y="' + (n.y + n.h / 2 - 2) + '" class="node-label">' + n.label + '</text>';
+    html += '<text x="' + (n.x + n.w / 2) + '" y="' + (n.y + n.h / 2 + 14) + '" class="node-sub">' + n.sub + '</text>';
+  });
+
+  // Arrowhead marker
+  html = '<defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1E8FBE"/></marker></defs>' + html;
+
+  svg.innerHTML = html;
+
+  // Adjust viewBox for DNS (taller stage)
+  if (currentTracer === 'dns') {
+    svg.setAttribute('viewBox', '0 0 700 240');
+  } else {
+    svg.setAttribute('viewBox', '0 0 700 240');
+  }
+
+  // Update controls
+  document.getElementById('stepNum').textContent = currentStep + 1;
+  document.getElementById('stepTotal').textContent = steps.length;
+  document.getElementById('stepProgressFill').style.width = ((currentStep + 1) / steps.length * 100) + '%';
+  document.getElementById('prevStep').disabled = currentStep === 0;
+  document.getElementById('nextStep').disabled = currentStep === steps.length - 1;
+
+  // Narration and detail
+  if (step) {
+    document.getElementById('stepNarration').innerHTML =
+      '<h5><span class="step-tag">' + step.tag + '</span>' + step.title + '</h5>' +
+      '<p>' + step.narration + '</p>';
+    document.getElementById('stepDetail').innerHTML = step.detail;
+  }
+}
+
+function nextTracerStep() {
+  var max = currentTracer === 'dhcp' ? DHCP_STEPS.length : DNS_STEPS.length;
+  if (currentStep < max - 1) {
+    currentStep++;
+    renderTracer();
+  }
+}
+
+function prevTracerStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    renderTracer();
+  }
+}
+
+function resetTracer() {
+  currentStep = 0;
+  renderTracer();
+}
+
+document.querySelectorAll('.tracer-tab').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.tracer-tab').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    currentTracer = b.dataset.tracer;
+    currentStep = 0;
+    renderTracer();
+  });
+});
+
+renderTracer();
+
+/* ============== TAB 3 · DNS RECORD MATCHER ============== */
+var ALL_RECORD_TYPES = ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'PTR', 'TXT', 'SRV'];
+
+var MATCHER_ITEMS = [
+  {
+    scenario: 'Map www.example.com to its IPv4 address',
+    context: 'The web team needs the domain <code>www.example.com</code> to resolve to <code>93.184.216.34</code> when users browse to it.',
+    correct: 'A',
+    explain: '<b>A record</b> maps a name to a 32-bit IPv4 address. This is the most basic and most common DNS record. AAAA would be used for IPv6 (128-bit). CNAME is for aliases (points to another name, not an IP).'
+  },
+  {
+    scenario: 'Map a name to an IPv6 address',
+    context: 'The same www.example.com also needs to resolve to <code>2606:2800:220:1::1</code> for IPv6-capable clients.',
+    correct: 'AAAA',
+    explain: '<b>AAAA record</b> ("quad-A") maps a name to a 128-bit IPv6 address. The four A\'s reference IPv6\'s 4× larger address size. Dual-stack hosts publish both A and AAAA records so clients use whichever protocol fits.'
+  },
+  {
+    scenario: 'Make "blog.example.com" point to the same server as "www.example.com"',
+    context: 'You want both URLs to serve the same content without maintaining two separate IP records (so a future IP change only needs one update).',
+    correct: 'CNAME',
+    explain: '<b>CNAME (Canonical Name)</b> creates an alias. <code>blog → www.example.com</code>. Resolvers receiving a query for <code>blog</code> get back the CNAME, then re-resolve www to its A/AAAA. The advantage: IP changes only require updating the canonical name. Limitation: CNAMEs cannot coexist with other records on the same name.'
+  },
+  {
+    scenario: 'Direct incoming email for the example.com domain',
+    context: 'When someone sends mail to <code>user@example.com</code>, mail servers need to know which server(s) accept mail for example.com.',
+    correct: 'MX',
+    explain: '<b>MX record (Mail eXchange)</b> identifies the mail server(s) for a domain. Multiple MX records can exist with priorities — <code>10 mail1.example.com</code> tried before <code>20 mail2.example.com</code> (lower priority = preferred). Sending mail servers look up the MX records of the recipient\'s domain.'
+  },
+  {
+    scenario: 'Verify that an incoming connection from a specific IP actually owns the domain it claims',
+    context: 'A mail server receives a connection from <code>93.184.216.34</code> claiming to be <code>mail.example.com</code>. The mail server wants to verify by reverse lookup.',
+    correct: 'PTR',
+    explain: '<b>PTR record</b> performs reverse DNS (IP → name). Stored in the <code>in-addr.arpa</code> (IPv4) or <code>ip6.arpa</code> (IPv6) zone. Mail systems do PTR lookups for anti-spam — if the connecting IP has no PTR or has one that doesn\'t match the claimed name, mail is often rejected or scored as spam.'
+  },
+  {
+    scenario: 'Publish an SPF record to authorize mail servers',
+    context: 'You want to tell receiving mail systems which servers are authorized to send mail on behalf of example.com (to reduce spoofing).',
+    correct: 'TXT',
+    explain: '<b>TXT record</b> stores arbitrary text — used for SPF (<code>v=spf1 include:_spf.example.com -all</code>), DKIM public keys, DMARC policy, and domain ownership verification for services like Google Workspace. Email authentication infrastructure heavily depends on TXT records.'
+  },
+  {
+    scenario: 'Tell clients where to find the LDAP server for a Windows domain',
+    context: 'Active Directory clients need to discover domain controllers automatically without hardcoded IPs. They query for "the LDAP service in this domain on the appropriate port".',
+    correct: 'SRV',
+    explain: '<b>SRV record</b> publishes the location of a named service: protocol, port, target host, priority, and weight. AD uses many SRV records like <code>_ldap._tcp.example.com</code> to advertise domain controllers. SIP, XMPP, and Minecraft servers also use SRV. Format: <code>_service._protocol.name</code>.'
+  },
+  {
+    scenario: 'Identify the authoritative DNS servers for the example.com zone',
+    context: 'A domain registrar needs to know which DNS servers hold the actual records for example.com so they can delegate the .com zone to point there.',
+    correct: 'NS',
+    explain: '<b>NS record (Name Server)</b> lists the authoritative DNS servers for a zone. The .com TLD nameservers hold NS records for <code>example.com</code> pointing to that domain\'s nameservers. When you register a domain, you tell the registrar which NS records to publish — that\'s how the delegation chain works.'
+  }
+];
+
+function renderMatcher() {
+  var grid = document.getElementById('matcherGrid');
+  var html = '';
+  MATCHER_ITEMS.forEach(function(item, idx) {
+    var choicesHTML = ALL_RECORD_TYPES.map(function(rt) {
+      return '<button class="match-rec" data-idx="' + idx + '" data-rt="' + rt + '">' + rt + '</button>';
+    }).join('');
+    html += '<div class="match-card" data-idx="' + idx + '">' +
+      '<div class="match-scenario">' + item.scenario + '</div>' +
+      '<div class="match-context">' + item.context + '</div>' +
+      '<div class="match-choices">' + choicesHTML + '</div>' +
+      '<div class="match-explain" id="matchExplain-' + idx + '"></div>' +
+      '</div>';
+  });
+  grid.innerHTML = html;
+
+  grid.querySelectorAll('.match-rec').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = parseInt(btn.dataset.idx, 10);
+      var picked = btn.dataset.rt;
+      var item = MATCHER_ITEMS[idx];
+      var card = grid.querySelectorAll('.match-card')[idx];
+      var isCorrect = picked === item.correct;
+
+      card.querySelectorAll('.match-rec').forEach(function(b) {
+        b.classList.add('locked');
+        if (b.dataset.rt === item.correct) b.classList.add('correct');
+        else if (b.dataset.rt === picked && !isCorrect) b.classList.add('wrong');
+      });
+
+      var explain = document.getElementById('matchExplain-' + idx);
+      explain.innerHTML = '<b>' + (isCorrect ? '✓ Correct.' : '✗ Not quite.') + '</b> ' + item.explain;
+      explain.classList.add('show');
+    });
+  });
+}
+renderMatcher();
+
+/* ============== TAB 4 · SCENARIOS ============== */
+var SCENARIOS = [
+  {
+    tag: 'DHCP relay',
+    body: 'A network has 5 VLANs, each on its own subnet, but only one centralized DHCP server. Clients in VLANs 20-50 are not getting IP addresses. The DHCP server is reachable via routing. What is the most likely fix?',
+    choices: [
+      { letter: 'A', text: 'Deploy a DHCP server in every VLAN', correct: false },
+      { letter: 'B', text: 'Configure <code>ip helper-address</code> on each VLAN interface to relay DHCP broadcasts to the server', correct: true },
+      { letter: 'C', text: 'Enable spanning-tree on the routers', correct: false },
+      { letter: 'D', text: 'Increase the DHCP scope size', correct: false }
+    ],
+    explain: '<b>DHCP Discover is a broadcast — and routers don\'t forward broadcasts.</b> A DHCP relay (configured with <code>ip helper-address</code> on the SVI of each VLAN) catches the local broadcast and unicasts it to the central DHCP server. This is the standard pattern for centralized DHCP in multi-VLAN networks.'
+  },
+  {
+    tag: 'DNS resolution',
+    body: 'A user types <code>www.example.com</code> in a browser. The local DNS resolver has no entry cached. It asks a root nameserver first. What does the root nameserver return?',
+    choices: [
+      { letter: 'A', text: 'The IP address of www.example.com', correct: false },
+      { letter: 'B', text: 'A referral to the .com TLD nameservers', correct: true },
+      { letter: 'C', text: 'An NXDOMAIN (does not exist)', correct: false },
+      { letter: 'D', text: 'The MAC address of the web server', correct: false }
+    ],
+    explain: 'Root nameservers don\'t know about specific domains — they only know about TLDs (.com, .org, .net, .gov, etc). The root response is a <b>referral</b>: "ask the .com nameservers." The resolver then queries the .com TLD, which refers it to the authoritative nameserver for example.com, which finally returns the A record.'
+  },
+  {
+    tag: 'Record types',
+    body: 'A mail admin wants to add SPF and DKIM records to authenticate outgoing mail from example.com. Which DNS record type is used?',
+    choices: [
+      { letter: 'A', text: 'MX', correct: false },
+      { letter: 'B', text: 'CNAME', correct: false },
+      { letter: 'C', text: 'TXT', correct: true },
+      { letter: 'D', text: 'PTR', correct: false }
+    ],
+    explain: '<b>TXT records</b> hold the text strings for SPF, DKIM, DMARC, and other email authentication protocols. Example: <code>"v=spf1 include:_spf.google.com -all"</code>. MX records say WHERE to deliver mail, but TXT records say WHO is authorized to send mail.'
+  },
+  {
+    tag: 'Time services',
+    body: 'A financial trading firm needs <b>sub-microsecond clock accuracy</b> across its servers to satisfy regulatory timestamping requirements. NTP\'s typical millisecond accuracy isn\'t enough. What should they deploy?',
+    choices: [
+      { letter: 'A', text: 'NTP with stratum 1 servers', correct: false },
+      { letter: 'B', text: 'PTP (Precision Time Protocol) with hardware timestamping', correct: true },
+      { letter: 'C', text: 'DHCP option 42', correct: false },
+      { letter: 'D', text: 'GPS sync without any network protocol', correct: false }
+    ],
+    explain: '<b>PTP (Precision Time Protocol, IEEE 1588)</b> achieves sub-microsecond accuracy via hardware timestamping in NICs and switches. UDP 319 (event messages) and UDP 320 (general messages). Used in financial trading, telecom, broadcast, and industrial automation where NTP\'s ~10ms accuracy is insufficient. NTP stratum 1 still has milliseconds of jitter — not enough for HFT.'
+  },
+  {
+    tag: 'IPv6 autoconfig',
+    body: 'An IPv6 host configures itself with an address by combining the network prefix from a Router Advertisement with an interface ID derived from its MAC address. The router does not maintain any record of which host has which address. What is this called?',
+    choices: [
+      { letter: 'A', text: 'Stateful DHCPv6', correct: false },
+      { letter: 'B', text: 'SLAAC (Stateless Address Autoconfiguration)', correct: true },
+      { letter: 'C', text: 'Link-local addressing', correct: false },
+      { letter: 'D', text: 'NDP relay', correct: false }
+    ],
+    explain: '<b>SLAAC</b> = Stateless Address Autoconfiguration. Host learns the prefix from the router (via Router Advertisement), generates its own interface identifier (originally via EUI-64 from the MAC; modern OSes generate random/privacy identifiers), and combines them. "Stateless" because nothing centrally tracks which host has which address. Stateful DHCPv6 is the IPv6 equivalent of IPv4 DHCP — the server assigns and tracks addresses.'
+  },
+  {
+    tag: 'DHCP options',
+    body: 'When a VoIP phone boots, it needs to download a configuration file from a TFTP server. Which DHCP option tells the phone the TFTP server\'s address?',
+    choices: [
+      { letter: 'A', text: 'Option 3 (default gateway)', correct: false },
+      { letter: 'B', text: 'Option 6 (DNS server)', correct: false },
+      { letter: 'C', text: 'Option 66 (TFTP server name)', correct: true },
+      { letter: 'D', text: 'Option 51 (lease time)', correct: false }
+    ],
+    explain: '<b>DHCP option 66</b> specifies a TFTP server name (or IP). Combined with option 67 (boot file name), it tells the booting device where to download its configuration or boot image. Heavily used for VoIP phone provisioning (where the phone downloads its config from a provisioning server) and PXE network boot. Cisco also uses option 150 as a vendor extension that allows a list of TFTP server IPs.'
+  }
+];
+
+function renderScenarios() {
+  var container = document.getElementById('scenarioContainer');
+  var html = '';
+  SCENARIOS.forEach(function(s, i) {
+    var choicesHTML = s.choices.map(function(c) {
+      return '<button class="choice" data-correct="' + c.correct + '"><b>' + c.letter + '.</b> ' + c.text + '</button>';
+    }).join('');
+    html += '<div class="scenario" data-i="' + i + '">' +
+      '<div class="scenario-head">' +
+      '<span class="scenario-num">Scenario ' + (i + 1) + ' of ' + SCENARIOS.length + '</span>' +
+      '<span class="scenario-tag">' + s.tag + '</span>' +
+      '</div>' +
+      '<div class="scenario-body">' + s.body + '</div>' +
+      '<div class="choices">' + choicesHTML + '</div>' +
+      '<div class="explanation">' + s.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.scenario').forEach(function(sc) {
+    sc.querySelectorAll('.choice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        sc.querySelectorAll('.choice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        sc.querySelector('.explanation').classList.add('show');
+      });
+    });
+  });
+}
+renderScenarios();
+
+/* ============== TAB 5 · KC ============== */
+var KC_QUESTIONS = [
+  {
+    q: 'In the DHCP DORA process, which message is broadcast by the CLIENT?',
+    choices: [
+      'Only Discover',
+      'Discover and Request',
+      'Offer and Ack',
+      'Only Ack'
+    ],
+    correct: 1,
+    explain: '<b>Discover and Request are both broadcast by the client.</b> Discover is broadcast because the client has no IP yet. Request is broadcast (even though the client now knows the server) so OTHER DHCP servers learn their offers were declined. Offer and Ack come from the server back to the client\'s MAC (unicast).'
+  },
+  {
+    q: 'A DHCP server hands out IPs from 10.0.0.50-10.0.0.200. Several printers have static IPs in this range. What DHCP feature prevents the server from leasing IPs that are already used?',
+    choices: ['Reservation', 'Exclusion', 'Lease renewal', 'Helper address'],
+    correct: 1,
+    explain: '<b>Exclusion</b> tells the DHCP server "do not lease these specific IPs." Static-IP printers are excluded so DHCP never offers their addresses. Compare with <b>reservation</b>: a reservation binds a specific IP to a specific MAC — the device still gets the IP via DHCP, but always the same IP every time.'
+  },
+  {
+    q: 'A client wants to use DHCP, but the DHCP server is on a different subnet. What is needed on the client\'s subnet?',
+    choices: [
+      'A second DHCP server in the client\'s subnet',
+      'A DHCP relay agent (often via <code>ip helper-address</code>)',
+      'Spanning Tree Protocol',
+      'Loopback interface'
+    ],
+    correct: 1,
+    explain: '<b>DHCP relay</b> is needed because DHCP Discover is a broadcast and routers don\'t forward broadcasts. The router on the client\'s subnet (or a Layer 3 switch SVI) is configured with <code>ip helper-address</code> pointing to the DHCP server. When it receives a DHCP broadcast, it converts it to a unicast and forwards it to the server.'
+  },
+  {
+    q: 'Which DNS record maps a name to a 128-bit IPv6 address?',
+    choices: ['A', 'AAAA', 'CNAME', 'PTR'],
+    correct: 1,
+    explain: '<b>AAAA record</b> (pronounced "quad-A") holds IPv6 addresses (128-bit). The A record is IPv4 (32-bit). The "quad-A" name comes from IPv6 addresses being 4× larger than IPv4. Dual-stack websites publish BOTH A and AAAA records.'
+  },
+  {
+    q: 'What is the purpose of a CNAME record?',
+    choices: [
+      'Map a name to an IP address',
+      'Define an alias of one name to another name (the canonical name)',
+      'Identify the mail server for a domain',
+      'Provide the reverse lookup IP → name'
+    ],
+    correct: 1,
+    explain: '<b>CNAME = Canonical Name = alias.</b> <code>blog.example.com CNAME www.example.com</code> means "blog is just another name for www." The advantage: when www\'s IP changes, only one record needs updating. Limitation: CNAMEs cannot coexist with other record types on the same name (no CNAME at zone apex like example.com itself).'
+  },
+  {
+    q: 'A mail server receives mail destined for user@example.com. Which DNS record type does it query to find the mail server?',
+    choices: ['A', 'CNAME', 'MX', 'TXT'],
+    correct: 2,
+    explain: '<b>MX (Mail eXchange) records</b> identify the mail servers for a domain, with priority values. Lower priority = preferred. Example: <code>10 mail1.example.com</code> tried first; if it fails, fall back to <code>20 mail2.example.com</code>. The sending mail server does an MX lookup, then connects to the highest-priority (lowest number) reachable mail server.'
+  },
+  {
+    q: 'What is the difference between recursive and authoritative DNS servers?',
+    choices: [
+      'Recursive servers hold zone data; authoritative servers do not',
+      'Recursive servers follow the lookup chain on the client\'s behalf; authoritative servers hold the actual zone data',
+      'Recursive is for IPv4; authoritative is for IPv6',
+      'They are the same thing'
+    ],
+    correct: 1,
+    explain: '<b>Recursive resolvers</b> do the work of resolution — they query root, TLD, and authoritative servers to bring back the final answer. ISPs and public DNS services (8.8.8.8, 1.1.1.1) run recursive resolvers. <b>Authoritative servers</b> hold the zone data — the actual records — and answer with authority for the domains they own. A domain\'s ns1.example.com is authoritative for example.com.'
+  },
+  {
+    q: 'Which UDP port does NTP use?',
+    choices: ['53', '67', '123', '514'],
+    correct: 2,
+    explain: '<b>NTP uses UDP port 123.</b> 53 is DNS, 67 is DHCP server, 514 is syslog. PTP (Precision Time Protocol) uses UDP 319 and 320 — different protocol, different ports, much higher accuracy.'
+  },
+  {
+    q: 'In NTP, which stratum represents the most accurate time source ON the network?',
+    choices: [
+      'Stratum 0',
+      'Stratum 1',
+      'Stratum 15',
+      'Stratum 16'
+    ],
+    correct: 1,
+    explain: '<b>Stratum 1 servers</b> are the highest-precision time sources ON the network — they\'re directly synced to stratum 0 (reference clocks like atomic clocks or GPS, which are NOT on the network themselves). Each stratum level adds network latency and trust degradation. Stratum 16 means unsynchronized/unreachable.'
+  },
+  {
+    q: 'What is SLAAC?',
+    choices: [
+      'A stateful IPv4 address assignment protocol',
+      'IPv6 Stateless Address Autoconfiguration — host generates its own address from router prefix + interface ID',
+      'A DNS record type',
+      'A backup protocol'
+    ],
+    correct: 1,
+    explain: '<b>SLAAC = Stateless Address Autoconfiguration</b> for IPv6. The router advertises the network prefix via ICMPv6 Router Advertisement; the host generates its interface ID (originally EUI-64 from MAC, modern OSes use random privacy IDs); the host combines them into a full address. "Stateless" because no central server tracks which host has which address. DHCPv6 (stateful mode) is the alternative.'
+  },
+  {
+    q: 'A dual-stack host receives both an IPv4 and IPv6 address. When it wants to reach a destination that has both A and AAAA records, which protocol does it typically prefer?',
+    choices: ['IPv4 (legacy)', 'IPv6 (preferred when available)', 'Whichever is faster to resolve', 'Always alternates'],
+    correct: 1,
+    explain: '<b>Dual-stack hosts typically prefer IPv6 when available</b>, falling back to IPv4 if IPv6 fails or is slower. This is governed by the Happy Eyeballs algorithm (RFC 8305) on modern OSes — it tries both in parallel and uses whichever responds first, but with a slight preference for IPv6. The goal is gradually shifting traffic to IPv6 as it becomes more widely deployed.'
+  },
+  {
+    q: 'A DNS record has a TTL of 60 seconds. What does this mean?',
+    choices: [
+      'The record expires from the authoritative server in 60 seconds',
+      'Resolvers may cache the record for up to 60 seconds before re-querying',
+      'The record can only be queried 60 times before refresh',
+      'The record requires DNSSEC re-signing every 60 seconds'
+    ],
+    correct: 1,
+    explain: '<b>TTL = Time To Live = how long resolvers may cache the record.</b> Short TTLs (60s-300s) mean changes propagate quickly but generate more query traffic. Long TTLs (1h-24h) reduce queries but slow down change propagation. Best practice: lower TTL to a small value (e.g., 60s) BEFORE planned IP migrations so the change propagates fast, then raise it back afterward.'
+  }
+];
+
+function renderKC() {
+  var container = document.getElementById('kcContainer');
+  var html = '';
+  KC_QUESTIONS.forEach(function(q, i) {
+    var choicesHTML = q.choices.map(function(c, j) {
+      var letter = String.fromCharCode(65 + j);
+      return '<button class="qchoice" data-correct="' + (j === q.correct) + '"><span class="letter">' + letter + '</span><span>' + c + '</span></button>';
+    }).join('');
+    html += '<div class="kc-q" data-i="' + i + '">' +
+      '<div class="qnum">Question ' + (i + 1) + ' of ' + KC_QUESTIONS.length + '</div>' +
+      '<div class="qtext">' + q.q + '</div>' +
+      '<div class="qchoices">' + choicesHTML + '</div>' +
+      '<div class="explain">' + q.explain + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+
+  var answered = 0, correct = 0;
+  container.querySelectorAll('.kc-q').forEach(function(q) {
+    q.querySelectorAll('.qchoice').forEach(function(c) {
+      c.addEventListener('click', function() {
+        if (c.classList.contains('locked')) return;
+        var isCorrect = c.dataset.correct === 'true';
+        q.querySelectorAll('.qchoice').forEach(function(x) {
+          x.classList.add('locked');
+          if (x.dataset.correct === 'true') x.classList.add('correct');
+          else if (x === c && !isCorrect) x.classList.add('wrong');
+        });
+        q.querySelector('.explain').classList.add('show');
+        answered++;
+        if (isCorrect) correct++;
+        document.getElementById('kcAnswered').textContent = answered;
+        document.getElementById('kcCorrect').textContent = correct;
+        document.getElementById('kcBarFill').style.width = (answered / KC_QUESTIONS.length * 100) + '%';
+      });
+    });
+  });
+}
+renderKC();
+
+/* ============== TAB 6 · LIGHTNING ============== */
+var LIGHTNING_BANK = [
+  { q: 'DHCP server port?', choices: ['TCP 53', 'UDP 67', 'UDP 68', 'TCP 80'], correct: 1 },
+  { q: 'DHCP client port?', choices: ['UDP 67', 'UDP 68', 'TCP 22', 'UDP 514'], correct: 1 },
+  { q: 'DORA stands for?', choices: ['Discover Offer Request Ack', 'Define Operate Run Apply', 'Dynamic Open Resource Access', 'Dispatch Order Reply Authorize'], correct: 0 },
+  { q: 'D in DORA is?', choices: ['Define', 'Discover', 'Dispatch', 'Decline'], correct: 1 },
+  { q: 'DHCPDISCOVER is sent as?', choices: ['Unicast to server', 'Broadcast', 'Multicast', 'Anycast'], correct: 1 },
+  { q: 'DHCPOFFER is sent as?', choices: ['Broadcast', 'Unicast back to client MAC', 'Multicast', 'Always rejected'], correct: 1 },
+  { q: 'DHCPREQUEST is broadcast because?', choices: ['Required by TCP', 'Tells other servers their offers declined', 'Encryption', 'No reason'], correct: 1 },
+  { q: 'DHCP option 3?', choices: ['DNS', 'Subnet mask', 'Default gateway', 'Lease time'], correct: 2 },
+  { q: 'DHCP option 6?', choices: ['DNS servers', 'NTP servers', 'TFTP server', 'Subnet'], correct: 0 },
+  { q: 'DHCP option 51?', choices: ['Lease time', 'Subnet', 'DNS', 'Boot file'], correct: 0 },
+  { q: 'DHCP option 66?', choices: ['NTP server', 'TFTP server', 'DNS server', 'Default gateway'], correct: 1 },
+  { q: 'DHCP reservation binds?', choices: ['IP to subnet', 'IP to MAC', 'IP to port', 'IP to VLAN'], correct: 1 },
+  { q: 'DHCP exclusion means?', choices: ['Block a MAC', 'IPs DHCP will not lease', 'Reserved subnet', 'No DNS'], correct: 1 },
+  { q: 'DHCP across subnets uses?', choices: ['STP', 'DHCP relay (helper-address)', 'NAT', 'BGP'], correct: 1 },
+  { q: 'DNS uses port?', choices: ['UDP 53', 'TCP 80', 'UDP 67', 'UDP 123'], correct: 0 },
+  { q: 'DNS zone transfer uses?', choices: ['UDP 53', 'TCP 53', 'UDP 123', 'TCP 22'], correct: 1 },
+  { q: 'A record holds?', choices: ['IPv4 address', 'IPv6 address', 'Alias', 'Mail server'], correct: 0 },
+  { q: 'AAAA record holds?', choices: ['IPv4 address', 'IPv6 address', 'Alias', 'Reverse lookup'], correct: 1 },
+  { q: 'CNAME is?', choices: ['IP address', 'Name alias', 'Mail server', 'Reverse pointer'], correct: 1 },
+  { q: 'MX record specifies?', choices: ['IPv6 address', 'Mail server with priority', 'Reverse lookup', 'TXT data'], correct: 1 },
+  { q: 'Lower MX priority means?', choices: ['Less preferred', 'More preferred', 'Same', 'Backup only'], correct: 1 },
+  { q: 'PTR record is for?', choices: ['Forward lookup', 'Reverse lookup IP→name', 'Mail server', 'IPv6'], correct: 1 },
+  { q: 'TXT record holds?', choices: ['IP address', 'Arbitrary text (SPF, DKIM)', 'MAC', 'Port'], correct: 1 },
+  { q: 'NS record identifies?', choices: ['Mail server', 'Authoritative DNS servers', 'IP address', 'Alias'], correct: 1 },
+  { q: 'SOA record holds?', choices: ['Mail data', 'Zone metadata', 'Reverse IPs', 'Aliases'], correct: 1 },
+  { q: 'Recursive resolver does?', choices: ['Holds zone data', 'Follows lookup chain', 'Sends mail', 'Routes packets'], correct: 1 },
+  { q: 'Authoritative server holds?', choices: ['Cache', 'Actual zone data', 'NTP refs', 'PTP'], correct: 1 },
+  { q: 'NTP port?', choices: ['UDP 53', 'UDP 67', 'UDP 123', 'UDP 514'], correct: 2 },
+  { q: 'PTP event port?', choices: ['123', '319', '320', '514'], correct: 1 },
+  { q: 'Lower NTP stratum =?', choices: ['Less accurate', 'More accurate', 'Same', 'Offline'], correct: 1 },
+  { q: 'Stratum 0 is?', choices: ['Most network servers', 'Reference clocks (atomic, GPS)', 'Backup', 'Unsynchronized'], correct: 1 },
+  { q: 'Stratum 16 means?', choices: ['Best precision', 'Unsynchronized', 'Backup', 'IPv6 only'], correct: 1 },
+  { q: 'SLAAC is for?', choices: ['IPv4', 'IPv6 autoconfig', 'DHCP relay', 'DNS'], correct: 1 },
+  { q: 'Dual stack means?', choices: ['Two ISPs', 'IPv4 + IPv6 together', 'Two DHCP servers', 'Backup site'], correct: 1 },
+  { q: 'IPv6 link-local prefix?', choices: ['2001::', 'fe80::/10', 'fc00::/7', '::1'], correct: 1 },
+  { q: 'EUI-64 derives interface ID from?', choices: ['IP', 'MAC address', 'Hostname', 'NTP'], correct: 1 },
+  { q: 'NDP replaces what in IPv6?', choices: ['ARP and ICMP discovery', 'DNS', 'DHCP', 'OSPF'], correct: 0 }
+];
+
+var lrTimeChoice = 30;
+var lrTimer = null;
+var lrSecondsLeft = 0;
+var lrAnsweredCount = 0;
+var lrCorrectCount = 0;
+var lrWrongCount = 0;
+var lrCurrentQ = null;
+var lrShuffled = [];
+
+document.querySelectorAll('.lr-config .pick').forEach(function(b) {
+  b.addEventListener('click', function() {
+    if (lrTimer) return;
+    document.querySelectorAll('.lr-config .pick').forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    lrTimeChoice = parseInt(b.dataset.time, 10);
+    document.getElementById('lrTimer').textContent = lrTimeChoice;
+  });
+});
+
+function shuffleArray(arr) {
+  var copy = arr.slice();
+  for (var i = copy.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = copy[i]; copy[i] = copy[j]; copy[j] = temp;
+  }
+  return copy;
+}
+
+function startLightning() {
+  lrSecondsLeft = lrTimeChoice;
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  lrShuffled = shuffleArray(LIGHTNING_BANK);
+  updateLRStats();
+  document.getElementById('lrStartBtn').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'block';
+  document.getElementById('lrResults').style.display = 'none';
+  showNextLightning();
+  lrTimer = setInterval(function() {
+    lrSecondsLeft--;
+    updateLRTimer();
+    if (lrSecondsLeft <= 0) finishLightning();
+  }, 1000);
+}
+
+function updateLRTimer() {
+  var el = document.getElementById('lrTimer');
+  el.textContent = Math.max(0, lrSecondsLeft);
+  el.classList.remove('warning', 'danger');
+  if (lrSecondsLeft <= 5) el.classList.add('danger');
+  else if (lrSecondsLeft <= 15) el.classList.add('warning');
+}
+
+function updateLRStats() {
+  document.getElementById('lrAnswered').textContent = lrAnsweredCount;
+  document.getElementById('lrCorrect').textContent = lrCorrectCount;
+  document.getElementById('lrWrong').textContent = lrWrongCount;
+}
+
+function showNextLightning() {
+  if (lrShuffled.length === 0) lrShuffled = shuffleArray(LIGHTNING_BANK);
+  lrCurrentQ = lrShuffled.shift();
+  document.getElementById('lrQText').innerHTML = lrCurrentQ.q;
+  var choicesEl = document.getElementById('lrChoices');
+  var html = '';
+  lrCurrentQ.choices.forEach(function(c, i) {
+    html += '<button class="lr-choice" data-i="' + i + '">' + c + '</button>';
+  });
+  choicesEl.innerHTML = html;
+  choicesEl.querySelectorAll('.lr-choice').forEach(function(b) {
+    b.addEventListener('click', function() {
+      handleLRAnswer(parseInt(b.dataset.i, 10), b);
+    });
+  });
+}
+
+function handleLRAnswer(picked, btn) {
+  if (!lrCurrentQ) return;
+  document.querySelectorAll('#lrChoices .lr-choice').forEach(function(b, i) {
+    b.disabled = true;
+    if (i === lrCurrentQ.correct) b.classList.add('correct');
+    else if (i === picked) b.classList.add('wrong');
+  });
+  lrAnsweredCount++;
+  if (picked === lrCurrentQ.correct) {
+    lrCorrectCount++;
+  } else {
+    lrWrongCount++;
+    lrSecondsLeft = Math.max(0, lrSecondsLeft - 2);
+    updateLRTimer();
+  }
+  updateLRStats();
+  setTimeout(function() { if (lrTimer) showNextLightning(); }, 600);
+}
+
+function finishLightning() {
+  clearInterval(lrTimer);
+  lrTimer = null;
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  document.getElementById('lrResults').style.display = 'block';
+  var pct = lrAnsweredCount === 0 ? 0 : Math.round(lrCorrectCount / lrAnsweredCount * 100);
+  document.getElementById('lrFinalScore').innerHTML =
+    'Time! &mdash; <span style="color: var(--green);">' + lrCorrectCount + ' right</span> · ' +
+    '<span style="color: var(--red);">' + lrWrongCount + ' wrong</span> · ' +
+    '<span style="color: var(--gold-deep);">' + pct + '% accuracy</span>';
+}
+
+function resetLightning() {
+  document.getElementById('lrTimer').textContent = lrTimeChoice;
+  document.getElementById('lrTimer').classList.remove('warning', 'danger');
+  document.getElementById('lrStartBtn').style.display = 'inline-block';
+  document.getElementById('lrResults').style.display = 'none';
+  document.getElementById('lrQuestionArea').style.display = 'none';
+  lrAnsweredCount = 0; lrCorrectCount = 0; lrWrongCount = 0;
+  updateLRStats();
+}
+</script>
+</body>
+</html>
