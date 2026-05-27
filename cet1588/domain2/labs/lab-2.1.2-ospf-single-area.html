@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.1.2 · OSPF Single-Area · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.1 Routing Technologies</span>
+    <span class="crumb">Lab 2.1.2</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 2 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.1.2 · Packet Tracer · ≈ 60 min</div>
+    <h1>OSPF — let the routers <em>do the work.</em></h1>
+    <p class="lede">Same three-router topology. Same goal: PC-M reaches PC-H. But this time you'll throw out every <code>ip route</code> statement and let <b>OSPF</b> figure out the paths automatically. You'll enable OSPF process 1 in area 0 on all three routers, advertise the connected networks, watch neighbor adjacencies form, and inspect the link-state database. By the end, the routing table looks completely different — every learned route is prefixed <code>O</code> with administrative distance <b>110</b>.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">OSPFv2 single-area on existing topology</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.1.1 .pkt file</span></div>
+    <div class="ref-row"><span class="name">Protocol</span><span class="desc">OSPFv2 · Process ID 1 · Area 0</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.1.2-OSPF-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.1.2</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      Dynamic routing · OSPF area 0 · AD = 110 · cost metric · neighbor adjacency · <code>show ip ospf</code>
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">OSPF routers</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Neighbor adjacencies</div></div>
+  <div class="stat"><div class="num">110</div><div class="label">Administrative distance</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>From static to <em>dynamic.</em></h2>
+  <p>In Lab 2.1.1 you typed every route by hand. That works for three routers — it falls apart at thirty. <b>OSPF (Open Shortest Path First)</b> is the open-standard link-state protocol that solves this. Each router floods information about its <i>links</i> (not its routes) to every neighbor in the same area. Every router then runs the <b>Dijkstra algorithm</b> on the combined link-state database and computes the shortest path to every destination.</p>
+  <p>The result: identical reachability to Lab 2.1.1, but the routers — not you — maintain the routing table. When a serial link drops, OSPF reconverges in seconds. When you add a new LAN, you advertise it once and every router learns it automatically.</p>
+
+  <div class="section-head">Topology — same as Lab 2.1.1</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <!-- Area 0 boundary -->
+      <rect x="40" y="150" width="820" height="100" fill="rgba(56,176,224,0.06)" stroke="#38B0E0" stroke-width="1.5" stroke-dasharray="6,4" rx="6"/>
+      <text x="50" y="170" fill="#1E8FBE" font-weight="700" font-size="10">OSPF AREA 0 (BACKBONE)</text>
+      <!-- ISP cloud (unchanged) -->
+      <ellipse cx="120" cy="80" rx="60" ry="28" fill="#ECEAE2" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="78" text-anchor="middle" font-weight="700" fill="#1A2050">ISP</text>
+      <text x="120" y="94" text-anchor="middle" fill="#767E92" font-size="10">default-info</text>
+      <line x1="120" y1="108" x2="120" y2="170" stroke="#1A2050" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="135" y="142" fill="#1E8FBE" font-weight="700" font-size="10">G0/0</text>
+      <text x="135" y="156" fill="#767E92" font-size="9">203.0.113.0/30</text>
+      <!-- Miami -->
+      <rect x="80" y="180" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="120" y="202" text-anchor="middle" fill="#E0B840" font-weight="700">R-MIAMI</text>
+      <text x="120" y="218" text-anchor="middle" fill="#6BC5E8" font-size="10">RID 1.1.1.1</text>
+      <line x1="120" y1="230" x2="120" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="80" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-MIA</text>
+      <circle cx="120" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-M</text>
+      <line x1="120" y1="306" x2="120" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="170" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.10.0/24</text>
+      <!-- Miami-Atlanta link with cost -->
+      <line x1="160" y1="205" x2="380" y2="205" stroke="#1A2050" stroke-width="2"/>
+      <text x="270" y="196" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">Serial · 1.544 Mbps</text>
+      <text x="270" y="222" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">OSPF cost: 64</text>
+      <!-- Atlanta -->
+      <rect x="380" y="180" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="420" y="202" text-anchor="middle" fill="#E0B840" font-weight="700">R-ATLANTA</text>
+      <text x="420" y="218" text-anchor="middle" fill="#6BC5E8" font-size="10">RID 2.2.2.2</text>
+      <line x1="420" y1="230" x2="420" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="380" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-ATL</text>
+      <circle cx="420" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-A</text>
+      <line x1="420" y1="306" x2="420" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="470" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.20.0/24</text>
+      <!-- Atlanta-Houston link with cost -->
+      <line x1="460" y1="205" x2="680" y2="205" stroke="#1A2050" stroke-width="2"/>
+      <text x="570" y="196" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">Serial · 1.544 Mbps</text>
+      <text x="570" y="222" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">OSPF cost: 64</text>
+      <!-- Houston -->
+      <rect x="680" y="180" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="720" y="202" text-anchor="middle" fill="#E0B840" font-weight="700">R-HOUSTON</text>
+      <text x="720" y="218" text-anchor="middle" fill="#6BC5E8" font-size="10">RID 3.3.3.3</text>
+      <line x1="720" y1="230" x2="720" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="680" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-HOU</text>
+      <circle cx="720" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-H</text>
+      <line x1="720" y1="306" x2="720" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="770" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.30.0/24</text>
+    </svg>
+  </div>
+
+  <div class="section-head">What's new in this lab</div>
+  <ul>
+    <li><b>Router IDs (RID)</b> — manually set so they're predictable. R-MIAMI = <code>1.1.1.1</code>, R-ATLANTA = <code>2.2.2.2</code>, R-HOUSTON = <code>3.3.3.3</code>. Without manual RIDs, the router picks the highest IP on any active interface — fine, but unpredictable in labs.</li>
+    <li><b>OSPF cost</b> — the metric. Calculated as <code>10⁸ / bandwidth</code>. A 1.544 Mbps T1 link = cost 64. A 100 Mbps FastEthernet = cost 1. Lower cost = more preferred.</li>
+    <li><b>Neighbor adjacencies</b> — OSPF sends Hello packets every 10 seconds on broadcast links to find neighbors and form an adjacency. You'll see them form in real time.</li>
+    <li><b>Default route advertisement</b> — R-MIAMI is the edge router. It originates a default route into OSPF so R-ATLANTA and R-HOUSTON learn how to reach the internet without you statically configuring it on each.</li>
+  </ul>
+
+  <div class="section-head">IP Addressing Plan</div>
+  <p>The IP plan is <b>unchanged from Lab 2.1.1</b>. If you saved <code>Lab-2.1.1-StaticRouting-FirstLast.pkt</code>, open it now and Save As <code>Lab-2.1.2-OSPF-FirstLast.pkt</code>. You'll modify a copy.</p>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device</th><th>Interface</th><th>IP Address</th><th>Subnet Mask</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/0 (ISP)</td><td class="ip">203.0.113.2</td><td class="iface">255.255.255.252</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.10.1</td><td class="iface">255.255.255.0</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.12.1</td><td class="iface">255.255.255.252</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/0 (to MIA)</td><td class="ip">10.0.12.2</td><td class="iface">255.255.255.252</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.20.1</td><td class="iface">255.255.255.0</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/1 (to HOU)</td><td class="ip">10.0.23.1</td><td class="iface">255.255.255.252</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.23.2</td><td class="iface">255.255.255.252</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.30.1</td><td class="iface">255.255.255.0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>Every static route from Lab 2.1.1 is removed</b> on all three routers. <code>show ip route</code> contains no <code>S</code> entries other than the OSPF-originated default.</li>
+      <li><b>OSPF process 1 is running in area 0</b> on all three routers.</li>
+      <li><b>Two full neighbor adjacencies</b> exist: R-MIAMI ↔ R-ATLANTA and R-ATLANTA ↔ R-HOUSTON. Both must show state <code>FULL</code>.</li>
+      <li><b>Routing tables populated with O routes</b> — every distant LAN appears prefixed <code>O</code> with metric and next-hop.</li>
+      <li><b>Inter-area cost is visible</b> — the route to 10.10.30.0/24 on R-MIAMI shows cost = 128 (two T1 hops at cost 64 each).</li>
+      <li><b>PC-M pings PC-H end-to-end</b> — same connectivity test as Lab 2.1.1, but now via dynamically-learned routes.</li>
+      <li><b>R-MIAMI advertises a default route</b> via <code>default-information originate</code>. R-ATLANTA and R-HOUSTON show it as <code>O*E2</code>.</li>
+      <li><b>Configurations saved</b> on every router (<code>copy run start</code>).</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the exam</h5>
+    <p>N10-009 objective 2.1 names OSPF explicitly. Expect questions about <b>OSPF area 0</b>, <b>AD = 110</b>, <b>link-state vs distance-vector</b>, and <b>neighbor states</b>. The exam loves the trick question: "OSPF and static both have a route to 10.10.30.0/24 — which wins?" Static (AD = 1) wins over OSPF (AD = 110). This lab burns that into memory.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Open <em>Lab 2.1.1</em> and prepare.</h2>
+  <p>You're not rebuilding the topology. You're modifying it. Open your saved Lab 2.1.1 file, save it under the new name, then strip the static routes out before configuring OSPF.</p>
+
+  <div class="section-head">Open the previous lab</div>
+  <div class="step" data-step="1">
+    <h4>Open Lab-2.1.1-StaticRouting-FirstLast.pkt</h4>
+    <p>If you don't still have the file, complete Lab 2.1.1 first or download the starter file from Canvas. The topology, IP addressing, and PC configurations must already match the IP plan.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Save As — give the new lab its own filename</h4>
+    <p>File → Save As → <code>Lab-2.1.2-OSPF-Lastname-Firstname.pkt</code>. Always work on the copy so Lab 2.1.1 remains submittable in its original state.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Confirm baseline connectivity still works</h4>
+    <p>Before you change anything, run a quick <code>ping</code> from PC-M to PC-H. If it succeeds, your statics are intact and the topology is healthy — perfect starting state. If it fails, fix Lab 2.1.1 first.</p>
+  </div>
+
+  <div class="section-head">Strip out the old statics</div>
+  <div class="step" data-step="4">
+    <h4>Remove every static route on all three routers</h4>
+    <p>OSPF and lingering statics will coexist — but the static will always win because of AD. To prove OSPF works on its own, remove the statics first. The Configure tab shows the exact <code>no ip route …</code> commands.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Confirm the routing table is now empty of statics</h4>
+    <p>On each router: <code>show ip route static</code>. The output should say <i>no routes found</i> or just list the gateway-of-last-resort if you left the ISP-pointing default. We'll let OSPF handle that next.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>The connectivity break</h5>
+    <p>After removing the statics, <b>connectivity between LANs will fail</b> — that's expected. PC-M still reaches its own subnet but not Atlanta or Houston. Don't panic; that's the empty canvas OSPF will paint on.</p>
+  </div>
+
+  <p>Once the statics are gone and you've confirmed the break, move to the Configure tab to bring OSPF up.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Bring up <em>OSPF</em>.</h2>
+  <p>Three configuration blocks below — one per router. Each block removes the old statics first, then enables OSPF with process ID 1, sets a memorable router ID, and advertises every connected network into area 0. <b>Order matters</b>: configure R-ATLANTA last so you can watch its neighbor adjacencies form to both sides in real time.</p>
+
+  <div class="callout">
+    <h5>OSPF network statement syntax</h5>
+    <p>Cisco OSPF uses <b>wildcard masks</b> (inverse of subnet masks), not subnet masks. A /24 (255.255.255.0) is written as <code>0.0.0.255</code>. A /30 (255.255.255.252) is written as <code>0.0.0.3</code>. Memorize this — it's the most common syntax error on the exam and in labs.</p>
+  </div>
+
+  <!-- R-MIAMI -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03</span>
+      <span class="term-device">R-MIAMI</span>
+      <button class="copy-btn" data-copy="cfg-miami">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-miami"><span class="comment">! ===== R-MIAMI — Edge router, area 0 =====</span>
+<span class="comment">! Remove the statics from Lab 2.1.1</span>
+configure terminal
+no ip route 10.10.20.0 255.255.255.0 10.0.12.2
+no ip route 10.10.30.0 255.255.255.0 10.0.12.2
+no ip route 10.0.23.0 255.255.255.252 10.0.12.2
+<span class="comment">! Keep the ISP default route — we will redistribute it</span>
+<span class="comment">! into OSPF in a moment so neighbors learn it dynamically</span>
+
+<span class="comment">! ----- Enable OSPF -----</span>
+router ospf 1
+ <span class="comment">! Hard-set the router ID for predictability</span>
+ router-id 1.1.1.1
+ <span class="comment">! Advertise the Miami LAN into area 0</span>
+ network 10.10.10.0 0.0.0.255 area 0
+ <span class="comment">! Advertise the WAN serial subnet into area 0</span>
+ network 10.0.12.0 0.0.0.3 area 0
+ <span class="comment">! Originate the default route into OSPF so neighbors learn it</span>
+ default-information originate
+ <span class="comment">! Optional: silence OSPF on the LAN-facing interface (no neighbors live there)</span>
+ passive-interface GigabitEthernet0/1
+exit
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-HOUSTON -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 03</span>
+      <span class="term-device">R-HOUSTON</span>
+      <button class="copy-btn" data-copy="cfg-houston">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-houston"><span class="comment">! ===== R-HOUSTON — Stub router, area 0 =====</span>
+<span class="comment">! Remove the default route from Lab 2.1.1</span>
+configure terminal
+no ip route 0.0.0.0 0.0.0.0 10.0.23.1
+
+<span class="comment">! ----- Enable OSPF -----</span>
+router ospf 1
+ router-id 3.3.3.3
+ <span class="comment">! Advertise the Houston LAN into area 0</span>
+ network 10.10.30.0 0.0.0.255 area 0
+ <span class="comment">! Advertise the WAN serial subnet into area 0</span>
+ network 10.0.23.0 0.0.0.3 area 0
+ passive-interface GigabitEthernet0/1
+exit
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-ATLANTA -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 03 (transit — do last)</span>
+      <span class="term-device">R-ATLANTA</span>
+      <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-atlanta"><span class="comment">! ===== R-ATLANTA — Transit, area 0 =====</span>
+<span class="comment">! Remove the statics from Lab 2.1.1</span>
+configure terminal
+no ip route 10.10.10.0 255.255.255.0 10.0.12.1
+no ip route 10.10.30.0 255.255.255.0 10.0.23.2
+
+<span class="comment">! ----- Enable OSPF -----</span>
+router ospf 1
+ router-id 2.2.2.2
+ <span class="comment">! Advertise the Atlanta LAN into area 0</span>
+ network 10.10.20.0 0.0.0.255 area 0
+ <span class="comment">! Advertise BOTH serial WAN subnets into area 0</span>
+ network 10.0.12.0 0.0.0.3 area 0
+ network 10.0.23.0 0.0.0.3 area 0
+ passive-interface GigabitEthernet0/1
+exit
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Watch the console messages</h5>
+    <p>As soon as you commit the OSPF config on R-ATLANTA, you'll see real-time console messages:<br>
+    <code>%OSPF-5-ADJCHG: Process 1, Nbr 1.1.1.1 on Serial0/0/0 from LOADING to FULL, Loading Done</code><br>
+    <code>%OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on Serial0/0/1 from LOADING to FULL, Loading Done</code><br>
+    Those FULL adjacencies are the green light — neighbors found, link-state databases exchanged, SPF run. Routes are now in the table.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Wildcard mask gotcha</h5>
+    <p>If you write <code>network 10.10.10.0 0.0.255.255 area 0</code> (wrong — that's /16) instead of <code>0.0.0.255</code> (right — /24), OSPF still works but advertises a wider range. On the exam, when you see <code>network</code> + a wildcard, do the math: subtract each octet of the subnet mask from 255. <code>255.255.255.0</code> → <code>0.0.0.255</code>. <code>255.255.255.252</code> → <code>0.0.0.3</code>.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm OSPF <em>converged.</em></h2>
+  <p>Nine checks. Click each row as you confirm the result on the router. Progress saves in your browser so you can pause and come back.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 9 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>OSPF process is running</b> — On each router: <code>show ip protocols</code>. Output must include <i>Routing Protocol is "ospf 1"</i> with the correct Router ID.</div>
+    <div class="ccmd">show ip protocols</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Neighbor adjacency MIA ↔ ATL is FULL</b> — On R-MIAMI: <code>show ip ospf neighbor</code>. R-ATLANTA (2.2.2.2) must appear in state <b>FULL/-</b>. The dash is normal on serial point-to-point links (no DR/BDR election).</div>
+    <div class="ccmd">show ip ospf neighbor</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Neighbor adjacency ATL ↔ HOU is FULL</b> — On R-ATLANTA: <code>show ip ospf neighbor</code> must list both 1.1.1.1 and 3.3.3.3, each in state <b>FULL/-</b>.</div>
+    <div class="ccmd">show ip ospf neighbor</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Routing table shows O routes on R-MIAMI</b> — <code>show ip route ospf</code> lists <code>O  10.10.20.0/24 [110/65]</code> and <code>O  10.10.30.0/24 [110/129]</code>. The 110 is AD, the second number is cumulative cost.</div>
+    <div class="ccmd">show ip route ospf</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>End-to-end ping works</b> — From PC-M: <code>ping 10.10.30.10</code> succeeds. First ping may time out (ARP); the rest succeed.</div>
+    <div class="ccmd">ping 10.10.30.10</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Default route propagated</b> — On R-HOUSTON: <code>show ip route</code> shows <code>O*E2  0.0.0.0/0 [110/1] via 10.0.23.1</code>. The <code>*</code> = candidate default, <code>E2</code> = OSPF external type-2 (redistributed from outside OSPF).</div>
+    <div class="ccmd">show ip route</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Link-state database is populated</b> — On any router: <code>show ip ospf database</code>. You should see Router LSAs (type 1) from all three RIDs (1.1.1.1, 2.2.2.2, 3.3.3.3) and an External LSA (type 5) for the default route.</div>
+    <div class="ccmd">show ip ospf database</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>OSPF interfaces show correct cost</b> — On R-MIAMI: <code>show ip ospf interface S0/0/0</code>. Cost should be <b>64</b> (T1 default). If it shows 1562 instead, OSPF is calculating against a 64 Kbps reference — fix with <code>bandwidth 1544</code> under the interface.</div>
+    <div class="ccmd">show ip ospf interface</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved</b> on all three routers — <code>show startup-config | include router ospf</code> on each device returns <i>router ospf 1</i>.</div>
+    <div class="ccmd">copy run start</div>
+  </div>
+
+  <div class="section-head">Sample successful output — R-MIAMI</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-MIAMI# show ip route</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       * - candidate default
+
+Gateway of last resort is 203.0.113.1 to network 0.0.0.0
+
+</span>     <span class="ok">10.0.0.0/8 is variably subnetted, 5 subnets, 2 masks</span>
+<span class="ok">C</span>       10.0.12.0/30 is directly connected, Serial0/0/0
+<span class="ok">L</span>       10.0.12.1/32 is directly connected, Serial0/0/0
+<span class="warn">O</span>       10.0.23.0/30 [110/128] via 10.0.12.2, 00:04:21, Serial0/0/0
+<span class="ok">C</span>       10.10.10.0/24 is directly connected, GigabitEthernet0/1
+<span class="ok">L</span>       10.10.10.1/32 is directly connected, GigabitEthernet0/1
+<span class="warn">O</span>       10.10.20.0/24 [110/65]  via 10.0.12.2, 00:04:21, Serial0/0/0
+<span class="warn">O</span>       10.10.30.0/24 [110/129] via 10.0.12.2, 00:04:21, Serial0/0/0
+     <span class="ok">203.0.113.0/30 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       203.0.113.0/30 is directly connected, GigabitEthernet0/0
+<span class="ok">L</span>       203.0.113.2/32 is directly connected, GigabitEthernet0/0
+<span class="warn">S*</span>   0.0.0.0/0 [1/0] via 203.0.113.1</pre>
+    </div>
+  </div>
+
+  <p>Notice the bracketed values: <code>[110/65]</code> = AD 110, cost 65 (1 hop through the T1 = 64, plus 1 for the LAN). <code>[110/129]</code> = AD 110, cost 129 (two T1 hops = 128, plus 1 for the LAN). The cost addition tells you exactly which path SPF chose.</p>
+
+  <div class="section-head">Neighbor table — R-ATLANTA</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-ATLANTA# show ip ospf neighbor</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Neighbor ID     Pri   State           Dead Time   Address         Interface</span>
+<span class="ok">1.1.1.1</span>           0   <span class="ok">FULL/  -</span>        00:00:33    10.0.12.1       Serial0/0/0
+<span class="ok">3.3.3.3</span>           0   <span class="ok">FULL/  -</span>        00:00:35    10.0.23.2       Serial0/0/1</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When OSPF <em>won't</em> converge.</h2>
+  <p>Seven failure modes I see students hit on this lab. Match your symptom, then apply the fix.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Neighbor never appears in <code>show ip ospf neighbor</code></div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The serial link is up but OSPF Hellos aren't being exchanged. Almost always because the wildcard mask in the <code>network</code> statement doesn't cover the interface's IP.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip ospf interface brief</code> — if the serial isn't listed, OSPF isn't running on it. Also check <code>show running-config | section router ospf</code> and recompute the wildcard.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-enter the network statement with the correct wildcard: <code>network 10.0.12.0 0.0.0.3 area 0</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Neighbor stuck in EXSTART or EXCHANGE state, never reaches FULL</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">MTU mismatch between the two interfaces. OSPF refuses to form an adjacency if MTUs differ — protection against fragmenting LSAs.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip interface S0/0/0 | include MTU</code> on both ends. Compare.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Either set MTUs equal, or override with <code>ip ospf mtu-ignore</code> under the interface (acceptable in lab, debatable in production).</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Routes learned via OSPF are flapping (appearing and disappearing)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Duplicate router IDs. Two routers using <code>1.1.1.1</code> will fight over LSAs and constantly tear down/rebuild adjacencies.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip ospf | include Router ID</code> on each router. Confirm all are unique.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Change one with <code>router-id x.x.x.x</code> under <code>router ospf 1</code>, then <code>clear ip ospf process</code> to apply.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M can ping PC-A but not PC-H</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">R-ATLANTA's network statement for the 10.0.23.0/30 link is missing or wrong. R-ATLANTA forms an adjacency with R-MIAMI but never with R-HOUSTON.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-ATLANTA: <code>show ip ospf neighbor</code>. Should show two neighbors, not one.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add <code>network 10.0.23.0 0.0.0.3 area 0</code> under <code>router ospf 1</code> on R-ATLANTA.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">No default route appearing on R-ATLANTA or R-HOUSTON</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">R-MIAMI is missing <code>default-information originate</code>, or it has the command but no actual default route in its own table to advertise.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-MIAMI: <code>show ip route 0.0.0.0</code>. If empty, your static <code>ip route 0.0.0.0 0.0.0.0 …</code> is missing.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Confirm the static default exists, then under <code>router ospf 1</code> add <code>default-information originate</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">All routes load but metrics look enormous (e.g. cost 1562 instead of 64)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Interface bandwidth statement is missing or wrong. Packet Tracer serial defaults to 1544 Kbps, but some images report bandwidth as 64 Kbps until you set it explicitly.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces Serial0/0/0 | include BW</code> — should show <code>BW 1544 Kbit</code>.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Under the interface: <code>bandwidth 1544</code>. The bandwidth statement only affects metric calculation, not actual throughput.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">OSPF works but a static route is still being used preferentially</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">You forgot to remove one of the statics from Lab 2.1.1. Static (AD 1) always wins over OSPF (AD 110).</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip route 10.10.30.0</code> — if you see <code>S</code> instead of <code>O</code>, the static is still there.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v"><code>no ip route 10.10.30.0 255.255.255.0 10.0.12.2</code> (or whichever next-hop). Re-check the table — should now show <code>O</code>.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.1.2 — OSPF Single-Area</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.1.2-OSPF-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> containing screenshots of (a) <code>show ip ospf neighbor</code> on R-ATLANTA showing two FULL adjacencies, (b) <code>show ip route ospf</code> on R-MIAMI with the O routes, (c) a successful <code>ping</code> from PC-M to PC-H, and (d) <code>show ip ospf database</code> on any router.</li>
+      <li><b>A short write-up</b> (≤ 300 words) answering: <i>"Compare AD 1 (static) vs AD 110 (OSPF). If both protocols offer a route to the same destination, which wins and why? Use your routing tables from Labs 2.1.1 and 2.1.2 as evidence."</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 9 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>All Lab 2.1.1 static routes removed from all three routers</td><td class="pts">10</td></tr>
+      <tr><td>OSPF process 1 enabled on all three routers with correct router IDs</td><td class="pts">15</td></tr>
+      <tr><td>R-MIAMI advertises its LAN and WAN networks into area 0 correctly (wildcard masks)</td><td class="pts">10</td></tr>
+      <tr><td>R-ATLANTA advertises all three of its networks into area 0 correctly</td><td class="pts">15</td></tr>
+      <tr><td>R-HOUSTON advertises its LAN and WAN networks into area 0 correctly</td><td class="pts">10</td></tr>
+      <tr><td>Both neighbor adjacencies reach state FULL (screenshot)</td><td class="pts">10</td></tr>
+      <tr><td>Routing tables show O routes with AD 110 and correct cumulative cost</td><td class="pts">10</td></tr>
+      <tr><td>End-to-end ping from PC-M to PC-H succeeds (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Default route originated by R-MIAMI propagates to other routers as O*E2 (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Configurations saved with <code>copy run start</code> on all three routers</td><td class="pts">5</td></tr>
+      <tr><td>Write-up answers the AD comparison question correctly with evidence</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.1.2 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.1 Routing Technologies</b>. Builds directly on Lab 2.1.1 — same topology, dynamic routing instead of static. Mapped to CompTIA exam objectives and built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.1.1 · Static Routing &amp; Default Route</p>
+      <p>2.1.2 · OSPF Single-Area ← you are here</p>
+      <p style="opacity:0.55">2.1.3 · EIGRP &amp; Route Redistribution</p>
+      <p style="opacity:0.55">2.1.4 · NAT/PAT with HSRP</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.1.2-checks';
+const TOTAL_CHECKS = 9;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
