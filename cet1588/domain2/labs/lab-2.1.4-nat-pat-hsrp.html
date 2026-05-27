@@ -221,6 +221,15 @@
     .domain-grid { grid-template-columns: 1fr; }
     .series-banner { grid-template-columns: 1fr; text-align: left; }
   }
+
+  /* Network+ Context callout — distinct from sky/gold callouts */
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  /* CLI block concept label — sits between title and device name */
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  @media (max-width: 900px) { .term-head { flex-wrap: wrap; } .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; } }
 </style>
 </head>
 <body>
@@ -279,6 +288,12 @@
 <section class="panel active" id="panel-brief">
   <h2>The <em>two problems</em> at the edge.</h2>
   <p>Every previous lab in this series treated <code>10.10.10.0/24</code> as if it were routable across the public internet. It isn't. RFC 1918 reserves <code>10.0.0.0/8</code> as a <b>private address block</b> — those addresses are dropped at the first ISP-facing router. To reach the internet, Miami's PCs must have their source IP translated to a public address that R-MIAMI legitimately owns. That's <b>PAT</b>.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a routing concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
   <p>Then there's a single point of failure: every Miami PC's default gateway is <code>10.10.10.1</code>. If R-MIAMI dies — power supply fails, cable yanked, IOS crash — every PC on the LAN loses internet access and there's no automatic recovery. The fix is <b>HSRP</b>: add a second router, give both routers a shared virtual IP <code>10.10.10.254</code>, and configure PCs to use that virtual IP as their gateway. The two routers elect an <b>active</b> and a <b>standby</b>. If the active fails, the standby takes over the virtual IP within seconds and traffic keeps flowing. PCs never know anything happened.</p>
 
   <div class="section-head">Topology — adding R-MIAMI-2 to the edge</div>
@@ -464,6 +479,7 @@
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 01 of 04 — new router, full setup</span>
+      <span class="term-concept">Concept: PAT (NAT overload) &middot; inside/outside NAT interfaces &middot; HSRP standby</span>
       <span class="term-device">R-MIAMI-2</span>
       <button class="copy-btn" data-copy="cfg-miami2">Copy</button>
     </div>
@@ -525,6 +541,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 02 of 04 — add PAT &amp; HSRP active</span>
+      <span class="term-concept">Concept: FHRP active router &middot; HSRP virtual gateway &middot; preempt behavior</span>
       <span class="term-device">R-MIAMI</span>
       <button class="copy-btn" data-copy="cfg-miami">Copy</button>
     </div>
@@ -561,6 +578,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 03 of 04 — peer with R-MIAMI-2</span>
+      <span class="term-concept">Concept: Multiple paths from a LAN to the rest of the network (redundancy)</span>
       <span class="term-device">R-ATLANTA</span>
       <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
     </div>
@@ -590,6 +608,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 04 of 04 — PC-M default gateway</span>
+      <span class="term-concept">Concept: End-host default gateway points at virtual IP, not physical IP</span>
       <span class="term-device">PC-M Desktop</span>
     </div>
     <div class="term-body">
@@ -811,7 +830,7 @@ Interface   Grp  Pri P State    Active          Standby         Virtual IP</span
     <ul>
       <li><b>The .pkt file</b> — named <code>Lab-2.1.4-HSRP-Lastname-Firstname.pkt</code>.</li>
       <li><b>A single PDF</b> containing screenshots of (a) <code>show standby brief</code> on both edge routers, (b) <code>show ip nat translations</code> with at least 3 active entries, (c) PC-M's <code>arp -a</code> showing the virtual MAC, (d) a successful ping from PC-M to <code>203.0.113.1</code>, and (e) failover proof — show R-MIAMI-2's <code>show standby brief</code> output before and after shutting down R-MIAMI's G0/1.</li>
-      <li><b>A short write-up</b> (≤ 400 words) answering: <i>"Explain the difference between NAT and PAT. Then explain why HSRP can fail over connectivity in seconds but long-lived TCP sessions still break. What does this tell you about where NAT state lives?"</i></li>
+      <li><b>A short Network+-style write-up</b> (≤ 400 words) answering: <i>"The Network+ exam tests both NAT/PAT terminology and FHRP behavior. (a) In your own words, define the four NAT terms: inside local, inside global, outside local, outside global — using values from your lab as concrete examples. (b) Explain what FHRP stands for and what problem it solves. (c) Name two other FHRPs besides HSRP (one open-standard, one Cisco-proprietary). (d) Why does HSRP fail over connectivity in seconds, yet long-lived TCP sessions still break? Connect your answer to where NAT state is kept."</i></li>
       <li><b>The check-list</b> — confirm in the assignment comment box that all 12 verification checks (Verify tab) passed.</li>
     </ul>
   </div>
