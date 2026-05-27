@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.1.3 · EIGRP & Route Redistribution · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* Domain comparison table — unique to this lab */
+  .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .domain-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 4px solid var(--sky); }
+  .domain-card.eigrp { border-top-color: var(--gold); }
+  .domain-card.ospf { border-top-color: var(--sky); }
+  .domain-card .dc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 4px; font-weight: 700; }
+  .domain-card.eigrp .dc-tag { color: var(--gold-deep); }
+  .domain-card.ospf .dc-tag { color: var(--sky-deep); }
+  .domain-card h4 { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .domain-card .dc-row { display: grid; grid-template-columns: 100px 1fr; gap: 8px; padding: 4px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .domain-card .dc-row:last-of-type { border-bottom: none; }
+  .domain-card .dc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .domain-card .dc-row .v { color: var(--ink); }
+  .domain-card .dc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .domain-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.1 Routing Technologies</span>
+    <span class="crumb">Lab 2.1.3</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 3 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.1.3 · Packet Tracer · ≈ 75 min</div>
+    <h1>Two protocols, one network — <em>redistribution.</em></h1>
+    <p class="lede">Real networks rarely run one protocol everywhere. After a merger, an upgrade, or a split between business units, you'll find <b>EIGRP</b> on one side and <b>OSPF</b> on the other. They don't talk to each other natively — they're different protocols. The router that sits between them must be configured to translate routes from one into the other: <b>route redistribution</b>. In this lab you'll run EIGRP between Miami and Atlanta, OSPF between Atlanta and Houston, and use R-ATLANTA as the <b>Autonomous System Boundary Router (ASBR)</b> redistributing both ways.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">Split-domain EIGRP/OSPF + mutual redistribution</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.1.2 .pkt file</span></div>
+    <div class="ref-row"><span class="name">West side</span><span class="desc">EIGRP AS 100 · Miami ↔ Atlanta</span></div>
+    <div class="ref-row"><span class="name">East side</span><span class="desc">OSPF process 1, area 0 · Atlanta ↔ Houston</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.1.3-EIGRP-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.1.3</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      EIGRP AS · AD = 90 vs 110 · ASBR · mutual redistribution · seed metrics · external routes
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">2</div><div class="label">Routing protocols running</div></div>
+  <div class="stat"><div class="num">90</div><div class="label">EIGRP AD — beats OSPF</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">ASBR doing redistribution</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>merger.</em></h2>
+  <p>CBT Networks just acquired the Houston branch from another company. The Houston side has historically run <b>OSPF</b>. The Miami and Atlanta sides have always run <b>EIGRP</b>. Your manager wants the networks integrated, but doesn't want to renumber or re-configure either side's internal routing — both teams have been running their protocols for years and don't want disruption.</p>
+  <p>The solution: leave EIGRP on the west side, leave OSPF on the east side, and configure <b>R-ATLANTA</b> — which sits at the boundary — to participate in <b>both</b> protocols and translate routes between them. This is exactly what real network engineers do during mergers, datacenter consolidations, and ISP-to-ISP edges.</p>
+
+  <div class="section-head">Topology — domains split at R-ATLANTA</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <!-- EIGRP domain shading (west) -->
+      <rect x="40" y="150" width="420" height="100" fill="rgba(224,184,64,0.08)" stroke="#E0B840" stroke-width="1.5" stroke-dasharray="6,4" rx="6"/>
+      <text x="50" y="170" fill="#B8932A" font-weight="700" font-size="10">EIGRP AS 100</text>
+      <!-- OSPF domain shading (east) -->
+      <rect x="380" y="150" width="480" height="100" fill="rgba(56,176,224,0.08)" stroke="#38B0E0" stroke-width="1.5" stroke-dasharray="6,4" rx="6"/>
+      <text x="847" y="170" text-anchor="end" fill="#1E8FBE" font-weight="700" font-size="10">OSPF AREA 0</text>
+      <!-- ASBR badge over R-ATLANTA overlap zone -->
+      <rect x="380" y="150" width="80" height="100" fill="rgba(40,48,104,0.10)" stroke="#1A2050" stroke-width="1.5" rx="4"/>
+      <text x="420" y="248" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="9">ASBR</text>
+      <!-- ISP cloud -->
+      <ellipse cx="120" cy="80" rx="60" ry="28" fill="#ECEAE2" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="78" text-anchor="middle" font-weight="700" fill="#1A2050">ISP</text>
+      <text x="120" y="94" text-anchor="middle" fill="#767E92" font-size="10">default route</text>
+      <line x1="120" y1="108" x2="120" y2="170" stroke="#1A2050" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="135" y="142" fill="#1E8FBE" font-weight="700" font-size="10">G0/0</text>
+      <text x="135" y="156" fill="#767E92" font-size="9">203.0.113.0/30</text>
+      <!-- Miami -->
+      <rect x="80" y="180" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="120" y="202" text-anchor="middle" fill="#E0B840" font-weight="700">R-MIAMI</text>
+      <text x="120" y="218" text-anchor="middle" fill="#6BC5E8" font-size="10">EIGRP only</text>
+      <line x1="120" y1="230" x2="120" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="80" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-MIA</text>
+      <circle cx="120" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-M</text>
+      <line x1="120" y1="306" x2="120" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="170" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.10.0/24</text>
+      <!-- Miami-Atlanta EIGRP link -->
+      <line x1="160" y1="205" x2="380" y2="205" stroke="#B8932A" stroke-width="3"/>
+      <text x="270" y="196" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">EIGRP exchange</text>
+      <!-- Atlanta — straddles both domains -->
+      <rect x="380" y="180" width="80" height="50" fill="#1A2050" stroke="#E0B840" stroke-width="2.5" rx="4"/>
+      <text x="420" y="200" text-anchor="middle" fill="#E0B840" font-weight="700">R-ATLANTA</text>
+      <text x="420" y="216" text-anchor="middle" fill="#6BC5E8" font-size="9">EIGRP + OSPF</text>
+      <line x1="420" y1="230" x2="420" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="380" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-ATL</text>
+      <circle cx="420" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-A</text>
+      <line x1="420" y1="306" x2="420" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="470" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.20.0/24</text>
+      <!-- Atlanta-Houston OSPF link -->
+      <line x1="460" y1="205" x2="680" y2="205" stroke="#1E8FBE" stroke-width="3"/>
+      <text x="570" y="196" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="11">OSPF exchange</text>
+      <!-- Houston -->
+      <rect x="680" y="180" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="720" y="202" text-anchor="middle" fill="#E0B840" font-weight="700">R-HOUSTON</text>
+      <text x="720" y="218" text-anchor="middle" fill="#6BC5E8" font-size="10">OSPF only</text>
+      <line x1="720" y1="230" x2="720" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="680" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-HOU</text>
+      <circle cx="720" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-H</text>
+      <line x1="720" y1="306" x2="720" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="770" y="290" fill="#1E8FBE" font-weight="700" font-size="10">10.10.30.0/24</text>
+    </svg>
+  </div>
+
+  <div class="section-head">Protocol comparison — what changes per side</div>
+  <div class="domain-grid">
+    <div class="domain-card eigrp">
+      <div class="dc-tag">WEST SIDE</div>
+      <h4>EIGRP — Enhanced IGRP</h4>
+      <div class="dc-row"><div class="k">Routers</div><div class="v">R-MIAMI ↔ R-ATLANTA</div></div>
+      <div class="dc-row"><div class="k">Type</div><div class="v">Hybrid / advanced distance-vector</div></div>
+      <div class="dc-row"><div class="k">Origin</div><div class="v">Cisco (open since 2013)</div></div>
+      <div class="dc-row"><div class="k">AS / Process</div><div class="v"><code>autonomous-system 100</code></div></div>
+      <div class="dc-row"><div class="k">AD</div><div class="v"><code>90</code> (internal) — beats OSPF</div></div>
+      <div class="dc-row"><div class="k">Metric</div><div class="v">Composite: bandwidth + delay</div></div>
+      <div class="dc-row"><div class="k">Convergence</div><div class="v">Sub-second (DUAL algorithm)</div></div>
+      <div class="dc-row"><div class="k">Network mask</div><div class="v">Wildcard, like OSPF</div></div>
+    </div>
+    <div class="domain-card ospf">
+      <div class="dc-tag">EAST SIDE</div>
+      <h4>OSPF — Open Shortest Path First</h4>
+      <div class="dc-row"><div class="k">Routers</div><div class="v">R-ATLANTA ↔ R-HOUSTON</div></div>
+      <div class="dc-row"><div class="k">Type</div><div class="v">Link-state</div></div>
+      <div class="dc-row"><div class="k">Origin</div><div class="v">Open standard (RFC 2328)</div></div>
+      <div class="dc-row"><div class="k">AS / Process</div><div class="v"><code>process 1, area 0</code></div></div>
+      <div class="dc-row"><div class="k">AD</div><div class="v"><code>110</code> — loses to EIGRP</div></div>
+      <div class="dc-row"><div class="k">Metric</div><div class="v">Cost = 10⁸ / bandwidth</div></div>
+      <div class="dc-row"><div class="k">Convergence</div><div class="v">Seconds (SPF algorithm)</div></div>
+      <div class="dc-row"><div class="k">Network mask</div><div class="v">Wildcard</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">What R-ATLANTA must do</div>
+  <ul>
+    <li><b>Run EIGRP AS 100</b> on its serial interface toward Miami (S0/0/0) and on its LAN (G0/1).</li>
+    <li><b>Run OSPF process 1 area 0</b> on its serial interface toward Houston (S0/0/1) and on its LAN (G0/1) — same LAN appears in both protocols.</li>
+    <li><b>Redistribute EIGRP into OSPF</b> — take routes learned via EIGRP and re-announce them as OSPF external (E2) routes to R-HOUSTON.</li>
+    <li><b>Redistribute OSPF into EIGRP</b> — take routes learned via OSPF and re-announce them as EIGRP external (D EX) routes to R-MIAMI.</li>
+    <li><b>Provide seed metrics</b> — EIGRP needs a starter bandwidth/delay tuple when receiving routes from a non-EIGRP source; OSPF assigns cost 20 by default.</li>
+  </ul>
+
+  <div class="section-head">IP Addressing Plan — unchanged</div>
+  <p>Open <code>Lab-2.1.2-OSPF-FirstLast.pkt</code> and Save As <code>Lab-2.1.3-EIGRP-FirstLast.pkt</code>. The IP plan is identical to Labs 2.1.1 and 2.1.2.</p>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device</th><th>Interface</th><th>IP Address</th><th>Routing Protocol</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/0 (ISP)</td><td class="ip">203.0.113.2 /30</td><td>—</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.10.1 /24</td><td>EIGRP 100</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.12.1 /30</td><td>EIGRP 100</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/0 (to MIA)</td><td class="ip">10.0.12.2 /30</td><td>EIGRP 100</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.20.1 /24</td><td>BOTH (EIGRP + OSPF)</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/1 (to HOU)</td><td class="ip">10.0.23.1 /30</td><td>OSPF area 0</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.23.2 /30</td><td>OSPF area 0</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.30.1 /24</td><td>OSPF area 0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>OSPF removed from R-MIAMI</b> — only EIGRP runs on the west side now.</li>
+      <li><b>EIGRP AS 100 active</b> on R-MIAMI and R-ATLANTA, with a FULL EIGRP neighbor relationship between them.</li>
+      <li><b>OSPF process 1 still active</b> on R-ATLANTA and R-HOUSTON, with a FULL OSPF neighbor relationship.</li>
+      <li><b>Mutual redistribution configured</b> on R-ATLANTA — EIGRP into OSPF and OSPF into EIGRP, both with appropriate seed metrics.</li>
+      <li><b>R-MIAMI sees Houston's LAN as EIGRP external</b> — <code>D EX 10.10.30.0/24</code> with AD 170.</li>
+      <li><b>R-HOUSTON sees Miami's LAN as OSPF external type 2</b> — <code>O E2 10.10.10.0/24</code>.</li>
+      <li><b>End-to-end ping</b> — PC-M reaches PC-H and PC-H reaches PC-M.</li>
+      <li><b>Default route propagation</b> — R-HOUSTON learns the ISP default as an OSPF E2 route through R-ATLANTA.</li>
+      <li><b>R-ATLANTA can show both routing process databases</b> — <code>show ip eigrp topology</code> and <code>show ip ospf database</code> both populated.</li>
+      <li><b>Configurations saved</b> on all three routers.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the exam</h5>
+    <p>N10-009 objective 2.1 tests EIGRP, OSPF, <b>administrative distance</b>, and <b>route selection</b>. The redistribution scenario is the cleanest way to <i>see</i> AD in action: the same destination network shows up in both protocols, and the lower AD wins on every router. Once you've watched <code>D EX [170/...]</code> appear instead of <code>O E2 [110/...]</code> on a real route, the exam questions on AD become reflex.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Tear down half of <em>OSPF</em>.</h2>
+  <p>You're keeping OSPF on the east side (Atlanta↔Houston) and replacing it with EIGRP on the west side (Miami↔Atlanta). Two careful surgical edits, then redistribution on R-ATLANTA.</p>
+
+  <div class="section-head">Prepare the file</div>
+  <div class="step" data-step="1">
+    <h4>Open your saved Lab 2.1.2 file</h4>
+    <p>If you can't find it, run Lab 2.1.2 first or download the starter from Canvas. The topology and IPs must match the Brief tab plan.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Save As — give the new lab its own filename</h4>
+    <p>File → Save As → <code>Lab-2.1.3-EIGRP-Lastname-Firstname.pkt</code>. Work on the copy so Lab 2.1.2 is preserved for grading.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Confirm baseline OSPF connectivity</h4>
+    <p>Quick ping from PC-M to PC-H. If it succeeds via OSPF, you're in the right starting state. If it fails, fix Lab 2.1.2 first.</p>
+  </div>
+
+  <div class="section-head">Remove OSPF from R-MIAMI</div>
+  <div class="step" data-step="4">
+    <h4>On R-MIAMI, shut down OSPF entirely</h4>
+    <p>R-MIAMI will run EIGRP only. The fastest way to remove OSPF is one global command: <code>no router ospf 1</code>. That removes the process and all its <code>network</code> statements in a single sweep.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Verify connectivity is now broken</h4>
+    <p>From PC-M try to ping PC-A. It will fail — R-MIAMI no longer knows about 10.10.20.0/24. Expected. EIGRP will restore reachability in a moment.</p>
+  </div>
+
+  <div class="section-head">Trim OSPF on R-ATLANTA</div>
+  <div class="step" data-step="6">
+    <h4>Remove the Miami-facing serial from OSPF</h4>
+    <p>R-ATLANTA must keep OSPF running on its Houston-facing serial and its LAN, but the Miami serial belongs to EIGRP now. Under <code>router ospf 1</code>, issue <code>no network 10.0.12.0 0.0.0.3 area 0</code>.</p>
+  </div>
+  <div class="step" data-step="7">
+    <h4>Leave OSPF intact on R-HOUSTON</h4>
+    <p>R-HOUSTON's config doesn't change. It stays an OSPF-only stub — it has no idea EIGRP exists.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why not just <code>no router ospf 1</code> on R-ATLANTA too?</h5>
+    <p>Because R-ATLANTA still needs to talk to R-HOUSTON via OSPF. Half its interfaces stay OSPF, half become EIGRP — that's the entire point of an ASBR. Removing the whole OSPF process would also kill the eastward connectivity.</p>
+  </div>
+
+  <p>Once OSPF is gone from R-MIAMI and trimmed on R-ATLANTA, move to the Configure tab to bring up EIGRP and set up mutual redistribution.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>EIGRP on the west, <em>redistribution</em> on R-ATLANTA.</h2>
+  <p>Three configuration blocks. Apply them in order. R-MIAMI gets EIGRP. R-ATLANTA gets EIGRP <i>plus</i> redistribution commands inside both routing processes. R-HOUSTON stays exactly as it was in Lab 2.1.2 — no changes needed.</p>
+
+  <div class="callout">
+    <h5>EIGRP network statement syntax</h5>
+    <p>Like OSPF, EIGRP uses wildcard masks: <code>network 10.10.10.0 0.0.0.255</code> matches the /24. You can also use the classful form (<code>network 10.0.0.0</code>) which matches every interface in the 10.0.0.0/8 — easier to type but advertises more than you might intend. We'll use explicit wildcards.</p>
+  </div>
+
+  <!-- R-MIAMI -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03</span>
+      <span class="term-device">R-MIAMI</span>
+      <button class="copy-btn" data-copy="cfg-miami">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-miami"><span class="comment">! ===== R-MIAMI — Pure EIGRP edge router =====</span>
+configure terminal
+<span class="comment">! Tear down all of OSPF in one command</span>
+no router ospf 1
+
+<span class="comment">! ----- Bring up EIGRP AS 100 -----</span>
+router eigrp 100
+ <span class="comment">! Disable auto-summary — we want classless behavior</span>
+ no auto-summary
+ <span class="comment">! Advertise the Miami LAN</span>
+ network 10.10.10.0 0.0.0.255
+ <span class="comment">! Advertise the WAN serial subnet</span>
+ network 10.0.12.0 0.0.0.3
+ <span class="comment">! Silence Hello packets on the LAN — no EIGRP neighbors live there</span>
+ passive-interface GigabitEthernet0/1
+exit
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-ATLANTA (the interesting one) -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 03 — the ASBR</span>
+      <span class="term-device">R-ATLANTA</span>
+      <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-atlanta"><span class="comment">! ===== R-ATLANTA — Autonomous System Boundary Router =====</span>
+configure terminal
+
+<span class="comment">! ----- Trim OSPF to east side only -----</span>
+router ospf 1
+ <span class="comment">! Remove the Miami-facing serial from OSPF</span>
+ no network 10.0.12.0 0.0.0.3 area 0
+ <span class="comment">! Keep these — east side and LAN stay in OSPF</span>
+ <span class="comment">! network 10.10.20.0 0.0.0.255 area 0  (already there)</span>
+ <span class="comment">! network 10.0.23.0  0.0.0.3   area 0  (already there)</span>
+ <span class="comment">! ----- Redistribute EIGRP routes INTO OSPF -----</span>
+ <span class="comment">! When R-ATLANTA learns 10.10.10.0/24 from EIGRP, advertise</span>
+ <span class="comment">! it to R-HOUSTON as an OSPF external (E2) route.</span>
+ <span class="comment">! 'subnets' is required, otherwise OSPF only redistributes classful nets</span>
+ redistribute eigrp 100 subnets
+exit
+
+<span class="comment">! ----- Bring up EIGRP AS 100 -----</span>
+router eigrp 100
+ no auto-summary
+ <span class="comment">! Advertise the Miami-facing serial</span>
+ network 10.0.12.0 0.0.0.3
+ <span class="comment">! Advertise the Atlanta LAN (same subnet appears in OSPF too)</span>
+ network 10.10.20.0 0.0.0.255
+ <span class="comment">! ----- Redistribute OSPF routes INTO EIGRP -----</span>
+ <span class="comment">! EIGRP needs SEED METRIC: bandwidth(K) delay(10us) reliability load mtu</span>
+ <span class="comment">! Reasonable defaults for a T1: 1544 2000 255 1 1500</span>
+ redistribute ospf 1 metric 1544 2000 255 1 1500
+ passive-interface GigabitEthernet0/1
+exit
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-HOUSTON -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 03 — no change required</span>
+      <span class="term-device">R-HOUSTON</span>
+      <button class="copy-btn" data-copy="cfg-houston">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-houston"><span class="comment">! ===== R-HOUSTON — Pure OSPF stub, unchanged from Lab 2.1.2 =====</span>
+<span class="comment">! Nothing to configure here — Houston still runs OSPF only.</span>
+<span class="comment">! It will learn Miami's LAN and the ISP default via R-ATLANTA</span>
+<span class="comment">! as OSPF external (E2) routes — that's redistribution doing its job.</span>
+<span class="comment">!</span>
+<span class="comment">! Just verify the config is still present:</span>
+show running-config | section router ospf
+<span class="comment">!</span>
+<span class="comment">! If anything is missing, re-paste this block:</span>
+<span class="comment">!</span>
+<span class="comment">! configure terminal</span>
+<span class="comment">! router ospf 1</span>
+<span class="comment">!  router-id 3.3.3.3</span>
+<span class="comment">!  network 10.10.30.0 0.0.0.255 area 0</span>
+<span class="comment">!  network 10.0.23.0  0.0.0.3   area 0</span>
+<span class="comment">!  passive-interface GigabitEthernet0/1</span>
+<span class="comment">! exit</span>
+<span class="comment">! end</span>
+<span class="comment">! copy running-config startup-config</span></pre>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Understanding the EIGRP seed metric</h5>
+    <p>When you redistribute OSPF into EIGRP, EIGRP needs five numbers to build a composite metric: <b>bandwidth (Kbps), delay (tens of µs), reliability (0–255), load (1–255), MTU (bytes)</b>. Without these, the redistributed routes have an infinite metric and EIGRP refuses to install them. The values <code>1544 2000 255 1 1500</code> emulate a T1 link — appropriate for a serial WAN. On a Gigabit redistribution, use <code>1000000 100 255 1 1500</code>.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>The "subnets" keyword for OSPF redistribution</h5>
+    <p>If you omit <code>subnets</code> in <code>redistribute eigrp 100 subnets</code>, OSPF will only redistribute classful networks — meaning your /24 LAN routes get summarized or dropped. Always include <code>subnets</code>. It's tested directly on the exam.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm <em>both</em> protocols converged.</h2>
+  <p>Ten checks. Pay close attention to the route codes — they tell you exactly which protocol provided each route.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>EIGRP is running on R-MIAMI</b> — <code>show ip protocols</code> shows <i>Routing Protocol is "eigrp 100"</i>. No OSPF in the output.</div>
+    <div class="ccmd">show ip protocols</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>EIGRP neighbor adjacency MIA ↔ ATL</b> — On R-MIAMI: <code>show ip eigrp neighbors</code>. R-ATLANTA's IP (10.0.12.2) appears with a hold time counting down. State is implicit; if it's listed, the adjacency is up.</div>
+    <div class="ccmd">show ip eigrp neighbors</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>OSPF neighbor adjacency ATL ↔ HOU still FULL</b> — On R-ATLANTA: <code>show ip ospf neighbor</code>. R-HOUSTON (3.3.3.3) appears in state <b>FULL</b>. The Miami neighbor should no longer appear here.</div>
+    <div class="ccmd">show ip ospf neighbor</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>R-MIAMI sees Houston as EIGRP external</b> — <code>show ip route 10.10.30.0</code>. Output shows <code>D EX 10.10.30.0/24 [170/...]</code>. The <b>EX</b> = external; AD <b>170</b> is the EIGRP-external default.</div>
+    <div class="ccmd">show ip route 10.10.30.0</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>R-HOUSTON sees Miami as OSPF external type 2</b> — On R-HOUSTON: <code>show ip route 10.10.10.0</code>. Output shows <code>O E2 10.10.10.0/24 [110/20]</code>. The <b>E2</b> = external type 2, and the metric does not increase as it propagates.</div>
+    <div class="ccmd">show ip route 10.10.10.0</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>R-ATLANTA shows both routing process databases</b> — Run <code>show ip eigrp topology</code> (shows EIGRP successors and feasible successors) <i>and</i> <code>show ip ospf database</code> (shows LSAs). Both must return data, not "empty".</div>
+    <div class="ccmd">show ip eigrp topology</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>End-to-end ping PC-M → PC-H</b> succeeds — same connectivity test as previous labs. First ping may time out (ARP).</div>
+    <div class="ccmd">ping 10.10.30.10</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Reverse ping PC-H → PC-M</b> succeeds — proves redistribution worked in both directions.</div>
+    <div class="ccmd">ping 10.10.10.10</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Default route propagation to Houston</b> — On R-HOUSTON: <code>show ip route 0.0.0.0</code>. Should show <code>O*E2 0.0.0.0/0 [110/1]</code> — the ISP default originated by R-MIAMI's static, redistributed through EIGRP, then redistributed again into OSPF.</div>
+    <div class="ccmd">show ip route 0.0.0.0</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved</b> on all three routers — <code>show startup-config</code> matches running-config on each device.</div>
+    <div class="ccmd">copy run start</div>
+  </div>
+
+  <div class="section-head">Sample successful output — R-MIAMI</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-MIAMI# show ip route</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       * - candidate default, U - per-user static route, o - ODR
+
+Gateway of last resort is 203.0.113.1 to network 0.0.0.0
+
+</span>     <span class="ok">10.0.0.0/8 is variably subnetted, 5 subnets, 2 masks</span>
+<span class="ok">C</span>       10.0.12.0/30 is directly connected, Serial0/0/0
+<span class="ok">L</span>       10.0.12.1/32 is directly connected, Serial0/0/0
+<span class="warn">D EX</span>    10.0.23.0/30  [170/2172416] via 10.0.12.2, 00:01:43, Serial0/0/0
+<span class="ok">C</span>       10.10.10.0/24 is directly connected, GigabitEthernet0/1
+<span class="ok">L</span>       10.10.10.1/32 is directly connected, GigabitEthernet0/1
+<span class="warn">D</span>       10.10.20.0/24 [90/2172416]  via 10.0.12.2, 00:01:50, Serial0/0/0
+<span class="warn">D EX</span>    10.10.30.0/24 [170/2172416] via 10.0.12.2, 00:01:43, Serial0/0/0
+     <span class="ok">203.0.113.0/30 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       203.0.113.0/30 is directly connected, GigabitEthernet0/0
+<span class="ok">L</span>       203.0.113.2/32 is directly connected, GigabitEthernet0/0
+<span class="warn">S*</span>   0.0.0.0/0 [1/0] via 203.0.113.1</pre>
+    </div>
+  </div>
+
+  <p>Notice the codes carefully: <b>D</b> = internal EIGRP (AD 90), <b>D EX</b> = external EIGRP redistributed from another protocol (AD 170). The Atlanta LAN (10.10.20.0/24) is internal EIGRP — R-MIAMI learned it directly from R-ATLANTA via EIGRP. The Houston LAN (10.10.30.0/24) is external EIGRP — R-ATLANTA learned it from OSPF and redistributed it into EIGRP.</p>
+
+  <div class="section-head">Sample successful output — R-HOUSTON</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-HOUSTON# show ip route</span>
+    </div>
+    <div class="term-body">
+<pre>Gateway of last resort is 10.0.23.1 to network 0.0.0.0
+
+     <span class="ok">10.0.0.0/8 is variably subnetted, 5 subnets, 2 masks</span>
+<span class="warn">O E2</span>    10.0.12.0/30  [110/20] via 10.0.23.1, 00:01:35, Serial0/0/0
+<span class="ok">C</span>       10.0.23.0/30 is directly connected, Serial0/0/0
+<span class="ok">L</span>       10.0.23.2/32 is directly connected, Serial0/0/0
+<span class="warn">O E2</span>    10.10.10.0/24 [110/20] via 10.0.23.1, 00:01:35, Serial0/0/0
+<span class="warn">O</span>       10.10.20.0/24 [110/65] via 10.0.23.1, 00:08:12, Serial0/0/0
+<span class="ok">C</span>       10.10.30.0/24 is directly connected, GigabitEthernet0/1
+<span class="ok">L</span>       10.10.30.1/32 is directly connected, GigabitEthernet0/1
+<span class="warn">O*E2</span>  0.0.0.0/0 [110/1] via 10.0.23.1, 00:01:35, Serial0/0/0</pre>
+    </div>
+  </div>
+
+  <p>On Houston: <b>O</b> = native OSPF (Atlanta LAN, learned directly via OSPF), <b>O E2</b> = OSPF external type 2 (Miami LAN, redistributed from EIGRP). One destination network, two different code letters depending on origin.</p>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When redistribution <em>goes wrong.</em></h2>
+  <p>Redistribution introduces its own failure modes that don't exist in single-protocol labs. Seven common ones below.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M pings PC-A but cannot ping PC-H</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">R-ATLANTA is not redistributing OSPF into EIGRP. R-MIAMI never learns about the east side.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-MIAMI: <code>show ip route 10.10.30.0</code>. If empty, redistribution OSPF→EIGRP isn't happening.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Under <code>router eigrp 100</code> on R-ATLANTA: <code>redistribute ospf 1 metric 1544 2000 255 1 1500</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Routes redistributed into EIGRP show metric 0 or never install</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Missing the seed metric. EIGRP rejects redistributed routes when it can't compute a composite metric.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-ATLANTA: <code>show ip eigrp topology | include EX</code>. If no external routes appear, the seed is the issue.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the five metric values: <code>redistribute ospf 1 metric 1544 2000 255 1 1500</code>. Don't try to use just <code>redistribute ospf 1</code> — it will accept the command but silently drop the routes.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-H pings PC-A but not PC-M (one-way only)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Redistribution EIGRP→OSPF is missing the <code>subnets</code> keyword. OSPF drops classless routes by default.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-HOUSTON: <code>show ip route 10.10.10.0</code>. If empty, OSPF redistribution isn't carrying the /24 across.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Under <code>router ospf 1</code> on R-ATLANTA: <code>redistribute eigrp 100 subnets</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">EIGRP neighbors won't form between R-MIAMI and R-ATLANTA</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Mismatched AS numbers. EIGRP only forms adjacencies between routers in the same autonomous system.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip protocols | include eigrp</code> on both routers. The number after "eigrp" must match (we used 100).</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Remove the wrong process: <code>no router eigrp 200</code> (or whatever the wrong AS is), then <code>router eigrp 100</code> with the correct network statements.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">R-ATLANTA shows two equal routes for 10.10.20.0/24 — one EIGRP, one OSPF</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The Atlanta LAN is advertised by both protocols on R-ATLANTA. Not a bug — but the routing table will pick the lower AD.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip route 10.10.20.0</code> — only the EIGRP version should appear (AD 90 wins over AD 110).</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">No fix required — this is correct behavior. If you want OSPF to win for some operational reason, you'd use <code>distance ospf intra-area 89</code> to override AD. Not on the exam at the Network+ level.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">After saving, R-MIAMI still shows OSPF neighbors on reload</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">You forgot <code>no router ospf 1</code>, or you only removed individual network statements without removing the process.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show running-config | section router ospf</code> on R-MIAMI. Should return nothing.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v"><code>configure terminal</code> → <code>no router ospf 1</code> → <code>end</code> → <code>copy run start</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Default route not appearing on R-HOUSTON</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The chain is: R-MIAMI static default → redistributed into EIGRP → propagated to R-ATLANTA → R-ATLANTA must then originate it into OSPF.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-ATLANTA: <code>show ip route 0.0.0.0</code>. If you see it as <code>D*EX</code>, EIGRP carried it but OSPF didn't pick it up.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Under <code>router ospf 1</code> on R-ATLANTA: <code>default-information originate always</code>. The <code>always</code> keyword tells OSPF to advertise the default whether or not it's locally configured.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.1.3 — EIGRP & Route Redistribution</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.1.3-EIGRP-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> containing screenshots of (a) <code>show ip eigrp neighbors</code> on R-MIAMI, (b) <code>show ip ospf neighbor</code> on R-ATLANTA, (c) <code>show ip route</code> on R-MIAMI showing <code>D EX</code> entries, (d) <code>show ip route</code> on R-HOUSTON showing <code>O E2</code> entries, and (e) successful ping in both directions.</li>
+      <li><b>A short write-up</b> (≤ 400 words) answering: <i>"On R-MIAMI, the route to 10.10.30.0/24 is shown as <code>D EX</code> with AD 170. On R-HOUSTON, the route to 10.10.10.0/24 is shown as <code>O E2</code> with AD 110. Why do these routes have different codes and different AD values? What does each code mean about how the route was learned?"</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 10 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>OSPF process completely removed from R-MIAMI</td><td class="pts">5</td></tr>
+      <tr><td>EIGRP AS 100 running on R-MIAMI with correct networks and <code>no auto-summary</code></td><td class="pts">10</td></tr>
+      <tr><td>R-ATLANTA OSPF process trimmed (Miami serial removed from area 0)</td><td class="pts">5</td></tr>
+      <tr><td>R-ATLANTA running EIGRP AS 100 on Miami-side interfaces</td><td class="pts">10</td></tr>
+      <tr><td>Mutual redistribution configured correctly on R-ATLANTA (both directions)</td><td class="pts">15</td></tr>
+      <tr><td>Seed metric provided for OSPF→EIGRP redistribution (5 values)</td><td class="pts">5</td></tr>
+      <tr><td><code>subnets</code> keyword present in EIGRP→OSPF redistribution</td><td class="pts">5</td></tr>
+      <tr><td>EIGRP neighbor relationship MIA ↔ ATL established (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>OSPF neighbor relationship ATL ↔ HOU still established (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>R-MIAMI routing table shows external EIGRP routes (D EX) for east-side LANs</td><td class="pts">10</td></tr>
+      <tr><td>R-HOUSTON routing table shows external OSPF routes (O E2) for west-side LANs</td><td class="pts">10</td></tr>
+      <tr><td>End-to-end bidirectional ping PC-M ↔ PC-H succeeds (screenshots)</td><td class="pts">5</td></tr>
+      <tr><td>Default route propagates all the way to R-HOUSTON</td><td class="pts">5</td></tr>
+      <tr><td>Configurations saved on all three routers</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.1.3 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.1 Routing Technologies</b>. The most conceptually rich lab in the series — runs two routing protocols simultaneously and connects them via redistribution at R-ATLANTA. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.1.1 · Static Routing &amp; Default Route</p>
+      <p style="opacity:0.55">2.1.2 · OSPF Single-Area</p>
+      <p>2.1.3 · EIGRP &amp; Route Redistribution ← you are here</p>
+      <p style="opacity:0.55">2.1.4 · NAT/PAT with HSRP</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.1.3-checks';
+const TOTAL_CHECKS = 10;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
