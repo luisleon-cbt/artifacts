@@ -193,6 +193,15 @@
     .check-row { grid-template-columns: 32px 1fr; }
     .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
   }
+
+  /* Network+ Context callout — distinct from sky/gold callouts */
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  /* CLI block concept label — sits between title and device name */
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  @media (max-width: 900px) { .term-head { flex-wrap: wrap; } .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; } }
 </style>
 </head>
 <body>
@@ -250,6 +259,12 @@
 <section class="panel active" id="panel-brief">
   <h2>From static to <em>dynamic.</em></h2>
   <p>In Lab 2.1.1 you typed every route by hand. That works for three routers — it falls apart at thirty. <b>OSPF (Open Shortest Path First)</b> is the open-standard link-state protocol that solves this. Each router floods information about its <i>links</i> (not its routes) to every neighbor in the same area. Every router then runs the <b>Dijkstra algorithm</b> on the combined link-state database and computes the shortest path to every destination.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a routing concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
   <p>The result: identical reachability to Lab 2.1.1, but the routers — not you — maintain the routing table. When a serial link drops, OSPF reconverges in seconds. When you add a new LAN, you advertise it once and every router learns it automatically.</p>
 
   <div class="section-head">Topology — same as Lab 2.1.1</div>
@@ -407,6 +422,7 @@
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 01 of 03</span>
+      <span class="term-concept">Concept: Link-state routing &middot; OSPF area 0 &middot; AD = 110 &middot; default-information origination</span>
       <span class="term-device">R-MIAMI</span>
       <button class="copy-btn" data-copy="cfg-miami">Copy</button>
     </div>
@@ -442,6 +458,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 02 of 03</span>
+      <span class="term-concept">Concept: Stub network running OSPF &middot; advertising connected networks into a dynamic protocol</span>
       <span class="term-device">R-HOUSTON</span>
       <button class="copy-btn" data-copy="cfg-houston">Copy</button>
     </div>
@@ -469,6 +486,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 03 of 03 (transit — do last)</span>
+      <span class="term-concept">Concept: Transit router forming neighbor adjacencies on both sides</span>
       <span class="term-device">R-ATLANTA</span>
       <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
     </div>
@@ -676,7 +694,7 @@ Gateway of last resort is 203.0.113.1 to network 0.0.0.0
     <ul>
       <li><b>The .pkt file</b> — named <code>Lab-2.1.2-OSPF-Lastname-Firstname.pkt</code>.</li>
       <li><b>A single PDF</b> containing screenshots of (a) <code>show ip ospf neighbor</code> on R-ATLANTA showing two FULL adjacencies, (b) <code>show ip route ospf</code> on R-MIAMI with the O routes, (c) a successful <code>ping</code> from PC-M to PC-H, and (d) <code>show ip ospf database</code> on any router.</li>
-      <li><b>A short write-up</b> (≤ 300 words) answering: <i>"Compare AD 1 (static) vs AD 110 (OSPF). If both protocols offer a route to the same destination, which wins and why? Use your routing tables from Labs 2.1.1 and 2.1.2 as evidence."</i></li>
+      <li><b>A short Network+-style write-up</b> (≤ 300 words) answering: <i>"On the Network+ exam, you may see a question about how a router selects between routes from different protocols. Using your routing tables from Labs 2.1.1 (static) and 2.1.2 (OSPF) as evidence, explain (a) which route wins when both static (AD 1) and OSPF (AD 110) advertise the same destination, (b) why AD is checked before metric, and (c) what category of routing protocol OSPF belongs to (link-state, distance-vector, path-vector, or hybrid)."</i></li>
       <li><b>The check-list</b> — confirm in the assignment comment box that all 9 verification checks (Verify tab) passed.</li>
     </ul>
   </div>
