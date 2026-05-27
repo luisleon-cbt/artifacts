@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.1.4 · NAT/PAT with HSRP · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+  .iptable td.virtual { background: rgba(224,184,64,0.18) !important; color: var(--gold-deep); }
+  .iptable td.virtual::before { content: '★ '; }
+
+  .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .domain-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 4px solid var(--sky); }
+  .domain-card.active-r { border-top-color: var(--green); }
+  .domain-card.standby-r { border-top-color: var(--gold); }
+  .domain-card .dc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 4px; font-weight: 700; }
+  .domain-card.active-r .dc-tag { color: var(--green); }
+  .domain-card.standby-r .dc-tag { color: var(--gold-deep); }
+  .domain-card h4 { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .domain-card .dc-row { display: grid; grid-template-columns: 100px 1fr; gap: 8px; padding: 4px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .domain-card .dc-row:last-of-type { border-bottom: none; }
+  .domain-card .dc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .domain-card .dc-row .v { color: var(--ink); }
+  .domain-card .dc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  /* SERIES COMPLETE banner — exclusive to lab 4 */
+  .series-banner {
+    background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(224,184,64,0.10));
+    border: 1px solid var(--sky); border-left-width: 4px; padding: 26px 32px; margin: 30px 0;
+    display: grid; grid-template-columns: 60px 1fr; gap: 22px; align-items: center;
+  }
+  .series-banner .sb-icon { width: 56px; height: 56px; background: var(--navy-deep); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 22px; }
+  .series-banner h3 { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .series-banner p { margin: 0; font-size: 14px; color: var(--ink-mid); max-width: 65ch; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .domain-grid { grid-template-columns: 1fr; }
+    .series-banner { grid-template-columns: 1fr; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.1 Routing Technologies</span>
+    <span class="crumb">Lab 2.1.4</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 4 of 4 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.1.4 · Packet Tracer · ≈ 75 min</div>
+    <h1>PAT at the edge, <em>HSRP</em> for survival.</h1>
+    <p class="lede">Two final concepts close out subtopic 2.1. <b>PAT (Port Address Translation)</b> — the form of NAT that lets every device on Miami's <code>10.10.10.0/24</code> private LAN share one public IP to reach the internet. And <b>HSRP (Hot Standby Router Protocol)</b> — the FHRP that survives a router failure by letting two physical routers share a single virtual gateway IP. You'll add a second edge router, configure HSRP between them, watch active/standby roles negotiate, then pull the cable on the active router and watch traffic continue without interruption.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">PAT overload + HSRP active/standby failover</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.1.3 .pkt file</span></div>
+    <div class="ref-row"><span class="name">New device</span><span class="desc">R-MIAMI-2 (second 2911 edge router)</span></div>
+    <div class="ref-row"><span class="name">HSRP group</span><span class="desc">Group 1 · virtual IP 10.10.10.254</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.1.4-HSRP-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.1.4</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      PAT overload · inside/outside NAT · FHRP · HSRP active/standby · priority · preempt · failover testing
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">2</div><div class="label">Edge routers (HSRP pair)</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Virtual gateway IP</div></div>
+  <div class="stat"><div class="num">3s</div><div class="label">HSRP failover (default)</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>two problems</em> at the edge.</h2>
+  <p>Every previous lab in this series treated <code>10.10.10.0/24</code> as if it were routable across the public internet. It isn't. RFC 1918 reserves <code>10.0.0.0/8</code> as a <b>private address block</b> — those addresses are dropped at the first ISP-facing router. To reach the internet, Miami's PCs must have their source IP translated to a public address that R-MIAMI legitimately owns. That's <b>PAT</b>.</p>
+  <p>Then there's a single point of failure: every Miami PC's default gateway is <code>10.10.10.1</code>. If R-MIAMI dies — power supply fails, cable yanked, IOS crash — every PC on the LAN loses internet access and there's no automatic recovery. The fix is <b>HSRP</b>: add a second router, give both routers a shared virtual IP <code>10.10.10.254</code>, and configure PCs to use that virtual IP as their gateway. The two routers elect an <b>active</b> and a <b>standby</b>. If the active fails, the standby takes over the virtual IP within seconds and traffic keeps flowing. PCs never know anything happened.</p>
+
+  <div class="section-head">Topology — adding R-MIAMI-2 to the edge</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <!-- ISP cloud -->
+      <ellipse cx="120" cy="50" rx="60" ry="28" fill="#ECEAE2" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="48" text-anchor="middle" font-weight="700" fill="#1A2050">ISP</text>
+      <text x="120" y="64" text-anchor="middle" fill="#767E92" font-size="10">public internet</text>
+      <!-- ISP to R-MIAMI link -->
+      <line x1="100" y1="74" x2="60" y2="135" stroke="#1A2050" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="40" y="105" fill="#1E8FBE" font-weight="700" font-size="9">203.0.113.0/30</text>
+      <!-- ISP to R-MIAMI-2 link -->
+      <line x1="140" y1="74" x2="180" y2="135" stroke="#1A2050" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="180" y="105" fill="#1E8FBE" font-weight="700" font-size="9">203.0.113.4/30</text>
+      <!-- HSRP group box -->
+      <rect x="20" y="140" width="240" height="120" fill="rgba(224,184,64,0.06)" stroke="#E0B840" stroke-width="1.5" stroke-dasharray="6,4" rx="6"/>
+      <text x="30" y="158" fill="#B8932A" font-weight="700" font-size="10">HSRP GROUP 1 — vIP 10.10.10.254</text>
+      <!-- R-MIAMI (Active) -->
+      <rect x="40" y="170" width="80" height="50" fill="#1A2050" stroke="#2A6049" stroke-width="2.5" rx="4"/>
+      <text x="80" y="192" text-anchor="middle" fill="#E0B840" font-weight="700">R-MIAMI</text>
+      <text x="80" y="208" text-anchor="middle" fill="#7BD389" font-size="9" font-weight="700">ACTIVE · pri 110</text>
+      <text x="80" y="232" text-anchor="middle" fill="#6BC5E8" font-size="9">10.10.10.1</text>
+      <!-- R-MIAMI-2 (Standby) -->
+      <rect x="160" y="170" width="80" height="50" fill="#1A2050" stroke="#E0B840" stroke-width="2.5" rx="4"/>
+      <text x="200" y="192" text-anchor="middle" fill="#E0B840" font-weight="700">R-MIAMI-2</text>
+      <text x="200" y="208" text-anchor="middle" fill="#F4D481" font-size="9" font-weight="700">STANDBY · pri 100</text>
+      <text x="200" y="232" text-anchor="middle" fill="#6BC5E8" font-size="9">10.10.10.2</text>
+      <!-- Virtual gateway badge -->
+      <ellipse cx="140" cy="278" rx="80" ry="18" fill="#E0B840" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="140" y="276" text-anchor="middle" fill="#1A2050" font-weight="800" font-size="11">vIP 10.10.10.254</text>
+      <text x="140" y="289" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="600">(PC default gateway)</text>
+      <line x1="80" y1="220" x2="120" y2="262" stroke="#B8932A" stroke-width="2" stroke-dasharray="3,3"/>
+      <line x1="200" y1="220" x2="160" y2="262" stroke="#B8932A" stroke-width="2" stroke-dasharray="3,3"/>
+      <!-- Switch -->
+      <rect x="100" y="310" width="80" height="32" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="140" y="331" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-MIA</text>
+      <line x1="140" y1="296" x2="140" y2="310" stroke="#1A2050" stroke-width="1.5"/>
+      <!-- PC -->
+      <circle cx="140" cy="366" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="140" y="370" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-M</text>
+      <line x1="140" y1="342" x2="140" y2="352" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="190" y="368" fill="#1E8FBE" font-weight="700" font-size="10">Gateway: 10.10.10.254</text>
+      <!-- Atlanta (unchanged) -->
+      <line x1="120" y1="195" x2="380" y2="195" stroke="#1A2050" stroke-width="2"/>
+      <text x="320" y="186" text-anchor="middle" fill="#767E92" font-size="10">(via Atlanta, OSPF/EIGRP from earlier labs)</text>
+      <rect x="380" y="170" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4" opacity="0.6"/>
+      <text x="420" y="192" text-anchor="middle" fill="#E0B840" font-weight="700" opacity="0.8">R-ATLANTA</text>
+      <text x="420" y="208" text-anchor="middle" fill="#6BC5E8" font-size="10" opacity="0.8">unchanged</text>
+      <!-- Houston (unchanged) -->
+      <line x1="460" y1="195" x2="680" y2="195" stroke="#1A2050" stroke-width="2" opacity="0.5"/>
+      <rect x="680" y="170" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4" opacity="0.6"/>
+      <text x="720" y="192" text-anchor="middle" fill="#E0B840" font-weight="700" opacity="0.8">R-HOUSTON</text>
+      <text x="720" y="208" text-anchor="middle" fill="#6BC5E8" font-size="10" opacity="0.8">unchanged</text>
+    </svg>
+  </div>
+
+  <div class="section-head">HSRP roles — active vs standby</div>
+  <div class="domain-grid">
+    <div class="domain-card active-r">
+      <div class="dc-tag">PRIMARY</div>
+      <h4>R-MIAMI — Active router</h4>
+      <div class="dc-row"><div class="k">Priority</div><div class="v"><code>110</code> (higher wins the election)</div></div>
+      <div class="dc-row"><div class="k">Preempt</div><div class="v">Enabled — reclaims active role after restoration</div></div>
+      <div class="dc-row"><div class="k">Physical IP</div><div class="v"><code>10.10.10.1</code></div></div>
+      <div class="dc-row"><div class="k">Virtual IP</div><div class="v"><code>10.10.10.254</code></div></div>
+      <div class="dc-row"><div class="k">PAT</div><div class="v">Configured — inside translates to G0/0 IP</div></div>
+      <div class="dc-row"><div class="k">Role</div><div class="v">Forwards all traffic for the virtual IP</div></div>
+    </div>
+    <div class="domain-card standby-r">
+      <div class="dc-tag">FAILOVER</div>
+      <h4>R-MIAMI-2 — Standby router</h4>
+      <div class="dc-row"><div class="k">Priority</div><div class="v"><code>100</code> (default — loses to 110)</div></div>
+      <div class="dc-row"><div class="k">Preempt</div><div class="v">Optional</div></div>
+      <div class="dc-row"><div class="k">Physical IP</div><div class="v"><code>10.10.10.2</code></div></div>
+      <div class="dc-row"><div class="k">Virtual IP</div><div class="v"><code>10.10.10.254</code> (shared)</div></div>
+      <div class="dc-row"><div class="k">PAT</div><div class="v">Configured — inside translates to its own G0/0 IP</div></div>
+      <div class="dc-row"><div class="k">Role</div><div class="v">Idle until R-MIAMI fails, then assumes active</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">Updated IP Addressing Plan</div>
+  <p>Same as Lab 2.1.3, with three additions: R-MIAMI gets a second LAN IP, R-MIAMI-2 is new, and a virtual gateway IP is shared between them.</p>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device</th><th>Interface</th><th>IP Address</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/0 (ISP)</td><td class="ip">203.0.113.2 /30</td><td>NAT outside · public IP</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.10.1 /24</td><td>NAT inside · HSRP active</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.12.1 /30</td><td>EIGRP from Lab 2.1.3</td></tr>
+      <tr><td class="device virtual">HSRP virtual IP</td><td class="iface">— (shared)</td><td class="ip">10.10.10.254 /24</td><td>PC default gateway</td></tr>
+      <tr><td class="device">R-MIAMI-2</td><td class="iface">G0/0 (ISP)</td><td class="ip">203.0.113.6 /30</td><td>NAT outside · public IP</td></tr>
+      <tr><td class="device">R-MIAMI-2</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.10.2 /24</td><td>NAT inside · HSRP standby</td></tr>
+      <tr><td class="device">R-MIAMI-2</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.13.1 /30</td><td>New EIGRP link to Atlanta</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/2 (to MIA-2)</td><td class="ip">10.0.13.2 /30</td><td>New module · DCE side</td></tr>
+      <tr><td class="device">PC-M</td><td class="iface">FastEthernet0</td><td class="ip">10.10.10.10 /24</td><td><b>Gateway: 10.10.10.254</b> ← change this</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>R-MIAMI-2 added</b> to the topology with second WAN link to R-ATLANTA and connection to SW-MIA.</li>
+      <li><b>EIGRP runs on R-MIAMI-2</b> in AS 100, forming a neighbor with R-ATLANTA.</li>
+      <li><b>HSRP group 1 active</b> on G0/1 of both edge routers with virtual IP <code>10.10.10.254</code>.</li>
+      <li><b>R-MIAMI elected as active</b> (priority 110, preempt enabled). <code>show standby brief</code> confirms.</li>
+      <li><b>R-MIAMI-2 elected as standby</b> (priority 100). Both routers see each other as Hello peers.</li>
+      <li><b>PC-M's default gateway updated</b> to <code>10.10.10.254</code> (the virtual IP, not <code>10.10.10.1</code>).</li>
+      <li><b>PAT configured on both edge routers</b> — overload to G0/0 with an inside ACL matching <code>10.10.10.0/24</code>.</li>
+      <li><b>PC-M can ping the public ISP IP</b> <code>203.0.113.1</code> — traffic is translated by the active router.</li>
+      <li><b>NAT translation table populated</b> — <code>show ip nat translations</code> on R-MIAMI shows entries with inside-local 10.10.10.10 mapped to inside-global 203.0.113.2.</li>
+      <li><b>Failover test: shutting down R-MIAMI G0/1 triggers HSRP failover</b> in &lt; 10 seconds. <code>show standby brief</code> on R-MIAMI-2 now shows it as <b>Active</b>.</li>
+      <li><b>PC-M continues to reach the ISP</b> during/after failover (max 1–2 dropped pings during transition).</li>
+      <li><b>Configurations saved</b> on all four routers (R-MIAMI, R-MIAMI-2, R-ATLANTA, R-HOUSTON).</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the exam</h5>
+    <p>N10-009 objective 2.1 names <b>FHRP</b> (which includes HSRP, VRRP, GLBP) and <b>NAT/PAT</b> explicitly. The exam loves the question "what happens to a packet sourced from 10.10.10.10 destined for 8.8.8.8?" — the answer requires understanding inside-local, inside-global, outside-local, outside-global. This lab makes those terms concrete by showing the actual <code>show ip nat translations</code> table.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Add the <em>second</em> edge router.</h2>
+  <p>Open your saved Lab 2.1.3 file. You'll add one new 2911 router (R-MIAMI-2), a serial module for R-ATLANTA, two new cables, and update PC-M's default gateway.</p>
+
+  <div class="section-head">Open the previous lab</div>
+  <div class="step" data-step="1">
+    <h4>Open Lab-2.1.3-EIGRP-FirstLast.pkt and Save As Lab-2.1.4-HSRP</h4>
+    <p>File → Save As → <code>Lab-2.1.4-HSRP-Lastname-Firstname.pkt</code>. The split EIGRP/OSPF topology stays as-is for the rest of the network; you're only modifying the Miami edge.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Confirm baseline connectivity</h4>
+    <p>From PC-M: <code>ping 10.10.30.10</code>. Should succeed via the EIGRP/OSPF redistribution from Lab 2.1.3. If it fails, fix Lab 2.1.3 before proceeding.</p>
+  </div>
+
+  <div class="section-head">Add R-MIAMI-2 and its connections</div>
+  <div class="step" data-step="3">
+    <h4>Drag a new 2911 router and name it R-MIAMI-2</h4>
+    <p>Place it next to R-MIAMI. Power it off, install an <code>HWIC-2T</code> serial module, then power on. Set the display name to <code>R-MIAMI-2</code>.</p>
+  </div>
+  <div class="step" data-step="4">
+    <h4>Add a third serial module to R-ATLANTA</h4>
+    <p>R-ATLANTA needs a third serial port for the new WAN link to R-MIAMI-2. Power it off, install a second <code>HWIC-2T</code> if needed (or use the free port on the existing module), power back on.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Connect R-MIAMI-2 to the LAN</h4>
+    <p>Copper Straight-Through: R-MIAMI-2 <code>G0/1</code> ↔ SW-MIA <code>Fa0/3</code>. Both edge routers now share the same broadcast domain — that's required for HSRP to work.</p>
+  </div>
+  <div class="step" data-step="6">
+    <h4>Connect R-MIAMI-2 to R-ATLANTA via serial</h4>
+    <p>Serial DCE: R-ATLANTA <code>S0/0/2</code> (click first — DCE) ↔ R-MIAMI-2 <code>S0/0/0</code> (DTE). This gives R-MIAMI-2 its own path to the rest of the network even when R-MIAMI is down.</p>
+  </div>
+  <div class="step" data-step="7">
+    <h4>Connect R-MIAMI-2 to the ISP cloud</h4>
+    <p>Copper Crossover: R-MIAMI-2 <code>G0/0</code> ↔ ISP <code>G0/1</code> (or a second port on your Cloud-PT). The ISP must have a second port available; if you used a Cloud-PT, add an interface.</p>
+  </div>
+
+  <div class="section-head">Change PC-M's default gateway</div>
+  <div class="step" data-step="8">
+    <h4>Update PC-M to use the HSRP virtual IP</h4>
+    <p>Click PC-M → Desktop → IP Configuration. Change <b>Default Gateway</b> from <code>10.10.10.1</code> to <code>10.10.10.254</code>. This is the crucial step — the PC no longer points at a specific physical router. It points at a virtual address that will always be answered by whichever router is currently active.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>One subtle thing about HSRP topology</h5>
+    <p>Both R-MIAMI and R-MIAMI-2 must be on the <b>same Layer 2 broadcast domain</b> — same VLAN, same switch (or trunked switches). HSRP uses multicast Hello packets (224.0.0.2) sent inside that broadcast domain to elect active/standby. If you accidentally separate them by a router, HSRP will not work and both will think they're active.</p>
+  </div>
+
+  <p>Once R-MIAMI-2 is wired in and PC-M's gateway is updated, move to the Configure tab to bring up routing on R-MIAMI-2 and configure HSRP on both edge routers.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Three configuration <em>steps</em>.</h2>
+  <p>(1) Bring up R-MIAMI-2 with interfaces, EIGRP, and PAT. (2) Add PAT and HSRP active config to R-MIAMI. (3) Update R-ATLANTA to peer with the new R-MIAMI-2 over EIGRP.</p>
+
+  <!-- R-MIAMI-2 (new router — full config) -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 04 — new router, full setup</span>
+      <span class="term-device">R-MIAMI-2</span>
+      <button class="copy-btn" data-copy="cfg-miami2">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-miami2"><span class="comment">! ===== R-MIAMI-2 — Second edge router, HSRP standby =====</span>
+enable
+configure terminal
+hostname R-MIAMI-2
+no ip domain-lookup
+
+<span class="comment">! ----- Interface to ISP (NAT outside) -----</span>
+interface GigabitEthernet0/0
+ description To ISP - public side
+ ip address 203.0.113.6 255.255.255.252
+ ip nat outside
+ no shutdown
+
+<span class="comment">! ----- LAN interface (NAT inside, HSRP standby) -----</span>
+interface GigabitEthernet0/1
+ description Miami LAN - HSRP standby
+ ip address 10.10.10.2 255.255.255.0
+ ip nat inside
+ <span class="comment">! HSRP group 1 - same virtual IP as R-MIAMI</span>
+ standby 1 ip 10.10.10.254
+ <span class="comment">! Default priority 100 means R-MIAMI (priority 110) wins active election</span>
+ standby 1 priority 100
+ <span class="comment">! Preempt is optional on standby - left off here</span>
+ no shutdown
+
+<span class="comment">! ----- Serial WAN to R-ATLANTA -----</span>
+interface Serial0/0/0
+ description WAN to R-ATLANTA
+ ip address 10.0.13.1 255.255.255.252
+ no shutdown
+
+<span class="comment">! ----- EIGRP AS 100 - same as R-MIAMI from Lab 2.1.3 -----</span>
+router eigrp 100
+ no auto-summary
+ network 10.10.10.0 0.0.0.255
+ network 10.0.13.0  0.0.0.3
+ passive-interface GigabitEthernet0/1
+exit
+
+<span class="comment">! ----- PAT overload config -----</span>
+<span class="comment">! ACL 1 defines who gets translated (the entire 10.10.10.0/24)</span>
+access-list 1 permit 10.10.10.0 0.0.0.255
+<span class="comment">! Translate any inside source matching ACL 1 to the G0/0 IP, port-overloaded</span>
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+
+<span class="comment">! ----- Static default route to ISP (matches R-MIAMI's config) -----</span>
+ip route 0.0.0.0 0.0.0.0 203.0.113.5
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-MIAMI (add PAT + HSRP) -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 04 — add PAT &amp; HSRP active</span>
+      <span class="term-device">R-MIAMI</span>
+      <button class="copy-btn" data-copy="cfg-miami">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-miami"><span class="comment">! ===== R-MIAMI — Add NAT inside/outside markers + HSRP active =====</span>
+enable
+configure terminal
+
+<span class="comment">! ----- Mark ISP interface as NAT outside -----</span>
+interface GigabitEthernet0/0
+ ip nat outside
+
+<span class="comment">! ----- Mark LAN as NAT inside + configure HSRP active -----</span>
+interface GigabitEthernet0/1
+ ip nat inside
+ <span class="comment">! HSRP group 1 - same virtual IP as R-MIAMI-2</span>
+ standby 1 ip 10.10.10.254
+ <span class="comment">! Higher priority wins active election</span>
+ standby 1 priority 110
+ <span class="comment">! Preempt: reclaim active role after recovery from failure</span>
+ standby 1 preempt
+exit
+
+<span class="comment">! ----- PAT overload config -----</span>
+access-list 1 permit 10.10.10.0 0.0.0.255
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-ATLANTA (add new EIGRP link to R-MIAMI-2) -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 04 — peer with R-MIAMI-2</span>
+      <span class="term-device">R-ATLANTA</span>
+      <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-atlanta"><span class="comment">! ===== R-ATLANTA — Add EIGRP peering with R-MIAMI-2 =====</span>
+enable
+configure terminal
+
+<span class="comment">! ----- Bring up the new serial interface toward R-MIAMI-2 -----</span>
+interface Serial0/0/2
+ description WAN to R-MIAMI-2
+ ip address 10.0.13.2 255.255.255.252
+ clock rate 1544000
+ no shutdown
+
+<span class="comment">! ----- Advertise the new WAN subnet in EIGRP -----</span>
+router eigrp 100
+ network 10.0.13.0 0.0.0.3
+exit
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- Verification - quick PC config check -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 04 of 04 — PC-M default gateway</span>
+      <span class="term-device">PC-M Desktop</span>
+    </div>
+    <div class="term-body">
+<pre><span class="comment">! ===== PC-M — Update default gateway to virtual IP =====</span>
+<span class="comment">! Not a CLI command - do this in Packet Tracer GUI:</span>
+<span class="comment">!</span>
+<span class="comment">! 1. Click PC-M</span>
+<span class="comment">! 2. Desktop tab</span>
+<span class="comment">! 3. IP Configuration</span>
+<span class="comment">! 4. Change Default Gateway from 10.10.10.1 to 10.10.10.254</span>
+<span class="comment">! 5. Click another field to commit the change</span>
+<span class="comment">!</span>
+<span class="comment">! The PC now resolves its gateway via ARP, which is answered by</span>
+<span class="comment">! whichever HSRP router is currently active. From the PC's view,</span>
+<span class="comment">! 10.10.10.254 is just one MAC address that never changes -</span>
+<span class="comment">! HSRP virtual MAC = 0000.0C07.AC01 (where 01 = group 1).</span></pre>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>The HSRP virtual MAC address</h5>
+    <p>HSRP uses a well-known virtual MAC: <code>0000.0C07.ACxx</code> where <code>xx</code> is the HSRP group number in hex. Group 1 = MAC <code>0000.0C07.AC01</code>. This is the key to seamless failover — when the active router fails, the standby starts answering ARP for the same virtual IP <i>and</i> sources frames from the same virtual MAC. PCs don't update their ARP cache because the MAC didn't change.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Common syntax confusion</h5>
+    <p>The <code>standby 1 ip 10.10.10.254</code> command is sometimes mistyped as <code>standby 1 ip 10.10.10.254 255.255.255.0</code> — Cisco doesn't take a mask there. The mask comes from the interface IP, not the virtual IP.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm <em>both</em> features work.</h2>
+  <p>Twelve checks split across HSRP, PAT, and the failover scenario.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 12 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>R-MIAMI is HSRP active</b> — <code>show standby brief</code>. Group 1 shows <code>Active</code>, virtual IP <code>10.10.10.254</code>, virtual MAC <code>0000.0C07.AC01</code>.</div>
+    <div class="ccmd">show standby brief</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>R-MIAMI-2 is HSRP standby</b> — Same command on R-MIAMI-2 shows state <code>Standby</code> in group 1, and lists R-MIAMI as the active peer.</div>
+    <div class="ccmd">show standby brief</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Priority and preempt settings correct</b> — On R-MIAMI: <code>show standby</code>. Confirm <i>Priority 110</i> and <i>preempt enabled</i>.</div>
+    <div class="ccmd">show standby</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>EIGRP neighbor with R-MIAMI-2</b> — On R-ATLANTA: <code>show ip eigrp neighbors</code> now lists two neighbors (10.0.12.1 and 10.0.13.1).</div>
+    <div class="ccmd">show ip eigrp neighbors</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M default gateway is 10.10.10.254</b> — On PC-M: <code>ipconfig</code>. Default Gateway must be the virtual IP, NOT 10.10.10.1.</div>
+    <div class="ccmd">ipconfig</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M's ARP entry for the gateway returns virtual MAC</b> — From PC-M: <code>arp -a</code>. Look for <code>10.10.10.254</code> → MAC <code>0000.0C07.AC01</code>.</div>
+    <div class="ccmd">arp -a</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>NAT inside/outside interfaces marked</b> — On R-MIAMI: <code>show ip nat statistics</code>. <i>Inside interfaces: GigabitEthernet0/1</i>; <i>Outside interfaces: GigabitEthernet0/0</i>.</div>
+    <div class="ccmd">show ip nat statistics</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M can ping the ISP public IP</b> — From PC-M: <code>ping 203.0.113.1</code>. Succeeds. (If you don't have a real ISP, ping any address on a public-IP loopback you configured.)</div>
+    <div class="ccmd">ping 203.0.113.1</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>NAT translation table populated</b> — On R-MIAMI: <code>show ip nat translations</code>. Lines show inside-local <code>10.10.10.10:xxxx</code> mapped to inside-global <code>203.0.113.2:yyyy</code>.</div>
+    <div class="ccmd">show ip nat translations</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Failover test — shut down R-MIAMI's LAN interface</b> — On R-MIAMI: <code>interface G0/1</code> → <code>shutdown</code>. Within 10 seconds, <code>show standby brief</code> on R-MIAMI-2 shows it as <b>Active</b>.</div>
+    <div class="ccmd">shutdown</div>
+  </div>
+  <div class="check-row" data-check="11">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M still reaches the ISP during failover</b> — Start a continuous <code>ping -t 203.0.113.1</code> on PC-M <i>before</i> shutting G0/1. You should see ≤2 dropped pings during the transition, then connectivity continues.</div>
+    <div class="ccmd">ping -t 203.0.113.1</div>
+  </div>
+  <div class="check-row" data-check="12">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Preempt works after recovery</b> — Bring R-MIAMI's G0/1 back up (<code>no shutdown</code>). Within 10 seconds, <code>show standby brief</code> on R-MIAMI shows <b>Active</b> again. Preempt reclaimed the role.</div>
+    <div class="ccmd">no shutdown</div>
+  </div>
+
+  <div class="section-head">Sample successful output — HSRP brief on R-MIAMI</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-MIAMI# show standby brief</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State    Active          Standby         Virtual IP</span>
+<span class="ok">Gig0/1      1    110 P Active   local           10.10.10.2      10.10.10.254</span></pre>
+    </div>
+  </div>
+
+  <div class="section-head">Sample successful output — NAT translations on R-MIAMI</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-MIAMI# show ip nat translations</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Pro Inside global         Inside local          Outside local         Outside global</span>
+<span class="ok">icmp 203.0.113.2:1     10.10.10.10:1         203.0.113.1:1         203.0.113.1:1</span>
+<span class="ok">icmp 203.0.113.2:2     10.10.10.10:2         203.0.113.1:2         203.0.113.1:2</span>
+<span class="ok">tcp  203.0.113.2:1024  10.10.10.10:1024      8.8.8.8:80            8.8.8.8:80</span></pre>
+    </div>
+  </div>
+
+  <p><b>Inside local</b> = the private IP as seen on the inside (PC-M's actual 10.10.10.10). <b>Inside global</b> = how that private IP appears to the outside world after translation (R-MIAMI's public 203.0.113.2). The port numbers (<code>:1024</code>, <code>:1</code>) are what makes this <b>P</b>AT instead of plain NAT — every concurrent flow gets a unique source port.</p>
+
+  <div class="section-head">Sample successful output — failover in progress on R-MIAMI-2</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">During failover</span>
+      <span class="term-device">R-MIAMI-2# show standby brief</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State    Active          Standby         Virtual IP</span>
+<span class="warn">Gig0/1      1    100   Active   local           unknown         10.10.10.254</span>
+<span class="comment">! Notice: state is now Active. Standby is "unknown" because R-MIAMI is down.</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When HSRP or PAT <em>misbehaves.</em></h2>
+  <p>Seven failure modes that show up in this lab. Match the symptom, apply the fix.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Both routers think they're Active</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">HSRP routers cannot see each other's Hello packets. Almost always a Layer 2 problem — different VLANs, wrong switch port, or the link between switches is down.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On both routers: <code>show standby brief</code>. Both show "local" as active and "unknown" as standby. Then on the switch: <code>show vlan brief</code> — confirm both router ports are in the same VLAN.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Move both router ports into the same VLAN (default is VLAN 1). Confirm with <code>show interface status</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M can ping 10.10.10.1 and 10.10.10.2 but not 10.10.10.254</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">HSRP isn't running on one or both routers. Without an active HSRP router, the virtual IP isn't answered by anyone.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show standby brief</code> on both edge routers. If the output is empty, HSRP isn't configured.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-paste the HSRP block from the Configure tab. Verify the <code>standby 1 ip 10.10.10.254</code> command is under <code>interface G0/1</code>, not somewhere else.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M can't reach the internet but can reach 10.10.20.10</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">PAT isn't translating. Either the ACL doesn't match, the inside/outside markings are wrong, or the <code>overload</code> keyword is missing.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip nat translations</code> on the active HSRP router. Empty? PAT isn't running. <code>show ip nat statistics</code> shows hits and misses.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Verify (1) ACL 1 permits 10.10.10.0/24, (2) <code>ip nat inside</code> on G0/1, (3) <code>ip nat outside</code> on G0/0, (4) the <code>ip nat inside source list 1 interface G0/0 overload</code> command exists.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Failover takes much longer than expected (15+ seconds)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Default HSRP Hello timer is 3 seconds and hold timer is 10 seconds. Failover can take up to 10 seconds before the standby decides the active is dead.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show standby</code> on either router shows current timer values.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">For sub-second failover in production: <code>standby 1 timers msec 200 msec 600</code> (Hello every 200ms, dead after 600ms). For Network+ you don't need to tune — the default 10 seconds is acceptable. Mention in your write-up that you understand the trade-off.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">After bringing R-MIAMI back up, it stays Standby instead of reclaiming Active</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Missing <code>standby 1 preempt</code> command on R-MIAMI. Without preempt, a router will not actively reclaim the role even when it has higher priority.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-MIAMI: <code>show standby | include preempt</code>. If empty, preempt is off.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Under <code>interface G0/1</code>: <code>standby 1 preempt</code>. The 'P' column in <code>show standby brief</code> output should now show 'P'.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">NAT translations appear but disappear quickly between pings</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">This is the NAT translation timeout. ICMP entries time out after 60 seconds. TCP entries time out after 24 hours. UDP after 5 minutes. Normal behavior.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show ip nat translations verbose</code> — look at the timeout/created fields.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">No fix required — this is correct. If you need persistent translations for testing, run a continuous ping during the screenshot.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M loses ALL connectivity during failover (not just 1-2 pings)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">PAT state is per-router. When the active router fails, the new active has no record of existing translations. Existing TCP sessions break and must reconnect.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Expected behavior — not a bug. ICMP recovers quickly because each ping creates a new translation; long-lived TCP sessions don't.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">For Network+ purposes, document this as a known limitation. In production, you'd use stateful NAT failover (<code>ip nat stateful</code>) which syncs the translation table between routers. Out of scope here.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>final</em> lab.</h2>
+
+  <div class="series-banner">
+    <div class="sb-icon">★</div>
+    <div>
+      <h3>This is the last lab in the 2.1 Routing Technologies series.</h3>
+      <p>You've covered static routes, OSPF, EIGRP with redistribution, and now NAT/PAT with HSRP. Together these four labs cover every concept tested under Network+ N10-009 objective 2.1. Save your .pkt file — you'll reference it during exam review.</p>
+    </div>
+  </div>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.1.4 — NAT/PAT with HSRP</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.1.4-HSRP-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> containing screenshots of (a) <code>show standby brief</code> on both edge routers, (b) <code>show ip nat translations</code> with at least 3 active entries, (c) PC-M's <code>arp -a</code> showing the virtual MAC, (d) a successful ping from PC-M to <code>203.0.113.1</code>, and (e) failover proof — show R-MIAMI-2's <code>show standby brief</code> output before and after shutting down R-MIAMI's G0/1.</li>
+      <li><b>A short write-up</b> (≤ 400 words) answering: <i>"Explain the difference between NAT and PAT. Then explain why HSRP can fail over connectivity in seconds but long-lived TCP sessions still break. What does this tell you about where NAT state lives?"</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 12 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>R-MIAMI-2 added to topology with correct interfaces and naming</td><td class="pts">5</td></tr>
+      <tr><td>R-MIAMI-2 EIGRP AS 100 configured and neighbor with R-ATLANTA established</td><td class="pts">10</td></tr>
+      <tr><td>HSRP group 1 configured on both edge routers with correct virtual IP</td><td class="pts">10</td></tr>
+      <tr><td>R-MIAMI priority set to 110 with <code>preempt</code> enabled</td><td class="pts">10</td></tr>
+      <tr><td>HSRP active/standby roles correctly elected (R-MIAMI active, R-MIAMI-2 standby)</td><td class="pts">5</td></tr>
+      <tr><td>PC-M default gateway updated to virtual IP 10.10.10.254</td><td class="pts">5</td></tr>
+      <tr><td>PAT configured on both edge routers (ACL + inside/outside + overload)</td><td class="pts">15</td></tr>
+      <tr><td>PC-M successfully pings the public ISP IP — PAT works (screenshot)</td><td class="pts">10</td></tr>
+      <tr><td>NAT translation table shows entries with correct inside-local/inside-global mapping</td><td class="pts">5</td></tr>
+      <tr><td>Failover test: shutting R-MIAMI G0/1 triggers HSRP failover (screenshot before+after)</td><td class="pts">10</td></tr>
+      <tr><td>Preempt works — bringing R-MIAMI back returns it to Active</td><td class="pts">5</td></tr>
+      <tr><td>Configurations saved on all four routers</td><td class="pts">5</td></tr>
+      <tr><td>Write-up correctly explains NAT vs PAT and TCP-session-break-on-failover</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+
+  <div class="callout">
+    <h5>What's next</h5>
+    <p>Subtopic 2.1 (Routing Technologies) is now complete. The next lab series will cover subtopic <b>2.2 Switching Technologies &amp; Features</b> — VLANs, trunking (802.1Q), STP/RSTP, link aggregation (LACP), and port security. Different protocols, same hands-on approach.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.1.4 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.1 Routing Technologies</b>. The capstone lab in the series — closes out routing concepts with NAT/PAT and HSRP first-hop redundancy. Mapped to CompTIA exam objectives and built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.1.1 · Static Routing &amp; Default Route</p>
+      <p style="opacity:0.55">2.1.2 · OSPF Single-Area</p>
+      <p style="opacity:0.55">2.1.3 · EIGRP &amp; Route Redistribution</p>
+      <p>2.1.4 · NAT/PAT with HSRP ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.1.4-checks';
+const TOTAL_CHECKS = 12;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
