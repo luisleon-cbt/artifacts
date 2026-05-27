@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.2.1 · VLANs & 802.1Q Trunking · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    /* VLAN color codes — used consistently across the 2.2 series */
+    --vlan10:#2A6049;  /* Staff (green) */
+    --vlan20:#1E8FBE;  /* Guest (sky-blue) */
+    --vlan30:#B8932A;  /* Voice (gold) */
+    --vlan99:#8E1F2E;  /* Management (red) */
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip, .iptable td.vlan { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable td.v10 { color: var(--vlan10); font-weight: 700; }
+  .iptable td.v20 { color: var(--vlan20); font-weight: 700; }
+  .iptable td.v30 { color: var(--vlan30); font-weight: 700; }
+  .iptable td.v99 { color: var(--vlan99); font-weight: 700; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* VLAN plan card — unique to this series */
+  .vlan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 18px 0; }
+  .vlan-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; position: relative; border-top: 5px solid var(--vlan10); }
+  .vlan-card.v20 { border-top-color: var(--vlan20); }
+  .vlan-card.v30 { border-top-color: var(--vlan30); }
+  .vlan-card.v99 { border-top-color: var(--vlan99); }
+  .vlan-card .vc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 4px; font-weight: 700; }
+  .vlan-card .vc-id { font-family: var(--ff-mono); font-size: 22px; font-weight: 700; color: var(--vlan10); margin-bottom: 4px; }
+  .vlan-card.v20 .vc-id { color: var(--vlan20); }
+  .vlan-card.v30 .vc-id { color: var(--vlan30); }
+  .vlan-card.v99 .vc-id { color: var(--vlan99); }
+  .vlan-card h4 { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .vlan-card .vc-row { display: grid; grid-template-columns: 90px 1fr; gap: 8px; padding: 4px 0; font-size: 12.5px; }
+  .vlan-card .vc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .vlan-card .vc-row .v { color: var(--ink); }
+  .vlan-card .vc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .vlan-grid { grid-template-columns: 1fr; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.2 Switching Technologies</span>
+    <span class="crumb">Lab 2.2.1</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 1 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.2.1 · Packet Tracer · ≈ 50 min</div>
+    <h1>Slice one switch into <em>many</em> with VLANs.</h1>
+    <p class="lede">A single physical switch normally puts every connected device into one big broadcast domain — every host can ARP for every other host, every broadcast reaches every port. That's a security problem and a performance problem. <b>VLANs (Virtual LANs)</b> let you carve that switch into multiple isolated Layer 2 segments. In this lab you'll configure a Miami office access switch with three user VLANs (Staff, Guest, Voice) and one management VLAN, assign access ports per role, then connect a second access switch via an <b>802.1Q trunk</b> so VLANs span both switches.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">VLAN segmentation + 802.1Q trunking</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Empty Packet Tracer workspace</span></div>
+    <div class="ref-row"><span class="name">VLANs</span><span class="desc">10 Staff · 20 Guest · 30 Voice · 99 Mgmt</span></div>
+    <div class="ref-row"><span class="name">Devices</span><span class="desc">2 × Switch 2960 · 4 × PC</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.2.1-VLANs-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.2.1</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      VLAN concept · access port · 802.1Q trunk · native VLAN · allowed VLAN list · voice VLAN
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">4</div><div class="label">VLANs configured</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">802.1Q trunk link</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">PCs across 2 switches</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>scenario.</em></h2>
+  <p>The CBT Miami office is moving from a single flat network to a properly segmented one. The IT director wants every employee category isolated at Layer 2: <b>Staff</b> devices shouldn't see <b>Guest</b> Wi-Fi devices, <b>Voice</b> phones should be on their own VLAN for QoS, and the <b>Management</b> VLAN — used to remotely administer the switches themselves — should be inaccessible from anywhere else. You'll start with a single access switch (<code>SW-FLOOR1</code>) and add a second (<code>SW-FLOOR2</code>) for the second floor. Both switches share the same four VLANs via an 802.1Q trunk link.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a switching concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
+  <div class="section-head">Topology — two access switches, one trunk</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <!-- Building label -->
+      <rect x="20" y="20" width="860" height="40" fill="rgba(40,48,104,0.04)" stroke="#C6C6BE" stroke-width="1"/>
+      <text x="450" y="46" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="#1A2050">CBT Miami Office · Floor 1 &amp; Floor 2</text>
+
+      <!-- SW-FLOOR1 -->
+      <rect x="120" y="100" width="120" height="50" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="180" y="122" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">SW-FLOOR1</text>
+      <text x="180" y="138" text-anchor="middle" fill="#767E92" font-size="10">2960 · Floor 1 access</text>
+
+      <!-- SW-FLOOR2 -->
+      <rect x="660" y="100" width="120" height="50" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="720" y="122" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">SW-FLOOR2</text>
+      <text x="720" y="138" text-anchor="middle" fill="#767E92" font-size="10">2960 · Floor 2 access</text>
+
+      <!-- 802.1Q TRUNK between switches -->
+      <line x1="240" y1="125" x2="660" y2="125" stroke="#E0B840" stroke-width="3"/>
+      <line x1="240" y1="121" x2="660" y2="121" stroke="#E0B840" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="240" y1="129" x2="660" y2="129" stroke="#E0B840" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="450" y="115" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">802.1Q TRUNK · Gi0/1</text>
+      <text x="450" y="148" text-anchor="middle" fill="#767E92" font-size="10">native VLAN 99 · allowed 10,20,30,99</text>
+
+      <!-- PC-STAFF1 (Floor 1, VLAN 10) -->
+      <circle cx="60" cy="240" r="18" fill="#FAFAF6" stroke="#2A6049" stroke-width="2"/>
+      <text x="60" y="244" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-S1</text>
+      <line x1="78" y1="232" x2="140" y2="160" stroke="#2A6049" stroke-width="2"/>
+      <rect x="20" y="278" width="80" height="20" fill="#DCEAD9" stroke="#2A6049" stroke-width="1"/>
+      <text x="60" y="292" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="10">VLAN 10 · Staff</text>
+
+      <!-- PC-GUEST1 (Floor 1, VLAN 20) -->
+      <circle cx="180" cy="240" r="18" fill="#FAFAF6" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="180" y="244" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-G1</text>
+      <line x1="180" y1="222" x2="180" y2="160" stroke="#1E8FBE" stroke-width="2"/>
+      <rect x="140" y="278" width="80" height="20" fill="rgba(56,176,224,0.18)" stroke="#1E8FBE" stroke-width="1"/>
+      <text x="180" y="292" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">VLAN 20 · Guest</text>
+
+      <!-- IP Phone (Floor 1, VLAN 30) -->
+      <rect x="280" y="222" width="36" height="36" fill="#FAFAF6" stroke="#B8932A" stroke-width="2"/>
+      <text x="298" y="244" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PHONE</text>
+      <text x="298" y="254" text-anchor="middle" fill="#1A2050" font-size="9">F1</text>
+      <line x1="298" y1="222" x2="240" y2="160" stroke="#B8932A" stroke-width="2"/>
+      <rect x="260" y="278" width="80" height="20" fill="rgba(224,184,64,0.20)" stroke="#B8932A" stroke-width="1"/>
+      <text x="300" y="292" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="10">VLAN 30 · Voice</text>
+
+      <!-- PC-STAFF2 (Floor 2, VLAN 10) -->
+      <circle cx="600" cy="240" r="18" fill="#FAFAF6" stroke="#2A6049" stroke-width="2"/>
+      <text x="600" y="244" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-S2</text>
+      <line x1="618" y1="232" x2="680" y2="160" stroke="#2A6049" stroke-width="2"/>
+      <rect x="560" y="278" width="80" height="20" fill="#DCEAD9" stroke="#2A6049" stroke-width="1"/>
+      <text x="600" y="292" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="10">VLAN 10 · Staff</text>
+
+      <!-- PC-GUEST2 (Floor 2, VLAN 20) -->
+      <circle cx="720" cy="240" r="18" fill="#FAFAF6" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="720" y="244" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-G2</text>
+      <line x1="720" y1="222" x2="720" y2="160" stroke="#1E8FBE" stroke-width="2"/>
+      <rect x="680" y="278" width="80" height="20" fill="rgba(56,176,224,0.18)" stroke="#1E8FBE" stroke-width="1"/>
+      <text x="720" y="292" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">VLAN 20 · Guest</text>
+
+      <!-- Management interface badge (VLAN 99) -->
+      <rect x="380" y="320" width="140" height="32" fill="rgba(142,31,46,0.10)" stroke="#8E1F2E" stroke-width="1.5" rx="3"/>
+      <text x="450" y="335" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="10">VLAN 99 · Management</text>
+      <text x="450" y="346" text-anchor="middle" fill="#8E1F2E" font-size="9">SVI on each switch · for remote admin only</text>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#DCEAD9;border-color:#2A6049"></span>Staff VLAN 10</span>
+      <span class="lk"><span class="sw" style="background:rgba(56,176,224,0.18);border-color:#1E8FBE"></span>Guest VLAN 20</span>
+      <span class="lk"><span class="sw" style="background:rgba(224,184,64,0.20);border-color:#B8932A"></span>Voice VLAN 30</span>
+      <span class="lk"><span class="sw" style="background:rgba(142,31,46,0.10);border-color:#8E1F2E"></span>Management VLAN 99</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:3px;background:#E0B840"></span>802.1Q trunk</span>
+    </div>
+  </div>
+
+  <div class="section-head">VLAN plan</div>
+  <div class="vlan-grid">
+    <div class="vlan-card">
+      <div class="vc-tag">USER VLAN</div>
+      <div class="vc-id">VLAN 10</div>
+      <h4>Staff</h4>
+      <div class="vc-row"><div class="k">Purpose</div><div class="v">CBT employees and on-site contractors</div></div>
+      <div class="vc-row"><div class="k">Subnet</div><div class="v"><code>192.168.10.0/24</code></div></div>
+      <div class="vc-row"><div class="k">Members</div><div class="v">PC-S1 (Floor 1), PC-S2 (Floor 2)</div></div>
+    </div>
+    <div class="vlan-card v20">
+      <div class="vc-tag">USER VLAN</div>
+      <div class="vc-id">VLAN 20</div>
+      <h4>Guest</h4>
+      <div class="vc-row"><div class="k">Purpose</div><div class="v">Visitor Wi-Fi and conference room access</div></div>
+      <div class="vc-row"><div class="k">Subnet</div><div class="v"><code>192.168.20.0/24</code></div></div>
+      <div class="vc-row"><div class="k">Members</div><div class="v">PC-G1 (Floor 1), PC-G2 (Floor 2)</div></div>
+    </div>
+    <div class="vlan-card v30">
+      <div class="vc-tag">VOICE VLAN</div>
+      <div class="vc-id">VLAN 30</div>
+      <h4>Voice</h4>
+      <div class="vc-row"><div class="k">Purpose</div><div class="v">IP phones — kept separate for QoS prioritization</div></div>
+      <div class="vc-row"><div class="k">Subnet</div><div class="v"><code>192.168.30.0/24</code></div></div>
+      <div class="vc-row"><div class="k">Members</div><div class="v">IP Phone (Floor 1)</div></div>
+    </div>
+    <div class="vlan-card v99">
+      <div class="vc-tag">MGMT &amp; NATIVE</div>
+      <div class="vc-id">VLAN 99</div>
+      <h4>Management</h4>
+      <div class="vc-row"><div class="k">Purpose</div><div class="v">Switch admin (SSH/console) + trunk native VLAN</div></div>
+      <div class="vc-row"><div class="k">Subnet</div><div class="v"><code>192.168.99.0/24</code> (SVI per switch)</div></div>
+      <div class="vc-row"><div class="k">Members</div><div class="v">SW-FLOOR1 (.1), SW-FLOOR2 (.2)</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">Port assignment plan</div>
+  <table class="iptable">
+    <thead>
+      <tr><th>Switch</th><th>Port</th><th>Mode</th><th>Assigned VLAN</th><th>Device</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">SW-FLOOR1</td><td class="iface">Fa0/1</td><td>Access</td><td class="v10">10 (Staff)</td><td>PC-S1</td></tr>
+      <tr><td class="device">SW-FLOOR1</td><td class="iface">Fa0/2</td><td>Access</td><td class="v20">20 (Guest)</td><td>PC-G1</td></tr>
+      <tr><td class="device">SW-FLOOR1</td><td class="iface">Fa0/3</td><td>Access + voice</td><td class="v10">10 data / <span style="color:var(--vlan30)">30 voice</span></td><td>IP Phone</td></tr>
+      <tr><td class="device">SW-FLOOR1</td><td class="iface">Gi0/1</td><td>Trunk</td><td>Native 99 · allowed 10,20,30,99</td><td>To SW-FLOOR2</td></tr>
+      <tr><td class="device">SW-FLOOR2</td><td class="iface">Fa0/1</td><td>Access</td><td class="v10">10 (Staff)</td><td>PC-S2</td></tr>
+      <tr><td class="device">SW-FLOOR2</td><td class="iface">Fa0/2</td><td>Access</td><td class="v20">20 (Guest)</td><td>PC-G2</td></tr>
+      <tr><td class="device">SW-FLOOR2</td><td class="iface">Gi0/1</td><td>Trunk</td><td>Native 99 · allowed 10,20,30,99</td><td>To SW-FLOOR1</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">PC IP addressing</div>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device</th><th>VLAN</th><th>IP Address</th><th>Subnet Mask</th><th>Default Gateway</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">PC-S1 (Floor 1, Staff)</td><td class="v10">10</td><td class="ip">192.168.10.11</td><td class="iface">255.255.255.0</td><td>—  (intra-VLAN only this lab)</td></tr>
+      <tr><td class="device">PC-S2 (Floor 2, Staff)</td><td class="v10">10</td><td class="ip">192.168.10.12</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+      <tr><td class="device">PC-G1 (Floor 1, Guest)</td><td class="v20">20</td><td class="ip">192.168.20.11</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+      <tr><td class="device">PC-G2 (Floor 2, Guest)</td><td class="v20">20</td><td class="ip">192.168.20.12</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <h5>Why no default gateways?</h5>
+    <p>Lab 2.2.1 only configures Layer 2 segmentation. PCs in the same VLAN talk to each other directly via the switch — no gateway needed. <b>Lab 2.2.2 will add inter-VLAN routing</b> (via a Layer 3 switch SVI), which is when each VLAN gets a gateway and Staff can talk to Guest (or be deliberately blocked from doing so via ACL).</p>
+  </div>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>Four VLANs created and named</b> on both switches: 10 Staff, 20 Guest, 30 Voice, 99 Management.</li>
+      <li><b>Access ports assigned</b> to the correct VLAN with descriptive port descriptions.</li>
+      <li><b>One port configured for both data and voice</b> (port Fa0/3 on SW-FLOOR1) demonstrating the voice VLAN concept.</li>
+      <li><b>802.1Q trunk operational</b> between SW-FLOOR1 Gi0/1 and SW-FLOOR2 Gi0/1, with native VLAN 99 and the allowed-VLAN list explicitly restricted to 10, 20, 30, and 99.</li>
+      <li><b>Intra-VLAN, inter-switch connectivity:</b> PC-S1 (Floor 1, VLAN 10) can ping PC-S2 (Floor 2, VLAN 10) across the trunk.</li>
+      <li><b>VLAN isolation works:</b> PC-S1 (VLAN 10) <b>cannot</b> ping PC-G1 (VLAN 20) — demonstrating Layer 2 segmentation.</li>
+      <li><b>Management SVI</b> (interface VLAN 99) configured on each switch with a unique IP (.1 and .2) so the switch is remotely manageable.</li>
+      <li><b>Console/SSH access</b> to each switch is reachable from VLAN 99.</li>
+      <li><b>Configurations saved</b> on both switches.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the Network+ exam</h5>
+    <p>Objective 2.2 explicitly names <b>VLANs</b>, <b>access ports</b>, <b>trunking</b>, <b>802.1Q</b>, <b>native VLAN</b>, and <b>voice VLAN</b>. Expect questions like "What protocol tags Ethernet frames with a VLAN ID?", "What is the purpose of the native VLAN on a trunk?", and "Why is voice traffic placed on a separate VLAN?" This lab gives you direct experience with every one of these concepts.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Build the <em>topology</em>.</h2>
+  <p>Open a fresh Packet Tracer workspace. You'll place 2 switches, an IP phone, 4 PCs, and draw 8 cables — including one trunk and one access+voice port.</p>
+
+  <div class="section-head">Place the devices</div>
+  <div class="step" data-step="1">
+    <h4>Drag two 2960 switches onto the canvas</h4>
+    <p>From the bottom-left device tray: click <b>Switches</b>, drag <code>2960</code> twice. Rename them <code>SW-FLOOR1</code> (left) and <code>SW-FLOOR2</code> (right) via Config → Display Name.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Drag four PCs and one IP phone</h4>
+    <p>From <b>End Devices</b>: drag <code>PC</code> four times and <code>IP Phone</code> once. Arrange below the switches. Rename them <code>PC-S1</code>, <code>PC-G1</code>, <code>PHONE-F1</code> (under SW-FLOOR1) and <code>PC-S2</code>, <code>PC-G2</code> (under SW-FLOOR2).</p>
+  </div>
+
+  <div class="section-head">Cable the access ports</div>
+  <div class="step" data-step="3">
+    <h4>Connect PCs to access ports with copper straight-through</h4>
+    <p>Use the <b>Copper Straight-Through</b> cable (lightning-bolt icon → solid line):</p>
+    <ul>
+      <li>SW-FLOOR1 <code>Fa0/1</code> ↔ PC-S1 <code>FastEthernet0</code></li>
+      <li>SW-FLOOR1 <code>Fa0/2</code> ↔ PC-G1 <code>FastEthernet0</code></li>
+      <li>SW-FLOOR1 <code>Fa0/3</code> ↔ PHONE-F1 <code>Switch Port</code></li>
+      <li>SW-FLOOR2 <code>Fa0/1</code> ↔ PC-S2 <code>FastEthernet0</code></li>
+      <li>SW-FLOOR2 <code>Fa0/2</code> ↔ PC-G2 <code>FastEthernet0</code></li>
+    </ul>
+  </div>
+  <div class="step" data-step="4">
+    <h4>Connect the trunk between switches with copper crossover</h4>
+    <p>SW-FLOOR1 <code>GigabitEthernet0/1</code> ↔ SW-FLOOR2 <code>GigabitEthernet0/1</code> using <b>Copper Crossover</b>. (Modern switches auto-MDIX, but using the correct cable is on the Network+ exam and a good habit.)</p>
+  </div>
+
+  <div class="section-head">Assign PC IP addresses</div>
+  <div class="step" data-step="5">
+    <h4>Set static IPs on each PC</h4>
+    <p>Click each PC → <b>Desktop</b> → <b>IP Configuration</b>. Enter the values from the IP plan in the Brief tab. <b>Leave the default gateway blank</b> — this lab is Layer 2 only. Lab 2.2.2 will add gateways.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>If your IP phone is a Cisco 7960</h5>
+    <p>The 7960 in Packet Tracer has only one Ethernet port (the "Switch Port"). When the phone is connected to a port configured for both data VLAN 10 and voice VLAN 30, the phone tags its own RTP traffic into VLAN 30 and passes any computer plugged into its second port untagged into VLAN 10. In this lab the phone stands alone — no PC daisy-chained behind it.</p>
+  </div>
+
+  <p>Once all devices are placed, cables are drawn, and PCs have IPs, save the file as <code>Lab-2.2.1-VLANs-FirstLast.pkt</code>. Move on to the Configure tab.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Copy-paste-ready <em>CLI</em> blocks.</h2>
+  <p>Two configuration blocks below — one per switch. Apply SW-FLOOR1 first. Each block creates the VLANs, assigns access ports, configures the voice-enabled port, brings up the trunk with the right native VLAN and allowed-VLAN list, and sets up the management SVI.</p>
+
+  <div class="callout">
+    <h5>A quick refresher on the modes</h5>
+    <p>An <b>access port</b> belongs to exactly one VLAN and sends/receives untagged frames. A <b>trunk port</b> carries multiple VLANs simultaneously, tagging each frame with its VLAN ID using <b>802.1Q</b>. The <b>native VLAN</b> is the one VLAN whose frames are <i>not</i> tagged on a trunk (for compatibility with legacy devices). The <b>allowed VLAN list</b> restricts which VLANs may cross a given trunk.</p>
+  </div>
+
+  <!-- SW-FLOOR1 -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 02</span>
+      <span class="term-concept">Concept: VLAN creation · access port assignment · voice VLAN · 802.1Q trunk · management SVI</span>
+      <span class="term-device">SW-FLOOR1</span>
+      <button class="copy-btn" data-copy="cfg-sw1">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw1"><span class="comment">! ===== SW-FLOOR1 — Floor 1 access switch =====</span>
+enable
+configure terminal
+hostname SW-FLOOR1
+no ip domain-lookup
+
+<span class="comment">! ----- Create the four VLANs and name them -----</span>
+vlan 10
+ name Staff
+vlan 20
+ name Guest
+vlan 30
+ name Voice
+vlan 99
+ name Management
+exit
+
+<span class="comment">! ----- Configure access ports (one VLAN each, untagged) -----</span>
+interface FastEthernet0/1
+ description PC-S1 (Staff)
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+
+interface FastEthernet0/2
+ description PC-G1 (Guest)
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+exit
+
+<span class="comment">! ----- Voice + data port (phone tags voice into VLAN 30,
+!       leaves data untagged in VLAN 10 for any chained PC) -----</span>
+interface FastEthernet0/3
+ description PHONE-F1 (Voice + Staff data)
+ switchport mode access
+ switchport access vlan 10
+ switchport voice vlan 30
+ no shutdown
+exit
+
+<span class="comment">! ----- 802.1Q trunk to SW-FLOOR2 -----</span>
+interface GigabitEthernet0/1
+ description Trunk to SW-FLOOR2
+ switchport mode trunk
+ <span class="comment">! Native VLAN — frames in this VLAN cross the trunk UNTAGGED.
+ ! Set it to a non-default value as a security best practice.</span>
+ switchport trunk native vlan 99
+ <span class="comment">! Restrict the trunk to exactly the VLANs that should cross it</span>
+ switchport trunk allowed vlan 10,20,30,99
+ no shutdown
+exit
+
+<span class="comment">! ----- Shut down all unused access ports (security hardening) -----</span>
+interface range FastEthernet0/4 - 24
+ shutdown
+exit
+
+<span class="comment">! ----- Management SVI for remote admin -----</span>
+interface Vlan99
+ description Management
+ ip address 192.168.99.1 255.255.255.0
+ no shutdown
+exit
+
+<span class="comment">! ----- Default gateway for the SWITCH ITSELF (not for users) -----</span>
+<span class="comment">! Needed so the switch can be reached/managed from outside VLAN 99
+! once we add a router or L3 switch in Lab 2.2.2 — uncomment then:</span>
+<span class="comment">! ip default-gateway 192.168.99.254</span>
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- SW-FLOOR2 -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 02</span>
+      <span class="term-concept">Concept: VLAN database must match on both ends of a trunk · per-VLAN access ports</span>
+      <span class="term-device">SW-FLOOR2</span>
+      <button class="copy-btn" data-copy="cfg-sw2">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw2"><span class="comment">! ===== SW-FLOOR2 — Floor 2 access switch =====</span>
+enable
+configure terminal
+hostname SW-FLOOR2
+no ip domain-lookup
+
+<span class="comment">! ----- Same VLANs must exist on both switches.
+!       Even if a VLAN has no access ports on this switch (like VLAN 30 here),
+!       it must be defined locally so the trunk can carry it. -----</span>
+vlan 10
+ name Staff
+vlan 20
+ name Guest
+vlan 30
+ name Voice
+vlan 99
+ name Management
+exit
+
+<span class="comment">! ----- Access ports -----</span>
+interface FastEthernet0/1
+ description PC-S2 (Staff)
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+
+interface FastEthernet0/2
+ description PC-G2 (Guest)
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+exit
+
+<span class="comment">! ----- 802.1Q trunk to SW-FLOOR1 — settings must MATCH the other end -----</span>
+interface GigabitEthernet0/1
+ description Trunk to SW-FLOOR1
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ no shutdown
+exit
+
+<span class="comment">! ----- Shut down unused ports -----</span>
+interface range FastEthernet0/3 - 24
+ shutdown
+exit
+
+<span class="comment">! ----- Management SVI — different IP than SW-FLOOR1 -----</span>
+interface Vlan99
+ description Management
+ ip address 192.168.99.2 255.255.255.0
+ no shutdown
+exit
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Critical concept: native VLAN mismatch</h5>
+    <p>If the two ends of a trunk disagree on the native VLAN (e.g., one side says 99 and the other says 1), the switches will log a CDP error and frames in the mismatched VLANs may be misdelivered. <b>Native VLAN must match on both trunk endpoints.</b> Network+ tests this directly.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why shut down unused ports?</h5>
+    <p>An unused, unshutdown switch port in default VLAN 1 is a security risk — anyone who walks in and plugs a laptop into a wall jack gets immediate network access. <b>Shutting unused ports</b> (or assigning them to an unused "black hole" VLAN) is on the N+ exam as a basic hardening practice.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm <em>VLANs and trunk</em> work.</h2>
+  <p>Nine checks. Click each row as you confirm the result on the switch. Progress saves in your browser.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 9 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>All four VLANs exist on both switches</b> — On each switch: <code>show vlan brief</code>. Output must include VLAN 10 Staff, 20 Guest, 30 Voice, 99 Management — all in active state.</div>
+    <div class="ccmd">show vlan brief</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Access ports assigned correctly</b> — <code>show vlan brief</code> on SW-FLOOR1 should list Fa0/1 under VLAN 10, Fa0/2 under VLAN 20, Fa0/3 under VLAN 10 (with a note that Fa0/3 also carries voice VLAN 30).</div>
+    <div class="ccmd">show vlan brief</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Voice VLAN configured on Fa0/3</b> — On SW-FLOOR1: <code>show interfaces Fa0/3 switchport</code>. Output must show <i>Voice VLAN: 30</i> and <i>Access Mode VLAN: 10</i>.</div>
+    <div class="ccmd">show int Fa0/3 switchport</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Trunk is operational</b> — On either switch: <code>show interfaces trunk</code>. Output must list Gi0/1, mode <i>on</i>, encapsulation <i>802.1q</i>, native VLAN <i>99</i>, allowed VLANs <i>10,20,30,99</i>.</div>
+    <div class="ccmd">show interfaces trunk</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Intra-VLAN inter-switch ping (Staff↔Staff)</b> — From PC-S1: <code>ping 192.168.10.12</code>. Should succeed. This proves the trunk carries VLAN 10 across.</div>
+    <div class="ccmd">ping 192.168.10.12</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Intra-VLAN inter-switch ping (Guest↔Guest)</b> — From PC-G1: <code>ping 192.168.20.12</code>. Should succeed. Proves the trunk also carries VLAN 20.</div>
+    <div class="ccmd">ping 192.168.20.12</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>VLAN isolation (the negative test)</b> — From PC-S1 (VLAN 10): <code>ping 192.168.20.11</code> (PC-G1, VLAN 20). Should <b>FAIL</b> with destination unreachable. This proves the VLANs are Layer 2 isolated.</div>
+    <div class="ccmd">ping 192.168.20.11 (must fail)</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Management SVI reachable from itself</b> — On SW-FLOOR1: <code>ping 192.168.99.2</code> (SW-FLOOR2's mgmt IP). Should succeed — proves the trunk carries the management VLAN.</div>
+    <div class="ccmd">ping 192.168.99.2</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved</b> on both switches — <code>show startup-config</code> matches running config. If empty, run <code>copy running-config startup-config</code>.</div>
+    <div class="ccmd">copy run start</div>
+  </div>
+
+  <div class="section-head">Sample successful output — SW-FLOOR1</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-concept">VLAN database with port assignments</span>
+      <span class="term-device">SW-FLOOR1# show vlan brief</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------</span>
+<span class="ok">1    default                          active    Fa0/4, Fa0/5, ... (shut)</span>
+<span class="ok">10   Staff                            active    Fa0/1, Fa0/3</span>
+<span class="ok">20   Guest                            active    Fa0/2</span>
+<span class="ok">30   Voice                            active    Fa0/3</span>
+<span class="ok">99   Management                       active</span>
+<span class="comment">! Notice Fa0/3 appears under BOTH VLAN 10 (data) and VLAN 30 (voice)</span>
+<span class="comment">! Gi0/1 is NOT listed because it's a trunk, not an access port</span></pre>
+    </div>
+  </div>
+
+  <div class="section-head">Sample successful output — Trunk status</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-concept">802.1Q trunk encapsulation and allowed VLAN list</span>
+      <span class="term-device">SW-FLOOR1# show interfaces trunk</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Port        Mode         Encapsulation  Status        Native vlan</span>
+<span class="ok">Gi0/1       on           802.1q         trunking      99</span>
+
+<span class="out">Port        Vlans allowed on trunk</span>
+<span class="ok">Gi0/1       10,20,30,99</span>
+
+<span class="out">Port        Vlans allowed and active in management domain</span>
+<span class="ok">Gi0/1       10,20,30,99</span>
+
+<span class="out">Port        Vlans in spanning tree forwarding state and not pruned</span>
+<span class="ok">Gi0/1       10,20,30,99</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When VLANs <em>don't behave.</em></h2>
+  <p>Seven failure modes that show up on this lab. Match the symptom, apply the fix.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-S1 cannot ping PC-S2 — Staff↔Staff fails across the trunk</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The trunk isn't actually trunking. Likely one side is still in access mode, or the allowed-VLAN list doesn't include VLAN 10.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On both switches: <code>show interfaces trunk</code>. If Gi0/1 is missing or shows mode "static access", it's not trunking. Compare allowed-VLAN lists end-to-end.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-apply <code>switchport mode trunk</code> and <code>switchport trunk allowed vlan 10,20,30,99</code> on both Gi0/1 interfaces.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-S1 CAN ping PC-G1 — VLAN isolation is broken</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">PC-S1 and PC-G1 are in the same VLAN. Almost always: the access ports were assigned to the wrong VLAN, or the access ports default to VLAN 1 because <code>switchport access vlan ...</code> wasn't applied.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show vlan brief</code> — verify Fa0/1 is under VLAN 10 and Fa0/2 is under VLAN 20.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-apply the access-VLAN assignment to the problem port. Also confirm <code>switchport mode access</code> (not dynamic) to lock the mode.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">CDP keeps logging "native VLAN mismatch" errors</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The two trunk endpoints disagree on the native VLAN. One is set to 99 (per spec); the other is still defaulted to 1 or set to a different number.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces trunk</code> on both switches — the "Native vlan" column must match.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Set both sides to <code>switchport trunk native vlan 99</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A new VLAN (e.g., VLAN 40) was added on SW-FLOOR1 but PC traffic in that VLAN doesn't cross the trunk</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The new VLAN isn't in the allowed-VLAN list, OR it's not defined on the other end of the trunk.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces trunk</code> shows what's allowed. <code>show vlan brief</code> shows what's locally defined.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On <b>both</b> switches: create the VLAN (<code>vlan 40 / name X</code>) and add it to the trunk allowed list (<code>switchport trunk allowed vlan add 40</code>). The <code>add</code> keyword is important — without it, you'd replace the existing allowed list.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Management ping from SW-FLOOR1 to SW-FLOOR2 fails</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Either the management SVI is missing/shut on the destination switch, or VLAN 99 isn't crossing the trunk.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On the target switch: <code>show ip interface brief | include Vlan99</code> — should show 192.168.99.2 up/up. Then confirm 99 is in the trunk allowed list.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-create the SVI: <code>interface Vlan99 / ip address 192.168.99.2 255.255.255.0 / no shutdown</code>. Add 99 to the trunk allowed list if missing.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">First ping always times out, then the rest succeed</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">ARP resolution. The first packet that needs ARP is dropped while the reply is being received — totally normal Cisco behavior.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Run <code>ping</code> a second time. The next 5 succeed.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">No fix needed. Mention it in your lab report so your instructor knows you understand it.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">IP phone shows as connected, but voice VLAN is not appearing in the output</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The phone needs CDP or LLDP to learn the voice VLAN from the switch. If CDP is disabled on Fa0/3, the phone defaults to untagged in VLAN 10.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces Fa0/3 switchport</code> — Voice VLAN: should show 30. <code>show cdp neighbors</code> should list the phone.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Confirm <code>cdp run</code> is enabled globally (it is by default on Cisco). On the interface: <code>cdp enable</code>. Power-cycle the phone if needed.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.2.1 — VLANs &amp; 802.1Q Trunking</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.2.1-VLANs-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> with screenshots of (a) <code>show vlan brief</code> on both switches, (b) <code>show interfaces trunk</code> on one switch, (c) a successful ping PC-S1 → PC-S2 across the trunk, (d) a FAILED ping PC-S1 → PC-G1 showing VLAN isolation, and (e) a successful ping SW-FLOOR1 → SW-FLOOR2 mgmt SVI.</li>
+      <li><b>A short Network+-style write-up</b> (≤ 400 words) answering: <i>"The Network+ exam tests several VLAN-related concepts. In your own vendor-neutral terms: (a) What problem do VLANs solve compared to a flat (single broadcast domain) Layer 2 network? Give two specific examples — one security-related, one performance-related. (b) What is the function of 802.1Q? What does it add to an Ethernet frame? (c) What is the purpose of the native VLAN on a trunk, and why is it considered a security best practice to set it to something other than VLAN 1? (d) Why is voice traffic typically placed on its own VLAN?"</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 9 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Topology built correctly — 2 switches, 4 PCs, 1 IP phone, all cables drawn</td><td class="pts">10</td></tr>
+      <tr><td>Four VLANs created and named identically on both switches (10/20/30/99)</td><td class="pts">15</td></tr>
+      <tr><td>Access ports assigned to correct VLANs with descriptive port descriptions</td><td class="pts">15</td></tr>
+      <tr><td>Voice VLAN configured on Fa0/3 (data VLAN 10 + voice VLAN 30)</td><td class="pts">10</td></tr>
+      <tr><td>802.1Q trunk operational with native VLAN 99 and restricted allowed-VLAN list</td><td class="pts">15</td></tr>
+      <tr><td>Intra-VLAN inter-switch ping succeeds (Staff↔Staff and Guest↔Guest)</td><td class="pts">10</td></tr>
+      <tr><td>VLAN isolation verified (PC-S1 cannot ping PC-G1) — screenshot of failed ping</td><td class="pts">10</td></tr>
+      <tr><td>Management SVI configured on each switch with mgmt IPs; SW1 can ping SW2</td><td class="pts">5</td></tr>
+      <tr><td>Unused ports shut down (security hardening)</td><td class="pts">5</td></tr>
+      <tr><td>Configurations saved with <code>copy run start</code> on both switches</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.2.1 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.2 Switching Technologies &amp; Features</b>. The first lab in the switching series — establishes the Miami office topology, four VLANs, and 802.1Q trunking. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p>2.2.1 · VLANs &amp; 802.1Q Trunking ← you are here</p>
+      <p style="opacity:0.55">2.2.2 · Inter-VLAN Routing (SVI &amp; RoaS)</p>
+      <p style="opacity:0.55">2.2.3 · Spanning Tree Protocol</p>
+      <p style="opacity:0.55">2.2.4 · Link Aggregation &amp; Port Security</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.2.1-checks';
+const TOTAL_CHECKS = 9;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
