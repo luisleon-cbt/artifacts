@@ -209,6 +209,15 @@
     .check-row { grid-template-columns: 32px 1fr; }
     .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
   }
+
+  /* Network+ Context callout — distinct from sky/gold callouts */
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  /* CLI block concept label — sits between title and device name */
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  @media (max-width: 900px) { .term-head { flex-wrap: wrap; } .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; } }
 </style>
 </head>
 <body>
@@ -266,6 +275,12 @@
 <section class="panel active" id="panel-brief">
   <h2>The <em>scenario.</em></h2>
   <p>CBT Networks has three branch offices: <b>Miami</b> (HQ), <b>Atlanta</b>, and <b>Houston</b>. Each branch has a LAN connected to a local 2911 router. The routers are linked by two serial WAN connections: Miami↔Atlanta and Atlanta↔Houston. Atlanta sits in the middle as the transit router — every packet from Miami to Houston (and back) crosses Atlanta's CPU.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a routing concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
   <p>Your task is to make every device reach every other device using <b>only static routes</b> — no OSPF, no EIGRP, no RIP. You will also add a <b>default route</b> on the Miami edge router pointing toward a simulated ISP, so that traffic destined for any unknown network has somewhere to go.</p>
 
   <div class="section-head">Topology</div>
@@ -456,6 +471,7 @@
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 01 of 03</span>
+      <span class="term-concept">Concept: Static routes &middot; AD = 1 &middot; Default route (0.0.0.0/0)</span>
       <span class="term-device">R-MIAMI</span>
       <button class="copy-btn" data-copy="cfg-miami">Copy</button>
     </div>
@@ -498,6 +514,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 02 of 03</span>
+      <span class="term-concept">Concept: Static routes &middot; next-hop syntax &middot; transit router</span>
       <span class="term-device">R-ATLANTA</span>
       <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
     </div>
@@ -536,6 +553,7 @@ copy running-config startup-config</pre>
   <div class="term-block">
     <div class="term-head">
       <span class="term-title">Configuration · 03 of 03</span>
+      <span class="term-concept">Concept: Stub network &middot; using a default route instead of multiple statics</span>
       <span class="term-device">R-HOUSTON</span>
       <button class="copy-btn" data-copy="cfg-houston">Copy</button>
     </div>
@@ -728,7 +746,7 @@ Gateway of last resort is 203.0.113.1 to network 0.0.0.0
     <ul>
       <li><b>The .pkt file</b> — named <code>Lab-2.1.1-StaticRouting-Lastname-Firstname.pkt</code>.</li>
       <li><b>A single PDF</b> containing screenshots of (a) <code>show ip route</code> on each of the three routers, (b) a successful <code>ping</code> from PC-M to PC-H, and (c) a successful <code>tracert</code> from PC-M to PC-H showing 3 hops.</li>
-      <li><b>A short write-up</b> (≤ 300 words) answering: <i>"Why does R-MIAMI need a static route to 10.0.23.0/30 even though no PCs live there?"</i> Cite the traceroute behavior in your answer.</li>
+      <li><b>A short Network+-style write-up</b> (≤ 300 words) answering: <i>"This lab used static routes to make the network reachable. From a Network+ perspective, what is the trade-off between static and dynamic routing, and in which real-world scenarios would you choose static over a dynamic protocol like OSPF or EIGRP? Reference administrative distance in your answer."</i></li>
       <li><b>The check-list</b> — confirm in the assignment comment box that all 8 verification checks (Verify tab) passed.</li>
     </ul>
   </div>
@@ -763,7 +781,7 @@ Gateway of last resort is 203.0.113.1 to network 0.0.0.0
 
   <div class="callout warn">
     <h5>Academic integrity</h5>
-    <p>You may discuss approaches with classmates and ask Professor De León or Professor Cespedes for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
   </div>
 </section>
 
@@ -782,9 +800,8 @@ Gateway of last resort is 203.0.113.1 to network 0.0.0.0
       <p style="opacity:0.55">2.1.4 · NAT/PAT with HSRP</p>
     </div>
     <div>
-      <h4>Support</h4>
-      <p>Stuck? Drop in to the networking lab during posted hours — Professor De León and Professor Cespedes will be there to help.</p>
-      <p>Or message via Canvas Inbox.</p>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
     </div>
   </div>
   <div class="footer-bottom">
