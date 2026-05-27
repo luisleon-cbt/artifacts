@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.1.1 · Static Routing & Default Route · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  /* TOPBAR */
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  /* HERO */
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  /* SPEC CARD */
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  /* STATS STRIP */
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  /* TABS */
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  /* PANELS */
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  /* TOPOLOGY DIAGRAM */
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+
+  /* IP PLAN TABLE */
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* SUCCESS CRITERIA */
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  /* TERMINAL / CLI BLOCKS */
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  /* STEPS (numbered procedure cards) */
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  /* CHECK / VERIFY */
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  /* TROUBLESHOOT - symptom/cause/fix cards */
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* SUBMIT / RUBRIC */
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  /* CALLOUT */
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+
+  /* FOOTER */
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.1 Routing Technologies</span>
+    <span class="crumb">Lab 2.1.1</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 1 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.1.1 · Packet Tracer · ≈ 45 min</div>
+    <h1>Static routes &amp; the <em>default route.</em></h1>
+    <p class="lede">Three routers, three LAN segments, two WAN links. Your job: type every route by hand so the engineering PC in Miami can reach the file server in Houston. Then add a default route on the edge router so an unknown destination — the public internet — has somewhere to go. By the end of this lab you'll have configured directly-connected interfaces, hand-written static routes with both next-hop and exit-interface syntax, and verified longest-prefix-match behavior with <code>show ip route</code>.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">Static routing across 3 routers + default route</span></div>
+    <div class="ref-row"><span class="name">Devices</span><span class="desc">3 × Router 2911 · 3 × Switch 2960 · 3 × PC</span></div>
+    <div class="ref-row"><span class="name">Cables</span><span class="desc">Copper straight, copper crossover, serial DCE</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.1.1-StaticRouting-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.1.1</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      Static routes · default route · AD = 1 · longest prefix match · <code>show ip route</code>
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">Routers to configure</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Static routes to write</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Default route at edge</div></div>
+  <div class="stat"><div class="num">8</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>scenario.</em></h2>
+  <p>CBT Networks has three branch offices: <b>Miami</b> (HQ), <b>Atlanta</b>, and <b>Houston</b>. Each branch has a LAN connected to a local 2911 router. The routers are linked by two serial WAN connections: Miami↔Atlanta and Atlanta↔Houston. Atlanta sits in the middle as the transit router — every packet from Miami to Houston (and back) crosses Atlanta's CPU.</p>
+  <p>Your task is to make every device reach every other device using <b>only static routes</b> — no OSPF, no EIGRP, no RIP. You will also add a <b>default route</b> on the Miami edge router pointing toward a simulated ISP, so that traffic destined for any unknown network has somewhere to go.</p>
+
+  <div class="section-head">Topology</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,8 L6,4 z" fill="#1A2050"/>
+        </marker>
+      </defs>
+      <!-- ISP cloud -->
+      <ellipse cx="120" cy="80" rx="60" ry="28" fill="#ECEAE2" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="78" text-anchor="middle" font-weight="700" fill="#1A2050">ISP</text>
+      <text x="120" y="94" text-anchor="middle" fill="#767E92" font-size="10">0.0.0.0/0</text>
+      <!-- ISP-Miami link -->
+      <line x1="120" y1="108" x2="120" y2="170" stroke="#1A2050" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="135" y="142" fill="#1E8FBE" font-weight="700" font-size="10">G0/0</text>
+      <text x="135" y="156" fill="#767E92" font-size="9">203.0.113.0/30</text>
+      <!-- Miami Router -->
+      <rect x="80" y="170" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="120" y="192" text-anchor="middle" fill="#E0B840" font-weight="700">R-MIAMI</text>
+      <text x="120" y="208" text-anchor="middle" fill="#6BC5E8" font-size="10">Edge · 2911</text>
+      <!-- Miami LAN -->
+      <line x1="120" y1="220" x2="120" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="80" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-MIA</text>
+      <circle cx="120" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="120" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-M</text>
+      <line x1="120" y1="306" x2="120" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="170" y="290" fill="#1E8FBE" font-weight="700" font-size="10">G0/1</text>
+      <text x="170" y="304" fill="#767E92" font-size="9">10.10.10.0/24</text>
+      <!-- Miami-Atlanta serial -->
+      <line x1="160" y1="195" x2="380" y2="195" stroke="#1A2050" stroke-width="2"/>
+      <text x="270" y="186" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">S0/0/0 (DCE)  ◀━━▶  S0/0/0</text>
+      <text x="270" y="212" text-anchor="middle" fill="#767E92" font-size="9">10.0.12.0/30 · 1.544 Mbps</text>
+      <!-- Atlanta Router -->
+      <rect x="380" y="170" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="420" y="192" text-anchor="middle" fill="#E0B840" font-weight="700">R-ATLANTA</text>
+      <text x="420" y="208" text-anchor="middle" fill="#6BC5E8" font-size="10">Transit · 2911</text>
+      <!-- Atlanta LAN -->
+      <line x1="420" y1="220" x2="420" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="380" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-ATL</text>
+      <circle cx="420" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="420" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-A</text>
+      <line x1="420" y1="306" x2="420" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="470" y="290" fill="#1E8FBE" font-weight="700" font-size="10">G0/1</text>
+      <text x="470" y="304" fill="#767E92" font-size="9">10.10.20.0/24</text>
+      <!-- Atlanta-Houston serial -->
+      <line x1="460" y1="195" x2="680" y2="195" stroke="#1A2050" stroke-width="2"/>
+      <text x="570" y="186" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">S0/0/1 (DCE)  ◀━━▶  S0/0/0</text>
+      <text x="570" y="212" text-anchor="middle" fill="#767E92" font-size="9">10.0.23.0/30 · 1.544 Mbps</text>
+      <!-- Houston Router -->
+      <rect x="680" y="170" width="80" height="50" fill="#1A2050" stroke="#1A1A1A" stroke-width="1.5" rx="4"/>
+      <text x="720" y="192" text-anchor="middle" fill="#E0B840" font-weight="700">R-HOUSTON</text>
+      <text x="720" y="208" text-anchor="middle" fill="#6BC5E8" font-size="10">Stub · 2911</text>
+      <!-- Houston LAN -->
+      <line x1="720" y1="220" x2="720" y2="270" stroke="#1A2050" stroke-width="2"/>
+      <rect x="680" y="270" width="80" height="36" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="293" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-HOU</text>
+      <circle cx="720" cy="330" r="14" fill="#FAFAF6" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text x="720" y="334" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-H</text>
+      <line x1="720" y1="306" x2="720" y2="316" stroke="#1A2050" stroke-width="1.5"/>
+      <text x="770" y="290" fill="#1E8FBE" font-weight="700" font-size="10">G0/1</text>
+      <text x="770" y="304" fill="#767E92" font-size="9">10.10.30.0/24</text>
+    </svg>
+  </div>
+
+  <div class="section-head">IP Addressing Plan</div>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device</th><th>Interface</th><th>IP Address</th><th>Subnet Mask</th><th>Default Gateway</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/0 (to ISP)</td><td class="ip">203.0.113.2</td><td class="iface">255.255.255.252</td><td>—</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.10.1</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+      <tr><td class="device">R-MIAMI</td><td class="iface">S0/0/0 (DCE)</td><td class="ip">10.0.12.1</td><td class="iface">255.255.255.252</td><td>—</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/0 (to MIA)</td><td class="ip">10.0.12.2</td><td class="iface">255.255.255.252</td><td>—</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.20.1</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+      <tr><td class="device">R-ATLANTA</td><td class="iface">S0/0/1 (DCE)</td><td class="ip">10.0.23.1</td><td class="iface">255.255.255.252</td><td>—</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">S0/0/0 (to ATL)</td><td class="ip">10.0.23.2</td><td class="iface">255.255.255.252</td><td>—</td></tr>
+      <tr><td class="device">R-HOUSTON</td><td class="iface">G0/1 (LAN)</td><td class="ip">10.10.30.1</td><td class="iface">255.255.255.0</td><td>—</td></tr>
+      <tr><td class="device">PC-M</td><td class="iface">FastEthernet0</td><td class="ip">10.10.10.10</td><td class="iface">255.255.255.0</td><td>10.10.10.1</td></tr>
+      <tr><td class="device">PC-A</td><td class="iface">FastEthernet0</td><td class="ip">10.10.20.10</td><td class="iface">255.255.255.0</td><td>10.10.20.1</td></tr>
+      <tr><td class="device">PC-H</td><td class="iface">FastEthernet0</td><td class="ip">10.10.30.10</td><td class="iface">255.255.255.0</td><td>10.10.30.1</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>Every interface is up/up</b> — no shutdown, no protocol-down on any link in the topology.</li>
+      <li><b>PC-M pings PC-A</b> (across Miami→Atlanta serial link).</li>
+      <li><b>PC-M pings PC-H</b> (across both serial links — Miami→Atlanta→Houston).</li>
+      <li><b>PC-H pings PC-M</b> in reverse — proving routes exist in both directions.</li>
+      <li><b>R-MIAMI's routing table</b> shows at least one route prefixed with <code>S*</code> (the default route) pointing toward the ISP.</li>
+      <li><b>R-MIAMI's routing table</b> shows static routes for <code>10.10.20.0/24</code> and <code>10.10.30.0/24</code>.</li>
+      <li><b>A traceroute from PC-M to PC-H</b> shows exactly 3 hops: R-MIAMI, R-ATLANTA, R-HOUSTON.</li>
+      <li><b>The running-config is saved</b> on every router (<code>copy running-config startup-config</code>).</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the exam</h5>
+    <p>N10-009 objective 2.1 explicitly tests <b>static vs dynamic routes</b>, <b>default route</b>, <b>administrative distance</b>, and <b>route selection</b>. This lab gives you direct, hands-on experience with all four. When you see a routing-table question on the exam, you'll have <code>show ip route</code> output memorized because you've stared at it.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Build the <em>topology</em> in Packet Tracer.</h2>
+  <p>Open a fresh Packet Tracer workspace. You'll place 7 devices, draw 8 cables, and assign the IP addresses listed on the Brief tab. Take your time — a wiring mistake here will haunt you in the verify step.</p>
+
+  <div class="section-head">Devices to place</div>
+  <div class="step" data-step="1">
+    <h4>Drag three 2911 routers onto the canvas</h4>
+    <p>From the bottom-left device tray: click <b>Routers</b>, then drag <code>2911</code> three times. Rename them by clicking each one → <b>Config</b> tab → <b>Display Name</b>: <code>R-MIAMI</code>, <code>R-ATLANTA</code>, <code>R-HOUSTON</code>. Arrange them left-to-right.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Add the WIC-2T serial modules</h4>
+    <p>The default 2911 has no serial ports. Click each router → <b>Physical</b> tab → power off the device (small switch on the chassis) → drag a <code>HWIC-2T</code> module into an empty slot → power back on. Miami needs one module (1 serial), Atlanta needs one (2 serials), Houston needs one (1 serial).</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Drag three 2960 switches</h4>
+    <p>From <b>Switches</b>, drag <code>2960</code> three times. Name them <code>SW-MIA</code>, <code>SW-ATL</code>, <code>SW-HOU</code>. Place each switch below its router.</p>
+  </div>
+  <div class="step" data-step="4">
+    <h4>Drag three PCs</h4>
+    <p>From <b>End Devices</b>, drag <code>PC</code> three times. Name them <code>PC-M</code>, <code>PC-A</code>, <code>PC-H</code>. Place each below its switch.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Add a "cloud" or extra router as the ISP</h4>
+    <p>Drag one more <code>2911</code> router or a <b>Cloud-PT</b> to the top-left and name it <code>ISP</code>. You won't configure it; it's just a destination to point Miami's default route at.</p>
+  </div>
+
+  <div class="section-head">Cabling</div>
+  <div class="step" data-step="6">
+    <h4>Connect LAN segments with copper straight-through</h4>
+    <p>Click <b>Connections</b> (lightning bolt) → <b>Copper Straight-Through</b>:</p>
+    <ul>
+      <li>R-MIAMI <code>G0/1</code> ↔ SW-MIA <code>Fa0/1</code></li>
+      <li>SW-MIA <code>Fa0/2</code> ↔ PC-M <code>FastEthernet0</code></li>
+      <li>R-ATLANTA <code>G0/1</code> ↔ SW-ATL <code>Fa0/1</code></li>
+      <li>SW-ATL <code>Fa0/2</code> ↔ PC-A <code>FastEthernet0</code></li>
+      <li>R-HOUSTON <code>G0/1</code> ↔ SW-HOU <code>Fa0/1</code></li>
+      <li>SW-HOU <code>Fa0/2</code> ↔ PC-H <code>FastEthernet0</code></li>
+    </ul>
+  </div>
+  <div class="step" data-step="7">
+    <h4>Connect WAN serial links with serial DCE cable</h4>
+    <p>Use <b>Serial DCE</b> (clock-icon symbol). The router you click <i>first</i> becomes the DCE end — that's important because the DCE provides the clock rate.</p>
+    <ul>
+      <li>R-MIAMI <code>S0/0/0</code> (click first — becomes DCE) ↔ R-ATLANTA <code>S0/0/0</code> (DTE)</li>
+      <li>R-ATLANTA <code>S0/0/1</code> (click first — becomes DCE) ↔ R-HOUSTON <code>S0/0/0</code> (DTE)</li>
+    </ul>
+  </div>
+  <div class="step" data-step="8">
+    <h4>Connect Miami to the ISP</h4>
+    <p>R-MIAMI <code>G0/0</code> ↔ ISP <code>G0/0</code> (or your Cloud equivalent). Use <b>Copper Crossover</b> for router-to-router Ethernet.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Common setup mistake</h5>
+    <p>If you connect a copper straight-through between two routers (Miami to ISP) instead of a crossover, the link will come up but auto-MDIX may or may not fix it depending on PT version. <b>Use crossover for router-to-router Ethernet</b> and you'll never debug a phantom Layer 1 issue.</p>
+  </div>
+
+  <div class="section-head">Assign PC IP addresses</div>
+  <div class="step" data-step="9">
+    <h4>Configure each PC's IP, mask, and default gateway</h4>
+    <p>Click each PC → <b>Desktop</b> tab → <b>IP Configuration</b>. Enter the values from the IP plan on the Brief tab. Don't forget the <b>default gateway</b> — without it the PC can ping its own router but nothing beyond.</p>
+  </div>
+
+  <p>When all 7 devices are placed, all 8 cables are drawn, and all 3 PCs have IPs, save your file as <code>Lab-2.1.1-StaticRouting-FirstLast.pkt</code>. Move on to the Configure tab.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Copy-paste-ready <em>CLI</em> blocks.</h2>
+  <p>Each block below is one router's complete configuration. Click <b>Copy</b>, open that router's <b>CLI</b> tab in Packet Tracer, type <code>enable</code> then <code>configure terminal</code>, paste, and you're done. Lines beginning with <code>!</code> are comments — they're for you, the router ignores them.</p>
+
+  <div class="callout">
+    <h5>Before you paste</h5>
+    <p>Every CLI session in Packet Tracer should start with <code>enable</code> then <code>configure terminal</code>. The blocks below assume you're already in global config mode.</p>
+  </div>
+
+  <!-- R-MIAMI -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03</span>
+      <span class="term-device">R-MIAMI</span>
+      <button class="copy-btn" data-copy="cfg-miami">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-miami"><span class="comment">! ===== R-MIAMI — Edge router =====</span>
+hostname R-MIAMI
+no ip domain-lookup
+<span class="comment">! Interface to ISP</span>
+interface GigabitEthernet0/0
+ description To ISP
+ ip address 203.0.113.2 255.255.255.252
+ no shutdown
+<span class="comment">! Interface to Miami LAN</span>
+interface GigabitEthernet0/1
+ description Miami LAN
+ ip address 10.10.10.1 255.255.255.0
+ no shutdown
+<span class="comment">! Serial link to Atlanta (Miami is DCE — provides clock rate)</span>
+interface Serial0/0/0
+ description WAN to R-ATLANTA
+ ip address 10.0.12.1 255.255.255.252
+ clock rate 1544000
+ no shutdown
+<span class="comment">! ----- Static routes -----</span>
+<span class="comment">! To reach Atlanta LAN</span>
+ip route 10.10.20.0 255.255.255.0 10.0.12.2
+<span class="comment">! To reach Houston LAN (recursive lookup through Atlanta serial)</span>
+ip route 10.10.30.0 255.255.255.0 10.0.12.2
+<span class="comment">! To reach the Atlanta-Houston serial subnet (needed for traceroute hops)</span>
+ip route 10.0.23.0 255.255.255.252 10.0.12.2
+<span class="comment">! Default route to the ISP — sends all unknown traffic out G0/0</span>
+ip route 0.0.0.0 0.0.0.0 203.0.113.1
+<span class="comment">! Save</span>
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-ATLANTA -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 03</span>
+      <span class="term-device">R-ATLANTA</span>
+      <button class="copy-btn" data-copy="cfg-atlanta">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-atlanta"><span class="comment">! ===== R-ATLANTA — Transit router =====</span>
+hostname R-ATLANTA
+no ip domain-lookup
+<span class="comment">! Serial link back to Miami (Atlanta is DTE)</span>
+interface Serial0/0/0
+ description WAN to R-MIAMI
+ ip address 10.0.12.2 255.255.255.252
+ no shutdown
+<span class="comment">! Interface to Atlanta LAN</span>
+interface GigabitEthernet0/1
+ description Atlanta LAN
+ ip address 10.10.20.1 255.255.255.0
+ no shutdown
+<span class="comment">! Serial link to Houston (Atlanta is DCE on this side)</span>
+interface Serial0/0/1
+ description WAN to R-HOUSTON
+ ip address 10.0.23.1 255.255.255.252
+ clock rate 1544000
+ no shutdown
+<span class="comment">! ----- Static routes -----</span>
+<span class="comment">! To reach Miami LAN — point back through Miami serial</span>
+ip route 10.10.10.0 255.255.255.0 10.0.12.1
+<span class="comment">! To reach Houston LAN — point forward through Houston serial</span>
+ip route 10.10.30.0 255.255.255.0 10.0.23.2
+<span class="comment">! Save</span>
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- R-HOUSTON -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 03</span>
+      <span class="term-device">R-HOUSTON</span>
+      <button class="copy-btn" data-copy="cfg-houston">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-houston"><span class="comment">! ===== R-HOUSTON — Stub router =====</span>
+hostname R-HOUSTON
+no ip domain-lookup
+<span class="comment">! Serial link back to Atlanta (Houston is DTE)</span>
+interface Serial0/0/0
+ description WAN to R-ATLANTA
+ ip address 10.0.23.2 255.255.255.252
+ no shutdown
+<span class="comment">! Interface to Houston LAN</span>
+interface GigabitEthernet0/1
+ description Houston LAN
+ ip address 10.10.30.1 255.255.255.0
+ no shutdown
+<span class="comment">! ----- Static routes -----</span>
+<span class="comment">! Since Houston is a stub (only one way out), use a default route</span>
+<span class="comment">! pointing back to Atlanta — much cleaner than 3 separate statics</span>
+ip route 0.0.0.0 0.0.0.0 10.0.23.1
+<span class="comment">! Save</span>
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Two ways to write a static route</h5>
+    <p><b>Next-hop syntax</b>: <code>ip route 10.10.20.0 255.255.255.0 10.0.12.2</code> — the router does a recursive lookup to find which interface 10.0.12.2 is on. Works on any media.<br><b>Exit-interface syntax</b>: <code>ip route 10.10.20.0 255.255.255.0 Serial0/0/0</code> — skips the recursion, slightly faster. Best on point-to-point serial links. Both are tested on Network+.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why does R-MIAMI need a route to 10.0.23.0/30?</h5>
+    <p>When a packet sourced from <code>10.10.10.10</code> tries to traceroute to PC-H, the Atlanta-Houston serial interfaces will send ICMP TTL-exceeded messages back from their own IPs (<code>10.0.23.1</code> or <code>10.0.23.2</code>). If Miami has no route back to that subnet, those messages get dropped and your traceroute shows asterisks. The route <code>ip route 10.0.23.0 255.255.255.252 10.0.12.2</code> fixes this.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Prove it <em>works.</em></h2>
+  <p>Run each check below in order. Click the checkbox once you've verified the result. The progress bar tracks your completion — green checks all the way across means the lab is ready to submit.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 8 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>All interfaces up/up</b> — On each router, <code>show ip interface brief</code> shows every used interface with <b>Status: up, Protocol: up</b>. If any line shows <code>administratively down</code>, you forgot a <code>no shutdown</code>.</div>
+    <div class="ccmd">show ip int brief</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Routing table populated on R-MIAMI</b> — <code>show ip route</code> lists routes prefixed <b>C</b> (connected), <b>S</b> (static), and <b>S*</b> (default static). You should see <code>S 10.10.20.0/24</code>, <code>S 10.10.30.0/24</code>, and <code>S* 0.0.0.0/0</code>.</div>
+    <div class="ccmd">show ip route</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M can ping its default gateway</b> — From PC-M's command prompt: <code>ping 10.10.10.1</code> succeeds with 4 of 4 replies. If this fails, the LAN side is broken — check PC's IP config and the G0/1 interface.</div>
+    <div class="ccmd">ping 10.10.10.1</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M pings PC-A across one serial hop</b> — From PC-M: <code>ping 10.10.20.10</code>. First ping may time out as ARP resolves; ignore that. The next three should succeed.</div>
+    <div class="ccmd">ping 10.10.20.10</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-M pings PC-H across two serial hops</b> — From PC-M: <code>ping 10.10.30.10</code>. This is the headline test: the whole topology is routing correctly.</div>
+    <div class="ccmd">ping 10.10.30.10</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Reverse path works</b> — From PC-H: <code>ping 10.10.10.10</code>. If this fails but step 5 worked, you're missing a return route somewhere.</div>
+    <div class="ccmd">ping 10.10.10.10</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Traceroute shows 3 hops</b> — From PC-M: <code>tracert 10.10.30.10</code> should display three router IPs in order: <code>10.10.10.1</code> (Miami), <code>10.0.12.2</code> (Atlanta), <code>10.0.23.2</code> (Houston), then the final destination.</div>
+    <div class="ccmd">tracert 10.10.30.10</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved on all three routers</b> — On each router run <code>show startup-config</code> and confirm it matches the running config. If you see <code>startup-config is not present</code>, run <code>copy running-config startup-config</code> on that device.</div>
+    <div class="ccmd">show startup-config</div>
+  </div>
+
+  <div class="section-head">Sample successful output</div>
+  <p>Here's what <code>show ip route</code> on <b>R-MIAMI</b> should look like once everything is configured correctly. The <code>S*</code> at the bottom is the default route — it's also the "Gateway of last resort" line near the top.</p>
+
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-device">R-MIAMI# show ip route</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is 203.0.113.1 to network 0.0.0.0
+
+</span>     <span class="ok">10.0.0.0/8 is variably subnetted, 5 subnets, 2 masks</span>
+<span class="ok">C</span>       10.0.12.0/30 is directly connected, Serial0/0/0
+<span class="ok">L</span>       10.0.12.1/32 is directly connected, Serial0/0/0
+<span class="warn">S</span>       10.0.23.0/30 [1/0] via 10.0.12.2
+<span class="ok">C</span>       10.10.10.0/24 is directly connected, GigabitEthernet0/1
+<span class="ok">L</span>       10.10.10.1/32 is directly connected, GigabitEthernet0/1
+<span class="warn">S</span>       10.10.20.0/24 [1/0] via 10.0.12.2
+<span class="warn">S</span>       10.10.30.0/24 [1/0] via 10.0.12.2
+     <span class="ok">203.0.113.0/24 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       203.0.113.0/30 is directly connected, GigabitEthernet0/0
+<span class="ok">L</span>       203.0.113.2/32 is directly connected, GigabitEthernet0/0
+<span class="warn">S*</span>   0.0.0.0/0 [1/0] via 203.0.113.1</pre>
+    </div>
+  </div>
+
+  <p>The bracketed numbers <code>[1/0]</code> mean <b>administrative distance 1, metric 0</b> — the signature of a static route. Highlight that line to your study partner; that's the exam answer pattern.</p>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When it <em>doesn't</em> work.</h2>
+  <p>Below are the seven most common failures students hit on this lab. Read the symptom first; if it matches what you're seeing, the cause and fix tell you exactly what to do.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M cannot ping its own default gateway 10.10.10.1</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">G0/1 on R-MIAMI is shut down, or the PC's IP/mask/gateway is wrong, or the SW-MIA port is in the wrong VLAN.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On R-MIAMI: <code>show ip interface brief | include GigabitEthernet0/1</code>. On PC-M: <code>ipconfig</code>. Verify both ends.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">R-MIAMI: <code>interface G0/1</code> → <code>no shutdown</code>. PC: re-enter IP <code>10.10.10.10/24</code>, gateway <code>10.10.10.1</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Serial link shows "Serial0/0/0 up, line protocol down"</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Layer 1 is fine but Layer 2 isn't negotiating. Usually missing <code>clock rate</code> on the DCE side, or one router is shutdown.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show controllers Serial0/0/0</code> — the DCE side will say "DCE V.35, clockrate is …". If clockrate is missing/0, that's your problem.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On the DCE end: <code>interface S0/0/0</code> → <code>clock rate 1544000</code> → <code>no shutdown</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-M pings PC-A but fails to ping PC-H</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">One of three things: R-ATLANTA has no route back to 10.10.10.0/24, R-ATLANTA has no forward route to 10.10.30.0/24, or R-HOUSTON has no return route to 10.10.10.0/24.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On each router run <code>show ip route</code> and confirm every distant LAN appears as <code>S [1/0] via …</code>.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-paste the static routes block from the Configure tab on whichever router is missing them.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">First ping always times out, then the rest succeed</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">ARP resolution. Cisco devices send the first packet that needs ARP into the bit bucket while waiting for the reply. This is <b>normal behavior</b>, not a bug.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Run <code>ping</code> a second time — all 5 should succeed.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">No fix needed. Mention this in your lab report so your instructor knows you understand why.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Traceroute shows asterisks for one hop, then succeeds</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">An intermediate router has no return route to the source. ICMP TTL-exceeded messages can't get back to PC-M.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">If the asterisk hop is the Atlanta-Houston serial subnet (10.0.23.0/30), R-MIAMI is missing a route to that subnet.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On R-MIAMI: <code>ip route 10.0.23.0 255.255.255.252 10.0.12.2</code> — already included in the Configure block for exactly this reason.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">% Invalid input detected at '^' marker</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">You're in the wrong mode for the command. <code>ip route</code> only works in global config. <code>no shutdown</code> only works in interface config. <code>show</code> requires privileged exec.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Look at the prompt: <code>Router&gt;</code> = user, <code>Router#</code> = privileged, <code>Router(config)#</code> = global, <code>Router(config-if)#</code> = interface.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Type <code>end</code> (or <code>Ctrl-Z</code>) to go all the way back to privileged exec, then re-enter the right mode.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Everything works during the session but fails after reload</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">You never saved the running-config. After a reload, the router boots its startup-config — which is still empty.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show startup-config</code> returns "startup-config is not present" or shows an old config.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">In privileged exec: <code>copy running-config startup-config</code> (or shortcut: <code>write memory</code>). Then save the .pkt file too.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.1.1 — Static Routing & Default Route</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.1.1-StaticRouting-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> containing screenshots of (a) <code>show ip route</code> on each of the three routers, (b) a successful <code>ping</code> from PC-M to PC-H, and (c) a successful <code>tracert</code> from PC-M to PC-H showing 3 hops.</li>
+      <li><b>A short write-up</b> (≤ 300 words) answering: <i>"Why does R-MIAMI need a static route to 10.0.23.0/30 even though no PCs live there?"</i> Cite the traceroute behavior in your answer.</li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 8 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Topology built correctly — 3 routers, 3 switches, 3 PCs, 8 cables, named per spec</td><td class="pts">15</td></tr>
+      <tr><td>IP addressing matches the plan exactly — no typos, no swapped octets</td><td class="pts">15</td></tr>
+      <tr><td>All interfaces up/up — confirmed via <code>show ip interface brief</code></td><td class="pts">10</td></tr>
+      <tr><td>Static routes on R-MIAMI (3 routes + 1 default) configured correctly</td><td class="pts">15</td></tr>
+      <tr><td>Static routes on R-ATLANTA (2 routes) configured correctly</td><td class="pts">10</td></tr>
+      <tr><td>Static route / default on R-HOUSTON configured correctly</td><td class="pts">5</td></tr>
+      <tr><td>End-to-end ping from PC-M to PC-H succeeds (screenshot)</td><td class="pts">10</td></tr>
+      <tr><td>Reverse ping from PC-H to PC-M succeeds (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Traceroute shows exactly 3 hops in correct order (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Configurations saved with <code>copy run start</code> on all three routers</td><td class="pts">5</td></tr>
+      <tr><td>Short write-up answers the reflection question correctly</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask Professor De León or Professor Cespedes for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.1.1 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.1 Routing Technologies</b>. Mapped to CompTIA exam objectives and built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p>2.1.1 · Static Routing &amp; Default Route ← you are here</p>
+      <p style="opacity:0.55">2.1.2 · OSPF Single-Area</p>
+      <p style="opacity:0.55">2.1.3 · EIGRP &amp; Route Redistribution</p>
+      <p style="opacity:0.55">2.1.4 · NAT/PAT with HSRP</p>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <p>Stuck? Drop in to the networking lab during posted hours — Professor De León and Professor Cespedes will be there to help.</p>
+      <p>Or message via Canvas Inbox.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+// Copy buttons
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    // Get plain text without HTML
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+// Verify checks (with localStorage persistence)
+const CHECK_KEY = 'cbt-lab-2.1.1-checks';
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/8*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
