@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.2.2 · Inter-VLAN Routing · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip, .iptable td.vlan { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable td.v10 { color: var(--vlan10); font-weight: 700; }
+  .iptable td.v20 { color: var(--vlan20); font-weight: 700; }
+  .iptable td.v30 { color: var(--vlan30); font-weight: 700; }
+  .iptable td.v99 { color: var(--vlan99); font-weight: 700; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+  .iptable td.gw { background: rgba(224,184,64,0.15) !important; color: var(--gold-deep); font-weight: 700; }
+
+  /* Method comparison cards — SVI vs RoaS */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.roas { border-top-color: var(--gold); opacity: 0.85; }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.roas .mc-tag { color: var(--gold-deep); }
+  .method-card .mc-badge { position: absolute; top: -1px; right: -1px; padding: 4px 12px; background: var(--sky); color: white; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; }
+  .method-card.roas .mc-badge { background: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 100px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  /* Alternative-method callout for showing RoaS as the contrast */
+  .callout.alternative { background: rgba(224,184,64,0.08); border-left: 4px dashed var(--gold-deep); padding: 16px 20px; }
+  .callout.alternative h5 { color: var(--gold-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .method-grid { grid-template-columns: 1fr; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.2 Switching Technologies</span>
+    <span class="crumb">Lab 2.2.2</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 2 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.2.2 · Packet Tracer · ≈ 60 min</div>
+    <h1>Cross the lines with a <em>Layer 3 switch.</em></h1>
+    <p class="lede">Lab 2.2.1 carved one flat network into four isolated VLANs — that solved the security problem but created a new one: <b>Staff can no longer reach Voice</b>, and <b>nobody can reach the internet</b>. VLANs need a router to talk to each other. In this lab you'll add <b>SW-CORE</b>, a Layer 3 multilayer switch, and give each VLAN a <b>Switched Virtual Interface (SVI)</b> on it. Each SVI becomes the default gateway for one VLAN. Inter-VLAN traffic enters the L3 switch on one VLAN's SVI, gets routed at wire speed, and exits on another. You'll also see the legacy alternative — <b>router-on-a-stick (RoaS)</b> — explained side-by-side so you understand both methods on the exam.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">Inter-VLAN routing via L3 switch SVIs</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.2.1 .pkt file</span></div>
+    <div class="ref-row"><span class="name">Method</span><span class="desc">Primary: SVI on L3 switch &middot; Compared: RoaS</span></div>
+    <div class="ref-row"><span class="name">New device</span><span class="desc">SW-CORE — 3560 Multilayer switch</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.2.2-InterVLAN-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.2.2</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      Inter-VLAN routing &middot; L3 switch &middot; SVI per VLAN &middot; default gateway per VLAN &middot; routing vs switching boundary
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">1</div><div class="label">L3 multilayer switch added</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">SVIs (one per VLAN)</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Trunks to SW-CORE</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>From <em>isolated</em> islands to a <em>routed</em> network.</h2>
+  <p>At the end of Lab 2.2.1 you had VLAN isolation working: Staff on VLAN 10 couldn't talk to Guest on VLAN 20, which is exactly what we wanted from a security perspective. But the IT director needs <b>controlled</b> cross-VLAN access — Staff PCs need to reach the Voice gateway for unified communications, both Staff and Guest need internet access, and the network admin needs to reach every VLAN from the Management VLAN.</p>
+  <p>The solution is to add a <b>Layer 3 device</b> between the VLANs. We'll use a multilayer switch — a device that combines a switch's port density and speed with a router's ability to make Layer 3 forwarding decisions. The L3 switch participates in every VLAN by hosting a Switched Virtual Interface (SVI) per VLAN. Each SVI has an IP address that becomes the default gateway for the hosts in that VLAN.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a switching concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
+  <div class="section-head">Topology — adding SW-CORE as the L3 hub</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <!-- Building label -->
+      <rect x="20" y="20" width="860" height="40" fill="rgba(40,48,104,0.04)" stroke="#C6C6BE" stroke-width="1"/>
+      <text x="450" y="46" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="#1A2050">CBT Miami Office · Layer 3 routing added at the core</text>
+
+      <!-- SW-CORE (the new device) -->
+      <rect x="380" y="90" width="140" height="70" fill="#1A2050" stroke="#E0B840" stroke-width="3" rx="4"/>
+      <text x="450" y="112" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="14">SW-CORE</text>
+      <text x="450" y="128" text-anchor="middle" fill="#6BC5E8" font-size="10">3560 Multilayer (L3)</text>
+      <text x="450" y="144" text-anchor="middle" fill="#FAFAF6" font-size="9" font-weight="600">SVIs: V10 V20 V30 V99</text>
+
+      <!-- SVI labels around core -->
+      <text x="350" y="98" fill="#2A6049" font-weight="700" font-size="10">V10 .1</text>
+      <text x="350" y="116" fill="#1E8FBE" font-weight="700" font-size="10">V20 .1</text>
+      <text x="350" y="134" fill="#B8932A" font-weight="700" font-size="10">V30 .1</text>
+      <text x="350" y="152" fill="#8E1F2E" font-weight="700" font-size="10">V99 .254</text>
+
+      <!-- SW-FLOOR1 -->
+      <rect x="70" y="220" width="120" height="50" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="130" y="242" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">SW-FLOOR1</text>
+      <text x="130" y="258" text-anchor="middle" fill="#767E92" font-size="10">L2 access · Floor 1</text>
+
+      <!-- Trunk to SW-FLOOR1 -->
+      <line x1="200" y1="240" x2="385" y2="155" stroke="#E0B840" stroke-width="3"/>
+      <line x1="200" y1="236" x2="385" y2="151" stroke="#E0B840" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="270" y="200" text-anchor="start" fill="#B8932A" font-weight="700" font-size="10">TRUNK</text>
+      <text x="270" y="214" text-anchor="start" fill="#767E92" font-size="9">native 99 · allowed 10,20,30,99</text>
+
+      <!-- SW-FLOOR2 -->
+      <rect x="710" y="220" width="120" height="50" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="770" y="242" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">SW-FLOOR2</text>
+      <text x="770" y="258" text-anchor="middle" fill="#767E92" font-size="10">L2 access · Floor 2</text>
+
+      <!-- Trunk to SW-FLOOR2 -->
+      <line x1="710" y1="240" x2="520" y2="155" stroke="#E0B840" stroke-width="3"/>
+      <line x1="710" y1="236" x2="520" y2="151" stroke="#E0B840" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="600" y="200" text-anchor="start" fill="#B8932A" font-weight="700" font-size="10">TRUNK</text>
+      <text x="600" y="214" text-anchor="start" fill="#767E92" font-size="9">native 99 · allowed 10,20,30,99</text>
+
+      <!-- Existing inter-switch trunk (now optional / redundant) -->
+      <line x1="190" y1="245" x2="710" y2="245" stroke="#C6C6BE" stroke-width="2" stroke-dasharray="3,4"/>
+      <text x="450" y="262" text-anchor="middle" fill="#989890" font-size="9" font-style="italic">(legacy trunk from Lab 2.2.1 — may be left in place)</text>
+
+      <!-- Floor 1 PCs -->
+      <circle cx="50" cy="350" r="16" fill="#FAFAF6" stroke="#2A6049" stroke-width="2"/>
+      <text x="50" y="354" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-S1</text>
+      <line x1="60" y1="334" x2="100" y2="270" stroke="#2A6049" stroke-width="2"/>
+      <text x="50" y="380" text-anchor="middle" fill="#2A6049" font-size="9">VLAN 10</text>
+      <text x="50" y="392" text-anchor="middle" fill="#767E92" font-size="9">gw .10.1</text>
+
+      <circle cx="130" cy="350" r="16" fill="#FAFAF6" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="130" y="354" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-G1</text>
+      <line x1="130" y1="334" x2="130" y2="270" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="130" y="380" text-anchor="middle" fill="#1E8FBE" font-size="9">VLAN 20</text>
+      <text x="130" y="392" text-anchor="middle" fill="#767E92" font-size="9">gw .20.1</text>
+
+      <rect x="194" y="334" width="32" height="32" fill="#FAFAF6" stroke="#B8932A" stroke-width="2"/>
+      <text x="210" y="354" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PHONE</text>
+      <line x1="210" y1="334" x2="170" y2="270" stroke="#B8932A" stroke-width="2"/>
+      <text x="210" y="380" text-anchor="middle" fill="#B8932A" font-size="9">VLAN 30</text>
+      <text x="210" y="392" text-anchor="middle" fill="#767E92" font-size="9">gw .30.1</text>
+
+      <!-- Floor 2 PCs -->
+      <circle cx="690" cy="350" r="16" fill="#FAFAF6" stroke="#2A6049" stroke-width="2"/>
+      <text x="690" y="354" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-S2</text>
+      <line x1="700" y1="334" x2="740" y2="270" stroke="#2A6049" stroke-width="2"/>
+      <text x="690" y="380" text-anchor="middle" fill="#2A6049" font-size="9">VLAN 10</text>
+      <text x="690" y="392" text-anchor="middle" fill="#767E92" font-size="9">gw .10.1</text>
+
+      <circle cx="770" cy="350" r="16" fill="#FAFAF6" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="770" y="354" text-anchor="middle" fill="#1A2050" font-size="9" font-weight="700">PC-G2</text>
+      <line x1="770" y1="334" x2="770" y2="270" stroke="#1E8FBE" stroke-width="2"/>
+      <text x="770" y="380" text-anchor="middle" fill="#1E8FBE" font-size="9">VLAN 20</text>
+      <text x="770" y="392" text-anchor="middle" fill="#767E92" font-size="9">gw .20.1</text>
+
+      <!-- L3 highlight box around SW-CORE -->
+      <rect x="350" y="74" width="200" height="100" fill="none" stroke="#1E8FBE" stroke-width="1.5" stroke-dasharray="6,4" rx="6"/>
+      <text x="350" y="74" fill="#1E8FBE" font-weight="700" font-size="10" dy="-6">LAYER 3 BOUNDARY (routing happens here)</text>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#1A2050;border-color:#E0B840"></span>Layer 3 device (SW-CORE)</span>
+      <span class="lk"><span class="sw" style="background:#FFFFFF;border-color:#1A1A1A"></span>Layer 2 device</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:3px;background:#E0B840"></span>802.1Q trunk (carries all VLANs)</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:1px;background:#1E8FBE;border-top:1px dashed #1E8FBE"></span>Routing happens above this line</span>
+    </div>
+  </div>
+
+  <div class="section-head">Two ways to do inter-VLAN routing</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-badge">Primary in this lab</div>
+      <div class="mc-tag">METHOD 1</div>
+      <h4>SVI on a Layer 3 Switch</h4>
+      <div class="mc-row"><div class="k">How it works</div><div class="v">Multilayer switch creates a virtual Layer 3 interface (SVI) for each VLAN. Each SVI has an IP and acts as the default gateway for that VLAN.</div></div>
+      <div class="mc-row"><div class="k">Performance</div><div class="v">Wire-speed (ASIC-based forwarding)</div></div>
+      <div class="mc-row"><div class="k">Pros</div><div class="v">Fast, scales to many VLANs, single device manages both switching and routing</div></div>
+      <div class="mc-row"><div class="k">Cons</div><div class="v">Requires a multilayer (more expensive) switch</div></div>
+      <div class="mc-row"><div class="k">When to use</div><div class="v">Enterprise networks, anywhere performance matters</div></div>
+    </div>
+    <div class="method-card roas">
+      <div class="mc-badge">Compared in callouts</div>
+      <div class="mc-tag">METHOD 2 (legacy)</div>
+      <h4>Router-on-a-Stick (RoaS)</h4>
+      <div class="mc-row"><div class="k">How it works</div><div class="v">A separate router connects to the switch via one trunk. The router creates a subinterface per VLAN; each subinterface has an IP that acts as the gateway.</div></div>
+      <div class="mc-row"><div class="k">Performance</div><div class="v">CPU-based forwarding — slower; whole trunk shares one physical link</div></div>
+      <div class="mc-row"><div class="k">Pros</div><div class="v">Cheap — reuses any router you already have</div></div>
+      <div class="mc-row"><div class="k">Cons</div><div class="v">Single link becomes a bottleneck; doesn't scale</div></div>
+      <div class="mc-row"><div class="k">When to use</div><div class="v">Small offices, lab environments, or where a multilayer switch isn't available</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">Updated IP Plan — now with gateways</div>
+  <table class="iptable">
+    <thead>
+      <tr><th>Device / VLAN</th><th>VLAN</th><th>Subnet</th><th>Gateway IP (SVI)</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">Staff hosts</td><td class="v10">10</td><td class="ip">192.168.10.0/24</td><td class="gw">192.168.10.1</td><td>SVI on SW-CORE</td></tr>
+      <tr><td class="device">Guest hosts</td><td class="v20">20</td><td class="ip">192.168.20.0/24</td><td class="gw">192.168.20.1</td><td>SVI on SW-CORE</td></tr>
+      <tr><td class="device">Voice hosts</td><td class="v30">30</td><td class="ip">192.168.30.0/24</td><td class="gw">192.168.30.1</td><td>SVI on SW-CORE</td></tr>
+      <tr><td class="device">Management</td><td class="v99">99</td><td class="ip">192.168.99.0/24</td><td class="gw">192.168.99.254</td><td>SVI on SW-CORE; switches now have a real gateway</td></tr>
+    </tbody>
+  </table>
+
+  <table class="iptable">
+    <thead>
+      <tr><th>Host</th><th>VLAN</th><th>IP</th><th>Mask</th><th>Default Gateway (NEW)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">PC-S1</td><td class="v10">10</td><td class="ip">192.168.10.11</td><td class="iface">/24</td><td class="gw">192.168.10.1</td></tr>
+      <tr><td class="device">PC-S2</td><td class="v10">10</td><td class="ip">192.168.10.12</td><td class="iface">/24</td><td class="gw">192.168.10.1</td></tr>
+      <tr><td class="device">PC-G1</td><td class="v20">20</td><td class="ip">192.168.20.11</td><td class="iface">/24</td><td class="gw">192.168.20.1</td></tr>
+      <tr><td class="device">PC-G2</td><td class="v20">20</td><td class="ip">192.168.20.12</td><td class="iface">/24</td><td class="gw">192.168.20.1</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>SW-CORE added</b> to the topology with two trunk uplinks (to SW-FLOOR1 and SW-FLOOR2).</li>
+      <li><b>All four VLANs created</b> on SW-CORE (the VLAN database must match the access switches).</li>
+      <li><b>Trunks on SW-CORE</b> match access-switch settings: native VLAN 99, allowed list 10,20,30,99.</li>
+      <li><b>Four SVIs configured</b> on SW-CORE: VLAN 10, 20, 30, 99 — each with the gateway IP from the plan and <code>no shutdown</code>.</li>
+      <li><b>IP routing enabled</b> globally on SW-CORE (multilayer switches don't route by default).</li>
+      <li><b>PCs updated</b> with their new default gateway IPs (the SVI on SW-CORE).</li>
+      <li><b>Cross-VLAN ping works:</b> PC-S1 (VLAN 10) can ping PC-G1 (VLAN 20) — proving routing happens on SW-CORE.</li>
+      <li><b>SW-FLOOR1 reachable from SW-CORE</b> via the Management VLAN — <code>ping 192.168.99.1</code> from SW-CORE succeeds.</li>
+      <li><b>Routing table on SW-CORE</b> shows all four VLAN subnets as directly connected (<code>C</code>).</li>
+      <li><b>Configurations saved</b> on all three switches.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the Network+ exam</h5>
+    <p>Objective 2.2 explicitly names <b>inter-VLAN routing</b>. Expect exam questions about how VLANs reach each other, what a Layer 3 switch does, what an SVI is, and the comparison between SVI and router-on-a-stick. The exam loves the trick question: "PC-A in VLAN 10 cannot ping PC-B in VLAN 20 — what is the cause?" The answer is usually missing inter-VLAN routing or a missing default gateway on the host.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Add the <em>multilayer switch.</em></h2>
+  <p>Open your saved Lab 2.2.1 file. You'll add one new 3560 multilayer switch, draw two trunk links from it to each access switch, and update PC default gateways.</p>
+
+  <div class="section-head">Prepare the file</div>
+  <div class="step" data-step="1">
+    <h4>Open Lab-2.2.1-VLANs-FirstLast.pkt</h4>
+    <p>If you don't still have it, run Lab 2.2.1 first or download the starter from Canvas. The two-switch topology with VLANs and the trunk must already be in place.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Save As — give the new lab its own filename</h4>
+    <p>File → Save As → <code>Lab-2.2.2-InterVLAN-Lastname-Firstname.pkt</code>. Work on the copy so Lab 2.2.1 stays preserved.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Confirm baseline VLAN isolation still works</h4>
+    <p>From PC-S1 try to ping PC-G1 — should still fail (Lab 2.2.1 state). From PC-S1 to PC-S2 — should still succeed across the trunk. If anything is broken, fix Lab 2.2.1 before proceeding.</p>
+  </div>
+
+  <div class="section-head">Add SW-CORE</div>
+  <div class="step" data-step="4">
+    <h4>Drag a 3560 multilayer switch onto the canvas</h4>
+    <p>From the device tray: <b>Switches</b> → drag <code>3560-24PS</code> (or similar 3560 variant). Place it above and between SW-FLOOR1 and SW-FLOOR2. Rename it <code>SW-CORE</code> via Config → Display Name. The 3560 is multilayer — it has Layer 3 routing capability that the 2960 access switches lack.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Connect SW-CORE to both access switches with trunk links</h4>
+    <p>Use <b>Copper Crossover</b> for switch-to-switch:</p>
+    <ul>
+      <li>SW-CORE <code>Gi0/1</code> ↔ SW-FLOOR1 <code>Gi0/2</code> (use a free Gigabit port)</li>
+      <li>SW-CORE <code>Gi0/2</code> ↔ SW-FLOOR2 <code>Gi0/2</code></li>
+    </ul>
+    <p>The original SW-FLOOR1 ↔ SW-FLOOR2 trunk from Lab 2.2.1 can remain in place — it provides redundancy. STP (covered in Lab 2.2.3) will prevent the loop.</p>
+  </div>
+
+  <div class="section-head">Update PC default gateways</div>
+  <div class="step" data-step="6">
+    <h4>Add the default gateway to every PC</h4>
+    <p>Click each PC → <b>Desktop</b> → <b>IP Configuration</b>. Add the appropriate gateway from the IP plan:</p>
+    <ul>
+      <li><b>PC-S1, PC-S2</b> (VLAN 10) → gateway <code>192.168.10.1</code></li>
+      <li><b>PC-G1, PC-G2</b> (VLAN 20) → gateway <code>192.168.20.1</code></li>
+    </ul>
+    <p>Without these gateways, the PCs have no way to send traffic destined for another VLAN — they'll send it to "0.0.0.0" and the switch will drop it.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>The "I forgot the gateway" trap</h5>
+    <p>This is the #1 failure mode on this lab. A PC with no default gateway can still ping anything in its own VLAN, but anything cross-VLAN fails silently with "destination unreachable." The PC thinks the destination is on the same network and doesn't know to forward to a router. Always check <code>ipconfig</code> on the PC if a cross-VLAN ping fails.</p>
+  </div>
+
+  <p>Once SW-CORE is wired up and PC gateways are set, move to the Configure tab.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Bring up the <em>L3 boundary</em>.</h2>
+  <p>Three configuration blocks. SW-CORE gets the most work — VLAN database, trunks, SVIs, and the critical global command that enables routing. SW-FLOOR1 and SW-FLOOR2 only need one small change each: a default gateway so they can be managed from outside VLAN 99.</p>
+
+  <!-- SW-CORE -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03 — the L3 hub</span>
+      <span class="term-concept">Concept: L3 switch · SVI per VLAN · default gateway provided to every VLAN · ip routing enabled</span>
+      <span class="term-device">SW-CORE</span>
+      <button class="copy-btn" data-copy="cfg-core">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-core"><span class="comment">! ===== SW-CORE — Multilayer switch, inter-VLAN routing hub =====</span>
+enable
+configure terminal
+hostname SW-CORE
+no ip domain-lookup
+
+<span class="comment">! ----- Same VLAN database as access switches -----</span>
+vlan 10
+ name Staff
+vlan 20
+ name Guest
+vlan 30
+ name Voice
+vlan 99
+ name Management
+exit
+
+<span class="comment">! ----- Trunk uplinks to both access switches -----</span>
+interface GigabitEthernet0/1
+ description Trunk to SW-FLOOR1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ no shutdown
+exit
+
+interface GigabitEthernet0/2
+ description Trunk to SW-FLOOR2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ no shutdown
+exit
+
+<span class="comment">! ----- CRITICAL: enable Layer 3 routing globally -----
+! Without this, SVIs come up but routing between them DOES NOT happen.
+! This is the #1 configuration mistake on the entire lab.</span>
+ip routing
+
+<span class="comment">! ----- SVIs — one per VLAN, each is a default gateway -----</span>
+interface Vlan10
+ description Staff gateway
+ ip address 192.168.10.1 255.255.255.0
+ no shutdown
+exit
+
+interface Vlan20
+ description Guest gateway
+ ip address 192.168.20.1 255.255.255.0
+ no shutdown
+exit
+
+interface Vlan30
+ description Voice gateway
+ ip address 192.168.30.1 255.255.255.0
+ no shutdown
+exit
+
+interface Vlan99
+ description Management gateway
+ ip address 192.168.99.254 255.255.255.0
+ no shutdown
+exit
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- SW-FLOOR1 -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 03 — small add</span>
+      <span class="term-concept">Concept: L2 switch needs a default gateway in its mgmt VLAN to be reached from elsewhere</span>
+      <span class="term-device">SW-FLOOR1</span>
+      <button class="copy-btn" data-copy="cfg-sw1">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw1"><span class="comment">! ===== SW-FLOOR1 — Add default gateway for switch's own management traffic =====</span>
+enable
+configure terminal
+
+<span class="comment">! Without this, the switch can talk to anything in 192.168.99.0/24
+! but cannot reach a remote admin sitting in any other VLAN.
+! The gateway is SW-CORE's VLAN 99 SVI.</span>
+ip default-gateway 192.168.99.254
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- SW-FLOOR2 -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 03 — same change as SW-FLOOR1</span>
+      <span class="term-concept">Concept: Every L2 switch in the building points to the same management gateway</span>
+      <span class="term-device">SW-FLOOR2</span>
+      <button class="copy-btn" data-copy="cfg-sw2">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw2"><span class="comment">! ===== SW-FLOOR2 — Same single command =====</span>
+enable
+configure terminal
+ip default-gateway 192.168.99.254
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="callout alternative">
+    <h5>Alternative method: Router-on-a-Stick</h5>
+    <p>If you didn't have a multilayer switch, you'd accomplish the same thing with a regular router and a single trunk connection to the switch. The router would have one physical interface (say <code>Gi0/0</code>) and three subinterfaces (<code>Gi0/0.10</code>, <code>Gi0/0.20</code>, <code>Gi0/0.30</code>), each tagged with its VLAN ID using the <code>encapsulation dot1Q</code> command. The subinterface IPs would serve the same role as our SVIs. This is called <b>"router-on-a-stick"</b> (RoaS) because all VLANs share the single physical link. It works but is slower (CPU-based routing) and doesn't scale beyond a few VLANs. You don't need to configure RoaS in this lab — but the Network+ exam expects you to recognize it and know the trade-offs.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>The hidden command: <code>ip routing</code></h5>
+    <p>On a multilayer switch, simply creating SVIs is not enough — the global <code>ip routing</code> command must be enabled for the switch to actually <i>forward</i> traffic between VLANs. Without it, the SVIs come up, the PCs have valid gateway IPs, but cross-VLAN pings still fail silently. <b>If your lab "should work" but doesn't, check this first.</b></p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm <em>inter-VLAN routing</em> works.</h2>
+  <p>Ten checks. The big payoff is check #5: PC-S1 pinging PC-G1, which Lab 2.2.1 forbade.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>All four SVIs up/up on SW-CORE</b> — <code>show ip interface brief | include Vlan</code>. VLAN10/20/30/99 must show <i>up/up</i> status with their configured IPs.</div>
+    <div class="ccmd">show ip int br</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>IP routing is enabled</b> — On SW-CORE: <code>show ip route</code>. If you get "IP routing is not enabled" or no output, the global <code>ip routing</code> command is missing.</div>
+    <div class="ccmd">show ip route</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Routing table has all four VLAN subnets</b> — <code>show ip route</code> shows <code>C 192.168.10.0/24</code>, <code>C 192.168.20.0/24</code>, <code>C 192.168.30.0/24</code>, and <code>C 192.168.99.0/24</code> — all directly connected via the corresponding Vlan SVI.</div>
+    <div class="ccmd">show ip route connected</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Trunks to access switches operational</b> — On SW-CORE: <code>show interfaces trunk</code>. Gi0/1 and Gi0/2 both listed, encapsulation 802.1q, native VLAN 99, allowed VLANs 10,20,30,99.</div>
+    <div class="ccmd">show int trunk</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>The headline test — cross-VLAN ping works</b> — From PC-S1 (VLAN 10): <code>ping 192.168.20.11</code> (PC-G1, VLAN 20). Should succeed. Lab 2.2.1's deliberate failure is now a deliberate success.</div>
+    <div class="ccmd">ping 192.168.20.11</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Cross-VLAN ping in the other direction</b> — From PC-G1 (VLAN 20): <code>ping 192.168.10.11</code> (PC-S1, VLAN 10). Should also succeed. Proves bidirectional routing.</div>
+    <div class="ccmd">ping 192.168.10.11</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Cross-floor, cross-VLAN ping</b> — From PC-S1 (Floor 1, VLAN 10): <code>ping 192.168.20.12</code> (PC-G2, Floor 2, VLAN 20). Should succeed. This packet crosses an access-switch trunk, gets routed at SW-CORE, then crosses the other access-switch trunk.</div>
+    <div class="ccmd">ping 192.168.20.12</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Each PC can reach its own gateway</b> — From PC-S1: <code>ping 192.168.10.1</code>. From PC-G2: <code>ping 192.168.20.1</code>. Both succeed. Confirms the SVIs are properly serving as gateways.</div>
+    <div class="ccmd">ping (gateway)</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>SW-CORE can ping SW-FLOOR1 management IP</b> — From SW-CORE: <code>ping 192.168.99.1</code>. Should succeed. Mgmt VLAN spans the trunk to both access switches.</div>
+    <div class="ccmd">ping 192.168.99.1</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved</b> on all three switches — <code>show startup-config | include ip routing</code> on SW-CORE returns the command. Both access switches show <code>ip default-gateway</code>.</div>
+    <div class="ccmd">copy run start</div>
+  </div>
+
+  <div class="section-head">Sample successful output — SW-CORE routing table</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-concept">All four VLAN subnets show as directly connected via SVIs</span>
+      <span class="term-device">SW-CORE# show ip route</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">Codes: L - local, C - connected, S - static, R - RIP, ...
+
+Gateway of last resort is not set</span>
+
+     <span class="ok">192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       192.168.10.0/24 is directly connected, Vlan10
+<span class="ok">L</span>       192.168.10.1/32 is directly connected, Vlan10
+     <span class="ok">192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       192.168.20.0/24 is directly connected, Vlan20
+<span class="ok">L</span>       192.168.20.1/32 is directly connected, Vlan20
+     <span class="ok">192.168.30.0/24 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       192.168.30.0/24 is directly connected, Vlan30
+<span class="ok">L</span>       192.168.30.1/32 is directly connected, Vlan30
+     <span class="ok">192.168.99.0/24 is variably subnetted, 2 subnets, 2 masks</span>
+<span class="ok">C</span>       192.168.99.0/24 is directly connected, Vlan99
+<span class="ok">L</span>       192.168.99.254/32 is directly connected, Vlan99</pre>
+    </div>
+  </div>
+
+  <p>Every VLAN appears as <b>C (connected) via a Vlan interface</b>. That's the fingerprint of inter-VLAN routing via SVIs. If you don't see these entries, either the SVIs aren't up, the VLANs aren't in the database, or <code>ip routing</code> isn't enabled.</p>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When <em>inter-VLAN</em> won't route.</h2>
+  <p>Seven failure modes. The first three account for ~80% of student lab failures on this exercise.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Cross-VLAN ping fails silently — no error, just timeouts</div>
+    <div class="ts-row"><div class="k">Cause #1</div><div class="v">The PC has no default gateway configured. Without a gateway, the PC has no way to send traffic outside its own subnet.</div></div>
+    <div class="ts-row"><div class="k">Cause #2</div><div class="v">SW-CORE doesn't have <code>ip routing</code> enabled globally. SVIs are up but the switch refuses to route between them.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On the PC: <code>ipconfig</code> — check Default Gateway. On SW-CORE: <code>show ip route</code> — if it says "IP routing is not enabled", that's your problem.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">PC: add the correct gateway. SW-CORE: in global config, <code>ip routing</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">PC-S1 can ping its own gateway 192.168.10.1, but cannot ping PC-G1 in VLAN 20</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Routing is half-working. SW-CORE can receive from VLAN 10 but can't deliver to VLAN 20 — usually the VLAN 20 SVI is missing, shut, or has the wrong IP.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On SW-CORE: <code>show ip interface brief | include Vlan</code>. All four SVIs should be up/up.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-create the missing/wrong SVI. <code>interface Vlan20 / ip address 192.168.20.1 255.255.255.0 / no shutdown</code>.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">SVI shows up/down or down/down on SW-CORE</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">An SVI only becomes "up/up" when at least one access port in that VLAN is also up. If VLAN 30 has no active access ports anywhere in the network (because the IP phone is unplugged or VLAN 30 isn't allowed on any trunk reaching an active port), the SVI stays down.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show vlan brief</code> on each switch — confirm VLAN 30 exists everywhere. <code>show interfaces trunk</code> — confirm 30 is in the allowed list on every trunk. Confirm the phone is powered on.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Ensure the VLAN exists locally on SW-CORE (in the VLAN database) and at least one trunk carries it to a switch where a port is active in that VLAN.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Cross-VLAN ping intermittent — sometimes works, sometimes fails</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Two L3 gateways for the same VLAN. If SW-CORE has VLAN 20 SVI at 192.168.20.1 and someone accidentally configured an SVI for VLAN 20 on SW-FLOOR1 at 192.168.20.2, hosts may have inconsistent ARP entries.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On every switch: <code>show ip interface brief | include Vlan</code>. Only SW-CORE should have user-VLAN SVIs (10, 20, 30). Access switches should only have Vlan99.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Remove the rogue SVI: <code>no interface Vlan20</code> on the access switch.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Same-VLAN ping (PC-S1 to PC-S2) suddenly stops working after adding SW-CORE</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Likely an STP loop or block. The new SW-CORE trunks plus the existing inter-floor trunk create a Layer 2 loop, and STP has put one of the trunk ports in blocking state — possibly the wrong one.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On each switch: <code>show spanning-tree</code>. Look for any port in <b>BLK</b> (blocking) state.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Lab 2.2.3 covers STP tuning. For now, you can either shut down the original SW-FLOOR1↔SW-FLOOR2 trunk (no longer needed once SW-CORE is in place) or accept that STP is working as designed.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">The SW-FLOOR1 switch can ping SW-CORE but not anything in VLAN 10</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">SW-FLOOR1 has no <code>ip default-gateway</code> set. As a Layer 2 device, its management traffic needs a static default route to reach anything outside VLAN 99.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">On SW-FLOOR1: <code>show running-config | include default-gateway</code>. If empty, that's the issue.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v"><code>ip default-gateway 192.168.99.254</code> (SW-CORE's VLAN 99 SVI).</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">First ping after enabling routing always times out, then works</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">ARP resolution. Same as in previous labs — the first packet that needs ARP is silently dropped while the reply is being received. Totally normal.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Re-run the ping. Subsequent pings succeed.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">No fix needed. Document this in your lab report so your instructor knows you understand it.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.2.2 — Inter-VLAN Routing</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.2.2-InterVLAN-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> with screenshots of (a) <code>show ip route</code> on SW-CORE showing the four C entries, (b) <code>show ip interface brief | include Vlan</code> on SW-CORE, (c) a successful cross-VLAN ping PC-S1 → PC-G1, (d) a successful cross-floor cross-VLAN ping PC-S1 → PC-G2, and (e) <code>show vlan brief</code> on SW-CORE.</li>
+      <li><b>A short Network+-style write-up</b> (≤ 400 words) answering: <i>"The Network+ exam expects you to know how VLANs reach each other. (a) Explain in your own vendor-neutral words what 'inter-VLAN routing' is and why it is needed when a network is segmented into VLANs. (b) Compare the two methods you've seen: SVI on a Layer 3 switch (this lab's method) vs Router-on-a-Stick. State at least two pros and one con for each. (c) A user PC in VLAN 20 can ping its own gateway but not anything in VLAN 10. The Layer 3 switch shows all SVIs up/up. What is the most likely missing configuration?"</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 10 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SW-CORE 3560 added with both trunk uplinks correctly cabled</td><td class="pts">5</td></tr>
+      <tr><td>VLAN database on SW-CORE matches access switches (10/20/30/99)</td><td class="pts">10</td></tr>
+      <tr><td>Both SW-CORE trunks configured with native VLAN 99 and correct allowed-VLAN list</td><td class="pts">10</td></tr>
+      <tr><td>All four SVIs (Vlan10/20/30/99) configured with correct IPs and up/up status</td><td class="pts">20</td></tr>
+      <tr><td>Global <code>ip routing</code> enabled on SW-CORE</td><td class="pts">10</td></tr>
+      <tr><td>PC default gateways updated correctly on all four PCs</td><td class="pts">10</td></tr>
+      <tr><td>Cross-VLAN ping PC-S1 → PC-G1 succeeds (screenshot)</td><td class="pts">10</td></tr>
+      <tr><td>Cross-floor cross-VLAN ping PC-S1 → PC-G2 succeeds (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Both access switches have <code>ip default-gateway</code> configured</td><td class="pts">5</td></tr>
+      <tr><td>Routing table on SW-CORE shows all four VLAN subnets as connected (screenshot)</td><td class="pts">5</td></tr>
+      <tr><td>Write-up correctly distinguishes SVI vs RoaS and diagnoses the missing-gateway scenario</td><td class="pts">10</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.2.2 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.2 Switching Technologies &amp; Features</b>. Adds the Layer 3 boundary to the Miami office. Demonstrates SVI-based inter-VLAN routing as the modern approach, with router-on-a-stick (RoaS) explained as the legacy alternative. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.2.1 · VLANs &amp; 802.1Q Trunking</p>
+      <p>2.2.2 · Inter-VLAN Routing (SVI &amp; RoaS) ← you are here</p>
+      <p style="opacity:0.55">2.2.3 · Spanning Tree Protocol</p>
+      <p style="opacity:0.55">2.2.4 · Link Aggregation &amp; Port Security</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.2.2-checks';
+const TOTAL_CHECKS = 10;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
