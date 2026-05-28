@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 2.4.3 · Environmental: Temp, Humidity &amp; Fire · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== ENVIRONMENT CONSOLE ===== */
+  .console { display: grid; grid-template-columns: 1.3fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .console-controls { padding: 24px 26px; border-right: 1px solid var(--line); background: var(--surface-alt); }
+  .console-status { padding: 24px 26px; display: flex; flex-direction: column; }
+
+  .ctrl { margin-bottom: 26px; }
+  .ctrl:last-child { margin-bottom: 0; }
+  .ctrl-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .ctrl-name { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .ctrl-read { font-family: var(--ff-display); font-size: 28px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .ctrl-read .sub { font-family: var(--ff-mono); font-size: 13px; color: var(--ink-mute); font-weight: 600; margin-left: 6px; }
+  .ctrl-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 16px; border-radius: 3px; border: 1px solid var(--line); outline: none; cursor: pointer; }
+  .ctrl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 28px; background: var(--navy-deep); border: 2px solid white; border-radius: 2px; cursor: pointer; box-shadow: 0 0 0 1px var(--navy-deep); }
+  .ctrl-slider::-moz-range-thumb { width: 10px; height: 28px; background: var(--navy-deep); border: 2px solid white; border-radius: 2px; cursor: pointer; }
+  .ctrl-scale { display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 9.5px; color: var(--ink-mute); margin-top: 6px; }
+  .ctrl-zones { display: flex; gap: 14px; margin-top: 8px; font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .ctrl-zones span { display: inline-flex; align-items: center; gap: 5px; color: var(--ink-mute); }
+  .ctrl-zones i { width: 10px; height: 10px; display: inline-block; border-radius: 2px; }
+  .ctrl-stat { margin-top: 10px; font-size: 12.5px; line-height: 1.5; padding: 9px 12px; border-left: 3px solid var(--green); background: rgba(42,96,73,0.07); }
+  .ctrl-stat.warn { border-color: var(--gold-deep); background: rgba(224,184,64,0.10); }
+  .ctrl-stat.bad { border-color: var(--red); background: rgba(142,31,46,0.08); }
+  .ctrl-stat b { color: var(--navy-deep); }
+
+  .verdict { text-align: center; padding: 20px; border: 1px solid var(--line); margin-bottom: 18px; }
+  .verdict .v-ring { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-size: 30px; font-weight: 800; color: white; background: var(--green); transition: background 0.3s; }
+  .verdict .v-ring.warn { background: var(--gold-deep); }
+  .verdict .v-ring.bad { background: var(--red); }
+  .verdict .v-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--navy-deep); }
+  .verdict .v-sub { font-size: 12.5px; color: var(--ink-mute); margin-top: 4px; }
+  .console-note { font-size: 13px; line-height: 1.6; color: var(--ink-mid); margin-top: auto; padding-top: 16px; border-top: 1px dotted var(--line-soft); }
+  .console-note b { color: var(--navy-deep); }
+
+  /* ===== EXPLORER STAGE (fire suppression) ===== */
+  .explorer { display: grid; grid-template-columns: 1fr 1.05fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .fire-stage { padding: 22px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); display: flex; flex-direction: column; gap: 10px; }
+  .fire-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 5px solid var(--sky); padding: 14px 18px; cursor: pointer; transition: all 0.15s; }
+  .fire-card.preaction { border-left-color: var(--gold); }
+  .fire-card.wet { border-left-color: var(--red); }
+  .fire-card:hover { border-color: var(--sky); transform: translateX(2px); }
+  .fire-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .fire-card.preaction.active { box-shadow: inset 0 0 0 2px var(--gold); }
+  .fire-card.wet.active { box-shadow: inset 0 0 0 2px var(--red); }
+  .fire-card .fc-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 2px; }
+  .fire-card .fc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .fire-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 4px; }
+  .fire-hint b { color: var(--sky-deep); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 6px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-facts li.pro::before { content: '✓'; color: var(--green); }
+  .detail .d-facts li.con::before { content: '✕'; color: var(--red); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .console, .explorer { grid-template-columns: 1fr; }
+    .console-controls, .fire-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.4 Physical Installations</span>
+    <span class="crumb">Explorer 2.4.3</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 3 of 3 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 2.4.3 · Environmental · ≈ 28 min</div>
+    <h1>Keep the room <em>alive.</em></h1>
+    <p class="lede">Equipment doesn't just need power and a place to live \u2014 it needs the <i>right air around it</i>. Run a server room too hot and gear throttles and shuts down; too humid and you invite condensation and corrosion; too dry and static electricity starts zapping components. And when something does ignite, you'd better not be putting it out with water sprayed across live electronics. This explorer lets you drive a server room's <b>temperature</b> and <b>humidity</b> to see where the danger zones are, then compare the <b>fire-suppression</b> systems built for rooms full of computers.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">2.4 — environmental controls</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Temperature, humidity, fire suppression</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Live environment console + fire explorer</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">3 of 3 · Locations / Power / Environmental</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Drag the dials into the danger zones</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      temperature range · humidity (RH) · ESD · condensation · clean-agent / gaseous · pre-action · wet-pipe suppression
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 2.4 lists <b>temperature</b>, <b>humidity</b>, and <b>fire suppression</b> under environmental factors. The exam wants you to know that data closets are kept within a controlled temperature and humidity band, <i>why</i> each extreme is harmful (heat \u2192 failure, dry \u2192 static, humid \u2192 condensation), and that fire suppression around electronics favors <b>clean-agent/gaseous</b> systems over water. No math \u2014 just the ranges and the reasoning. This explorer makes those cause-and-effect links concrete.</p>
+  </div>
+
+  <div class="section-head">Live environment console — drag the dials</div>
+  <h2 class="big">Find the <em>danger zones.</em></h2>
+  <p class="body">Set the server room's <b>temperature</b> and <b>humidity</b> with the sliders. The recommended band is the green zone in each; drag past it and the console tells you exactly what goes wrong. A healthy room sits comfortably in both green zones \u2014 try pushing each dial to its extremes to see the failure modes.</p>
+
+  <div class="console">
+    <div class="console-controls">
+      <div class="ctrl">
+        <div class="ctrl-top">
+          <span class="ctrl-name">Temperature</span>
+          <span class="ctrl-read"><span id="t-f">72</span>°F<span class="sub">(<span id="t-c">22</span>°C)</span></span>
+        </div>
+        <input type="range" min="50" max="100" value="72" step="1" id="temp" class="ctrl-slider"
+          style="background: linear-gradient(90deg, #6BC5E8 0%, #6BC5E8 28%, #DCEAD9 28%, #DCEAD9 62%, #F4D9DC 62%, #F4D9DC 100%);">
+        <div class="ctrl-scale"><span>50°F</span><span>75°F</span><span>100°F</span></div>
+        <div class="ctrl-zones">
+          <span><i style="background:#6BC5E8"></i>Too cold</span>
+          <span><i style="background:#2A6049"></i>Recommended 64–81°F</span>
+          <span><i style="background:#8E1F2E"></i>Too hot</span>
+        </div>
+        <div class="ctrl-stat" id="t-stat"></div>
+      </div>
+
+      <div class="ctrl">
+        <div class="ctrl-top">
+          <span class="ctrl-name">Relative Humidity</span>
+          <span class="ctrl-read"><span id="h-v">50</span><span class="sub">% RH</span></span>
+        </div>
+        <input type="range" min="20" max="80" value="50" step="1" id="hum" class="ctrl-slider"
+          style="background: linear-gradient(90deg, #ECCD6E 0%, #ECCD6E 33%, #DCEAD9 33%, #DCEAD9 67%, #6BC5E8 67%, #6BC5E8 100%);">
+        <div class="ctrl-scale"><span>20%</span><span>50%</span><span>80%</span></div>
+        <div class="ctrl-zones">
+          <span><i style="background:#ECCD6E"></i>Too dry</span>
+          <span><i style="background:#2A6049"></i>Recommended 40–60%</span>
+          <span><i style="background:#6BC5E8"></i>Too humid</span>
+        </div>
+        <div class="ctrl-stat" id="h-stat"></div>
+      </div>
+    </div>
+
+    <div class="console-status">
+      <div class="verdict">
+        <div class="v-ring" id="v-ring">OK</div>
+        <div class="v-label" id="v-label">Room healthy</div>
+        <div class="v-sub" id="v-sub">Both readings in range</div>
+      </div>
+      <div class="console-note" id="console-note"></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The ranges worth memorizing</h5>
+    <p>For the exam, hold onto the <b>recommended</b> band: roughly <b>64–81°F (18–27°C)</b> for temperature and <b>40–60% relative humidity</b>. You don't need exact numbers, but you must know the <i>directions of harm</i>: too hot = overheating, too dry = static/ESD, too humid = condensation and corrosion.</p>
+  </div>
+
+  <div class="section-head">Fire suppression — click each system</div>
+  <h2 class="big">Putting out a fire <em>near computers.</em></h2>
+  <p class="body">A normal building uses water sprinklers \u2014 but water and live electronics don't mix. Server rooms use systems designed to stop fire <i>without</i> soaking the equipment. Click each type to compare how it works and when it's the right choice.</p>
+
+  <div class="explorer">
+    <div class="fire-stage">
+      <div class="fire-card hot active" id="gaseous">
+        <div class="fc-name">Clean-agent / gaseous</div>
+        <div class="fc-tag">preferred for data centers</div>
+      </div>
+      <div class="fire-card preaction hot" id="preaction">
+        <div class="fc-name">Pre-action sprinkler</div>
+        <div class="fc-tag">water, but guarded by two triggers</div>
+      </div>
+      <div class="fire-card wet hot" id="wet">
+        <div class="fc-name">Wet-pipe sprinkler</div>
+        <div class="fc-tag">standard building system</div>
+      </div>
+      <div class="fire-hint">Click a system · <b id="hint-count">1/3</b> explored</div>
+    </div>
+    <div class="detail" id="detail"><!-- populated by JS; default = gaseous --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Why water is the last resort</h5>
+    <p>Water conducts electricity and ruins circuit boards, so spraying it across powered racks can cause more damage than the fire. That's why electronics-heavy spaces prefer <b>clean-agent gaseous</b> suppression (no residue, safe for equipment), and where water systems are required, a <b>pre-action</b> design keeps the pipes dry until two separate triggers fire \u2014 minimizing the chance of an accidental soaking.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Four quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 4 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What is the generally recommended temperature range for a data closet / server room?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">32–50°F (0–10°C)</button>
+      <button class="kc-opt" data-correct="true">About 64–81°F (18–27°C)</button>
+      <button class="kc-opt" data-correct="false">90–105°F (32–40°C)</button>
+      <button class="kc-opt" data-correct="false">Temperature does not matter for networking gear</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>If the relative humidity in a server room drops too <b>low</b>, what is the primary risk?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">Electrostatic discharge (static) that can damage components</button>
+      <button class="kc-opt" data-correct="false">Condensation forming on the boards</button>
+      <button class="kc-opt" data-correct="false">Corrosion of metal contacts</button>
+      <button class="kc-opt" data-correct="false">Nothing — low humidity is always safe</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>If humidity climbs too <b>high</b>, what problems can result?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Increased static electricity</button>
+      <button class="kc-opt" data-correct="true">Condensation and corrosion on equipment</button>
+      <button class="kc-opt" data-correct="false">The gear runs faster</button>
+      <button class="kc-opt" data-correct="false">Lower power consumption</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Which fire-suppression approach is generally preferred for a room full of live electronics?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Wet-pipe sprinklers (always charged with water)</button>
+      <button class="kc-opt" data-correct="true">Clean-agent / gaseous suppression (no water, no residue)</button>
+      <button class="kc-opt" data-correct="false">A garden hose on standby</button>
+      <button class="kc-opt" data-correct="false">No suppression at all, to protect the equipment</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Recommended temperature</div><div class="t-def">Roughly 64–81°F (18–27°C). Too hot causes overheating and thermal shutdowns; too cold wastes energy and risks condensation on swings.</div></div>
+    <div class="term"><div class="t-name">Relative humidity (RH)</div><div class="t-def">Recommended ~40–60%. The percentage of moisture the air holds relative to its maximum at that temperature.</div></div>
+    <div class="term"><div class="t-name">ESD</div><div class="t-def">Electrostatic discharge — static buildup (worse in dry air) that can zap and damage sensitive components.</div></div>
+    <div class="term"><div class="t-name">Condensation / corrosion</div><div class="t-def">Risks of excessive humidity — moisture forms on surfaces, causing shorts and gradual corrosion of contacts.</div></div>
+    <div class="term"><div class="t-name">Clean-agent (gaseous)</div><div class="t-def">Fire suppression using inert gas or chemical agent that leaves no residue and is safe for electronics — the data-center preference.</div></div>
+    <div class="term"><div class="t-name">Pre-action vs wet-pipe</div><div class="t-def">Pre-action keeps sprinkler pipes dry until two triggers fire (safer near electronics); wet-pipe keeps them charged with water (standard buildings).</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 2.4.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">2.4 Physical Installations</b>. Covers environmental controls — temperature and humidity ranges and their failure modes, plus fire-suppression systems for electronics — through a live environment console and an interactive comparison. Completes the 2.4 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">2.4.1 · Locations (MDF &amp; IDF)</p>
+      <p style="opacity:0.55">2.4.2 · Power (UPS, PDU, load, voltage)</p>
+      <p>2.4.3 · Environmental (temp, humidity, fire) ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Environment console ===== */
+var tempEl = document.getElementById('temp');
+var humEl = document.getElementById('hum');
+
+function tempStatus(f){
+  if(f > 81) return { z:'bad', label:'TOO HOT', msg:'At <b>' + f + '\u00b0F</b>, equipment overheats \u2014 components throttle, thermal shutdowns occur, and lifespan drops. This is the most damaging direction.' };
+  if(f < 64) return { z:'warn', label:'TOO COLD', msg:'At <b>' + f + '\u00b0F</b>, the room is over-cooled \u2014 mostly wasted energy, and rapid temperature swings can risk condensation. Less harmful than heat, but inefficient.' };
+  return { z:'ok', label:'IN RANGE', msg:'<b>' + f + '\u00b0F</b> sits in the recommended 64\u201381\u00b0F band \u2014 equipment runs cool and reliably.' };
+}
+function humStatus(h){
+  if(h > 60) return { z:'bad', label:'TOO HUMID', msg:'At <b>' + h + '% RH</b>, moisture can <b>condense</b> on equipment, causing short circuits and gradual <b>corrosion</b> of contacts.' };
+  if(h < 40) return { z:'warn', label:'TOO DRY', msg:'At <b>' + h + '% RH</b>, the air is dry enough to build static \u2014 <b>electrostatic discharge (ESD)</b> can zap and damage sensitive components.' };
+  return { z:'ok', label:'IN RANGE', msg:'<b>' + h + '% RH</b> sits in the recommended 40\u201360% band \u2014 low static risk and no condensation.' };
+}
+
+function renderConsole(){
+  var f = parseInt(tempEl.value, 10);
+  var h = parseInt(humEl.value, 10);
+  var c = Math.round((f - 32) * 5 / 9);
+  document.getElementById('t-f').textContent = f;
+  document.getElementById('t-c').textContent = c;
+  document.getElementById('h-v').textContent = h;
+
+  var ts = tempStatus(f);
+  var hs = humStatus(h);
+  var tStat = document.getElementById('t-stat');
+  tStat.className = 'ctrl-stat' + (ts.z === 'ok' ? '' : (ts.z === 'warn' ? ' warn' : ' bad'));
+  tStat.innerHTML = '<b>' + ts.label + '</b> \u2014 ' + ts.msg;
+  var hStat = document.getElementById('h-stat');
+  hStat.className = 'ctrl-stat' + (hs.z === 'ok' ? '' : (hs.z === 'warn' ? ' warn' : ' bad'));
+  hStat.innerHTML = '<b>' + hs.label + '</b> \u2014 ' + hs.msg;
+
+  // combined verdict (worst of the two)
+  var rank = { ok:0, warn:1, bad:2 };
+  var worst = rank[ts.z] >= rank[hs.z] ? ts.z : hs.z;
+  var ring = document.getElementById('v-ring');
+  var vlabel = document.getElementById('v-label');
+  var vsub = document.getElementById('v-sub');
+  var note = document.getElementById('console-note');
+  if(worst === 'ok'){
+    ring.className = 'v-ring'; ring.textContent = 'OK';
+    vlabel.textContent = 'Room healthy';
+    vsub.textContent = 'Both readings in range';
+    note.innerHTML = 'Both temperature and humidity are inside their recommended bands. This is the target an environmental control system (HVAC + humidity control) is built to hold. <b>Try dragging a dial to an extreme</b> to see what fails.';
+  } else if(worst === 'warn'){
+    ring.className = 'v-ring warn'; ring.textContent = '!';
+    vlabel.textContent = 'Caution';
+    vsub.textContent = 'One reading outside the ideal band';
+    note.innerHTML = 'A reading has drifted out of the comfortable band. It may not be immediately destructive, but it\u2019s outside the recommended range \u2014 environmental controls should pull it back.';
+  } else {
+    ring.className = 'v-ring bad'; ring.textContent = '\u26a0';
+    vlabel.textContent = 'Danger';
+    vsub.textContent = 'A reading is in the harmful zone';
+    note.innerHTML = 'A reading is in a genuinely harmful zone for electronics. Sustained exposure here risks equipment damage or failure \u2014 exactly what temperature and humidity controls exist to prevent.';
+  }
+}
+tempEl.addEventListener('input', renderConsole);
+humEl.addEventListener('input', renderConsole);
+renderConsole();
+
+/* ===== Fire-suppression explorer ===== */
+var DETAILS = {
+  gaseous: {
+    cat: 'Fire suppression · preferred for electronics',
+    title: 'Clean-Agent / Gaseous',
+    abbr: 'e.g. inert gas, chemical agent',
+    body: 'A <b>clean-agent</b> (gaseous) system floods the room with an inert gas or fire-suppressing chemical that <b>starves or interrupts the fire without water</b>. It leaves <b>no residue</b> and is safe to discharge around powered equipment.',
+    facts: [
+      { t:'<b>No water</b> \u2014 nothing to short or corrode electronics.', k:'pro' },
+      { t:'Leaves <b>no residue</b>; equipment can often keep running.', k:'pro' },
+      { t:'The <b>preferred</b> choice for data centers and server rooms.', k:'pro' },
+      { t:'More <b>expensive</b> to install and recharge than sprinklers.', k:'con' }
+    ],
+    exam: { lab:'Exam note', text:'If a question asks the <b>best fire suppression for a room full of electronics</b>, the answer is <b>clean-agent/gaseous</b> \u2014 because it avoids water damage entirely.' }
+  },
+  preaction: {
+    cat: 'Fire suppression · water, guarded',
+    title: 'Pre-Action Sprinkler',
+    abbr: 'dry until two triggers',
+    body: 'A <b>pre-action</b> system keeps the sprinkler pipes <b>empty (dry)</b> until <i>two</i> independent conditions occur \u2014 typically a detector senses fire <b>and</b> a sprinkler head\u2019s heat link breaks. Only then does water fill the pipes and discharge.',
+    facts: [
+      { t:'Pipes stay <b>dry</b> until needed \u2014 no water sitting over the racks.', k:'pro' },
+      { t:'Requires <b>two triggers</b>, greatly reducing accidental discharge.', k:'pro' },
+      { t:'Still uses <b>water</b> ultimately \u2014 a compromise, not water-free.', k:'con' },
+      { t:'More complex and costly than a basic wet-pipe system.', k:'con' }
+    ],
+    exam: { lab:'Exam note', text:'<b>Pre-action</b> is the middle ground: when a space needs sprinklers but has electronics, the dry-until-two-triggers design minimizes the risk of an accidental soaking.' }
+  },
+  wet: {
+    cat: 'Fire suppression · standard building',
+    title: 'Wet-Pipe Sprinkler',
+    abbr: 'pipes always charged',
+    body: 'A <b>wet-pipe</b> system keeps the pipes <b>full of water at all times</b>; when a sprinkler head\u2019s heat link melts, water discharges immediately. It\u2019s the <b>cheapest and most common</b> system in general buildings \u2014 but the worst fit directly over live equipment.',
+    facts: [
+      { t:'Simplest, cheapest, fastest to act on a real fire.', k:'pro' },
+      { t:'<b>Water is always present</b> \u2014 a leak or accidental trigger soaks the room.', k:'con' },
+      { t:'<b>Water + live electronics</b> = shorts and major damage.', k:'con' },
+      { t:'A <b>last resort</b> for server rooms; fine for offices and corridors.', k:'con' }
+    ],
+    exam: { lab:'Exam note', text:'<b>Wet-pipe</b> is the default for ordinary spaces but the <b>least desirable near electronics</b> \u2014 the water is always charged and ready to damage gear.' }
+  }
+};
+var FIRE_TOTAL = 3;
+var explored = new Set();
+var HINTKEY = 'cbt-explorer-2.4.3-seen';
+try { (JSON.parse(localStorage.getItem(HINTKEY) || '[]')).forEach(function(x){ explored.add(x); }); } catch(e){}
+
+function renderDetail(id){
+  var d = DETAILS[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){
+    var cls = f.k ? ' class="' + f.k + '"' : '';
+    return '<li' + cls + '>' + f.t + '</li>';
+  }).join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.fire-card').forEach(function(c){ c.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  explored.add(id);
+  try { localStorage.setItem(HINTKEY, JSON.stringify([].concat(Array.from(explored)))); } catch(e){}
+  document.getElementById('hint-count').textContent = explored.size + '/' + FIRE_TOTAL;
+}
+document.querySelectorAll('.fire-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderDetail(c.id); });
+});
+explored.add('gaseous');
+renderDetail('gaseous');
+document.getElementById('hint-count').textContent = explored.size + '/' + FIRE_TOTAL;
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-2.4.3-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 4;
+var KC_FB = {
+  '1': { ok: 'Correct. The recommended band is roughly <b>64\u201381\u00b0F (18\u201327\u00b0C)</b>.', no: 'Not quite. Data closets are kept around <b>64\u201381\u00b0F (18\u201327\u00b0C)</b> \u2014 cool enough to prevent overheating without over-cooling.' },
+  '2': { ok: 'Correct. Low humidity raises <b>electrostatic discharge (ESD)</b> risk.', no: 'Not quite. <b>Low</b> humidity means dry air and static buildup \u2014 the danger is <b>ESD</b>. Condensation and corrosion come from <i>high</i> humidity.' },
+  '3': { ok: 'Correct. High humidity causes <b>condensation and corrosion</b>.', no: 'Not quite. <b>High</b> humidity leads to <b>condensation and corrosion</b>; static/ESD is the <i>low</i>-humidity problem.' },
+  '4': { ok: 'Correct. <b>Clean-agent/gaseous</b> suppression avoids water damage to electronics.', no: 'Not quite. Electronics rooms prefer <b>clean-agent/gaseous</b> suppression \u2014 water-based systems risk shorting and damaging the gear.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
