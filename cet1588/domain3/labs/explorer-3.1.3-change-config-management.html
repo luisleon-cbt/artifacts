@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.1.3 · Change &amp; Configuration Management · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== EXPLORER STAGE ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .explorer-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .explorer-hint b { color: var(--sky-deep); }
+  .hot { cursor: pointer; }
+  .hot .hit { transition: opacity 0.15s; opacity: 0; }
+  .hot:hover .hit { opacity: 1; }
+  .hot.active .hit { opacity: 1; }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* relationship box (config) */
+  .relbox { border: 1px solid var(--line); background: var(--surface); padding: 20px 22px; margin: 8px 0 10px; }
+  .relbox svg { display: block; width: 100%; height: auto; }
+  .relbox .rel-cap { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 8px; }
+
+  /* config library cards (reused doc pattern) */
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 13px 16px; cursor: pointer; transition: all 0.14s; }
+  .doc-card.backup { border-left-color: var(--green); }
+  .doc-card.golden { border-left-color: var(--gold); }
+  .doc-card:hover { border-color: var(--sky); transform: translateX(2px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card.backup.active { box-shadow: inset 0 0 0 2px var(--green); }
+  .doc-card.golden.active { box-shadow: inset 0 0 0 2px var(--gold); }
+  .doc-card .dc-name { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .doc-card .dc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 3px; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  /* series-complete banner */
+  .series-banner { background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(224,184,64,0.10)); border: 1px solid var(--sky); border-left-width: 4px; padding: 24px 30px; margin: 30px 0 0; display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: center; }
+  .series-banner .sb-icon { width: 52px; height: 52px; background: var(--navy-deep); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 20px; }
+  .series-banner h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .series-banner p { margin: 0; font-size: 14px; color: var(--ink-mid); max-width: 65ch; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 56px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage, .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .series-banner { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.1 Organizational Processes</span>
+    <span class="crumb">Explorer 3.1.3</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 3 of 3 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.1.3 · Change &amp; Config · ≈ 30 min</div>
+    <h1>Change it <em>on purpose.</em></h1>
+    <p class="lede">Most serious outages aren't caused by attackers \u2014 they're caused by a well-meaning admin making a quick, unreviewed change at 4 p.m. on a Friday. <b>Change management</b> exists to stop that: every change is requested, reviewed, approved, implemented in a window, and documented \u2014 with a rollback plan ready if it goes sideways. Its quiet partner is <b>configuration management</b>: knowing what the device is running now, having a backup to restore, and holding a known-good <b>baseline</b> to build from. Walk the change flow below, then see how the three config states relate.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.1 — change &amp; configuration management</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Change process · running/backup/baseline config</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Change-request flow + config-state explorer</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">3 of 3 · Docs / Life-cycle / Change &amp; Config</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Click the flow; explore the config states</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      change request · review/approval · rollback · production (running) config · backup config · baseline / golden config
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.1 covers <b>change management</b> (the request/approval process) and <b>configuration management</b> (production/running, backup, and baseline/golden configs). The exam tests the <i>purpose</i>: change management prevents unauthorized, risky changes and ensures a rollback plan; configuration management means you can always recover a known-good state. Know the difference between the <b>running</b> config (live now), a <b>backup</b> (restore from it), and the <b>baseline/golden</b> config (the approved standard).</p>
+  </div>
+
+  <div class="section-head">The change-management flow — click each step</div>
+  <h2 class="big">A change, done <em>right.</em></h2>
+  <p class="body">A controlled change moves through a defined sequence. Click each step to see what happens, who's involved, and why it matters. Notice that production isn't touched until the change has been <b>reviewed and approved</b> \u2014 and that a <b>rollback plan</b> is ready before anyone implements anything.</p>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <svg id="flow" viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+        <defs><marker id="fa" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#3D4685"/></marker>
+        <marker id="rb" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8E1F2E"/></marker></defs>
+
+        <!-- Step 1 Request -->
+        <g class="hot" id="request">
+          <rect class="hit" x="14" y="40" width="120" height="58" fill="rgba(56,176,224,0.14)"/>
+          <rect x="22" y="48" width="104" height="42" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <circle cx="38" cy="69" r="11" fill="#1A2050"/><text x="38" y="73" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="11">1</text>
+          <text x="86" y="66" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Request</text>
+          <text x="86" y="80" text-anchor="middle" fill="#767E92" font-size="8">submitted</text>
+        </g>
+        <line x1="134" y1="69" x2="166" y2="69" stroke="#3D4685" stroke-width="2.5" marker-end="url(#fa)"/>
+
+        <!-- Step 2 Review -->
+        <g class="hot" id="review">
+          <rect class="hit" x="168" y="40" width="120" height="58" fill="rgba(56,176,224,0.14)"/>
+          <rect x="176" y="48" width="104" height="42" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <circle cx="192" cy="69" r="11" fill="#1A2050"/><text x="192" y="73" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="11">2</text>
+          <text x="240" y="66" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Review</text>
+          <text x="240" y="80" text-anchor="middle" fill="#767E92" font-size="8">risk &amp; impact</text>
+        </g>
+        <line x1="288" y1="69" x2="320" y2="69" stroke="#3D4685" stroke-width="2.5" marker-end="url(#fa)"/>
+
+        <!-- Step 3 Approve -->
+        <g class="hot" id="approve">
+          <rect class="hit" x="322" y="40" width="120" height="58" fill="rgba(42,96,73,0.14)"/>
+          <rect x="330" y="48" width="104" height="42" fill="#E4F0E8" stroke="#2A6049" stroke-width="2" rx="3"/>
+          <circle cx="346" cy="69" r="11" fill="#2A6049"/><text x="346" y="73" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">3</text>
+          <text x="394" y="66" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Approve</text>
+          <text x="394" y="80" text-anchor="middle" fill="#767E92" font-size="8">authorize</text>
+        </g>
+        <!-- down arrow to implement -->
+        <line x1="382" y1="98" x2="382" y2="150" stroke="#3D4685" stroke-width="2.5" marker-end="url(#fa)"/>
+
+        <!-- Step 4 Implement -->
+        <g class="hot" id="implement">
+          <rect class="hit" x="168" y="150" width="240" height="58" fill="rgba(224,184,64,0.16)"/>
+          <rect x="176" y="158" width="224" height="42" fill="#FAF6E8" stroke="#B8932A" stroke-width="2" rx="3"/>
+          <circle cx="196" cy="179" r="11" fill="#B8932A"/><text x="196" y="183" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">4</text>
+          <text x="296" y="176" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Implement (maintenance window)</text>
+          <text x="296" y="190" text-anchor="middle" fill="#767E92" font-size="8">rollback plan on hand</text>
+        </g>
+        <line x1="176" y1="179" x2="144" y2="179" stroke="#3D4685" stroke-width="2.5" marker-end="url(#fa)"/>
+
+        <!-- Step 5 Document -->
+        <g class="hot" id="document">
+          <rect class="hit" x="14" y="150" width="120" height="58" fill="rgba(56,176,224,0.14)"/>
+          <rect x="22" y="158" width="104" height="42" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <circle cx="38" cy="179" r="11" fill="#1A2050"/><text x="38" y="183" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="11">5</text>
+          <text x="86" y="176" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Document</text>
+          <text x="86" y="190" text-anchor="middle" fill="#767E92" font-size="8">&amp; close</text>
+        </g>
+
+        <!-- rollback path -->
+        <path d="M 296 208 q 0 50 -120 50 q -120 0 -120 -42" fill="none" stroke="#8E1F2E" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#rb)"/>
+        <text x="200" y="276" text-anchor="middle" fill="#8E1F2E" font-size="9" font-weight="700">if it fails → ROLLBACK to last known-good config</text>
+      </svg>
+      <div class="explorer-hint">Click a step · <b id="flow-count">0/5</b> explored</div>
+    </div>
+    <div class="detail" id="flowDetail"><!-- populated by JS; default = request --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why the rollback plan is non-negotiable</h5>
+    <p>Approval should never be granted without a <b>rollback (back-out) plan</b> \u2014 a documented way to return to the previous known-good state if the change causes problems. This is the direct link between change management and configuration management: rolling back means <b>restoring a good configuration</b>, which only works if you actually have one saved.</p>
+  </div>
+
+  <div class="section-head">Configuration management — three states of "the config"</div>
+  <h2 class="big">Running, <em>saved,</em> standard.</h2>
+  <p class="body">"The configuration" actually means three different things, and the exam expects you to keep them straight. The <b>running</b> config is live right now; a <b>backup</b> is a saved copy you restore from; the <b>baseline/golden</b> config is the approved standard you build from. Here's how they flow into one another \u2014 then click each to dig in.</p>
+
+  <div class="relbox">
+    <svg viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+      <defs><marker id="ca" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#3D4685"/></marker></defs>
+      <!-- baseline -->
+      <rect x="20" y="52" width="180" height="50" fill="#FAF6E8" stroke="#B8932A" stroke-width="2.5" rx="4"/>
+      <text x="110" y="73" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Baseline / Golden</text>
+      <text x="110" y="89" text-anchor="middle" fill="#B8932A" font-size="9">the approved standard</text>
+      <!-- running -->
+      <rect x="270" y="52" width="180" height="50" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2.5" rx="4"/>
+      <text x="360" y="73" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Running (production)</text>
+      <text x="360" y="89" text-anchor="middle" fill="#1E8FBE" font-size="9">live on the device now</text>
+      <!-- backup -->
+      <rect x="520" y="52" width="180" height="50" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5" rx="4"/>
+      <text x="610" y="73" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Backup</text>
+      <text x="610" y="89" text-anchor="middle" fill="#2A6049" font-size="9">saved copy, off the device</text>
+      <!-- deploy arrow -->
+      <line x1="200" y1="70" x2="266" y2="70" stroke="#3D4685" stroke-width="2.5" marker-end="url(#ca)"/>
+      <text x="233" y="62" text-anchor="middle" fill="#3D4685" font-size="8">deploy / build</text>
+      <!-- save arrow -->
+      <line x1="450" y1="70" x2="516" y2="70" stroke="#3D4685" stroke-width="2.5" marker-end="url(#ca)"/>
+      <text x="483" y="62" text-anchor="middle" fill="#3D4685" font-size="8">save / back up</text>
+      <!-- restore arrow (below, backup -> running) -->
+      <path d="M 610 102 q 0 30 -250 30 q -130 0 -130 -24" fill="none" stroke="#2A6049" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ca)"/>
+      <text x="430" y="140" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">restore after a failure or bad change</text>
+      <!-- drift compare (above, baseline <-> running) -->
+      <path d="M 110 52 q 0 -34 125 -34 q 125 0 125 30" fill="none" stroke="#8E1F2E" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <text x="235" y="12" text-anchor="middle" fill="#8E1F2E" font-size="9">compare running vs baseline → detect drift</text>
+    </svg>
+    <div class="rel-cap">build from the baseline · save backups of running · restore when something breaks</div>
+  </div>
+
+  <div class="explorer">
+    <div class="doc-stage">
+      <div class="doc-grid" id="cfgGrid">
+        <div class="doc-card active" id="running"><div class="dc-name">Running / production config</div><div class="dc-tag">live on the device right now</div></div>
+        <div class="doc-card backup" id="backup"><div class="dc-name">Backup configuration</div><div class="dc-tag">saved copy to restore from</div></div>
+        <div class="doc-card golden" id="golden"><div class="dc-name">Baseline / golden config</div><div class="dc-tag">the approved standard</div></div>
+      </div>
+      <div class="doc-hint">Click a config state · <b id="cfg-count">1/3</b> explored</div>
+    </div>
+    <div class="detail" id="cfgDetail"><!-- populated by JS; default = running --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Backup vs baseline — easy to confuse</h5>
+    <p>A <b>backup</b> is "a saved copy of <i>this device's</i> current config, so I can put it back." A <b>baseline/golden</b> config is "the approved <i>standard</i> a device of this role <i>should</i> match." You restore from a <b>backup</b>; you build new devices from \u2014 and compare for drift against \u2014 the <b>baseline</b>.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What is the main purpose of a change-management process?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">To ensure changes are reviewed, approved, scheduled, and documented — preventing risky, unauthorized changes</button>
+      <button class="kc-opt" data-correct="false">To make changes faster by skipping approvals</button>
+      <button class="kc-opt" data-correct="false">To assign IP addresses to new devices</button>
+      <button class="kc-opt" data-correct="false">To monitor real-time bandwidth usage</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Before a change is approved, why is a <b>rollback (back-out) plan</b> required?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">To speed up the implementation</button>
+      <button class="kc-opt" data-correct="true">So the team can return to the previous known-good state if the change causes problems</button>
+      <button class="kc-opt" data-correct="false">To avoid documenting the change later</button>
+      <button class="kc-opt" data-correct="false">Because it replaces the need for testing</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>What is the <b>running (production)</b> configuration?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">The configuration currently active and controlling the device right now</button>
+      <button class="kc-opt" data-correct="false">A saved copy stored off the device for recovery</button>
+      <button class="kc-opt" data-correct="false">The vendor's default factory settings</button>
+      <button class="kc-opt" data-correct="false">The approved standard template for new devices</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>A device fails and is replaced. What lets you quickly bring the new unit to the same working state?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">The running config that was lost with the failed device</button>
+      <button class="kc-opt" data-correct="true">Restoring from a saved backup configuration</button>
+      <button class="kc-opt" data-correct="false">The wireless heat map</button>
+      <button class="kc-opt" data-correct="false">The SLA document</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>What is a <b>baseline (golden) configuration</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">The live config running in memory at this moment</button>
+      <button class="kc-opt" data-correct="true">The approved standard config a device should match — used to build new devices and detect configuration drift</button>
+      <button class="kc-opt" data-correct="false">A log of every packet the device has forwarded</button>
+      <button class="kc-opt" data-correct="false">The contract defining uptime guarantees</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Change management</div><div class="t-def">The process of requesting, reviewing, approving, implementing, and documenting changes so they're controlled rather than ad-hoc.</div></div>
+    <div class="term"><div class="t-name">Rollback / back-out plan</div><div class="t-def">A pre-defined way to return to the previous known-good state if a change fails. Required before approval.</div></div>
+    <div class="term"><div class="t-name">Maintenance window</div><div class="t-def">A scheduled period during which approved changes are implemented to minimize disruption to users.</div></div>
+    <div class="term"><div class="t-name">Running / production config</div><div class="t-def">The configuration currently active on a device. On many devices it lives in volatile memory and is lost on reboot unless saved.</div></div>
+    <div class="term"><div class="t-name">Backup config</div><div class="t-def">A saved copy of a device's configuration, stored off the device, used to restore after failure or a bad change.</div></div>
+    <div class="term"><div class="t-name">Baseline / golden config</div><div class="t-def">The approved standard configuration a device should match — used to build new devices and to detect configuration drift.</div></div>
+  </div>
+
+  <div class="series-banner">
+    <div class="sb-icon">★</div>
+    <div>
+      <h3>That completes the 3.1 Organizational Processes explorer series.</h3>
+      <p>Across three explorers you've covered documentation (physical/logical and Layer 1/2/3 diagrams plus the core document types), life-cycle management (EOL, EOS, software/firmware updates, decommissioning), and change &amp; configuration management. A 25-question subtopic quiz \u2014 same format as the routing, switching, and wireless quizzes \u2014 ties it together.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.1.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.1 Organizational Processes</b>. Covers change management (the request/approval/implementation/documentation flow with rollback) and configuration management (running, backup, and baseline/golden configs). Completes the 3.1 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.1.1 · Documentation &amp; Diagrams</p>
+      <p style="opacity:0.55">3.1.2 · Life-cycle Management</p>
+      <p>3.1.3 · Change &amp; Configuration Management ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Change-management flow ===== */
+var FLOW = {
+  request: {
+    cat: 'Change management · step 1', title: 'Request Submitted', abbr: 'the change request (RFC)',
+    body: 'A change begins as a <b>documented request</b>, not an ad-hoc edit. It states <b>what</b> will change, <b>why</b>, <b>who</b> is asking, and the expected <b>impact</b>. Production is not touched at this stage.',
+    facts: ['Describe the change and its purpose.', 'Identify the affected systems.', 'Propose a schedule / window.', 'Capture the requester for accountability.'],
+    exam: { lab:'Exam note', text:'A controlled change <b>starts as a request</b>. If someone edits production with no request, that\u2019s exactly what change management exists to prevent.' }
+  },
+  review: {
+    cat: 'Change management · step 2', title: 'Reviewed & Assessed', abbr: 'risk & impact analysis',
+    body: 'The request is <b>evaluated for risk and impact</b> \u2014 often by an approver or a Change Advisory Board (CAB). They weigh benefit against risk, check for conflicts with other work, and confirm a <b>rollback plan</b> exists.',
+    facts: ['Assess <b>risk and impact</b> on services.', 'Check for scheduling conflicts.', 'Require a <b>rollback / back-out plan</b>.', 'Recommend approve or reject.'],
+    exam: { lab:'Exam note', text:'Review is where risk is judged and a <b>rollback plan is mandated</b> before anything is approved.' }
+  },
+  approve: {
+    cat: 'Change management · step 3', title: 'Approved', abbr: 'authorization to proceed',
+    body: 'An authorized approver <b>signs off</b> (or rejects). Approval authorizes the change and its scheduled window. Without it, the change does not proceed \u2014 this is what stops unauthorized edits.',
+    facts: ['Formal <b>sign-off</b> by an authority.', 'Confirms the maintenance window.', 'Rejected changes return to the requester.', 'Creates a clear accountability trail.'],
+    exam: { lab:'Exam note', text:'Approval = <b>authorization</b>. No approval, no change. This gate is the heart of why change management prevents risky surprises.' }
+  },
+  implement: {
+    cat: 'Change management · step 4', title: 'Implemented', abbr: 'in the maintenance window',
+    body: 'The change is made during the <b>approved maintenance window</b>, following the documented steps, with the <b>rollback plan ready</b>. If something goes wrong, the team reverts to the last known-good state.',
+    facts: ['Execute during the scheduled window.', 'Follow the documented procedure.', 'Keep the <b>rollback plan</b> on hand.', 'Test and verify the result.'],
+    exam: { lab:'Exam note', text:'Implementation is <b>controlled</b>: a window to limit disruption and a rollback ready in case of failure. Rolling back means restoring a good config.' }
+  },
+  document: {
+    cat: 'Change management · step 5', title: 'Documented & Closed', abbr: 'update the records',
+    body: 'The outcome is <b>recorded</b>: what changed, when, by whom, and the result. Network documentation and diagrams are updated, the <b>config backup is refreshed</b>, and the change record is closed.',
+    facts: ['Record what changed and the result.', 'Update network docs / diagrams.', 'Refresh the <b>configuration backup</b>.', 'Close out the change record.'],
+    exam: { lab:'Exam note', text:'A change isn\u2019t finished until it\u2019s <b>documented</b> and the records/backups reflect the new reality.' }
+  }
+};
+var flowSeen = new Set();
+var FLKEY = 'cbt-explorer-3.1.3-flow';
+try { (JSON.parse(localStorage.getItem(FLKEY) || '[]')).forEach(function(x){ flowSeen.add(x); }); } catch(e){}
+
+function renderFlow(id){
+  var d = FLOW[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('flowDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('#flow .hot').forEach(function(h){ h.classList.toggle('active', h.id === id); });
+  flowSeen.add(id);
+  try { localStorage.setItem(FLKEY, JSON.stringify([].concat(Array.from(flowSeen)))); } catch(e){}
+  document.getElementById('flow-count').textContent = flowSeen.size + '/5';
+}
+document.querySelectorAll('#flow .hot').forEach(function(h){
+  h.addEventListener('click', function(){ renderFlow(h.id); });
+});
+flowSeen.add('request');
+renderFlow('request');
+document.getElementById('flow-count').textContent = flowSeen.size + '/5';
+
+/* ===== Configuration states ===== */
+var CFG = {
+  running: {
+    cat: 'Configuration · live', title: 'Running / Production Config', abbr: 'active right now',
+    body: 'The <b>running configuration</b> is the live, active config currently controlling the device. On many devices it lives in <b>volatile memory</b>, so unsaved changes are <b>lost on reboot</b> unless written to startup/saved.',
+    facts: ['The config <b>in use right now</b>.', 'Reflects every current change, including unsaved ones.', 'Often in volatile memory \u2014 <b>lost on reboot if not saved</b>.', 'This is what you back up to preserve.'],
+    exam: { lab:'Answers', text:'"<b>What is the device actually doing right now?</b>"' }
+  },
+  backup: {
+    cat: 'Configuration · recovery', title: 'Backup Configuration', abbr: 'saved copy to restore',
+    body: 'A <b>backup configuration</b> is a saved copy of a device\u2019s config, stored <b>off the device</b>, that you can <b>restore</b> from after a failure, a bad change, or a hardware replacement.',
+    facts: ['A saved copy kept <b>off the device</b>.', 'Used to <b>restore</b> a known-good state.', 'Take regularly \u2014 and after every change.', 'Enables fast recovery and device swaps.'],
+    exam: { lab:'Answers', text:'"<b>How do we get back to a known-good state?</b>"' }
+  },
+  golden: {
+    cat: 'Configuration · standard', title: 'Baseline / Golden Config', abbr: 'the approved standard',
+    body: 'The <b>baseline (golden) configuration</b> is the approved, standardized <b>reference</b> config a device of a given role should match. New devices are built from it; live devices are compared against it to detect <b>drift</b>.',
+    facts: ['The <b>approved standard / reference</b> config.', 'New devices are <b>built from it</b> for consistency.', 'Live configs <b>compared to it</b> to catch drift.', 'Often called the <b>golden</b> config.'],
+    exam: { lab:'Answers', text:'"<b>What should this device\u2019s config look like?</b>"' }
+  }
+};
+var cfgSeen = new Set();
+var CFKEY = 'cbt-explorer-3.1.3-cfg';
+try { (JSON.parse(localStorage.getItem(CFKEY) || '[]')).forEach(function(x){ cfgSeen.add(x); }); } catch(e){}
+
+function renderCfg(id){
+  var d = CFG[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('cfgDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('#cfgGrid .doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  cfgSeen.add(id);
+  try { localStorage.setItem(CFKEY, JSON.stringify([].concat(Array.from(cfgSeen)))); } catch(e){}
+  document.getElementById('cfg-count').textContent = cfgSeen.size + '/3';
+}
+document.querySelectorAll('#cfgGrid .doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderCfg(c.id); });
+});
+cfgSeen.add('running');
+renderCfg('running');
+document.getElementById('cfg-count').textContent = cfgSeen.size + '/3';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.1.3-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. Change management makes changes <b>reviewed, approved, scheduled, and documented</b>.', no: 'Not quite. The purpose of <b>change management</b> is controlled change \u2014 reviewed, approved, scheduled, documented \u2014 not faster or unreviewed change.' },
+  '2': { ok: 'Correct. A <b>rollback plan</b> lets you return to the last known-good state if the change fails.', no: 'Not quite. A <b>rollback (back-out) plan</b> exists so you can revert to the previous known-good state if the change causes problems.' },
+  '3': { ok: 'Correct. The <b>running/production</b> config is what\u2019s active and controlling the device now.', no: 'Not quite. The <b>running (production)</b> config is the live, active configuration in use right now \u2014 not a saved copy or a standard template.' },
+  '4': { ok: 'Correct. Restoring from a <b>backup configuration</b> brings the replacement to the working state fast.', no: 'Not quite. You\u2019d <b>restore from a backup configuration</b> \u2014 a saved copy kept off the device \u2014 to bring the new unit up quickly.' },
+  '5': { ok: 'Correct. The <b>baseline/golden</b> config is the approved standard, used to build devices and detect drift.', no: 'Not quite. A <b>baseline (golden)</b> config is the approved standard a device should match \u2014 used to build new devices and catch configuration drift.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
