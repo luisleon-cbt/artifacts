@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 2.4.1 · Locations: MDF &amp; IDF · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== INTERACTIVE EXPLORER STAGE ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .explorer-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .explorer-hint b { color: var(--sky-deep); }
+
+  .hot { cursor: pointer; }
+  .hot .hit { transition: opacity 0.15s; opacity: 0; }
+  .hot:hover .hit { opacity: 1; }
+  .hot.active .hit { opacity: 1; }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 6px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.idf { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.idf .mc-tag { color: var(--gold-deep); }
+  .method-card .mc-badge { position: absolute; top: -1px; right: -1px; padding: 4px 12px; background: var(--sky-deep); color: white; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; }
+  .method-card.idf .mc-badge { background: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 100px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+
+  /* Cabling cards (2-up) */
+  .cab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .cab-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; border-top: 5px solid var(--navy-soft); }
+  .cab-card.horiz { border-top-color: var(--green); }
+  .cab-card .cc-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 2px; }
+  .cab-card .cc-also { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 10px; }
+  .cab-card p { font-size: 13px; color: var(--ink-mid); margin: 0 0 8px; line-height: 1.55; }
+  .cab-card p b { color: var(--navy-deep); }
+  .cab-card .cc-spec { font-family: var(--ff-mono); font-size: 11px; color: var(--ink); border-top: 1px dotted var(--line-soft); padding-top: 8px; }
+  .cab-card .cc-spec b { color: var(--navy-deep); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .method-grid, .cab-grid, .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.4 Physical Installations</span>
+    <span class="crumb">Explorer 2.4.1</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 1 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 2.4.1 · Locations · ≈ 25 min</div>
+    <h1>Where the network <em>lives.</em></h1>
+    <p class="lede">Before a single packet moves, the physical network has to live <i>somewhere</i> — in wiring closets and equipment rooms laid out to a deliberate hierarchy. The <b>Main Distribution Frame (MDF)</b> is the building's central nervous system, where the outside world connects in. <b>Intermediate Distribution Frames (IDFs)</b> are the floor-level closets that fan that connectivity out to the desks. Get this layout wrong and you get long cable runs, dead floors, and a maintenance nightmare. Click through the building below to see how it all fits together.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">2.4 — physical installation locations</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">MDF, IDF, and the cabling between them</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Interactive — click the building, then self-check</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">1 of 3 · Locations / Power / Environmental</span></div>
+    <div class="ref-row"><span class="name">No install</span><span class="desc">Concept explorer — nothing to configure</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      MDF · IDF · demarcation point · backbone (vertical) cabling · horizontal cabling · cross-connect · work area
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 2.4 asks you to "explain important factors of physical installations." Unlike routing or switching, there's nothing to configure here — it's <b>facilities knowledge</b>: where equipment goes and how the building's wiring is organized. The exam tests the <b>MDF vs IDF</b> relationship directly ("Which connects to the ISP demarc?", "How many MDFs does a building have?"), so this explorer makes that hierarchy spatial. Everything here is vendor-neutral and applies to any building's structured cabling.</p>
+  </div>
+
+  <div class="section-head">Interactive building — click any element</div>
+  <h2 class="big">The distribution <em>hierarchy.</em></h2>
+  <p class="body">This is a three-floor office. Click the highlighted parts — the service entrance, the MDF, an IDF, and the cabling — to learn what each does and how they relate. Notice the shape of it: <b>everything funnels down to one MDF</b>, and each floor has its own IDF that uplinks to it.</p>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <svg id="bldg" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+        <!-- building outline -->
+        <rect x="40" y="40" width="340" height="380" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2"/>
+        <!-- floor dividers -->
+        <line x1="40" y1="166" x2="380" y2="166" stroke="#C6C6BE" stroke-width="1.5"/>
+        <line x1="40" y1="292" x2="380" y2="292" stroke="#C6C6BE" stroke-width="1.5"/>
+        <!-- floor labels -->
+        <text x="48" y="58" fill="#989890" font-size="9">FLOOR 3</text>
+        <text x="48" y="184" fill="#989890" font-size="9">FLOOR 2</text>
+        <text x="48" y="310" fill="#989890" font-size="9">FLOOR 1 (GROUND)</text>
+
+        <!-- backbone (vertical) cabling -->
+        <g class="hot" id="backbone">
+          <rect class="hit" x="96" y="44" width="28" height="300" fill="rgba(40,48,104,0.10)" stroke="#283068" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <line x1="110" y1="118" x2="110" y2="335" stroke="#3D4685" stroke-width="4"/>
+          <text x="110" y="62" text-anchor="middle" fill="#283068" font-size="8" font-weight="700">BACK-</text>
+          <text x="110" y="72" text-anchor="middle" fill="#283068" font-size="8" font-weight="700">BONE</text>
+        </g>
+
+        <!-- IDF-3 -->
+        <g class="hot" id="idf3">
+          <rect class="hit" x="84" y="92" width="56" height="50" fill="rgba(224,184,64,0.18)"/>
+          <rect x="92" y="100" width="40" height="34" fill="#FAF6E8" stroke="#B8932A" stroke-width="2"/>
+          <text x="112" y="121" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">IDF-3</text>
+        </g>
+        <!-- horizontal run floor 3 -->
+        <line x1="132" y1="117" x2="320" y2="117" stroke="#2A6049" stroke-width="2"/>
+
+        <!-- IDF-2 -->
+        <g class="hot" id="idf2">
+          <rect class="hit" x="84" y="218" width="56" height="50" fill="rgba(224,184,64,0.18)"/>
+          <rect x="92" y="226" width="40" height="34" fill="#FAF6E8" stroke="#B8932A" stroke-width="2"/>
+          <text x="112" y="247" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">IDF-2</text>
+        </g>
+        <!-- horizontal run floor 2 (clickable) -->
+        <g class="hot" id="horizontal">
+          <rect class="hit" x="132" y="236" width="190" height="14" fill="rgba(42,96,73,0.15)"/>
+          <line x1="132" y1="243" x2="320" y2="243" stroke="#2A6049" stroke-width="2"/>
+        </g>
+
+        <!-- MDF (ground floor, larger) -->
+        <g class="hot" id="mdf">
+          <rect class="hit" x="84" y="312" width="86" height="92" fill="rgba(56,176,224,0.16)"/>
+          <rect x="92" y="320" width="70" height="76" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2.5"/>
+          <text x="127" y="352" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">MDF</text>
+          <text x="127" y="368" text-anchor="middle" fill="#1E8FBE" font-size="8">main room</text>
+        </g>
+        <!-- horizontal run floor 1 -->
+        <line x1="162" y1="360" x2="320" y2="360" stroke="#2A6049" stroke-width="2"/>
+
+        <!-- work areas (right side, each floor) -->
+        <g class="hot" id="workarea">
+          <rect class="hit" x="300" y="96" width="74" height="42" fill="rgba(150,152,144,0.12)"/>
+          <rect class="hit" x="300" y="222" width="74" height="42" fill="rgba(150,152,144,0.12)"/>
+          <rect class="hit" x="300" y="340" width="74" height="42" fill="rgba(150,152,144,0.12)"/>
+          <rect x="320" y="104" width="16" height="26" fill="#fff" stroke="#767E92" stroke-width="1.5"/>
+          <rect x="320" y="230" width="16" height="26" fill="#fff" stroke="#767E92" stroke-width="1.5"/>
+          <rect x="320" y="348" width="16" height="26" fill="#fff" stroke="#767E92" stroke-width="1.5"/>
+          <text x="345" y="120" fill="#767E92" font-size="8">desk</text>
+          <text x="345" y="246" fill="#767E92" font-size="8">desk</text>
+          <text x="345" y="364" fill="#767E92" font-size="8">desk</text>
+        </g>
+
+        <!-- demarc (exterior, bottom-left) -->
+        <g class="hot" id="demarc">
+          <rect class="hit" x="2" y="350" width="44" height="40" fill="rgba(142,31,46,0.14)"/>
+          <rect x="8" y="356" width="30" height="28" fill="#F7E9EB" stroke="#8E1F2E" stroke-width="2"/>
+          <text x="23" y="374" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="8">ISP</text>
+          <line x1="38" y1="370" x2="92" y2="360" stroke="#8E1F2E" stroke-width="2"/>
+        </g>
+        <text x="23" y="404" text-anchor="middle" fill="#8E1F2E" font-size="8">demarc</text>
+      </svg>
+      <div class="explorer-hint">Click a highlighted element · <b id="hint-count">0/7</b> explored</div>
+    </div>
+
+    <div class="detail" id="detail">
+      <!-- populated by JS; default = MDF -->
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The one-sentence rule the exam wants</h5>
+    <p>A building has <b>exactly one MDF</b> (the central hub where the ISP demarc and core equipment live) and <b>many IDFs</b> (floor- or zone-level closets that uplink to the MDF over backbone cabling). If you remember only that, you'll answer most 2.4 location questions correctly.</p>
+  </div>
+
+  <div class="section-head">MDF vs IDF — the core comparison</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-badge">One per building</div>
+      <div class="mc-tag">CENTRAL HUB</div>
+      <h4>MDF — Main Distribution Frame</h4>
+      <div class="mc-row"><div class="k">How many</div><div class="v">Exactly one per building</div></div>
+      <div class="mc-row"><div class="k">Contains</div><div class="v">ISP demarc, core/distribution switches, main cross-connect, often servers</div></div>
+      <div class="mc-row"><div class="k">Connects to</div><div class="v">The outside world (WAN) and every IDF</div></div>
+      <div class="mc-row"><div class="k">Think of it as</div><div class="v">The trunk of the tree</div></div>
+    </div>
+    <div class="method-card idf">
+      <div class="mc-badge">Many per building</div>
+      <div class="mc-tag">FLOOR / ZONE CLOSET</div>
+      <h4>IDF — Intermediate Distribution Frame</h4>
+      <div class="mc-row"><div class="k">How many</div><div class="v">One or more per floor/zone</div></div>
+      <div class="mc-row"><div class="k">Contains</div><div class="v">Access switches, patch panels for that area</div></div>
+      <div class="mc-row"><div class="k">Connects to</div><div class="v">The MDF (uplink) + local work areas</div></div>
+      <div class="mc-row"><div class="k">Think of it as</div><div class="v">A branch off the trunk</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">The two kinds of cabling</div>
+  <p class="body">Structured cabling comes in two roles, and the distinction matters on the exam. <b>Backbone</b> cabling is the high-capacity vertical spine between closets; <b>horizontal</b> cabling is the runs from a closet out to the desks.</p>
+  <div class="cab-grid">
+    <div class="cab-card">
+      <div class="cc-name">Backbone cabling</div>
+      <div class="cc-also">a.k.a. vertical cabling / riser</div>
+      <p>Connects the <b>MDF to each IDF</b> (and sometimes IDF-to-IDF). Carries aggregated traffic between closets, so it needs high capacity and often spans long vertical distances between floors.</p>
+      <div class="cc-spec"><b>Usually:</b> fiber optic (distance + bandwidth)</div>
+    </div>
+    <div class="cab-card horiz">
+      <div class="cc-name">Horizontal cabling</div>
+      <div class="cc-also">closet-to-work-area</div>
+      <p>Runs from an <b>IDF out to the work-area outlets</b> on that floor. This is the cabling that reaches individual desks, phones, and access points.</p>
+      <div class="cc-spec"><b>Usually:</b> copper (Cat 6 / 6A) · ~90 m permanent link, 100 m channel</div>
+    </div>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Four quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 4 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>How many Main Distribution Frames (MDFs) does a typical single building have?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">One per floor</button>
+      <button class="kc-opt" data-correct="true">Exactly one for the whole building</button>
+      <button class="kc-opt" data-correct="false">One per work area</button>
+      <button class="kc-opt" data-correct="false">As many as there are switches</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Where does the ISP's connection (the demarcation point) typically enter and terminate?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">In each IDF</button>
+      <button class="kc-opt" data-correct="false">At every work area outlet</button>
+      <button class="kc-opt" data-correct="true">In or near the MDF</button>
+      <button class="kc-opt" data-correct="false">Outdoors only, never inside</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>Which cabling connects an IDF back to the MDF?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">Backbone (vertical) cabling</button>
+      <button class="kc-opt" data-correct="false">Horizontal cabling</button>
+      <button class="kc-opt" data-correct="false">A patch cord at the desk</button>
+      <button class="kc-opt" data-correct="false">The demarc extension</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Horizontal cabling from an IDF to the work area is most commonly which medium, with roughly what distance limit?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Fiber, ~10 km limit</button>
+      <button class="kc-opt" data-correct="true">Copper (Cat 6/6A), ~100 m channel limit</button>
+      <button class="kc-opt" data-correct="false">Coax, ~500 m limit</button>
+      <button class="kc-opt" data-correct="false">Wireless, no distance limit</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">MDF</div><div class="t-def">Main Distribution Frame — the building's single central equipment room where the WAN/demarc terminates and core equipment lives.</div></div>
+    <div class="term"><div class="t-name">IDF</div><div class="t-def">Intermediate Distribution Frame — a floor- or zone-level wiring closet that aggregates local cabling and uplinks to the MDF.</div></div>
+    <div class="term"><div class="t-name">Demarcation point</div><div class="t-def">The boundary where the service provider's responsibility ends and the customer's network begins.</div></div>
+    <div class="term"><div class="t-name">Backbone cabling</div><div class="t-def">Vertical/riser cabling connecting the MDF to IDFs (and IDF-to-IDF); typically fiber for distance and capacity.</div></div>
+    <div class="term"><div class="t-name">Horizontal cabling</div><div class="t-def">Cabling from an IDF to work-area outlets; typically Cat 6/6A copper within the ~100 m channel limit.</div></div>
+    <div class="term"><div class="t-name">Cross-connect</div><div class="t-def">The patch-panel point in an MDF/IDF where cabling is interconnected and managed.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 2.4.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">2.4 Physical Installations</b>. Covers the physical-location hierarchy — MDF, IDF, the demarcation point, and backbone vs horizontal cabling — through an interactive building model. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p>2.4.1 · Locations (MDF &amp; IDF) ← you are here</p>
+      <p style="opacity:0.55">2.4.2 · Power (UPS, PDU, load, voltage)</p>
+      <p style="opacity:0.55">2.4.3 · Environmental (temp, humidity, fire)</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Building explorer: click-to-detail ===== */
+const DETAILS = {
+  mdf: {
+    cat: 'Equipment location · central',
+    title: 'Main Distribution Frame',
+    abbr: 'MDF',
+    body: 'The <b>MDF</b> is the building\u2019s primary equipment room \u2014 the single point where the outside connection comes in and the network\u2019s core lives. Everything else in the building ultimately connects back here.',
+    facts: [
+      'There is <b>exactly one MDF</b> per building.',
+      'The ISP <b>demarcation point</b> terminates here.',
+      'Houses core / distribution switches and the <b>main cross-connect</b>.',
+      'Every <b>IDF connects back to the MDF</b> over backbone cabling.'
+    ],
+    exam: { lab: 'Exam note', text: 'If asked where the WAN/ISP link enters or where the core equipment sits, the answer is the <b>MDF</b> \u2014 and remember there is only one.' }
+  },
+  idf2: {
+    cat: 'Equipment location · floor closet',
+    title: 'Intermediate Distribution Frame',
+    abbr: 'IDF-2 (Floor 2)',
+    body: 'An <b>IDF</b> is a smaller wiring closet that serves one floor or zone. It collects the horizontal cabling from nearby desks and <b>uplinks to the MDF</b>. This one serves Floor 2.',
+    facts: [
+      'A building has <b>many IDFs</b> \u2014 typically one or more per floor.',
+      'Contains <b>access switches</b> and patch panels for its area.',
+      'Connects up to the MDF via <b>backbone cabling</b>.',
+      'Connects out to local desks via <b>horizontal cabling</b>.'
+    ],
+    exam: { lab: 'Exam note', text: 'IDFs exist to keep horizontal cable runs short. Each IDF is a branch; the <b>MDF is the trunk</b> they all return to.' }
+  },
+  idf3: {
+    cat: 'Equipment location · floor closet',
+    title: 'Intermediate Distribution Frame',
+    abbr: 'IDF-3 (Floor 3)',
+    body: 'Another <b>IDF</b>, this one serving Floor 3. Notice the pattern: <b>each floor gets its own IDF</b>, and all of them run back down to the single MDF on the ground floor.',
+    facts: [
+      'Same role as IDF-2, just a different floor.',
+      'Keeps Floor 3\u2019s horizontal runs within the distance limit.',
+      'Uplinks to the MDF over the shared <b>backbone</b>.',
+      'Multiple IDFs = the "many" side of the one-MDF / many-IDF rule.'
+    ],
+    exam: { lab: 'Exam note', text: 'Spotting multiple IDFs in a diagram is the visual cue for the <b>many-IDFs-to-one-MDF</b> hierarchy the exam tests.' }
+  },
+  demarc: {
+    cat: 'Service boundary',
+    title: 'Demarcation Point',
+    abbr: 'demarc',
+    body: 'The <b>demarcation point</b> ("demarc") is where the <b>service provider\u2019s responsibility ends and yours begins</b>. The ISP\u2019s circuit enters the building here, usually feeding straight into the MDF.',
+    facts: [
+      'Marks the <b>ISP \u2194 customer</b> boundary of responsibility.',
+      'The service entrance into the building.',
+      'Typically located in or adjacent to the <b>MDF</b>.',
+      'Beyond it, the internal network (cross-connects, switches) is yours.'
+    ],
+    exam: { lab: 'Exam note', text: 'If a fault is <b>before</b> the demarc it\u2019s the provider\u2019s problem; <b>after</b> it, it\u2019s yours. That ownership line is the whole point of the term.' }
+  },
+  backbone: {
+    cat: 'Structured cabling · vertical',
+    title: 'Backbone Cabling',
+    abbr: 'vertical / riser',
+    body: 'The <b>backbone</b> (or vertical/riser) cabling is the high-capacity spine that connects the <b>MDF to each IDF</b>. It carries the aggregated traffic of a whole floor between closets.',
+    facts: [
+      'Connects <b>MDF \u2194 IDF</b> (and sometimes IDF \u2194 IDF).',
+      'Carries <b>aggregated</b> traffic, so it needs high capacity.',
+      'Usually <b>fiber optic</b> for distance and bandwidth.',
+      'Runs vertically between floors (hence "riser").'
+    ],
+    exam: { lab: 'Exam note', text: 'Backbone = between closets, high capacity, usually fiber. Contrast with <b>horizontal</b> = closet to desk, usually copper.' }
+  },
+  horizontal: {
+    cat: 'Structured cabling · horizontal',
+    title: 'Horizontal Cabling',
+    abbr: 'closet-to-desk',
+    body: 'The <b>horizontal</b> cabling runs from an <b>IDF out to the work-area outlets</b> on that floor \u2014 the cable that actually reaches a desk, phone, or access point.',
+    facts: [
+      'Connects an <b>IDF to work-area</b> wall jacks.',
+      'Usually <b>copper, Cat 6 / 6A</b>.',
+      'Distance limit: <b>~90 m permanent link, 100 m channel</b>.',
+      'This limit is <i>why</i> IDFs exist \u2014 to keep runs short.'
+    ],
+    exam: { lab: 'Exam note', text: 'The <b>100 m</b> copper limit is a classic exam number, and it directly explains the need for floor-level IDFs.' }
+  },
+  workarea: {
+    cat: 'End-user space',
+    title: 'Work Area',
+    abbr: 'the desk',
+    body: 'The <b>work area</b> is where end devices \u2014 PCs, IP phones, access points \u2014 plug into wall outlets. Each outlet\u2019s horizontal cable runs back to that floor\u2019s IDF.',
+    facts: [
+      'Where users and their devices connect.',
+      'Wall jacks terminate the <b>horizontal cabling</b>.',
+      'A short <b>patch cord</b> links the device to the wall jack.',
+      'Cabling path: device \u2192 wall jack \u2192 IDF \u2192 backbone \u2192 MDF.'
+    ],
+    exam: { lab: 'Exam note', text: 'Trace the full path the exam loves: <b>work area \u2192 IDF \u2192 MDF</b>. Horizontal gets you to the IDF; backbone gets you to the MDF.' }
+  }
+};
+
+const explored = new Set();
+const HINTKEY = 'cbt-explorer-2.4.1-seen';
+try { (JSON.parse(localStorage.getItem(HINTKEY) || '[]')).forEach(x => explored.add(x)); } catch(e){}
+
+function renderDetail(id){
+  const d = DETAILS[id];
+  if(!d) return;
+  const facts = d.facts.map(f => '<li>' + f + '</li>').join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.hot').forEach(h => h.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  explored.add(id);
+  try { localStorage.setItem(HINTKEY, JSON.stringify([...explored])); } catch(e){}
+  updateHint();
+}
+function updateHint(){
+  document.getElementById('hint-count').textContent = explored.size + '/7';
+}
+document.querySelectorAll('.hot').forEach(h => {
+  h.addEventListener('click', () => renderDetail(h.id));
+});
+renderDetail('mdf');   // default view
+updateHint();
+
+/* ===== Knowledge check ===== */
+const KCKEY = 'cbt-explorer-2.4.1-kc';
+let kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+const KC_TOTAL = 4;
+const KC_FB = {
+  '1': { ok: 'Correct. A building has <b>exactly one MDF</b> \u2014 the single central hub.', no: 'Not quite. A building has <b>exactly one MDF</b>; it\u2019s the IDFs that are many (one or more per floor).' },
+  '2': { ok: 'Correct. The ISP <b>demarc</b> terminates in or near the <b>MDF</b>.', no: 'Not quite. The demarcation point enters at the <b>MDF</b>, the building\u2019s central room \u2014 not at each IDF or desk.' },
+  '3': { ok: 'Correct. <b>Backbone (vertical)</b> cabling links each IDF to the MDF.', no: 'Not quite. <b>Backbone/vertical</b> cabling connects IDF to MDF; horizontal cabling goes from the IDF out to desks.' },
+  '4': { ok: 'Correct. Horizontal runs are usually <b>Cat 6/6A copper</b>, ~100 m channel limit.', no: 'Not quite. Horizontal cabling is typically <b>copper (Cat 6/6A)</b> with a ~100 m channel limit \u2014 that limit is why IDFs exist.' }
+};
+function lockCard(card, correctChosen){
+  card.querySelectorAll('.kc-opt').forEach(o => {
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(card => {
+    const q = card.dataset.q;
+    const fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){
+        // mark nothing extra; correct already shown
+        fb.className = 'kc-fb show no';
+        fb.innerHTML = KC_FB[q].no;
+      } else {
+        fb.className = 'kc-fb show ok';
+        fb.innerHTML = KC_FB[q].ok;
+      }
+    }
+  });
+  const correct = Object.values(kcState).filter(v => v === 'correct').length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+document.querySelectorAll('.kc-card').forEach(card => {
+  const q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(kcState[q]) return; // already answered
+      const isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      const fb = card.querySelector('.kc-fb');
+      if(isCorrect){
+        kcState[q] = 'correct';
+        fb.className = 'kc-fb show ok';
+        fb.innerHTML = KC_FB[q].ok;
+      } else {
+        kcState[q] = 'wrong';
+        opt.classList.add('wrong');
+        fb.className = 'kc-fb show no';
+        fb.innerHTML = KC_FB[q].no;
+      }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      const correct = Object.values(kcState).filter(v => v === 'correct').length;
+      document.getElementById('kc-count').textContent = correct;
+      document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(card => {
+    card.querySelectorAll('.kc-opt').forEach(o => o.classList.remove('locked','correct','wrong'));
+    const fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  document.getElementById('kc-count').textContent = '0';
+  document.getElementById('kc-fill').style.width = '0%';
+}
+renderKC();
+</script>
+</body>
+</html>
