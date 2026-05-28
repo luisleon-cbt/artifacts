@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.2.2 · Syslog &amp; Log Levels · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  .callout.mnemonic { background: rgba(42,96,73,0.07); border-color: var(--green); }
+  .callout.mnemonic h5 { color: var(--green); }
+  .callout.mnemonic p b { color: var(--green); }
+
+  /* ===== SEVERITY LADDER ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .ladder-stage { padding: 16px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .ladder { display: flex; flex-direction: column; gap: 5px; }
+  .lvl-row { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line-soft); border-left-width: 5px; padding: 9px 12px; cursor: pointer; transition: all 0.13s; }
+  .lvl-row:hover { transform: translateX(2px); }
+  .lvl-row.active { box-shadow: inset 0 0 0 2px var(--navy-deep); }
+  .lvl-row .lr-num { width: 34px; height: 34px; border-radius: 50%; color: white; font-family: var(--ff-display); font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .lvl-row .lr-body { display: flex; flex-direction: column; }
+  .lvl-row .lr-name { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .lvl-row .lr-name .lr-key { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); font-weight: 600; margin-left: 6px; }
+  .lvl-row .lr-meaning { font-size: 11.5px; color: var(--ink-mute); line-height: 1.3; }
+  .ladder-ends { display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); margin: 8px 4px 0; }
+  .ladder-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 10px; }
+  .ladder-hint b { color: var(--sky-deep); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+  .detail .d-title .dt-badge { font-family: var(--ff-mono); font-size: 13px; font-weight: 800; color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 14px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-ex { font-family: var(--ff-mono); font-size: 11.5px; background: #0E1424; color: #C6C6BE; padding: 10px 13px; border-radius: 3px; margin-bottom: 16px; line-height: 1.5; word-break: break-word; }
+  .detail .d-ex .ex-lab { color: var(--gold); font-style: italic; display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: 0.06em; }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== FILTER SIMULATOR ===== */
+  .sim { border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .sim-control { padding: 22px 26px 18px; border-bottom: 1px solid var(--line-soft); background: var(--surface-alt); }
+  .sim-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .sim-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .sim-level { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); }
+  .sim-level .sl-num { color: white; border-radius: 6px; padding: 1px 10px; margin-right: 8px; font-size: 18px; }
+  .sev-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; outline: none; cursor: pointer; margin: 14px 0 4px;
+    background: linear-gradient(90deg, #6E1421 0%, #8E1F2E 14%, #A8364A 28%, #B8932A 42%, #E0B840 56%, #1E8FBE 70%, #38B0E0 84%, #767E92 100%); }
+  .sev-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 26px; background: var(--navy-deep); border: 3px solid white; border-radius: 3px; box-shadow: 0 0 0 1px var(--navy-deep); cursor: pointer; }
+  .sev-slider::-moz-range-thumb { width: 14px; height: 26px; background: var(--navy-deep); border: 3px solid white; border-radius: 3px; cursor: pointer; }
+  .sev-scale { display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); font-weight: 700; }
+  .sim-readout { font-size: 13px; line-height: 1.55; color: var(--ink); margin-top: 12px; padding: 11px 14px; background: rgba(56,176,224,0.08); border-left: 3px solid var(--sky); }
+  .sim-readout b { color: var(--navy-deep); }
+
+  .log-viewer { background: #0E1424; padding: 16px 18px; font-family: var(--ff-mono); font-size: 12px; line-height: 1.5; max-height: 360px; overflow-y: auto; }
+  .log-line { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 4px 0; align-items: start; }
+  .log-line.hidden { display: none; }
+  .log-sev { font-weight: 700; font-size: 10px; letter-spacing: 0.02em; text-align: right; padding-top: 1px; }
+  .log-msg { color: #C6C6BE; word-break: break-word; }
+  .log-foot { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); padding: 10px 18px; background: var(--surface-alt); border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+  .log-foot b { color: var(--navy-deep); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .ladder-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .term-grid { grid-template-columns: 1fr; }
+    .log-line { grid-template-columns: 76px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.2 Network Monitoring</span>
+    <span class="crumb">Explorer 3.2.2</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 2 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.2.2 · Syslog &amp; Log Levels · ≈ 28 min</div>
+    <h1>Eight levels of <em>"how bad?"</em></h1>
+    <p class="lede">When a device sends a syslog message, it stamps each one with a <b>severity level from 0 to 7</b> ,  and here's the catch students always trip on: <b>lower numbers are more severe</b>. Level 0 (Emergency) means the system is falling over; level 7 (Debug) is chatty diagnostic noise. Setting a logging <b>threshold</b> tells a device "send me everything this severe <i>or worse</i>." Click through the eight levels below, then drag the threshold and watch a live console filter its messages in real time.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.2 — syslog &amp; logging levels</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Severity 0\u20137 · the threshold rule · log review</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Severity ladder + live filter simulator</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">2 of 3 · Methods / Syslog / Solutions</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Drag the threshold; watch logs filter</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      severity levels 0\u20137 · Emergency \u2026 Debug · logging threshold · "lower = more severe" · captures 0\u2026N · log review
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The syslog <b>severity scale (0\u20137)</b> is a classic exam item. You must know that <b>0 = Emergency is the most severe</b> and <b>7 = Debug is the least</b> (and the most verbose), plus the order in between. You also need the threshold rule: configuring a logging level of <b>N captures every message from 0 through N</b> and filters the rest. Get the direction right ,  a <i>lower</i> number is <i>more</i> serious ,  and most syslog questions fall into place.</p>
+  </div>
+
+  <div class="section-head">The eight severity levels — click each</div>
+  <h2 class="big">Emergency to <em>debug.</em></h2>
+  <p class="body">Each syslog message carries one of these eight severities. The list runs from <b>0 Emergency</b> (most severe, at the top) down to <b>7 Debug</b> (least severe, most verbose). Click any level to see what it means and a sample message.</p>
+
+  <div class="explorer">
+    <div class="ladder-stage">
+      <div class="ladder" id="ladder"><!-- rows injected by JS --></div>
+      <div class="ladder-ends"><span>↑ 0 = most severe</span><span>7 = least severe / most verbose ↓</span></div>
+      <div class="ladder-hint">Click a level · <b id="ladder-count">0/8</b> explored</div>
+    </div>
+    <div class="detail" id="detail"><!-- populated by JS; default = level 0 --></div>
+  </div>
+
+  <div class="callout mnemonic">
+    <h5>Mnemonic for the order (0 → 7)</h5>
+    <p>"<b>E</b>very <b>A</b>wesome <b>C</b>isco <b>E</b>ngineer <b>W</b>ill <b>N</b>eed <b>I</b>cy <b>D</b>rinks" ,  <b>E</b>mergency, <b>A</b>lert, <b>C</b>ritical, <b>E</b>rror, <b>W</b>arning, <b>N</b>otice, <b>I</b>nformational, <b>D</b>ebug. Eight words, eight levels, top to bottom.</p>
+  </div>
+
+  <div class="section-head">The logging threshold — drag it and watch</div>
+  <h2 class="big">Capture this severe <em>or worse.</em></h2>
+  <p class="body">Setting a device's logging level to <b>N</b> means "send me severities <b>0 through N</b>." Drag the threshold below: as you raise the number toward Debug, <i>more</i> (and noisier) messages appear; as you lower it toward Emergency, only the serious events survive. Watch the console filter live.</p>
+
+  <div class="sim">
+    <div class="sim-control">
+      <div class="sim-top">
+        <span class="sim-label">Logging level (threshold)</span>
+        <span class="sim-level"><span class="sl-num" id="sl-num" style="background:#38B0E0">6</span><span id="sl-name">Informational</span></span>
+      </div>
+      <input type="range" min="0" max="7" step="1" value="6" id="sevSlider" class="sev-slider">
+      <div class="sev-scale"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+      <div class="sim-readout" id="sim-readout"><!-- populated by JS --></div>
+    </div>
+    <div class="log-viewer" id="logViewer"><!-- log lines injected by JS --></div>
+    <div class="log-foot">
+      <span>SW-CORE · syslog console</span>
+      <span><b id="log-shown">0</b> shown · <span id="log-hidden">0</span> filtered out</span>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why production rarely runs at Debug (7)</h5>
+    <p>Level <b>7 Debug</b> captures <i>everything</i>, including high-volume diagnostic chatter ,  useful while troubleshooting, but it can flood a syslog server and bury the messages that matter. Production devices typically log at a <b>lower, less verbose level</b> (often around Notice or Informational) and only crank up to Debug temporarily when chasing a specific problem.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>On the syslog severity scale, which is <b>more severe</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">A lower number (e.g., 0 Emergency is the most severe)</button>
+      <button class="kc-opt" data-correct="false">A higher number (e.g., 7 Debug is the most severe)</button>
+      <button class="kc-opt" data-correct="false">They are equally severe; the number is just an ID</button>
+      <button class="kc-opt" data-correct="false">It depends on the device vendor</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>What does syslog severity level <b>0</b> represent?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Debug ,  verbose diagnostic messages</button>
+      <button class="kc-opt" data-correct="true">Emergency ,  the system is unusable</button>
+      <button class="kc-opt" data-correct="false">Informational ,  routine status updates</button>
+      <button class="kc-opt" data-correct="false">Warning ,  a potential problem</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>A device is configured to log at level <b>4 (Warning)</b>. Which messages will it capture?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Only level 4 (Warning) messages</button>
+      <button class="kc-opt" data-correct="true">Levels 0 through 4 ,  Emergency, Alert, Critical, Error, and Warning</button>
+      <button class="kc-opt" data-correct="false">Levels 4 through 7 ,  Warning, Notice, Informational, and Debug</button>
+      <button class="kc-opt" data-correct="false">All eight levels regardless of setting</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Which level produces the most verbose output and is typically used only while actively troubleshooting?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">0 ,  Emergency</button>
+      <button class="kc-opt" data-correct="false">2 ,  Critical</button>
+      <button class="kc-opt" data-correct="false">5 ,  Notice</button>
+      <button class="kc-opt" data-correct="true">7 ,  Debug</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>A routine message that an interface "changed state to up" is a normal-but-significant event. Which severity fits best?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">0 ,  Emergency</button>
+      <button class="kc-opt" data-correct="false">3 ,  Error</button>
+      <button class="kc-opt" data-correct="true">5 ,  Notice (normal but significant)</button>
+      <button class="kc-opt" data-correct="false">7 ,  Debug</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Severity level (0\u20137)</div><div class="t-def">The seriousness stamped on each syslog message. Lower is more severe: 0 = Emergency, 7 = Debug.</div></div>
+    <div class="term"><div class="t-name">Emergency (0)</div><div class="t-def">The most severe level ,  the system is unusable. Demands immediate attention.</div></div>
+    <div class="term"><div class="t-name">Debug (7)</div><div class="t-def">The least severe and most verbose level ,  detailed diagnostic output used while troubleshooting.</div></div>
+    <div class="term"><div class="t-name">Logging threshold</div><div class="t-def">The configured level N. The device captures every message from severity 0 up through N and filters the rest.</div></div>
+    <div class="term"><div class="t-name">"Lower = more severe"</div><div class="t-def">The rule that trips people up: a smaller severity number means a more serious condition.</div></div>
+    <div class="term"><div class="t-name">Log review</div><div class="t-def">Regularly examining collected logs (often centralized on a syslog server) to spot problems, security events, and trends.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.2.2 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the syslog severity scale (0\u20137), the logging-threshold rule, and log review, through a clickable severity ladder and a live log-filter simulator. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.2.1 · Monitoring Methods</p>
+      <p>3.2.2 · Syslog &amp; Log Levels ← you are here</p>
+      <p style="opacity:0.55">3.2.3 · Monitoring Solutions</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Severity levels (shared data) ===== */
+var LEVELS = [
+  { n:0, key:'emerg',   name:'Emergency',     color:'#6E1421', meaning:'System is unusable',           sev:'most severe',
+    body:'The highest severity. The device (or a major part of it) is <b>unusable</b> ,  a total or imminent failure. These demand immediate action.',
+    ex:'%SYS-0-SHUTDOWN: System shutting down due to fan failure',
+    facts:['<b>System is unusable</b> ,  catastrophic.','The rarest and most urgent message.','Always captured at any logging level.'] },
+  { n:1, key:'alert',   name:'Alert',         color:'#8E1F2E', meaning:'Act immediately',              sev:'',
+    body:'A condition that requires <b>immediate action</b>. Something critical is failing or about to ,  for example, a redundant power supply has died.',
+    ex:'%POWER-1-PSUFAIL: Redundant power supply failed on SW-CORE',
+    facts:['Needs <b>immediate</b> human attention.','A step below total failure.','Often paired with on-call alerting.'] },
+  { n:2, key:'crit',    name:'Critical',      color:'#A8364A', meaning:'Critical conditions',          sev:'',
+    body:'A <b>critical</b> fault ,  serious, but not necessarily taking the whole system down yet. For example, a hardware sensor crossing a danger threshold.',
+    ex:'%ENV-2-OVERTEMP: Temperature threshold exceeded on SW-FLOOR2',
+    facts:['Serious hardware/software fault.','Should be investigated quickly.','Above ordinary errors in urgency.'] },
+  { n:3, key:'err',     name:'Error',         color:'#B8932A', meaning:'Error conditions',             sev:'',
+    body:'An <b>error</b> condition ,  something failed, but the device keeps running. For example, an interface reporting a hardware error.',
+    ex:'%LINK-3-HWERR: Interface Gi0/2 reported a hardware error',
+    facts:['A failure occurred; operation continues.','Common signal of real problems.','Worth alerting on in many shops.'] },
+  { n:4, key:'warning', name:'Warning',       color:'#E0B840', meaning:'Warning conditions',           sev:'',
+    body:'A <b>warning</b> ,  a potential problem that isn\u2019t an error yet but may need attention. For example, a protective feature blocking a port.',
+    ex:'%SPANTREE-4-LOOPGUARD: Loop guard blocked port Fa0/5 on SW-FLOOR1',
+    facts:['Potential problem; not yet an error.','A heads-up to watch something.','A common, practical logging threshold.'] },
+  { n:5, key:'notice',  name:'Notice',        color:'#1E8FBE', meaning:'Normal but significant',       sev:'',
+    body:'A <b>normal but significant</b> event ,  nothing is wrong, but it\u2019s worth noting. For example, an interface coming up.',
+    ex:'%LINK-5-CHANGED: Interface Gi0/1 changed state to up',
+    facts:['Normal operation, but notable.','Useful for tracking state changes.','Not an error ,  just significant.'] },
+  { n:6, key:'info',    name:'Informational', color:'#38B0E0', meaning:'Informational messages',       sev:'',
+    body:'Routine <b>informational</b> messages about normal activity ,  for example, a DHCP lease being assigned. Helpful context, low urgency.',
+    ex:'%DHCP-6-ASSIGN: Assigned 192.168.10.42 to host on VLAN 10',
+    facts:['Routine status information.','Low urgency; high volume.','Useful background context.'] },
+  { n:7, key:'debug',   name:'Debug',         color:'#767E92', meaning:'Debug-level messages',         sev:'least severe / most verbose',
+    body:'The lowest severity and <b>most verbose</b> ,  detailed diagnostic output meant for troubleshooting. Very noisy; usually enabled only temporarily.',
+    ex:'%OSPF-7-DEBUG: Sending hello on Gi0/1, area 0',
+    facts:['<b>Most verbose</b> ,  detailed diagnostics.','Can flood a syslog server.','Turn on only while troubleshooting.'] }
+];
+
+/* ===== Severity ladder + click-to-detail ===== */
+var explored = new Set();
+var HINTKEY = 'cbt-explorer-3.2.2-seen';
+try { (JSON.parse(localStorage.getItem(HINTKEY) || '[]')).forEach(function(x){ explored.add(parseInt(x,10)); }); } catch(e){}
+
+(function buildLadder(){
+  var html = LEVELS.map(function(L){
+    return '<div class="lvl-row" data-n="' + L.n + '" style="border-left-color:' + L.color + '">' +
+      '<div class="lr-num" style="background:' + L.color + '">' + L.n + '</div>' +
+      '<div class="lr-body"><div class="lr-name">' + L.name + '<span class="lr-key">' + L.key + '</span></div>' +
+      '<div class="lr-meaning">' + L.meaning + '</div></div></div>';
+  }).join('');
+  document.getElementById('ladder').innerHTML = html;
+})();
+
+function renderDetail(n){
+  var L = LEVELS[n];
+  if(!L) return;
+  var sevLine = L.sev ? ('<div class="d-abbr">keyword: ' + L.key + ' \u00b7 ' + L.sev + '</div>') : ('<div class="d-abbr">keyword: ' + L.key + '</div>');
+  var facts = L.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  var captureNote = 'Captured whenever the logging level is set to <b>' + n + ' or higher</b> (a threshold of N includes severities 0\u2013N).';
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">Syslog severity \u00b7 level ' + n + '</div>' +
+    '<div class="d-title"><span class="dt-badge" style="background:' + L.color + '">' + n + '</span>' + L.name + '</div>' +
+    sevLine +
+    '<div class="d-body">' + L.body + '</div>' +
+    '<div class="d-ex"><span class="ex-lab">EXAMPLE MESSAGE</span>' + L.ex + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Exam note</div><p>' + captureNote + '</p></div>';
+  document.querySelectorAll('.lvl-row').forEach(function(r){ r.classList.toggle('active', parseInt(r.dataset.n,10) === n); });
+  explored.add(n);
+  try { localStorage.setItem(HINTKEY, JSON.stringify([].concat(Array.from(explored)))); } catch(e){}
+  document.getElementById('ladder-count').textContent = explored.size + '/8';
+}
+document.querySelectorAll('.lvl-row').forEach(function(r){
+  r.addEventListener('click', function(){ renderDetail(parseInt(r.dataset.n,10)); });
+});
+explored.add(0);
+renderDetail(0);
+document.getElementById('ladder-count').textContent = explored.size + '/8';
+
+/* ===== Filter simulator ===== */
+var LOGS = [
+  { sev:0, msg:'%SYS-0-SHUTDOWN: System shutting down due to fan failure' },
+  { sev:1, msg:'%POWER-1-PSUFAIL: Redundant power supply failed on SW-CORE' },
+  { sev:2, msg:'%ENV-2-OVERTEMP: Temperature threshold exceeded on SW-FLOOR2' },
+  { sev:3, msg:'%LINK-3-HWERR: Interface Gi0/2 reported a hardware error' },
+  { sev:4, msg:'%SPANTREE-4-LOOPGUARD: Loop guard blocked port Fa0/5 on SW-FLOOR1' },
+  { sev:5, msg:'%LINK-5-CHANGED: Interface Gi0/1 changed state to up' },
+  { sev:5, msg:'%SYS-5-CONFIG: Running configuration saved by admin' },
+  { sev:6, msg:'%DHCP-6-ASSIGN: Assigned 192.168.10.42 to host on VLAN 10' },
+  { sev:6, msg:'%SNMP-6-POLL: SNMP GET received from monitoring station' },
+  { sev:7, msg:'%OSPF-7-DEBUG: Sending hello on Gi0/1, area 0' }
+];
+var sevSlider = document.getElementById('sevSlider');
+
+(function buildLog(){
+  var html = LOGS.map(function(g, i){
+    var L = LEVELS[g.sev];
+    return '<div class="log-line" data-sev="' + g.sev + '" id="logln' + i + '">' +
+      '<span class="log-sev" style="color:' + L.color + '">' + g.sev + ' ' + L.name + '</span>' +
+      '<span class="log-msg">' + g.msg + '</span></div>';
+  }).join('');
+  document.getElementById('logViewer').innerHTML = html;
+})();
+
+function renderSim(){
+  var t = parseInt(sevSlider.value, 10);
+  var L = LEVELS[t];
+  document.getElementById('sl-num').textContent = t;
+  document.getElementById('sl-num').style.background = L.color;
+  document.getElementById('sl-name').textContent = L.name;
+
+  var shown = 0, hidden = 0;
+  document.querySelectorAll('.log-line').forEach(function(ln){
+    var s = parseInt(ln.dataset.sev, 10);
+    if(s <= t){ ln.classList.remove('hidden'); shown++; }
+    else { ln.classList.add('hidden'); hidden++; }
+  });
+  document.getElementById('log-shown').textContent = shown;
+  document.getElementById('log-hidden').textContent = hidden;
+
+  var ro = document.getElementById('sim-readout');
+  var rangeTxt = (t === 0)
+      ? 'only <b>Emergency (0)</b>'
+      : 'severities <b>0\u2013' + t + '</b> (Emergency through ' + L.name + ')';
+  var filterTxt = (t === 7)
+      ? 'Nothing is filtered ,  <b>every</b> severity, including verbose Debug, is captured.'
+      : 'Severities <b>' + (t+1) + '\u20137</b> are filtered out.';
+  ro.innerHTML = 'Logging level <b>' + t + ' (' + L.name + ')</b>: capturing ' + rangeTxt + '. ' + filterTxt;
+}
+sevSlider.addEventListener('input', renderSim);
+renderSim();
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.2.2-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. <b>Lower numbers are more severe</b> ,  0 Emergency is the most serious.', no: 'Not quite. On the syslog scale, a <b>lower</b> number is <b>more</b> severe: 0 (Emergency) is the worst, 7 (Debug) the least.' },
+  '2': { ok: 'Correct. Level <b>0 = Emergency</b> ,  the system is unusable.', no: 'Not quite. Severity <b>0 is Emergency</b> (system unusable) ,  the most severe. Debug is 7.' },
+  '3': { ok: 'Correct. A threshold of 4 captures <b>levels 0\u20134</b>.', no: 'Not quite. Logging level N captures severities <b>0 through N</b> ,  so level 4 (Warning) captures 0\u20134 and filters 5\u20137.' },
+  '4': { ok: 'Correct. <b>7 Debug</b> is the most verbose, used while troubleshooting.', no: 'Not quite. <b>7 (Debug)</b> is the most verbose level ,  detailed diagnostics, usually enabled only temporarily.' },
+  '5': { ok: 'Correct. A normal-but-significant event like an interface coming up is <b>5 Notice</b>.', no: 'Not quite. "Normal but significant" maps to <b>5 (Notice)</b> ,  not an error, but worth recording.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
