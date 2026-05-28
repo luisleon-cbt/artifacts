@@ -180,7 +180,7 @@
   <div>
     <div class="eyebrow">Explorer 3.2.1 · Monitoring Methods · ≈ 30 min</div>
     <h1>How the network <em>tells</em> on itself.</h1>
-    <p class="lede">You can't fix what you can't see. Network monitoring is the set of methods that let a management station learn what every device is doing \u2014 its health, its traffic, its events. But these methods aren't interchangeable: <b>SNMP</b> reports device health, <b>flow data</b> summarizes who's talking to whom, <b>packet capture</b> grabs the raw traffic, and <b>syslog</b> streams event messages. Some <i>pull</i> data on a schedule; others have the device <i>push</i> it the instant something happens. Click through the monitoring stack below to see what each method produces.</p>
+    <p class="lede">You can't fix what you can't see. Network monitoring is the set of methods that let a management station learn what every device is doing ,  its health, its traffic, its events. But these methods aren't interchangeable: <b>SNMP</b> reports device health, <b>flow data</b> summarizes who's talking to whom, <b>packet capture</b> grabs the raw traffic, and <b>syslog</b> streams event messages. Some <i>pull</i> data on a schedule; others have the device <i>push</i> it the instant something happens. Click through the monitoring stack below to see what each method produces.</p>
   </div>
   <aside class="ref-card">
     <div class="label">Explorer Overview</div>
@@ -200,7 +200,7 @@
 
   <div class="callout n-plus-context">
     <h5>Network+ Context — Read this first</h5>
-    <p>Objective 3.2 expects you to match a <b>monitoring method to a scenario</b>: which one tells you a device\u2019s CPU is high (SNMP), which shows the top talkers on a link (flow data), which captures the exact packets for deep analysis (packet capture), and which streams event messages (syslog). It also tests the <b>push vs pull</b> distinction \u2014 polling pulls on a schedule; traps and syslog push on an event. This explorer makes each method\u2019s job and data type concrete. The companion Packet Tracer lab lets you configure syslog and SNMP for real.</p>
+    <p>Objective 3.2 expects you to match a <b>monitoring method to a scenario</b>: which one tells you a device\u2019s CPU is high (SNMP), which shows the top talkers on a link (flow data), which captures the exact packets for deep analysis (packet capture), and which streams event messages (syslog). It also tests the <b>push vs pull</b> distinction ,  polling pulls on a schedule; traps and syslog push on an event. This explorer makes each method\u2019s job and data type concrete. The companion Packet Tracer lab lets you configure syslog and SNMP for real.</p>
   </div>
 
   <div class="section-head">The monitoring stack — click any element</div>
@@ -276,7 +276,7 @@
 
   <div class="callout warn">
     <h5>SNMP terms the exam loves: poll, trap, MIB, OID</h5>
-    <p>With <b>SNMP</b>, the manager <b>polls</b> (pulls) an agent for values, and the agent can send an unsolicited <b>trap</b> (push) when an event occurs. The data lives in a <b>MIB</b> (Management Information Base) \u2014 a structured catalog \u2014 and each value has a unique address called an <b>OID</b> (Object Identifier). A <b>walk</b> retrieves a whole branch of the MIB. Know all four terms.</p>
+    <p>With <b>SNMP</b>, the manager <b>polls</b> (pulls) an agent for values, and the agent can send an unsolicited <b>trap</b> (push) when an event occurs. The data lives in a <b>MIB</b> (Management Information Base) ,  a structured catalog ,  and each value has a unique address called an <b>OID</b> (Object Identifier). A <b>walk</b> retrieves a whole branch of the MIB. Know all four terms.</p>
   </div>
 
   <div class="section-head">Push vs pull — the core distinction</div>
@@ -384,7 +384,7 @@
   <div class="footer-inner">
     <div>
       <h4>About this explorer</h4>
-      <p>Explorer 3.2.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the core monitoring methods \u2014 SNMP, flow data, packet capture, syslog, and API/telemetry \u2014 and the push-vs-pull distinction, through an interactive monitoring-stack model. Pairs with the 3.2 syslog/SNMP Packet Tracer lab. Part of the CBT Technology Institute networking curriculum.</p>
+      <p>Explorer 3.2.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the core monitoring methods ,  SNMP, flow data, packet capture, syslog, and API/telemetry ,  and the push-vs-pull distinction, through an interactive monitoring-stack model. Pairs with the 3.2 syslog/SNMP Packet Tracer lab. Part of the CBT Technology Institute networking curriculum.</p>
     </div>
     <div>
       <h4>Explorer series</h4>
@@ -411,33 +411,33 @@ var DETAILS = {
     badges: [['pull','poll = pull'],['push','traps = push'],['data','health metrics']],
     body: 'The workhorse for <b>device health</b>. A manager <b>polls</b> agents for values (CPU, memory, interface status, errors) and agents can fire unsolicited <b>traps</b> when something happens. Values live in a <b>MIB</b> and are addressed by <b>OIDs</b>.',
     facts: ['<b>Poll</b> (GET) pulls values on request/schedule.', '<b>Traps</b> push an alert the moment an event occurs.', '<b>MIB</b> = the structured catalog of values; <b>OID</b> = a value\u2019s unique address.', 'A <b>walk</b> retrieves a whole MIB branch at once.'],
-    exam: { lab:'Answers', text:'"<b>Is this device healthy \u2014 CPU, memory, interface up/down?</b>" Memorize poll/trap/MIB/OID.' }
+    exam: { lab:'Answers', text:'"<b>Is this device healthy ,  CPU, memory, interface up/down?</b>" Memorize poll/trap/MIB/OID.' }
   },
   flow: {
     cat: 'Monitoring method · traffic summary', title: 'Flow Data', abbr: 'NetFlow / sFlow / IPFIX',
     badges: [['push','push to collector'],['data','conversation summaries']],
-    body: 'Flow data summarizes <b>conversations</b> \u2014 source, destination, ports, and byte/packet counts \u2014 and <b>exports</b> them to a collector. It tells you <b>who talked to whom and how much</b> without storing every packet.',
+    body: 'Flow data summarizes <b>conversations</b> ,  source, destination, ports, and byte/packet counts ,  and <b>exports</b> them to a collector. It tells you <b>who talked to whom and how much</b> without storing every packet.',
     facts: ['Records <b>flows</b> (who \u2194 who, how much), not full payloads.', 'Exported by the device to a <b>flow collector</b>.', 'Ideal for <b>top talkers</b> and traffic-trend analysis.', 'NetFlow, sFlow, and IPFIX are common formats.'],
-    exam: { lab:'Answers', text:'"<b>Who are the top talkers on this link, and where is the traffic going?</b>" \u2014 without a full capture.' }
+    exam: { lab:'Answers', text:'"<b>Who are the top talkers on this link, and where is the traffic going?</b>" ,  without a full capture.' }
   },
   capture: {
     cat: 'Monitoring method · raw traffic', title: 'Packet Capture', abbr: 'SPAN / mirror / TAP',
     badges: [['push','copied to analyzer'],['data','raw packets']],
-    body: 'Packet capture records the <b>actual raw packets</b> \u2014 full headers and payloads \u2014 for deep, packet-by-packet analysis. Traffic is copied to an analyzer via a <b>SPAN/mirror port</b> or a physical <b>TAP</b>.',
-    facts: ['Captures <b>complete packets</b>, not just summaries.', 'Collected via a <b>SPAN/mirror port</b> or inline <b>TAP</b>.', 'The deepest detail \u2014 but the highest storage cost.', 'Use it to diagnose tricky, specific problems.'],
+    body: 'Packet capture records the <b>actual raw packets</b> ,  full headers and payloads ,  for deep, packet-by-packet analysis. Traffic is copied to an analyzer via a <b>SPAN/mirror port</b> or a physical <b>TAP</b>.',
+    facts: ['Captures <b>complete packets</b>, not just summaries.', 'Collected via a <b>SPAN/mirror port</b> or inline <b>TAP</b>.', 'The deepest detail ,  but the highest storage cost.', 'Use it to diagnose tricky, specific problems.'],
     exam: { lab:'Answers', text:'"<b>Show me the exact packets so I can analyze this problem in detail.</b>" Most granular, most storage.' }
   },
   syslog: {
     cat: 'Monitoring method · event messages', title: 'Syslog', abbr: 'event logging (push)',
     badges: [['push','event-driven push'],['data','log messages']],
-    body: 'Syslog has devices <b>send event messages</b> to a central <b>syslog server</b> as things happen \u2014 interface up/down, config changes, authentication events. Each message carries a <b>severity level (0\u20137)</b>, explored in 3.2.2.',
+    body: 'Syslog has devices <b>send event messages</b> to a central <b>syslog server</b> as things happen ,  interface up/down, config changes, authentication events. Each message carries a <b>severity level (0\u20137)</b>, explored in 3.2.2.',
     facts: ['Devices <b>push</b> messages to a syslog server.', 'Centralizes events from many devices in one place.', 'Each message has a <b>severity level</b> (0 Emergency \u2026 7 Debug).', 'The basis for log review and correlation.'],
     exam: { lab:'Answers', text:'"<b>What events happened on these devices, and when?</b>" You configure this in the 3.2 lab.' }
   },
   api: {
     cat: 'Monitoring method · programmatic', title: 'API & Telemetry', abbr: 'programmatic / streaming',
     badges: [['pull','API pull'],['push','streaming push'],['data','structured data']],
-    body: 'Modern tooling pulls monitoring data through <b>APIs</b> or receives continuous <b>streaming telemetry</b> \u2014 structured, programmatic data that integrates cleanly with dashboards, automation, and analytics platforms.',
+    body: 'Modern tooling pulls monitoring data through <b>APIs</b> or receives continuous <b>streaming telemetry</b> ,  structured, programmatic data that integrates cleanly with dashboards, automation, and analytics platforms.',
     facts: ['APIs let tools <b>query</b> devices/controllers programmatically.', '<b>Streaming telemetry</b> pushes continuous, structured data.', 'Integrates monitoring into automation and analytics.', 'The direction modern, large-scale monitoring is heading.'],
     exam: { lab:'Answers', text:'"<b>Pull this data into our own tools/automation programmatically.</b>" Think APIs and streaming telemetry.' }
   }
@@ -479,7 +479,7 @@ var KC_TOTAL = 5;
 var KC_FB = {
   '1': { ok: 'Correct. <b>SNMP</b> is the standard for polling device health metrics.', no: 'Not quite. <b>SNMP</b> collects health metrics (CPU, memory, interfaces). Capture grabs packets; flow summarizes conversations.' },
   '2': { ok: 'Correct. An <b>OID</b> uniquely addresses a value within the MIB.', no: 'Not quite. An <b>OID</b> (Object Identifier) is the unique address of a value in the MIB. An unsolicited alert is a trap.' },
-  '3': { ok: 'Correct. <b>Flow data</b> summarizes conversations without storing every packet.', no: 'Not quite. <b>Flow data</b> (NetFlow/sFlow/IPFIX) summarizes who-talks-to-whom and volumes \u2014 ideal here. Full capture stores everything; SNMP is health.' },
+  '3': { ok: 'Correct. <b>Flow data</b> summarizes conversations without storing every packet.', no: 'Not quite. <b>Flow data</b> (NetFlow/sFlow/IPFIX) summarizes who-talks-to-whom and volumes ,  ideal here. Full capture stores everything; SNMP is health.' },
   '4': { ok: 'Correct. <b>Syslog and SNMP traps</b> are pushed by the device when events occur.', no: 'Not quite. <b>Push</b> = the device sends on its own (syslog, SNMP traps). Polling and scheduled API queries are pull.' },
   '5': { ok: 'Correct. <b>Packet capture</b> provides the full raw packets for deep analysis.', no: 'Not quite. Only <b>packet capture</b> gives the complete raw packets needed for packet-by-packet diagnosis.' }
 };
