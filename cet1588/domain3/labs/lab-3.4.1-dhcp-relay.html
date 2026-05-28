@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 3.4.1 · DHCP &amp; Relay · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.dir { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.dir .mc-tag { color: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .gui-config { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--sky-deep); padding: 0; margin: 14px 0 22px; }
+  .gui-config .gui-head { background: var(--surface-alt); padding: 11px 18px; border-bottom: 1px solid var(--line-soft); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .gui-config .gui-head .gui-path { color: var(--ink-mute); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .gui-config .gui-body { padding: 16px 18px; }
+  .gui-config .gui-field { display: grid; grid-template-columns: 200px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px dotted var(--line-soft); align-items: baseline; font-size: 13.5px; }
+  .gui-config .gui-field:last-child { border-bottom: none; }
+  .gui-config .gui-field .gf-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .gui-config .gui-field .gf-val { color: var(--ink); }
+  .gui-config .gui-field .gf-val code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .gui-config .gui-field .gf-val b { color: var(--navy-deep); }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  .callout.sim-note { background: rgba(142,31,46,0.06); border-left: 4px dashed var(--red); padding: 16px 20px; }
+  .callout.sim-note h5 { color: var(--red); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .method-grid { grid-template-columns: 1fr; }
+    .gui-config .gui-field { grid-template-columns: 1fr; gap: 4px; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.4 IPv4 &amp; IPv6 Services</span>
+    <span class="crumb">Lab 3.4.1</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · DHCP &amp; Relay</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 3.4.1 · Packet Tracer · ≈ 55 min</div>
+    <h1>Addresses on <em>demand.</em></h1>
+    <p class="lede">Hand-typing an IP into every device doesn't scale \u2014 <b>DHCP</b> leases them out automatically. But there's a catch the exam loves: a DHCP request is a <i>broadcast</i>, and broadcasts don't cross a router. So when your DHCP server sits on one subnet and your clients sit on others, you need a <b>relay</b> \u2014 <code>ip helper-address</code> \u2014 to forward those requests across. In this lab you'll build two scopes with exclusions and options on a central server, then configure relay on the Miami core so clients in VLAN 10 and VLAN 20 get addresses from a server they can't even broadcast to.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.4 — implement DHCP (scope, options, relay)</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Miami inter-VLAN topology (2.2)</span></div>
+    <div class="ref-row"><span class="name">Hands-on core</span><span class="desc">Two scopes + exclusions + relay across subnets</span></div>
+    <div class="ref-row"><span class="name">Concepts</span><span class="desc">DORA · scope · exclusion · lease · options · relay</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-3.4.1-DHCPRelay-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 3.4.1</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      DHCP scope/pool · address exclusion · lease &amp; options (gateway/DNS) · DORA · DHCP relay / ip helper-address · giaddr · reservation concept · verification
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">2</div><div class="label">Scopes served by relay</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Central DHCP server</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">DORA steps</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>How a device gets an address <em>by itself.</em></h2>
+  <p>When a client is set to obtain an address automatically, it doesn't know its IP, its gateway, or its DNS server \u2014 it doesn't even know who the DHCP server is. It finds out through a four-step exchange, and the server hands back not just an address but a whole bundle of settings. Your job in this lab is to set up that server and then make sure clients on <i>other</i> subnets can reach it.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>, but the ideas here are universal: a <b>scope</b> (pool) is the range a server leases; <b>exclusions</b> hold back addresses for static/infrastructure use; <b>options</b> push extra settings (gateway, DNS); a <b>lease</b> is how long a client keeps an address; and a <b>relay</b> (<code>ip helper-address</code>) forwards DHCP across a router because the request is a broadcast. Packet Tracer simulates all of this. Focus on the roles, not the exact menu.</p>
+  </div>
+
+  <div class="section-head">DORA — the four-step lease</div>
+  <div class="method-flow">
+    <h4>How a client gets its address</h4>
+    <div class="mf-step"><div class="mf-num">D</div><div class="mf-text"><b>Discover</b> \u2014 the client <i>broadcasts</i> "is there a DHCP server out there?" (It has no address yet, so it can only broadcast.)</div></div>
+    <div class="mf-step"><div class="mf-num">O</div><div class="mf-text"><b>Offer</b> \u2014 a DHCP server replies with an available address and settings: "you can have 192.168.10.21."</div></div>
+    <div class="mf-step"><div class="mf-num">R</div><div class="mf-text"><b>Request</b> \u2014 the client broadcasts back "I'll take that one," formally requesting the offered address.</div></div>
+    <div class="mf-step"><div class="mf-num">A</div><div class="mf-text"><b>Acknowledge</b> \u2014 the server confirms the lease (gateway, DNS, lease time included). The client is now addressed.</div></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The broadcast problem (why relay exists)</h5>
+    <p>Discover and Request are <b>broadcasts</b> \u2014 and a router (or an L3 switch's SVI) does <i>not</i> forward broadcasts between subnets. So if the DHCP server is on VLAN 99 and the client is on VLAN 10, the Discover never reaches the server. A <b>relay</b> on the client's gateway catches that broadcast and forwards it as a <i>unicast</i> to the server, stamping it with the client's subnet (the <code>giaddr</code>) so the server knows which scope to use.</p>
+  </div>
+
+  <div class="section-head">What you'll build</div>
+  <ul>
+    <li>A central <b>DHCP server</b> on VLAN 99 with <b>two scopes</b> \u2014 one for VLAN 10 (Staff), one for VLAN 20 (Guest).</li>
+    <li><b>Exclusions</b> that reserve the low addresses (.1\u2013.20) for gateways, servers, and static gear.</li>
+    <li><b>Options</b> on each scope: the correct default gateway and DNS server.</li>
+    <li><b>DHCP relay</b> (<code>ip helper-address</code>) on the SW-CORE SVIs for VLAN 10 and VLAN 20.</li>
+    <li>Verification that clients on those subnets lease addresses from the server <i>across</i> the router.</li>
+  </ul>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>The <em>topology</em> &amp; addressing.</h2>
+  <p>Start from your saved Miami inter-VLAN topology (SW-CORE doing inter-VLAN routing with SVIs as gateways, SW-FLOOR1/FLOOR2 as access switches). Add a DHCP server on VLAN 99 and set the test clients to obtain addresses automatically.</p>
+
+  <div class="topo">
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+      <!-- SW-CORE -->
+      <rect x="300" y="36" width="160" height="54" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="380" y="58" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-CORE (L3)</text>
+      <text x="380" y="74" text-anchor="middle" fill="#767E92" font-size="8.5">gateways + DHCP relay</text>
+      <!-- DHCP server (VLAN99) -->
+      <rect x="300" y="150" width="160" height="50" fill="#E4F0E8" stroke="#2A6049" stroke-width="2" rx="3"/>
+      <text x="380" y="170" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="11">DHCP Server</text>
+      <text x="380" y="186" text-anchor="middle" fill="#767E92" font-size="8.5">VLAN 99 · 192.168.99.10</text>
+      <line x1="380" y1="90" x2="380" y2="150" stroke="#2A6049" stroke-width="2"/>
+      <text x="388" y="124" fill="#2A6049" font-size="8">VLAN 99</text>
+      <!-- access switches -->
+      <rect x="80" y="250" width="150" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="155" y="270" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-FLOOR1</text>
+      <text x="155" y="286" text-anchor="middle" fill="#767E92" font-size="8.5">access</text>
+      <rect x="530" y="250" width="150" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="605" y="270" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-FLOOR2</text>
+      <text x="605" y="286" text-anchor="middle" fill="#767E92" font-size="8.5">access</text>
+      <line x1="310" y1="90" x2="180" y2="250" stroke="#1A2050" stroke-width="2.5" stroke-dasharray="2,3"/>
+      <line x1="450" y1="90" x2="580" y2="250" stroke="#1A2050" stroke-width="2.5" stroke-dasharray="2,3"/>
+      <text x="218" y="170" fill="#1A2050" font-size="8">trunk</text>
+      <text x="512" y="170" fill="#1A2050" font-size="8">trunk</text>
+      <!-- clients -->
+      <rect x="70" y="332" width="170" height="40" fill="#E4F0E8" stroke="#2A6049" stroke-width="1.8" rx="3"/>
+      <text x="155" y="349" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="10">PC-Staff · VLAN 10</text>
+      <text x="155" y="363" text-anchor="middle" fill="#767E92" font-size="8">DHCP \u2192 192.168.10.x</text>
+      <rect x="520" y="332" width="170" height="40" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="1.8" rx="3"/>
+      <text x="605" y="349" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">PC-Guest · VLAN 20</text>
+      <text x="605" y="363" text-anchor="middle" fill="#767E92" font-size="8">DHCP \u2192 192.168.20.x</text>
+      <line x1="155" y1="298" x2="155" y2="332" stroke="#2A6049" stroke-width="1.6"/>
+      <line x1="605" y1="298" x2="605" y2="332" stroke="#1E8FBE" stroke-width="1.6"/>
+      <!-- relay flow callout -->
+      <text x="250" y="320" fill="#B8932A" font-size="8.5" transform="rotate(-50 250 320)">broadcast \u2192 relay \u2192 unicast to server</text>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#E8F6FB"></span> SW-CORE (L3) — gateways + relay</span>
+      <span class="lk"><span class="sw" style="background:#E4F0E8"></span> DHCP server (VLAN 99 · .10)</span>
+      <span class="lk"><span class="sw" style="background:#FFFFFF"></span> Access switches</span>
+    </div>
+  </div>
+
+  <div class="section-head">Addressing &amp; scope plan</div>
+  <table class="iptable">
+    <thead><tr><th>Element</th><th>Subnet / VLAN</th><th>Address</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td class="device">SVI VLAN 10</td><td>Staff · 192.168.10.0/24</td><td class="iface">192.168.10.1</td><td>Gateway + <code>ip helper-address</code></td></tr>
+      <tr><td class="device">SVI VLAN 20</td><td>Guest · 192.168.20.0/24</td><td class="iface">192.168.20.1</td><td>Gateway + <code>ip helper-address</code></td></tr>
+      <tr><td class="device">SVI VLAN 99</td><td>Mgmt · 192.168.99.0/24</td><td class="iface">192.168.99.1</td><td>Gateway (server subnet)</td></tr>
+      <tr><td class="device">DHCP Server</td><td>VLAN 99</td><td class="iface">192.168.99.10</td><td>Two scopes; static IP</td></tr>
+      <tr><td class="device">Scope: VLAN10-Staff</td><td>192.168.10.0/24</td><td class="iface">.21 &ndash; .254</td><td>Exclude .1&ndash;.20; gw .1; DNS .99.10</td></tr>
+      <tr><td class="device">Scope: VLAN20-Guest</td><td>192.168.20.0/24</td><td class="iface">.21 &ndash; .254</td><td>Exclude .1&ndash;.20; gw .1; DNS .99.10</td></tr>
+      <tr><td class="device">Printer (reservation)</td><td>VLAN 10</td><td class="iface">192.168.10.50</td><td>Reserved/static (see Configure)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <h5>Routing must already work</h5>
+    <p>Relay forwards DHCP <i>over routing</i>, so inter-VLAN routing on SW-CORE must be working first. Confirm the SVIs are up and that a device on VLAN 99 can <code>ping 192.168.10.1</code> and <code>192.168.20.1</code>. If routing is broken, fix it before configuring relay \u2014 the relayed unicast has to reach the server and the offer has to route back.</p>
+  </div>
+
+  <div class="step" data-step="1">
+    <h4>Place the DHCP server</h4>
+    <p>Drag a <b>Server</b> onto VLAN 99. Set <b>Config → FastEthernet0 → Static</b>: IP <code>192.168.99.10</code>, mask <code>255.255.255.0</code>, gateway <code>192.168.99.1</code>. Cable it to a VLAN 99 access port.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Place the test clients</h4>
+    <p>Put <b>PC-Staff</b> on a VLAN 10 port (SW-FLOOR1) and <b>PC-Guest</b> on a VLAN 20 port (SW-FLOOR2). Leave both set to <b>DHCP</b> for now \u2014 they'll fail to get an address until relay is configured, which is exactly what you'll prove.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Build the scopes, then <em>relay</em> to them.</h2>
+  <p>Three jobs: define two scopes on the server, turn on relay at the core for both client VLANs, and handle the printer reservation. The server work is in its GUI; the relay is two short CLI lines on SW-CORE.</p>
+
+  <div class="section-head">Part A · Scope for VLAN 10 (Staff)</div>
+  <p>On the server, open <b>Services → DHCP</b>. Add a new pool. The <b>Start IP Address</b> doubles as your exclusion: starting at <code>.21</code> holds back <code>.1\u2013.20</code> for gateways and static gear.</p>
+  <div class="gui-config">
+    <div class="gui-head">DHCP Server · <span class="gui-path">Services → DHCP → add pool</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Pool Name</span><span class="gf-val"><code>VLAN10-Staff</code></span></div>
+      <div class="gui-field"><span class="gf-label">Default Gateway</span><span class="gf-val"><code>192.168.10.1</code> &mdash; the SVI (option pushed to clients)</span></div>
+      <div class="gui-field"><span class="gf-label">DNS Server</span><span class="gf-val"><code>192.168.99.10</code> &mdash; option pushed to clients</span></div>
+      <div class="gui-field"><span class="gf-label">Start IP Address</span><span class="gf-val"><code>192.168.10.21</code> &mdash; reserves .1&ndash;.20 (exclusion)</span></div>
+      <div class="gui-field"><span class="gf-label">Subnet Mask</span><span class="gf-val"><code>255.255.255.0</code></span></div>
+      <div class="gui-field"><span class="gf-label">Maximum Users</span><span class="gf-val"><code>200</code> (or as needed)</span></div>
+      <div class="gui-field"><span class="gf-label">Then</span><span class="gf-val">Click <b>Add</b> / <b>Save</b>, and make sure the DHCP <b>service is On</b></span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Part B · Scope for VLAN 20 (Guest)</div>
+  <p>Add a second pool with the same idea, pointed at the Guest subnet.</p>
+  <div class="gui-config">
+    <div class="gui-head">DHCP Server · <span class="gui-path">Services → DHCP → add pool</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Pool Name</span><span class="gf-val"><code>VLAN20-Guest</code></span></div>
+      <div class="gui-field"><span class="gf-label">Default Gateway</span><span class="gf-val"><code>192.168.20.1</code></span></div>
+      <div class="gui-field"><span class="gf-label">DNS Server</span><span class="gf-val"><code>192.168.99.10</code></span></div>
+      <div class="gui-field"><span class="gf-label">Start IP Address</span><span class="gf-val"><code>192.168.20.21</code> &mdash; reserves .1&ndash;.20</span></div>
+      <div class="gui-field"><span class="gf-label">Subnet Mask</span><span class="gf-val"><code>255.255.255.0</code></span></div>
+      <div class="gui-field"><span class="gf-label">Maximum Users</span><span class="gf-val"><code>200</code></span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>How the server picks the right scope</h5>
+    <p>One server, two scopes \u2014 so how does it know a request is for VLAN 10 vs VLAN 20? The <b>relay</b> stamps each forwarded request with the client's subnet (the <b>giaddr</b>, gateway IP address). The server matches that to the scope whose network contains it. That's why a single central server can address many subnets.</p>
+  </div>
+
+  <div class="section-head">Part C · DHCP relay on SW-CORE</div>
+  <p>This is the heart of the lab. On each client VLAN's SVI, point the relay at the server with <code>ip helper-address</code>. Now the SVI catches the client's broadcast Discover and forwards it as a unicast to <code>192.168.99.10</code>.</p>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">CLI · IOS</span>
+      <span class="term-concept">Concept: ip helper-address turns a DHCP broadcast into a unicast to the server</span>
+      <span class="term-device">SW-CORE</span>
+      <button class="copy-btn" data-copy="cmd-relay">Copy</button>
+    </div>
+    <div class="term-body"><pre id="cmd-relay"><span class="prompt">SW-CORE></span> <span class="cmd">enable</span>
+<span class="prompt">SW-CORE#</span> <span class="cmd">configure terminal</span>
+<span class="comment">! relay DHCP for the Staff VLAN to the central server</span>
+<span class="prompt">SW-CORE(config)#</span> <span class="cmd">interface vlan 10</span>
+<span class="prompt">SW-CORE(config-if)#</span> <span class="cmd">ip helper-address 192.168.99.10</span>
+<span class="prompt">SW-CORE(config-if)#</span> <span class="cmd">exit</span>
+<span class="comment">! relay DHCP for the Guest VLAN to the same server</span>
+<span class="prompt">SW-CORE(config)#</span> <span class="cmd">interface vlan 20</span>
+<span class="prompt">SW-CORE(config-if)#</span> <span class="cmd">ip helper-address 192.168.99.10</span>
+<span class="prompt">SW-CORE(config-if)#</span> <span class="cmd">end</span>
+<span class="prompt">SW-CORE#</span> <span class="cmd">write memory</span>
+<span class="ok">[OK]</span></pre></div>
+  </div>
+
+  <div class="section-head">Part D · The printer reservation</div>
+  <p>A reservation pins one device to a fixed address every time. The exam expects the concept; the way you implement it depends on the platform.</p>
+  <div class="callout sim-note">
+    <h5>Packet Tracer scope note — reservations</h5>
+    <p>Packet Tracer's <b>Server</b> DHCP service does not support per-MAC reservations. Implement the printer two practical ways: (1) keep <code>.50</code> inside the excluded/low range and <b>statically</b> assign <code>192.168.10.50</code> on the printer; or (2) if you run DHCP on a Cisco <b>router/L3 switch</b> instead, use a manual binding (shown below). Either way, document the reserved address in your write-up.</p>
+  </div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">CLI · IOS (reference)</span>
+      <span class="term-concept">Concept: a manual binding = a reservation tying one MAC to one address</span>
+      <span class="term-device">router-based DHCP</span>
+      <button class="copy-btn" data-copy="cmd-reserve">Copy</button>
+    </div>
+    <div class="term-body"><pre id="cmd-reserve"><span class="comment">! reservation via a manual binding (IOS DHCP)</span>
+<span class="prompt">R(config)#</span> <span class="cmd">ip dhcp pool PRINTER</span>
+<span class="prompt">R(dhcp-config)#</span> <span class="cmd">host 192.168.10.50 255.255.255.0</span>
+<span class="prompt">R(dhcp-config)#</span> <span class="cmd">client-identifier 01aa.bbcc.ddee.ff</span>
+<span class="prompt">R(dhcp-config)#</span> <span class="cmd">default-router 192.168.10.1</span>
+<span class="out">! the printer's MAC now always receives 192.168.10.50</span></pre></div>
+  </div>
+
+  <div class="section-head">Part E · Set the clients to DHCP</div>
+  <div class="gui-config">
+    <div class="gui-head">PC-Staff / PC-Guest · <span class="gui-path">Desktop → IP Configuration</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Setting</span><span class="gf-val">Select <b>DHCP</b> (not Static)</span></div>
+      <div class="gui-field"><span class="gf-label">Expected (Staff)</span><span class="gf-val">Address in <code>192.168.10.21+</code>, gateway <code>192.168.10.1</code>, DNS <code>192.168.99.10</code></span></div>
+      <div class="gui-field"><span class="gf-label">Expected (Guest)</span><span class="gf-val">Address in <code>192.168.20.21+</code>, gateway <code>192.168.20.1</code></span></div>
+      <div class="gui-field"><span class="gf-label">If it shows 169.254.x.x</span><span class="gf-val">That's APIPA \u2014 no DHCP was reached. See the Troubleshoot tab.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Prove the lease <em>crossed the router.</em></h2>
+  <p>Ten checks. The headline ones are 8 and 9: a client gets an address from a server it could never have broadcast to directly \u2014 that's relay working. Tick each as you confirm it; progress saves in this browser.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>VLAN10-Staff scope exists</b> on the server — network 192.168.10.0/24, gateway .1, DNS set.</div>
+    <div class="ccmd">pool: staff</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>VLAN20-Guest scope exists</b> on the server — network 192.168.20.0/24, gateway .1, DNS set.</div>
+    <div class="ccmd">pool: guest</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Low addresses excluded</b> — each pool starts at <code>.21</code>, reserving .1&ndash;.20 for static/infrastructure.</div>
+    <div class="ccmd">start .21</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>DHCP service is On</b> and the server has a static IP of 192.168.99.10.</div>
+    <div class="ccmd">service on</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Relay on VLAN 10</b> — <code>show run interface vlan 10</code> shows <code>ip helper-address 192.168.99.10</code>.</div>
+    <div class="ccmd">helper v10</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Relay on VLAN 20</b> — <code>show run interface vlan 20</code> shows <code>ip helper-address 192.168.99.10</code>.</div>
+    <div class="ccmd">helper v20</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Reachability holds</b> — a device on VLAN 99 can ping 192.168.10.1 and 192.168.20.1 (routing works, so relayed traffic can flow).</div>
+    <div class="ccmd">routing ok</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-Staff leased an address</b> — set to DHCP, it receives <code>192.168.10.21+</code> with gateway 192.168.10.1 and DNS 192.168.99.10.</div>
+    <div class="ccmd">staff = .10.x</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PC-Guest leased an address</b> — it receives <code>192.168.20.21+</code> with gateway 192.168.20.1 (different subnet, same server = relay proven).</div>
+    <div class="ccmd">guest = .20.x</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Printer at .50</b> — the reserved/static address 192.168.10.50 is in place and not handed out to anyone else.</div>
+    <div class="ccmd">printer .50</div>
+  </div>
+
+  <div class="callout">
+    <h5>The proof in one command</h5>
+    <p>On a client, <code>ipconfig /all</code> (or the Desktop IP Config window) shows the leased address, the gateway, the DNS server, and that the address was <b>DHCP-assigned</b>. If a VLAN 10 client shows 192.168.10.x while the only DHCP server lives on VLAN 99, your relay did its job \u2014 the request crossed the router and came back.</p>
+  </div>
+
+  <div class="section-head">What a successful lease looks like</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">PC-Staff · Command Prompt</span>
+      <span class="term-concept">Concept: a VLAN 10 address from a VLAN 99 server means relay worked</span>
+      <span class="term-device">VLAN 10 client</span>
+      <button class="copy-btn" data-copy="cmd-ipcfg">Copy</button>
+    </div>
+    <div class="term-body"><pre id="cmd-ipcfg"><span class="prompt">C:\></span> <span class="cmd">ipconfig /all</span>
+<span class="out">   DHCP Enabled. . . . . . . . . . . : </span><span class="ok">Yes</span>
+<span class="out">   IPv4 Address. . . . . . . . . . . : 192.168.10.21</span>
+<span class="out">   Subnet Mask . . . . . . . . . . . : 255.255.255.0</span>
+<span class="out">   Default Gateway . . . . . . . . . : 192.168.10.1</span>
+<span class="out">   DNS Servers . . . . . . . . . . . : 192.168.99.10</span>
+<span class="out">   DHCP Server . . . . . . . . . . . : 192.168.99.10</span>
+<span class="comment">! address is .10.x but the DHCP server is on .99 — relay did this</span></pre></div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When clients <em>don't</em> get an address.</h2>
+  <p>DHCP failures have a small set of usual suspects \u2014 and the tell-tale sign is almost always an <b>APIPA</b> address (169.254.x.x), which means the client gave up waiting for a DHCP reply and assigned itself.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client shows a 169.254.x.x (APIPA) address</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">A DHCP client self-assigns 169.254.x.x \u2014 no DHCP server answered.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">Missing <code>ip helper-address</code> on the client's SVI, the server is down/off, or no scope matches the subnet.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show run interface vlan 10</code> for the helper; confirm the server's DHCP service is on and a pool covers that subnet.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the helper-address, enable the service, or create the matching scope; renew the client (re-toggle DHCP).</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client gets an address from the wrong subnet</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">A VLAN 10 client receives a 192.168.20.x address (wrong scope).</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The helper is on the wrong SVI, or the scope networks/gateways are mismatched so the <b>giaddr</b> selects the wrong pool.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Verify which SVI carries the client and that each scope's network/gateway matches its VLAN.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Put the correct helper on the correct SVI; align each scope's network and default gateway to its VLAN.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client has an IP but no gateway or DNS</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">Address leases fine, but the client can't reach other subnets or resolve names.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The scope is missing the <b>default-gateway</b> or <b>DNS</b> option.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>ipconfig /all</code> shows blank Default Gateway / DNS Servers.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Set the gateway and DNS options in the scope, then renew the lease.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Some clients get addresses, others fail</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">New clients can't lease; existing ones are fine.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The <b>scope is exhausted</b> \u2014 too few addresses for demand, often worsened by a long lease time holding addresses.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Compare client count to the pool size (max users); review lease duration.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Widen the scope (more addresses) or shorten the lease so freed addresses return faster.</div></div>
+  </div>
+
+  <div class="callout sim-note">
+    <h5>Packet Tracer scope note</h5>
+    <p>Packet Tracer simulates DHCP and relay faithfully \u2014 DORA, scopes, options, <code>ip helper-address</code>, and APIPA fallback all behave as expected. It does <i>not</i> implement per-MAC reservations on the simple Server (use a static IP or router-based binding), and advanced options (option 82, DHCP snooping nuances) are limited. The exam tests the concepts you practiced here, not PT's menu specifics.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Package it for <em>grading.</em></h2>
+
+  <div class="submit-card">
+    <h3>What to submit</h3>
+    <p>Two items, uploaded to the CIT-281 Canvas module under <b>Lab 3.4.1</b>:</p>
+    <ul>
+      <li>Your Packet Tracer file, named <code>Lab-3.4.1-DHCPRelay-FirstLast.pkt</code></li>
+      <li>A short <b>write-up</b> (PDF or doc) with the screenshots and answers listed below</li>
+    </ul>
+    <p>Confirm both clients hold leases from the correct scopes before you save and submit.</p>
+  </div>
+
+  <div class="section-head">Write-up must include</div>
+  <ul>
+    <li>A screenshot of <b>PC-Staff's <code>ipconfig /all</code></b> showing a 192.168.10.x address, gateway, and DNS \u2014 leased from the .99 server.</li>
+    <li>A screenshot of <b>PC-Guest</b> with a 192.168.20.x address.</li>
+    <li>A screenshot of the SW-CORE config showing <b><code>ip helper-address</code></b> on both VLAN 10 and VLAN 20.</li>
+    <li>In your own words: the four <b>DORA</b> steps, and <b>why relay is needed</b> when the server is on another subnet.</li>
+    <li>The printer's <b>reserved address</b> and how you implemented it.</li>
+  </ul>
+
+  <div class="section-head">Grading rubric (100 points)</div>
+  <table class="rubric">
+    <thead><tr><th>Criterion</th><th class="pts">Points</th></tr></thead>
+    <tbody>
+      <tr><td>Both scopes configured correctly (network, mask, gateway, DNS)</td><td class="pts">20</td></tr>
+      <tr><td>Address exclusions set — low range (.1&ndash;.20) reserved via start address</td><td class="pts">10</td></tr>
+      <tr><td><code>ip helper-address</code> on the VLAN 10 SVI</td><td class="pts">12</td></tr>
+      <tr><td><code>ip helper-address</code> on the VLAN 20 SVI</td><td class="pts">12</td></tr>
+      <tr><td>PC-Staff (VLAN 10) obtains a correct DHCP address across the relay</td><td class="pts">12</td></tr>
+      <tr><td>PC-Guest (VLAN 20) obtains a correct DHCP address across the relay</td><td class="pts">12</td></tr>
+      <tr><td>Clients receive correct gateway + DNS options</td><td class="pts">8</td></tr>
+      <tr><td>Printer reservation/static at 192.168.10.50 in place and documented</td><td class="pts">6</td></tr>
+      <tr><td>Write-up explains DORA and why relay is required</td><td class="pts">5</td></tr>
+      <tr><td>File named correctly &amp; submitted; topology reachable</td><td class="pts">3</td></tr>
+    </tbody>
+    <tfoot><tr><td>Total</td><td class="pts">100</td></tr></tfoot>
+  </table>
+
+  <div class="callout n-plus-context">
+    <h5>How this maps to the exam</h5>
+    <p>You've implemented the DHCP concepts objective 3.4 tests: <b>scope</b>, <b>exclusion</b>, <b>lease</b>, <b>options</b>, the <b>DORA</b> exchange, and \u2014 most importantly \u2014 <b>DHCP relay</b> (<code>ip helper-address</code>) for a server on another subnet, with <b>giaddr</b> selecting the scope. Next in 3.4 you'll move to IPv6 addressing and SLAAC, then DNS and time services.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 3.4.1 for Network+ N10-009 subtopic <b style="color:#E0B840">3.4 IPv4 &amp; IPv6 Services</b>. The DHCP implement task: build two scopes with exclusions and options on a central server, then relay DHCP across the Miami core with <code>ip helper-address</code> so clients on other subnets lease addresses. Pairs with the IPv6/SLAAC, DNS, and time-services materials in 3.4. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>3.4 materials</h4>
+      <p>Lab 3.4.1 · DHCP &amp; Relay ← you are here</p>
+      <p style="opacity:0.55">3.4.2 · IPv6 Addressing &amp; SLAAC (explorer)</p>
+      <p style="opacity:0.55">3.4.3 · DNS Services (lab)</p>
+      <p style="opacity:0.55">3.4.4 · DNS Resolution &amp; Records (explorer)</p>
+      <p style="opacity:0.55">3.4.5 · Time Protocols (explorer)</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Packet Tracer Lab · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-3.4.1-checks';
+const TOTAL_CHECKS = 10;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
