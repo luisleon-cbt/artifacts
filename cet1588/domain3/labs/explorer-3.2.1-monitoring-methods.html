@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.2.1 · Monitoring Methods · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== EXPLORER STAGE ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .explorer-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .explorer-hint b { color: var(--sky-deep); }
+  .hot { cursor: pointer; }
+  .hot .hit { transition: opacity 0.15s; opacity: 0; }
+  .hot:hover .hit { opacity: 1; }
+  .hot.active .hit { opacity: 1; }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .detail .d-badge { display: inline-block; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding: 3px 9px; border-radius: 2px; }
+  .detail .d-badge.pull { background: rgba(30,143,190,0.16); color: var(--sky-deep); }
+  .detail .d-badge.push { background: rgba(184,147,42,0.18); color: var(--gold-deep); }
+  .detail .d-badge.data { background: var(--bg-warm); color: var(--ink-mid); }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.push { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.push .mc-tag { color: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 96px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .method-grid, .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.2 Network Monitoring</span>
+    <span class="crumb">Explorer 3.2.1</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 1 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.2.1 · Monitoring Methods · ≈ 30 min</div>
+    <h1>How the network <em>tells</em> on itself.</h1>
+    <p class="lede">You can't fix what you can't see. Network monitoring is the set of methods that let a management station learn what every device is doing \u2014 its health, its traffic, its events. But these methods aren't interchangeable: <b>SNMP</b> reports device health, <b>flow data</b> summarizes who's talking to whom, <b>packet capture</b> grabs the raw traffic, and <b>syslog</b> streams event messages. Some <i>pull</i> data on a schedule; others have the device <i>push</i> it the instant something happens. Click through the monitoring stack below to see what each method produces.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.2 — network monitoring methods</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">SNMP · flow · packet capture · syslog · API/telemetry</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Monitoring-stack explorer + push/pull</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">1 of 3 · Methods / Syslog / Solutions</span></div>
+    <div class="ref-row"><span class="name">Pairs with</span><span class="desc">The 3.2 syslog/SNMP Packet Tracer lab</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      SNMP (poll/trap/MIB/OID) · NetFlow/sFlow/IPFIX · packet capture · syslog · API integration · telemetry · push vs pull
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.2 expects you to match a <b>monitoring method to a scenario</b>: which one tells you a device\u2019s CPU is high (SNMP), which shows the top talkers on a link (flow data), which captures the exact packets for deep analysis (packet capture), and which streams event messages (syslog). It also tests the <b>push vs pull</b> distinction \u2014 polling pulls on a schedule; traps and syslog push on an event. This explorer makes each method\u2019s job and data type concrete. The companion Packet Tracer lab lets you configure syslog and SNMP for real.</p>
+  </div>
+
+  <div class="section-head">The monitoring stack — click any element</div>
+  <h2 class="big">From device <em>to</em> dashboard.</h2>
+  <p class="body">Monitored devices sit on the left; a management/monitoring station on the right collects from them by different methods. Click each labeled method to see what data it carries, whether the device <b>pushes</b> it or the station <b>pulls</b> it, and the scenario it answers.</p>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <svg id="stack" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+        <defs>
+          <marker id="pull" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1E8FBE"/></marker>
+          <marker id="push" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#B8932A"/></marker>
+        </defs>
+        <!-- monitored device -->
+        <rect x="14" y="150" width="96" height="60" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+        <text x="62" y="176" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-CORE</text>
+        <text x="62" y="192" text-anchor="middle" fill="#767E92" font-size="8">monitored device</text>
+        <!-- monitoring station -->
+        <rect x="350" y="150" width="96" height="60" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+        <text x="398" y="176" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="10">MONITORING</text>
+        <text x="398" y="190" text-anchor="middle" fill="#767E92" font-size="8">station / console</text>
+
+        <!-- SNMP (pull poll + push trap) -->
+        <g class="hot" id="snmp">
+          <rect class="hit" x="118" y="32" width="224" height="34" fill="rgba(30,143,190,0.12)"/>
+          <line x1="118" y1="49" x2="342" y2="49" stroke="#1E8FBE" stroke-width="2" marker-end="url(#pull)"/>
+          <text x="230" y="44" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="11">SNMP</text>
+          <text x="230" y="62" text-anchor="middle" fill="#767E92" font-size="8">poll (pull) + traps (push) \u00b7 MIB / OIDs</text>
+        </g>
+
+        <!-- Flow data (push to collector) -->
+        <g class="hot" id="flow">
+          <rect class="hit" x="118" y="78" width="224" height="34" fill="rgba(184,147,42,0.14)"/>
+          <line x1="118" y1="95" x2="342" y2="95" stroke="#B8932A" stroke-width="2" marker-end="url(#push)"/>
+          <text x="230" y="90" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">Flow data</text>
+          <text x="230" y="108" text-anchor="middle" fill="#767E92" font-size="8">NetFlow / sFlow / IPFIX \u2192 collector</text>
+        </g>
+
+        <!-- Packet capture -->
+        <g class="hot" id="capture">
+          <rect class="hit" x="118" y="124" width="224" height="34" fill="rgba(40,48,104,0.10)"/>
+          <line x1="118" y1="141" x2="342" y2="141" stroke="#3D4685" stroke-width="2" marker-end="url(#push)"/>
+          <text x="230" y="136" text-anchor="middle" fill="#3D4685" font-weight="700" font-size="11">Packet capture</text>
+          <text x="230" y="154" text-anchor="middle" fill="#767E92" font-size="8">raw packets via SPAN / TAP</text>
+        </g>
+
+        <!-- Syslog (push) -->
+        <g class="hot" id="syslog">
+          <rect class="hit" x="118" y="232" width="224" height="34" fill="rgba(184,147,42,0.14)"/>
+          <line x1="118" y1="249" x2="342" y2="249" stroke="#B8932A" stroke-width="2" marker-end="url(#push)"/>
+          <text x="230" y="244" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">Syslog</text>
+          <text x="230" y="262" text-anchor="middle" fill="#767E92" font-size="8">event messages \u2192 syslog server (push)</text>
+        </g>
+
+        <!-- API / telemetry -->
+        <g class="hot" id="api">
+          <rect class="hit" x="118" y="278" width="224" height="34" fill="rgba(40,48,104,0.10)"/>
+          <line x1="118" y1="295" x2="342" y2="295" stroke="#3D4685" stroke-width="2" marker-end="url(#pull)"/>
+          <text x="230" y="290" text-anchor="middle" fill="#3D4685" font-weight="700" font-size="11">API / Telemetry</text>
+          <text x="230" y="308" text-anchor="middle" fill="#767E92" font-size="8">programmatic, streaming data</text>
+        </g>
+
+        <!-- legend -->
+        <line x1="40" y1="334" x2="64" y2="334" stroke="#1E8FBE" stroke-width="2" marker-end="url(#pull)"/>
+        <text x="70" y="338" fill="#1E8FBE" font-size="8">pull (station requests)</text>
+        <line x1="230" y1="334" x2="254" y2="334" stroke="#B8932A" stroke-width="2" marker-end="url(#push)"/>
+        <text x="260" y="338" fill="#B8932A" font-size="8">push (device sends)</text>
+      </svg>
+      <div class="explorer-hint">Click a method · <b id="hint-count">0/5</b> explored</div>
+    </div>
+    <div class="detail" id="detail"><!-- populated by JS; default = snmp --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>SNMP terms the exam loves: poll, trap, MIB, OID</h5>
+    <p>With <b>SNMP</b>, the manager <b>polls</b> (pulls) an agent for values, and the agent can send an unsolicited <b>trap</b> (push) when an event occurs. The data lives in a <b>MIB</b> (Management Information Base) \u2014 a structured catalog \u2014 and each value has a unique address called an <b>OID</b> (Object Identifier). A <b>walk</b> retrieves a whole branch of the MIB. Know all four terms.</p>
+  </div>
+
+  <div class="section-head">Push vs pull — the core distinction</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-tag">STATION REQUESTS</div>
+      <h4>Pull (polling)</h4>
+      <div class="mc-row"><div class="k">How</div><div class="v">The monitoring station asks the device for values on a schedule</div></div>
+      <div class="mc-row"><div class="k">Examples</div><div class="v">SNMP polling (GET), many API queries</div></div>
+      <div class="mc-row"><div class="k">Strength</div><div class="v">Regular, predictable snapshots of health metrics</div></div>
+      <div class="mc-row"><div class="k">Trade-off</div><div class="v">Only as fresh as the polling interval</div></div>
+    </div>
+    <div class="method-card push">
+      <div class="mc-tag">DEVICE SENDS</div>
+      <h4>Push (event-driven)</h4>
+      <div class="mc-row"><div class="k">How</div><div class="v">The device sends data on its own when something happens</div></div>
+      <div class="mc-row"><div class="k">Examples</div><div class="v">SNMP traps, syslog messages, flow exports, streaming telemetry</div></div>
+      <div class="mc-row"><div class="k">Strength</div><div class="v">Near-immediate notice of events</div></div>
+      <div class="mc-row"><div class="k">Trade-off</div><div class="v">You only learn what the device chooses to send</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Match the method to the question</h5>
+    <p>A quick mental map: <b>"Is the device healthy?"</b> \u2192 SNMP. <b>"Who are the top talkers on this link?"</b> \u2192 flow data. <b>"Show me the exact packets to analyze a problem"</b> \u2192 packet capture. <b>"What events happened, and when?"</b> \u2192 syslog. <b>"Pull this programmatically into our tools"</b> \u2192 API / telemetry.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>Which method is best for collecting device health metrics like CPU, memory, and interface status?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">SNMP</button>
+      <button class="kc-opt" data-correct="false">Packet capture</button>
+      <button class="kc-opt" data-correct="false">Flow data (NetFlow)</button>
+      <button class="kc-opt" data-correct="false">A wireless heat map</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>In SNMP, what is an <b>OID</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">An unsolicited alert the agent sends to the manager</button>
+      <button class="kc-opt" data-correct="true">A unique Object Identifier that addresses a specific value within the MIB</button>
+      <button class="kc-opt" data-correct="false">The password used to access the device</button>
+      <button class="kc-opt" data-correct="false">A captured copy of a packet</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>A security analyst needs to see exactly who is talking to whom and how much traffic flows between hosts on a WAN link, without storing every packet. Which method fits best?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Full packet capture</button>
+      <button class="kc-opt" data-correct="true">Flow data (NetFlow / sFlow / IPFIX)</button>
+      <button class="kc-opt" data-correct="false">Syslog</button>
+      <button class="kc-opt" data-correct="false">SNMP polling</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Which is an example of a <b>push</b> (event-driven), rather than a pull, monitoring mechanism?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">SNMP polling (GET requests on a schedule)</button>
+      <button class="kc-opt" data-correct="true">Syslog messages and SNMP traps sent when an event occurs</button>
+      <button class="kc-opt" data-correct="false">A scheduled API query for interface counters</button>
+      <button class="kc-opt" data-correct="false">Reading a rack diagram</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>An engineer needs the full raw contents of traffic to diagnose a tricky application problem packet-by-packet. Which method provides that?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">SNMP</button>
+      <button class="kc-opt" data-correct="false">Flow data</button>
+      <button class="kc-opt" data-correct="true">Packet capture (e.g., via a SPAN/mirror port or TAP)</button>
+      <button class="kc-opt" data-correct="false">An SLA document</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">SNMP</div><div class="t-def">Simple Network Management Protocol — a manager polls agents for health values and receives traps; data is organized in a MIB and addressed by OIDs.</div></div>
+    <div class="term"><div class="t-name">Trap vs poll</div><div class="t-def">Poll = the manager pulls a value on request/schedule. Trap = the agent pushes an unsolicited alert when an event occurs.</div></div>
+    <div class="term"><div class="t-name">MIB / OID</div><div class="t-def">MIB is the structured catalog of manageable values; an OID is the unique identifier that addresses one specific value within it.</div></div>
+    <div class="term"><div class="t-name">Flow data</div><div class="t-def">NetFlow / sFlow / IPFIX — summaries of conversations (who talked to whom, how much) exported to a collector; great for traffic analysis without full capture.</div></div>
+    <div class="term"><div class="t-name">Packet capture</div><div class="t-def">Recording raw packets (via a SPAN/mirror port or TAP) for deep, packet-by-packet analysis.</div></div>
+    <div class="term"><div class="t-name">Syslog / API / telemetry</div><div class="t-def">Syslog streams event messages (push). APIs and streaming telemetry deliver monitoring data programmatically to modern tooling.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.2.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the core monitoring methods \u2014 SNMP, flow data, packet capture, syslog, and API/telemetry \u2014 and the push-vs-pull distinction, through an interactive monitoring-stack model. Pairs with the 3.2 syslog/SNMP Packet Tracer lab. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p>3.2.1 · Monitoring Methods ← you are here</p>
+      <p style="opacity:0.55">3.2.2 · Syslog &amp; Log Levels</p>
+      <p style="opacity:0.55">3.2.3 · Monitoring Solutions</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Monitoring-stack explorer: click-to-detail ===== */
+var DETAILS = {
+  snmp: {
+    cat: 'Monitoring method · device health', title: 'SNMP', abbr: 'Simple Network Management Protocol',
+    badges: [['pull','poll = pull'],['push','traps = push'],['data','health metrics']],
+    body: 'The workhorse for <b>device health</b>. A manager <b>polls</b> agents for values (CPU, memory, interface status, errors) and agents can fire unsolicited <b>traps</b> when something happens. Values live in a <b>MIB</b> and are addressed by <b>OIDs</b>.',
+    facts: ['<b>Poll</b> (GET) pulls values on request/schedule.', '<b>Traps</b> push an alert the moment an event occurs.', '<b>MIB</b> = the structured catalog of values; <b>OID</b> = a value\u2019s unique address.', 'A <b>walk</b> retrieves a whole MIB branch at once.'],
+    exam: { lab:'Answers', text:'"<b>Is this device healthy \u2014 CPU, memory, interface up/down?</b>" Memorize poll/trap/MIB/OID.' }
+  },
+  flow: {
+    cat: 'Monitoring method · traffic summary', title: 'Flow Data', abbr: 'NetFlow / sFlow / IPFIX',
+    badges: [['push','push to collector'],['data','conversation summaries']],
+    body: 'Flow data summarizes <b>conversations</b> \u2014 source, destination, ports, and byte/packet counts \u2014 and <b>exports</b> them to a collector. It tells you <b>who talked to whom and how much</b> without storing every packet.',
+    facts: ['Records <b>flows</b> (who \u2194 who, how much), not full payloads.', 'Exported by the device to a <b>flow collector</b>.', 'Ideal for <b>top talkers</b> and traffic-trend analysis.', 'NetFlow, sFlow, and IPFIX are common formats.'],
+    exam: { lab:'Answers', text:'"<b>Who are the top talkers on this link, and where is the traffic going?</b>" \u2014 without a full capture.' }
+  },
+  capture: {
+    cat: 'Monitoring method · raw traffic', title: 'Packet Capture', abbr: 'SPAN / mirror / TAP',
+    badges: [['push','copied to analyzer'],['data','raw packets']],
+    body: 'Packet capture records the <b>actual raw packets</b> \u2014 full headers and payloads \u2014 for deep, packet-by-packet analysis. Traffic is copied to an analyzer via a <b>SPAN/mirror port</b> or a physical <b>TAP</b>.',
+    facts: ['Captures <b>complete packets</b>, not just summaries.', 'Collected via a <b>SPAN/mirror port</b> or inline <b>TAP</b>.', 'The deepest detail \u2014 but the highest storage cost.', 'Use it to diagnose tricky, specific problems.'],
+    exam: { lab:'Answers', text:'"<b>Show me the exact packets so I can analyze this problem in detail.</b>" Most granular, most storage.' }
+  },
+  syslog: {
+    cat: 'Monitoring method · event messages', title: 'Syslog', abbr: 'event logging (push)',
+    badges: [['push','event-driven push'],['data','log messages']],
+    body: 'Syslog has devices <b>send event messages</b> to a central <b>syslog server</b> as things happen \u2014 interface up/down, config changes, authentication events. Each message carries a <b>severity level (0\u20137)</b>, explored in 3.2.2.',
+    facts: ['Devices <b>push</b> messages to a syslog server.', 'Centralizes events from many devices in one place.', 'Each message has a <b>severity level</b> (0 Emergency \u2026 7 Debug).', 'The basis for log review and correlation.'],
+    exam: { lab:'Answers', text:'"<b>What events happened on these devices, and when?</b>" You configure this in the 3.2 lab.' }
+  },
+  api: {
+    cat: 'Monitoring method · programmatic', title: 'API & Telemetry', abbr: 'programmatic / streaming',
+    badges: [['pull','API pull'],['push','streaming push'],['data','structured data']],
+    body: 'Modern tooling pulls monitoring data through <b>APIs</b> or receives continuous <b>streaming telemetry</b> \u2014 structured, programmatic data that integrates cleanly with dashboards, automation, and analytics platforms.',
+    facts: ['APIs let tools <b>query</b> devices/controllers programmatically.', '<b>Streaming telemetry</b> pushes continuous, structured data.', 'Integrates monitoring into automation and analytics.', 'The direction modern, large-scale monitoring is heading.'],
+    exam: { lab:'Answers', text:'"<b>Pull this data into our own tools/automation programmatically.</b>" Think APIs and streaming telemetry.' }
+  }
+};
+var explored = new Set();
+var HINTKEY = 'cbt-explorer-3.2.1-seen';
+try { (JSON.parse(localStorage.getItem(HINTKEY) || '[]')).forEach(function(x){ explored.add(x); }); } catch(e){}
+
+function renderDetail(id){
+  var d = DETAILS[id];
+  if(!d) return;
+  var badges = d.badges.map(function(b){ return '<span class="d-badge ' + b[0] + '">' + b[1] + '</span>'; }).join('');
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-badges">' + badges + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.hot').forEach(function(h){ h.classList.toggle('active', h.id === id); });
+  explored.add(id);
+  try { localStorage.setItem(HINTKEY, JSON.stringify([].concat(Array.from(explored)))); } catch(e){}
+  document.getElementById('hint-count').textContent = explored.size + '/5';
+}
+document.querySelectorAll('.hot').forEach(function(h){
+  h.addEventListener('click', function(){ renderDetail(h.id); });
+});
+explored.add('snmp');
+renderDetail('snmp');
+document.getElementById('hint-count').textContent = explored.size + '/5';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.2.1-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. <b>SNMP</b> is the standard for polling device health metrics.', no: 'Not quite. <b>SNMP</b> collects health metrics (CPU, memory, interfaces). Capture grabs packets; flow summarizes conversations.' },
+  '2': { ok: 'Correct. An <b>OID</b> uniquely addresses a value within the MIB.', no: 'Not quite. An <b>OID</b> (Object Identifier) is the unique address of a value in the MIB. An unsolicited alert is a trap.' },
+  '3': { ok: 'Correct. <b>Flow data</b> summarizes conversations without storing every packet.', no: 'Not quite. <b>Flow data</b> (NetFlow/sFlow/IPFIX) summarizes who-talks-to-whom and volumes \u2014 ideal here. Full capture stores everything; SNMP is health.' },
+  '4': { ok: 'Correct. <b>Syslog and SNMP traps</b> are pushed by the device when events occur.', no: 'Not quite. <b>Push</b> = the device sends on its own (syslog, SNMP traps). Polling and scheduled API queries are pull.' },
+  '5': { ok: 'Correct. <b>Packet capture</b> provides the full raw packets for deep analysis.', no: 'Not quite. Only <b>packet capture</b> gives the complete raw packets needed for packet-by-packet diagnosis.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
