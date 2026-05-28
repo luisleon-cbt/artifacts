@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.1.2 · Life-cycle Management · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== LIFE-CYCLE TIMELINE ===== */
+  .timeline { background: var(--surface); border: 1px solid var(--line); padding: 26px 28px 22px; margin: 8px 0 0; }
+  .tl-track { position: relative; height: 6px; background: var(--bg-warm); border-radius: 3px; margin: 28px 8px 0; }
+  .tl-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--green), var(--gold-deep), var(--red)); transition: width 0.3s ease; width: 0%; }
+  .tl-markers { display: flex; justify-content: space-between; margin: 0 8px; position: relative; }
+  .tl-marker { position: absolute; transform: translateX(-50%); top: -34px; text-align: center; cursor: pointer; width: 120px; }
+  .tl-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 3px solid var(--line-soft); margin: 0 auto 6px; transition: all 0.2s; }
+  .tl-marker.done .tl-dot { border-color: var(--navy-deep); background: var(--navy-deep); }
+  .tl-marker.current .tl-dot { border-color: var(--sky); background: var(--sky); transform: scale(1.25); box-shadow: 0 0 0 4px rgba(56,176,224,0.2); }
+  .tl-marker .tl-lab { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; line-height: 1.2; }
+  .tl-marker.current .tl-lab { color: var(--navy-deep); }
+  .tl-slider { -webkit-appearance: none; appearance: none; width: calc(100% - 16px); margin: 22px 8px 0; height: 8px; background: transparent; cursor: pointer; }
+  .tl-slider::-webkit-slider-runnable-track { height: 4px; background: var(--line-soft); border-radius: 2px; }
+  .tl-slider::-moz-range-track { height: 4px; background: var(--line-soft); border-radius: 2px; }
+  .tl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--sky); border: 3px solid white; box-shadow: 0 0 0 1px var(--sky-deep); margin-top: -9px; cursor: pointer; }
+  .tl-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--sky); border: 3px solid white; cursor: pointer; }
+  .tl-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .tl-hint b { color: var(--sky-deep); }
+
+  .explorer { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border: 1px solid var(--line); border-top: none; background: var(--surface); margin: 0 0 10px; }
+  .stage-panel { padding: 22px 24px; border-right: 1px solid var(--line); background: var(--surface-alt); }
+  .stage-panel .sp-head { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 14px; }
+  .status-grid { display: flex; flex-direction: column; gap: 8px; }
+  .status-row { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--line-soft); padding: 11px 14px; }
+  .status-row .sr-label { font-size: 13px; color: var(--ink); }
+  .status-badge { font-family: var(--ff-mono); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 2px; letter-spacing: 0.04em; }
+  .status-badge.ok { background: var(--green-bg); color: var(--green); }
+  .status-badge.no { background: var(--red-bg); color: var(--red); }
+  .status-badge.warn { background: rgba(224,184,64,0.18); color: var(--gold-deep); }
+  .status-badge.na { background: var(--bg-warm); color: var(--ink-mute); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-facts.todo li::before { content: '☐'; color: var(--gold-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== SOFTWARE LIBRARY (reused doc pattern) ===== */
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 12px 14px; cursor: pointer; transition: all 0.14s; }
+  .doc-card.sec { border-left-color: var(--red); }
+  .doc-card:hover { border-color: var(--sky); transform: translateY(-1px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card.sec.active { box-shadow: inset 0 0 0 2px var(--red); }
+  .doc-card .dc-name { font-family: var(--ff-display); font-size: 14px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .doc-card .dc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 3px; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+  .explorer.lib { border-top: 1px solid var(--line); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .stage-panel, .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .term-grid { grid-template-columns: 1fr; }
+    .tl-marker .tl-lab { font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.1 Organizational Processes</span>
+    <span class="crumb">Explorer 3.1.2</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 2 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.1.2 · Life-cycle · ≈ 28 min</div>
+    <h1>Nothing lasts <em>forever.</em></h1>
+    <p class="lede">Every piece of network gear is on a clock. It ships, it's sold and supported, then the vendor winds it down \u2014 and one day stops patching it entirely. The danger is subtle: an old switch keeps <i>working</i> long after it stops being <i>safe</i>, because once it hits <b>end-of-support</b> every new vulnerability goes unfixed. Knowing where each device sits on its life-cycle \u2014 and what to do at each stage \u2014 is how teams stay secure and avoid nasty surprises. Drag through the timeline below and watch a device lose its support, one guarantee at a time.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.1 — life-cycle management</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">EOL, EOS, software updates, decommissioning</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Scrubbable timeline + software library</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">2 of 3 · Docs / Life-cycle / Change &amp; Config</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Scrub the timeline; watch support fall away</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      EOL · EOS · patches &amp; bug fixes · security updates · OS · firmware · decommissioning
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.1 lists <b>EOL</b>, <b>EOS</b>, <b>software management</b> (patches/bug fixes, OS, firmware), and <b>decommissioning</b>. The exam wants you to know what each milestone means and \u2014 critically \u2014 that <b>end-of-support is the dangerous one</b>, because no more security patches arrive. It also expects you to tell <b>firmware</b> (low-level hardware code) from an <b>OS</b> update, and to know decommissioning is a <i>process</i>, not just unplugging. This explorer makes the life-cycle visible.</p>
+  </div>
+
+  <div class="section-head">The life-cycle timeline — drag through the stages</div>
+  <h2 class="big">From <em>shipped</em> to <em>shut down.</em></h2>
+  <p class="body">Move the slider (or click a milestone) to walk a device through its life. The grid on the left shows what's still true at each stage \u2014 watch the green guarantees turn to red. The most important transition is <b>end-of-life \u2192 end-of-support</b>: that's where security patches stop.</p>
+
+  <div class="timeline">
+    <div class="tl-markers" id="tlMarkers">
+      <div class="tl-marker current" data-stage="0" style="left:0%"><div class="tl-dot"></div><div class="tl-lab">General<br>Availability</div></div>
+      <div class="tl-marker" data-stage="1" style="left:33.33%"><div class="tl-dot"></div><div class="tl-lab">End-of-Life<br>(EOL)</div></div>
+      <div class="tl-marker" data-stage="2" style="left:66.66%"><div class="tl-dot"></div><div class="tl-lab">End-of-Support<br>(EOS)</div></div>
+      <div class="tl-marker" data-stage="3" style="left:100%"><div class="tl-dot"></div><div class="tl-lab">Decommission</div></div>
+    </div>
+    <div class="tl-track"><div class="tl-fill" id="tlFill"></div></div>
+    <input type="range" min="0" max="3" step="1" value="0" id="tlSlider" class="tl-slider">
+    <div class="tl-hint">Drag the slider or click a milestone · stage <b id="tl-stage">1 of 4</b></div>
+  </div>
+
+  <div class="explorer">
+    <div class="stage-panel">
+      <div class="sp-head">Support status at this stage</div>
+      <div class="status-grid" id="statusGrid"><!-- populated by JS --></div>
+    </div>
+    <div class="detail" id="stageDetail"><!-- populated by JS; default = GA --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>EOL vs EOS — the distinction the exam tests</h5>
+    <p><b>End-of-Life (EOL)</b> is the announcement that a product is being retired \u2014 it usually stops being sold, but support and patches typically continue for a while. <b>End-of-Support (EOS)</b> is the hard cutoff: <b>no more patches, security updates, or vendor help</b>. A device can run for years after EOS, but every unpatched vulnerability makes it riskier. EOL says "plan ahead"; EOS says "you're now exposed."</p>
+  </div>
+
+  <div class="section-head">Software management — click each update type</div>
+  <h2 class="big">Keeping it <em>current.</em></h2>
+  <p class="body">Staying supported means staying updated. There are a few distinct kinds of updates, and the exam expects you to tell them apart \u2014 especially <b>firmware</b> (the low-level code baked into the hardware) versus the device's <b>operating system</b>. Click each to compare.</p>
+
+  <div class="explorer lib">
+    <div class="doc-stage">
+      <div class="doc-grid" id="swGrid">
+        <div class="doc-card active" id="patches"><div class="dc-name">Patches &amp; bug fixes</div><div class="dc-tag">defect repairs</div></div>
+        <div class="doc-card sec" id="security"><div class="dc-name">Security updates</div><div class="dc-tag">close vulnerabilities</div></div>
+        <div class="doc-card" id="os"><div class="dc-name">Operating system</div><div class="dc-tag">the device's core OS</div></div>
+        <div class="doc-card" id="firmware"><div class="dc-name">Firmware</div><div class="dc-tag">low-level hardware code</div></div>
+      </div>
+      <div class="doc-hint">Click an update type · <b id="sw-count">1/4</b> explored</div>
+    </div>
+    <div class="detail" id="swDetail"><!-- populated by JS; default = patches --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Firmware sits below the OS</h5>
+    <p>Think of the stack: <b>firmware</b> is the low-level code embedded in the hardware that makes the device boot and run at the most basic level; the <b>operating system</b> runs on top of it and provides the features you interact with. Both need updating \u2014 but they're different layers, and the exam likes to test that you know which is which.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What does <b>End-of-Support (EOS)</b> mean for a device?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">It immediately stops working and powers off</button>
+      <button class="kc-opt" data-correct="true">The vendor no longer provides patches, security updates, or support — even though it may still function</button>
+      <button class="kc-opt" data-correct="false">It can no longer be purchased, but is fully supported</button>
+      <button class="kc-opt" data-correct="false">It receives only new features, no bug fixes</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>A product has reached <b>End-of-Life (EOL)</b> but not yet End-of-Support. What is generally true?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">It's typically no longer sold, but still receives support and security patches — time to plan a replacement</button>
+      <button class="kc-opt" data-correct="false">It has already stopped receiving all updates</button>
+      <button class="kc-opt" data-correct="false">It must be decommissioned that same day</button>
+      <button class="kc-opt" data-correct="false">Nothing changes; EOL and EOS are identical</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>Why is running a device <b>past its End-of-Support date</b> a security risk?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">It uses more electricity</button>
+      <button class="kc-opt" data-correct="true">No more security patches are released, so newly discovered vulnerabilities stay unfixed</button>
+      <button class="kc-opt" data-correct="false">Its warranty is shorter</button>
+      <button class="kc-opt" data-correct="false">It can no longer connect to any network</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>What is the difference between a <b>firmware</b> update and an <b>operating system</b> update?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">They are two names for the same thing</button>
+      <button class="kc-opt" data-correct="true">Firmware is low-level code embedded in the hardware; the OS runs on top of it and provides the device's features</button>
+      <button class="kc-opt" data-correct="false">Firmware only applies to PCs; OS only applies to switches</button>
+      <button class="kc-opt" data-correct="false">Firmware updates are optional; OS updates are never needed</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>Properly <b>decommissioning</b> a device should include which of the following?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Simply unplugging it and leaving it on the shelf</button>
+      <button class="kc-opt" data-correct="true">Backing up/migrating its config, securely wiping sensitive data, updating documentation, and disposing of it responsibly</button>
+      <button class="kc-opt" data-correct="false">Leaving its data intact in case it's needed later</button>
+      <button class="kc-opt" data-correct="false">Removing it from the rack but keeping it in the asset inventory as active</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">End-of-Life (EOL)</div><div class="t-def">The vendor's announcement that a product is being retired — typically no longer sold or developed, but still supported for a transition window. Your cue to plan replacement.</div></div>
+    <div class="term"><div class="t-name">End-of-Support (EOS)</div><div class="t-def">The hard cutoff after which the vendor provides no patches, security updates, or support. The critical security date.</div></div>
+    <div class="term"><div class="t-name">Patch / bug fix</div><div class="t-def">A targeted update that corrects defects or flaws in software to keep it stable and correct.</div></div>
+    <div class="term"><div class="t-name">Security update</div><div class="t-def">A patch that specifically closes a known vulnerability — the updates that stop once a product hits EOS.</div></div>
+    <div class="term"><div class="t-name">Firmware vs OS</div><div class="t-def">Firmware is low-level code embedded in the hardware; the operating system runs on top of it and delivers the device's features.</div></div>
+    <div class="term"><div class="t-name">Decommissioning</div><div class="t-def">Safely retiring a device: back up/migrate config, wipe sensitive data, update inventory/docs, and dispose responsibly.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.1.2 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.1 Organizational Processes</b>. Covers life-cycle management — EOL, EOS, software/firmware updates, and decommissioning — through a scrubbable life-cycle timeline with a degrading support-status grid and an interactive software-update library. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.1.1 · Documentation &amp; Diagrams</p>
+      <p>3.1.2 · Life-cycle Management ← you are here</p>
+      <p style="opacity:0.55">3.1.3 · Change &amp; Configuration Management</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Life-cycle timeline ===== */
+var STAGES = [
+  {
+    cat: 'Life-cycle · current', title: 'General Availability', abbr: 'GA \u00b7 fully supported',
+    body: 'The product is <b>current</b> \u2014 actively sold, fully supported, and receiving regular updates and security patches. This is the healthy state you want production gear to be in.',
+    facts: ['Deploy and run with confidence.', 'Keep its OS and firmware patched.', 'Record it in the asset inventory with its life-cycle dates.', 'No action needed beyond normal maintenance.'],
+    factsTodo: false,
+    status: { buy:'ok', support:'ok', patches:'ok', run:'ok' },
+    exam: { lab:'Exam note', text:'GA = sold + supported + patched. The baseline healthy state every other stage is measured against.' }
+  },
+  {
+    cat: 'Life-cycle · being retired', title: 'End-of-Life (EOL)', abbr: 'EOL \u00b7 the beginning of the end',
+    body: 'The vendor has <b>announced the product is being retired</b>. It\u2019s typically no longer sold or actively developed, but it <b>still receives support and security patches</b> during a transition window. This is your signal to plan a replacement.',
+    facts: ['Stop choosing it for new deployments.', 'Begin budgeting and planning the migration.', 'Still safe to run \u2014 patches continue for now.', 'Note the announced End-of-Support date and work backward.'],
+    factsTodo: false,
+    status: { buy:'no', support:'ok', patches:'ok', run:'warn' },
+    exam: { lab:'Exam note', text:'EOL = announced retirement. Sales usually stop, but support/patches continue until EOS. EOL means "plan ahead," not "panic."' }
+  },
+  {
+    cat: 'Life-cycle · unsupported', title: 'End-of-Support (EOS)', abbr: 'EOS \u00b7 the critical date',
+    body: 'The <b>hard cutoff</b>. The vendor no longer provides support, patches, or \u2014 critically \u2014 <b>security updates</b>. The device may still function perfectly, but every newly discovered vulnerability now goes <b>unfixed</b>, making it a growing security and compliance risk.',
+    facts: ['No more patches or security updates arrive.', 'Running it is now a real security/compliance risk.', 'Replace it before or at this date.', 'If it must stay temporarily, isolate/segment it.'],
+    factsTodo: false,
+    status: { buy:'no', support:'no', patches:'no', run:'no' },
+    exam: { lab:'Exam note', text:'EOS is the dangerous milestone: no security patches means unpatched vulnerabilities. This \u2014 not EOL \u2014 is the urgent date on the exam.' }
+  },
+  {
+    cat: 'Life-cycle · retirement', title: 'Decommissioning', abbr: 'retire it safely',
+    body: 'Formally removing the device from service. Decommissioning is a <b>process</b>, not just unplugging \u2014 it protects data, keeps records accurate, and disposes of hardware responsibly.',
+    facts: ['Back up / migrate its configuration first.', 'Securely wipe all sensitive data.', 'Update documentation &amp; asset inventory (mark it retired).', 'Recycle / dispose of the hardware responsibly.'],
+    factsTodo: true,
+    status: { buy:'na', support:'na', patches:'na', run:'na' },
+    exam: { lab:'Exam note', text:'Decommissioning = a procedure: back up config, wipe data, update docs, dispose responsibly. "Just turning it off" is not decommissioning.' }
+  }
+];
+var STATUS_ROWS = [
+  { key:'buy', label:'Available to purchase' },
+  { key:'support', label:'Vendor support' },
+  { key:'patches', label:'Security patches' },
+  { key:'run', label:'Recommended to run' }
+];
+var BADGE_TEXT = { ok:'YES', no:'NO', warn:'PLAN', na:'\u2014' };
+
+var tlSlider = document.getElementById('tlSlider');
+
+function renderStage(n){
+  var s = STAGES[n];
+  // timeline visuals
+  document.getElementById('tlFill').style.width = (n / 3 * 100) + '%';
+  document.querySelectorAll('.tl-marker').forEach(function(m){
+    var ms = parseInt(m.dataset.stage, 10);
+    m.classList.toggle('done', ms < n);
+    m.classList.toggle('current', ms === n);
+  });
+  document.getElementById('tl-stage').textContent = (n + 1) + ' of 4';
+  if(tlSlider.value != n) tlSlider.value = n;
+
+  // status grid
+  var grid = STATUS_ROWS.map(function(r){
+    var st = s.status[r.key];
+    return '<div class="status-row"><span class="sr-label">' + r.label + '</span>' +
+      '<span class="status-badge ' + st + '">' + BADGE_TEXT[st] + '</span></div>';
+  }).join('');
+  document.getElementById('statusGrid').innerHTML = grid;
+
+  // detail
+  var facts = s.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('stageDetail').innerHTML =
+    '<div class="d-cat">' + s.cat + '</div>' +
+    '<div class="d-title">' + s.title + '</div>' +
+    '<div class="d-abbr">' + s.abbr + '</div>' +
+    '<div class="d-body">' + s.body + '</div>' +
+    '<ul class="d-facts' + (s.factsTodo ? ' todo' : '') + '">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + s.exam.lab + '</div><p>' + s.exam.text + '</p></div>';
+}
+tlSlider.addEventListener('input', function(){ renderStage(parseInt(tlSlider.value, 10)); });
+document.querySelectorAll('.tl-marker').forEach(function(m){
+  m.addEventListener('click', function(){ renderStage(parseInt(m.dataset.stage, 10)); });
+});
+renderStage(0);
+
+/* ===== Software management library ===== */
+var SW = {
+  patches: {
+    cat: 'Software · fixes', title: 'Patches & Bug Fixes', abbr: 'defect repairs',
+    body: 'Small, targeted updates that <b>fix defects and flaws</b> in software \u2014 the bugs that cause crashes, errors, or wrong behavior. They keep a system stable and correct.',
+    facts: ['Address specific <b>defects/bugs</b>.', 'Usually small and released frequently.', 'Test before wide rollout where practical.', 'Tracked so you know what\u2019s applied where.'],
+    answers: '"Is there a fix for this bug or instability?"'
+  },
+  security: {
+    cat: 'Software · vulnerabilities', title: 'Security Updates', abbr: 'close vulnerabilities',
+    body: 'A critical class of patch that specifically <b>closes known security vulnerabilities</b>. These stop attackers from exploiting documented flaws \u2014 and they\u2019re exactly what <b>stops arriving at End-of-Support</b>.',
+    facts: ['Close known vulnerabilities (e.g., CVEs).', 'Often <b>urgent / high priority</b>.', 'Apply promptly, especially on exposed devices.', 'They <b>stop at EOS</b> \u2014 the core reason EOS is dangerous.'],
+    answers: '"Is this device protected against known exploits?"'
+  },
+  os: {
+    cat: 'Software · operating system', title: 'Operating System (OS) Updates', abbr: 'the device\u2019s core OS',
+    body: 'Updates to the device\u2019s <b>operating system</b> \u2014 the core software that runs it (a switch/router network OS, or a server OS). Can bundle bug fixes, security, and new features together.',
+    facts: ['Update the device\u2019s <b>core OS</b>.', 'May combine fixes, security, and features.', 'Often need a reboot / maintenance window.', 'Verify compatibility and have a rollback plan.'],
+    answers: '"Is the device\u2019s operating system current?"'
+  },
+  firmware: {
+    cat: 'Software · hardware-level', title: 'Firmware Updates', abbr: 'low-level hardware code',
+    body: 'Updates to <b>firmware</b> \u2014 the low-level code embedded in the <b>hardware itself</b> (on switches, APs, routers, drives). Firmware sits <i>below</i> the OS and controls the device\u2019s most basic operation.',
+    facts: ['Low-level code <b>embedded in the hardware</b>.', 'Sits <b>below the OS</b> \u2014 controls basic functions.', 'Fixes hardware-level bugs and vulnerabilities.', 'A failed flash can <b>brick</b> a device \u2014 follow vendor steps.'],
+    answers: '"Is the hardware\u2019s embedded code up to date?"'
+  }
+};
+var swSeen = new Set();
+var SWKEY = 'cbt-explorer-3.1.2-sw';
+try { (JSON.parse(localStorage.getItem(SWKEY) || '[]')).forEach(function(x){ swSeen.add(x); }); } catch(e){}
+
+function renderSW(id){
+  var d = SW[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('swDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Answers</div><p>' + d.answers + '</p></div>';
+  document.querySelectorAll('.doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  swSeen.add(id);
+  try { localStorage.setItem(SWKEY, JSON.stringify([].concat(Array.from(swSeen)))); } catch(e){}
+  document.getElementById('sw-count').textContent = swSeen.size + '/4';
+}
+document.querySelectorAll('.doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderSW(c.id); });
+});
+swSeen.add('patches');
+renderSW('patches');
+document.getElementById('sw-count').textContent = swSeen.size + '/4';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.1.2-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. At <b>EOS</b>, the vendor stops all patches, security updates, and support.', no: 'Not quite. <b>End-of-Support</b> means no more patches/security/support \u2014 the device may still run, but it\u2019s no longer maintained.' },
+  '2': { ok: 'Correct. After <b>EOL</b> but before EOS, support and patches usually continue \u2014 time to plan replacement.', no: 'Not quite. After <b>EOL</b> a product is typically off the market but still patched/supported until EOS. That window is your planning time.' },
+  '3': { ok: 'Correct. Past <b>EOS</b>, no security patches arrive, so new vulnerabilities stay unfixed.', no: 'Not quite. The risk of running past <b>EOS</b> is that <b>no security patches</b> are released, leaving new vulnerabilities unpatched.' },
+  '4': { ok: 'Correct. <b>Firmware</b> is low-level hardware code; the <b>OS</b> runs on top of it.', no: 'Not quite. <b>Firmware</b> is the low-level code embedded in the hardware; the <b>operating system</b> runs above it and provides the features.' },
+  '5': { ok: 'Correct. Decommissioning = back up config, wipe data, update docs, dispose responsibly.', no: 'Not quite. Proper <b>decommissioning</b> is a process: back up/migrate config, securely wipe data, update documentation/inventory, and dispose responsibly.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
