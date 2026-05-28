@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.2.3 · Spanning Tree Protocol &amp; RSTP · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+    --role-root:#2A6049; --role-desig:#1E8FBE; --role-block:#8E1F2E;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.root { background: var(--green-bg) !important; color: var(--green); font-weight: 700; }
+  .iptable td.root::before { content: '★ '; }
+  .iptable td.block { background: var(--red-bg) !important; color: var(--red); font-weight: 700; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0; }
+  .role-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; border-top: 5px solid var(--role-root); }
+  .role-card.desig { border-top-color: var(--role-desig); }
+  .role-card.block { border-top-color: var(--role-block); }
+  .role-card .rc-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin: 0 0 4px; }
+  .role-card .rc-state { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--role-root); font-weight: 700; margin-bottom: 10px; }
+  .role-card.desig .rc-state { color: var(--role-desig); }
+  .role-card.block .rc-state { color: var(--role-block); }
+  .role-card p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.55; }
+
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--gold); }
+  .method-card.rstp { border-top-color: var(--sky); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.rstp .mc-tag { color: var(--sky-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .method-grid, .role-grid { grid-template-columns: 1fr; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.2 Switching Technologies</span>
+    <span class="crumb">Lab 2.2.3</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 3 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.2.3 · Packet Tracer · ≈ 60 min</div>
+    <h1>Stop the storm with <em>Spanning Tree.</em></h1>
+    <p class="lede">Three switches connected in a triangle creates a physical loop — and a loop at Layer 2 is catastrophic. With no TTL field in an Ethernet frame, a single broadcast circles forever, multiplying at each switch until the network melts down in seconds. <b>Spanning Tree Protocol (STP)</b> is the safeguard: switches exchange BPDUs, elect a single root bridge, and deliberately <b>block</b> one redundant path so the active topology is loop-free — while keeping that blocked path on standby for instant failover. In this lab you'll force SW-CORE to become the root bridge, observe the port roles STP assigns, enable PortFast on access ports, then break the active path and watch the blocked link take over.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">STP/RSTP root election, port roles, failover</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.2.2 .pkt file</span></div>
+    <div class="ref-row"><span class="name">Topology</span><span class="desc">3-switch triangle (intentional loop)</span></div>
+    <div class="ref-row"><span class="name">Root bridge</span><span class="desc">SW-CORE (forced via priority)</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.2.3-STP-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.2.3</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      STP &middot; RSTP &middot; root bridge election &middot; BPDU &middot; port roles &middot; port states &middot; PortFast &middot; BPDU Guard
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">3</div><div class="label">Switches forming a loop</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Root bridge (SW-CORE)</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Port blocked by STP</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>loop</em> you built on purpose.</h2>
+  <p>Look at the topology you've built across the last two labs. SW-CORE connects to SW-FLOOR1 and to SW-FLOOR2. And from Lab 2.2.1, SW-FLOOR1 still connects directly to SW-FLOOR2. Three switches, three links, arranged in a <b>triangle</b>. That triangle is a <b>Layer 2 loop</b> — and without Spanning Tree, it would destroy the network.</p>
+  <p>Here's why: when a switch receives a broadcast frame (like an ARP request), it floods it out every port except the one it arrived on. In a triangle, that broadcast travels SW-CORE → SW-FLOOR1 → SW-FLOOR2 → back to SW-CORE → and around again, forever. Ethernet frames have <b>no TTL</b> to kill looping packets the way IP packets have at Layer 3. Within seconds the loop saturates every link — a <b>broadcast storm</b> — and the network is unusable. STP exists to make redundant physical links safe by ensuring only a loop-free subset is active at any one time.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. So why are we using Packet Tracer with Cisco IOS? Because the most effective way to internalize what a switching concept <i>does</i> is to watch it work in a real environment — and Packet Tracer is the free, industry-standard simulator available to every networking student. The CLI commands in this lab are <b>Cisco's implementation</b> of vendor-neutral concepts the exam tests. Focus on what each command accomplishes, not on memorizing its syntax. Each configuration block below is labeled with the underlying <b>Network+ concept it demonstrates</b>.</p>
+  </div>
+
+  <div class="section-head">Topology — the triangle and its blocked port</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <rect x="20" y="20" width="860" height="40" fill="rgba(40,48,104,0.04)" stroke="#C6C6BE" stroke-width="1"/>
+      <text x="450" y="46" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="#1A2050">CBT Miami Office · Spanning Tree resolving the loop</text>
+
+      <rect x="380" y="90" width="140" height="64" fill="#1A2050" stroke="#2A6049" stroke-width="3" rx="4"/>
+      <text x="450" y="112" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="14">SW-CORE</text>
+      <text x="450" y="128" text-anchor="middle" fill="#7BD389" font-size="10" font-weight="700">★ ROOT BRIDGE</text>
+      <text x="450" y="144" text-anchor="middle" fill="#6BC5E8" font-size="9">priority 4096</text>
+
+      <rect x="100" y="280" width="140" height="60" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="170" y="304" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="14">SW-FLOOR1</text>
+      <text x="170" y="320" text-anchor="middle" fill="#767E92" font-size="10">priority 32768 (default)</text>
+
+      <rect x="660" y="280" width="140" height="60" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="730" y="304" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="14">SW-FLOOR2</text>
+      <text x="730" y="320" text-anchor="middle" fill="#767E92" font-size="10">priority 32768 (default)</text>
+
+      <line x1="385" y1="150" x2="200" y2="282" stroke="#2A6049" stroke-width="4"/>
+      <circle cx="372" cy="161" r="10" fill="#1E8FBE" stroke="white" stroke-width="1.5"/>
+      <text x="372" y="165" text-anchor="middle" fill="white" font-size="9" font-weight="700">D</text>
+      <circle cx="213" cy="271" r="10" fill="#2A6049" stroke="white" stroke-width="1.5"/>
+      <text x="213" y="275" text-anchor="middle" fill="white" font-size="9" font-weight="700">R</text>
+      <text x="250" y="212" fill="#2A6049" font-weight="700" font-size="10">FORWARDING</text>
+
+      <line x1="515" y1="150" x2="700" y2="282" stroke="#2A6049" stroke-width="4"/>
+      <circle cx="528" cy="161" r="10" fill="#1E8FBE" stroke="white" stroke-width="1.5"/>
+      <text x="528" y="165" text-anchor="middle" fill="white" font-size="9" font-weight="700">D</text>
+      <circle cx="687" cy="271" r="10" fill="#2A6049" stroke="white" stroke-width="1.5"/>
+      <text x="687" y="275" text-anchor="middle" fill="white" font-size="9" font-weight="700">R</text>
+      <text x="600" y="212" fill="#2A6049" font-weight="700" font-size="10">FORWARDING</text>
+
+      <line x1="240" y1="310" x2="660" y2="310" stroke="#8E1F2E" stroke-width="3" stroke-dasharray="8,5"/>
+      <circle cx="255" cy="310" r="10" fill="#1E8FBE" stroke="white" stroke-width="1.5"/>
+      <text x="255" y="314" text-anchor="middle" fill="white" font-size="9" font-weight="700">D</text>
+      <circle cx="645" cy="310" r="10" fill="#8E1F2E" stroke="white" stroke-width="1.5"/>
+      <text x="645" y="314" text-anchor="middle" fill="white" font-size="9" font-weight="700">B</text>
+      <text x="450" y="300" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">✕ BLOCKED BY STP (loop prevention)</text>
+      <text x="450" y="330" text-anchor="middle" fill="#767E92" font-size="9" font-style="italic">link stays up — unblocks instantly if a forwarding link fails</text>
+
+      <circle cx="60" cy="372" r="12" fill="#FAFAF6" stroke="#2A6049" stroke-width="1.5"/>
+      <text x="60" y="376" text-anchor="middle" fill="#1A2050" font-size="8" font-weight="700">PCs</text>
+      <line x1="72" y1="364" x2="120" y2="340" stroke="#C6C6BE" stroke-width="1.5"/>
+      <circle cx="840" cy="372" r="12" fill="#FAFAF6" stroke="#1E8FBE" stroke-width="1.5"/>
+      <text x="840" y="376" text-anchor="middle" fill="#1A2050" font-size="8" font-weight="700">PCs</text>
+      <line x1="828" y1="364" x2="780" y2="340" stroke="#C6C6BE" stroke-width="1.5"/>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#2A6049;border-color:white"></span><b>R</b> = Root Port (best path to root)</span>
+      <span class="lk"><span class="sw" style="background:#1E8FBE;border-color:white"></span><b>D</b> = Designated Port (forwarding)</span>
+      <span class="lk"><span class="sw" style="background:#8E1F2E;border-color:white"></span><b>B</b> = Blocking Port (loop prevention)</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:4px;background:#2A6049"></span>Forwarding link</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:0;border-top:3px dashed #8E1F2E"></span>Blocked link</span>
+    </div>
+  </div>
+
+  <div class="section-head">How STP decides — root bridge election</div>
+  <p>STP's first job is to elect a single <b>root bridge</b> — the reference point for the entire tree. Every switch advertises its <b>Bridge ID</b> (BID), which is <code>priority + MAC address</code>. The switch with the <b>lowest BID wins</b>. Since all switches default to priority 32768, the election would otherwise come down to the lowest MAC address — unpredictable. So network engineers <b>manually set a low priority</b> on the switch they want to be root (usually the core/distribution switch, because all traffic flows through it). We'll set SW-CORE to priority 4096, guaranteeing it wins.</p>
+
+  <div class="section-head">Port roles STP assigns</div>
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="rc-name">Root Port (R)</div>
+      <div class="rc-state">One per non-root switch · forwarding</div>
+      <p>The single port on each non-root switch that has the <b>best (lowest-cost) path back to the root bridge</b>. Always forwarding. Every non-root switch has exactly one.</p>
+    </div>
+    <div class="role-card desig">
+      <div class="rc-name">Designated Port (D)</div>
+      <div class="rc-state">One per segment · forwarding</div>
+      <p>The forwarding port responsible for a given segment's traffic toward the root. <b>Every port on the root bridge is designated.</b> Always forwarding.</p>
+    </div>
+    <div class="role-card block">
+      <div class="rc-name">Blocking Port (B)</div>
+      <div class="rc-state">Loop prevention · not forwarding</div>
+      <p>A port that would create a loop if it forwarded. STP puts it in <b>blocking</b> state — it still listens to BPDUs but drops data frames. If the active path fails, it transitions to forwarding to restore connectivity.</p>
+    </div>
+  </div>
+
+  <div class="section-head">STP vs RSTP</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-tag">ORIGINAL (1998)</div>
+      <h4>STP — 802.1D</h4>
+      <div class="mc-row"><div class="k">Convergence</div><div class="v">Slow — 30 to 50 seconds</div></div>
+      <div class="mc-row"><div class="k">Port states</div><div class="v">Blocking, Listening, Learning, Forwarding, Disabled</div></div>
+      <div class="mc-row"><div class="k">On failure</div><div class="v">Blocked port waits through listening + learning timers (~30s) before forwarding</div></div>
+      <div class="mc-row"><div class="k">Status</div><div class="v">Legacy — largely replaced</div></div>
+    </div>
+    <div class="method-card rstp">
+      <div class="mc-tag">MODERN (default today)</div>
+      <h4>RSTP — 802.1w</h4>
+      <div class="mc-row"><div class="k">Convergence</div><div class="v">Fast — typically under 1 second</div></div>
+      <div class="mc-row"><div class="k">Port states</div><div class="v">Discarding, Learning, Forwarding (simplified)</div></div>
+      <div class="mc-row"><div class="k">On failure</div><div class="v">Uses alternate/backup port roles for near-instant cutover</div></div>
+      <div class="mc-row"><div class="k">Status</div><div class="v">Backward-compatible with STP; the modern standard</div></div>
+    </div>
+  </div>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>The Layer 2 loop exists</b> — the triangle of three switches with all three trunk links physically up.</li>
+      <li><b>RSTP enabled</b> on all three switches (rapid-pvst mode).</li>
+      <li><b>SW-CORE is the root bridge</b> — confirmed by manually setting its priority to 4096 and verifying with <code>show spanning-tree</code>.</li>
+      <li><b>Port roles correctly assigned</b> — SW-CORE has all designated ports; each access switch has one root port; one port in the triangle is blocking/discarding.</li>
+      <li><b>One link is blocked</b> by STP — verify exactly one port is in blocking state, preventing the loop.</li>
+      <li><b>PortFast enabled</b> on all access (end-host) ports so PCs get immediate connectivity without waiting for STP.</li>
+      <li><b>BPDU Guard enabled</b> on PortFast ports — shuts a port if it unexpectedly receives a BPDU (rogue-switch protection).</li>
+      <li><b>Connectivity still works</b> — all the inter-VLAN pings from Lab 2.2.2 still succeed (STP didn't break anything; it just blocked the redundant path).</li>
+      <li><b>Failover works</b> — when you shut the active forwarding link, the previously-blocked port transitions to forwarding and connectivity is restored.</li>
+      <li><b>Configurations saved</b> on all three switches.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the Network+ exam</h5>
+    <p>Objective 2.2 explicitly names <b>STP</b>. Expect questions on: what problem STP solves (Layer 2 loops / broadcast storms), how the root bridge is elected (lowest Bridge ID), the difference between STP and RSTP (convergence speed), port roles and states, and protective features like PortFast and BPDU Guard. The classic exam question: "Why would a network admin enable PortFast on an access port but never on a trunk?" — this lab makes the answer obvious.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Confirm the <em>loop</em> exists.</h2>
+  <p>Unlike previous labs, you're not adding devices here — you're making sure the redundant link from Lab 2.2.1 is still in place so a loop actually exists for STP to resolve. If you removed it during Lab 2.2.2 troubleshooting, re-add it now.</p>
+
+  <div class="section-head">Prepare the file</div>
+  <div class="step" data-step="1">
+    <h4>Open Lab-2.2.2-InterVLAN-FirstLast.pkt and Save As</h4>
+    <p>File → Save As → <code>Lab-2.2.3-STP-Lastname-Firstname.pkt</code>. The three-switch topology with inter-VLAN routing must already be working.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Confirm all three trunk links are present and up</h4>
+    <p>You need all three of these links physically connected for the loop to exist:</p>
+    <ul>
+      <li>SW-CORE <code>Gi0/1</code> ↔ SW-FLOOR1 <code>Gi0/2</code></li>
+      <li>SW-CORE <code>Gi0/2</code> ↔ SW-FLOOR2 <code>Gi0/2</code></li>
+      <li>SW-FLOOR1 <code>Gi0/1</code> ↔ SW-FLOOR2 <code>Gi0/1</code> <b>(the redundant link from Lab 2.2.1)</b></li>
+    </ul>
+    <p>If you shut down or deleted the SW-FLOOR1↔SW-FLOOR2 link during Lab 2.2.2, re-enable it now. Confirm it's a trunk on both ends with the same native VLAN and allowed list.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Confirm baseline connectivity from Lab 2.2.2 still works</h4>
+    <p>From PC-S1: <code>ping 192.168.20.11</code> (cross-VLAN). Should still succeed. STP is probably already handling the loop with default settings — this lab makes it deliberate and observable.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>The loop is probably already "solved" — but by accident</h5>
+    <p>Packet Tracer switches run STP by default, so the moment you completed the triangle in Lab 2.2.2, STP automatically blocked one port to prevent the storm. The problem: <b>which</b> switch became root and <b>which</b> port got blocked were decided by MAC addresses — unpredictable and possibly suboptimal. The whole point of this lab is to take deliberate control: force SW-CORE to be root and verify the resulting tree is what you intended.</p>
+  </div>
+
+  <p>Once all three links are up and connectivity works, move to the Configure tab to take control of STP.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Take <em>control</em> of the tree.</h2>
+  <p>Three configuration blocks. SW-CORE is forced to become root via a low priority and switched to RSTP. The two access switches also get RSTP plus PortFast and BPDU Guard on their end-host ports.</p>
+
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03 — make it root</span>
+      <span class="term-concept">Concept: RSTP · root bridge election via lowest priority (Bridge ID)</span>
+      <span class="term-device">SW-CORE</span>
+      <button class="copy-btn" data-copy="cfg-core">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-core"><span class="comment">! ===== SW-CORE — Force this switch to be the STP root bridge =====</span>
+enable
+configure terminal
+
+<span class="comment">! ----- Switch to Rapid STP (RSTP) — faster convergence -----
+! 'rapid-pvst' runs one RSTP instance per VLAN.</span>
+spanning-tree mode rapid-pvst
+
+<span class="comment">! ----- Force SW-CORE to be root for all our VLANs -----
+! Lowest priority wins the root election. Default is 32768.
+! Priority must be a multiple of 4096. We use 4096.</span>
+spanning-tree vlan 10,20,30,99 priority 4096
+
+<span class="comment">! ----- Alternative one-liner Cisco provides (does the math for you):
+!   spanning-tree vlan 10,20,30,99 root primary
+! It sets the priority low enough to guarantee root. Either approach is fine. -----</span>
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 02 of 03 — access-port protections</span>
+      <span class="term-concept">Concept: PortFast (skip listening/learning on edge ports) · BPDU Guard (rogue-switch protection)</span>
+      <span class="term-device">SW-FLOOR1</span>
+      <button class="copy-btn" data-copy="cfg-sw1">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw1"><span class="comment">! ===== SW-FLOOR1 — RSTP + edge-port protections =====</span>
+enable
+configure terminal
+
+<span class="comment">! ----- Match the root's STP mode -----</span>
+spanning-tree mode rapid-pvst
+
+<span class="comment">! ----- PortFast on END-HOST access ports -----
+! PortFast skips the listening/learning states so a PC gets a link
+! immediately instead of waiting ~30s. ONLY use on ports facing end
+! devices — NEVER on a trunk or switch-to-switch link.</span>
+interface FastEthernet0/1
+ spanning-tree portfast
+exit
+interface FastEthernet0/2
+ spanning-tree portfast
+exit
+interface FastEthernet0/3
+ spanning-tree portfast
+exit
+
+<span class="comment">! ----- BPDU Guard on those same PortFast ports -----
+! If a BPDU ever arrives on an edge port (someone plugged in a rogue
+! switch), BPDU Guard err-disables the port instantly, protecting the
+! STP topology from being hijacked.</span>
+interface range FastEthernet0/1 - 3
+ spanning-tree bpduguard enable
+exit
+
+<span class="comment">! ----- Optional global shortcut — PortFast + BPDU Guard by default
+! on ALL access ports:
+!   spanning-tree portfast default
+!   spanning-tree portfast bpduguard default -----</span>
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 03 of 03 — same protections</span>
+      <span class="term-concept">Concept: Consistent STP mode and edge-port hardening across the switched network</span>
+      <span class="term-device">SW-FLOOR2</span>
+      <button class="copy-btn" data-copy="cfg-sw2">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw2"><span class="comment">! ===== SW-FLOOR2 — RSTP + edge-port protections =====</span>
+enable
+configure terminal
+
+spanning-tree mode rapid-pvst
+
+<span class="comment">! ----- PortFast + BPDU Guard on the access ports -----</span>
+interface FastEthernet0/1
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+exit
+interface FastEthernet0/2
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+exit
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The cardinal rule of PortFast</h5>
+    <p><b>Never enable PortFast on a switch-to-switch link or a trunk.</b> PortFast tells STP "this port connects to an end device, so skip the loop-prevention wait." If you apply it to a link that actually connects to another switch, you create a window where a loop can form before STP detects it — exactly the disaster STP exists to prevent. PortFast is for access ports facing PCs, printers, and phones only.</p>
+  </div>
+
+  <div class="callout">
+    <h5>Why force the root bridge manually?</h5>
+    <p>If you let STP elect a root automatically, the winner is decided by the lowest MAC address — essentially random, and often an access switch instead of the core. That leads to suboptimal traffic paths (data zig-zagging through an access switch to reach the core). By <b>manually setting SW-CORE to priority 4096</b>, you guarantee the most central, highest-capacity switch is the root, so the active tree matches the physical hierarchy.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Read the <em>tree</em>.</h2>
+  <p>Ten checks. The interesting ones are #6 (find the blocked port) and #9 (the failover test).</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>RSTP mode active on all switches</b> — On each: <code>show spanning-tree summary</code>. Output should say <i>Switch is in rapid-pvst mode</i>.</div>
+    <div class="ccmd">show spanning-tree summary</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>SW-CORE is the root bridge</b> — On SW-CORE: <code>show spanning-tree vlan 10</code>. The output must say <i>This bridge is the root</i> near the top.</div>
+    <div class="ccmd">show spanning-tree vlan 10</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>SW-CORE priority is 4096</b> — Same output shows priority <i>4096</i> (it may display as 4106 once the VLAN ID is added). Lower than the access switches' 32768.</div>
+    <div class="ccmd">show spanning-tree vlan 10</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>All SW-CORE ports are designated</b> — On SW-CORE: <code>show spanning-tree vlan 10</code>. Every trunk port shows role <b>Desg</b> and state <b>FWD</b>. The root bridge never has root or blocking ports.</div>
+    <div class="ccmd">show spanning-tree vlan 10</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Each access switch has exactly one root port</b> — On SW-FLOOR1 and SW-FLOOR2: <code>show spanning-tree vlan 10</code>. Each shows one port with role <b>Root</b> (its best path to SW-CORE), forwarding.</div>
+    <div class="ccmd">show spanning-tree vlan 10</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Exactly one port is blocking</b> — Across the three switches, exactly one port in the triangle shows role <b>Altn</b> and state <b>BLK</b>. This is the port STP sacrificed to break the loop — almost certainly on the SW-FLOOR1↔SW-FLOOR2 link.</div>
+    <div class="ccmd">show spanning-tree blockedports</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PortFast active on access ports</b> — On SW-FLOOR1: <code>show spanning-tree interface Fa0/1 portfast</code> shows <i>enabled</i>. Or <code>show running-config interface Fa0/1</code> shows the portfast command.</div>
+    <div class="ccmd">show spanning-tree int Fa0/1 portfast</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Connectivity preserved</b> — From PC-S1: <code>ping 192.168.20.11</code> (cross-VLAN, from Lab 2.2.2). Still succeeds. STP blocking one redundant link did not break reachability.</div>
+    <div class="ccmd">ping 192.168.20.11</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Failover test</b> — Start a continuous ping on a PC, then on SW-CORE <b>shut the active forwarding trunk</b> toward one access switch (e.g., Gi0/1 to SW-FLOOR1). Within ~1 second (RSTP), the previously-blocked SW-FLOOR1↔SW-FLOOR2 link transitions to forwarding and connectivity is restored. Confirm with <code>show spanning-tree</code> that the blocked port is now forwarding.</div>
+    <div class="ccmd">shutdown (active link) + observe</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configurations saved</b> — After bringing the shut link back up (<code>no shutdown</code>), save on all three switches with <code>copy run start</code>.</div>
+    <div class="ccmd">copy run start</div>
+  </div>
+
+  <div class="section-head">Sample successful output — SW-CORE is root</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-concept">Root bridge identification and designated ports</span>
+      <span class="term-device">SW-CORE# show spanning-tree vlan 10</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">VLAN0010
+  Spanning tree enabled protocol rstp</span>
+  <span class="ok">Root ID    Priority    4106
+             Address     00D0.BA11.1111
+             This bridge is the root</span>
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    4106  (priority 4096 sys-id-ext 10)
+             Address     00D0.BA11.1111
+
+<span class="out">Interface        Role Sts Cost      Prio.Nbr Type</span>
+<span class="ok">Gi0/1            Desg FWD 4         128.1    P2p</span>
+<span class="ok">Gi0/2            Desg FWD 4         128.2    P2p</span>
+<span class="comment">! Both ports DESIGNATED and FORWARDING — confirms this is the root.</span></pre>
+    </div>
+  </div>
+
+  <div class="section-head">Sample successful output — the blocked port</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Expected output</span>
+      <span class="term-concept">One alternate port in blocking state breaks the loop</span>
+      <span class="term-device">SW-FLOOR2# show spanning-tree vlan 10</span>
+    </div>
+    <div class="term-body">
+<pre><span class="out">VLAN0010
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    4106
+             Address     00D0.BA11.1111
+             Cost        4
+             Port        2 (GigabitEthernet0/2)   &lt;- root port toward SW-CORE</span>
+
+<span class="out">Interface        Role Sts Cost      Prio.Nbr Type</span>
+<span class="ok">Gi0/2            Root FWD 4         128.2    P2p</span>   <span class="comment">! best path to root</span>
+<span class="err">Gi0/1            Altn BLK 4         128.1    P2p</span>   <span class="comment">! BLOCKED — breaks the loop</span>
+<span class="comment">! Gi0/1 (the SW-FLOOR1 link) is the alternate port, discarding frames.</span></pre>
+    </div>
+  </div>
+
+  <p>The <b>Altn / BLK</b> port is the heart of this lab. STP chose to block this single port — keeping the link physically up but logically idle — so the triangle has no loop. If the root port (Gi0/2) ever fails, this alternate port becomes the new root port almost instantly under RSTP.</p>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When the <em>tree</em> misbehaves.</h2>
+  <p>Seven STP failure modes. The first — a broadcast storm — is the catastrophe STP exists to prevent, and what you'd see if STP were ever disabled.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Network grinds to a halt; link lights blink rapidly in unison; switch CPU at 100%</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">A broadcast storm — a Layer 2 loop with no STP blocking it. Frames circle the triangle endlessly, multiplying. This is the disaster STP prevents.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show spanning-tree summary</code> — if STP is disabled or a port that should block is forwarding, you have a loop. <code>show interfaces | include rate</code> shows traffic pinned at line rate.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-enable STP (<code>spanning-tree mode rapid-pvst</code>). If a switch had STP disabled, that was almost certainly the cause. As an emergency stopgap, physically disconnect one leg of the loop.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">An access switch became root instead of SW-CORE</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">You didn't lower SW-CORE's priority, so the election fell back to lowest MAC address — and an access switch happened to win.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show spanning-tree vlan 10</code> on SW-CORE — if it does NOT say "This bridge is the root", the priority wasn't applied.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On SW-CORE: <code>spanning-tree vlan 10,20,30,99 priority 4096</code> (or <code>root primary</code>). Re-verify.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A PC takes ~30 seconds to get network access after plugging in</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">PortFast is not enabled on that access port. The port is cycling through STP listening and learning states before forwarding.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show spanning-tree interface Fa0/1 portfast</code> — if "disabled", that's the delay source.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On the access interface: <code>spanning-tree portfast</code>. The PC will now get a link almost immediately.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A port unexpectedly went into err-disabled state</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">BPDU Guard triggered. A BPDU arrived on a PortFast port, meaning someone connected a switch (or a BPDU-sending device) where only an end host was expected.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces status err-disabled</code> lists the port and reason (bpduguard).</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Remove the unauthorized device, then re-enable the port: <code>shutdown</code> then <code>no shutdown</code>. (This is BPDU Guard working as designed — it protected your topology.)</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">After a link failure, recovery takes 30-50 seconds instead of being near-instant</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The switches are running classic STP (802.1D), not RSTP (802.1w). Classic STP's listening + learning timers are slow.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show spanning-tree summary</code> — check the mode. If it says "ieee"/"pvst" instead of "rstp"/"rapid-pvst", it's the slow version.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">On all switches: <code>spanning-tree mode rapid-pvst</code>. RSTP converges in about a second.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Two ports are blocking instead of one</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">In a simple triangle, only one port should block. Extra blocking can indicate a duplex or path-cost mismatch making STP see phantom paths.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show spanning-tree blockedports</code>. In a 3-switch triangle, expect exactly one blocked port.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Check that all trunk links are full-duplex with consistent path costs. Mismatched speeds change STP cost calculations.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Failover doesn't happen — when the active link fails, connectivity is lost permanently</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The "redundant" link isn't actually a working trunk — it may be misconfigured (wrong allowed VLANs or mismatched native VLAN) so STP can't use it as a backup.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show interfaces trunk</code> on both ends of the backup link — confirm it's trunking and carries the same VLANs as the primary path.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Correct the trunk config on the backup link so it matches: same native VLAN, same allowed-VLAN list.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.2.3 — Spanning Tree Protocol</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.2.3-STP-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> with screenshots of (a) <code>show spanning-tree vlan 10</code> on SW-CORE showing "This bridge is the root", (b) <code>show spanning-tree vlan 10</code> on the access switch that owns the blocked port (showing Altn/BLK), (c) <code>show spanning-tree blockedports</code>, (d) PortFast confirmed on an access port, and (e) a before/after of the failover test (blocked port → forwarding after the active link is shut).</li>
+      <li><b>A short Network+-style write-up</b> (≤ 400 words) answering: <i>"The Network+ exam tests Spanning Tree concepts heavily. (a) In your own vendor-neutral words, what specific problem does STP solve, and why is it uniquely dangerous at Layer 2 (hint: compare to how Layer 3 handles looping packets)? (b) How is the root bridge elected, and why do engineers usually set it manually? (c) What is the difference between STP and RSTP? (d) Explain why PortFast is appropriate on a port connected to a PC but must NEVER be used on a switch-to-switch link."</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 10 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>All three trunk links present and up (the intentional loop exists)</td><td class="pts">5</td></tr>
+      <tr><td>RSTP (rapid-pvst) mode enabled on all three switches</td><td class="pts">10</td></tr>
+      <tr><td>SW-CORE forced to root bridge via priority 4096 — verified "This bridge is the root"</td><td class="pts">20</td></tr>
+      <tr><td>Port roles correct: SW-CORE all designated, each access switch one root port</td><td class="pts">15</td></tr>
+      <tr><td>Exactly one port in blocking/discarding state (loop broken)</td><td class="pts">10</td></tr>
+      <tr><td>PortFast enabled on all access (end-host) ports</td><td class="pts">10</td></tr>
+      <tr><td>BPDU Guard enabled on PortFast ports</td><td class="pts">10</td></tr>
+      <tr><td>Connectivity preserved — cross-VLAN ping from Lab 2.2.2 still works</td><td class="pts">5</td></tr>
+      <tr><td>Failover demonstrated — blocked port forwards after active link is shut (screenshot)</td><td class="pts">10</td></tr>
+      <tr><td>Write-up correctly explains the loop problem, root election, STP vs RSTP, and PortFast rule</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file or running-config. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.2.3 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.2 Switching Technologies &amp; Features</b>. Puts the redundant link from earlier labs to work — demonstrating how Spanning Tree prevents Layer 2 loops while keeping a standby path ready for failover. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.2.1 · VLANs &amp; 802.1Q Trunking</p>
+      <p style="opacity:0.55">2.2.2 · Inter-VLAN Routing (SVI &amp; RoaS)</p>
+      <p>2.2.3 · Spanning Tree Protocol ← you are here</p>
+      <p style="opacity:0.55">2.2.4 · Link Aggregation &amp; Port Security</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.2.3-checks';
+const TOTAL_CHECKS = 10;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
