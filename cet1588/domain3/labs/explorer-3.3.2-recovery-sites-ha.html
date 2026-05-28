@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.3.2 · Recovery Sites &amp; High Availability · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== SITE / HA TOGGLES ===== */
+  .seg-toggle { display: grid; gap: 8px; margin: 8px 0 10px; }
+  .seg-toggle.three { grid-template-columns: repeat(3, 1fr); }
+  .seg-toggle.two { grid-template-columns: repeat(2, 1fr); }
+  .seg-btn { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.14s; }
+  .seg-btn:hover { border-color: var(--sky); }
+  .seg-btn.active { background: var(--navy-deep); border-color: var(--navy-deep); }
+  .seg-btn .sb-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); }
+  .seg-btn.active .sb-name { color: white; }
+  .seg-btn .sb-kind { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); margin-top: 3px; font-weight: 700; }
+  .seg-btn.active .sb-kind { color: var(--gold); }
+
+  .explorer { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 0 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+
+  /* readiness grid */
+  .ready-grid { display: flex; flex-direction: column; gap: 7px; }
+  .ready-row { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--line-soft); padding: 10px 14px; }
+  .ready-row .rr-label { font-size: 13px; color: var(--ink); }
+  .ready-badge { font-family: var(--ff-mono); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 2px; letter-spacing: 0.04em; white-space: nowrap; }
+  .ready-badge.ok { background: var(--green-bg); color: var(--green); }
+  .ready-badge.partial { background: rgba(224,184,64,0.18); color: var(--gold-deep); }
+  .ready-badge.none { background: var(--red-bg); color: var(--red); }
+
+  .trade { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-top: 12px; }
+  .trade-cell { background: var(--surface); padding: 13px 16px; }
+  .trade-cell .tc-k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 5px; }
+  .trade-cell .tc-v { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+  .trade-cell .tc-bar { height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); margin-top: 8px; position: relative; overflow: hidden; }
+  .trade-cell .tc-fill { height: 100%; width: 0%; transition: width 0.35s ease; }
+  .trade-cell.cost .tc-fill { background: var(--gold-deep); }
+  .trade-cell.speed .tc-fill { background: var(--green); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  .ha-view { display: none; }
+  .ha-view.active { display: block; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .seg-toggle.three, .seg-toggle.two { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.3 Disaster Recovery</span>
+    <span class="crumb">Explorer 3.3.2</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 2 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.3.2 · Sites &amp; HA · ≈ 26 min</div>
+    <h1>Somewhere to <em>fail over to.</em></h1>
+    <p class="lede">If your data center floods, where does the business run? The answer is a <b>recovery site</b> ,  and they come in three temperatures. A <b>cold</b> site is cheap but empty; a <b>hot</b> site is a fully running duplicate ready in minutes; a <b>warm</b> site sits in between. The hotter the site, the faster you recover ,  and the more it costs. The same trade-off shapes <b>high availability</b>: do two systems share the load (<b>active-active</b>), or does one wait on standby (<b>active-passive</b>)? Switch between them below.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.3 — recovery sites &amp; high availability</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Cold / warm / hot sites · active-active vs active-passive</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Site-readiness selector + HA toggle</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">2 of 3 · Metrics / Sites &amp; HA / Backups</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Switch sites; watch readiness vs cost</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      cold site · warm site · hot site · cost vs recovery trade-off · RTO link · active-active · active-passive · failover
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.3 expects you to rank the three recovery sites by <b>readiness, cost, and recovery speed</b>: <b>cold</b> = cheapest but slowest (just space/power), <b>hot</b> = priciest but near-instant (a live duplicate), <b>warm</b> = the middle. Tie this to 3.3.1: a hotter site gives a <b>lower RTO</b>. You also need <b>active-active vs active-passive</b>: in active-active both nodes serve traffic; in active-passive a standby waits to take over on <b>failover</b>.</p>
+  </div>
+
+  <div class="section-head">Recovery sites — pick a temperature</div>
+  <h2 class="big">Cold, warm, <em>hot.</em></h2>
+  <p class="body">Click each site type. The grid shows what's already in place when disaster hits ,  watch it fill in as the site gets "warmer" ,  and the readout shows the trade-off: readiness costs money, but it buys you a faster recovery (a lower RTO).</p>
+
+  <div class="seg-toggle three" id="siteToggle">
+    <button class="seg-btn active" data-site="cold"><div class="sb-name">Cold site</div><div class="sb-kind">cheapest · slowest</div></button>
+    <button class="seg-btn" data-site="warm"><div class="sb-name">Warm site</div><div class="sb-kind">middle ground</div></button>
+    <button class="seg-btn" data-site="hot"><div class="sb-name">Hot site</div><div class="sb-kind">priciest · fastest</div></button>
+  </div>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <div class="ready-grid" id="readyGrid"><!-- rows injected by JS --></div>
+      <div class="trade">
+        <div class="trade-cell cost">
+          <div class="tc-k">Cost</div>
+          <div class="tc-v" id="costVal">Low</div>
+          <div class="tc-bar"><div class="tc-fill" id="costFill"></div></div>
+        </div>
+        <div class="trade-cell speed">
+          <div class="tc-k">Time to recover (RTO)</div>
+          <div class="tc-v" id="rtoVal">Days</div>
+          <div class="tc-bar"><div class="tc-fill" id="rtoFill"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="detail" id="siteDetail"><!-- populated by JS; default = cold --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The trade-off in one line</h5>
+    <p>As a site gets <b>warmer</b> (cold &rarr; warm &rarr; hot), <b>cost rises</b> and <b>recovery time falls</b>. You're buying down your RTO with money: a hot site recovers in minutes but costs the most to maintain; a cold site is nearly free to keep but takes days to bring up. The right choice depends on how costly downtime is for the business.</p>
+  </div>
+
+  <div class="section-head">High availability — two ways to stay up</div>
+  <h2 class="big">Share the load, or <em>wait in the wings.</em></h2>
+  <p class="body">High availability keeps a service running through a failure by having more than one node. The two designs differ in what the second node does day-to-day. Toggle between them.</p>
+
+  <div class="seg-toggle two" id="haToggle">
+    <button class="seg-btn active" data-ha="aa"><div class="sb-name">Active-Active</div><div class="sb-kind">both nodes serve traffic</div></button>
+    <button class="seg-btn" data-ha="ap"><div class="sb-name">Active-Passive</div><div class="sb-kind">one serves, one stands by</div></button>
+  </div>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <!-- Active-Active view -->
+      <div class="ha-view active" id="ha-aa">
+        <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <defs><marker id="aaArr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2A6049"/></marker></defs>
+          <text x="220" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">Active-Active — load shared across both</text>
+          <!-- clients -->
+          <rect x="170" y="40" width="100" height="36" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="220" y="62" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Clients</text>
+          <!-- load balancer -->
+          <rect x="160" y="110" width="120" height="36" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2" rx="3"/>
+          <text x="220" y="132" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="10">Load Balancer</text>
+          <line x1="220" y1="76" x2="220" y2="110" stroke="#2A6049" stroke-width="2.5" marker-end="url(#aaArr)"/>
+          <!-- node A (active) -->
+          <rect x="60" y="210" width="130" height="56" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5" rx="3"/>
+          <text x="125" y="234" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Node A</text>
+          <text x="125" y="251" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">ACTIVE \u00b7 serving</text>
+          <!-- node B (active) -->
+          <rect x="250" y="210" width="130" height="56" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5" rx="3"/>
+          <text x="315" y="234" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Node B</text>
+          <text x="315" y="251" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">ACTIVE \u00b7 serving</text>
+          <line x1="200" y1="146" x2="125" y2="210" stroke="#2A6049" stroke-width="2.5" marker-end="url(#aaArr)"/>
+          <line x1="240" y1="146" x2="315" y2="210" stroke="#2A6049" stroke-width="2.5" marker-end="url(#aaArr)"/>
+          <text x="285" y="288" text-anchor="middle" fill="#767E92" font-size="9">both handle live traffic at the same time</text>
+        </svg>
+      </div>
+      <!-- Active-Passive view -->
+      <div class="ha-view" id="ha-ap">
+        <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <defs>
+            <marker id="apArr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2A6049"/></marker>
+            <marker id="apFail" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8E1F2E"/></marker>
+          </defs>
+          <text x="220" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">Active-Passive — standby waits to take over</text>
+          <rect x="170" y="40" width="100" height="36" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="220" y="62" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Clients</text>
+          <rect x="160" y="110" width="120" height="36" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2" rx="3"/>
+          <text x="220" y="132" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="10">Load Balancer</text>
+          <line x1="220" y1="76" x2="220" y2="110" stroke="#2A6049" stroke-width="2.5" marker-end="url(#apArr)"/>
+          <!-- node A (active) -->
+          <rect x="60" y="210" width="130" height="56" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5" rx="3"/>
+          <text x="125" y="234" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">Node A</text>
+          <text x="125" y="251" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">ACTIVE \u00b7 serving</text>
+          <!-- node B (standby) -->
+          <rect x="250" y="210" width="130" height="56" fill="#F0F0EA" stroke="#989890" stroke-width="2" stroke-dasharray="5,4" rx="3"/>
+          <text x="315" y="234" text-anchor="middle" fill="#767E92" font-weight="700" font-size="12">Node B</text>
+          <text x="315" y="251" text-anchor="middle" fill="#989890" font-size="9" font-weight="700">STANDBY \u00b7 idle</text>
+          <line x1="210" y1="146" x2="125" y2="210" stroke="#2A6049" stroke-width="2.5" marker-end="url(#apArr)"/>
+          <line x1="230" y1="146" x2="315" y2="210" stroke="#8E1F2E" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#apFail)"/>
+          <text x="300" y="180" fill="#8E1F2E" font-size="8">failover only if A fails</text>
+          <text x="220" y="288" text-anchor="middle" fill="#767E92" font-size="9">Node B sits idle until it&#39;s needed</text>
+        </svg>
+      </div>
+    </div>
+    <div class="detail" id="haDetail"><!-- populated by JS; default = aa --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Active-active vs active-passive — the quick contrast</h5>
+    <p><b>Active-active</b>: every node works all the time, sharing the load ,  better resource use and capacity, but every node must be maintained and sized for the shared load. <b>Active-passive</b>: one node works while the other waits idle and takes over on <b>failover</b> ,  simpler, but you're paying for standby capacity that sits unused most of the time.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>Which recovery site is a fully equipped, running duplicate with near-real-time data, allowing recovery in minutes?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Cold site</button>
+      <button class="kc-opt" data-correct="false">Warm site</button>
+      <button class="kc-opt" data-correct="true">Hot site</button>
+      <button class="kc-opt" data-correct="false">Offsite backup vault</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Which recovery site is the <b>cheapest</b> to maintain but takes the <b>longest</b> (often days) to bring online?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">Cold site — just space, power, and cooling; you supply hardware and data</button>
+      <button class="kc-opt" data-correct="false">Hot site — fully running at all times</button>
+      <button class="kc-opt" data-correct="false">Warm site — hardware ready, data periodically synced</button>
+      <button class="kc-opt" data-correct="false">All recovery sites cost and recover the same</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>A site has hardware and connectivity already installed, with data copied over periodically (not real-time), allowing recovery in hours. Which site is it?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Cold site</button>
+      <button class="kc-opt" data-correct="true">Warm site</button>
+      <button class="kc-opt" data-correct="false">Hot site</button>
+      <button class="kc-opt" data-correct="false">It cannot be a recovery site</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Moving from a cold site toward a hot site, what happens to cost and recovery time (RTO)?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Both cost and recovery time increase</button>
+      <button class="kc-opt" data-correct="true">Cost increases while recovery time decreases (lower RTO)</button>
+      <button class="kc-opt" data-correct="false">Both cost and recovery time decrease</button>
+      <button class="kc-opt" data-correct="false">Neither changes</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>What distinguishes <b>active-passive</b> from <b>active-active</b> high availability?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">In active-passive, both nodes always share the load equally</button>
+      <button class="kc-opt" data-correct="true">In active-passive, one node serves traffic while the other stays on standby and takes over only on failover; active-active uses both nodes simultaneously</button>
+      <button class="kc-opt" data-correct="false">Active-passive uses no second node at all</button>
+      <button class="kc-opt" data-correct="false">They are two names for the same design</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Cold site</div><div class="t-def">Space with power and cooling but no installed hardware or data. Cheapest to keep; slowest (days) to bring online.</div></div>
+    <div class="term"><div class="t-name">Warm site</div><div class="t-def">Hardware and connectivity pre-installed, data synced periodically. Moderate cost; recovery in hours. The common compromise.</div></div>
+    <div class="term"><div class="t-name">Hot site</div><div class="t-def">A fully running duplicate with near-real-time data and near-immediate failover. Highest cost; lowest RTO (minutes).</div></div>
+    <div class="term"><div class="t-name">Cost vs recovery trade-off</div><div class="t-def">Warmer sites cost more but recover faster. You buy down RTO with money; the right level depends on downtime cost.</div></div>
+    <div class="term"><div class="t-name">Active-active</div><div class="t-def">All nodes serve traffic simultaneously, sharing the load. Better resource use; every node must carry the shared load if one fails.</div></div>
+    <div class="term"><div class="t-name">Active-passive</div><div class="t-def">One node serves while a standby waits idle and takes over on failover. Simpler, but standby capacity sits unused day-to-day.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.3.2 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.3 Disaster Recovery</b>. Covers recovery sites (cold, warm, hot) and the cost-vs-recovery-time trade-off, plus high-availability designs (active-active vs active-passive), through an interactive site-readiness selector and an HA toggle. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.3.1 · DR Metrics</p>
+      <p>3.3.2 · Recovery Sites &amp; High Availability ← you are here</p>
+      <p style="opacity:0.55">3.3.3 · Backups &amp; Data Protection</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Recovery-site selector ===== */
+var READY_ROWS = [
+  ['space',    'Facility &amp; space'],
+  ['power',    'Power &amp; cooling'],
+  ['network',  'Network connectivity'],
+  ['hardware', 'Hardware installed'],
+  ['data',     'Current data (replicated)'],
+  ['run',      'Ready to run']
+];
+var BADGE_TEXT = { ok: 'READY', partial: 'PARTIAL', none: 'NOT READY' };
+
+var SITES = {
+  cold: {
+    name: 'Cold Site', tag: 'cheapest \u00b7 slowest',
+    ready: { space:'ok', power:'ok', network:'none', hardware:'none', data:'none', run:'none' },
+    cost: 'Low', costPct: 33, rto: 'Days', speedPct: 18,
+    cat: 'Recovery site · cold', abbr: 'space only \u00b7 days to recover',
+    body: 'A cold site is essentially <b>empty floor space with power and cooling</b> ,  no installed equipment and no data. After a disaster you bring or buy hardware, install it, restore data from backups, and connect everything, which takes <b>days</b>. It\u2019s cheapest because you pay only for the facility.',
+    facts: ['Just space + power/cooling ,  <b>no servers, no data</b>.', 'You supply hardware and restore data after the disaster.', 'Longest recovery (<b>days</b>) \u2192 highest RTO.', '<b>Lowest</b> ongoing cost.'],
+    exam: 'Cold = cheapest, slowest. An empty room. <b>Highest RTO</b> of the three.'
+  },
+  warm: {
+    name: 'Warm Site', tag: 'middle ground',
+    ready: { space:'ok', power:'ok', network:'ok', hardware:'ok', data:'partial', run:'partial' },
+    cost: 'Medium', costPct: 66, rto: 'Hours', speedPct: 60,
+    cat: 'Recovery site · warm', abbr: 'partially ready \u00b7 hours to recover',
+    body: 'A warm site sits between cold and hot. <b>Hardware and connectivity are already in place</b>, and data is copied over <b>periodically</b> (not real-time). On a disaster you sync or restore the most recent data and bring services up in <b>hours</b>, not days.',
+    facts: ['Hardware and connectivity <b>pre-installed</b>.', 'Data synced <b>periodically</b> ,  not fully current.', 'Moderate recovery time (<b>hours</b>).', 'Moderate cost ,  the common compromise.'],
+    exam: 'Warm = the middle. Ready hardware, slightly stale data, hours to recover. Balances cost and RTO.'
+  },
+  hot: {
+    name: 'Hot Site', tag: 'priciest \u00b7 fastest',
+    ready: { space:'ok', power:'ok', network:'ok', hardware:'ok', data:'ok', run:'ok' },
+    cost: 'High', costPct: 100, rto: 'Minutes', speedPct: 100,
+    cat: 'Recovery site · hot', abbr: 'fully ready \u00b7 minutes to recover',
+    body: 'A hot site is a <b>fully operational duplicate</b> ,  hardware running, data replicated in <b>near-real-time</b>, ready to take over almost immediately (often automatic failover). Recovery is <b>minutes</b>. It delivers the <b>lowest RTO and RPO</b>, at the highest cost.',
+    facts: ['Fully equipped and running; data <b>near-real-time</b>.', 'Near-immediate failover (<b>minutes</b>).', '<b>Lowest RTO and RPO</b> of the three.', 'Highest cost to build and maintain.'],
+    exam: 'Hot = fastest, priciest. Real-time data, near-instant failover. <b>Lowest RTO.</b>'
+  }
+};
+var siteSeen = new Set();
+var SITEKEY = 'cbt-explorer-3.3.2-sites';
+try { (JSON.parse(localStorage.getItem(SITEKEY) || '[]')).forEach(function(x){ siteSeen.add(x); }); } catch(e){}
+
+function renderSite(id){
+  var s = SITES[id];
+  if(!s) return;
+  // readiness grid
+  var rows = READY_ROWS.map(function(r){
+    var key = r[0], label = r[1], st = s.ready[key];
+    return '<div class="ready-row"><span class="rr-label">' + label + '</span>' +
+           '<span class="ready-badge ' + st + '">' + BADGE_TEXT[st] + '</span></div>';
+  }).join('');
+  document.getElementById('readyGrid').innerHTML = rows;
+  // trade-off readout
+  document.getElementById('costVal').textContent = s.cost;
+  document.getElementById('costFill').style.width = s.costPct + '%';
+  document.getElementById('rtoVal').textContent = s.rto;
+  document.getElementById('rtoFill').style.width = s.speedPct + '%';
+  // detail
+  var facts = s.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('siteDetail').innerHTML =
+    '<div class="d-cat">' + s.cat + '</div>' +
+    '<div class="d-title">' + s.name + '</div>' +
+    '<div class="d-abbr">' + s.abbr + '</div>' +
+    '<div class="d-body">' + s.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Remember</div><p>' + s.exam + '</p></div>';
+  // active button
+  document.querySelectorAll('#siteToggle .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.site === id); });
+  siteSeen.add(id);
+  try { localStorage.setItem(SITEKEY, JSON.stringify([].concat(Array.from(siteSeen)))); } catch(e){}
+}
+document.querySelectorAll('#siteToggle .seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){ renderSite(b.dataset.site); });
+});
+siteSeen.add('cold');
+renderSite('cold');
+
+/* ===== High-availability toggle ===== */
+var HA = {
+  aa: {
+    cat: 'High availability · active-active', title: 'Active-Active', abbr: 'both nodes serve traffic',
+    body: 'In active-active, <b>every node handles live traffic at the same time</b>, with a load balancer spreading requests across them. If one node fails, the survivors absorb its share ,  so the remaining nodes must each be able to carry the combined load.',
+    facts: ['<b>All nodes work</b> simultaneously, sharing the load.', 'Better <b>resource use</b> and capacity ,  nothing sits idle.', 'On failure, survivors take the extra load.', 'Every node must be sized/maintained for the shared load.'],
+    exam: 'Active-active = <b>both serve</b> at once. Best resource use; no idle node.'
+  },
+  ap: {
+    cat: 'High availability · active-passive', title: 'Active-Passive', abbr: 'one serves, one stands by',
+    body: 'In active-passive, <b>one node serves traffic</b> while a second sits on <b>standby</b>, idle. When the active node fails, the standby takes over ,  a <b>failover</b>. It\u2019s simpler to reason about, but you\u2019re paying for standby capacity that does no work most of the time.',
+    facts: ['<b>One active</b> node; the other waits on <b>standby</b>.', 'Standby takes over only on <b>failover</b>.', 'Simpler design and behavior.', 'Standby capacity sits <b>unused</b> day-to-day.'],
+    exam: 'Active-passive = <b>one serves, one waits</b>. Standby is idle until failover.'
+  }
+};
+var haSeen = new Set();
+var HAKEY = 'cbt-explorer-3.3.2-ha';
+try { (JSON.parse(localStorage.getItem(HAKEY) || '[]')).forEach(function(x){ haSeen.add(x); }); } catch(e){}
+
+function renderHA(id){
+  var d = HA[id];
+  if(!d) return;
+  document.getElementById('ha-aa').classList.toggle('active', id === 'aa');
+  document.getElementById('ha-ap').classList.toggle('active', id === 'ap');
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('haDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Remember</div><p>' + d.exam + '</p></div>';
+  document.querySelectorAll('#haToggle .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.ha === id); });
+  haSeen.add(id);
+  try { localStorage.setItem(HAKEY, JSON.stringify([].concat(Array.from(haSeen)))); } catch(e){}
+}
+document.querySelectorAll('#haToggle .seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){ renderHA(b.dataset.ha); });
+});
+renderHA('aa');
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.3.2-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. A <b>hot site</b> is a live duplicate ,  near-real-time data, recovery in minutes.', no: 'Not quite. A fully running duplicate with near-real-time data is a <b>hot site</b> (lowest RTO).' },
+  '2': { ok: 'Correct. A <b>cold site</b> is cheapest to keep but slowest (days) to bring online.', no: 'Not quite. Cheapest-but-slowest is the <b>cold site</b> ,  just space, power, and cooling.' },
+  '3': { ok: 'Correct. Hardware ready + periodic data + recovery in hours describes a <b>warm site</b>.', no: 'Not quite. Pre-installed hardware with periodically-synced data and hours-to-recover is a <b>warm site</b>.' },
+  '4': { ok: 'Correct. Warmer site = more cost, less recovery time (lower RTO).', no: 'Not quite. Going cold \u2192 hot, <b>cost rises and recovery time falls</b> ,  you buy down RTO with money.' },
+  '5': { ok: 'Correct. Active-passive keeps a standby idle until failover; active-active uses both at once.', no: 'Not quite. <b>Active-passive</b> = one serves, one stands by (failover); <b>active-active</b> = both serve simultaneously.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
