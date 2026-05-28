@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 2.4.2 · Power: UPS, PDU, Load &amp; Voltage · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== INTERACTIVE EXPLORER STAGE ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .explorer-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .explorer-hint b { color: var(--sky-deep); }
+  .hot { cursor: pointer; }
+  .hot .hit { transition: opacity 0.15s; opacity: 0; }
+  .hot:hover .hit { opacity: 1; }
+  .hot.active .hit { opacity: 1; }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 26px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 6px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== POWER-LOAD CALCULATOR ===== */
+  .calc { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .calc-left { padding: 22px 24px; border-right: 1px solid var(--line); background: var(--surface-alt); }
+  .calc-right { padding: 22px 24px; }
+  .calc-sub { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin: 0 0 10px; }
+  .calc-sub:not(:first-child) { margin-top: 22px; }
+  .palette { display: flex; flex-direction: column; gap: 7px; }
+  .chip { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--line-soft); padding: 10px 14px; font-family: var(--ff-body); font-size: 13px; color: var(--ink); cursor: pointer; transition: all 0.12s; }
+  .chip:hover { border-color: var(--sky); background: white; }
+  .chip .chip-w { font-family: var(--ff-mono); font-size: 11px; color: var(--gold-deep); font-weight: 700; }
+  .chip .chip-add { font-family: var(--ff-mono); font-size: 16px; color: var(--sky-deep); font-weight: 700; margin-left: 8px; }
+
+  .volt-toggle { display: flex; gap: 6px; }
+  .volt-btn { flex: 1; background: var(--surface); border: 1px solid var(--line-soft); padding: 10px 0; font-family: var(--ff-mono); font-size: 13px; font-weight: 700; color: var(--ink-mute); cursor: pointer; transition: all 0.12s; }
+  .volt-btn:hover { border-color: var(--sky); }
+  .volt-btn.active { background: var(--navy-deep); color: var(--gold); border-color: var(--navy-deep); }
+
+  .rack-list { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; max-height: 180px; overflow-y: auto; }
+  .rack-item { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--line-soft); padding: 7px 12px; font-size: 12.5px; }
+  .rack-item .ri-w { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); }
+  .rack-item .ri-x { background: none; border: none; color: var(--red); font-family: var(--ff-mono); font-weight: 700; cursor: pointer; font-size: 14px; padding: 0 4px; }
+  .rack-item .ri-x:hover { color: #c02a3c; }
+  .rack-empty { font-size: 12.5px; color: var(--ink-mute); font-style: italic; padding: 10px 0; }
+
+  .readouts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .readout { background: var(--navy-deep); color: white; padding: 14px 16px; }
+  .readout .ro-label { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; margin-bottom: 4px; }
+  .readout .ro-val { font-family: var(--ff-display); font-size: 30px; font-weight: 700; color: white; line-height: 1; letter-spacing: -0.02em; }
+  .readout .ro-val .ro-unit { font-size: 14px; color: var(--gold); margin-left: 3px; font-weight: 600; }
+  .readout .ro-sub { font-family: var(--ff-mono); font-size: 10px; color: var(--gray-soft); margin-top: 5px; }
+
+  .gauge { margin-bottom: 16px; }
+  .gauge .g-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .gauge .g-name { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .gauge .g-val { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mid); font-weight: 700; }
+  .gauge .g-bar { height: 16px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; overflow: hidden; }
+  .gauge .g-fill { height: 100%; width: 0%; background: var(--green); transition: width 0.3s ease, background 0.3s ease; }
+  .gauge .g-fill.warn { background: var(--gold-deep); }
+  .gauge .g-fill.over { background: var(--red); }
+  .gauge .g-mark { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--navy-deep); opacity: 0.45; }
+  .gauge .g-cap { font-family: var(--ff-mono); font-size: 9.5px; color: var(--ink-mute); margin-top: 3px; }
+
+  .calc-note { background: rgba(56,176,224,0.08); border-left: 3px solid var(--sky); padding: 12px 15px; font-size: 12.5px; line-height: 1.55; color: var(--ink); margin-top: 4px; }
+  .calc-note.warn { background: rgba(224,184,64,0.11); border-color: var(--gold); }
+  .calc-note.over { background: rgba(142,31,46,0.08); border-color: var(--red); }
+  .calc-note b { color: var(--navy-deep); }
+  .calc-clear { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-weight: 700; margin-top: 12px; }
+  .calc-clear:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.pdu { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.pdu .mc-tag { color: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 96px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer, .calc { grid-template-columns: 1fr; }
+    .explorer-stage, .calc-left { border-right: none; border-bottom: 1px solid var(--line); }
+    .method-grid, .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.4 Physical Installations</span>
+    <span class="crumb">Explorer 2.4.2</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 2 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 2.4.2 · Power · ≈ 30 min</div>
+    <h1>Keep the lights <em>on.</em></h1>
+    <p class="lede">Network gear is useless without clean, reliable power, and "reliable" is engineered, not assumed. A <b>UPS</b> carries the load through a blink or a brief outage on battery; a <b>PDU</b> distributes that power to every device in the rack; and behind both sits arithmetic you can't fudge: the <b>power load</b> your equipment draws and the <b>voltage</b> it runs on must fit within your UPS rating and your circuit's amperage. Trace the power chain below, then use the calculator to size a real rack \u2014 and watch what happens to the amps when you change the voltage.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">2.4 — power for physical installations</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">UPS, PDU, power load, voltage</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Power-chain explorer + load calculator</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">2 of 3 · Locations / Power / Environmental</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Build a rack, watch watts &amp; amps</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      UPS · PDU · power load (watts) · voltage · amperage · circuit / breaker · 80% continuous-load rule · generator
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 2.4 lists <b>UPS</b>, <b>PDU</b>, <b>power load</b>, and <b>voltage</b> under power. The exam expects you to know what each device does and the basic relationship <b>watts = volts \u00d7 amps</b> \u2014 enough to reason about whether a load fits a UPS and a circuit. You won't do heavy math on test day, but you must understand that a higher voltage carries the same wattage at <i>lower</i> current, and that UPS/PDU sizing is about not exceeding capacity. This explorer makes that arithmetic tangible.</p>
+  </div>
+
+  <div class="section-head">Interactive power chain — click any stage</div>
+  <h2 class="big">From the grid to the <em>gear.</em></h2>
+  <p class="body">Power flows left to right: the utility feed comes in, the <b>UPS</b> conditions it and holds a battery reserve, the <b>PDU</b> splits it out to outlets, and the rack equipment draws it. A backup <b>generator</b> stands by for longer outages. Click each stage to see its job.</p>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <svg id="chain" viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+        <!-- flow arrows helper -->
+        <defs><marker id="pa" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#3D4685"/></marker></defs>
+
+        <!-- Utility -->
+        <g class="hot" id="utility">
+          <rect class="hit" x="14" y="74" width="92" height="72" fill="rgba(56,176,224,0.14)"/>
+          <rect x="22" y="82" width="76" height="56" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2"/>
+          <path d="M62 92 l-10 20 h9 l-7 16 18 -22 h-9 z" fill="#1E8FBE"/>
+          <text x="60" y="152" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="10">UTILITY</text>
+        </g>
+        <line x1="106" y1="110" x2="140" y2="110" stroke="#3D4685" stroke-width="2.5" marker-end="url(#pa)"/>
+
+        <!-- UPS -->
+        <g class="hot" id="ups">
+          <rect class="hit" x="142" y="74" width="92" height="72" fill="rgba(42,96,73,0.14)"/>
+          <rect x="150" y="82" width="76" height="56" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5"/>
+          <rect x="160" y="98" width="56" height="14" fill="#2A6049"/>
+          <text x="188" y="109" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">BATTERY</text>
+          <text x="188" y="130" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">UPS</text>
+        </g>
+        <line x1="234" y1="110" x2="268" y2="110" stroke="#3D4685" stroke-width="2.5" marker-end="url(#pa)"/>
+
+        <!-- PDU -->
+        <g class="hot" id="pdu">
+          <rect class="hit" x="270" y="74" width="80" height="72" fill="rgba(224,184,64,0.16)"/>
+          <rect x="278" y="82" width="64" height="56" fill="#FAF6E8" stroke="#B8932A" stroke-width="2"/>
+          <circle cx="291" cy="100" r="3.5" fill="#B8932A"/><circle cx="303" cy="100" r="3.5" fill="#B8932A"/><circle cx="315" cy="100" r="3.5" fill="#B8932A"/><circle cx="327" cy="100" r="3.5" fill="#B8932A"/>
+          <text x="310" y="130" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">PDU</text>
+        </g>
+        <line x1="350" y1="110" x2="380" y2="110" stroke="#3D4685" stroke-width="2.5" marker-end="url(#pa)"/>
+
+        <!-- Rack -->
+        <g class="hot" id="rack">
+          <rect class="hit" x="382" y="58" width="68" height="104" fill="rgba(40,48,104,0.10)"/>
+          <rect x="390" y="66" width="52" height="88" fill="#FFFFFF" stroke="#1A2050" stroke-width="2"/>
+          <rect x="395" y="72" width="42" height="11" fill="#C6D2E8"/>
+          <rect x="395" y="87" width="42" height="11" fill="#C6D2E8"/>
+          <rect x="395" y="102" width="42" height="11" fill="#C6D2E8"/>
+          <rect x="395" y="117" width="42" height="11" fill="#C6D2E8"/>
+          <text x="416" y="148" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="9">RACK</text>
+        </g>
+
+        <!-- Generator (backup, below, feeding UPS input) -->
+        <g class="hot" id="generator">
+          <rect class="hit" x="142" y="196" width="92" height="64" fill="rgba(142,31,46,0.12)"/>
+          <rect x="150" y="204" width="76" height="48" fill="#F7E9EB" stroke="#8E1F2E" stroke-width="2"/>
+          <text x="188" y="226" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="10">GENERATOR</text>
+          <text x="188" y="240" text-anchor="middle" fill="#8E1F2E" font-size="8">(backup)</text>
+        </g>
+        <line x1="188" y1="196" x2="188" y2="146" stroke="#8E1F2E" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#pa)"/>
+        <text x="206" y="176" fill="#8E1F2E" font-size="8">long outages</text>
+      </svg>
+      <div class="explorer-hint">Click a stage · <b id="hint-count">0/5</b> explored</div>
+    </div>
+
+    <div class="detail" id="detail"><!-- populated by JS; default = UPS --></div>
+  </div>
+
+  <div class="callout">
+    <h5>UPS vs generator — they solve different durations</h5>
+    <p>A <b>UPS</b> reacts <i>instantly</i> but only lasts minutes (it's a battery). A <b>generator</b> takes seconds to start but runs for <i>hours</i> on fuel. In a serious facility they work together: the UPS carries the load through the gap until the generator spins up, so equipment never sees an interruption.</p>
+  </div>
+
+  <div class="section-head">Power-load calculator — size a rack</div>
+  <h2 class="big">Watts, volts, <em>amps.</em></h2>
+  <p class="body">Add equipment to the rack and watch the <b>power load</b> (watts) grow. The current draw (amps) is <code>watts \u00f7 volts</code> \u2014 so switch the <b>voltage</b> and notice the amps change even though the watts don't. The UPS is sized in <b>watts</b> (voltage doesn't change that); the circuit is limited in <b>amps</b> (voltage changes that a lot). That split is the whole lesson.</p>
+
+  <div class="calc">
+    <div class="calc-left">
+      <div class="calc-sub">Add equipment to the rack</div>
+      <div class="palette" id="palette">
+        <button class="chip" data-name="Access switch" data-w="150"><span>Access switch</span><span><span class="chip-w">150 W</span><span class="chip-add">+</span></span></button>
+        <button class="chip" data-name="Core switch" data-w="350"><span>Core switch</span><span><span class="chip-w">350 W</span><span class="chip-add">+</span></span></button>
+        <button class="chip" data-name="1U server" data-w="450"><span>1U server</span><span><span class="chip-w">450 W</span><span class="chip-add">+</span></span></button>
+        <button class="chip" data-name="Storage array" data-w="300"><span>Storage array</span><span><span class="chip-w">300 W</span><span class="chip-add">+</span></span></button>
+        <button class="chip" data-name="Router" data-w="120"><span>Router</span><span><span class="chip-w">120 W</span><span class="chip-add">+</span></span></button>
+        <button class="chip" data-name="Firewall" data-w="200"><span>Firewall</span><span><span class="chip-w">200 W</span><span class="chip-add">+</span></span></button>
+      </div>
+      <div class="calc-sub">Circuit voltage</div>
+      <div class="volt-toggle" id="volt">
+        <button class="volt-btn active" data-v="120">120 V</button>
+        <button class="volt-btn" data-v="208">208 V</button>
+        <button class="volt-btn" data-v="240">240 V</button>
+      </div>
+      <div class="rack-list" id="rackList"></div>
+      <button class="calc-clear" onclick="clearRack()">Clear rack</button>
+    </div>
+    <div class="calc-right">
+      <div class="readouts">
+        <div class="readout">
+          <div class="ro-label">Power load</div>
+          <div class="ro-val"><span id="ro-watts">0</span><span class="ro-unit">W</span></div>
+          <div class="ro-sub">total of all equipment</div>
+        </div>
+        <div class="readout">
+          <div class="ro-label">Current draw</div>
+          <div class="ro-val"><span id="ro-amps">0.0</span><span class="ro-unit">A</span></div>
+          <div class="ro-sub">at <span id="ro-volts">120</span> V</div>
+        </div>
+      </div>
+
+      <div class="gauge">
+        <div class="g-head"><span class="g-name">UPS capacity</span><span class="g-val" id="ups-val">0 / 2700 W</span></div>
+        <div class="g-bar"><div class="g-fill" id="ups-fill"></div><div class="g-mark" style="left:80%"></div></div>
+        <div class="g-cap">UPS rated 2700 W · mark = 80% recommended ceiling · capacity is the same at any voltage</div>
+      </div>
+
+      <div class="gauge">
+        <div class="g-head"><span class="g-name">Circuit (20 A breaker)</span><span class="g-val" id="ckt-val">0.0 / 16 A</span></div>
+        <div class="g-bar"><div class="g-fill" id="ckt-fill"></div><div class="g-mark" style="left:100%"></div></div>
+        <div class="g-cap">20 A breaker, usable 16 A (80% continuous-load rule) · amps fall as voltage rises</div>
+      </div>
+
+      <div class="calc-note" id="calc-note">Add equipment on the left to see the power load, then toggle the voltage.</div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The 80% continuous-load rule</h5>
+    <p>Both the UPS and the branch circuit should be loaded to no more than <b>80%</b> of their rating for anything running continuously. A 20 A breaker therefore gives you <b>16 A</b> of usable headroom, and a 2700 W UPS should carry roughly <b>2160 W</b> of steady load. Sizing right to the limit leaves no margin for startup surges or growth \u2014 always leave the 20% cushion.</p>
+  </div>
+
+  <div class="section-head">UPS vs PDU — don't confuse them</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-tag">PROTECTS / RIDES THROUGH</div>
+      <h4>UPS — Uninterruptible Power Supply</h4>
+      <div class="mc-row"><div class="k">Job</div><div class="v">Battery-backs the load through outages and conditions the power (surge/sag)</div></div>
+      <div class="mc-row"><div class="k">Rated in</div><div class="v">VA / watts (and runtime)</div></div>
+      <div class="mc-row"><div class="k">Duration</div><div class="v">Minutes \u2014 a bridge, not a permanent source</div></div>
+      <div class="mc-row"><div class="k">Answers</div><div class="v">"What keeps gear up when the power blinks?"</div></div>
+    </div>
+    <div class="method-card pdu">
+      <div class="mc-tag">DISTRIBUTES</div>
+      <h4>PDU — Power Distribution Unit</h4>
+      <div class="mc-row"><div class="k">Job</div><div class="v">Splits one feed into many outlets for the rack</div></div>
+      <div class="mc-row"><div class="k">Rated in</div><div class="v">Amps / number of outlets</div></div>
+      <div class="mc-row"><div class="k">Duration</div><div class="v">Always-on distribution \u2014 no battery of its own</div></div>
+      <div class="mc-row"><div class="k">Answers</div><div class="v">"How do I power many devices from one source?"</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>One-line memory hook</h5>
+    <p><b>UPS = keeps power on</b> (battery + protection). <b>PDU = spreads power out</b> (a managed power strip for the rack). They're often stacked: utility \u2192 UPS \u2192 PDU \u2192 devices.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Four quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 4 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What is the primary purpose of a UPS in a network installation?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">To distribute power to many outlets in a rack</button>
+      <button class="kc-opt" data-correct="true">To keep equipment running on battery through outages and condition the power</button>
+      <button class="kc-opt" data-correct="false">To permanently power the building during long blackouts</button>
+      <button class="kc-opt" data-correct="false">To convert fiber signals to copper</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Which device splits a single power feed into multiple outlets for the equipment in a rack?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">UPS</button>
+      <button class="kc-opt" data-correct="true">PDU</button>
+      <button class="kc-opt" data-correct="false">Generator</button>
+      <button class="kc-opt" data-correct="false">Demarc</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>A rack draws a fixed 1920 W. If you move it from a 120 V circuit to a 240 V circuit, the current draw (amps) will…</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Double (from 16 A to 32 A)</button>
+      <button class="kc-opt" data-correct="true">Roughly halve (from 16 A to 8 A)</button>
+      <button class="kc-opt" data-correct="false">Stay exactly the same</button>
+      <button class="kc-opt" data-correct="false">Drop to zero</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Under the 80% continuous-load rule, how much usable current does a 20 A branch circuit provide?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">20 A — the full breaker rating</button>
+      <button class="kc-opt" data-correct="true">16 A — 80% of the 20 A rating</button>
+      <button class="kc-opt" data-correct="false">25 A — 20 A plus a 25% buffer</button>
+      <button class="kc-opt" data-correct="false">10 A — half the breaker rating</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">UPS</div><div class="t-def">Uninterruptible Power Supply — battery system that rides through short outages and conditions power; bridges the gap until power returns or a generator starts.</div></div>
+    <div class="term"><div class="t-name">PDU</div><div class="t-def">Power Distribution Unit — distributes a power feed to multiple rack outlets; a managed power strip, often metered or switched.</div></div>
+    <div class="term"><div class="t-name">Power load</div><div class="t-def">The total wattage all equipment draws; you size UPS and circuits to stay safely under their limits.</div></div>
+    <div class="term"><div class="t-name">Voltage</div><div class="t-def">Electrical "pressure" (e.g., 120 V vs 208/240 V). For a given wattage, higher voltage means lower current (amps).</div></div>
+    <div class="term"><div class="t-name">Watts = Volts × Amps</div><div class="t-def">The core relationship. Watts measure load; amps measure current; volts is the supply pressure.</div></div>
+    <div class="term"><div class="t-name">80% rule</div><div class="t-def">Continuous loads should use no more than 80% of a circuit's or UPS's rating, leaving headroom for surges and growth.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 2.4.2 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">2.4 Physical Installations</b>. Covers power infrastructure — the UPS/PDU chain, power load, and voltage — through an interactive power-flow model and a live load calculator. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">2.4.1 · Locations (MDF &amp; IDF)</p>
+      <p>2.4.2 · Power (UPS, PDU, load, voltage) ← you are here</p>
+      <p style="opacity:0.55">2.4.3 · Environmental (temp, humidity, fire)</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Power-chain explorer: click-to-detail ===== */
+var DETAILS = {
+  utility: {
+    cat: 'Power source · primary',
+    title: 'Utility Feed',
+    abbr: 'the mains / grid',
+    body: 'The <b>utility feed</b> is the normal power source from the electric grid. It is reliable most of the time \u2014 but "most of the time" is exactly the problem a data closet has to engineer around.',
+    facts: [
+      'The everyday source of power for the building.',
+      'Subject to <b>outages, sags (brownouts), and surges</b>.',
+      'Even a sub-second blink will reboot unprotected equipment.',
+      'This is <i>why</i> the UPS and generator exist downstream.'
+    ],
+    exam: { lab: 'Exam note', text: 'The utility is assumed-good but not guaranteed. Everything after it in the chain exists to protect against the moments it fails.' }
+  },
+  ups: {
+    cat: 'Power protection · ride-through',
+    title: 'Uninterruptible Power Supply',
+    abbr: 'UPS',
+    body: 'The <b>UPS</b> sits between the utility and your gear. It holds a <b>battery reserve</b> that takes over <i>instantly</i> when utility power drops, and it <b>conditions</b> the power \u2014 smoothing surges and sags so clean voltage reaches the equipment.',
+    facts: [
+      'Provides <b>battery ride-through</b> during short outages.',
+      'Conditions power: protects against <b>surges and sags</b>.',
+      'Lasts <b>minutes</b> \u2014 a bridge until power returns or a generator starts.',
+      'Sized in <b>VA / watts</b>; don\u2019t exceed ~80% of its rating.'
+    ],
+    exam: { lab: 'Exam note', text: 'If a question asks what keeps servers running through a brief outage <i>with no interruption</i>, the answer is the <b>UPS</b> \u2014 not the generator (which takes seconds to start).' }
+  },
+  pdu: {
+    cat: 'Power distribution',
+    title: 'Power Distribution Unit',
+    abbr: 'PDU',
+    body: 'A <b>PDU</b> takes one power feed (often from the UPS) and <b>splits it into many outlets</b> for the devices in a rack \u2014 think of a heavy-duty, managed power strip built for the data closet.',
+    facts: [
+      'Distributes power to <b>multiple rack devices</b> from one source.',
+      'Rated by <b>amperage and outlet count</b>.',
+      'Some are <b>metered or switched</b> (monitor/control per outlet).',
+      'Has <b>no battery of its own</b> \u2014 it only distributes.'
+    ],
+    exam: { lab: 'Exam note', text: 'Don\u2019t confuse PDU with UPS. <b>PDU distributes</b> power to many outlets; <b>UPS protects/backs up</b> power. The PDU has no battery.' }
+  },
+  rack: {
+    cat: 'The load',
+    title: 'Rack Equipment',
+    abbr: 'the power load',
+    body: 'The <b>rack equipment</b> \u2014 switches, servers, storage, firewalls \u2014 is what actually consumes power. The <b>sum of every device\u2019s wattage is the power load</b> you must size the UPS and circuits to support.',
+    facts: [
+      'Each device draws a certain number of <b>watts</b>.',
+      'Total wattage = the <b>power load</b> for the rack.',
+      'The load must fit within UPS capacity and circuit amperage.',
+      'Use the calculator below to add gear and watch the load grow.'
+    ],
+    exam: { lab: 'Exam note', text: 'Power load is measured in <b>watts</b>. UPS capacity is also watts (voltage-independent); the circuit limit is <b>amps</b> (voltage-dependent). Keep those two separate.' }
+  },
+  generator: {
+    cat: 'Power source · backup',
+    title: 'Backup Generator',
+    abbr: 'long-outage backup',
+    body: 'A <b>generator</b> is a fuel-powered source that supplies power during <b>extended outages</b>. It takes a few seconds to start, so the <b>UPS carries the load in the meantime</b> \u2014 together they cover both instant and long-duration failures.',
+    facts: [
+      'Runs for <b>hours</b> on fuel \u2014 far longer than a UPS battery.',
+      'Takes <b>seconds to start</b>, so it isn\u2019t instant.',
+      'The <b>UPS bridges the gap</b> until the generator is online.',
+      'Common in data centers and critical facilities.'
+    ],
+    exam: { lab: 'Exam note', text: 'UPS = instant but short (battery). Generator = delayed but long (fuel). The pairing is the standard answer for "no downtime during an extended outage."' }
+  }
+};
+
+var explored = new Set();
+var HINTKEY = 'cbt-explorer-2.4.2-seen';
+try { (JSON.parse(localStorage.getItem(HINTKEY) || '[]')).forEach(function(x){ explored.add(x); }); } catch(e){}
+
+function renderDetail(id){
+  var d = DETAILS[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.hot').forEach(function(h){ h.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  explored.add(id);
+  try { localStorage.setItem(HINTKEY, JSON.stringify([].concat(Array.from(explored)))); } catch(e){}
+  document.getElementById('hint-count').textContent = explored.size + '/5';
+}
+document.querySelectorAll('.hot').forEach(function(h){
+  h.addEventListener('click', function(){ renderDetail(h.id); });
+});
+renderDetail('ups');
+document.getElementById('hint-count').textContent = explored.size + '/5';
+
+/* ===== Power-load calculator ===== */
+var UPS_W = 2700;       // UPS rated capacity (watts)
+var BREAKER_A = 20;     // circuit breaker rating (amps)
+var USABLE_A = 16;      // 80% continuous-load usable amps
+var rack = [];          // [{name, w}]
+var voltage = 120;
+
+function recompute(){
+  var totalW = rack.reduce(function(s, d){ return s + d.w; }, 0);
+  var amps = totalW / voltage;
+  document.getElementById('ro-watts').textContent = totalW;
+  document.getElementById('ro-amps').textContent = amps.toFixed(1);
+  document.getElementById('ro-volts').textContent = voltage;
+
+  // UPS gauge (watts vs UPS_W)
+  var upsPct = totalW / UPS_W * 100;
+  var upsFill = document.getElementById('ups-fill');
+  upsFill.style.width = Math.min(100, upsPct) + '%';
+  upsFill.className = 'g-fill' + (upsPct > 100 ? ' over' : (upsPct > 80 ? ' warn' : ''));
+  document.getElementById('ups-val').textContent = totalW + ' / ' + UPS_W + ' W';
+
+  // Circuit gauge (amps vs USABLE_A)
+  var cktPct = amps / USABLE_A * 100;
+  var cktFill = document.getElementById('ckt-fill');
+  cktFill.style.width = Math.min(100, cktPct) + '%';
+  cktFill.className = 'g-fill' + (cktPct > 100 ? ' over' : (cktPct > 80 ? ' warn' : ''));
+  document.getElementById('ckt-val').textContent = amps.toFixed(1) + ' / ' + USABLE_A + ' A';
+
+  // Note
+  var note = document.getElementById('calc-note');
+  if(totalW === 0){
+    note.className = 'calc-note';
+    note.innerHTML = 'Add equipment on the left to see the power load, then toggle the voltage.';
+  } else {
+    var msg = 'This rack draws <b>' + totalW + ' W</b>, which at <b>' + voltage + ' V</b> is <b>' + amps.toFixed(1) + ' A</b>. ';
+    var cls = 'calc-note';
+    if(upsPct > 100){
+      cls = 'calc-note over';
+      msg += '<b>The UPS is overloaded</b> (' + Math.round(upsPct) + '% of its 2700 W rating) \u2014 it cannot support this load. Reduce the load or use a larger UPS.';
+    } else if(cktPct > 100){
+      cls = 'calc-note over';
+      msg += '<b>The circuit is overloaded</b> (' + amps.toFixed(1) + ' A exceeds the 16 A usable limit). Move to a higher voltage or split across circuits.';
+    } else if(upsPct > 80 || cktPct > 80){
+      cls = 'calc-note warn';
+      msg += 'You are <b>past the 80% comfort line</b> on at least one gauge \u2014 fine for a moment, but leave headroom for surges and growth.';
+    } else {
+      msg += 'Both the UPS and the circuit have <b>healthy headroom</b>. ';
+    }
+    if(totalW > 0 && voltage === 120){
+      msg += ' Try switching to <b>240 V</b>: the watts stay the same, but the amps drop by about half \u2014 freeing circuit capacity.';
+    } else if(totalW > 0 && voltage >= 208){
+      msg += ' Notice the amps are lower than they\u2019d be at 120 V for the same wattage \u2014 that\u2019s the voltage advantage.';
+    }
+    note.className = cls;
+    note.innerHTML = msg;
+  }
+}
+
+function renderRack(){
+  var list = document.getElementById('rackList');
+  if(rack.length === 0){
+    list.innerHTML = '<div class="rack-empty">Rack is empty \u2014 add equipment above.</div>';
+  } else {
+    list.innerHTML = rack.map(function(d, i){
+      return '<div class="rack-item"><span>' + d.name + '</span><span><span class="ri-w">' + d.w + ' W</span> <button class="ri-x" data-i="' + i + '">\u00d7</button></span></div>';
+    }).join('');
+    list.querySelectorAll('.ri-x').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        rack.splice(parseInt(btn.dataset.i, 10), 1);
+        renderRack(); recompute();
+      });
+    });
+  }
+}
+
+document.querySelectorAll('#palette .chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    rack.push({ name: chip.dataset.name, w: parseInt(chip.dataset.w, 10) });
+    renderRack(); recompute();
+  });
+});
+document.querySelectorAll('#volt .volt-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    voltage = parseInt(btn.dataset.v, 10);
+    document.querySelectorAll('#volt .volt-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    recompute();
+  });
+});
+function clearRack(){
+  rack = [];
+  renderRack(); recompute();
+}
+renderRack(); recompute();
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-2.4.2-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 4;
+var KC_FB = {
+  '1': { ok: 'Correct. A <b>UPS</b> provides battery ride-through during outages and conditions the power.', no: 'Not quite. The <b>UPS</b> keeps gear running on battery through outages and conditions power \u2014 distributing outlets is the PDU\u2019s job, and permanent long-outage power is the generator\u2019s.' },
+  '2': { ok: 'Correct. The <b>PDU</b> distributes one feed to many rack outlets.', no: 'Not quite. The <b>PDU</b> (power distribution unit) splits a feed into many outlets. The UPS protects power; the generator is a backup source.' },
+  '3': { ok: 'Correct. Watts = volts \u00d7 amps, so doubling the voltage <b>halves the current</b> for the same load.', no: 'Not quite. Since watts = volts \u00d7 amps, raising voltage from 120 to 240 V <b>halves the amps</b> (16 A \u2192 8 A) for the same 1920 W.' },
+  '4': { ok: 'Correct. The 80% rule makes a 20 A breaker provide <b>16 A</b> usable for continuous loads.', no: 'Not quite. Continuous loads are limited to <b>80%</b> of the breaker, so a 20 A circuit gives <b>16 A</b> usable.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
