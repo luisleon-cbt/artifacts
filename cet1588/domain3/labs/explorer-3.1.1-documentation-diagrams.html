@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.1.1 · Documentation &amp; Diagrams · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== LAYER TOGGLE ===== */
+  .layer-toggle { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 10px; }
+  .layer-btn { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.14s; }
+  .layer-btn:hover { border-color: var(--sky); }
+  .layer-btn.active { background: var(--navy-deep); border-color: var(--navy-deep); }
+  .layer-btn .lb-layer { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; }
+  .layer-btn.active .lb-layer { color: var(--sky-soft); }
+  .layer-btn .lb-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); margin-top: 2px; }
+  .layer-btn.active .lb-name { color: white; }
+  .layer-btn .lb-kind { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); margin-top: 3px; }
+  .layer-btn.active .lb-kind { color: var(--gold); }
+
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 0 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .layer-view { display: none; }
+  .layer-view.active { display: block; }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-badge { display: inline-block; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; padding: 3px 10px; border-radius: 2px; margin-bottom: 14px; }
+  .detail .d-badge.physical { background: var(--green-bg); color: var(--green); }
+  .detail .d-badge.logical { background: rgba(56,176,224,0.16); color: var(--sky-deep); }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== DOC LIBRARY ===== */
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 12px 14px; cursor: pointer; transition: all 0.14s; }
+  .doc-card:hover { border-color: var(--sky); transform: translateY(-1px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card .dc-name { font-family: var(--ff-display); font-size: 14px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .doc-card .dc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 3px; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage, .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .layer-toggle { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.1 Organizational Processes</span>
+    <span class="crumb">Explorer 3.1.1</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 1 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.1.1 · Documentation · ≈ 30 min</div>
+    <h1>One network, <em>three</em> diagrams.</h1>
+    <p class="lede">A network you can't see is a network you can't fix. Good documentation is how teams hand off, troubleshoot, and audit \u2014 and the Network+ exam expects you to know that the <i>same</i> network gets drawn differently depending on what you need to understand. A <b>physical (Layer 1)</b> diagram shows cabling and where the boxes sit; a <b>Layer 2</b> diagram shows switches and VLANs; a <b>Layer 3</b> diagram shows IP subnets and routing. Flip between the three views of the CBT Miami office below, then explore the other documents every shop keeps.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.1 — documentation &amp; diagrams</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Physical/logical · L1/L2/L3 · doc types</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Layer toggle + documentation library</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">1 of 3 · Docs / Life-cycle / Change &amp; Config</span></div>
+    <div class="ref-row"><span class="name">Topology</span><span class="desc">The Miami office from the 2.2 series</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      physical vs logical · Layer 1/2/3 diagrams · rack diagram · cable map · asset inventory · IPAM · SLA · heat map
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.1 asks you to explain the <b>purpose</b> of these documents \u2014 not to draw them perfectly. The exam tests whether you know <i>which document answers which question</i>: "Where is this device racked?" (rack diagram), "What IPs are in use?" (IPAM), "What uptime are we promised?" (SLA), and especially the difference between a <b>physical/Layer 1</b> view and the <b>logical Layer 2/3</b> views of the same network. This explorer is built around exactly those distinctions.</p>
+  </div>
+
+  <div class="section-head">The same network at three layers — pick a view</div>
+  <h2 class="big">Physical, <em>logical,</em> and logical again.</h2>
+  <p class="body">Here is the CBT Miami office \u2014 the very topology you built in the switching labs \u2014 documented three ways. Click each layer button. Notice the boxes barely change, but <b>what the diagram tells you</b> changes completely: cables and rooms at Layer 1, VLANs and trunks at Layer 2, subnets and routing at Layer 3.</p>
+
+  <div class="layer-toggle" id="layerToggle">
+    <button class="layer-btn active" data-layer="l1">
+      <div class="lb-layer">Layer 1</div>
+      <div class="lb-name">Physical</div>
+      <div class="lb-kind">cabling &amp; placement</div>
+    </button>
+    <button class="layer-btn" data-layer="l2">
+      <div class="lb-layer">Layer 2</div>
+      <div class="lb-name">Data Link</div>
+      <div class="lb-kind">switches &amp; VLANs</div>
+    </button>
+    <button class="layer-btn" data-layer="l3">
+      <div class="lb-layer">Layer 3</div>
+      <div class="lb-name">Network</div>
+      <div class="lb-kind">IP subnets &amp; routing</div>
+    </button>
+  </div>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <!-- ===== LAYER 1 (PHYSICAL) ===== -->
+      <div class="layer-view active" id="view-l1">
+        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <text x="240" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">Physical view — where things sit &amp; how they're cabled</text>
+          <!-- MDF / core -->
+          <rect x="170" y="44" width="140" height="48" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="240" y="64" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-CORE</text>
+          <text x="240" y="80" text-anchor="middle" fill="#767E92" font-size="9">MDF · rack 1 · U20</text>
+          <!-- IDF1 -->
+          <rect x="40" y="220" width="140" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="110" y="240" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-FLOOR1</text>
+          <text x="110" y="256" text-anchor="middle" fill="#767E92" font-size="9">IDF-1 · rack · U12</text>
+          <!-- IDF2 -->
+          <rect x="300" y="220" width="140" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="370" y="240" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-FLOOR2</text>
+          <text x="370" y="256" text-anchor="middle" fill="#767E92" font-size="9">IDF-2 · rack · U12</text>
+          <!-- fiber uplinks -->
+          <line x1="200" y1="92" x2="110" y2="220" stroke="#B8932A" stroke-width="3"/>
+          <line x1="280" y1="92" x2="370" y2="220" stroke="#B8932A" stroke-width="3"/>
+          <text x="120" y="160" fill="#B8932A" font-size="9" font-weight="700">fiber</text>
+          <text x="330" y="160" fill="#B8932A" font-size="9" font-weight="700">fiber</text>
+          <text x="150" y="148" fill="#767E92" font-size="8">Gi0/1↔Gi0/24</text>
+          <text x="300" y="148" fill="#767E92" font-size="8">Gi0/2↔Gi0/24</text>
+          <!-- copper drop to a PC -->
+          <rect x="70" y="312" width="40" height="30" fill="#FAFAF6" stroke="#767E92" stroke-width="1.5"/>
+          <text x="90" y="331" text-anchor="middle" fill="#767E92" font-size="8">PC</text>
+          <line x1="100" y1="312" x2="110" y2="268" stroke="#2A6049" stroke-width="2"/>
+          <text x="118" y="296" fill="#2A6049" font-size="8">Cat 6 · Fa0/3</text>
+          <text x="240" y="348" text-anchor="middle" fill="#989890" font-size="9" font-style="italic">media types · port IDs · rack/room locations — no VLANs or IPs here</text>
+        </svg>
+      </div>
+      <!-- ===== LAYER 2 (DATA LINK) ===== -->
+      <div class="layer-view" id="view-l2">
+        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <text x="240" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">Layer 2 view — switches, VLANs &amp; trunks</text>
+          <rect x="170" y="44" width="140" height="48" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="240" y="64" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-CORE</text>
+          <text x="240" y="80" text-anchor="middle" fill="#767E92" font-size="9">VLANs 10/20/30/99</text>
+          <rect x="40" y="220" width="140" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="110" y="240" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-FLOOR1</text>
+          <rect x="300" y="220" width="140" height="48" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="370" y="240" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-FLOOR2</text>
+          <!-- trunks -->
+          <line x1="200" y1="92" x2="110" y2="220" stroke="#1A2050" stroke-width="3" stroke-dasharray="2,3"/>
+          <line x1="280" y1="92" x2="370" y2="220" stroke="#1A2050" stroke-width="3" stroke-dasharray="2,3"/>
+          <text x="118" y="150" fill="#1A2050" font-size="9" font-weight="700">802.1Q trunk</text>
+          <text x="300" y="150" fill="#1A2050" font-size="9" font-weight="700">802.1Q trunk</text>
+          <!-- VLAN access dots on floor1 -->
+          <circle cx="70" cy="300" r="7" fill="#2A6049"/><text x="70" y="320" text-anchor="middle" fill="#2A6049" font-size="8">V10</text>
+          <circle cx="100" cy="300" r="7" fill="#1E8FBE"/><text x="100" y="320" text-anchor="middle" fill="#1E8FBE" font-size="8">V20</text>
+          <circle cx="130" cy="300" r="7" fill="#B8932A"/><text x="130" y="320" text-anchor="middle" fill="#B8932A" font-size="8">V30</text>
+          <line x1="100" y1="268" x2="100" y2="293" stroke="#989890" stroke-width="1.5"/>
+          <!-- VLAN access dots on floor2 -->
+          <circle cx="340" cy="300" r="7" fill="#2A6049"/><text x="340" y="320" text-anchor="middle" fill="#2A6049" font-size="8">V10</text>
+          <circle cx="370" cy="300" r="7" fill="#1E8FBE"/><text x="370" y="320" text-anchor="middle" fill="#1E8FBE" font-size="8">V20</text>
+          <circle cx="400" cy="300" r="7" fill="#B8932A"/><text x="400" y="320" text-anchor="middle" fill="#B8932A" font-size="8">V30</text>
+          <line x1="370" y1="268" x2="370" y2="293" stroke="#989890" stroke-width="1.5"/>
+          <text x="240" y="348" text-anchor="middle" fill="#989890" font-size="9" font-style="italic">VLAN membership · access vs trunk ports — switching, not IP</text>
+        </svg>
+      </div>
+      <!-- ===== LAYER 3 (NETWORK) ===== -->
+      <div class="layer-view" id="view-l3">
+        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <text x="240" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">Layer 3 view — IP subnets, gateways &amp; routing</text>
+          <!-- internet/router -->
+          <rect x="185" y="36" width="110" height="38" fill="#F7E9EB" stroke="#8E1F2E" stroke-width="2" rx="3"/>
+          <text x="240" y="53" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">EDGE ROUTER</text>
+          <text x="240" y="67" text-anchor="middle" fill="#8E1F2E" font-size="8">default route → ISP</text>
+          <!-- L3 switch -->
+          <rect x="170" y="96" width="140" height="46" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+          <text x="240" y="115" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-CORE (L3)</text>
+          <text x="240" y="130" text-anchor="middle" fill="#767E92" font-size="8">inter-VLAN routing · SVIs = .1</text>
+          <line x1="240" y1="74" x2="240" y2="96" stroke="#1A1A1A" stroke-width="2"/>
+          <!-- subnets -->
+          <rect x="28" y="200" width="120" height="50" fill="rgba(42,96,73,0.10)" stroke="#2A6049" stroke-width="1.5" rx="4"/>
+          <text x="88" y="220" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="11">VLAN 10 · Staff</text>
+          <text x="88" y="236" text-anchor="middle" fill="#2A6049" font-size="9">192.168.10.0/24</text>
+          <rect x="180" y="200" width="120" height="50" fill="rgba(30,143,190,0.10)" stroke="#1E8FBE" stroke-width="1.5" rx="4"/>
+          <text x="240" y="220" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="11">VLAN 20 · Guest</text>
+          <text x="240" y="236" text-anchor="middle" fill="#1E8FBE" font-size="9">192.168.20.0/24</text>
+          <rect x="332" y="200" width="120" height="50" fill="rgba(184,147,42,0.12)" stroke="#B8932A" stroke-width="1.5" rx="4"/>
+          <text x="392" y="220" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">VLAN 30 · Voice</text>
+          <text x="392" y="236" text-anchor="middle" fill="#B8932A" font-size="9">192.168.30.0/24</text>
+          <line x1="200" y1="142" x2="88" y2="200" stroke="#989890" stroke-width="1.5"/>
+          <line x1="240" y1="142" x2="240" y2="200" stroke="#989890" stroke-width="1.5"/>
+          <line x1="280" y1="142" x2="392" y2="200" stroke="#989890" stroke-width="1.5"/>
+          <rect x="160" y="286" width="160" height="44" fill="rgba(142,31,46,0.08)" stroke="#8E1F2E" stroke-width="1.5" rx="4"/>
+          <text x="240" y="305" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">VLAN 99 · Mgmt</text>
+          <text x="240" y="321" text-anchor="middle" fill="#8E1F2E" font-size="9">192.168.99.0/24</text>
+          <text x="240" y="350" text-anchor="middle" fill="#989890" font-size="9" font-style="italic">subnets · gateways · routing — the IP logic, regardless of cabling</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="detail" id="layerDetail"><!-- populated by JS; default = L1 --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Physical maps to Layer 1; logical maps to Layers 2 and 3</h5>
+    <p>The exam often pairs these terms. A <b>physical</b> diagram is essentially the <b>Layer 1</b> view \u2014 cabling, media, ports, and where equipment is mounted. A <b>logical</b> diagram captures how data is organized and moves \u2014 the <b>Layer 2</b> (VLANs/switching) and <b>Layer 3</b> (IP/routing) views. Same devices; different questions answered.</p>
+  </div>
+
+  <div class="section-head">The documents every network keeps — click to explore</div>
+  <h2 class="big">Beyond the <em>diagram.</em></h2>
+  <p class="body">Diagrams are only part of the picture. A well-run network maintains a small library of living documents. Click each to see what it captures and the question it answers.</p>
+
+  <div class="explorer">
+    <div class="doc-stage">
+      <div class="doc-grid" id="docGrid">
+        <div class="doc-card active" id="rack"><div class="dc-name">Rack diagram</div><div class="dc-tag">physical placement</div></div>
+        <div class="doc-card" id="cablemap"><div class="dc-name">Cable map</div><div class="dc-tag">what connects to what</div></div>
+        <div class="doc-card" id="inventory"><div class="dc-name">Asset inventory</div><div class="dc-tag">what we own</div></div>
+        <div class="doc-card" id="ipam"><div class="dc-name">IPAM</div><div class="dc-tag">IP address tracking</div></div>
+        <div class="doc-card" id="sla"><div class="dc-name">SLA</div><div class="dc-tag">service guarantees</div></div>
+        <div class="doc-card" id="heatmap"><div class="dc-name">Wireless heat map</div><div class="dc-tag">coverage survey</div></div>
+      </div>
+      <div class="doc-hint">Click a document · <b id="doc-count">1/6</b> explored</div>
+    </div>
+    <div class="detail" id="docDetail"><!-- populated by JS; default = rack --></div>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>Which diagram would show IP subnets, gateways, and how traffic is routed between VLANs?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">A physical (Layer 1) diagram</button>
+      <button class="kc-opt" data-correct="false">A Layer 2 diagram</button>
+      <button class="kc-opt" data-correct="true">A Layer 3 (network) diagram</button>
+      <button class="kc-opt" data-correct="false">A rack diagram</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>A <b>physical</b> network diagram primarily documents…</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">Cabling, media types, ports, and where devices are physically located</button>
+      <button class="kc-opt" data-correct="false">IP subnets and routing protocols</button>
+      <button class="kc-opt" data-correct="false">VLAN numbers and spanning-tree roles</button>
+      <button class="kc-opt" data-correct="false">The agreed uptime percentage</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>What does <b>IPAM</b> (IP Address Management) track?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">The U-position of each device in a rack</button>
+      <button class="kc-opt" data-correct="true">IP address allocations, subnets, and DHCP scopes — what's used and what's free</button>
+      <button class="kc-opt" data-correct="false">Warranty expiration dates</button>
+      <button class="kc-opt" data-correct="false">Wireless signal strength by location</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>An <b>SLA</b> (Service Level Agreement) primarily defines…</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">The physical cable runs between closets</button>
+      <button class="kc-opt" data-correct="true">The agreed levels of service — uptime, response times — between a provider and customer</button>
+      <button class="kc-opt" data-correct="false">Which VLAN each port belongs to</button>
+      <button class="kc-opt" data-correct="false">The list of installed software licenses</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>Which document shows wireless signal coverage and reveals dead zones across a floor plan?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Cable map</button>
+      <button class="kc-opt" data-correct="false">Asset inventory</button>
+      <button class="kc-opt" data-correct="true">Wireless heat map (from a site survey)</button>
+      <button class="kc-opt" data-correct="false">Rack diagram</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Physical diagram (L1)</div><div class="t-def">Shows actual cabling, media types, ports, and where equipment is mounted. Answers "what plugs into what, and where is it?"</div></div>
+    <div class="term"><div class="t-name">Logical diagram (L2/L3)</div><div class="t-def">Shows how data is organized and flows — VLANs/switching at Layer 2, IP subnets/routing at Layer 3.</div></div>
+    <div class="term"><div class="t-name">Rack diagram</div><div class="t-def">A front/rear view of a rack documenting which device occupies each U position.</div></div>
+    <div class="term"><div class="t-name">IPAM</div><div class="t-def">IP Address Management — tracks subnets, IP allocations, and DHCP scopes so addresses don't conflict or get lost.</div></div>
+    <div class="term"><div class="t-name">SLA</div><div class="t-def">Service Level Agreement — a contract defining expected service levels (e.g., uptime, response time) between provider and customer.</div></div>
+    <div class="term"><div class="t-name">Wireless heat map</div><div class="t-def">A color-coded coverage map from a site survey showing signal strength and dead zones across a space.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.1.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.1 Organizational Processes</b>. Covers network documentation — physical vs logical, Layer 1/2/3 diagrams, and the core document types every shop keeps — through a layer toggle over the familiar Miami topology and an interactive documentation library. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p>3.1.1 · Documentation &amp; Diagrams ← you are here</p>
+      <p style="opacity:0.55">3.1.2 · Life-cycle Management</p>
+      <p style="opacity:0.55">3.1.3 · Change &amp; Configuration Management</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Layer toggle ===== */
+var LAYER_INFO = {
+  l1: {
+    cat: 'Documentation · physical view',
+    title: 'Layer 1 — Physical',
+    badge: 'physical', badgeText: 'Physical diagram',
+    body: 'The <b>physical diagram</b> documents the network as it actually exists in the building \u2014 the <b>cabling, media types, ports, and where each device is mounted</b>. It maps directly to the OSI <b>Layer 1</b> (physical) reality.',
+    facts: [
+      'Shows <b>media</b> (fiber uplinks, copper drops) and <b>port IDs</b>.',
+      'Records <b>rack and room locations</b> (MDF / IDF, U-position).',
+      'Answers: "What plugs into what, with which cable, and <i>where is it</i>?"',
+      'Deliberately ignores VLANs and IPs \u2014 those are logical concerns.'
+    ],
+    exam: { lab: 'Exam note', text: 'Tie "physical" to <b>Layer 1</b>: cabling, media, ports, placement. If a question asks where a device is racked or what cable connects two closets, it\u2019s a physical-diagram question.' }
+  },
+  l2: {
+    cat: 'Documentation · logical view',
+    title: 'Layer 2 — Data Link',
+    badge: 'logical', badgeText: 'Logical diagram',
+    body: 'The <b>Layer 2 diagram</b> is a <b>logical</b> view focused on switching: which <b>VLANs</b> exist, which ports are <b>access vs trunk</b>, and how the switches interconnect. The cabling is irrelevant here \u2014 what matters is the VLAN structure.',
+    facts: [
+      'Shows <b>VLAN membership</b> (Staff/Guest/Voice/Mgmt).',
+      'Distinguishes <b>access ports</b> from <b>802.1Q trunks</b>.',
+      'Concerns MAC-level switching, not IP addressing.',
+      'Answers: "Which VLAN is this port in, and how do switches link?"'
+    ],
+    exam: { lab: 'Exam note', text: 'Layer 2 = the <b>logical switching</b> view: VLANs and trunks. No IP addresses appear here \u2014 that\u2019s Layer 3\u2019s job.' }
+  },
+  l3: {
+    cat: 'Documentation · logical view',
+    title: 'Layer 3 — Network',
+    badge: 'logical', badgeText: 'Logical diagram',
+    body: 'The <b>Layer 3 diagram</b> is the <b>logical</b> IP view: the <b>subnets</b>, the <b>gateways</b>, and how traffic is <b>routed</b> between VLANs and out to the internet. This is the view you reach for when reasoning about addressing and reachability.',
+    facts: [
+      'Shows <b>IP subnets</b> per VLAN (e.g., 192.168.10.0/24).',
+      'Marks <b>gateways / SVIs</b> and the inter-VLAN routing point.',
+      'Includes the <b>default route</b> to the ISP/edge.',
+      'Answers: "What subnet is this, and how does traffic get there?"'
+    ],
+    exam: { lab: 'Exam note', text: 'Layer 3 = the <b>logical IP</b> view: subnets, gateways, routing. Questions about reachability between subnets or default routes are Layer-3-diagram questions.' }
+  }
+};
+var layersSeen = new Set();
+var LSKEY = 'cbt-explorer-3.1.1-layers';
+try { (JSON.parse(localStorage.getItem(LSKEY) || '[]')).forEach(function(x){ layersSeen.add(x); }); } catch(e){}
+
+function renderLayer(layer){
+  var d = LAYER_INFO[layer];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('layerDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-badge ' + d.badge + '">' + d.badgeText + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.layer-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.layer === layer); });
+  document.querySelectorAll('.layer-view').forEach(function(v){ v.classList.remove('active'); });
+  var view = document.getElementById('view-' + layer);
+  if(view) view.classList.add('active');
+  layersSeen.add(layer);
+  try { localStorage.setItem(LSKEY, JSON.stringify([].concat(Array.from(layersSeen)))); } catch(e){}
+}
+document.querySelectorAll('.layer-btn').forEach(function(b){
+  b.addEventListener('click', function(){ renderLayer(b.dataset.layer); });
+});
+layersSeen.add('l1');
+renderLayer('l1');
+
+/* ===== Documentation library ===== */
+var DOCS = {
+  rack: {
+    cat: 'Documentation · physical', title: 'Rack Diagram', abbr: 'front/rear rack elevation',
+    body: 'A <b>rack diagram</b> shows a front (and often rear) elevation of an equipment rack, documenting <b>which device occupies each U position</b>, plus power and cabling at the rack level.',
+    facts: ['Maps each device to a <b>U position</b> in a specific rack.','Used for installs, capacity planning, and finding gear fast.','Often paired with the MDF/IDF location records.','A <b>physical</b> document \u2014 about placement, not logic.'],
+    exam: { lab:'Answers', text:'"<b>Where is this device mounted, and what\u2019s above/below it?</b>"' }
+  },
+  cablemap: {
+    cat: 'Documentation · physical', title: 'Cable Map', abbr: 'cabling / connection diagram',
+    body: 'A <b>cable map</b> documents the <b>cable runs</b> \u2014 each cable\u2019s endpoints, labels, ports, and path. It\u2019s the reference for tracing a connection without physically following the wire.',
+    facts: ['Records <b>endpoint A \u2194 endpoint B</b>, port IDs, and cable labels.','Speeds up troubleshooting and moves/adds/changes.','Closely related to the physical diagram.','Keeps the cabling maintainable as it grows.'],
+    exam: { lab:'Answers', text:'"<b>What is plugged into this port, and where does the other end go?</b>"' }
+  },
+  inventory: {
+    cat: 'Documentation · records', title: 'Asset Inventory', abbr: 'hardware · software · licensing · warranty',
+    body: 'An <b>asset inventory</b> is the authoritative list of <b>what the organization owns</b>: hardware, software, license entitlements, and warranty/support status \u2014 with versions and identifiers.',
+    facts: ['Tracks <b>hardware</b> (serials, models) and <b>software</b> (versions).','Records <b>licensing</b> counts and <b>warranty/support</b> dates.','Drives life-cycle decisions (renewals, EOL planning).','Essential for audits and budgeting.'],
+    exam: { lab:'Answers', text:'"<b>What do we own, what version is it, and is it still under support?</b>"' }
+  },
+  ipam: {
+    cat: 'Documentation · addressing', title: 'IPAM', abbr: 'IP Address Management',
+    body: '<b>IPAM</b> tracks the organization\u2019s <b>IP address space</b> \u2014 which subnets exist, which addresses are assigned or free, and how DHCP scopes are laid out \u2014 preventing conflicts and exhaustion.',
+    facts: ['Inventories <b>subnets, allocations, and DHCP scopes</b>.','Shows which IPs are <b>in use vs available</b>.','Prevents duplicate-IP conflicts and address sprawl.','A <b>logical</b> record, tightly tied to the Layer 3 view.'],
+    exam: { lab:'Answers', text:'"<b>Which IP addresses and subnets are in use, and what\u2019s free?</b>"' }
+  },
+  sla: {
+    cat: 'Documentation · agreements', title: 'SLA', abbr: 'Service Level Agreement',
+    body: 'An <b>SLA</b> is a <b>contract</b> defining the level of service expected between a provider and customer \u2014 quantified commitments like <b>uptime percentage</b> and <b>response/resolution times</b>, often with penalties for misses.',
+    facts: ['Defines <b>uptime</b> (e.g., 99.9%) and <b>response times</b>.','Sets expectations and accountability between parties.','May include remedies/penalties for missed targets.','A business/agreement document, not a technical diagram.'],
+    exam: { lab:'Answers', text:'"<b>What level of service are we promised (or promising)?</b>"' }
+  },
+  heatmap: {
+    cat: 'Documentation · wireless', title: 'Wireless Heat Map', abbr: 'from a site survey',
+    body: 'A <b>wireless heat map</b> is the color-coded output of a <b>site survey</b>: it overlays signal strength on a floor plan so you can spot strong coverage and <b>dead zones</b> before users complain. (You met this in the wireless series.)',
+    facts: ['Visualizes <b>signal strength</b> across a floor plan.','Reveals <b>coverage gaps / dead zones</b> and interference.','Produced by walking the space during a <b>site survey</b>.','Guides AP placement and channel planning.'],
+    exam: { lab:'Answers', text:'"<b>Where is Wi-Fi coverage strong, and where are the dead zones?</b>"' }
+  }
+};
+var docsSeen = new Set();
+var DSKEY = 'cbt-explorer-3.1.1-docs';
+try { (JSON.parse(localStorage.getItem(DSKEY) || '[]')).forEach(function(x){ docsSeen.add(x); }); } catch(e){}
+
+function renderDoc(id){
+  var d = DOCS[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('docDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  docsSeen.add(id);
+  try { localStorage.setItem(DSKEY, JSON.stringify([].concat(Array.from(docsSeen)))); } catch(e){}
+  document.getElementById('doc-count').textContent = docsSeen.size + '/6';
+}
+document.querySelectorAll('.doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderDoc(c.id); });
+});
+docsSeen.add('rack');
+renderDoc('rack');
+document.getElementById('doc-count').textContent = docsSeen.size + '/6';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.1.1-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. <b>Layer 3</b> diagrams show subnets, gateways, and routing.', no: 'Not quite. IP subnets and routing live in the <b>Layer 3 (network)</b> diagram. Layer 1 is cabling; Layer 2 is VLANs.' },
+  '2': { ok: 'Correct. A <b>physical</b> diagram documents cabling, media, ports, and device placement.', no: 'Not quite. The <b>physical (Layer 1)</b> diagram is about cabling, media, ports, and where devices sit \u2014 not IP or VLANs.' },
+  '3': { ok: 'Correct. <b>IPAM</b> tracks IP allocations, subnets, and DHCP scopes.', no: 'Not quite. <b>IPAM</b> manages the IP address space \u2014 subnets, allocations, and DHCP scopes (used vs free).' },
+  '4': { ok: 'Correct. An <b>SLA</b> defines agreed service levels like uptime and response time.', no: 'Not quite. An <b>SLA</b> is an agreement on service levels \u2014 uptime, response/resolution times \u2014 between provider and customer.' },
+  '5': { ok: 'Correct. A <b>wireless heat map</b> visualizes coverage and dead zones.', no: 'Not quite. The <b>wireless heat map</b> (from a site survey) shows signal coverage and dead zones across a floor plan.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
