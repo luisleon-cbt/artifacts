@@ -221,7 +221,7 @@
 
   <div class="section-head">Baselines &amp; anomaly alerting — push the metric</div>
   <h2 class="big">Know <em>normal,</em> catch abnormal.</h2>
-  <p class="body">A <b>baseline</b> is the established "normal" range for a metric. As long as readings stay inside that band, all is well; when one leaves it, that's an <b>anomaly</b> \u2014 and anomaly-based monitoring fires an <b>alert</b>. Drag the current reading below and watch the status flip the moment it leaves the baseline band.</p>
+  <p class="body">A <b>baseline</b> is the established "normal" range for a metric. As long as readings stay inside that band, all is well; when one leaves it, that's an <b>anomaly</b> ,  and anomaly-based monitoring fires an <b>alert</b>. Drag the current reading below and watch the status flip the moment it leaves the baseline band.</p>
 
   <div class="explorer">
     <div class="explorer-stage">
@@ -261,12 +261,12 @@
 
   <div class="callout warn">
     <h5>Why baselines beat fixed thresholds alone</h5>
-    <p>A <b>baseline</b> captures what\u2019s normal <i>for this metric, on this device, at this time</i> \u2014 so a value that\u2019s fine at 2 p.m. can be flagged as an <b>anomaly</b> at 2 a.m. Anomaly alerting watches for <i>deviation from normal</i> rather than a single hard number, which catches subtle problems and cuts down on false alarms.</p>
+    <p>A <b>baseline</b> captures what\u2019s normal <i>for this metric, on this device, at this time</i> ,  so a value that\u2019s fine at 2 p.m. can be flagged as an <b>anomaly</b> at 2 a.m. Anomaly alerting watches for <i>deviation from normal</i> rather than a single hard number, which catches subtle problems and cuts down on false alarms.</p>
   </div>
 
   <div class="section-head">The monitoring solutions — click each</div>
   <h2 class="big">A tool for every <em>question.</em></h2>
-  <p class="body">These are the solution types the exam expects you to recognize. Click each to see what it does and the question it answers \u2014 notice how several build on the methods and processes from earlier explorers.</p>
+  <p class="body">These are the solution types the exam expects you to recognize. Click each to see what it does and the question it answers ,  notice how several build on the methods and processes from earlier explorers.</p>
 
   <div class="explorer">
     <div class="doc-stage">
@@ -367,7 +367,7 @@
     <div class="sb-icon">★</div>
     <div>
       <h3>That completes the 3.2 Network Monitoring explorer series.</h3>
-      <p>Across three explorers you\u2019ve covered the monitoring methods (SNMP, flow, capture, syslog, API/telemetry and push vs pull), the syslog severity scale and logging thresholds, and the family of monitoring solutions. A hands-on <b>syslog &amp; SNMP Packet Tracer lab</b> and a 25-question subtopic quiz \u2014 same format as the routing, switching, and wireless quizzes \u2014 round out the subtopic.</p>
+      <p>Across three explorers you\u2019ve covered the monitoring methods (SNMP, flow, capture, syslog, API/telemetry and push vs pull), the syslog severity scale and logging thresholds, and the family of monitoring solutions. A hands-on <b>syslog &amp; SNMP Packet Tracer lab</b> and a 25-question subtopic quiz ,  same format as the routing, switching, and wireless quizzes ,  round out the subtopic.</p>
     </div>
   </div>
 
@@ -377,7 +377,7 @@
   <div class="footer-inner">
     <div>
       <h4>About this explorer</h4>
-      <p>Explorer 3.2.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the monitoring solution types \u2014 log aggregation, SIEM, baselines/anomaly alerting, and availability/performance/configuration/traffic monitoring \u2014 through a baseline-and-anomaly visualizer and an interactive solutions library. Completes the 3.2 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
+      <p>Explorer 3.2.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the monitoring solution types ,  log aggregation, SIEM, baselines/anomaly alerting, and availability/performance/configuration/traffic monitoring ,  through a baseline-and-anomaly visualizer and an interactive solutions library. Completes the 3.2 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
     </div>
     <div>
       <h4>Explorer series</h4>
@@ -427,15 +427,15 @@ function renderBase(){
   var note = document.getElementById('baseNote');
   if(anomaly){
     st.className = 'base-status anomaly';
-    stt.textContent = 'Anomaly \u2014 alert!';
+    stt.textContent = 'Anomaly ,  alert!';
     var dir = (v > BAND_HIGH) ? 'above' : 'below';
     note.className = 'base-note anomaly';
-    note.innerHTML = 'At <b>' + v + '%</b>, the reading is <b>' + dir + '</b> the 30\u201370% baseline. Anomaly-based monitoring would <b>raise an alert</b> \u2014 this deviation from normal is exactly what it watches for.';
+    note.innerHTML = 'At <b>' + v + '%</b>, the reading is <b>' + dir + '</b> the 30\u201370% baseline. Anomaly-based monitoring would <b>raise an alert</b> ,  this deviation from normal is exactly what it watches for.';
   } else {
     st.className = 'base-status normal';
     stt.textContent = 'Normal';
     note.className = 'base-note';
-    note.innerHTML = 'At <b>' + v + '%</b>, the reading sits inside the 30\u201370% baseline band \u2014 normal behavior, so no alert fires. Drag it past either edge to trigger an anomaly.';
+    note.innerHTML = 'At <b>' + v + '%</b>, the reading sits inside the 30\u201370% baseline band ,  normal behavior, so no alert fires. Drag it past either edge to trigger an anomaly.';
   }
 }
 metricSlider.addEventListener('input', renderBase);
@@ -445,7 +445,7 @@ renderBase();
 var SOL = {
   logagg: {
     cat: 'Monitoring solution · collection', title: 'Log Aggregation', abbr: 'centralize the logs',
-    body: 'Collecting logs from many devices into a <b>central system</b> so they can be searched, retained, and reviewed together \u2014 instead of logging into each device one at a time. It\u2019s the syslog idea scaled across the whole environment.',
+    body: 'Collecting logs from many devices into a <b>central system</b> so they can be searched, retained, and reviewed together ,  instead of logging into each device one at a time. It\u2019s the syslog idea scaled across the whole environment.',
     facts: ['Centralizes logs from across the network.', 'Built on syslog (and other) sources.', 'Enables unified <b>search, retention, and review</b>.', 'The foundation that SIEM and analysis build on.'],
     exam: { lab:'Answers', text:'"<b>Where are all our logs, together, in one place?</b>"' }
   },
@@ -463,25 +463,25 @@ var SOL = {
   },
   availability: {
     cat: 'Monitoring solution · uptime', title: 'Availability Monitoring', abbr: 'is it up?',
-    body: 'Tracks whether devices and services are <b>up and reachable</b> \u2014 uptime vs downtime \u2014 typically with reachability checks (ping, SNMP up/down) and alerts when something goes down.',
+    body: 'Tracks whether devices and services are <b>up and reachable</b> ,  uptime vs downtime ,  typically with reachability checks (ping, SNMP up/down) and alerts when something goes down.',
     facts: ['Answers the most basic question: <b>is it up?</b>', 'Often uses ping / SNMP up-down checks.', 'Drives outage alerts and uptime/SLA reporting.', 'The first layer of "is it working at all?"'],
     exam: { lab:'Answers', text:'"<b>Is this device or service up and reachable right now?</b>"' }
   },
   performance: {
     cat: 'Monitoring solution · health', title: 'Performance Monitoring', abbr: 'is it running well?',
-    body: 'Measures <b>how well</b> things run \u2014 latency, throughput, utilization, error rates, response time \u2014 to catch <b>degradation</b> before it becomes a full outage.',
+    body: 'Measures <b>how well</b> things run ,  latency, throughput, utilization, error rates, response time ,  to catch <b>degradation</b> before it becomes a full outage.',
     facts: ['Tracks latency, throughput, utilization, errors.', 'Catches slowdowns/degradation early.', 'Often uses SNMP polling and flow data.', 'Feeds capacity planning and trend analysis.'],
     exam: { lab:'Answers', text:'"<b>Is it running well, or is it degrading?</b>"' }
   },
   configmon: {
     cat: 'Monitoring solution · change', title: 'Configuration Monitoring', abbr: 'detect drift',
-    body: 'Watches device <b>configurations</b> for changes \u2014 detecting <b>drift</b> from the approved baseline/golden config and flagging unauthorized or unexpected changes. (It\u2019s the watchdog for the config management you saw in 3.1.3.)',
+    body: 'Watches device <b>configurations</b> for changes ,  detecting <b>drift</b> from the approved baseline/golden config and flagging unauthorized or unexpected changes. (It\u2019s the watchdog for the config management you saw in 3.1.3.)',
     facts: ['Detects <b>drift</b> from the baseline/golden config.', 'Flags unauthorized or unexpected changes.', 'Supports compliance and change management.', 'Compares the running config to a stored standard.'],
     exam: { lab:'Answers', text:'"<b>Has this device\u2019s config drifted from the approved standard?</b>"' }
   },
   traffic: {
     cat: 'Monitoring solution · traffic', title: 'Traffic Analysis', abbr: "what's flowing?",
-    body: 'Examines <b>traffic patterns and volumes</b> \u2014 often using <b>flow data</b> \u2014 to understand who and what is using the network, find <b>top talkers</b>, and spot unusual or malicious traffic.',
+    body: 'Examines <b>traffic patterns and volumes</b> ,  often using <b>flow data</b> ,  to understand who and what is using the network, find <b>top talkers</b>, and spot unusual or malicious traffic.',
     facts: ['Analyzes traffic patterns and volumes.', 'Commonly built on <b>flow data</b> (NetFlow/sFlow/IPFIX).', 'Finds top talkers and unusual flows.', 'Serves both performance and security insight.'],
     exam: { lab:'Answers', text:'"<b>What is the traffic doing, and is any of it unusual?</b>"' }
   }
@@ -519,10 +519,10 @@ var kcState = {};
 try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
 var KC_TOTAL = 5;
 var KC_FB = {
-  '1': { ok: 'Correct. A <b>SIEM</b> correlates events and raises security alerts on top of aggregation.', no: 'Not quite. A <b>SIEM</b> adds correlation, detection rules, and security alerting \u2014 aggregation alone just centralizes the logs.' },
-  '2': { ok: 'Correct. A <b>baseline</b> is the established normal, used to detect anomalies.', no: 'Not quite. A <b>baseline</b> is the established normal behavior/range \u2014 the reference against which anomalies are flagged.' },
+  '1': { ok: 'Correct. A <b>SIEM</b> correlates events and raises security alerts on top of aggregation.', no: 'Not quite. A <b>SIEM</b> adds correlation, detection rules, and security alerting ,  aggregation alone just centralizes the logs.' },
+  '2': { ok: 'Correct. A <b>baseline</b> is the established normal, used to detect anomalies.', no: 'Not quite. A <b>baseline</b> is the established normal behavior/range ,  the reference against which anomalies are flagged.' },
   '3': { ok: 'Correct. <b>Availability monitoring</b> answers "is it up and reachable?"', no: 'Not quite. "Is it up?" is <b>availability monitoring</b>. Traffic analysis looks at flows; config monitoring watches for drift.' },
-  '4': { ok: 'Correct. <b>Configuration monitoring</b> detects drift from the approved config.', no: 'Not quite. Detecting config <b>drift</b> is <b>configuration monitoring</b> \u2014 performance and availability watch different things.' },
+  '4': { ok: 'Correct. <b>Configuration monitoring</b> detects drift from the approved config.', no: 'Not quite. Detecting config <b>drift</b> is <b>configuration monitoring</b> ,  performance and availability watch different things.' },
   '5': { ok: 'Correct. <b>Traffic analysis</b> uses flow data to reveal top talkers and unusual patterns.', no: 'Not quite. Analyzing flows for top talkers and unusual traffic is <b>traffic analysis</b>.' }
 };
 function lockCard(card){
