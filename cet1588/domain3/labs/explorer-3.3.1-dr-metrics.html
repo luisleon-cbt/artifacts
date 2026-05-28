@@ -199,7 +199,7 @@
   <div>
     <div class="eyebrow">Explorer 3.3.1 · DR Metrics · ≈ 28 min</div>
     <h1>How much, <em>how fast.</em></h1>
-    <p class="lede">When disaster strikes, two questions decide how badly it hurts: <b>how much data did we lose?</b> and <b>how long until we're back?</b> Those map to the two metrics the exam tests hardest \u2014 <b>RPO</b> (Recovery Point Objective) looks <i>backward</i> to your last good backup, and <b>RTO</b> (Recovery Time Objective) looks <i>forward</i> to the moment service returns. They're constantly confused. Drag the disaster and the recovery on the timeline below and watch both numbers move \u2014 then meet the reliability metrics (MTTR, MTBF, MTTF) that round out the picture.</p>
+    <p class="lede">When disaster strikes, two questions decide how badly it hurts: <b>how much data did we lose?</b> and <b>how long until we're back?</b> Those map to the two metrics the exam tests hardest ,  <b>RPO</b> (Recovery Point Objective) looks <i>backward</i> to your last good backup, and <b>RTO</b> (Recovery Time Objective) looks <i>forward</i> to the moment service returns. They're constantly confused. Drag the disaster and the recovery on the timeline below and watch both numbers move ,  then meet the reliability metrics (MTTR, MTBF, MTTF) that round out the picture.</p>
   </div>
   <aside class="ref-card">
     <div class="label">Explorer Overview</div>
@@ -219,7 +219,7 @@
 
   <div class="callout n-plus-context">
     <h5>Network+ Context — Read this first</h5>
-    <p>Objective 3.3 expects you to define and <i>distinguish</i> these metrics. The two that get confused on every exam are <b>RPO vs RTO</b>: RPO is about <b>data</b> (how far back your last recovery point is \u2014 how much data you can afford to lose), and RTO is about <b>time</b> (how long recovery may take). The reliability trio \u2014 <b>MTTR</b> (mean time to repair), <b>MTBF</b> (mean time between failures), and <b>MTTF</b> (mean time to failure) \u2014 measure how often things break and how quickly they're fixed. Lower is better for RPO/RTO/MTTR; higher is better for MTBF/MTTF.</p>
+    <p>Objective 3.3 expects you to define and <i>distinguish</i> these metrics. The two that get confused on every exam are <b>RPO vs RTO</b>: RPO is about <b>data</b> (how far back your last recovery point is ,  how much data you can afford to lose), and RTO is about <b>time</b> (how long recovery may take). The reliability trio ,  <b>MTTR</b> (mean time to repair), <b>MTBF</b> (mean time between failures), and <b>MTTF</b> (mean time to failure) ,  measure how often things break and how quickly they're fixed. Lower is better for RPO/RTO/MTTR; higher is better for MTBF/MTTF.</p>
   </div>
 
   <div class="section-head">The failure timeline — drag the markers</div>
@@ -275,7 +275,7 @@
       <div class="mr-cell rpo">
         <div class="mr-name">RPO · Recovery Point Objective</div>
         <div class="mr-val"><span id="rpoVal">6</span><span class="mr-unit">hours of data lost</span></div>
-        <div class="mr-desc"><b>Backward</b> from the disaster to the last backup. Everything created in this gap is gone \u2014 it was never backed up.</div>
+        <div class="mr-desc"><b>Backward</b> from the disaster to the last backup. Everything created in this gap is gone ,  it was never backed up.</div>
       </div>
       <div class="mr-cell rto">
         <div class="mr-name">RTO · Recovery Time Objective</div>
@@ -287,7 +287,7 @@
 
   <div class="callout warn">
     <h5>The trick to never confusing them again</h5>
-    <p><b>RPO = Point</b> (a point in the <i>past</i> \u2014 your last good backup; measures <b>data</b> loss). <b>RTO = Time</b> (the <i>duration</i> to recover; measures <b>downtime</b>). Want a smaller RPO? Back up more often. Want a smaller RTO? Recover faster (warmer site, automation, rehearsed plan). Both are <b>targets</b> the business sets \u2014 "objectives" \u2014 not guarantees.</p>
+    <p><b>RPO = Point</b> (a point in the <i>past</i> ,  your last good backup; measures <b>data</b> loss). <b>RTO = Time</b> (the <i>duration</i> to recover; measures <b>downtime</b>). Want a smaller RPO? Back up more often. Want a smaller RTO? Recover faster (warmer site, automation, rehearsed plan). Both are <b>targets</b> the business sets ,  "objectives" ,  not guarantees.</p>
   </div>
 
   <div class="section-head">The five metrics — click each</div>
@@ -393,7 +393,7 @@
   <div class="footer-inner">
     <div>
       <h4>About this explorer</h4>
-      <p>Explorer 3.3.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.3 Disaster Recovery</b>. Covers the DR and reliability metrics \u2014 RPO, RTO, MTTR, MTBF, and MTTF \u2014 through a draggable failure timeline that measures RPO and RTO live, plus an interactive metric library. Part of the CBT Technology Institute networking curriculum.</p>
+      <p>Explorer 3.3.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.3 Disaster Recovery</b>. Covers the DR and reliability metrics ,  RPO, RTO, MTTR, MTBF, and MTTF ,  through a draggable failure timeline that measures RPO and RTO live, plus an interactive metric library. Part of the CBT Technology Institute networking curriculum.</p>
     </div>
     <div>
       <h4>Explorer series</h4>
@@ -471,37 +471,37 @@ renderTimeline();
 var MET = {
   rpo: {
     cat: 'Recovery metric · data', title: 'Recovery Point Objective', abbr: 'RPO \u00b7 how much data you can lose',
-    body: 'RPO is the <b>maximum acceptable amount of data loss</b>, expressed as time. It looks <b>backward</b> from a disaster to your last good recovery point \u2014 anything created after that point is gone.',
+    body: 'RPO is the <b>maximum acceptable amount of data loss</b>, expressed as time. It looks <b>backward</b> from a disaster to your last good recovery point ,  anything created after that point is gone.',
     formula: 'Driven by <b>backup frequency</b>: back up every hour \u2192 RPO \u2248 1 hour.',
-    facts: ['Measures <b>data loss</b>, in time (e.g., "15 minutes").', 'Looks <b>backward</b> to the last backup/snapshot.', '<b>Smaller is better</b> \u2014 achieved by backing up more often.', 'A business target ("objective"), set by data criticality.'],
+    facts: ['Measures <b>data loss</b>, in time (e.g., "15 minutes").', 'Looks <b>backward</b> to the last backup/snapshot.', '<b>Smaller is better</b> ,  achieved by backing up more often.', 'A business target ("objective"), set by data criticality.'],
     exam: { lab:'Remember', text:'RPO = <b>Point</b> in the past (last good data). It answers "<b>how much data can we lose?</b>"' }
   },
   rto: {
     cat: 'Recovery metric · time', title: 'Recovery Time Objective', abbr: 'RTO \u00b7 how long until you\u2019re back',
-    body: 'RTO is the <b>maximum acceptable time to restore service</b> after a disaster. It looks <b>forward</b> from the outage to the moment systems are usable again \u2014 the downtime the business can tolerate.',
+    body: 'RTO is the <b>maximum acceptable time to restore service</b> after a disaster. It looks <b>forward</b> from the outage to the moment systems are usable again ,  the downtime the business can tolerate.',
     formula: 'Driven by <b>recovery speed</b>: warmer sites, automation, and rehearsed plans shrink RTO.',
-    facts: ['Measures <b>downtime</b>, in time (e.g., "4 hours").', 'Looks <b>forward</b> to service being restored.', '<b>Smaller is better</b> \u2014 achieved by faster recovery design.', 'A business target ("objective"), set by how costly downtime is.'],
+    facts: ['Measures <b>downtime</b>, in time (e.g., "4 hours").', 'Looks <b>forward</b> to service being restored.', '<b>Smaller is better</b> ,  achieved by faster recovery design.', 'A business target ("objective"), set by how costly downtime is.'],
     exam: { lab:'Remember', text:'RTO = <b>Time</b> to recover. It answers "<b>how long can we be down?</b>" Don\u2019t swap it with RPO.' }
   },
   mttr: {
     cat: 'Reliability metric · repair', title: 'Mean Time To Repair', abbr: 'MTTR \u00b7 average fix time',
-    body: 'MTTR is the <b>average time to repair</b> a failed component or system and return it to service \u2014 from the moment it fails to the moment it\u2019s working again. It reflects how quickly your team and process can recover hardware.',
+    body: 'MTTR is the <b>average time to repair</b> a failed component or system and return it to service ,  from the moment it fails to the moment it\u2019s working again. It reflects how quickly your team and process can recover hardware.',
     formula: 'MTTR = <b>total repair time \u00f7 number of repairs</b>.',
-    facts: ['Average <b>time to fix</b> and restore a failed item.', 'Includes diagnosis, repair, and verification.', '<b>Lower is better</b> \u2014 faster repairs, less downtime.', 'Improved by spares, runbooks, and trained staff.'],
+    facts: ['Average <b>time to fix</b> and restore a failed item.', 'Includes diagnosis, repair, and verification.', '<b>Lower is better</b> ,  faster repairs, less downtime.', 'Improved by spares, runbooks, and trained staff.'],
     exam: { lab:'Remember', text:'MTTR = how <b>fast you fix it</b>. Lower is better. Don\u2019t confuse with the MTBF (between failures).' }
   },
   mtbf: {
     cat: 'Reliability metric · repairable', title: 'Mean Time Between Failures', abbr: 'MTBF \u00b7 average uptime between failures',
-    body: 'MTBF is the average operating time <b>between one failure and the next</b> for a <b>repairable</b> system. It captures how reliably something runs before it next breaks \u2014 a higher MTBF means fewer interruptions.',
+    body: 'MTBF is the average operating time <b>between one failure and the next</b> for a <b>repairable</b> system. It captures how reliably something runs before it next breaks ,  a higher MTBF means fewer interruptions.',
     formula: 'MTBF = <b>total operating time \u00f7 number of failures</b>.',
-    facts: ['For <b>repairable</b> systems (it gets fixed and runs again).', 'Average run time <b>between</b> failures.', '<b>Higher is better</b> \u2014 more reliable, fails less often.', 'Used in maintenance and reliability planning.'],
+    facts: ['For <b>repairable</b> systems (it gets fixed and runs again).', 'Average run time <b>between</b> failures.', '<b>Higher is better</b> ,  more reliable, fails less often.', 'Used in maintenance and reliability planning.'],
     exam: { lab:'Remember', text:'MTBF = average <b>time between failures</b> of a <b>repairable</b> system. Higher is better.' }
   },
   mttf: {
     cat: 'Reliability metric · non-repairable', title: 'Mean Time To Failure', abbr: 'MTTF \u00b7 expected lifespan',
-    body: 'MTTF is the average lifespan until failure for a <b>non-repairable</b> item \u2014 one you <b>replace rather than repair</b> (like a drive or a power supply unit). It estimates how long such a component is expected to last before it dies.',
+    body: 'MTTF is the average lifespan until failure for a <b>non-repairable</b> item ,  one you <b>replace rather than repair</b> (like a drive or a power supply unit). It estimates how long such a component is expected to last before it dies.',
     formula: 'MTTF = <b>total operating time \u00f7 number of units</b> (until each fails).',
-    facts: ['For <b>non-repairable</b> items (replaced, not fixed).', 'Average <b>lifespan to the single failure</b>.', '<b>Higher is better</b> \u2014 longer-lived components.', 'Guides replacement cycles and warranty planning.'],
+    facts: ['For <b>non-repairable</b> items (replaced, not fixed).', 'Average <b>lifespan to the single failure</b>.', '<b>Higher is better</b> ,  longer-lived components.', 'Guides replacement cycles and warranty planning.'],
     exam: { lab:'Remember', text:'MTTF = expected <b>lifespan</b> of something you <b>replace</b>. MTBF is the repairable cousin.' }
   }
 };
@@ -541,7 +541,7 @@ var KC_TOTAL = 5;
 var KC_FB = {
   '1': { ok: 'Correct. <b>RPO</b> = acceptable data loss, measured back to the last recovery point.', no: 'Not quite. <b>RPO</b> measures how much <b>data</b> you can lose (the gap back to the last backup). Time-to-restore is RTO.' },
   '2': { ok: 'Correct. <b>RTO</b> = the target maximum time to restore service.', no: 'Not quite. <b>RTO</b> is the acceptable <b>downtime</b> (time to recover). Data loss is RPO.' },
-  '3': { ok: 'Correct. "Lose no more than 4 hours of data" is an <b>RPO</b> of 4 hours.', no: 'Not quite. Acceptable <b>data loss</b> is the <b>RPO</b> \u2014 here 4 hours, set by the 4-hour backup interval.' },
+  '3': { ok: 'Correct. "Lose no more than 4 hours of data" is an <b>RPO</b> of 4 hours.', no: 'Not quite. Acceptable <b>data loss</b> is the <b>RPO</b> ,  here 4 hours, set by the 4-hour backup interval.' },
   '4': { ok: 'Correct. <b>MTTR</b> is the average time to repair and restore a failed system.', no: 'Not quite. Average <b>repair</b> time is <b>MTTR</b>. MTBF/MTTF describe time until/between failures.' },
   '5': { ok: 'Correct. <b>MTBF</b> = repairable (between failures); <b>MTTF</b> = non-repairable (lifespan to failure).', no: 'Not quite. <b>MTBF</b> is for repairable systems (between failures); <b>MTTF</b> is for items replaced rather than repaired.' }
 };
