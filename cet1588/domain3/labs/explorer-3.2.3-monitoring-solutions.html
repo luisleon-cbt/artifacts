@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.2.3 · Monitoring Solutions · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== BASELINE / ANOMALY VISUALIZER ===== */
+  .explorer { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 22px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+  .metric-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--bg-warm); border: 1px solid var(--line-soft); outline: none; cursor: pointer; margin: 16px 0 4px; }
+  .metric-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 26px; background: var(--navy-deep); border: 3px solid white; border-radius: 3px; box-shadow: 0 0 0 1px var(--navy-deep); cursor: pointer; }
+  .metric-slider::-moz-range-thumb { width: 14px; height: 26px; background: var(--navy-deep); border: 3px solid white; border-radius: 3px; cursor: pointer; }
+  .metric-scale { display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute); font-weight: 700; }
+  .metric-label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; text-align: center; margin-top: 6px; }
+
+  .base-panel { padding: 24px 26px; display: flex; flex-direction: column; }
+  .base-status { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ff-display); font-size: 22px; font-weight: 700; padding: 12px 18px; border-radius: 4px; margin-bottom: 18px; }
+  .base-status.normal { background: var(--green-bg); color: var(--green); }
+  .base-status.anomaly { background: var(--red-bg); color: var(--red); }
+  .base-status .bs-dot { width: 14px; height: 14px; border-radius: 50%; background: currentColor; }
+  .base-stat { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px dotted var(--line-soft); }
+  .base-stat .bs-k { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .base-stat .bs-v { font-family: var(--ff-display); font-size: 20px; font-weight: 700; color: var(--navy-deep); }
+  .base-note { font-size: 13px; line-height: 1.6; color: var(--ink-mid); margin-top: 16px; padding: 12px 15px; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .base-note.anomaly { border-color: var(--red); background: rgba(142,31,46,0.08); }
+  .base-note b { color: var(--navy-deep); }
+
+  /* ===== SOLUTIONS LIBRARY ===== */
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 12px 14px; cursor: pointer; transition: all 0.14s; }
+  .doc-card.sec { border-left-color: var(--red); }
+  .doc-card.cfg { border-left-color: var(--gold); }
+  .doc-card:hover { border-color: var(--sky); transform: translateY(-1px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card.sec.active { box-shadow: inset 0 0 0 2px var(--red); }
+  .doc-card.cfg.active { box-shadow: inset 0 0 0 2px var(--gold); }
+  .doc-card .dc-name { font-family: var(--ff-display); font-size: 14px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .doc-card .dc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 3px; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  /* series-complete banner */
+  .series-banner { background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(224,184,64,0.10)); border: 1px solid var(--sky); border-left-width: 4px; padding: 24px 30px; margin: 30px 0 0; display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: center; }
+  .series-banner .sb-icon { width: 52px; height: 52px; background: var(--navy-deep); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 20px; }
+  .series-banner h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .series-banner p { margin: 0; font-size: 14px; color: var(--ink-mid); max-width: 66ch; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 56px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage, .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .series-banner { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.2 Network Monitoring</span>
+    <span class="crumb">Explorer 3.2.3</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 3 of 3 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.2.3 · Monitoring Solutions · ≈ 28 min</div>
+    <h1>Turning data <em>into</em> answers.</h1>
+    <p class="lede">Methods like SNMP and syslog produce <i>data</i>; monitoring <b>solutions</b> turn that data into something useful. Some collect and correlate logs (<b>log aggregation</b>, <b>SIEM</b>); some learn what "normal" looks like and shout when it isn't (<b>baselines &amp; anomaly alerting</b>); others track whether things are <b>up</b>, running <b>well</b>, configured <b>correctly</b>, or carrying <b>unusual traffic</b>. Start by driving a metric past its baseline to trigger an alert, then explore the family of monitoring solutions.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.2 — network monitoring solutions</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Aggregation · SIEM · baselines · availability/perf/config · traffic</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Baseline/anomaly visualizer + solutions library</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">3 of 3 · Methods / Syslog / Solutions</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Push the metric out of its baseline band</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      log aggregation · SIEM · baseline · anomaly alerting · availability · performance · configuration monitoring · traffic analysis
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.2 expects you to recognize the <b>monitoring solutions</b> and what each is for: <b>log aggregation</b> centralizes logs; a <b>SIEM</b> correlates events and raises security alerts; a <b>baseline</b> defines normal so <b>anomaly alerting</b> can flag deviations; and you monitor for <b>availability</b> (is it up?), <b>performance</b> (is it running well?), <b>configuration</b> (has it drifted?), and <b>traffic</b> (what\u2019s flowing?). This explorer pairs each with the question it answers.</p>
+  </div>
+
+  <div class="section-head">Baselines &amp; anomaly alerting — push the metric</div>
+  <h2 class="big">Know <em>normal,</em> catch abnormal.</h2>
+  <p class="body">A <b>baseline</b> is the established "normal" range for a metric. As long as readings stay inside that band, all is well; when one leaves it, that's an <b>anomaly</b> \u2014 and anomaly-based monitoring fires an <b>alert</b>. Drag the current reading below and watch the status flip the moment it leaves the baseline band.</p>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <svg id="chart" viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+        <!-- baseline band (value 30-70 => y 180..100) -->
+        <rect x="40" y="100" width="400" height="80" fill="rgba(42,96,73,0.12)"/>
+        <line x1="40" y1="100" x2="440" y2="100" stroke="#2A6049" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="40" y1="180" x2="440" y2="180" stroke="#2A6049" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <text x="446" y="103" fill="#2A6049" font-size="9">70%</text>
+        <text x="446" y="183" fill="#2A6049" font-size="9">30%</text>
+        <text x="396" y="142" fill="#2A6049" font-size="9" font-style="italic" opacity="0.7">baseline (normal)</text>
+        <!-- axes -->
+        <line x1="40" y1="40" x2="40" y2="240" stroke="#1A1A1A" stroke-width="1.5"/>
+        <line x1="40" y1="240" x2="440" y2="240" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="34" y="44" text-anchor="end" fill="#767E92" font-size="9">100</text>
+        <text x="34" y="243" text-anchor="end" fill="#767E92" font-size="9">0</text>
+        <text x="240" y="262" text-anchor="middle" fill="#767E92" font-size="9">time \u2192 (SW-CORE uplink utilization %)</text>
+        <!-- past data polyline (within band) -->
+        <polyline points="60,144 100,136 140,150 180,130 220,140 260,124 300,146 340,134" fill="none" stroke="#1E8FBE" stroke-width="2"/>
+        <circle cx="60" cy="144" r="2.5" fill="#1E8FBE"/><circle cx="100" cy="136" r="2.5" fill="#1E8FBE"/><circle cx="140" cy="150" r="2.5" fill="#1E8FBE"/><circle cx="180" cy="130" r="2.5" fill="#1E8FBE"/><circle cx="220" cy="140" r="2.5" fill="#1E8FBE"/><circle cx="260" cy="124" r="2.5" fill="#1E8FBE"/><circle cx="300" cy="146" r="2.5" fill="#1E8FBE"/><circle cx="340" cy="134" r="2.5" fill="#1E8FBE"/>
+        <!-- current point (JS updates cy + color) -->
+        <line id="curLine" x1="340" y1="134" x2="400" y2="140" stroke="#1E8FBE" stroke-width="2"/>
+        <circle id="curPoint" cx="400" cy="140" r="6" fill="#2A6049" stroke="white" stroke-width="2"/>
+        <text id="curLabel" x="400" y="120" text-anchor="middle" fill="#2A6049" font-size="10" font-weight="700">50%</text>
+      </svg>
+      <input type="range" min="0" max="100" step="1" value="50" id="metricSlider" class="metric-slider">
+      <div class="metric-scale"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div class="metric-label">Drag: current uplink utilization</div>
+    </div>
+    <div class="base-panel">
+      <div class="base-status normal" id="baseStatus"><span class="bs-dot"></span><span id="baseStatusText">Normal</span></div>
+      <div class="base-stat"><span class="bs-k">Current reading</span><span class="bs-v" id="baseCurrent">50%</span></div>
+      <div class="base-stat"><span class="bs-k">Baseline (normal)</span><span class="bs-v">30%&ndash;70%</span></div>
+      <div class="base-note" id="baseNote"><!-- populated by JS --></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why baselines beat fixed thresholds alone</h5>
+    <p>A <b>baseline</b> captures what\u2019s normal <i>for this metric, on this device, at this time</i> \u2014 so a value that\u2019s fine at 2 p.m. can be flagged as an <b>anomaly</b> at 2 a.m. Anomaly alerting watches for <i>deviation from normal</i> rather than a single hard number, which catches subtle problems and cuts down on false alarms.</p>
+  </div>
+
+  <div class="section-head">The monitoring solutions — click each</div>
+  <h2 class="big">A tool for every <em>question.</em></h2>
+  <p class="body">These are the solution types the exam expects you to recognize. Click each to see what it does and the question it answers \u2014 notice how several build on the methods and processes from earlier explorers.</p>
+
+  <div class="explorer">
+    <div class="doc-stage">
+      <div class="doc-grid" id="solGrid">
+        <div class="doc-card active" id="logagg"><div class="dc-name">Log aggregation</div><div class="dc-tag">centralize logs</div></div>
+        <div class="doc-card sec" id="siem"><div class="dc-name">SIEM</div><div class="dc-tag">correlate + security alerts</div></div>
+        <div class="doc-card" id="baseline"><div class="dc-name">Baselines &amp; anomaly alerting</div><div class="dc-tag">deviation from normal</div></div>
+        <div class="doc-card" id="availability"><div class="dc-name">Availability monitoring</div><div class="dc-tag">is it up?</div></div>
+        <div class="doc-card" id="performance"><div class="dc-name">Performance monitoring</div><div class="dc-tag">is it running well?</div></div>
+        <div class="doc-card cfg" id="configmon"><div class="dc-name">Configuration monitoring</div><div class="dc-tag">detect drift</div></div>
+        <div class="doc-card" id="traffic"><div class="dc-name">Traffic analysis</div><div class="dc-tag">what's flowing?</div></div>
+      </div>
+      <div class="doc-hint">Click a solution · <b id="sol-count">1/7</b> explored</div>
+    </div>
+    <div class="detail" id="detail"><!-- populated by JS; default = logagg --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Log aggregation vs SIEM — a key pairing</h5>
+    <p><b>Log aggregation</b> gets all your logs into one place. A <b>SIEM</b> adds the brains on top: it <b>correlates</b> events across many sources, applies detection rules, and raises <b>security alerts</b>. Aggregation answers "where are the logs?"; SIEM answers "do these events, together, indicate an attack?"</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What does a <b>SIEM</b> add beyond simple log aggregation?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">It correlates events across many sources, applies detection rules, and raises prioritized security alerts</button>
+      <button class="kc-opt" data-correct="false">It physically cables devices into a central rack</button>
+      <button class="kc-opt" data-correct="false">It replaces the need to collect logs at all</button>
+      <button class="kc-opt" data-correct="false">It assigns IP addresses to monitored hosts</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>In monitoring, what is a <b>baseline</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">The maximum value a metric can ever reach</button>
+      <button class="kc-opt" data-correct="true">The established "normal" behavior or range, used as a reference to detect anomalies</button>
+      <button class="kc-opt" data-correct="false">The contract guaranteeing uptime</button>
+      <button class="kc-opt" data-correct="false">A captured copy of a device\u2019s configuration</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>Which solution simply answers "is this device or service up and reachable?"</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Traffic analysis</button>
+      <button class="kc-opt" data-correct="true">Availability monitoring</button>
+      <button class="kc-opt" data-correct="false">Configuration monitoring</button>
+      <button class="kc-opt" data-correct="false">SIEM</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>An admin wants to be alerted when a device\u2019s configuration drifts from the approved standard. Which solution fits?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Performance monitoring</button>
+      <button class="kc-opt" data-correct="false">Availability monitoring</button>
+      <button class="kc-opt" data-correct="true">Configuration monitoring</button>
+      <button class="kc-opt" data-correct="false">Log aggregation</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>Which solution analyzes flow data to reveal top talkers and unusual traffic patterns?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Availability monitoring</button>
+      <button class="kc-opt" data-correct="false">Configuration monitoring</button>
+      <button class="kc-opt" data-correct="true">Traffic analysis</button>
+      <button class="kc-opt" data-correct="false">Log aggregation</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Log aggregation</div><div class="t-def">Collecting logs from many devices into one central system for unified search, retention, and review.</div></div>
+    <div class="term"><div class="t-name">SIEM</div><div class="t-def">Security Information and Event Management — correlates events across sources, applies detection rules, and raises security alerts.</div></div>
+    <div class="term"><div class="t-name">Baseline</div><div class="t-def">The established normal behavior/range for a metric, used as the reference for detecting anomalies.</div></div>
+    <div class="term"><div class="t-name">Anomaly alerting</div><div class="t-def">Raising an alert when current behavior deviates from the baseline, rather than crossing a single fixed number.</div></div>
+    <div class="term"><div class="t-name">Availability vs performance</div><div class="t-def">Availability = is it up and reachable? Performance = is it running well (latency, throughput, utilization)?</div></div>
+    <div class="term"><div class="t-name">Config monitoring &amp; traffic analysis</div><div class="t-def">Config monitoring detects drift from the standard config; traffic analysis (often via flow data) examines what is flowing and flags the unusual.</div></div>
+  </div>
+
+  <div class="series-banner">
+    <div class="sb-icon">★</div>
+    <div>
+      <h3>That completes the 3.2 Network Monitoring explorer series.</h3>
+      <p>Across three explorers you\u2019ve covered the monitoring methods (SNMP, flow, capture, syslog, API/telemetry and push vs pull), the syslog severity scale and logging thresholds, and the family of monitoring solutions. A hands-on <b>syslog &amp; SNMP Packet Tracer lab</b> and a 25-question subtopic quiz \u2014 same format as the routing, switching, and wireless quizzes \u2014 round out the subtopic.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.2.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.2 Network Monitoring</b>. Covers the monitoring solution types \u2014 log aggregation, SIEM, baselines/anomaly alerting, and availability/performance/configuration/traffic monitoring \u2014 through a baseline-and-anomaly visualizer and an interactive solutions library. Completes the 3.2 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.2.1 · Monitoring Methods</p>
+      <p style="opacity:0.55">3.2.2 · Syslog &amp; Log Levels</p>
+      <p>3.2.3 · Monitoring Solutions ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Baseline / anomaly visualizer ===== */
+var BAND_LOW = 30, BAND_HIGH = 70;          // baseline normal range (%)
+var Y_TOP = 40, Y_BOT = 240;                 // plot pixel range (value 100 -> 0)
+var metricSlider = document.getElementById('metricSlider');
+
+function valToY(v){ return Y_BOT - (v / 100) * (Y_BOT - Y_TOP); }
+
+function renderBase(){
+  var v = parseInt(metricSlider.value, 10);
+  var y = valToY(v);
+  var anomaly = (v < BAND_LOW || v > BAND_HIGH);
+  var color = anomaly ? '#8E1F2E' : '#2A6049';
+
+  var pt = document.getElementById('curPoint');
+  pt.setAttribute('cy', y);
+  pt.setAttribute('fill', color);
+  var ln = document.getElementById('curLine');
+  ln.setAttribute('y2', y);
+  ln.setAttribute('stroke', anomaly ? '#8E1F2E' : '#1E8FBE');
+  var lab = document.getElementById('curLabel');
+  lab.setAttribute('y', Math.max(Y_TOP + 8, y - 12));
+  lab.setAttribute('fill', color);
+  lab.textContent = v + '%';
+
+  document.getElementById('baseCurrent').textContent = v + '%';
+  var st = document.getElementById('baseStatus');
+  var stt = document.getElementById('baseStatusText');
+  var note = document.getElementById('baseNote');
+  if(anomaly){
+    st.className = 'base-status anomaly';
+    stt.textContent = 'Anomaly \u2014 alert!';
+    var dir = (v > BAND_HIGH) ? 'above' : 'below';
+    note.className = 'base-note anomaly';
+    note.innerHTML = 'At <b>' + v + '%</b>, the reading is <b>' + dir + '</b> the 30\u201370% baseline. Anomaly-based monitoring would <b>raise an alert</b> \u2014 this deviation from normal is exactly what it watches for.';
+  } else {
+    st.className = 'base-status normal';
+    stt.textContent = 'Normal';
+    note.className = 'base-note';
+    note.innerHTML = 'At <b>' + v + '%</b>, the reading sits inside the 30\u201370% baseline band \u2014 normal behavior, so no alert fires. Drag it past either edge to trigger an anomaly.';
+  }
+}
+metricSlider.addEventListener('input', renderBase);
+renderBase();
+
+/* ===== Solutions library ===== */
+var SOL = {
+  logagg: {
+    cat: 'Monitoring solution · collection', title: 'Log Aggregation', abbr: 'centralize the logs',
+    body: 'Collecting logs from many devices into a <b>central system</b> so they can be searched, retained, and reviewed together \u2014 instead of logging into each device one at a time. It\u2019s the syslog idea scaled across the whole environment.',
+    facts: ['Centralizes logs from across the network.', 'Built on syslog (and other) sources.', 'Enables unified <b>search, retention, and review</b>.', 'The foundation that SIEM and analysis build on.'],
+    exam: { lab:'Answers', text:'"<b>Where are all our logs, together, in one place?</b>"' }
+  },
+  siem: {
+    cat: 'Monitoring solution · security analytics', title: 'SIEM', abbr: 'Security Information and Event Management',
+    body: 'Goes beyond aggregation: a <b>SIEM</b> <b>correlates</b> events from many sources in real time, applies detection rules and analytics, and raises <b>security alerts</b>. It\u2019s the security team\u2019s central monitoring console.',
+    facts: ['Aggregates <b>and correlates</b> events across sources.', 'Applies rules/analytics to detect threats.', 'Generates <b>prioritized security alerts</b>.', 'Supports investigation and compliance reporting.'],
+    exam: { lab:'Answers', text:'"<b>Do these events, together, indicate a security incident?</b>"' }
+  },
+  baseline: {
+    cat: 'Monitoring solution · behavior', title: 'Baselines & Anomaly Alerting', abbr: 'deviation from normal',
+    body: 'Establish what <b>normal</b> looks like over time (the <b>baseline</b>), then alert when current behavior <b>deviates</b> beyond it (an <b>anomaly</b>). You just saw this in action above.',
+    facts: ['<b>Baseline</b> = the established normal range/behavior.', '<b>Anomaly</b> = a deviation from that normal.', 'Alerts fire when readings leave the baseline.', 'Catches subtle problems; fewer false alarms than fixed thresholds.'],
+    exam: { lab:'Answers', text:'"<b>Is what\u2019s happening now abnormal compared to usual?</b>"' }
+  },
+  availability: {
+    cat: 'Monitoring solution · uptime', title: 'Availability Monitoring', abbr: 'is it up?',
+    body: 'Tracks whether devices and services are <b>up and reachable</b> \u2014 uptime vs downtime \u2014 typically with reachability checks (ping, SNMP up/down) and alerts when something goes down.',
+    facts: ['Answers the most basic question: <b>is it up?</b>', 'Often uses ping / SNMP up-down checks.', 'Drives outage alerts and uptime/SLA reporting.', 'The first layer of "is it working at all?"'],
+    exam: { lab:'Answers', text:'"<b>Is this device or service up and reachable right now?</b>"' }
+  },
+  performance: {
+    cat: 'Monitoring solution · health', title: 'Performance Monitoring', abbr: 'is it running well?',
+    body: 'Measures <b>how well</b> things run \u2014 latency, throughput, utilization, error rates, response time \u2014 to catch <b>degradation</b> before it becomes a full outage.',
+    facts: ['Tracks latency, throughput, utilization, errors.', 'Catches slowdowns/degradation early.', 'Often uses SNMP polling and flow data.', 'Feeds capacity planning and trend analysis.'],
+    exam: { lab:'Answers', text:'"<b>Is it running well, or is it degrading?</b>"' }
+  },
+  configmon: {
+    cat: 'Monitoring solution · change', title: 'Configuration Monitoring', abbr: 'detect drift',
+    body: 'Watches device <b>configurations</b> for changes \u2014 detecting <b>drift</b> from the approved baseline/golden config and flagging unauthorized or unexpected changes. (It\u2019s the watchdog for the config management you saw in 3.1.3.)',
+    facts: ['Detects <b>drift</b> from the baseline/golden config.', 'Flags unauthorized or unexpected changes.', 'Supports compliance and change management.', 'Compares the running config to a stored standard.'],
+    exam: { lab:'Answers', text:'"<b>Has this device\u2019s config drifted from the approved standard?</b>"' }
+  },
+  traffic: {
+    cat: 'Monitoring solution · traffic', title: 'Traffic Analysis', abbr: "what's flowing?",
+    body: 'Examines <b>traffic patterns and volumes</b> \u2014 often using <b>flow data</b> \u2014 to understand who and what is using the network, find <b>top talkers</b>, and spot unusual or malicious traffic.',
+    facts: ['Analyzes traffic patterns and volumes.', 'Commonly built on <b>flow data</b> (NetFlow/sFlow/IPFIX).', 'Finds top talkers and unusual flows.', 'Serves both performance and security insight.'],
+    exam: { lab:'Answers', text:'"<b>What is the traffic doing, and is any of it unusual?</b>"' }
+  }
+};
+var solSeen = new Set();
+var SOLKEY = 'cbt-explorer-3.2.3-sol';
+try { (JSON.parse(localStorage.getItem(SOLKEY) || '[]')).forEach(function(x){ solSeen.add(x); }); } catch(e){}
+
+function renderSol(id){
+  var d = SOL[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  solSeen.add(id);
+  try { localStorage.setItem(SOLKEY, JSON.stringify([].concat(Array.from(solSeen)))); } catch(e){}
+  document.getElementById('sol-count').textContent = solSeen.size + '/7';
+}
+document.querySelectorAll('.doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderSol(c.id); });
+});
+solSeen.add('logagg');
+renderSol('logagg');
+document.getElementById('sol-count').textContent = solSeen.size + '/7';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.2.3-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. A <b>SIEM</b> correlates events and raises security alerts on top of aggregation.', no: 'Not quite. A <b>SIEM</b> adds correlation, detection rules, and security alerting \u2014 aggregation alone just centralizes the logs.' },
+  '2': { ok: 'Correct. A <b>baseline</b> is the established normal, used to detect anomalies.', no: 'Not quite. A <b>baseline</b> is the established normal behavior/range \u2014 the reference against which anomalies are flagged.' },
+  '3': { ok: 'Correct. <b>Availability monitoring</b> answers "is it up and reachable?"', no: 'Not quite. "Is it up?" is <b>availability monitoring</b>. Traffic analysis looks at flows; config monitoring watches for drift.' },
+  '4': { ok: 'Correct. <b>Configuration monitoring</b> detects drift from the approved config.', no: 'Not quite. Detecting config <b>drift</b> is <b>configuration monitoring</b> \u2014 performance and availability watch different things.' },
+  '5': { ok: 'Correct. <b>Traffic analysis</b> uses flow data to reveal top talkers and unusual patterns.', no: 'Not quite. Analyzing flows for top talkers and unusual traffic is <b>traffic analysis</b>.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
