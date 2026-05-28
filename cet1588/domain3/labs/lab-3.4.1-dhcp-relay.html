@@ -244,7 +244,7 @@
   <div>
     <div class="eyebrow">Lab 3.4.1 · Packet Tracer · ≈ 55 min</div>
     <h1>Addresses on <em>demand.</em></h1>
-    <p class="lede">Hand-typing an IP into every device doesn't scale \u2014 <b>DHCP</b> leases them out automatically. But there's a catch the exam loves: a DHCP request is a <i>broadcast</i>, and broadcasts don't cross a router. So when your DHCP server sits on one subnet and your clients sit on others, you need a <b>relay</b> \u2014 <code>ip helper-address</code> \u2014 to forward those requests across. In this lab you'll build two scopes with exclusions and options on a central server, then configure relay on the Miami core so clients in VLAN 10 and VLAN 20 get addresses from a server they can't even broadcast to.</p>
+    <p class="lede">Hand-typing an IP into every device doesn't scale ,  <b>DHCP</b> leases them out automatically. But there's a catch the exam loves: a DHCP request is a <i>broadcast</i>, and broadcasts don't cross a router. So when your DHCP server sits on one subnet and your clients sit on others, you need a <b>relay</b> ,  <code>ip helper-address</code> ,  to forward those requests across. In this lab you'll build two scopes with exclusions and options on a central server, then configure relay on the Miami core so clients in VLAN 10 and VLAN 20 get addresses from a server they can't even broadcast to.</p>
   </div>
   <aside class="ref-card">
     <div class="label">Lab Specification</div>
@@ -282,7 +282,7 @@
 <!-- ============== TAB 1 · BRIEF ============== -->
 <section class="panel active" id="panel-brief">
   <h2>How a device gets an address <em>by itself.</em></h2>
-  <p>When a client is set to obtain an address automatically, it doesn't know its IP, its gateway, or its DNS server \u2014 it doesn't even know who the DHCP server is. It finds out through a four-step exchange, and the server hands back not just an address but a whole bundle of settings. Your job in this lab is to set up that server and then make sure clients on <i>other</i> subnets can reach it.</p>
+  <p>When a client is set to obtain an address automatically, it doesn't know its IP, its gateway, or its DNS server ,  it doesn't even know who the DHCP server is. It finds out through a four-step exchange, and the server hands back not just an address but a whole bundle of settings. Your job in this lab is to set up that server and then make sure clients on <i>other</i> subnets can reach it.</p>
 
   <div class="callout n-plus-context">
     <h5>Network+ Context — Read this first</h5>
@@ -292,20 +292,20 @@
   <div class="section-head">DORA — the four-step lease</div>
   <div class="method-flow">
     <h4>How a client gets its address</h4>
-    <div class="mf-step"><div class="mf-num">D</div><div class="mf-text"><b>Discover</b> \u2014 the client <i>broadcasts</i> "is there a DHCP server out there?" (It has no address yet, so it can only broadcast.)</div></div>
-    <div class="mf-step"><div class="mf-num">O</div><div class="mf-text"><b>Offer</b> \u2014 a DHCP server replies with an available address and settings: "you can have 192.168.10.21."</div></div>
-    <div class="mf-step"><div class="mf-num">R</div><div class="mf-text"><b>Request</b> \u2014 the client broadcasts back "I'll take that one," formally requesting the offered address.</div></div>
-    <div class="mf-step"><div class="mf-num">A</div><div class="mf-text"><b>Acknowledge</b> \u2014 the server confirms the lease (gateway, DNS, lease time included). The client is now addressed.</div></div>
+    <div class="mf-step"><div class="mf-num">D</div><div class="mf-text"><b>Discover</b> ,  the client <i>broadcasts</i> "is there a DHCP server out there?" (It has no address yet, so it can only broadcast.)</div></div>
+    <div class="mf-step"><div class="mf-num">O</div><div class="mf-text"><b>Offer</b> ,  a DHCP server replies with an available address and settings: "you can have 192.168.10.21."</div></div>
+    <div class="mf-step"><div class="mf-num">R</div><div class="mf-text"><b>Request</b> ,  the client broadcasts back "I'll take that one," formally requesting the offered address.</div></div>
+    <div class="mf-step"><div class="mf-num">A</div><div class="mf-text"><b>Acknowledge</b> ,  the server confirms the lease (gateway, DNS, lease time included). The client is now addressed.</div></div>
   </div>
 
   <div class="callout warn">
     <h5>The broadcast problem (why relay exists)</h5>
-    <p>Discover and Request are <b>broadcasts</b> \u2014 and a router (or an L3 switch's SVI) does <i>not</i> forward broadcasts between subnets. So if the DHCP server is on VLAN 99 and the client is on VLAN 10, the Discover never reaches the server. A <b>relay</b> on the client's gateway catches that broadcast and forwards it as a <i>unicast</i> to the server, stamping it with the client's subnet (the <code>giaddr</code>) so the server knows which scope to use.</p>
+    <p>Discover and Request are <b>broadcasts</b> ,  and a router (or an L3 switch's SVI) does <i>not</i> forward broadcasts between subnets. So if the DHCP server is on VLAN 99 and the client is on VLAN 10, the Discover never reaches the server. A <b>relay</b> on the client's gateway catches that broadcast and forwards it as a <i>unicast</i> to the server, stamping it with the client's subnet (the <code>giaddr</code>) so the server knows which scope to use.</p>
   </div>
 
   <div class="section-head">What you'll build</div>
   <ul>
-    <li>A central <b>DHCP server</b> on VLAN 99 with <b>two scopes</b> \u2014 one for VLAN 10 (Staff), one for VLAN 20 (Guest).</li>
+    <li>A central <b>DHCP server</b> on VLAN 99 with <b>two scopes</b> ,  one for VLAN 10 (Staff), one for VLAN 20 (Guest).</li>
     <li><b>Exclusions</b> that reserve the low addresses (.1\u2013.20) for gateways, servers, and static gear.</li>
     <li><b>Options</b> on each scope: the correct default gateway and DNS server.</li>
     <li><b>DHCP relay</b> (<code>ip helper-address</code>) on the SW-CORE SVIs for VLAN 10 and VLAN 20.</li>
@@ -376,7 +376,7 @@
 
   <div class="callout warn">
     <h5>Routing must already work</h5>
-    <p>Relay forwards DHCP <i>over routing</i>, so inter-VLAN routing on SW-CORE must be working first. Confirm the SVIs are up and that a device on VLAN 99 can <code>ping 192.168.10.1</code> and <code>192.168.20.1</code>. If routing is broken, fix it before configuring relay \u2014 the relayed unicast has to reach the server and the offer has to route back.</p>
+    <p>Relay forwards DHCP <i>over routing</i>, so inter-VLAN routing on SW-CORE must be working first. Confirm the SVIs are up and that a device on VLAN 99 can <code>ping 192.168.10.1</code> and <code>192.168.20.1</code>. If routing is broken, fix it before configuring relay ,  the relayed unicast has to reach the server and the offer has to route back.</p>
   </div>
 
   <div class="step" data-step="1">
@@ -385,7 +385,7 @@
   </div>
   <div class="step" data-step="2">
     <h4>Place the test clients</h4>
-    <p>Put <b>PC-Staff</b> on a VLAN 10 port (SW-FLOOR1) and <b>PC-Guest</b> on a VLAN 20 port (SW-FLOOR2). Leave both set to <b>DHCP</b> for now \u2014 they'll fail to get an address until relay is configured, which is exactly what you'll prove.</p>
+    <p>Put <b>PC-Staff</b> on a VLAN 10 port (SW-FLOOR1) and <b>PC-Guest</b> on a VLAN 20 port (SW-FLOOR2). Leave both set to <b>DHCP</b> for now ,  they'll fail to get an address until relay is configured, which is exactly what you'll prove.</p>
   </div>
 </section>
 
@@ -425,7 +425,7 @@
 
   <div class="callout">
     <h5>How the server picks the right scope</h5>
-    <p>One server, two scopes \u2014 so how does it know a request is for VLAN 10 vs VLAN 20? The <b>relay</b> stamps each forwarded request with the client's subnet (the <b>giaddr</b>, gateway IP address). The server matches that to the scope whose network contains it. That's why a single central server can address many subnets.</p>
+    <p>One server, two scopes ,  so how does it know a request is for VLAN 10 vs VLAN 20? The <b>relay</b> stamps each forwarded request with the client's subnet (the <b>giaddr</b>, gateway IP address). The server matches that to the scope whose network contains it. That's why a single central server can address many subnets.</p>
   </div>
 
   <div class="section-head">Part C · DHCP relay on SW-CORE</div>
@@ -479,7 +479,7 @@
       <div class="gui-field"><span class="gf-label">Setting</span><span class="gf-val">Select <b>DHCP</b> (not Static)</span></div>
       <div class="gui-field"><span class="gf-label">Expected (Staff)</span><span class="gf-val">Address in <code>192.168.10.21+</code>, gateway <code>192.168.10.1</code>, DNS <code>192.168.99.10</code></span></div>
       <div class="gui-field"><span class="gf-label">Expected (Guest)</span><span class="gf-val">Address in <code>192.168.20.21+</code>, gateway <code>192.168.20.1</code></span></div>
-      <div class="gui-field"><span class="gf-label">If it shows 169.254.x.x</span><span class="gf-val">That's APIPA \u2014 no DHCP was reached. See the Troubleshoot tab.</span></div>
+      <div class="gui-field"><span class="gf-label">If it shows 169.254.x.x</span><span class="gf-val">That's APIPA ,  no DHCP was reached. See the Troubleshoot tab.</span></div>
     </div>
   </div>
 </section>
@@ -487,7 +487,7 @@
 <!-- ============== TAB 4 · VERIFY ============== -->
 <section class="panel" id="panel-verify">
   <h2>Prove the lease <em>crossed the router.</em></h2>
-  <p>Ten checks. The headline ones are 8 and 9: a client gets an address from a server it could never have broadcast to directly \u2014 that's relay working. Tick each as you confirm it; progress saves in this browser.</p>
+  <p>Ten checks. The headline ones are 8 and 9: a client gets an address from a server it could never have broadcast to directly ,  that's relay working. Tick each as you confirm it; progress saves in this browser.</p>
 
   <div class="check-progress">
     <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
@@ -548,7 +548,7 @@
 
   <div class="callout">
     <h5>The proof in one command</h5>
-    <p>On a client, <code>ipconfig /all</code> (or the Desktop IP Config window) shows the leased address, the gateway, the DNS server, and that the address was <b>DHCP-assigned</b>. If a VLAN 10 client shows 192.168.10.x while the only DHCP server lives on VLAN 99, your relay did its job \u2014 the request crossed the router and came back.</p>
+    <p>On a client, <code>ipconfig /all</code> (or the Desktop IP Config window) shows the leased address, the gateway, the DNS server, and that the address was <b>DHCP-assigned</b>. If a VLAN 10 client shows 192.168.10.x while the only DHCP server lives on VLAN 99, your relay did its job ,  the request crossed the router and came back.</p>
   </div>
 
   <div class="section-head">What a successful lease looks like</div>
@@ -573,11 +573,11 @@
 <!-- ============== TAB 5 · TROUBLESHOOT ============== -->
 <section class="panel" id="panel-troubleshoot">
   <h2>When clients <em>don't</em> get an address.</h2>
-  <p>DHCP failures have a small set of usual suspects \u2014 and the tell-tale sign is almost always an <b>APIPA</b> address (169.254.x.x), which means the client gave up waiting for a DHCP reply and assigned itself.</p>
+  <p>DHCP failures have a small set of usual suspects ,  and the tell-tale sign is almost always an <b>APIPA</b> address (169.254.x.x), which means the client gave up waiting for a DHCP reply and assigned itself.</p>
 
   <div class="ts-card">
     <div class="ts-symptom">Client shows a 169.254.x.x (APIPA) address</div>
-    <div class="ts-row"><div class="k">Symptom</div><div class="v">A DHCP client self-assigns 169.254.x.x \u2014 no DHCP server answered.</div></div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">A DHCP client self-assigns 169.254.x.x ,  no DHCP server answered.</div></div>
     <div class="ts-row"><div class="k">Likely cause</div><div class="v">Missing <code>ip helper-address</code> on the client's SVI, the server is down/off, or no scope matches the subnet.</div></div>
     <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>show run interface vlan 10</code> for the helper; confirm the server's DHCP service is on and a pool covers that subnet.</div></div>
     <div class="ts-row"><div class="k">Fix</div><div class="v">Add the helper-address, enable the service, or create the matching scope; renew the client (re-toggle DHCP).</div></div>
@@ -602,14 +602,14 @@
   <div class="ts-card">
     <div class="ts-symptom">Some clients get addresses, others fail</div>
     <div class="ts-row"><div class="k">Symptom</div><div class="v">New clients can't lease; existing ones are fine.</div></div>
-    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The <b>scope is exhausted</b> \u2014 too few addresses for demand, often worsened by a long lease time holding addresses.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The <b>scope is exhausted</b> ,  too few addresses for demand, often worsened by a long lease time holding addresses.</div></div>
     <div class="ts-row"><div class="k">Diagnose</div><div class="v">Compare client count to the pool size (max users); review lease duration.</div></div>
     <div class="ts-row"><div class="k">Fix</div><div class="v">Widen the scope (more addresses) or shorten the lease so freed addresses return faster.</div></div>
   </div>
 
   <div class="callout sim-note">
     <h5>Packet Tracer scope note</h5>
-    <p>Packet Tracer simulates DHCP and relay faithfully \u2014 DORA, scopes, options, <code>ip helper-address</code>, and APIPA fallback all behave as expected. It does <i>not</i> implement per-MAC reservations on the simple Server (use a static IP or router-based binding), and advanced options (option 82, DHCP snooping nuances) are limited. The exam tests the concepts you practiced here, not PT's menu specifics.</p>
+    <p>Packet Tracer simulates DHCP and relay faithfully ,  DORA, scopes, options, <code>ip helper-address</code>, and APIPA fallback all behave as expected. It does <i>not</i> implement per-MAC reservations on the simple Server (use a static IP or router-based binding), and advanced options (option 82, DHCP snooping nuances) are limited. The exam tests the concepts you practiced here, not PT's menu specifics.</p>
   </div>
 </section>
 
@@ -629,7 +629,7 @@
 
   <div class="section-head">Write-up must include</div>
   <ul>
-    <li>A screenshot of <b>PC-Staff's <code>ipconfig /all</code></b> showing a 192.168.10.x address, gateway, and DNS \u2014 leased from the .99 server.</li>
+    <li>A screenshot of <b>PC-Staff's <code>ipconfig /all</code></b> showing a 192.168.10.x address, gateway, and DNS ,  leased from the .99 server.</li>
     <li>A screenshot of <b>PC-Guest</b> with a 192.168.20.x address.</li>
     <li>A screenshot of the SW-CORE config showing <b><code>ip helper-address</code></b> on both VLAN 10 and VLAN 20.</li>
     <li>In your own words: the four <b>DORA</b> steps, and <b>why relay is needed</b> when the server is on another subnet.</li>
@@ -656,7 +656,7 @@
 
   <div class="callout n-plus-context">
     <h5>How this maps to the exam</h5>
-    <p>You've implemented the DHCP concepts objective 3.4 tests: <b>scope</b>, <b>exclusion</b>, <b>lease</b>, <b>options</b>, the <b>DORA</b> exchange, and \u2014 most importantly \u2014 <b>DHCP relay</b> (<code>ip helper-address</code>) for a server on another subnet, with <b>giaddr</b> selecting the scope. Next in 3.4 you'll move to IPv6 addressing and SLAAC, then DNS and time services.</p>
+    <p>You've implemented the DHCP concepts objective 3.4 tests: <b>scope</b>, <b>exclusion</b>, <b>lease</b>, <b>options</b>, the <b>DORA</b> exchange, and ,  most importantly ,  <b>DHCP relay</b> (<code>ip helper-address</code>) for a server on another subnet, with <b>giaddr</b> selecting the scope. Next in 3.4 you'll move to IPv6 addressing and SLAAC, then DNS and time services.</p>
   </div>
 </section>
 
