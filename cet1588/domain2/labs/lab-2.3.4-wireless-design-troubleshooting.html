@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.3.4 · Wireless Design &amp; Troubleshooting · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+    --ch1:#2A6049; --ch6:#1E8FBE; --ch11:#B8932A;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.c1 { color: var(--ch1); font-weight: 700; }
+  .iptable td.c6 { color: var(--ch6); font-weight: 700; }
+  .iptable td.c11 { color: var(--ch11); font-weight: 700; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* Network-type cards (4-up) */
+  .net-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 18px 0; }
+  .net-card { background: var(--surface); border: 1px solid var(--line); padding: 16px 18px; border-top: 5px solid var(--sky); }
+  .net-card.adhoc { border-top-color: var(--gold); }
+  .net-card.p2p { border-top-color: var(--green); }
+  .net-card.mesh { border-top-color: var(--red); }
+  .net-card .nc-name { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 4px; letter-spacing: -0.01em; }
+  .net-card .nc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sky-deep); font-weight: 700; margin-bottom: 10px; }
+  .net-card.adhoc .nc-tag { color: var(--gold-deep); }
+  .net-card.p2p .nc-tag { color: var(--green); }
+  .net-card.mesh .nc-tag { color: var(--red); }
+  .net-card p { font-size: 12.5px; color: var(--ink-mid); margin: 0 0 8px; line-height: 1.5; }
+  .net-card .nc-use { font-family: var(--ff-mono); font-size: 11px; color: var(--ink); border-top: 1px dotted var(--line-soft); padding-top: 8px; }
+  .net-card .nc-use b { color: var(--navy-deep); }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.dir { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.dir .mc-tag { color: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  .callout.sim-note { background: rgba(142,31,46,0.06); border-left: 4px dashed var(--red); padding: 16px 20px; }
+  .callout.sim-note h5 { color: var(--red); }
+
+  /* Methodology numbered flow */
+  .method-flow { background: var(--surface); border: 1px solid var(--line); padding: 22px 24px; margin: 14px 0 22px; }
+  .method-flow h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 16px; font-weight: 700; }
+  .mf-step { display: grid; grid-template-columns: 38px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px dotted var(--line-soft); align-items: start; }
+  .mf-step:last-child { border-bottom: none; }
+  .mf-step .mf-num { width: 30px; height: 30px; background: var(--navy-deep); color: var(--gold); font-family: var(--ff-mono); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .mf-step .mf-text { font-size: 13.5px; color: var(--ink); line-height: 1.55; padding-top: 3px; }
+  .mf-step .mf-text b { color: var(--navy-deep); }
+  .mf-step .mf-text code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* Series-complete banner */
+  .series-banner { background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(224,184,64,0.10)); border: 1px solid var(--sky); border-left-width: 4px; padding: 26px 32px; margin: 30px 0; display: grid; grid-template-columns: 60px 1fr; gap: 22px; align-items: center; }
+  .series-banner .sb-icon { width: 56px; height: 56px; background: var(--navy-deep); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 22px; }
+  .series-banner h3 { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .series-banner p { margin: 0; font-size: 14px; color: var(--ink-mid); max-width: 65ch; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .method-grid { grid-template-columns: 1fr; }
+    .net-grid { grid-template-columns: 1fr 1fr; }
+    .series-banner { grid-template-columns: 1fr; text-align: left; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+  @media (max-width: 560px) { .net-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.3 Wireless Technologies</span>
+    <span class="crumb">Lab 2.3.4</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 4 of 4 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.3.4 · Packet Tracer · ≈ 60 min</div>
+    <h1>Design it right, <em>fix</em> it fast.</h1>
+    <p class="lede">You can configure a single AP, secure it, and scale it with a controller — but a wireless network that <i>works on paper</i> still fails in the real world if it's designed badly. Coverage gaps, channel overlap, the wrong antenna, or the wrong network type for the job all produce dead zones and dropped connections. This capstone covers the design decisions the exam tests — the four <b>network types</b>, <b>omnidirectional vs directional antennas</b>, and <b>channel planning</b> to eliminate interference — then assembles everything from the whole series into a single wireless <b>troubleshooting methodology</b>. You'll fix a deliberately mis-planned three-AP deployment by assigning non-overlapping channels.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">Network types, antennas, channel planning, troubleshooting</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your saved Lab 2.3.3 .pkt (or fresh)</span></div>
+    <div class="ref-row"><span class="name">Hands-on core</span><span class="desc">Fix co-channel interference (assign 1/6/11)</span></div>
+    <div class="ref-row"><span class="name">Concepts</span><span class="desc">Network types · antennas · site survey</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.3.4-WiFiDesign-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.3.4</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      infrastructure · ad hoc · point-to-point · mesh · omni vs directional antennas · channel planning · interference · site survey
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">4</div><div class="label">Network types compared</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">APs re-planned (1/6/11)</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Antenna types</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The <em>design</em> half of wireless.</h2>
+  <p>Configuration gets a wireless network running; design gets it running <i>well</i>. The Network+ exam tests several design concepts that don't appear in any single config screen: which <b>network type</b> fits a given scenario, which <b>antenna</b> shapes coverage the way you need, and how to <b>plan channels</b> so neighboring access points don't interfere. This lab walks through each, then has you fix a real interference problem hands-on.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not type Cisco commands on test day. This capstone is more design-and-concept than configuration, because that's what objective 2.3's design topics test. Packet Tracer fully simulates the hands-on portion — channel assignment and interference between APs — while network types and antenna patterns are exam knowledge presented here with the comparisons the test expects. Focus on <i>matching the right tool to the scenario</i>: that's how these concepts appear on the exam.</p>
+  </div>
+
+  <div class="section-head">The four wireless network types</div>
+  <div class="net-grid">
+    <div class="net-card">
+      <div class="nc-name">Infrastructure</div>
+      <div class="nc-tag">Most common</div>
+      <p>Clients connect <i>through</i> a central access point, which bridges them to the wired network. Every lab so far used this mode.</p>
+      <div class="nc-use"><b>Use for:</b> offices, homes, campuses — almost all everyday Wi-Fi.</div>
+    </div>
+    <div class="net-card adhoc">
+      <div class="nc-name">Ad Hoc</div>
+      <div class="nc-tag">Peer-to-peer</div>
+      <p>Devices connect <i>directly</i> to each other with no access point. Temporary and decentralized.</p>
+      <div class="nc-use"><b>Use for:</b> a quick file transfer between two laptops, an impromptu device-to-device link.</div>
+    </div>
+    <div class="net-card p2p">
+      <div class="nc-name">Point-to-Point</div>
+      <div class="nc-tag">Bridge two sites</div>
+      <p>A dedicated wireless link between two fixed locations — typically using <b>directional</b> antennas aimed at each other.</p>
+      <div class="nc-use"><b>Use for:</b> connecting two buildings across a parking lot without trenching fiber.</div>
+    </div>
+    <div class="net-card mesh">
+      <div class="nc-name">Mesh</div>
+      <div class="nc-tag">Self-healing</div>
+      <p>APs interconnect <i>wirelessly</i> to each other, relaying traffic node-to-node. If one node fails, traffic reroutes around it.</p>
+      <div class="nc-use"><b>Use for:</b> large areas where running cable to every AP is impractical (warehouses, outdoor coverage).</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>The distinction the exam loves</h5>
+    <p><b>Infrastructure vs ad hoc</b> is the most-tested pair: infrastructure goes <i>through an AP</i>; ad hoc is <i>device-to-device with no AP</i>. And <b>point-to-point vs mesh</b>: point-to-point is exactly two endpoints; mesh is many nodes relaying for each other. Match the scenario to the type and these questions are easy points.</p>
+  </div>
+
+  <div class="section-head">Antennas — shaping where the signal goes</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-tag">360° COVERAGE</div>
+      <h4>Omnidirectional</h4>
+      <div class="mc-row"><div class="k">Pattern</div><div class="v">Radiates outward in all horizontal directions (a donut shape)</div></div>
+      <div class="mc-row"><div class="k">Range</div><div class="v">Moderate in every direction</div></div>
+      <div class="mc-row"><div class="k">Best for</div><div class="v">General area coverage — a typical office AP in the middle of a room</div></div>
+      <div class="mc-row"><div class="k">Example</div><div class="v">The stubby antennas on a home router</div></div>
+    </div>
+    <div class="method-card dir">
+      <div class="mc-tag">FOCUSED BEAM</div>
+      <h4>Directional</h4>
+      <div class="mc-row"><div class="k">Pattern</div><div class="v">Concentrates energy in one direction (a narrow beam)</div></div>
+      <div class="mc-row"><div class="k">Range</div><div class="v">Much longer — but only where it's aimed</div></div>
+      <div class="mc-row"><div class="k">Best for</div><div class="v">Point-to-point links; covering a long hallway or aiming at one area</div></div>
+      <div class="mc-row"><div class="k">Example</div><div class="v">Yagi or parabolic (dish) antenna between two buildings</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Antenna matches network type</h5>
+    <p>Notice how antennas pair with network types: an <b>omnidirectional</b> antenna suits <b>infrastructure</b> coverage (spread signal around a room), while a <b>directional</b> antenna is what makes a <b>point-to-point</b> link work (focus all the energy at the far building). If a point-to-point link is weak, the fix is often a higher-gain directional antenna or better aim — not more power.</p>
+  </div>
+
+  <div class="section-head">Channel planning — the hands-on problem</div>
+  <p>Here's the scenario you'll fix. The Miami office has three APs whose coverage areas overlap — and someone left all three on <b>channel 6</b>. That's <b>co-channel interference</b>: APs on the same channel must take turns talking, so they slow each other down. The fix is the 1/6/11 rule from Lab 2.3.1: assign each overlapping AP a different non-overlapping channel so their coverage areas don't contend.</p>
+  <div class="topo">
+    <svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+      <!-- BEFORE -->
+      <text x="220" y="26" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#8E1F2E">BEFORE — all on channel 6 (co-channel interference)</text>
+      <circle cx="150" cy="130" r="55" fill="rgba(142,31,46,0.12)" stroke="#8E1F2E" stroke-width="1.5"/>
+      <circle cx="230" cy="160" r="55" fill="rgba(142,31,46,0.12)" stroke="#8E1F2E" stroke-width="1.5"/>
+      <circle cx="290" cy="110" r="55" fill="rgba(142,31,46,0.12)" stroke="#8E1F2E" stroke-width="1.5"/>
+      <text x="150" y="134" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">CH 6</text>
+      <text x="230" y="164" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">CH 6</text>
+      <text x="290" y="114" text-anchor="middle" fill="#8E1F2E" font-weight="700" font-size="11">CH 6</text>
+      <text x="220" y="240" text-anchor="middle" fill="#767E92" font-size="10" font-style="italic">overlapping areas all share channel 6 → APs contend, throughput drops</text>
+
+      <!-- divider -->
+      <line x1="455" y1="40" x2="455" y2="250" stroke="#C6C6BE" stroke-width="1" stroke-dasharray="4,4"/>
+
+      <!-- AFTER -->
+      <text x="680" y="26" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#2A6049">AFTER — 1 / 6 / 11 (no overlap on same channel)</text>
+      <circle cx="610" cy="130" r="55" fill="rgba(42,96,73,0.14)" stroke="#2A6049" stroke-width="1.5"/>
+      <circle cx="690" cy="160" r="55" fill="rgba(30,143,190,0.14)" stroke="#1E8FBE" stroke-width="1.5"/>
+      <circle cx="750" cy="110" r="55" fill="rgba(184,147,42,0.16)" stroke="#B8932A" stroke-width="1.5"/>
+      <text x="610" y="134" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="11">CH 1</text>
+      <text x="690" y="164" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="11">CH 6</text>
+      <text x="750" y="114" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">CH 11</text>
+      <text x="680" y="240" text-anchor="middle" fill="#767E92" font-size="10" font-style="italic">overlapping neighbors use different channels → no contention</text>
+    </svg>
+  </div>
+
+  <div class="section-head">Site surveys &amp; heat maps</div>
+  <p>Before deploying APs in a real building, engineers perform a <b>site survey</b>: they walk the space measuring signal strength, identifying interference sources (microwaves, other networks, thick walls), and determining where APs should go and which channels to use. The output is often a <b>heat map</b> — a color-coded floor plan showing signal coverage, with hot (strong) and cold (weak/dead) zones. Site surveys catch coverage gaps and interference <i>before</i> users complain.</p>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>Three APs deployed</b> with overlapping coverage in the Miami office floor plan.</li>
+      <li><b>You identified the co-channel problem</b> — all three APs initially share the same channel.</li>
+      <li><b>Channels re-planned to 1, 6, 11</b> — each AP whose coverage overlaps a neighbor uses a different non-overlapping channel.</li>
+      <li><b>Clients still associate and pass traffic</b> after the channel change (no SSID/security broke).</li>
+      <li><b>You can identify each of the four network types</b> (infrastructure, ad hoc, point-to-point, mesh) and a scenario for each.</li>
+      <li><b>You can match antenna type to use case</b> — omnidirectional for area coverage, directional for point-to-point/long range.</li>
+      <li><b>You can describe a site survey</b> and what a heat map shows.</li>
+      <li><b>You apply the wireless troubleshooting methodology</b> (see Troubleshoot tab) to at least one simulated fault.</li>
+      <li><b>Configuration saved</b> with the corrected channel plan.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the Network+ exam</h5>
+    <p>Objective 2.3 names <b>mesh, ad hoc, point-to-point, and infrastructure</b> network types; <b>omnidirectional and directional</b> antennas; and <b>channels / channel width / non-overlapping channels / regulatory impacts</b>. Wireless troubleshooting also appears throughout the exam's troubleshooting domain. This capstone touches all of it and ties the four-lab series together.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Stage the <em>interference</em> problem.</h2>
+  <p>Open your Lab 2.3.3 file (or build a quick three-AP layout). The goal is three APs with overlapping coverage, all initially on the same channel — the problem you'll then fix.</p>
+
+  <div class="section-head">Prepare the file</div>
+  <div class="step" data-step="1">
+    <h4>Open your prior file and Save As</h4>
+    <p>File → Save As → <code>Lab-2.3.4-WiFiDesign-Lastname-Firstname.pkt</code>. If continuing from Lab 2.3.3 you already have APs; add a third if needed so three coverage areas overlap.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Ensure three APs with overlapping coverage</h4>
+    <p>Place three access points (autonomous APs are fine for this channel exercise, or your lightweight APs from 2.3.3) close enough that their coverage circles overlap. Name them <code>AP-A</code>, <code>AP-B</code>, <code>AP-C</code>. Cable each to the switch in VLAN 10.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Set all three to the SAME channel (stage the problem)</h4>
+    <p>On each AP → Config → Port 1, set the channel to <b>6</b> for all three. This deliberately creates co-channel interference — the condition you'll diagnose and fix in the Configure tab.</p>
+  </div>
+  <div class="step" data-step="4">
+    <h4>Confirm a client can associate</h4>
+    <p>Add or reuse a wireless client, join it to the SSID, and confirm it connects. (It will still work on the congested channel — just not optimally. The point of the fix is performance, not basic connectivity.)</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Why Packet Tracer won't "show" the slowdown</h5>
+    <p>The simulator doesn't model real RF throughput degradation, so three APs on channel 6 will still pass pings in Packet Tracer. The <b>co-channel interference</b> problem is real-world physics that you correct by <i>design</i> — applying the 1/6/11 rule. Your deliverable proves you recognized the problem and applied the correct channel plan, which is exactly what the exam tests.</p>
+  </div>
+
+  <p>With three overlapping APs all on channel 6, move to the Configure tab to fix the plan.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Apply the <em>channel plan.</em></h2>
+  <p>This lab's hands-on core is a design fix, configured through each AP's GUI. Reassign the three overlapping APs to non-overlapping channels.</p>
+
+  <div class="gui-config" style="background:var(--surface);border:1px solid var(--line);margin:14px 0 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--navy-deep);color:white;gap:8px;flex-wrap:wrap;">
+      <span style="font-family:var(--ff-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sky-soft);font-weight:700;">Channel plan — assign non-overlapping channels</span>
+      <span style="font-family:var(--ff-display);font-size:12px;font-weight:600;color:var(--gold-soft);font-style:italic;flex:1;text-align:center;padding:0 12px;">Concept: 1 / 6 / 11 eliminates co-channel &amp; adjacent-channel interference</span>
+      <span style="font-family:var(--ff-mono);font-size:11px;color:var(--gold);font-weight:700;">AP-A / AP-B / AP-C → Config → Port 1</span>
+    </div>
+  </div>
+
+  <table class="iptable">
+    <thead>
+      <tr><th>Access Point</th><th>Old Channel</th><th>New Channel</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">AP-A</td><td>6 (problem)</td><td class="c1">1</td><td>Different from both overlapping neighbors</td></tr>
+      <tr><td class="device">AP-B</td><td>6 (problem)</td><td class="c6">6</td><td>Keeps 6; neighbors moved away from it</td></tr>
+      <tr><td class="device">AP-C</td><td>6 (problem)</td><td class="c11">11</td><td>Different from both overlapping neighbors</td></tr>
+    </tbody>
+  </table>
+
+  <p>Apply each change in the AP's GUI: click the AP → <b>Config</b> → <b>Port 1</b> → set the <b>Channel</b> field. Leave the SSID and security exactly as they were so clients stay connected. The principle: any two APs whose coverage overlaps must be on different non-overlapping channels (1, 6, or 11). With three overlapping APs, 1/6/11 gives each a clean channel.</p>
+
+  <div class="callout">
+    <h5>Co-channel vs adjacent-channel interference</h5>
+    <p><b>Co-channel</b> interference is two APs on the <i>same</i> channel (e.g., both on 6) — they share airtime and slow down, but at least they cooperate via the same protocol. <b>Adjacent-channel</b> interference is worse: APs on <i>overlapping</i> channels (e.g., 5 and 7) that can't coordinate and actively corrupt each other's signals. This is precisely why you use only 1, 6, 11 — they're the channels that <i>don't</i> overlap at all, avoiding adjacent-channel interference entirely.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Regulatory impacts</h5>
+    <p>The channels you're allowed to use depend on your <b>regulatory domain</b> (country). North America permits 2.4 GHz channels 1–11; other regions allow up to 13 or 14. Some 5 GHz channels require <b>DFS</b> (Dynamic Frequency Selection) to avoid interfering with radar and will change automatically if radar is detected. The exam expects you to know that regulatory rules govern which channels and power levels are legal where you are.</p>
+  </div>
+
+  <div class="callout sim-note">
+    <h5>Simulator note — what's hands-on vs exam knowledge here</h5>
+    <p>Packet Tracer fully simulates the <b>channel assignment</b> (you genuinely set 1/6/11 and clients keep working). It does <b>not</b> render antenna radiation patterns, ad hoc/mesh topologies at depth, or a heat-map site survey — those are <b>exam knowledge</b> from the Brief tab. For the point-to-point concept, you can optionally configure two APs as a wireless bridge to link two switches, but the antenna directionality that makes a real point-to-point link work is physical, not simulated. Your graded hands-on work is the channel re-plan.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm the <em>plan</em> and the <em>knowledge.</em></h2>
+  <p>Nine checks — part hands-on (channel plan), part design knowledge you'll document in your write-up.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 9 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Three APs with overlapping coverage</b> exist in the topology, each cabled to VLAN 10.</div>
+    <div class="ccmd">3 APs placed</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>You documented the "before" state</b> — all three APs were on the same channel (co-channel interference). Screenshot or note it.</div>
+    <div class="ccmd">before = all ch 6</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>AP-A set to channel 1</b> — Config → Port 1 shows Channel = 1.</div>
+    <div class="ccmd">AP-A = ch 1</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>AP-B set to channel 6</b> — Config → Port 1 shows Channel = 6.</div>
+    <div class="ccmd">AP-B = ch 6</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>AP-C set to channel 11</b> — Config → Port 1 shows Channel = 11. No two overlapping APs now share a channel.</div>
+    <div class="ccmd">AP-C = ch 11</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Clients still connected</b> — a wireless client associates and can ping its gateway after the channel change (SSID/security untouched).</div>
+    <div class="ccmd">client still works</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Network types identified</b> — in your write-up, correctly define infrastructure, ad hoc, point-to-point, and mesh, each with a scenario.</div>
+    <div class="ccmd">4 types defined</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Antenna types matched to use</b> — omnidirectional for area coverage, directional for point-to-point/long range, explained in your write-up.</div>
+    <div class="ccmd">omni vs directional</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Configuration saved</b> — the .pkt reflects the corrected 1/6/11 channel plan.</div>
+    <div class="ccmd">save .pkt</div>
+  </div>
+
+  <div class="section-head">The wireless troubleshooting methodology</div>
+  <p>This series exposed many individual wireless faults. Here's the methodical order to work through any wireless problem — the approach the exam's troubleshooting questions reward:</p>
+  <div class="method-flow">
+    <h4>Diagnose wireless problems in this order</h4>
+    <div class="mf-step"><div class="mf-num">1</div><div class="mf-text"><b>Physical / association</b> — Is the client in range? Does it see the SSID? Does it associate (green link)? A wrong SSID, missing wireless NIC, or being out of coverage stops everything here.</div></div>
+    <div class="mf-step"><div class="mf-num">2</div><div class="mf-text"><b>Authentication</b> — If it sees the SSID but won't stay connected, suspect security: wrong PSK, or for Enterprise a RADIUS/credential/shared-secret problem (Lab 2.3.2).</div></div>
+    <div class="mf-step"><div class="mf-num">3</div><div class="mf-text"><b>Addressing</b> — Associated but no usable IP (<code>169.254.x.x</code>)? That's a DHCP/VLAN problem on the wired side, not the radio.</div></div>
+    <div class="mf-step"><div class="mf-num">4</div><div class="mf-text"><b>Reachability</b> — Valid IP but can't reach things? Now it's a Layer 3 issue — gateway, routing, or inter-VLAN ACL (Labs 2.2.2 / 2.3.2).</div></div>
+    <div class="mf-step"><div class="mf-num">5</div><div class="mf-text"><b>Performance / RF</b> — Connected and reachable but slow or flaky? Suspect interference (co-channel/adjacent-channel), coverage gaps, the wrong band, or the wrong antenna. This is the design layer this lab addressed.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>The wireless <em>fault catalog.</em></h2>
+  <p>Seven design-and-RF failure modes — the performance-layer problems that don't show up as a simple "can't connect."</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Wi-Fi is slow and unreliable in an area covered by several APs</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Co-channel interference — overlapping APs are on the same channel and must share airtime.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check the channel of every AP whose coverage overlaps. Two or more on channel 6 (or any shared channel) is the problem.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-plan to non-overlapping channels (1, 6, 11) so no two overlapping APs share a channel.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Connections corrupt intermittently even though APs are on "different" channels</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Adjacent-channel interference — the APs are on overlapping channels (e.g., 4 and 8) rather than the truly non-overlapping 1/6/11.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Confirm every AP uses only 1, 6, or 11 in 2.4 GHz. Channels like 3, 4, 8, 9 overlap their neighbors.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Move all 2.4 GHz APs onto 1, 6, or 11 exclusively.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A "dead zone" where clients have no signal at all</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">A coverage gap — no AP reaches that area, often due to distance or an obstruction (thick wall, elevator shaft, metal).</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">A site survey / heat map reveals cold zones. Walk the area and watch signal strength drop to nothing.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add an AP to cover the gap, reposition an existing AP, or use a directional antenna to extend reach into that area.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A point-to-point link between two buildings is weak or won't stay up</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Wrong antenna (omnidirectional instead of directional), poor aim, or line-of-sight obstruction between the sites.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Confirm both ends use directional antennas aimed at each other, with clear line of sight.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Use higher-gain directional antennas, improve aim/alignment, and clear obstructions. More power rarely fixes a misaimed link.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">2.4 GHz clients get good range but poor speed; 5 GHz clients are fast but lose signal far from the AP</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Normal band trade-offs — 2.4 GHz reaches farther but is slower and more congested; 5 GHz is faster but shorter-range. A band mismatch for the use case.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Map which band each client uses against where they sit and what they need.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Use band steering to push capable nearby clients to 5/6 GHz, and rely on 2.4 GHz for range-limited or distant devices.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">An AP works fine but a neighboring business's network keeps interfering</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">External interference — a network you don't control is using the same/overlapping channel, or a non-Wi-Fi source (microwave, cordless phone) is on 2.4 GHz.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">A site survey shows which channels neighbors occupy and where non-Wi-Fi noise appears.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Move your APs to the least-used non-overlapping channel, or shift critical traffic to 5/6 GHz where there's more room and less consumer-device noise.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">A channel that worked yesterday is suddenly unavailable or changed on its own</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">DFS (Dynamic Frequency Selection) on certain 5 GHz channels detected radar and forced the AP to move channels — a regulatory requirement.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check whether the AP is on a DFS channel; review its logs for a radar-detection / channel-change event.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Expected behavior — DFS protects radar. If it's disruptive, pin the AP to a non-DFS channel where regulations allow.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>final</em> wireless lab.</h2>
+
+  <div class="series-banner">
+    <div class="sb-icon">★</div>
+    <div>
+      <h3>This is the last lab in the 2.3 Wireless Technologies series.</h3>
+      <p>Across four labs you've broadcast and secured an SSID, stood up enterprise authentication with RADIUS, scaled to controller-managed wireless with roaming, and designed for coverage and interference. Combined with the 2.1 Routing and 2.2 Switching series, you've now implemented the core of Network+ Domain 2 — routing, switching, and wireless — end to end. Keep your .pkt files as working exam-review references.</p>
+    </div>
+  </div>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.3.4 — Wireless Design &amp; Troubleshooting</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.3.4-WiFiDesign-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> with screenshots of (a) the "before" state showing all three APs on channel 6, (b) AP-A on channel 1, (c) AP-B on channel 6, (d) AP-C on channel 11, and (e) a wireless client still associated and pinging its gateway after the re-plan.</li>
+      <li><b>A short Network+-style write-up</b> (≤ 450 words) answering: <i>"(a) Define the four wireless network types (infrastructure, ad hoc, point-to-point, mesh) and give one real scenario for each. (b) Compare omnidirectional and directional antennas and state which you'd use for a building-to-building link and why. (c) Explain co-channel vs adjacent-channel interference and why the 1/6/11 plan avoids both. (d) What is a site survey and what does a heat map show? (e) List the wireless troubleshooting methodology steps in order."</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 9 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Three APs deployed with overlapping coverage on VLAN 10</td><td class="pts">10</td></tr>
+      <tr><td>"Before" co-channel state documented (all on the same channel)</td><td class="pts">10</td></tr>
+      <tr><td>Channels correctly re-planned to 1 / 6 / 11 across the three APs</td><td class="pts">25</td></tr>
+      <tr><td>Clients still associate and pass traffic after the channel change</td><td class="pts">10</td></tr>
+      <tr><td>Write-up correctly defines all four network types with scenarios</td><td class="pts">15</td></tr>
+      <tr><td>Write-up correctly compares omnidirectional vs directional antennas</td><td class="pts">10</td></tr>
+      <tr><td>Write-up explains co-channel vs adjacent-channel interference</td><td class="pts">10</td></tr>
+      <tr><td>Write-up describes a site survey / heat map and the troubleshooting methodology</td><td class="pts">10</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+
+  <div class="callout">
+    <h5>What's next</h5>
+    <p>Subtopic 2.3 (Wireless Technologies) is now complete. With the 2.1 Routing, 2.2 Switching, and 2.3 Wireless series all finished, you've covered the implementation core of Network+ Domain 2. A subtopic quiz covering all four wireless labs follows the same pattern as the routing and switching quizzes — 25 vendor-neutral questions for Canvas.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.3.4 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.3 Wireless Technologies &amp; Features</b>. The wireless capstone — covers the four network types, antenna selection, channel planning to eliminate interference, site-survey concepts, and a consolidated troubleshooting methodology. Completes the wireless series. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p style="opacity:0.55">2.3.1 · Wireless Fundamentals</p>
+      <p style="opacity:0.55">2.3.2 · Wireless Security</p>
+      <p style="opacity:0.55">2.3.3 · Enterprise Wireless &amp; the WLC</p>
+      <p>2.3.4 · Wireless Design &amp; Troubleshooting ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.3.4-checks';
+const TOTAL_CHECKS = 9;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
