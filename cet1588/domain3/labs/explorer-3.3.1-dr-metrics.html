@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.3.1 · DR Metrics: RPO, RTO &amp; Reliability · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== RPO/RTO TIMELINE ===== */
+  .tl-wrap { border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .tl-stage { padding: 26px 28px 18px; background: linear-gradient(180deg, #FAFAF6, #F0F0EA); border-bottom: 1px solid var(--line); }
+  .tl-stage svg { display: block; width: 100%; height: auto; }
+  .tl-controls { padding: 18px 28px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .tl-ctrl .tc-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .tl-ctrl .tc-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+  .tl-ctrl.disaster .tc-label { color: var(--red); }
+  .tl-ctrl.restore .tc-label { color: var(--sky-deep); }
+  .tl-ctrl .tc-val { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); font-weight: 700; }
+  .tl-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--bg-warm); border: 1px solid var(--line-soft); outline: none; cursor: pointer; }
+  .tl-slider.disaster::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 26px; background: var(--red); border: 3px solid white; border-radius: 3px; box-shadow: 0 0 0 1px var(--red); cursor: pointer; }
+  .tl-slider.disaster::-moz-range-thumb { width: 16px; height: 26px; background: var(--red); border: 3px solid white; border-radius: 3px; cursor: pointer; }
+  .tl-slider.restore::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 26px; background: var(--sky-deep); border: 3px solid white; border-radius: 3px; box-shadow: 0 0 0 1px var(--sky-deep); cursor: pointer; }
+  .tl-slider.restore::-moz-range-thumb { width: 16px; height: 26px; background: var(--sky-deep); border: 3px solid white; border-radius: 3px; cursor: pointer; }
+
+  .metric-readout { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); border: 1px solid var(--line); border-top: none; }
+  .mr-cell { background: var(--surface); padding: 18px 24px; }
+  .mr-cell.rpo { border-top: 4px solid var(--red); }
+  .mr-cell.rto { border-top: 4px solid var(--sky-deep); }
+  .mr-cell .mr-name { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+  .mr-cell.rpo .mr-name { color: var(--red); }
+  .mr-cell.rto .mr-name { color: var(--sky-deep); }
+  .mr-cell .mr-val { font-family: var(--ff-display); font-size: 30px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .mr-cell .mr-val .mr-unit { font-size: 14px; color: var(--ink-mute); margin-left: 4px; font-weight: 600; }
+  .mr-cell .mr-desc { font-size: 12.5px; color: var(--ink-mid); margin-top: 8px; line-height: 1.5; }
+  .mr-cell .mr-desc b { color: var(--navy-deep); }
+
+  /* ===== METRICS LIBRARY ===== */
+  .explorer { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 12px 14px; cursor: pointer; transition: all 0.14s; }
+  .doc-card.rpo { border-left-color: var(--red); }
+  .doc-card.rto { border-left-color: var(--sky-deep); }
+  .doc-card:hover { border-color: var(--sky); transform: translateY(-1px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card.rpo.active { box-shadow: inset 0 0 0 2px var(--red); }
+  .doc-card.rto.active { box-shadow: inset 0 0 0 2px var(--sky-deep); }
+  .doc-card .dc-abbr { font-family: var(--ff-display); font-size: 17px; font-weight: 800; color: var(--navy-deep); line-height: 1; }
+  .doc-card .dc-name { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 4px; line-height: 1.3; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 14px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-formula { font-family: var(--ff-mono); font-size: 12.5px; background: #0E1424; color: #C6C6BE; padding: 10px 14px; border-radius: 3px; margin-bottom: 16px; line-height: 1.5; }
+  .detail .d-formula b { color: var(--gold-soft); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .tl-controls, .metric-readout { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.3 Disaster Recovery</span>
+    <span class="crumb">Explorer 3.3.1</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 1 of 3</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.3.1 · DR Metrics · ≈ 28 min</div>
+    <h1>How much, <em>how fast.</em></h1>
+    <p class="lede">When disaster strikes, two questions decide how badly it hurts: <b>how much data did we lose?</b> and <b>how long until we're back?</b> Those map to the two metrics the exam tests hardest \u2014 <b>RPO</b> (Recovery Point Objective) looks <i>backward</i> to your last good backup, and <b>RTO</b> (Recovery Time Objective) looks <i>forward</i> to the moment service returns. They're constantly confused. Drag the disaster and the recovery on the timeline below and watch both numbers move \u2014 then meet the reliability metrics (MTTR, MTBF, MTTF) that round out the picture.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.3 — disaster recovery metrics</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">RPO, RTO, MTTR, MTBF, MTTF</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Draggable failure timeline + metric library</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">1 of 3 · Metrics / Sites &amp; HA / Backups</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Drag the disaster; watch RPO &amp; RTO</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      RPO · RTO · MTTR · MTBF · MTTF · backup point · recovery · downtime
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.3 expects you to define and <i>distinguish</i> these metrics. The two that get confused on every exam are <b>RPO vs RTO</b>: RPO is about <b>data</b> (how far back your last recovery point is \u2014 how much data you can afford to lose), and RTO is about <b>time</b> (how long recovery may take). The reliability trio \u2014 <b>MTTR</b> (mean time to repair), <b>MTBF</b> (mean time between failures), and <b>MTTF</b> (mean time to failure) \u2014 measure how often things break and how quickly they're fixed. Lower is better for RPO/RTO/MTTR; higher is better for MTBF/MTTF.</p>
+  </div>
+
+  <div class="section-head">The failure timeline — drag the markers</div>
+  <h2 class="big">RPO looks <em>back,</em> RTO looks <em>forward.</em></h2>
+  <p class="body">The clock runs left to right. Your last <b>backup</b> is fixed early on the line. Drag the red <b>disaster</b> marker to set when the outage hits, and the blue <b>recovery</b> marker to set when service is restored. <span style="color:var(--red);font-weight:700">RPO</span> is the gap from the last backup back-to the disaster (data lost); <span style="color:var(--sky-deep);font-weight:700">RTO</span> is the gap from the disaster forward-to recovery (downtime).</p>
+
+  <div class="tl-wrap">
+    <div class="tl-stage">
+      <svg id="tline" viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+        <!-- baseline axis -->
+        <line x1="40" y1="120" x2="720" y2="120" stroke="#1A1A1A" stroke-width="2"/>
+        <polygon points="720,120 710,115 710,125" fill="#1A1A1A"/>
+        <text x="724" y="124" fill="#767E92" font-size="9">time</text>
+
+        <!-- RPO span (backup -> disaster) -->
+        <rect id="rpoSpan" x="120" y="104" width="260" height="32" fill="rgba(142,31,46,0.14)"/>
+        <text id="rpoSpanLabel" x="250" y="98" text-anchor="middle" fill="#8E1F2E" font-size="10" font-weight="700">RPO = data lost</text>
+        <!-- RTO span (disaster -> recovery) -->
+        <rect id="rtoSpan" x="380" y="104" width="220" height="32" fill="rgba(30,143,190,0.14)"/>
+        <text id="rtoSpanLabel" x="490" y="152" text-anchor="middle" fill="#1E8FBE" font-size="10" font-weight="700">RTO = downtime</text>
+
+        <!-- backup marker (fixed) -->
+        <g>
+          <line x1="120" y1="70" x2="120" y2="120" stroke="#2A6049" stroke-width="2.5"/>
+          <circle cx="120" cy="70" r="8" fill="#2A6049"/>
+          <text x="120" y="58" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">LAST BACKUP</text>
+        </g>
+        <!-- disaster marker (JS moves) -->
+        <g id="gDisaster">
+          <line id="disLine" x1="380" y1="64" x2="380" y2="120" stroke="#8E1F2E" stroke-width="2.5"/>
+          <polygon id="disFlag" points="380,64 404,72 380,80" fill="#8E1F2E"/>
+          <text id="disLabel" x="380" y="54" text-anchor="middle" fill="#8E1F2E" font-size="9" font-weight="700">DISASTER</text>
+        </g>
+        <!-- recovery marker (JS moves) -->
+        <g id="gRestore">
+          <line id="resLine" x1="600" y1="64" x2="600" y2="120" stroke="#1E8FBE" stroke-width="2.5"/>
+          <polygon id="resFlag" points="600,64 624,72 600,80" fill="#1E8FBE"/>
+          <text id="resLabel" x="600" y="54" text-anchor="middle" fill="#1E8FBE" font-size="9" font-weight="700">RECOVERED</text>
+        </g>
+      </svg>
+    </div>
+    <div class="tl-controls">
+      <div class="tl-ctrl disaster">
+        <div class="tc-top"><span class="tc-label">Disaster strikes at</span><span class="tc-val" id="disHrs">6h after backup</span></div>
+        <input type="range" min="1" max="11" step="1" value="6" id="disSlider" class="tl-slider disaster">
+      </div>
+      <div class="tl-ctrl restore">
+        <div class="tc-top"><span class="tc-label">Service restored at</span><span class="tc-val" id="resHrs">11h after backup</span></div>
+        <input type="range" min="1" max="11" step="1" value="11" id="resSlider" class="tl-slider restore">
+      </div>
+    </div>
+    <div class="metric-readout">
+      <div class="mr-cell rpo">
+        <div class="mr-name">RPO · Recovery Point Objective</div>
+        <div class="mr-val"><span id="rpoVal">6</span><span class="mr-unit">hours of data lost</span></div>
+        <div class="mr-desc"><b>Backward</b> from the disaster to the last backup. Everything created in this gap is gone \u2014 it was never backed up.</div>
+      </div>
+      <div class="mr-cell rto">
+        <div class="mr-name">RTO · Recovery Time Objective</div>
+        <div class="mr-val"><span id="rtoVal">5</span><span class="mr-unit">hours of downtime</span></div>
+        <div class="mr-desc"><b>Forward</b> from the disaster to service restored. This is how long the business is down while you recover.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The trick to never confusing them again</h5>
+    <p><b>RPO = Point</b> (a point in the <i>past</i> \u2014 your last good backup; measures <b>data</b> loss). <b>RTO = Time</b> (the <i>duration</i> to recover; measures <b>downtime</b>). Want a smaller RPO? Back up more often. Want a smaller RTO? Recover faster (warmer site, automation, rehearsed plan). Both are <b>targets</b> the business sets \u2014 "objectives" \u2014 not guarantees.</p>
+  </div>
+
+  <div class="section-head">The five metrics — click each</div>
+  <h2 class="big">Two for recovery, three for <em>reliability.</em></h2>
+  <p class="body">RPO and RTO describe a recovery; MTTR, MTBF, and MTTF describe how dependable a system is over its life. Click each to see what it measures, how it's framed, and the direction that counts as "good."</p>
+
+  <div class="explorer">
+    <div class="doc-stage">
+      <div class="doc-grid" id="metGrid">
+        <div class="doc-card rpo active" id="rpo"><div class="dc-abbr">RPO</div><div class="dc-name">Recovery Point Objective</div></div>
+        <div class="doc-card rto" id="rto"><div class="dc-abbr">RTO</div><div class="dc-name">Recovery Time Objective</div></div>
+        <div class="doc-card" id="mttr"><div class="dc-abbr">MTTR</div><div class="dc-name">Mean Time To Repair</div></div>
+        <div class="doc-card" id="mtbf"><div class="dc-abbr">MTBF</div><div class="dc-name">Mean Time Between Failures</div></div>
+        <div class="doc-card" id="mttf"><div class="dc-abbr">MTTF</div><div class="dc-name">Mean Time To Failure</div></div>
+      </div>
+      <div class="doc-hint">Click a metric · <b id="met-count">1/5</b> explored</div>
+    </div>
+    <div class="detail" id="detail"><!-- populated by JS; default = rpo --></div>
+  </div>
+
+  <div class="callout">
+    <h5>MTBF vs MTTF — the one-line difference</h5>
+    <p><b>MTBF</b> is for <i>repairable</i> things (it includes the time between one failure and the next, repairs and all). <b>MTTF</b> is for things you <i>replace rather than repair</i> (it measures expected lifespan until that one failure). Both describe how long something runs; higher is better for each.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What does <b>RPO</b> (Recovery Point Objective) measure?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">How long it takes to restore service after an outage</button>
+      <button class="kc-opt" data-correct="true">How much data you can afford to lose — the gap back to the last good recovery point</button>
+      <button class="kc-opt" data-correct="false">The average time between hardware failures</button>
+      <button class="kc-opt" data-correct="false">The cost of a recovery site</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>What does <b>RTO</b> (Recovery Time Objective) measure?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">The target maximum time to restore service after a disaster</button>
+      <button class="kc-opt" data-correct="false">The amount of data lost since the last backup</button>
+      <button class="kc-opt" data-correct="false">How often a device is expected to fail</button>
+      <button class="kc-opt" data-correct="false">The number of backups kept offsite</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>A company backs up every 4 hours and wants to lose no more than 4 hours of data. Which metric have they just defined?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">RTO of 4 hours</button>
+      <button class="kc-opt" data-correct="true">RPO of 4 hours</button>
+      <button class="kc-opt" data-correct="false">MTBF of 4 hours</button>
+      <button class="kc-opt" data-correct="false">MTTR of 4 hours</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>Which metric is the <b>average time it takes to repair</b> a failed system and return it to service?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">MTBF</button>
+      <button class="kc-opt" data-correct="true">MTTR</button>
+      <button class="kc-opt" data-correct="false">MTTF</button>
+      <button class="kc-opt" data-correct="false">RPO</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>What is the key difference between <b>MTBF</b> and <b>MTTF</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">MTBF is measured in seconds; MTTF in hours</button>
+      <button class="kc-opt" data-correct="true">MTBF applies to repairable systems (between failures); MTTF applies to items replaced rather than repaired (lifespan to failure)</button>
+      <button class="kc-opt" data-correct="false">They are identical terms</button>
+      <button class="kc-opt" data-correct="false">MTBF measures data loss; MTTF measures downtime</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">RPO</div><div class="t-def">Recovery Point Objective — the maximum acceptable data loss, measured backward to the last good recovery point. Smaller = back up more often.</div></div>
+    <div class="term"><div class="t-name">RTO</div><div class="t-def">Recovery Time Objective — the maximum acceptable time to restore service after a disaster. Smaller = recover faster.</div></div>
+    <div class="term"><div class="t-name">MTTR</div><div class="t-def">Mean Time To Repair — the average time to fix a failed system and return it to service. Lower is better.</div></div>
+    <div class="term"><div class="t-name">MTBF</div><div class="t-def">Mean Time Between Failures — for repairable systems, the average operating time between one failure and the next. Higher is better.</div></div>
+    <div class="term"><div class="t-name">MTTF</div><div class="t-def">Mean Time To Failure — for non-repairable (replaced) items, the average lifespan until failure. Higher is better.</div></div>
+    <div class="term"><div class="t-name">Objective</div><div class="t-def">RPO and RTO are business-set <i>targets</i>, not guarantees — they drive how often you back up and how fast your recovery design must be.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.3.1 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.3 Disaster Recovery</b>. Covers the DR and reliability metrics \u2014 RPO, RTO, MTTR, MTBF, and MTTF \u2014 through a draggable failure timeline that measures RPO and RTO live, plus an interactive metric library. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p>3.3.1 · DR Metrics ← you are here</p>
+      <p style="opacity:0.55">3.3.2 · Recovery Sites &amp; High Availability</p>
+      <p style="opacity:0.55">3.3.3 · Backups &amp; Data Protection</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Failure timeline (RPO / RTO) ===== */
+/* timeline pixel geometry: backup fixed at x=120; hour h maps to x = 120 + h*(600/12) = 120 + 50h */
+var BACKUP_X = 120;
+var PX_PER_HR = 50;          // 12-hour span across 600px (x 120..720)
+var disSlider = document.getElementById('disSlider');
+var resSlider = document.getElementById('resSlider');
+
+function hrToX(h){ return BACKUP_X + h * PX_PER_HR; }
+
+function setX(id, x){ var e = document.getElementById(id); if(e) e.setAttribute('x1', x), e.setAttribute('x2', x); }
+
+function renderTimeline(){
+  var dh = parseInt(disSlider.value, 10);   // hours after backup that disaster strikes
+  var rh = parseInt(resSlider.value, 10);   // hours after backup that service is restored
+  // recovery cannot precede disaster
+  if(rh < dh){ rh = dh; resSlider.value = rh; }
+
+  var disX = hrToX(dh);
+  var resX = hrToX(rh);
+
+  // disaster marker group
+  document.getElementById('disLine').setAttribute('x1', disX);
+  document.getElementById('disLine').setAttribute('x2', disX);
+  document.getElementById('disFlag').setAttribute('points', disX + ',64 ' + (disX+24) + ',72 ' + disX + ',80');
+  document.getElementById('disLabel').setAttribute('x', disX);
+  // recovery marker group
+  document.getElementById('resLine').setAttribute('x1', resX);
+  document.getElementById('resLine').setAttribute('x2', resX);
+  document.getElementById('resFlag').setAttribute('points', resX + ',64 ' + (resX+24) + ',72 ' + resX + ',80');
+  document.getElementById('resLabel').setAttribute('x', resX);
+
+  // RPO span: backup -> disaster
+  var rpoSpan = document.getElementById('rpoSpan');
+  rpoSpan.setAttribute('x', BACKUP_X);
+  rpoSpan.setAttribute('width', Math.max(0, disX - BACKUP_X));
+  document.getElementById('rpoSpanLabel').setAttribute('x', (BACKUP_X + disX) / 2);
+  // RTO span: disaster -> recovery
+  var rtoSpan = document.getElementById('rtoSpan');
+  rtoSpan.setAttribute('x', disX);
+  rtoSpan.setAttribute('width', Math.max(0, resX - disX));
+  document.getElementById('rtoSpanLabel').setAttribute('x', (disX + resX) / 2);
+
+  // readouts
+  var rpo = dh;             // data lost = backup..disaster
+  var rto = rh - dh;        // downtime = disaster..recovery
+  document.getElementById('rpoVal').textContent = rpo;
+  document.getElementById('rtoVal').textContent = rto;
+  document.getElementById('disHrs').textContent = dh + 'h after backup';
+  document.getElementById('resHrs').textContent = rh + 'h after backup';
+}
+disSlider.addEventListener('input', renderTimeline);
+resSlider.addEventListener('input', renderTimeline);
+renderTimeline();
+
+/* ===== Metric library ===== */
+var MET = {
+  rpo: {
+    cat: 'Recovery metric · data', title: 'Recovery Point Objective', abbr: 'RPO \u00b7 how much data you can lose',
+    body: 'RPO is the <b>maximum acceptable amount of data loss</b>, expressed as time. It looks <b>backward</b> from a disaster to your last good recovery point \u2014 anything created after that point is gone.',
+    formula: 'Driven by <b>backup frequency</b>: back up every hour \u2192 RPO \u2248 1 hour.',
+    facts: ['Measures <b>data loss</b>, in time (e.g., "15 minutes").', 'Looks <b>backward</b> to the last backup/snapshot.', '<b>Smaller is better</b> \u2014 achieved by backing up more often.', 'A business target ("objective"), set by data criticality.'],
+    exam: { lab:'Remember', text:'RPO = <b>Point</b> in the past (last good data). It answers "<b>how much data can we lose?</b>"' }
+  },
+  rto: {
+    cat: 'Recovery metric · time', title: 'Recovery Time Objective', abbr: 'RTO \u00b7 how long until you\u2019re back',
+    body: 'RTO is the <b>maximum acceptable time to restore service</b> after a disaster. It looks <b>forward</b> from the outage to the moment systems are usable again \u2014 the downtime the business can tolerate.',
+    formula: 'Driven by <b>recovery speed</b>: warmer sites, automation, and rehearsed plans shrink RTO.',
+    facts: ['Measures <b>downtime</b>, in time (e.g., "4 hours").', 'Looks <b>forward</b> to service being restored.', '<b>Smaller is better</b> \u2014 achieved by faster recovery design.', 'A business target ("objective"), set by how costly downtime is.'],
+    exam: { lab:'Remember', text:'RTO = <b>Time</b> to recover. It answers "<b>how long can we be down?</b>" Don\u2019t swap it with RPO.' }
+  },
+  mttr: {
+    cat: 'Reliability metric · repair', title: 'Mean Time To Repair', abbr: 'MTTR \u00b7 average fix time',
+    body: 'MTTR is the <b>average time to repair</b> a failed component or system and return it to service \u2014 from the moment it fails to the moment it\u2019s working again. It reflects how quickly your team and process can recover hardware.',
+    formula: 'MTTR = <b>total repair time \u00f7 number of repairs</b>.',
+    facts: ['Average <b>time to fix</b> and restore a failed item.', 'Includes diagnosis, repair, and verification.', '<b>Lower is better</b> \u2014 faster repairs, less downtime.', 'Improved by spares, runbooks, and trained staff.'],
+    exam: { lab:'Remember', text:'MTTR = how <b>fast you fix it</b>. Lower is better. Don\u2019t confuse with the MTBF (between failures).' }
+  },
+  mtbf: {
+    cat: 'Reliability metric · repairable', title: 'Mean Time Between Failures', abbr: 'MTBF \u00b7 average uptime between failures',
+    body: 'MTBF is the average operating time <b>between one failure and the next</b> for a <b>repairable</b> system. It captures how reliably something runs before it next breaks \u2014 a higher MTBF means fewer interruptions.',
+    formula: 'MTBF = <b>total operating time \u00f7 number of failures</b>.',
+    facts: ['For <b>repairable</b> systems (it gets fixed and runs again).', 'Average run time <b>between</b> failures.', '<b>Higher is better</b> \u2014 more reliable, fails less often.', 'Used in maintenance and reliability planning.'],
+    exam: { lab:'Remember', text:'MTBF = average <b>time between failures</b> of a <b>repairable</b> system. Higher is better.' }
+  },
+  mttf: {
+    cat: 'Reliability metric · non-repairable', title: 'Mean Time To Failure', abbr: 'MTTF \u00b7 expected lifespan',
+    body: 'MTTF is the average lifespan until failure for a <b>non-repairable</b> item \u2014 one you <b>replace rather than repair</b> (like a drive or a power supply unit). It estimates how long such a component is expected to last before it dies.',
+    formula: 'MTTF = <b>total operating time \u00f7 number of units</b> (until each fails).',
+    facts: ['For <b>non-repairable</b> items (replaced, not fixed).', 'Average <b>lifespan to the single failure</b>.', '<b>Higher is better</b> \u2014 longer-lived components.', 'Guides replacement cycles and warranty planning.'],
+    exam: { lab:'Remember', text:'MTTF = expected <b>lifespan</b> of something you <b>replace</b>. MTBF is the repairable cousin.' }
+  }
+};
+var metSeen = new Set();
+var METKEY = 'cbt-explorer-3.3.1-met';
+try { (JSON.parse(localStorage.getItem(METKEY) || '[]')).forEach(function(x){ metSeen.add(x); }); } catch(e){}
+
+function renderMet(id){
+  var d = MET[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('detail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<div class="d-formula">' + d.formula + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">' + d.exam.lab + '</div><p>' + d.exam.text + '</p></div>';
+  document.querySelectorAll('.doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  metSeen.add(id);
+  try { localStorage.setItem(METKEY, JSON.stringify([].concat(Array.from(metSeen)))); } catch(e){}
+  document.getElementById('met-count').textContent = metSeen.size + '/5';
+}
+document.querySelectorAll('.doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderMet(c.id); });
+});
+metSeen.add('rpo');
+renderMet('rpo');
+document.getElementById('met-count').textContent = metSeen.size + '/5';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.3.1-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. <b>RPO</b> = acceptable data loss, measured back to the last recovery point.', no: 'Not quite. <b>RPO</b> measures how much <b>data</b> you can lose (the gap back to the last backup). Time-to-restore is RTO.' },
+  '2': { ok: 'Correct. <b>RTO</b> = the target maximum time to restore service.', no: 'Not quite. <b>RTO</b> is the acceptable <b>downtime</b> (time to recover). Data loss is RPO.' },
+  '3': { ok: 'Correct. "Lose no more than 4 hours of data" is an <b>RPO</b> of 4 hours.', no: 'Not quite. Acceptable <b>data loss</b> is the <b>RPO</b> \u2014 here 4 hours, set by the 4-hour backup interval.' },
+  '4': { ok: 'Correct. <b>MTTR</b> is the average time to repair and restore a failed system.', no: 'Not quite. Average <b>repair</b> time is <b>MTTR</b>. MTBF/MTTF describe time until/between failures.' },
+  '5': { ok: 'Correct. <b>MTBF</b> = repairable (between failures); <b>MTTF</b> = non-repairable (lifespan to failure).', no: 'Not quite. <b>MTBF</b> is for repairable systems (between failures); <b>MTTF</b> is for items replaced rather than repaired.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
