@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.4.2 · IPv6 Addressing &amp; SLAAC · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== SEGMENTED TOGGLE ===== */
+  .seg-toggle { display: grid; gap: 8px; margin: 8px 0 10px; }
+  .seg-toggle.three { grid-template-columns: repeat(3, 1fr); }
+  .seg-toggle.two { grid-template-columns: repeat(2, 1fr); }
+  .seg-btn { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.14s; }
+  .seg-btn:hover { border-color: var(--sky); }
+  .seg-btn.active { background: var(--navy-deep); border-color: var(--navy-deep); }
+  .seg-btn .sb-name { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); }
+  .seg-btn.active .sb-name { color: white; }
+  .seg-btn .sb-kind { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); margin-top: 3px; font-weight: 700; }
+  .seg-btn.active .sb-kind { color: var(--gold); }
+
+  .explorer { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 0 0 10px; }
+  .explorer-stage { background: linear-gradient(180deg, #FAFAF6, #F0F0EA); padding: 24px; border-right: 1px solid var(--line); }
+  .explorer-stage svg { display: block; width: 100%; height: auto; }
+
+  /* ===== IPv6 ADDRESS BUILDER ===== */
+  .addr-builder { display: flex; flex-direction: column; gap: 16px; }
+  .addr-row { display: flex; flex-wrap: wrap; align-items: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 700; gap: 2px; }
+  .hextet { padding: 8px 7px; border-radius: 3px; }
+  .hextet.pfx { background: var(--navy-deep); color: white; }
+  .hextet.iid { background: rgba(56,176,224,0.18); color: var(--sky-deep); }
+  .addr-colon { color: var(--ink-mute); font-weight: 700; padding: 0 1px; }
+  .addr-comp { font-family: var(--ff-mono); font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--line-soft); padding: 10px 14px; }
+  .addr-comp .acl { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; display: block; margin-bottom: 4px; }
+  .addr-comp b { color: var(--navy-deep); font-weight: 700; }
+  .addr-legend { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--ff-mono); font-size: 11px; }
+  .addr-legend .lg { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-mid); font-weight: 700; }
+  .addr-legend .lg::before { content: ''; width: 14px; height: 14px; border-radius: 3px; }
+  .addr-legend .lg.pfx::before { background: var(--navy-deep); }
+  .addr-legend .lg.iid::before { background: rgba(56,176,224,0.5); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== EUI-64 STEPPED VISUAL ===== */
+  .eui-wrap { border: 1px solid var(--line); background: var(--surface); margin: 0 0 10px; padding: 24px 26px; }
+  .eui-step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px dotted var(--line-soft); align-items: start; }
+  .eui-step:last-child { border-bottom: none; }
+  .eui-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy-deep); color: var(--gold); font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .eui-step.result .eui-num { background: var(--green); color: white; }
+  .eui-label { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin-bottom: 6px; }
+  .eui-mac { font-family: var(--ff-mono); font-size: 17px; font-weight: 700; letter-spacing: 0.02em; }
+  .eui-mac .h1 { color: var(--navy-deep); }
+  .eui-mac .h2 { color: var(--sky-deep); }
+  .eui-mac .ins { color: white; background: var(--gold-deep); padding: 2px 5px; border-radius: 3px; }
+  .eui-mac .res { color: var(--green); }
+  .eui-note { font-size: 12.5px; color: var(--ink-mid); margin-top: 6px; line-height: 1.5; }
+  .eui-note b { color: var(--navy-deep); }
+  .bits { font-family: var(--ff-mono); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; display: inline-flex; gap: 8px; align-items: center; margin-top: 4px; }
+  .bits .bit-flip { background: var(--red); color: white; padding: 1px 4px; border-radius: 2px; }
+  .bits .arrow { color: var(--ink-mute); }
+
+  .ha-view { display: none; }
+  .ha-view.active { display: block; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-card .kc-q code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 14px; color: var(--gold-deep); }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt code { font-family: var(--ff-mono); font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.correct code { color: var(--green); }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+  .kc-fb code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+  .term .t-def code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 64px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .explorer-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .seg-toggle.three, .seg-toggle.two { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+    .addr-row { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.4 IPv4 &amp; IPv6 Services</span>
+    <span class="crumb">Explorer 3.4.2</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · IPv6</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.4.2 · IPv6 Addressing &amp; SLAAC · ≈ 30 min</div>
+    <h1>128 bits, <em>two halves.</em></h1>
+    <p class="lede">An IPv6 address looks intimidating until you see its structure: the first 64 bits are the <b>network prefix</b>, the last 64 are the <b>interface ID</b> that identifies the host. The prefix tells you the <i>type</i> ,  a <b>link-local</b> (fe80::), a globally routable <b>global unicast</b>, or a private <b>unique local</b>. And IPv6 hosts can build their own addresses with <b>SLAAC</b>, no server required. Toggle the address types below, watch the interface ID get built from a MAC with <b>EUI-64</b>, then see how SLAAC and DHCPv6 differ.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.4 — IPv6 addressing &amp; autoconfiguration</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Link-local / GUA / ULA · EUI-64 · SLAAC vs DHCPv6</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Address builder + EUI-64 visual + config toggle</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">3.4.2 of the IPv4/IPv6 Services set</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Toggle address types; trace EUI-64</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      prefix · interface ID · link-local (fe80) · global unicast · unique local · EUI-64 · U/L bit · SLAAC · DHCPv6 · RA/RS
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.4 expects you to recognize IPv6 address types by their prefix and know how hosts get addressed. The big three: <b>link-local</b> (<code>fe80::/10</code>, auto, link-only ,  like IPv4 APIPA), <b>global unicast</b> (<code>2000::/3</code>, routable ,  like a public IPv4), and <b>unique local</b> (<code>fc00::/7</code>, usually <code>fd00::/8</code>, private ,  like RFC 1918). Then the autoconfig pair: <b>SLAAC</b> (the host builds its own address from a router advertisement ,  stateless) vs <b>DHCPv6</b> (a server assigns and tracks ,  stateful).</p>
+  </div>
+
+  <div class="section-head">Address anatomy — toggle the type</div>
+  <h2 class="big">Same host, <em>different prefix.</em></h2>
+  <p class="body">Every address below uses the <i>same</i> interface ID (the host half) but a different <b>prefix</b> (the network half) depending on the type. The first 64 bits are navy (the prefix); the last 64 are blue (the interface ID). Click each type to see where it lives and how it's used.</p>
+
+  <div class="seg-toggle three" id="typeToggle">
+    <button class="seg-btn active" data-type="ll"><div class="sb-name">Link-Local</div><div class="sb-kind">fe80:: \u00b7 link only</div></button>
+    <button class="seg-btn" data-type="gua"><div class="sb-name">Global Unicast</div><div class="sb-kind">2000::/3 \u00b7 routable</div></button>
+    <button class="seg-btn" data-type="ula"><div class="sb-name">Unique Local</div><div class="sb-kind">fc00::/7 \u00b7 private</div></button>
+  </div>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <div class="addr-builder">
+        <div class="addr-row" id="addrRow"><!-- hextets injected by JS --></div>
+        <div class="addr-comp"><span class="acl">Compressed form</span><b id="addrComp">&nbsp;</b></div>
+        <div class="addr-legend">
+          <span class="lg pfx">Network prefix (first 64 bits)</span>
+          <span class="lg iid">Interface ID (last 64 bits)</span>
+        </div>
+      </div>
+    </div>
+    <div class="detail" id="typeDetail"><!-- populated by JS; default = ll --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Two ways IPv6 shortens an address</h5>
+    <p><b>Leading-zero suppression:</b> within a hextet, drop leading zeros ,  <code>0db8</code> becomes <code>db8</code>, <code>0001</code> becomes <code>1</code>. <b>Double colon (::):</b> replace <i>one</i> run of consecutive all-zero hextets with <code>::</code> ,  that's why the link-local above collapses its middle zeros. You can use <code>::</code> only once per address (otherwise it would be ambiguous).</p>
+  </div>
+
+  <div class="section-head">Building the interface ID — EUI-64</div>
+  <h2 class="big">From a MAC to the <em>host half.</em></h2>
+  <p class="body">Where does that interface ID (<code>021a:2bff:fe3c:4d5e</code>) come from? With <b>EUI-64</b>, the host derives it from its 48-bit MAC address in three moves, then flips one bit. Follow the steps.</p>
+
+  <div class="eui-wrap">
+    <div class="eui-step">
+      <div class="eui-num">1</div>
+      <div>
+        <div class="eui-label">Start with the 48-bit MAC address</div>
+        <div class="eui-mac"><span class="h1">00:1A:2B</span>:<span class="h2">3C:4D:5E</span></div>
+      </div>
+    </div>
+    <div class="eui-step">
+      <div class="eui-num">2</div>
+      <div>
+        <div class="eui-label">Split it in half (24 bits each)</div>
+        <div class="eui-mac"><span class="h1">00:1A:2B</span> &nbsp;|&nbsp; <span class="h2">3C:4D:5E</span></div>
+      </div>
+    </div>
+    <div class="eui-step">
+      <div class="eui-num">3</div>
+      <div>
+        <div class="eui-label">Insert FFFE in the middle &rarr; now 64 bits</div>
+        <div class="eui-mac"><span class="h1">00:1A:2B</span>:<span class="ins">FF:FE</span>:<span class="h2">3C:4D:5E</span></div>
+      </div>
+    </div>
+    <div class="eui-step">
+      <div class="eui-num">4</div>
+      <div>
+        <div class="eui-label">Flip the 7th bit (the Universal/Local bit) of the first byte</div>
+        <div class="bits"><span>00 =</span> <span>0000&nbsp;00</span><span class="bit-flip" style="background:var(--ink-mute)">0</span><span>0</span> <span class="arrow">&rarr;</span> <span>0000&nbsp;00</span><span class="bit-flip">1</span><span>0</span> <span>= 02</span></div>
+        <div class="eui-note">Flipping that one bit changes the first byte from <b>00</b> to <b>02</b>. (It marks the ID as derived, toggling "universally" to "locally" administered.)</div>
+      </div>
+    </div>
+    <div class="eui-step result">
+      <div class="eui-num">&#10003;</div>
+      <div>
+        <div class="eui-label">Result: the 64-bit interface ID</div>
+        <div class="eui-mac"><span class="res">02:1A:2B:FF:FE:3C:4D:5E</span> &nbsp;=&nbsp; <span class="res">021a:2bff:fe3c:4d5e</span></div>
+        <div class="eui-note">This is the host half you saw in every address above ,  combine it with any prefix to form a full IPv6 address.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Spotting an EUI-64 address</h5>
+    <p>The dead giveaway is <code>ff:fe</code> sitting in the middle of the interface ID ,  that inserted pair is unique to EUI-64. Note: many modern OSes now use <i>randomized</i> interface IDs for privacy instead of EUI-64, but EUI-64 is what the exam tests because it shows the structure.</p>
+  </div>
+
+  <div class="section-head">Getting configured — SLAAC vs DHCPv6</div>
+  <h2 class="big">Build it yourself, or <em>ask a server.</em></h2>
+  <p class="body">A host has its interface ID ,  now it needs a prefix and to actually configure an address. IPv6 offers two paths. Toggle between them.</p>
+
+  <div class="seg-toggle two" id="cfgToggle">
+    <button class="seg-btn active" data-cfg="slaac"><div class="sb-name">SLAAC</div><div class="sb-kind">host builds its own \u00b7 stateless</div></button>
+    <button class="seg-btn" data-cfg="dhcpv6"><div class="sb-name">DHCPv6</div><div class="sb-kind">server assigns \u00b7 stateful</div></button>
+  </div>
+
+  <div class="explorer">
+    <div class="explorer-stage">
+      <!-- SLAAC view -->
+      <div class="ha-view active" id="cfg-slaac">
+        <svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <defs><marker id="sArr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2A6049"/></marker>
+                 <marker id="sArrB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1E8FBE"/></marker></defs>
+          <text x="220" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">SLAAC ,  the host builds its own address</text>
+          <rect x="40" y="48" width="130" height="44" fill="#E4F0E8" stroke="#2A6049" stroke-width="2" rx="3"/>
+          <text x="105" y="68" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Host</text>
+          <text x="105" y="82" text-anchor="middle" fill="#767E92" font-size="8">has interface ID</text>
+          <rect x="270" y="48" width="130" height="44" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2" rx="3"/>
+          <text x="335" y="68" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Router</text>
+          <text x="335" y="82" text-anchor="middle" fill="#767E92" font-size="8">knows the prefix</text>
+          <!-- RS -->
+          <line x1="170" y1="120" x2="270" y2="120" stroke="#2A6049" stroke-width="2" marker-end="url(#sArr)"/>
+          <text x="220" y="113" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">1. Router Solicitation</text>
+          <text x="220" y="134" text-anchor="middle" fill="#767E92" font-size="8">"any routers out there?"</text>
+          <!-- RA -->
+          <line x1="270" y1="164" x2="170" y2="164" stroke="#1E8FBE" stroke-width="2" marker-end="url(#sArrB)"/>
+          <text x="220" y="157" text-anchor="middle" fill="#1E8FBE" font-size="9" font-weight="700">2. Router Advertisement</text>
+          <text x="220" y="178" text-anchor="middle" fill="#767E92" font-size="8">"use prefix 2001:db8:acad:10::/64"</text>
+          <!-- self build -->
+          <rect x="40" y="206" width="360" height="48" fill="#FAFAF6" stroke="#2A6049" stroke-width="1.5" stroke-dasharray="4,3" rx="3"/>
+          <text x="220" y="226" text-anchor="middle" fill="#2A6049" font-size="10" font-weight="700">3. Host builds its OWN address</text>
+          <text x="220" y="242" text-anchor="middle" fill="#767E92" font-size="8.5">RA prefix + interface ID ,  no server tracks it (stateless)</text>
+        </svg>
+      </div>
+      <!-- DHCPv6 view -->
+      <div class="ha-view" id="cfg-dhcpv6">
+        <svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="10">
+          <defs><marker id="dArr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2A6049"/></marker>
+                 <marker id="dArrB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#B8932A"/></marker></defs>
+          <text x="220" y="20" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="#1A2050">DHCPv6 ,  a server assigns the address</text>
+          <rect x="40" y="44" width="130" height="44" fill="#E4F0E8" stroke="#2A6049" stroke-width="2" rx="3"/>
+          <text x="105" y="64" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">Host</text>
+          <text x="105" y="78" text-anchor="middle" fill="#767E92" font-size="8">client</text>
+          <rect x="270" y="44" width="130" height="44" fill="#FAF6E8" stroke="#B8932A" stroke-width="2" rx="3"/>
+          <text x="335" y="64" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">DHCPv6 Server</text>
+          <text x="335" y="78" text-anchor="middle" fill="#767E92" font-size="8">assigns + tracks</text>
+          <line x1="170" y1="112" x2="270" y2="112" stroke="#2A6049" stroke-width="2" marker-end="url(#dArr)"/>
+          <text x="220" y="106" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">1. Solicit</text>
+          <line x1="270" y1="142" x2="170" y2="142" stroke="#B8932A" stroke-width="2" marker-end="url(#dArrB)"/>
+          <text x="220" y="136" text-anchor="middle" fill="#B8932A" font-size="9" font-weight="700">2. Advertise</text>
+          <line x1="170" y1="172" x2="270" y2="172" stroke="#2A6049" stroke-width="2" marker-end="url(#dArr)"/>
+          <text x="220" y="166" text-anchor="middle" fill="#2A6049" font-size="9" font-weight="700">3. Request</text>
+          <line x1="270" y1="202" x2="170" y2="202" stroke="#B8932A" stroke-width="2" marker-end="url(#dArrB)"/>
+          <text x="220" y="196" text-anchor="middle" fill="#B8932A" font-size="9" font-weight="700">4. Reply (assigned address)</text>
+          <text x="220" y="232" text-anchor="middle" fill="#767E92" font-size="8.5">server hands out the address and records the assignment (stateful)</text>
+          <text x="220" y="248" text-anchor="middle" fill="#767E92" font-size="8">IPv6 uses multicast, not broadcast, for this exchange</text>
+        </svg>
+      </div>
+    </div>
+    <div class="detail" id="cfgDetail"><!-- populated by JS; default = slaac --></div>
+  </div>
+
+  <div class="callout">
+    <h5>The RA flags decide which one</h5>
+    <p>The Router Advertisement carries two flags that tell hosts how to configure: the <b>M (Managed)</b> flag says "use DHCPv6 for your address," and the <b>O (Other)</b> flag says "use SLAAC for the address, but get other settings (like DNS) from DHCPv6." Pure SLAAC has both off; stateful DHCPv6 sets M. This combination is common: SLAAC for the address, stateless DHCPv6 for DNS.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>What does an IPv6 <b>link-local</b> address always begin with?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false"><code>2000::/3</code></button>
+      <button class="kc-opt" data-correct="true"><code>fe80::/10</code></button>
+      <button class="kc-opt" data-correct="false"><code>fc00::/7</code></button>
+      <button class="kc-opt" data-correct="false"><code>::1</code></button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Which IPv6 address type is globally routable on the Internet, like a public IPv4 address?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Link-local (fe80::)</button>
+      <button class="kc-opt" data-correct="true">Global unicast (2000::/3)</button>
+      <button class="kc-opt" data-correct="false">Unique local (fc00::/7)</button>
+      <button class="kc-opt" data-correct="false">Loopback (::1)</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>In the <b>EUI-64</b> process, what is inserted into the middle of the 48-bit MAC to make a 64-bit interface ID?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false"><code>0000</code></button>
+      <button class="kc-opt" data-correct="true"><code>FFFE</code></button>
+      <button class="kc-opt" data-correct="false"><code>FF02</code></button>
+      <button class="kc-opt" data-correct="false">The default gateway</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>How does a host get its address under <b>SLAAC</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">It builds its own address from the prefix in a Router Advertisement — no server tracks it (stateless)</button>
+      <button class="kc-opt" data-correct="false">A DHCPv6 server assigns and records the address</button>
+      <button class="kc-opt" data-correct="false">An administrator types it in manually on every host</button>
+      <button class="kc-opt" data-correct="false">It copies the router's full address</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>An IPv6 <b>unique local</b> address (<code>fc00::/7</code>, usually <code>fd00::/8</code>) is most like what in IPv4?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">A public, Internet-routable address</button>
+      <button class="kc-opt" data-correct="true">An RFC 1918 private address (10.x, 172.16.x, 192.168.x)</button>
+      <button class="kc-opt" data-correct="false">An APIPA address (169.254.x.x)</button>
+      <button class="kc-opt" data-correct="false">The loopback (127.0.0.1)</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Network prefix / interface ID</div><div class="t-def">An IPv6 address splits into the first 64 bits (network prefix) and the last 64 bits (interface ID, identifying the host).</div></div>
+    <div class="term"><div class="t-name">Link-local</div><div class="t-def"><code>fe80::/10</code>. Auto-configured on every IPv6 interface, used only on the local link, never routed. Like IPv4 APIPA.</div></div>
+    <div class="term"><div class="t-name">Global unicast (GUA)</div><div class="t-def"><code>2000::/3</code>. Globally unique and routable on the Internet ,  the IPv6 equivalent of a public IPv4 address.</div></div>
+    <div class="term"><div class="t-name">Unique local (ULA)</div><div class="t-def"><code>fc00::/7</code> (usually <code>fd00::/8</code>). Private, site-internal, not Internet-routed. Like RFC 1918 private IPv4.</div></div>
+    <div class="term"><div class="t-name">EUI-64</div><div class="t-def">Builds a 64-bit interface ID from a 48-bit MAC: split it, insert <code>FFFE</code>, and flip the U/L bit. The <code>ff:fe</code> in the middle is the tell.</div></div>
+    <div class="term"><div class="t-name">SLAAC vs DHCPv6</div><div class="t-def">SLAAC: host builds its own address from the RA prefix (stateless). DHCPv6: a server assigns and tracks addresses (stateful).</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.4.2 for Network+ N10-009 subtopic <b style="color:#E0B840">3.4 IPv4 &amp; IPv6 Services</b>. Covers IPv6 address structure and types (link-local, global unicast, unique local), the EUI-64 interface-ID derivation, and stateless vs stateful autoconfiguration (SLAAC vs DHCPv6), through an interactive address builder, a stepped EUI-64 visual, and a configuration toggle. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>3.4 materials</h4>
+      <p style="opacity:0.55">3.4.1 · DHCP &amp; Relay (lab)</p>
+      <p>3.4.2 · IPv6 Addressing &amp; SLAAC ← you are here</p>
+      <p style="opacity:0.55">3.4.3 · DNS Services (lab)</p>
+      <p style="opacity:0.55">3.4.4 · DNS Resolution &amp; Records (explorer)</p>
+      <p style="opacity:0.55">3.4.5 · Time Protocols (explorer)</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== IPv6 address-type builder ===== */
+var IID = ['021a','2bff','fe3c','4d5e'];   // interface ID (same EUI-64 host half for all types)
+var TYPES = {
+  ll: {
+    pfx: ['fe80','0000','0000','0000'],
+    comp: 'fe80::21a:2bff:fe3c:4d5e',
+    cat: 'IPv6 address \u00b7 link-local', title: 'Link-Local', abbr: 'fe80::/10 \u00b7 the local link only',
+    body: 'Every IPv6 interface automatically gives itself a <b>link-local</b> address. It works only on the local link ,  routers never forward it ,  and it\u2019s used for the local plumbing of IPv6: neighbor discovery, router solicitation/advertisement, and as a next-hop.',
+    facts: ['Begins <b>fe80::/10</b>; auto-configured on every interface.', 'Scope is the <b>local link only</b> ,  never routed.', 'Used for neighbor discovery, RAs/RS, next-hop.', 'IPv6\u2019s answer to IPv4 <b>APIPA</b> (169.254.x.x).'],
+    exam: 'See <b>fe80</b> at the start? Link-local. Always present, never routed.'
+  },
+  gua: {
+    pfx: ['2001','0db8','acad','0010'],
+    comp: '2001:db8:acad:10:21a:2bff:fe3c:4d5e',
+    cat: 'IPv6 address \u00b7 global unicast', title: 'Global Unicast (GUA)', abbr: '2000::/3 \u00b7 routable on the Internet',
+    body: 'A <b>global unicast</b> address is globally unique and <b>routable on the public Internet</b> ,  the IPv6 equivalent of a public IPv4 address. The prefix is typically a <b>/64</b> handed to each subnet: a global routing prefix + a subnet ID, then the interface ID.',
+    facts: ['Begins <b>2000::/3</b> (you\u2019ll often see 2001:\u2026).', '<b>Globally routable</b> and unique ,  like a public IPv4.', 'Usually a <b>/64</b> per subnet.', 'Assigned via SLAAC, DHCPv6, or statically.'],
+    exam: 'Starts <b>2000::/3</b> = global unicast = public/routable. Think "public IPv4."'
+  },
+  ula: {
+    pfx: ['fd00','abcd','0010','0001'],
+    comp: 'fd00:abcd:10:1:21a:2bff:fe3c:4d5e',
+    cat: 'IPv6 address \u00b7 unique local', title: 'Unique Local (ULA)', abbr: 'fc00::/7 \u00b7 private, site-internal',
+    body: 'A <b>unique local</b> address is for <b>private, internal</b> use ,  routed within an organization but <b>not</b> on the public Internet. The range is <code>fc00::/7</code>; in practice you\u2019ll see <code>fd00::/8</code>, since that half is for locally-assigned ULAs.',
+    facts: ['Range <b>fc00::/7</b> ,  usually <b>fd00::/8</b> in practice.', '<b>Private</b>: routed internally, not on the Internet.', 'The IPv6 counterpart to <b>RFC 1918</b> private IPv4.', 'Useful for internal services that never face the Internet.'],
+    exam: 'Starts <b>fc/fd</b> = unique local = private. Think "RFC 1918 for IPv6."'
+  }
+};
+var typeSeen = new Set();
+var TYPEKEY = 'cbt-explorer-3.4.2-type';
+try { (JSON.parse(localStorage.getItem(TYPEKEY) || '[]')).forEach(function(x){ typeSeen.add(x); }); } catch(e){}
+
+function renderType(id){
+  var t = TYPES[id];
+  if(!t) return;
+  // build 8 hextets with colons
+  var parts = [];
+  t.pfx.forEach(function(h){ parts.push('<span class="hextet pfx">' + h + '</span>'); });
+  IID.forEach(function(h){ parts.push('<span class="hextet iid">' + h + '</span>'); });
+  document.getElementById('addrRow').innerHTML = parts.join('<span class="addr-colon">:</span>');
+  document.getElementById('addrComp').textContent = t.comp;
+  var facts = t.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('typeDetail').innerHTML =
+    '<div class="d-cat">' + t.cat + '</div>' +
+    '<div class="d-title">' + t.title + '</div>' +
+    '<div class="d-abbr">' + t.abbr + '</div>' +
+    '<div class="d-body">' + t.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Remember</div><p>' + t.exam + '</p></div>';
+  document.querySelectorAll('#typeToggle .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.type === id); });
+  typeSeen.add(id);
+  try { localStorage.setItem(TYPEKEY, JSON.stringify([].concat(Array.from(typeSeen)))); } catch(e){}
+}
+document.querySelectorAll('#typeToggle .seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){ renderType(b.dataset.type); });
+});
+renderType('ll');
+
+/* ===== SLAAC vs DHCPv6 toggle ===== */
+var CFG = {
+  slaac: {
+    cat: 'IPv6 autoconfig \u00b7 stateless', title: 'SLAAC', abbr: 'Stateless Address Autoconfiguration',
+    body: 'With <b>SLAAC</b>, the host configures itself. It sends a <b>Router Solicitation</b>, the router replies with a <b>Router Advertisement</b> carrying the /64 prefix, and the host <b>builds its own address</b> (RA prefix + interface ID). No server hands out or tracks the address ,  that\u2019s what "stateless" means.',
+    facts: ['Host <b>self-configures</b> from the RA prefix.', 'Interface ID via <b>EUI-64</b> or randomized.', '<b>No server tracks</b> assignments (stateless).', 'Often paired with DHCPv6 just for DNS/other options.'],
+    exam: 'SLAAC = host <b>builds its own</b> address from the RA. Stateless ,  nothing tracks it.'
+  },
+  dhcpv6: {
+    cat: 'IPv6 autoconfig \u00b7 stateful', title: 'DHCPv6', abbr: 'DHCP for IPv6 (stateful)',
+    body: 'With <b>stateful DHCPv6</b>, a server assigns the address and <b>records the assignment</b> ,  just like IPv4 DHCP. The exchange is Solicit \u2192 Advertise \u2192 Request \u2192 Reply. Because IPv6 has no broadcast, this uses <b>multicast</b>.',
+    facts: ['A <b>server assigns and tracks</b> addresses (stateful).', 'Central control, like IPv4 DHCP.', 'Uses <b>multicast</b> (IPv6 has no broadcast).', '"Stateless DHCPv6" can hand out options (DNS) alongside SLAAC.'],
+    exam: 'DHCPv6 stateful = <b>server assigns &amp; tracks</b>. The RA\u2019s M flag tells hosts to use it.'
+  }
+};
+var cfgSeen = new Set();
+var CFGKEY = 'cbt-explorer-3.4.2-cfg';
+try { (JSON.parse(localStorage.getItem(CFGKEY) || '[]')).forEach(function(x){ cfgSeen.add(x); }); } catch(e){}
+
+function renderCfg(id){
+  var d = CFG[id];
+  if(!d) return;
+  document.getElementById('cfg-slaac').classList.toggle('active', id === 'slaac');
+  document.getElementById('cfg-dhcpv6').classList.toggle('active', id === 'dhcpv6');
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('cfgDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Remember</div><p>' + d.exam + '</p></div>';
+  document.querySelectorAll('#cfgToggle .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.cfg === id); });
+  cfgSeen.add(id);
+  try { localStorage.setItem(CFGKEY, JSON.stringify([].concat(Array.from(cfgSeen)))); } catch(e){}
+}
+document.querySelectorAll('#cfgToggle .seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){ renderCfg(b.dataset.cfg); });
+});
+renderCfg('slaac');
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.4.2-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. Link-local addresses always begin <code>fe80::/10</code>.', no: 'Not quite. Link-local always starts <code>fe80::/10</code>. 2000::/3 is global, fc00::/7 is unique-local, ::1 is loopback.' },
+  '2': { ok: 'Correct. <b>Global unicast</b> (2000::/3) is Internet-routable, like a public IPv4.', no: 'Not quite. Internet-routable = <b>global unicast</b> (2000::/3). Link-local and unique-local are not Internet-routed.' },
+  '3': { ok: 'Correct. EUI-64 inserts <code>FFFE</code> in the middle of the MAC (then flips the U/L bit).', no: 'Not quite. EUI-64 inserts <code>FFFE</code> between the MAC halves ,  the <code>ff:fe</code> giveaway ,  then flips the U/L bit.' },
+  '4': { ok: 'Correct. SLAAC has the host build its own address from the RA prefix ,  stateless.', no: 'Not quite. <b>SLAAC</b> = the host self-configures from the RA prefix (stateless). Server-assigned is DHCPv6.' },
+  '5': { ok: 'Correct. ULA (fc00::/7, fd00::/8) is the IPv6 equivalent of RFC 1918 private IPv4.', no: 'Not quite. <b>Unique local</b> is private/internal ,  the IPv6 counterpart to RFC 1918 (10/172.16/192.168).' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
