@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer 3.3.3 · Backups &amp; Data Protection · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 44px 28px 0; }
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 40px 0 14px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  h2.big { font-family: var(--ff-display); font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 16px; }
+  h2.big em { font-style: italic; color: var(--sky); font-weight: 600; }
+  p.body { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  p.body b { color: var(--navy-deep); }
+  p.body code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+
+  /* ===== SEGMENTED TOGGLE ===== */
+  .seg-toggle { display: grid; gap: 8px; margin: 8px 0 10px; }
+  .seg-toggle.three { grid-template-columns: repeat(3, 1fr); }
+  .seg-btn { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.14s; }
+  .seg-btn:hover { border-color: var(--sky); }
+  .seg-btn.active { background: var(--navy-deep); border-color: var(--navy-deep); }
+  .seg-btn .sb-name { font-family: var(--ff-display); font-size: 17px; font-weight: 700; color: var(--navy-deep); }
+  .seg-btn.active .sb-name { color: white; }
+  .seg-btn .sb-kind { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); margin-top: 3px; font-weight: 700; }
+  .seg-btn.active .sb-kind { color: var(--gold); }
+
+  /* ===== BACKUP CHAIN VISUALIZER ===== */
+  .chain-wrap { border: 1px solid var(--line); background: var(--surface); margin: 0 0 10px; }
+  .chain-stage { padding: 24px 26px 20px; background: linear-gradient(180deg, #FAFAF6, #F0F0EA); border-bottom: 1px solid var(--line); }
+  .chain-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 14px; text-align: center; }
+  .chain-hint b { color: var(--sky-deep); }
+  .chain-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-col { cursor: pointer; border: 1px solid transparent; padding: 6px 4px 8px; border-radius: 3px; transition: all 0.14s; }
+  .day-col:hover { background: rgba(56,176,224,0.06); }
+  .day-track { height: 132px; display: flex; align-items: flex-end; justify-content: center; background: var(--surface); border: 1px solid var(--line-soft); padding: 4px; }
+  .day-bar { width: 70%; transition: height 0.3s ease, background 0.2s; min-height: 4px; border-radius: 2px 2px 0 0; }
+  .day-bar.b-full { background: var(--navy); }
+  .day-bar.b-incr { background: var(--sky-deep); }
+  .day-bar.b-diff { background: var(--gold-deep); }
+  .day-cap { text-align: center; font-family: var(--ff-mono); font-size: 11px; font-weight: 700; color: var(--navy-deep); margin-top: 8px; }
+  .day-kind { text-align: center; font-family: var(--ff-mono); font-size: 8.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mute); margin-top: 2px; line-height: 1.2; }
+  .day-col.needed .day-track { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+  .day-col.needed { background: rgba(42,96,73,0.07); }
+  .day-col.target .day-track { border-color: var(--green); box-shadow: inset 0 0 0 2px var(--green); }
+  .day-col.target .day-cap { color: var(--green); }
+  .day-col.target .day-cap::after { content: ' \25C0'; font-size: 8px; }
+
+  .restore-readout { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--green); padding: 14px 18px; }
+  .restore-readout .rr-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+  .restore-readout .rr-title { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); }
+  .restore-readout .rr-pieces { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--green); background: var(--green-bg); padding: 3px 10px; border-radius: 2px; }
+  .restore-readout .rr-list { font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
+  .restore-readout .rr-list b { color: var(--navy-deep); }
+
+  .chain-detail { padding: 22px 26px; }
+  .chain-detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .chain-detail .d-title { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 12px; }
+  .chain-detail .cd-rows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .chain-detail .cd-cell { background: var(--surface); padding: 12px 14px; }
+  .chain-detail .cd-k { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 4px; }
+  .chain-detail .cd-v { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); line-height: 1.15; }
+  .chain-detail .cd-body { font-size: 13.5px; color: var(--ink-mid); line-height: 1.6; margin: 14px 0 0; }
+  .chain-detail .cd-body b { color: var(--navy-deep); }
+
+  /* ===== LIBRARY ===== */
+  .explorer { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); margin: 8px 0 10px; }
+  .doc-stage { padding: 18px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #FAFAF6, #F0F0EA); }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--line-soft); border-left: 4px solid var(--sky); padding: 12px 14px; cursor: pointer; transition: all 0.14s; }
+  .doc-card.sec { border-left-color: var(--red); }
+  .doc-card.cfg { border-left-color: var(--gold); }
+  .doc-card:hover { border-color: var(--sky); transform: translateY(-1px); }
+  .doc-card.active { box-shadow: inset 0 0 0 2px var(--sky); }
+  .doc-card.sec.active { box-shadow: inset 0 0 0 2px var(--red); }
+  .doc-card.cfg.active { box-shadow: inset 0 0 0 2px var(--gold); }
+  .doc-card .dc-name { font-family: var(--ff-display); font-size: 14px; font-weight: 700; color: var(--navy-deep); line-height: 1.1; }
+  .doc-card .dc-tag { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-top: 3px; }
+  .doc-hint { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+  .doc-hint b { color: var(--sky-deep); }
+
+  .detail { padding: 24px 26px; display: flex; flex-direction: column; }
+  .detail .d-cat { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--sky-deep); margin-bottom: 8px; }
+  .detail .d-title { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; line-height: 1.05; margin: 0 0 4px; }
+  .detail .d-abbr { font-family: var(--ff-mono); font-size: 12px; color: var(--gold-deep); font-weight: 700; margin-bottom: 14px; }
+  .detail .d-body { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin: 0 0 16px; }
+  .detail .d-body b { color: var(--navy-deep); }
+  .detail .d-facts { list-style: none; margin: 0 0 16px; padding: 0; }
+  .detail .d-facts li { font-size: 13px; color: var(--ink); padding: 7px 0 7px 22px; position: relative; border-bottom: 1px dotted var(--line-soft); line-height: 1.5; }
+  .detail .d-facts li::before { content: '▸'; position: absolute; left: 2px; color: var(--sky); font-weight: 700; }
+  .detail .d-facts li b { color: var(--navy-deep); }
+  .detail .d-exam { background: var(--navy-deep); color: white; padding: 12px 16px; margin-top: auto; border-left: 3px solid var(--gold); }
+  .detail .d-exam .e-lab { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .detail .d-exam p { margin: 0; font-size: 12.5px; color: var(--gray-soft); line-height: 1.5; }
+  .detail .d-exam p b { color: white; }
+
+  /* ===== KNOWLEDGE CHECK ===== */
+  .kc-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .kc-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .kc-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .kc-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 180px; max-width: 360px; margin: 0 14px; }
+  .kc-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; width: 0%; }
+  .kc-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .kc-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+  .kc-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 14px; }
+  .kc-card .kc-q { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 14px; line-height: 1.35; }
+  .kc-card .kc-q .kc-num { font-family: var(--ff-mono); color: var(--sky); font-size: 13px; margin-right: 8px; }
+  .kc-opts { display: flex; flex-direction: column; gap: 8px; }
+  .kc-opt { text-align: left; background: var(--surface-alt); border: 1px solid var(--line-soft); padding: 11px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.12s; border-radius: 2px; }
+  .kc-opt:hover { border-color: var(--sky); background: white; }
+  .kc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .kc-opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .kc-opt.locked { cursor: default; opacity: 0.6; }
+  .kc-opt.locked.correct, .kc-opt.locked.wrong { opacity: 1; }
+  .kc-fb { margin-top: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.55; display: none; border-left: 3px solid var(--sky); background: rgba(56,176,224,0.07); }
+  .kc-fb.show { display: block; }
+  .kc-fb.ok { border-color: var(--green); background: rgba(42,96,73,0.07); }
+  .kc-fb.no { border-color: var(--gold); background: rgba(224,184,64,0.09); }
+  .kc-fb b { color: var(--navy-deep); }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin: 18px 0; }
+  .term-grid .term { background: var(--surface); padding: 14px 18px; }
+  .term .t-name { font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--sky-deep); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .term .t-def { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+  /* series-complete banner */
+  .series-banner { background: linear-gradient(135deg, rgba(56,176,224,0.10), rgba(224,184,64,0.10)); border: 1px solid var(--sky); border-left-width: 4px; padding: 24px 30px; margin: 30px 0 0; display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: center; }
+  .series-banner .sb-icon { width: 52px; height: 52px; background: var(--navy-deep); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-display); font-weight: 800; font-size: 20px; }
+  .series-banner h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .series-banner p { margin: 0; font-size: 14px; color: var(--ink-mid); max-width: 66ch; }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 56px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .explorer { grid-template-columns: 1fr; }
+    .doc-stage { border-right: none; border-bottom: 1px solid var(--line); }
+    .seg-toggle.three { grid-template-columns: 1fr; }
+    .chain-detail .cd-rows { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+    .day-cap { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.3 Disaster Recovery</span>
+    <span class="crumb">Explorer 3.3.3</span>
+  </div>
+  <div class="topbar-right">Interactive Explorer · 3 of 3 · Series Final</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Explorer 3.3.3 · Backups · ≈ 28 min</div>
+    <h1>Copies that <em>save you.</em></h1>
+    <p class="lede">Every recovery metric and every site type depends on one thing: a good <b>backup</b> to recover from. But not all backups are alike. A <b>full</b> backup copies everything; an <b>incremental</b> copies only what changed since the last backup; a <b>differential</b> copies everything changed since the last full. Each strikes a different balance between <i>how much you back up</i> and <i>how hard it is to restore</i>. Toggle the three across a week below ,  then pick a day to restore and watch how many pieces you need.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Explorer Overview</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.3 — backups &amp; data protection</span></div>
+    <div class="ref-row"><span class="name">Focus</span><span class="desc">Full / incremental / differential · snapshot · 3-2-1</span></div>
+    <div class="ref-row"><span class="name">Format</span><span class="desc">Backup-chain visualizer + protection library</span></div>
+    <div class="ref-row"><span class="name">Series</span><span class="desc">3 of 3 · Metrics / Sites &amp; HA / Backups</span></div>
+    <div class="ref-row"><span class="name">Do it</span><span class="desc">Pick a restore day; count the pieces</span></div>
+    <div class="footer-note">
+      <b>TERMS COVERED</b><br>
+      full · incremental · differential · snapshot · 3-2-1 rule · offsite · immutable backup · restore effort
+    </div>
+  </aside>
+</section>
+
+<div class="wrap">
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Objective 3.3 expects you to distinguish the backup types and a few protection concepts. The exam favorites: <b>incremental</b> = changes since the <i>last backup</i> (small backups, but restore needs the full <i>plus every</i> incremental); <b>differential</b> = changes since the <i>last full</i> (bigger each day, but restore needs only the full <i>plus one</i> differential). Add <b>snapshots</b> (point-in-time images) and the <b>3-2-1 rule</b> (3 copies, 2 media, 1 offsite), and you\u2019ve got the objective.</p>
+  </div>
+
+  <div class="section-head">The backup chain — toggle &amp; restore</div>
+  <h2 class="big">Small backups <em>or</em> simple restores.</h2>
+  <p class="body">A week of backups: <b>Sunday is always a full</b>; Monday\u2013Saturday depend on the type you pick. Bar height shows how much each day\u2019s backup holds. Then <b>click any day</b> to restore to it ,  the backups you\u2019d need light up green, and the count appears below. Notice the trade: the type with the smallest daily backups needs the most pieces to restore.</p>
+
+  <div class="seg-toggle three" id="chainToggle">
+    <button class="seg-btn active" data-type="full"><div class="sb-name">Full</div><div class="sb-kind">everything, every time</div></button>
+    <button class="seg-btn" data-type="incr"><div class="sb-name">Incremental</div><div class="sb-kind">changes since last backup</div></button>
+    <button class="seg-btn" data-type="diff"><div class="sb-name">Differential</div><div class="sb-kind">changes since last full</div></button>
+  </div>
+
+  <div class="chain-wrap">
+    <div class="chain-stage">
+      <div class="chain-hint">Bar height = backup size that day &nbsp;\u00b7&nbsp; <b>click a day to restore to it</b></div>
+      <div class="chain-week" id="chainWeek"><!-- columns injected by JS --></div>
+      <div class="restore-readout" id="restoreReadout"><!-- populated by JS --></div>
+    </div>
+    <div class="chain-detail" id="chainDetail"><!-- populated by JS; default = full --></div>
+  </div>
+
+  <div class="callout warn">
+    <h5>The trade-off the exam tests</h5>
+    <p><b>Incremental</b>: smallest, fastest daily backups ,  but the <i>slowest, most complex restore</i>, because you need the last full plus <b>every</b> incremental since. <b>Differential</b>: backups grow through the week ,  but restore is simple: the last full plus <b>one</b> differential. <b>Full</b>: biggest daily backups, but the simplest restore of all (just one set). Pick a restore day above under each type and count the green pieces.</p>
+  </div>
+
+  <div class="section-head">Snapshots &amp; data-protection strategy — click each</div>
+  <h2 class="big">More than just <em>backup type.</em></h2>
+  <p class="body">Beyond the full/incremental/differential trio, the exam expects a few more ideas: the near-instant <b>snapshot</b>, and the strategy that keeps backups <i>safe</i> ,  the 3-2-1 rule, keeping a copy <b>offsite</b>, and making backups <b>immutable</b>. Click each to see what it adds.</p>
+
+  <div class="explorer">
+    <div class="doc-stage">
+      <div class="doc-grid" id="protGrid">
+        <div class="doc-card active" id="snapshot"><div class="dc-name">Snapshot</div><div class="dc-tag">point-in-time image</div></div>
+        <div class="doc-card cfg" id="rule321"><div class="dc-name">3-2-1 rule</div><div class="dc-tag">3 copies \u00b7 2 media \u00b7 1 offsite</div></div>
+        <div class="doc-card" id="offsite"><div class="dc-name">Offsite / cloud</div><div class="dc-tag">survive a site disaster</div></div>
+        <div class="doc-card sec" id="immutable"><div class="dc-name">Immutable backup</div><div class="dc-tag">can't be altered/deleted</div></div>
+      </div>
+      <div class="doc-hint">Click a strategy · <b id="prot-count">1/4</b> explored</div>
+    </div>
+    <div class="detail" id="protDetail"><!-- populated by JS; default = snapshot --></div>
+  </div>
+
+  <div class="callout">
+    <h5>Why 3-2-1 and immutability matter together</h5>
+    <p>The <b>3-2-1 rule</b> guards against a single point of failure ,  lose one copy, one medium, or even the whole site, and another copy survives. <b>Immutable</b> backups add a second layer: even if an attacker (or ransomware) reaches your backups, they <i>can\u2019t be changed or deleted</i> for the retention period. A backup you can\u2019t restore from isn\u2019t a backup ,  so protection strategy matters as much as backup type.</p>
+  </div>
+
+  <div class="section-head">Check your understanding</div>
+  <p class="body">Five quick questions. Click an answer to lock it in and see why. Your progress saves in this browser.</p>
+
+  <div class="kc-progress">
+    <div class="pinfo"><b id="kc-count">0</b> of 5 answered correctly</div>
+    <div class="pbar"><div class="pbar-fill" id="kc-fill"></div></div>
+    <button class="kc-reset" onclick="resetKC()">Reset</button>
+  </div>
+
+  <div class="kc-card" data-q="1">
+    <div class="kc-q"><span class="kc-num">Q1</span>Which backup type copies <b>only the data changed since the last backup of any type</b>?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Full backup</button>
+      <button class="kc-opt" data-correct="true">Incremental backup</button>
+      <button class="kc-opt" data-correct="false">Differential backup</button>
+      <button class="kc-opt" data-correct="false">Snapshot</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="2">
+    <div class="kc-q"><span class="kc-num">Q2</span>Which backup type copies <b>everything changed since the last full backup</b> (growing larger each day until the next full)?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Incremental backup</button>
+      <button class="kc-opt" data-correct="true">Differential backup</button>
+      <button class="kc-opt" data-correct="false">Snapshot</button>
+      <button class="kc-opt" data-correct="false">Full backup</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="3">
+    <div class="kc-q"><span class="kc-num">Q3</span>Which scheme gives the <b>fastest, simplest restore</b> using only the last full plus a single later backup?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">Incremental — restore needs the full plus every incremental since</button>
+      <button class="kc-opt" data-correct="true">Differential — restore needs only the full plus the latest differential</button>
+      <button class="kc-opt" data-correct="false">Incremental always restores from one file</button>
+      <button class="kc-opt" data-correct="false">No scheme affects restore time</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="4">
+    <div class="kc-q"><span class="kc-num">Q4</span>What does the <b>3-2-1 backup rule</b> specify?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="true">Keep 3 copies of the data, on 2 different media types, with 1 copy offsite</button>
+      <button class="kc-opt" data-correct="false">Back up 3 times a day for 2 weeks on 1 server</button>
+      <button class="kc-opt" data-correct="false">Keep 3 full, 2 differential, and 1 incremental backup</button>
+      <button class="kc-opt" data-correct="false">Retain backups for 321 days</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="kc-card" data-q="5">
+    <div class="kc-q"><span class="kc-num">Q5</span>What is the main benefit of an <b>immutable</b> backup?</div>
+    <div class="kc-opts">
+      <button class="kc-opt" data-correct="false">It backs up faster than any other type</button>
+      <button class="kc-opt" data-correct="true">Once written, it cannot be altered or deleted for its retention period — protecting it from ransomware or tampering</button>
+      <button class="kc-opt" data-correct="false">It eliminates the need to keep any offsite copy</button>
+      <button class="kc-opt" data-correct="false">It compresses data so it never grows</button>
+    </div>
+    <div class="kc-fb"></div>
+  </div>
+
+  <div class="section-head">Key terms</div>
+  <div class="term-grid">
+    <div class="term"><div class="t-name">Full backup</div><div class="t-def">Copies all selected data every time. Largest backups, but the simplest restore — a single set.</div></div>
+    <div class="term"><div class="t-name">Incremental backup</div><div class="t-def">Copies only what changed since the last backup (of any type). Small, fast backups; restore needs the full plus every incremental since.</div></div>
+    <div class="term"><div class="t-name">Differential backup</div><div class="t-def">Copies everything changed since the last full backup. Grows daily; restore needs only the full plus the latest differential.</div></div>
+    <div class="term"><div class="t-name">Snapshot</div><div class="t-def">A point-in-time image of a system, volume, or VM — often near-instant. Great for fast rollback, but not a replacement for true offsite backups.</div></div>
+    <div class="term"><div class="t-name">3-2-1 rule</div><div class="t-def">Keep 3 copies of data, on 2 different media types, with 1 copy offsite — so no single failure or site loss destroys everything.</div></div>
+    <div class="term"><div class="t-name">Immutable backup</div><div class="t-def">A backup that cannot be modified or deleted for a set retention period, protecting it against ransomware and tampering.</div></div>
+  </div>
+
+  <div class="series-banner">
+    <div class="sb-icon">★</div>
+    <div>
+      <h3>That completes the 3.3 Disaster Recovery explorer series.</h3>
+      <p>Across three explorers you\u2019ve covered the DR and reliability metrics (RPO, RTO, MTTR, MTBF, MTTF), the recovery sites and high-availability designs (cold/warm/hot, active-active vs active-passive), and the backup types and data-protection strategies (full/incremental/differential, snapshots, and the 3-2-1 rule). A 25-question subtopic quiz ,  same format as the routing, switching, wireless, and monitoring quizzes ,  rounds out 3.3.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this explorer</h4>
+      <p>Explorer 3.3.3 of 3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.3 Disaster Recovery</b>. Covers backup types (full, incremental, differential, snapshot) and data-protection strategy (3-2-1 rule, offsite, immutable) through an interactive backup-chain visualizer with restore-effort and a protection-strategies library. Completes the 3.3 explorer series. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Explorer series</h4>
+      <p style="opacity:0.55">3.3.1 · DR Metrics</p>
+      <p style="opacity:0.55">3.3.2 · Recovery Sites &amp; High Availability</p>
+      <p>3.3.3 · Backups &amp; Data Protection ← you are here</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this material, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Explorer · v1.0</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Backup chain visualizer ===== */
+var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var DELTA = 15;          // % of full that changes each day
+var chainType = 'full';  // full | incr | diff
+var chainTarget = 4;     // default restore target = Thursday (index 4)
+
+var CHAIN_INFO = {
+  full: { title: 'Full backup', backup: 'Largest (100% daily)', restore: 'Simplest (1 set)', storage: 'Highest',
+    body: 'Every backup copies <b>everything</b>. The most storage and the slowest backups ,  but the <b>simplest restore</b> of all: grab the one full backup for the day you want and you\u2019re done.' },
+  incr: { title: 'Incremental backup', backup: 'Smallest (one day)', restore: 'Slowest (full + all)', storage: 'Lowest',
+    body: 'Each day copies only what changed <b>since the last backup</b>. Backups are <b>tiny and fast</b> ,  but to restore you need the last full <b>plus every incremental</b> in order, the longest restore chain.' },
+  diff: { title: 'Differential backup', backup: 'Grows daily', restore: 'Moderate (full + 1)', storage: 'Medium',
+    body: 'Each day copies everything changed <b>since the last full</b>, so backups grow through the week. Restore is easy though: just the last full <b>plus the single latest differential</b>.' }
+};
+
+function sizeFor(type, i){
+  if(i === 0) return 100;            // Sunday is always a full
+  if(type === 'full') return 100;
+  if(type === 'incr') return DELTA;  // one day of changes
+  return i * DELTA;                  // differential: changes since Sunday full
+}
+function kindFor(type, i){
+  if(i === 0) return 'FULL';
+  if(type === 'full') return 'FULL';
+  if(type === 'incr') return 'INCR';
+  return 'DIFF';
+}
+function barClassFor(type, i){
+  if(i === 0 || type === 'full') return 'b-full';
+  if(type === 'incr') return 'b-incr';
+  return 'b-diff';
+}
+function neededFor(type, target){
+  if(target === 0) return [0];
+  if(type === 'full') return [target];
+  if(type === 'incr'){ var a = []; for(var k = 0; k <= target; k++) a.push(k); return a; }
+  return [0, target];               // differential: full + the one differential
+}
+
+function renderChain(){
+  var needed = neededFor(chainType, chainTarget);
+  var neededSet = {};
+  needed.forEach(function(n){ neededSet[n] = true; });
+
+  var html = '';
+  for(var i = 0; i < 7; i++){
+    var size = sizeFor(chainType, i);
+    var cls = 'day-col' + (neededSet[i] ? ' needed' : '') + (i === chainTarget ? ' target' : '');
+    html += '<div class="' + cls + '" data-day="' + i + '">' +
+              '<div class="day-track"><div class="day-bar ' + barClassFor(chainType, i) + '" style="height:' + size + '%"></div></div>' +
+              '<div class="day-cap">' + DAYS[i] + '</div>' +
+              '<div class="day-kind">' + kindFor(chainType, i) + '</div>' +
+            '</div>';
+  }
+  document.getElementById('chainWeek').innerHTML = html;
+  // re-bind day clicks
+  document.querySelectorAll('#chainWeek .day-col').forEach(function(col){
+    col.addEventListener('click', function(){ chainTarget = parseInt(col.dataset.day, 10); renderChain(); });
+  });
+
+  // restore readout
+  var pieces = needed.length;
+  var listText;
+  if(chainType === 'full'){
+    listText = (chainTarget === 0) ? '<b>Full (Sun)</b>' : '<b>' + DAYS[chainTarget] + ' full</b> ,  a single complete set';
+  } else if(chainType === 'incr'){
+    if(chainTarget === 0){ listText = '<b>Full (Sun)</b>'; }
+    else {
+      var incs = [];
+      for(var j = 1; j <= chainTarget; j++) incs.push(DAYS[j]);
+      listText = '<b>Full (Sun)</b> + ' + incs.join(' + ') + ' <span style="color:#767E92">(every incremental, in order)</span>';
+    }
+  } else { // diff
+    listText = (chainTarget === 0) ? '<b>Full (Sun)</b>' : '<b>Full (Sun)</b> + <b>' + DAYS[chainTarget] + ' differential</b> <span style="color:#767E92">(just the latest one)</span>';
+  }
+  document.getElementById('restoreReadout').innerHTML =
+    '<div class="rr-top"><span class="rr-title">Restore to ' + DAYS[chainTarget] + '</span>' +
+    '<span class="rr-pieces">' + pieces + ' piece' + (pieces === 1 ? '' : 's') + ' to restore</span></div>' +
+    '<div class="rr-list">You need: ' + listText + '</div>';
+
+  // detail panel
+  var d = CHAIN_INFO[chainType];
+  document.getElementById('chainDetail').innerHTML =
+    '<div class="d-cat">Backup type \u00b7 ' + chainType + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="cd-rows">' +
+      '<div class="cd-cell"><div class="cd-k">Daily backup</div><div class="cd-v">' + d.backup + '</div></div>' +
+      '<div class="cd-cell"><div class="cd-k">Restore effort</div><div class="cd-v">' + d.restore + '</div></div>' +
+      '<div class="cd-cell"><div class="cd-k">Storage use</div><div class="cd-v">' + d.storage + '</div></div>' +
+    '</div>' +
+    '<p class="cd-body">' + d.body + '</p>';
+
+  // active toggle button
+  document.querySelectorAll('#chainToggle .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.type === chainType); });
+}
+document.querySelectorAll('#chainToggle .seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){ chainType = b.dataset.type; renderChain(); });
+});
+renderChain();
+
+/* ===== Protection-strategies library ===== */
+var PROT = {
+  snapshot: {
+    cat: 'Data protection · point-in-time', title: 'Snapshot', abbr: 'a frozen moment in time',
+    body: 'A snapshot is a <b>point-in-time image</b> of a system, volume, or virtual machine ,  often created near-instantly at the storage or hypervisor level. It lets you roll back to exactly how things looked at that moment.',
+    facts: ['Captures the state at <b>one instant</b>.', 'Usually <b>fast</b> to create (storage/VM level).', 'Great for quick rollback before a risky change.', '<b>Not a substitute</b> for true offsite backups ,  it often lives on the same system.'],
+    exam: 'Snapshot = a <b>point-in-time image</b>. Fast rollback, but keep real backups offsite too.'
+  },
+  rule321: {
+    cat: 'Data protection · strategy', title: 'The 3-2-1 Rule', abbr: '3 copies \u00b7 2 media \u00b7 1 offsite',
+    body: 'A simple, widely-taught backup strategy: keep <b>3 copies</b> of your data, on <b>2 different media types</b>, with <b>1 copy offsite</b>. No single failure ,  a bad disk, a lost device, or even a whole-site disaster ,  can wipe out every copy.',
+    facts: ['<b>3</b> copies of the data (the original + 2 backups).', '<b>2</b> different media/storage types.', '<b>1</b> copy kept <b>offsite</b>.', 'Guards against single points of failure.'],
+    exam: 'Memorize it literally: <b>3</b> copies, <b>2</b> media, <b>1</b> offsite.'
+  },
+  offsite: {
+    cat: 'Data protection · location', title: 'Offsite / Cloud Backup', abbr: 'a copy somewhere else',
+    body: 'Keeping a backup copy in a <b>different physical location</b> ,  a remote site or the cloud ,  so a fire, flood, or theft at the primary site can\u2019t destroy every copy. It\u2019s the "1 offsite" in the 3-2-1 rule.',
+    facts: ['Survives <b>site-level</b> disasters (fire, flood, theft).', 'Often cloud-based today for convenience.', 'The <b>offsite</b> copy in the 3-2-1 rule.', 'Pairs with onsite backups for fast local restores.'],
+    exam: 'Offsite = a copy <b>elsewhere</b>, so one site\u2019s disaster can\u2019t take all copies.'
+  },
+  immutable: {
+    cat: 'Data protection · integrity', title: 'Immutable Backup', abbr: "can't be changed or deleted",
+    body: 'An immutable backup <b>cannot be altered or deleted</b> for a set retention period once written. Even an attacker with credentials ,  or ransomware ,  can\u2019t encrypt or erase it, so you always have a clean copy to restore from.',
+    facts: ['Write-once: <b>no changes or deletions</b> until retention expires.', 'Strong defense against <b>ransomware</b> and tampering.', 'Guarantees a clean, restorable copy exists.', 'Often paired with offsite/air-gapped storage.'],
+    exam: 'Immutable = <b>unchangeable/undeletable</b> for a retention period. Anti-ransomware insurance.'
+  }
+};
+var protSeen = new Set();
+var PROTKEY = 'cbt-explorer-3.3.3-prot';
+try { (JSON.parse(localStorage.getItem(PROTKEY) || '[]')).forEach(function(x){ protSeen.add(x); }); } catch(e){}
+
+function renderProt(id){
+  var d = PROT[id];
+  if(!d) return;
+  var facts = d.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+  document.getElementById('protDetail').innerHTML =
+    '<div class="d-cat">' + d.cat + '</div>' +
+    '<div class="d-title">' + d.title + '</div>' +
+    '<div class="d-abbr">' + d.abbr + '</div>' +
+    '<div class="d-body">' + d.body + '</div>' +
+    '<ul class="d-facts">' + facts + '</ul>' +
+    '<div class="d-exam"><div class="e-lab">Remember</div><p>' + d.exam + '</p></div>';
+  document.querySelectorAll('.doc-card').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+  protSeen.add(id);
+  try { localStorage.setItem(PROTKEY, JSON.stringify([].concat(Array.from(protSeen)))); } catch(e){}
+  document.getElementById('prot-count').textContent = protSeen.size + '/4';
+}
+document.querySelectorAll('.doc-card').forEach(function(c){
+  c.addEventListener('click', function(){ renderProt(c.id); });
+});
+protSeen.add('snapshot');
+renderProt('snapshot');
+document.getElementById('prot-count').textContent = protSeen.size + '/4';
+
+/* ===== Knowledge check ===== */
+var KCKEY = 'cbt-explorer-3.3.3-kc';
+var kcState = {};
+try { kcState = JSON.parse(localStorage.getItem(KCKEY) || '{}'); } catch(e){ kcState = {}; }
+var KC_TOTAL = 5;
+var KC_FB = {
+  '1': { ok: 'Correct. <b>Incremental</b> copies only what changed since the last backup of any type.', no: 'Not quite. Changes since the <b>last backup</b> = <b>incremental</b>. Differential is since the last full.' },
+  '2': { ok: 'Correct. <b>Differential</b> copies everything changed since the last full ,  growing each day.', no: 'Not quite. Changes since the last <b>full</b> = <b>differential</b>. Incremental is since the last backup.' },
+  '3': { ok: 'Correct. <b>Differential</b> restores from the full plus a single latest differential.', no: 'Not quite. The full + <b>one</b> later set is <b>differential</b>. Incremental needs the full + every incremental.' },
+  '4': { ok: 'Correct. <b>3-2-1</b> = 3 copies, 2 media types, 1 offsite.', no: 'Not quite. The <b>3-2-1 rule</b> = <b>3</b> copies, on <b>2</b> media types, with <b>1</b> offsite.' },
+  '5': { ok: 'Correct. <b>Immutable</b> backups can\u2019t be altered/deleted ,  protecting against ransomware.', no: 'Not quite. An <b>immutable</b> backup can\u2019t be changed or deleted for its retention period ,  anti-ransomware/tampering.' }
+};
+function lockCard(card){
+  card.querySelectorAll('.kc-opt').forEach(function(o){
+    o.classList.add('locked');
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+}
+function tallyKC(){
+  var correct = Object.keys(kcState).filter(function(k){ return kcState[k] === 'correct'; }).length;
+  document.getElementById('kc-count').textContent = correct;
+  document.getElementById('kc-fill').style.width = (correct / KC_TOTAL * 100) + '%';
+}
+function renderKC(){
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    var q = card.dataset.q;
+    var fb = card.querySelector('.kc-fb');
+    if(kcState[q]){
+      lockCard(card);
+      if(kcState[q] === 'wrong'){ fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      else { fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+    }
+  });
+  tallyKC();
+}
+document.querySelectorAll('.kc-card').forEach(function(card){
+  var q = card.dataset.q;
+  card.querySelectorAll('.kc-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      if(kcState[q]) return;
+      var isCorrect = opt.dataset.correct === 'true';
+      lockCard(card);
+      var fb = card.querySelector('.kc-fb');
+      if(isCorrect){ kcState[q] = 'correct'; fb.className = 'kc-fb show ok'; fb.innerHTML = KC_FB[q].ok; }
+      else { kcState[q] = 'wrong'; opt.classList.add('wrong'); fb.className = 'kc-fb show no'; fb.innerHTML = KC_FB[q].no; }
+      try { localStorage.setItem(KCKEY, JSON.stringify(kcState)); } catch(e){}
+      tallyKC();
+    });
+  });
+});
+function resetKC(){
+  if(!confirm('Reset your knowledge-check answers?')) return;
+  kcState = {};
+  try { localStorage.removeItem(KCKEY); } catch(e){}
+  document.querySelectorAll('.kc-card').forEach(function(card){
+    card.querySelectorAll('.kc-opt').forEach(function(o){ o.classList.remove('locked','correct','wrong'); });
+    var fb = card.querySelector('.kc-fb'); fb.className = 'kc-fb'; fb.innerHTML = '';
+  });
+  tallyKC();
+}
+renderKC();
+</script>
+</body>
+</html>
