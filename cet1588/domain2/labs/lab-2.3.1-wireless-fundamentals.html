@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2.3.1 · Wireless Fundamentals · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+    /* Wireless band colors */
+    --band24:#B8932A;  /* 2.4 GHz — gold (long range, congested) */
+    --band5:#1E8FBE;   /* 5 GHz — sky (fast, more channels) */
+    --band6:#2A6049;   /* 6 GHz — green (newest, widest) */
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface, .iptable td.ip { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable td.ip { color: var(--sky-deep); }
+  .iptable td.v10 { color: var(--vlan10); font-weight: 700; }
+  .iptable td.v20 { color: var(--vlan20); font-weight: 700; }
+  .iptable td.hi { background: rgba(56,176,224,0.12) !important; color: var(--sky-deep); font-weight: 700; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* Band cards (3-up: 2.4 / 5 / 6 GHz) */
+  .band-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0; }
+  .band-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; border-top: 5px solid var(--band24); }
+  .band-card.b5 { border-top-color: var(--band5); }
+  .band-card.b6 { border-top-color: var(--band6); }
+  .band-card .bc-freq { font-family: var(--ff-display); font-size: 24px; font-weight: 700; color: var(--band24); margin: 0 0 2px; letter-spacing: -0.01em; }
+  .band-card.b5 .bc-freq { color: var(--band5); }
+  .band-card.b6 .bc-freq { color: var(--band6); }
+  .band-card .bc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; margin-bottom: 12px; }
+  .band-card .bc-row { display: grid; grid-template-columns: 78px 1fr; gap: 8px; padding: 4px 0; font-size: 12.5px; border-bottom: 1px dotted var(--line-soft); }
+  .band-card .bc-row:last-child { border-bottom: none; }
+  .band-card .bc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .band-card .bc-row .v { color: var(--ink); }
+
+  /* GUI config panel (mimics a device config screen) */
+  .gui-config { background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; }
+  .gui-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: var(--navy-deep); color: white; gap: 8px; flex-wrap: wrap; }
+  .gui-head .gui-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .gui-head .gui-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); font-style: italic; flex: 1; text-align: center; padding: 0 12px; }
+  .gui-head .gui-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .gui-body { padding: 6px 0; }
+  .gui-field { display: grid; grid-template-columns: 220px 1fr; gap: 14px; padding: 10px 18px; align-items: center; border-bottom: 1px solid var(--line-soft); }
+  .gui-field:last-child { border-bottom: none; }
+  .gui-field .gf-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .gui-field .gf-value { font-family: var(--ff-mono); font-size: 13px; color: var(--ink); }
+  .gui-field .gf-value b { color: var(--navy-deep); background: var(--bg-warm); padding: 2px 8px; border: 1px solid var(--line-soft); font-weight: 700; }
+  .gui-field .gf-value .note { display: block; font-family: var(--ff-body); font-size: 12px; color: var(--ink-mute); margin-top: 4px; font-weight: 400; }
+
+  .criteria { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 0 0 22px; }
+  .criteria h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0 0 12px; font-weight: 700; }
+  .criteria ol { margin: 0; padding-left: 22px; }
+  .criteria ol li { margin-bottom: 6px; font-size: 14px; color: var(--ink); }
+  .criteria ol li b { color: var(--navy-deep); }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  /* "Simulator note" callout — for concepts PT can't fully model */
+  .callout.sim-note { background: rgba(142,31,46,0.06); border-left: 4px dashed var(--red); padding: 16px 20px; }
+  .callout.sim-note h5 { color: var(--red); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .band-grid { grid-template-columns: 1fr; }
+    .gui-field { grid-template-columns: 1fr; gap: 4px; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 2 · Network Implementation</span>
+    <span class="crumb">2.3 Wireless Technologies</span>
+    <span class="crumb">Lab 2.3.1</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · 1 of 4</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 2.3.1 · Packet Tracer · ≈ 50 min</div>
+    <h1>Put the office <em>on the air.</em></h1>
+    <p class="lede">Every wired lab so far ended at a switch port. Now we cut the cord. A wireless access point bridges radio signals to your wired network, letting laptops and phones join the same VLANs as wired hosts. But radio is a shared medium with real physics: only certain <b>frequency bands</b> are usable, each band is sliced into <b>channels</b>, and neighboring access points on the same channel interfere with each other. In this lab you'll add an AP to the CBT Miami office, broadcast a named network (<b>SSID</b>), pick the right band and a non-overlapping channel, secure it with WPA2, and connect wireless clients to the existing Staff VLAN.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">SSID, frequency bands, channels, WPA2-PSK</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Miami topology (or a fresh switch + AP)</span></div>
+    <div class="ref-row"><span class="name">Band/channel</span><span class="desc">2.4 GHz ch 1/6/11 · 5 GHz overview</span></div>
+    <div class="ref-row"><span class="name">New devices</span><span class="desc">1 × Access Point · 1 × Laptop · 1 × Smartphone</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-2.3.1-Wireless-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 2.3.1</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      SSID · BSSID · ESSID · 2.4/5/6 GHz · channel width · non-overlapping channels · band steering · infrastructure mode
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">1</div><div class="label">SSID broadcast</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Bands compared (2.4/5/6)</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Wireless clients joined</div></div>
+  <div class="stat"><div class="num">9</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>Radio is a <em>shared</em> medium.</h2>
+  <p>A wired switch gives every port its own private collision-free connection. Wireless is the opposite: every device sharing a channel competes for the same airtime, like people talking in one room. That single fact drives every design decision in wireless networking — which <b>band</b> to use, which <b>channel</b> to sit on, and how to avoid stepping on neighboring access points. The CBT Miami office needs Wi-Fi for staff laptops and phones, and your job is to add it correctly the first time.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>The Network+ N10-009 exam is <b>vendor-neutral</b>. You will not be asked to type Cisco commands on test day. Packet Tracer is used here because it lets you actually broadcast an SSID, pick a channel, and watch a client associate — the best way to make abstract radio concepts concrete. Most wireless settings in Packet Tracer are configured through a device's <b>GUI Config screen</b> rather than a command line, which mirrors how real access points and home routers are set up. Focus on <i>what each setting does</i> — SSID, band, channel, encryption — because those concepts are exactly what the exam tests, regardless of vendor.</p>
+  </div>
+
+  <div class="section-head">Topology — the AP bridges wireless into the wired VLANs</div>
+  <div class="topo">
+    <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+      <rect x="20" y="20" width="860" height="40" fill="rgba(40,48,104,0.04)" stroke="#C6C6BE" stroke-width="1"/>
+      <text x="450" y="46" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="#1A2050">CBT Miami Office · Wireless access added to the Staff VLAN</text>
+
+      <!-- Switch -->
+      <rect x="380" y="90" width="140" height="56" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" rx="3"/>
+      <text x="450" y="113" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="13">SW-FLOOR1</text>
+      <text x="450" y="130" text-anchor="middle" fill="#767E92" font-size="10">access switch · VLAN 10/20</text>
+
+      <!-- Wired link to AP -->
+      <line x1="450" y1="146" x2="450" y2="190" stroke="#2A6049" stroke-width="3"/>
+      <text x="500" y="172" text-anchor="middle" fill="#2A6049" font-size="9">access port</text>
+      <text x="500" y="183" text-anchor="middle" fill="#767E92" font-size="9">VLAN 10</text>
+
+      <!-- Access Point -->
+      <rect x="400" y="190" width="100" height="44" fill="#1A2050" stroke="#E0B840" stroke-width="2.5" rx="6"/>
+      <text x="450" y="210" text-anchor="middle" fill="#E0B840" font-weight="700" font-size="12">AP-STAFF</text>
+      <text x="450" y="225" text-anchor="middle" fill="#6BC5E8" font-size="9">SSID: CBT-Staff</text>
+
+      <!-- Radio waves -->
+      <path d="M 500 200 q 30 -10 40 -30" stroke="#38B0E0" stroke-width="2" fill="none" opacity="0.7"/>
+      <path d="M 505 210 q 45 -14 58 -44" stroke="#38B0E0" stroke-width="2" fill="none" opacity="0.5"/>
+      <path d="M 400 200 q -30 -10 -40 -30" stroke="#38B0E0" stroke-width="2" fill="none" opacity="0.7"/>
+      <path d="M 395 210 q -45 -14 -58 -44" stroke="#38B0E0" stroke-width="2" fill="none" opacity="0.5"/>
+
+      <!-- Wireless clients -->
+      <rect x="180" y="280" width="120" height="46" fill="#FAFAF6" stroke="#2A6049" stroke-width="2" rx="4"/>
+      <text x="240" y="300" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">LAPTOP-1</text>
+      <text x="240" y="316" text-anchor="middle" fill="#767E92" font-size="9">wireless client · VLAN 10</text>
+      <path d="M 300 290 q 70 -30 105 -70" stroke="#38B0E0" stroke-width="2" stroke-dasharray="4,4" fill="none"/>
+      <text x="320" y="252" fill="#1E8FBE" font-size="9" font-weight="700">associates to SSID</text>
+
+      <rect x="600" y="280" width="120" height="46" fill="#FAFAF6" stroke="#2A6049" stroke-width="2" rx="4"/>
+      <text x="660" y="300" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">PHONE-1</text>
+      <text x="660" y="316" text-anchor="middle" fill="#767E92" font-size="9">wireless client · VLAN 10</text>
+      <path d="M 600 290 q -70 -30 -105 -70" stroke="#38B0E0" stroke-width="2" stroke-dasharray="4,4" fill="none"/>
+
+      <!-- DHCP note -->
+      <rect x="360" y="340" width="180" height="26" fill="rgba(56,176,224,0.10)" stroke="#1E8FBE" stroke-width="1" rx="3"/>
+      <text x="450" y="357" text-anchor="middle" fill="#1E8FBE" font-size="9" font-weight="700">clients get 192.168.10.x via DHCP</text>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#1A2050;border-color:#E0B840"></span>Access Point (AP)</span>
+      <span class="lk"><span class="sw" style="background:#FFFFFF;border-color:#1A1A1A"></span>Wired switch</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:3px;background:#2A6049"></span>Wired access link (VLAN 10)</span>
+      <span class="lk"><span style="display:inline-block;width:18px;height:0;border-top:2px dashed #38B0E0"></span>Wireless association</span>
+    </div>
+  </div>
+
+  <div class="section-head">The three frequency bands</div>
+  <p>Wi-Fi operates in unlicensed radio bands. The Network+ exam expects you to know all three and their trade-offs:</p>
+  <div class="band-grid">
+    <div class="band-card">
+      <div class="bc-freq">2.4 GHz</div>
+      <div class="bc-tag">Longest range · most crowded</div>
+      <div class="bc-row"><div class="k">Range</div><div class="v">Best — penetrates walls well</div></div>
+      <div class="bc-row"><div class="k">Speed</div><div class="v">Lowest of the three</div></div>
+      <div class="bc-row"><div class="k">Channels</div><div class="v">Only 3 non-overlapping (1, 6, 11)</div></div>
+      <div class="bc-row"><div class="k">Congestion</div><div class="v">High — microwaves, Bluetooth, neighbors</div></div>
+    </div>
+    <div class="band-card b5">
+      <div class="bc-freq">5 GHz</div>
+      <div class="bc-tag">Faster · more channels</div>
+      <div class="bc-row"><div class="k">Range</div><div class="v">Shorter — absorbed by walls more</div></div>
+      <div class="bc-row"><div class="k">Speed</div><div class="v">Higher than 2.4 GHz</div></div>
+      <div class="bc-row"><div class="k">Channels</div><div class="v">Many more non-overlapping channels</div></div>
+      <div class="bc-row"><div class="k">Congestion</div><div class="v">Lower than 2.4 GHz</div></div>
+    </div>
+    <div class="band-card b6">
+      <div class="bc-freq">6 GHz</div>
+      <div class="bc-tag">Newest · widest · Wi-Fi 6E/7</div>
+      <div class="bc-row"><div class="k">Range</div><div class="v">Shortest — least wall penetration</div></div>
+      <div class="bc-row"><div class="k">Speed</div><div class="v">Highest — very wide channels</div></div>
+      <div class="bc-row"><div class="k">Channels</div><div class="v">Most spectrum, many wide channels</div></div>
+      <div class="bc-row"><div class="k">Congestion</div><div class="v">Lowest — newest, least used</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Band steering</h5>
+    <p>Many dual-band/tri-band APs broadcast the <i>same SSID</i> on multiple bands and use <b>band steering</b> to nudge capable clients onto the less-congested, faster band (typically 5 GHz or 6 GHz) instead of letting everything pile onto 2.4 GHz. The client still sees one network name; the AP decides which band it lands on.</p>
+  </div>
+
+  <div class="section-head">Channels and why 1, 6, 11 matter</div>
+  <p>Each band is divided into <b>channels</b>. The catch in the 2.4 GHz band: channels are spaced so closely that adjacent channels <i>overlap</i> and interfere. Out of channels 1–11 (in North America), only <b>1, 6, and 11</b> don't overlap each other. That's why every well-designed 2.4 GHz deployment uses only those three — neighboring APs are assigned different non-overlapping channels so their signals don't collide.</p>
+  <div class="topo">
+    <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+      <text x="20" y="24" fill="#1A2050" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14">2.4 GHz channel overlap — only 1, 6, 11 are non-overlapping</text>
+      <!-- baseline -->
+      <line x1="40" y1="150" x2="860" y2="150" stroke="#1A1A1A" stroke-width="1.5"/>
+      <!-- overlapping channels (faint) -->
+      <path d="M 80 150 q 60 -50 120 0" fill="rgba(150,152,144,0.25)" stroke="#989890" stroke-width="1"/>
+      <path d="M 160 150 q 60 -50 120 0" fill="rgba(150,152,144,0.25)" stroke="#989890" stroke-width="1"/>
+      <path d="M 240 150 q 60 -50 120 0" fill="rgba(150,152,144,0.25)" stroke="#989890" stroke-width="1"/>
+      <path d="M 400 150 q 60 -50 120 0" fill="rgba(150,152,144,0.25)" stroke="#989890" stroke-width="1"/>
+      <path d="M 560 150 q 60 -50 120 0" fill="rgba(150,152,144,0.25)" stroke="#989890" stroke-width="1"/>
+      <!-- non-overlapping highlighted: ch1, ch6, ch11 -->
+      <path d="M 80 150 q 60 -70 120 0" fill="rgba(42,96,73,0.35)" stroke="#2A6049" stroke-width="2.5"/>
+      <text x="140" y="70" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="13">CH 1</text>
+      <path d="M 400 150 q 60 -70 120 0" fill="rgba(30,143,190,0.30)" stroke="#1E8FBE" stroke-width="2.5"/>
+      <text x="460" y="70" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="13">CH 6</text>
+      <path d="M 720 150 q 60 -70 120 0" fill="rgba(184,147,42,0.30)" stroke="#B8932A" stroke-width="2.5"/>
+      <text x="780" y="70" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="13">CH 11</text>
+      <!-- axis labels -->
+      <text x="140" y="170" text-anchor="middle" fill="#767E92" font-size="10">2412 MHz</text>
+      <text x="460" y="170" text-anchor="middle" fill="#767E92" font-size="10">2437 MHz</text>
+      <text x="780" y="170" text-anchor="middle" fill="#767E92" font-size="10">2462 MHz</text>
+      <text x="450" y="192" text-anchor="middle" fill="#989890" font-size="9" font-style="italic">Faint humps = overlapping channels (2,3,4,5,7…) — avoid using these adjacent to each other</text>
+    </svg>
+  </div>
+
+  <div class="section-head">SSID, BSSID, and ESSID</div>
+  <table class="iptable">
+    <thead>
+      <tr><th>Term</th><th>What it is</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="device">SSID</td><td>Service Set Identifier — the human-readable network name a client sees and joins.</td><td class="iface">CBT-Staff</td></tr>
+      <tr><td class="device">BSSID</td><td>Basic SSID — the MAC address of a single AP's radio. Uniquely identifies <i>one</i> access point.</td><td class="iface">00A1.B2C3.D4E5</td></tr>
+      <tr><td class="device">ESSID</td><td>Extended SSID — the same SSID shared by <i>multiple</i> APs so clients roam seamlessly across them (one logical network, many APs).</td><td class="iface">CBT-Staff (on 3 APs)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">Success Criteria</div>
+  <div class="criteria">
+    <h4>By the end of this lab you must demonstrate:</h4>
+    <ol>
+      <li><b>An access point added</b> to the topology and wired into the switch on a VLAN 10 access port.</li>
+      <li><b>SSID configured</b> and broadcasting as <code>CBT-Staff</code>.</li>
+      <li><b>A specific non-overlapping channel selected</b> (channel 1, 6, or 11) rather than left on "auto" — and you can state why.</li>
+      <li><b>WPA2-PSK security enabled</b> on the AP with a passphrase (open networks are never acceptable for staff use).</li>
+      <li><b>Two wireless clients</b> (a laptop and a smartphone) configured with the SSID and passphrase.</li>
+      <li><b>Both clients associate</b> to the AP and obtain an IP address in the VLAN 10 subnet (192.168.10.x).</li>
+      <li><b>Wireless-to-wired connectivity:</b> a wireless client can ping a wired host or its default gateway.</li>
+      <li><b>Wireless-to-wireless connectivity:</b> the laptop can ping the smartphone through the AP.</li>
+      <li><b>Configuration saved</b> (the .pkt file) with all settings intact.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <h5>Why this matters for the Network+ exam</h5>
+    <p>Objective 2.3 explicitly names <b>channels</b>, <b>channel width</b>, <b>non-overlapping channels</b>, <b>2.4/5/6 GHz</b>, <b>band steering</b>, and <b>SSID/BSSID/ESSID</b>. Expect questions like: "Which 2.4 GHz channels are non-overlapping?", "Which band offers the best range?", and "What is the difference between an SSID and a BSSID?" This lab gives you hands-on contact with every one of those terms.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>Add the <em>access point.</em></h2>
+  <p>You can build on your Miami topology from the 2.2 series, or start a small fresh topology with one switch. Either way you'll add one AP, one laptop, and one smartphone, and give the wireless clients radio cards.</p>
+
+  <div class="section-head">Prepare the workspace</div>
+  <div class="step" data-step="1">
+    <h4>Open your Miami topology (or build a minimal one)</h4>
+    <p>If continuing the series: open your Lab 2.2.x file and Save As <code>Lab-2.3.1-Wireless-Lastname-Firstname.pkt</code>. If starting fresh: place one <code>2960</code> switch and (optionally) a DHCP-capable router or server for VLAN 10 addressing.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Confirm a DHCP source for VLAN 10</h4>
+    <p>Wireless clients will request IPs via DHCP. Make sure something hands out 192.168.10.x addresses — either the Layer 3 switch/router SVI with a DHCP pool, or a dedicated server. (You can also assign static IPs to the clients if you prefer.)</p>
+  </div>
+
+  <div class="section-head">Place the wireless devices</div>
+  <div class="step" data-step="3">
+    <h4>Drag an Access Point onto the canvas</h4>
+    <p>From the device tray: <b>Network Devices → Wireless Devices</b>, drag an <code>Access Point</code> (AP-PT). Place it near SW-FLOOR1. Rename it <code>AP-STAFF</code> via Config → Display Name.</p>
+  </div>
+  <div class="step" data-step="4">
+    <h4>Wire the AP to the switch</h4>
+    <p>Use a <b>Copper Straight-Through</b> cable from the AP's <code>Port 0</code> (the wired Ethernet port, sometimes labeled "Port0/FastEthernet") to a switch access port, e.g., SW-FLOOR1 <code>Fa0/5</code>. This port must be an access port in VLAN 10 so wireless clients land on the Staff VLAN.</p>
+  </div>
+  <div class="step" data-step="5">
+    <h4>Drag a Laptop and a Smartphone</h4>
+    <p>From <b>End Devices</b>: drag a <code>Laptop</code> and a <code>Smartphone</code> (or a second laptop/tablet). Rename them <code>LAPTOP-1</code> and <code>PHONE-1</code>.</p>
+  </div>
+  <div class="step" data-step="6">
+    <h4>Give the laptop a wireless NIC (if needed)</h4>
+    <p>Laptops in Packet Tracer ship with a wired NIC. To add Wi-Fi: click the laptop → <b>Physical</b> tab → power it <b>off</b> (the red button) → drag the existing wired module out of the slot → drag in a <code>WMP300N</code> (or <code>WPC300N</code>) wireless module → power it back <b>on</b>. Smartphones and tablets already have wireless built in.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Don't forget to power-cycle when swapping modules</h5>
+    <p>Packet Tracer will not let you remove or insert a network module while the device is powered on. Always click the power button to turn the device off first, swap the module, then turn it back on. Forgetting this is the #1 reason students "can't find the wireless option."</p>
+  </div>
+
+  <p>Once the AP is wired in and your clients have wireless cards, move to the Configure tab.</p>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Broadcast and <em>secure</em> the SSID.</h2>
+  <p>Wireless settings in Packet Tracer live in each device's <b>Config</b> GUI, not a command line — except the switch port the AP plugs into, which is real CLI. Apply the switch port config first, then the AP, then the clients.</p>
+
+  <!-- Switch port — real CLI -->
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">Configuration · 01 of 03 — switch side (CLI)</span>
+      <span class="term-concept">Concept: AP connects to an access port placed in the target VLAN</span>
+      <span class="term-device">SW-FLOOR1</span>
+      <button class="copy-btn" data-copy="cfg-sw">Copy</button>
+    </div>
+    <div class="term-body">
+<pre id="cfg-sw"><span class="comment">! ===== SW-FLOOR1 — access port for the AP =====</span>
+enable
+configure terminal
+
+interface FastEthernet0/5
+ description AP-STAFF uplink
+ switchport mode access
+ switchport access vlan 10
+ <span class="comment">! Wireless clients on this AP will appear in VLAN 10 (Staff).
+ ! (A single-SSID AP uses an access port. Multi-SSID APs that map
+ !  different SSIDs to different VLANs would use a trunk instead.)</span>
+ spanning-tree portfast
+ no shutdown
+exit
+
+end
+copy running-config startup-config</pre>
+    </div>
+  </div>
+
+  <!-- AP — GUI config -->
+  <div class="gui-config">
+    <div class="gui-head">
+      <span class="gui-title">Configuration · 02 of 03 — Access Point GUI</span>
+      <span class="gui-concept">Concept: SSID broadcast · band/channel selection · WPA2-PSK</span>
+      <span class="gui-device">AP-STAFF → Config → Port 1 (Wireless)</span>
+    </div>
+    <div class="gui-body">
+      <div class="gui-field">
+        <div class="gf-label">Navigate to</div>
+        <div class="gf-value">Click <b>AP-STAFF</b> → <b>Config</b> tab → <b>Port 1</b> (the wireless interface)</div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">SSID</div>
+        <div class="gf-value"><b>CBT-Staff</b><span class="note">The network name clients will see and join. Case-sensitive.</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">Channel</div>
+        <div class="gf-value"><b>6</b><span class="note">A non-overlapping 2.4 GHz channel (1, 6, or 11). Do NOT leave on auto for this lab — you must choose deliberately.</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">Authentication</div>
+        <div class="gf-value"><b>WPA2-PSK</b><span class="note">Select the WPA2-PSK radio button (not Disabled, not WEP).</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">PSK Pass Phrase</div>
+        <div class="gf-value"><b>CBTwifi2024!</b><span class="note">8+ characters. Clients must enter this exact phrase to join.</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">Encryption</div>
+        <div class="gf-value"><b>AES</b><span class="note">WPA2 uses AES (CCMP). Leave at the default AES — never TKIP-only if AES is available.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clients — GUI config -->
+  <div class="gui-config">
+    <div class="gui-head">
+      <span class="gui-title">Configuration · 03 of 03 — Wireless clients GUI</span>
+      <span class="gui-concept">Concept: client joins SSID with matching security · obtains IP via DHCP</span>
+      <span class="gui-device">LAPTOP-1 &amp; PHONE-1 → Config → Wireless0</span>
+    </div>
+    <div class="gui-body">
+      <div class="gui-field">
+        <div class="gf-label">Navigate to</div>
+        <div class="gf-value">Click the client → <b>Config</b> tab → <b>Wireless0</b> interface</div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">SSID</div>
+        <div class="gf-value"><b>CBT-Staff</b><span class="note">Must match the AP exactly (case-sensitive).</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">Authentication</div>
+        <div class="gf-value"><b>WPA2-PSK</b> + pass phrase <b>CBTwifi2024!</b><span class="note">Must match the AP's security settings exactly or the client won't associate.</span></div>
+      </div>
+      <div class="gui-field">
+        <div class="gf-label">IP Configuration</div>
+        <div class="gf-value"><b>DHCP</b><span class="note">Config → Settings → Gateway/DNS = DHCP, and on the Wireless0 interface set IP to DHCP. The client should pull a 192.168.10.x address once associated.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h5>Watch the link turn green</h5>
+    <p>As soon as a client's SSID and security match the AP, Packet Tracer draws a dotted wireless link between them and the radio LED turns green. If the link stays red or never appears, the SSID or passphrase doesn't match — re-check both ends character by character.</p>
+  </div>
+
+  <div class="callout sim-note">
+    <h5>Simulator note — bands in Packet Tracer</h5>
+    <p>The basic AP-PT models the 2.4 GHz band with channels 1–11, which is why this lab uses channel 6. Packet Tracer does not fully simulate 5 GHz/6 GHz channel planning or band steering the way real dual-band hardware does — those are <b>exam knowledge</b> covered in the Brief tab. The concepts (more channels, less congestion, shorter range at higher frequencies) are what the N+ exam tests; the hands-on portion here proves the 2.4 GHz channel + SSID + WPA2 workflow.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Confirm the <em>clients</em> are on.</h2>
+  <p>Nine checks. Click each as you confirm it; progress saves in your browser.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 9 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>AP is wired and link is up</b> — The cable from AP-STAFF Port 0 to SW-FLOOR1 Fa0/5 shows green link lights on both ends.</div>
+    <div class="ccmd">green link lights</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>SSID is broadcasting</b> — On AP-STAFF: Config → Port 1 shows SSID <code>CBT-Staff</code>, channel 6, WPA2-PSK enabled.</div>
+    <div class="ccmd">AP Config → Port 1</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>A non-overlapping channel is selected</b> — The channel is set to <b>1, 6, or 11</b> (not auto, not 3 or 8). You can explain in your write-up why these three are the only non-overlapping choices in 2.4 GHz.</div>
+    <div class="ccmd">channel = 1 / 6 / 11</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>LAPTOP-1 associates</b> — A dotted wireless link appears between LAPTOP-1 and AP-STAFF, with green radio status. SSID and PSK match.</div>
+    <div class="ccmd">wireless link up</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>PHONE-1 associates</b> — A dotted wireless link appears between PHONE-1 and AP-STAFF with green status.</div>
+    <div class="ccmd">wireless link up</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Clients get DHCP addresses</b> — On each client: Desktop → IP Configuration (or Config → Wireless0) shows a leased <code>192.168.10.x</code> address with the correct mask and gateway.</div>
+    <div class="ccmd">192.168.10.x via DHCP</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Wireless client reaches its gateway</b> — From LAPTOP-1: <code>ping 192.168.10.1</code> (the VLAN 10 gateway). Should succeed.</div>
+    <div class="ccmd">ping 192.168.10.1</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Wireless-to-wireless ping</b> — From LAPTOP-1, ping PHONE-1's IP address. Should succeed — both associate to the same AP and same VLAN.</div>
+    <div class="ccmd">ping (phone IP)</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Wireless-to-wired ping</b> — From LAPTOP-1, ping a wired host on VLAN 10 (e.g., PC-S1 from earlier labs). Should succeed — proving the AP bridges wireless into the wired VLAN.</div>
+    <div class="ccmd">ping (wired VLAN 10 host)</div>
+  </div>
+
+  <div class="section-head">What "good" looks like</div>
+  <div class="callout">
+    <h5>Association vs IP vs reachability — three separate milestones</h5>
+    <p>Wireless troubleshooting follows a chain: first the client <b>associates</b> (radio link, correct SSID + PSK), then it <b>gets an IP</b> (DHCP working over the wireless-to-wired bridge), then it has <b>reachability</b> (ping). If a ping fails, figure out which milestone broke: no green link = association problem; link but <code>169.254.x.x</code> address = DHCP problem; valid IP but no ping = a Layer 3 / VLAN / gateway problem. Diagnosing in that order is exactly the methodical approach the exam rewards.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When the client <em>won't join.</em></h2>
+  <p>Seven wireless failure modes. Most "no Wi-Fi" problems are an SSID or security mismatch.</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client never shows a wireless link to the AP</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">SSID mismatch (typo or wrong case), or the client has no wireless NIC installed.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Compare the SSID on the client (Config → Wireless0) to the AP (Config → Port 1) character by character. Check the client's Physical tab for a wireless module.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Correct the SSID to match exactly, or power off the client and install a wireless module (WMP300N).</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Wireless link appears briefly, then drops (red)</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Security mismatch — the authentication type or pass phrase differs between client and AP.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Confirm both sides use the same method (WPA2-PSK) and the identical pass phrase. A single wrong character fails association.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Re-enter the exact pass phrase (<code>CBTwifi2024!</code>) on both AP and client.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client associates but gets a 169.254.x.x address</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">APIPA — the client requested DHCP but got no response. The wireless-to-wired path to the DHCP server is broken, or no DHCP source exists for VLAN 10.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check the switch port to the AP is in VLAN 10 and up. Verify a DHCP pool/server serves 192.168.10.0/24.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Place the AP's switch port in VLAN 10, and ensure the DHCP source is reachable. Then renew DHCP on the client.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client has a valid IP but cannot ping the gateway</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">A Layer 3 issue — wrong gateway on the client, or the VLAN 10 SVI/gateway is down. Not a wireless problem at all.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Confirm the client's default gateway matches the VLAN 10 gateway (192.168.10.1) and that the gateway interface is up.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Correct the gateway, or bring up the VLAN 10 gateway interface. (See Lab 2.2.2 for inter-VLAN gateway setup.)</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Wi-Fi is slow / unreliable when neighboring APs exist</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">Co-channel or adjacent-channel interference — multiple APs on the same or overlapping 2.4 GHz channels competing for airtime.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check what channels nearby APs use. Two APs on channel 6 next to each other will contend; an AP on channel 3 overlaps both 1 and 6.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Assign non-overlapping channels (1, 6, 11) to neighboring APs so their coverage areas don't interfere.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">The wireless option is missing from the laptop entirely</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The laptop still has only its wired NIC; no wireless module was installed (and you cannot swap modules while powered on).</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Laptop → Physical tab — is a wireless module present in the slot?</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Power off the laptop, remove the wired module, install a WMP300N wireless module, power back on.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Everyone can join the SSID with no password</div>
+    <div class="ts-row"><div class="k">Cause</div><div class="v">The AP authentication is set to Disabled (open network) instead of WPA2-PSK. This is a security failure, not just a config oversight.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">AP → Config → Port 1 — check the Authentication setting.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Set Authentication to WPA2-PSK with a strong pass phrase. Never run an open SSID for staff/corporate access.</div></div>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Submit your <em>work.</em></h2>
+
+  <div class="submit-card">
+    <h3>Deliverables — what to upload to Canvas</h3>
+    <p>This lab counts for <b>100 points</b> in the CIT-281 gradebook. Upload all four items to the Canvas assignment <b>Lab 2.3.1 — Wireless Fundamentals</b>.</p>
+    <ul>
+      <li><b>The .pkt file</b> — named <code>Lab-2.3.1-Wireless-Lastname-Firstname.pkt</code>.</li>
+      <li><b>A single PDF</b> with screenshots of (a) the AP Config → Port 1 screen showing SSID, channel, and WPA2-PSK, (b) LAPTOP-1 associated with a valid 192.168.10.x IP, (c) PHONE-1 associated with a valid IP, (d) a successful ping from LAPTOP-1 to its gateway, and (e) a successful ping from LAPTOP-1 to PHONE-1.</li>
+      <li><b>A short Network+-style write-up</b> (≤ 400 words) answering: <i>"(a) Name the three Wi-Fi frequency bands and give one advantage of each. (b) Which 2.4 GHz channels are non-overlapping, and why does using only those three matter? (c) Explain the difference between an SSID, a BSSID, and an ESSID. (d) What is band steering and what problem does it solve?"</i></li>
+      <li><b>The check-list</b> — confirm in the assignment comment box that all 9 verification checks (Verify tab) passed.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Grading rubric</div>
+  <table class="rubric">
+    <thead>
+      <tr><th>Criterion</th><th class="pts">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Access point added and wired to the switch on a VLAN 10 access port</td><td class="pts">10</td></tr>
+      <tr><td>SSID configured and broadcasting as CBT-Staff</td><td class="pts">15</td></tr>
+      <tr><td>A specific non-overlapping channel (1, 6, or 11) deliberately selected</td><td class="pts">15</td></tr>
+      <tr><td>WPA2-PSK security enabled with a pass phrase (not open, not WEP)</td><td class="pts">15</td></tr>
+      <tr><td>Both wireless clients configured with matching SSID and security</td><td class="pts">10</td></tr>
+      <tr><td>Both clients associate and obtain 192.168.10.x via DHCP</td><td class="pts">15</td></tr>
+      <tr><td>Wireless-to-wired ping succeeds (client to gateway or wired host)</td><td class="pts">10</td></tr>
+      <tr><td>Wireless-to-wireless ping succeeds (laptop to phone)</td><td class="pts">5</td></tr>
+      <tr><td>Write-up correctly explains bands, non-overlapping channels, and SSID/BSSID/ESSID</td><td class="pts">5</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td class="pts">100</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout">
+    <h5>Late policy</h5>
+    <p>Labs are due by <b>11:59 PM the Sunday following the week they are assigned</b>. Submissions up to 48 hours late receive a 10% penalty; submissions more than 48 hours late receive a 25% penalty. After 7 days, no submission is accepted without a documented excuse.</p>
+  </div>
+
+  <div class="callout warn">
+    <h5>Academic integrity</h5>
+    <p>You may discuss approaches with classmates and ask your Professor or Faculty Lead for help in the lab. You may <b>not</b> copy another student's .pkt file. Packet Tracer files contain metadata; identical files are easy to detect. Build it yourself — that's the entire point of a hands-on course.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 2.3.1 of 4 for Network+ N10-009 subtopic <b style="color:#E0B840">2.3 Wireless Technologies &amp; Features</b>. The first wireless lab — adds an access point to the Miami office, introduces SSID/BSSID/ESSID, the three frequency bands, non-overlapping channels, and WPA2-PSK. Built around the Cisco Packet Tracer environment used throughout the CBT networking curriculum.</p>
+    </div>
+    <div>
+      <h4>Lab series</h4>
+      <p>2.3.1 · Wireless Fundamentals ← you are here</p>
+      <p style="opacity:0.55">2.3.2 · Wireless Security (WPA2/WPA3, Enterprise)</p>
+      <p style="opacity:0.55">2.3.3 · Enterprise Wireless &amp; the WLC</p>
+      <p style="opacity:0.55">2.3.4 · Wireless Design &amp; Troubleshooting</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any issue with this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Interactive Lab Artifact · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-2.3.1-checks';
+const TOTAL_CHECKS = 9;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
