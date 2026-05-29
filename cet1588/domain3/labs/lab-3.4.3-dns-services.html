@@ -244,7 +244,7 @@
   <div>
     <div class="eyebrow">Lab 3.4.3 · Packet Tracer · ≈ 50 min</div>
     <h1>Give the network <em>names.</em></h1>
-    <p class="lede">Computers move data by IP address; humans use names. <b>DNS</b> is the service that bridges the two, and in this lab you'll build one. You'll stand up a DNS server on the Miami management subnet, populate it with the record types the exam tests \u2014 <b>A</b>, <b>AAAA</b>, <b>CNAME</b>, <b>MX</b>, and a <b>PTR</b> for reverse lookups \u2014 hand the server's address out to clients (via DHCP, from Lab 3.4.1), and verify the whole chain with <code>nslookup</code> and ping-by-name.</p>
+    <p class="lede">Computers move data by IP address; humans use names. <b>DNS</b> is the service that bridges the two, and in this lab you'll build one. You'll stand up a DNS server on the Miami management subnet, populate it with the record types the exam tests ,  <b>A</b>, <b>AAAA</b>, <b>CNAME</b>, <b>MX</b>, and a <b>PTR</b> for reverse lookups ,  hand the server's address out to clients (via DHCP, from Lab 3.4.1), and verify the whole chain with <code>nslookup</code> and ping-by-name.</p>
   </div>
   <aside class="ref-card">
     <div class="label">Lab Specification</div>
@@ -282,7 +282,7 @@
 <!-- ============== TAB 1 · BRIEF ============== -->
 <section class="panel active" id="panel-brief">
   <h2>The service that <em>translates names.</em></h2>
-  <p>When a user types <code>www.miami.cbt</code>, their device first has to find the IP address that lives behind that name. <b>DNS</b> (Domain Name System) is the directory that maps names to addresses (and vice-versa). The directory is made of <b>records</b>, each with a specific job: A records hold IPv4 addresses, AAAA records hold IPv6 addresses, CNAME records create aliases, MX records direct mail, PTR records do the reverse \u2014 IP back to name. You'll build one of each.</p>
+  <p>When a user types <code>www.miami.cbt</code>, their device first has to find the IP address that lives behind that name. <b>DNS</b> (Domain Name System) is the directory that maps names to addresses (and vice-versa). The directory is made of <b>records</b>, each with a specific job: A records hold IPv4 addresses, AAAA records hold IPv6 addresses, CNAME records create aliases, MX records direct mail, PTR records do the reverse ,  IP back to name. You'll build one of each.</p>
 
   <div class="callout n-plus-context">
     <h5>Network+ Context — Read this first</h5>
@@ -303,13 +303,13 @@
       <h4>CNAME record</h4>
       <div class="mc-row"><div class="k">Maps</div><div class="v">An alias (canonical name) to another name. <code>mail.miami.cbt \u2192 server.miami.cbt</code></div></div>
       <div class="mc-row"><div class="k">Why</div><div class="v">One server reached by many names without duplicating A records</div></div>
-      <div class="mc-row"><div class="k">Resolves to</div><div class="v">An A or AAAA record (eventually \u2014 it doesn't hold an IP itself)</div></div>
+      <div class="mc-row"><div class="k">Resolves to</div><div class="v">An A or AAAA record (eventually ,  it doesn't hold an IP itself)</div></div>
     </div>
     <div class="method-card">
       <div class="mc-tag">MAIL \u00b7 DOMAIN \u2192 MAIL SERVER</div>
       <h4>MX record</h4>
       <div class="mc-row"><div class="k">Maps</div><div class="v">A domain to the host that accepts mail for it. <code>miami.cbt \u2192 mail.miami.cbt (priority 10)</code></div></div>
-      <div class="mc-row"><div class="k">Carries</div><div class="v">A <b>priority</b> value \u2014 lower is preferred when there are multiple MX records</div></div>
+      <div class="mc-row"><div class="k">Carries</div><div class="v">A <b>priority</b> value ,  lower is preferred when there are multiple MX records</div></div>
       <div class="mc-row"><div class="k">Used by</div><div class="v">Mail servers (SMTP) to know where to deliver a message</div></div>
     </div>
     <div class="method-card dir">
@@ -322,8 +322,8 @@
   </div>
 
   <div class="callout warn">
-    <h5>Forward vs reverse \u2014 the key distinction</h5>
-    <p><b>Forward resolution</b> (the common case): client has a name, asks DNS for the IP. Uses A/AAAA records in a <b>forward zone</b>. <b>Reverse resolution</b>: client has an IP, asks DNS for the name. Uses PTR records in a <b>reverse zone</b>. They use <i>different records and different zones</i> \u2014 a server can do forward without doing reverse, which is why reverse lookups so often fail in the real world.</p>
+    <h5>Forward vs reverse ,  the key distinction</h5>
+    <p><b>Forward resolution</b> (the common case): client has a name, asks DNS for the IP. Uses A/AAAA records in a <b>forward zone</b>. <b>Reverse resolution</b>: client has an IP, asks DNS for the name. Uses PTR records in a <b>reverse zone</b>. They use <i>different records and different zones</i> ,  a server can do forward without doing reverse, which is why reverse lookups so often fail in the real world.</p>
   </div>
 
   <div class="section-head">What you'll build</div>
@@ -337,7 +337,7 @@
 
   <div class="callout">
     <h5>Why this lab matters</h5>
-    <p>Almost every "the Internet is broken" incident is, at some level, a DNS incident \u2014 wrong record, expired record, server unreachable, slow lookup. Building a DNS server end-to-end \u2014 records, zones, options, verification \u2014 is the difference between memorizing what each record type does and actually trusting your name resolution.</p>
+    <p>Almost every "the Internet is broken" incident is, at some level, a DNS incident ,  wrong record, expired record, server unreachable, slow lookup. Building a DNS server end-to-end ,  records, zones, options, verification ,  is the difference between memorizing what each record type does and actually trusting your name resolution.</p>
   </div>
 </section>
 
@@ -402,15 +402,15 @@
       <tr><td class="device">A</td><td class="iface">server.miami.cbt</td><td>192.168.99.50</td><td>Same host, primary name</td></tr>
       <tr><td class="device">A</td><td class="iface">mail.miami.cbt</td><td>192.168.99.50</td><td>Mail handler (same host for the lab)</td></tr>
       <tr><td class="device">AAAA</td><td class="iface">server.miami.cbt</td><td>fd00:abcd:99::50</td><td>IPv6 equivalent (ULA from Explorer 3.4.2)</td></tr>
-      <tr><td class="device">CNAME</td><td class="iface">intranet.miami.cbt</td><td>server.miami.cbt</td><td>Alias \u2014 resolves to the A record above</td></tr>
+      <tr><td class="device">CNAME</td><td class="iface">intranet.miami.cbt</td><td>server.miami.cbt</td><td>Alias ,  resolves to the A record above</td></tr>
       <tr><td class="device">MX</td><td class="iface">miami.cbt</td><td>mail.miami.cbt (priority 10)</td><td>Mail handler for the domain</td></tr>
-      <tr><td class="device">PTR</td><td class="iface">192.168.99.50</td><td>server.miami.cbt</td><td>Reverse lookup \u2014 in the reverse zone</td></tr>
+      <tr><td class="device">PTR</td><td class="iface">192.168.99.50</td><td>server.miami.cbt</td><td>Reverse lookup ,  in the reverse zone</td></tr>
     </tbody>
   </table>
 
   <div class="callout warn">
     <h5>Reach the server first</h5>
-    <p>Before you configure records, the clients must be able to <b>reach</b> the DNS server (192.168.99.20). From any client with a DHCP lease: <code>ping 192.168.99.20</code> must succeed. If it doesn't, fix routing/relay/scope first \u2014 a server you can't reach can't answer queries.</p>
+    <p>Before you configure records, the clients must be able to <b>reach</b> the DNS server (192.168.99.20). From any client with a DHCP lease: <code>ping 192.168.99.20</code> must succeed. If it doesn't, fix routing/relay/scope first ,  a server you can't reach can't answer queries.</p>
   </div>
 
   <div class="step" data-step="1">
@@ -451,12 +451,12 @@
   <div class="gui-config">
     <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: A Record</span></div>
     <div class="gui-body">
-      <div class="gui-field"><span class="gf-label">Record 1 \u2014 Name</span><span class="gf-val"><code>www.miami.cbt</code></span></div>
-      <div class="gui-field"><span class="gf-label">Record 1 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
-      <div class="gui-field"><span class="gf-label">Record 2 \u2014 Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
-      <div class="gui-field"><span class="gf-label">Record 2 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
-      <div class="gui-field"><span class="gf-label">Record 3 \u2014 Name</span><span class="gf-val"><code>mail.miami.cbt</code></span></div>
-      <div class="gui-field"><span class="gf-label">Record 3 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 1 ,  Name</span><span class="gf-val"><code>www.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 1 ,  Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 2 ,  Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 2 ,  Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 3 ,  Name</span><span class="gf-val"><code>mail.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 3 ,  Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
       <div class="gui-field"><span class="gf-label">After each row</span><span class="gf-val">Click <b>Add</b>. The new record appears in the list at the bottom.</span></div>
     </div>
   </div>
@@ -468,17 +468,17 @@
     <div class="gui-body">
       <div class="gui-field"><span class="gf-label">Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
       <div class="gui-field"><span class="gf-label">Address (IPv6)</span><span class="gf-val"><code>fd00:abcd:99::50</code></span></div>
-      <div class="gui-field"><span class="gf-label">Then</span><span class="gf-val"><b>Add</b>. The same name (<code>server.miami.cbt</code>) now has both an A and an AAAA \u2014 the client picks whichever it asks for.</span></div>
+      <div class="gui-field"><span class="gf-label">Then</span><span class="gf-val"><b>Add</b>. The same name (<code>server.miami.cbt</code>) now has both an A and an AAAA ,  the client picks whichever it asks for.</span></div>
     </div>
   </div>
 
   <div class="callout warn">
-    <h5>One name, two answers \u2014 totally normal</h5>
+    <h5>One name, two answers ,  totally normal</h5>
     <p>A host can have both an <b>A</b> and a <b>AAAA</b> record. A client that asks for the IPv4 address gets the A; one that asks for IPv6 gets the AAAA. This is how dual-stack networks work in practice.</p>
   </div>
 
   <div class="section-head">Part D · CNAME (alias \u2192 another name)</div>
-  <p>Type = <b>CNAME</b>. CNAMEs don't hold IP addresses \u2014 they hold <i>another name</i> that the server then resolves. Add an alias for the intranet.</p>
+  <p>Type = <b>CNAME</b>. CNAMEs don't hold IP addresses ,  they hold <i>another name</i> that the server then resolves. Add an alias for the intranet.</p>
   <div class="gui-config">
     <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: CNAME</span></div>
     <div class="gui-body">
@@ -512,8 +512,8 @@
   </div>
 
   <div class="callout sim-note">
-    <h5>Packet Tracer scope note \u2014 the zone behind the curtain</h5>
-    <p>On real DNS servers, reverse lookups use a special zone tied to the address range \u2014 for 192.168.99.0/24 it\u2019s <code>99.168.192.in-addr.arpa</code>. Packet Tracer hides that machinery; just adding the PTR with the IP as the &ldquo;name&rdquo; is enough. The exam may ask about the <code>.in-addr.arpa</code> naming, so it\u2019s worth knowing even though PT doesn\u2019t show it.</p>
+    <h5>Packet Tracer scope note ,  the zone behind the curtain</h5>
+    <p>On real DNS servers, reverse lookups use a special zone tied to the address range ,  for 192.168.99.0/24 it\u2019s <code>99.168.192.in-addr.arpa</code>. Packet Tracer hides that machinery; just adding the PTR with the IP as the &ldquo;name&rdquo; is enough. The exam may ask about the <code>.in-addr.arpa</code> naming, so it\u2019s worth knowing even though PT doesn\u2019t show it.</p>
   </div>
 
   <div class="section-head">Part G · Renew clients so they pick up the DNS server</div>
@@ -523,7 +523,7 @@
 <!-- ============== TAB 4 · VERIFY ============== -->
 <section class="panel" id="panel-verify">
   <h2>Prove every record <em>resolves.</em></h2>
-  <p>Ten checks. The pattern: pick a record on the server, ask the client to resolve it, compare. The headline check is 9 \u2014 reverse resolution from an IP back to a name, which is what tells you the PTR is wired up.</p>
+  <p>Ten checks. The pattern: pick a record on the server, ask the client to resolve it, compare. The headline check is 9 ,  reverse resolution from an IP back to a name, which is what tells you the PTR is wired up.</p>
 
   <div class="check-progress">
     <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
@@ -538,53 +538,53 @@
   </div>
   <div class="check-row" data-check="2">
     <div class="cbox"></div>
-    <div class="cdesc"><b>DNS option pushed</b> \u2014 clients with a DHCP lease show <code>DNS Server = 192.168.99.20</code> in <code>ipconfig /all</code>.</div>
+    <div class="cdesc"><b>DNS option pushed</b> ,  clients with a DHCP lease show <code>DNS Server = 192.168.99.20</code> in <code>ipconfig /all</code>.</div>
     <div class="ccmd">dhcp \u2192 dns</div>
   </div>
   <div class="check-row" data-check="3">
     <div class="cbox"></div>
-    <div class="cdesc"><b>A record resolves</b> \u2014 from a client: <code>nslookup www.miami.cbt</code> returns 192.168.99.50.</div>
+    <div class="cdesc"><b>A record resolves</b> ,  from a client: <code>nslookup www.miami.cbt</code> returns 192.168.99.50.</div>
     <div class="ccmd">A</div>
   </div>
   <div class="check-row" data-check="4">
     <div class="cbox"></div>
-    <div class="cdesc"><b>AAAA record resolves</b> \u2014 <code>nslookup server.miami.cbt</code> (or AAAA query) returns the IPv6 address <code>fd00:abcd:99::50</code>.</div>
+    <div class="cdesc"><b>AAAA record resolves</b> ,  <code>nslookup server.miami.cbt</code> (or AAAA query) returns the IPv6 address <code>fd00:abcd:99::50</code>.</div>
     <div class="ccmd">AAAA</div>
   </div>
   <div class="check-row" data-check="5">
     <div class="cbox"></div>
-    <div class="cdesc"><b>CNAME follows correctly</b> \u2014 <code>nslookup intranet.miami.cbt</code> shows the alias and resolves to 192.168.99.50.</div>
+    <div class="cdesc"><b>CNAME follows correctly</b> ,  <code>nslookup intranet.miami.cbt</code> shows the alias and resolves to 192.168.99.50.</div>
     <div class="ccmd">CNAME</div>
   </div>
   <div class="check-row" data-check="6">
     <div class="cbox"></div>
-    <div class="cdesc"><b>MX record visible</b> \u2014 querying for MX on <code>miami.cbt</code> returns <code>mail.miami.cbt</code> with priority 10.</div>
+    <div class="cdesc"><b>MX record visible</b> ,  querying for MX on <code>miami.cbt</code> returns <code>mail.miami.cbt</code> with priority 10.</div>
     <div class="ccmd">MX</div>
   </div>
   <div class="check-row" data-check="7">
     <div class="cbox"></div>
-    <div class="cdesc"><b>Ping-by-name works</b> \u2014 from a client: <code>ping www.miami.cbt</code> succeeds (DNS resolves first, then ICMP).</div>
+    <div class="cdesc"><b>Ping-by-name works</b> ,  from a client: <code>ping www.miami.cbt</code> succeeds (DNS resolves first, then ICMP).</div>
     <div class="ccmd">ping name</div>
   </div>
   <div class="check-row" data-check="8">
     <div class="cbox"></div>
-    <div class="cdesc"><b>Web browse-by-name works</b> \u2014 on a client, <b>Desktop \u2192 Web Browser \u2192</b> <code>http://www.miami.cbt</code> loads the server\u2019s default page.</div>
+    <div class="cdesc"><b>Web browse-by-name works</b> ,  on a client, <b>Desktop \u2192 Web Browser \u2192</b> <code>http://www.miami.cbt</code> loads the server\u2019s default page.</div>
     <div class="ccmd">http://name</div>
   </div>
   <div class="check-row" data-check="9">
     <div class="cbox"></div>
-    <div class="cdesc"><b>Reverse lookup works</b> \u2014 <code>nslookup 192.168.99.50</code> returns <code>server.miami.cbt</code> (the PTR you added).</div>
+    <div class="cdesc"><b>Reverse lookup works</b> ,  <code>nslookup 192.168.99.50</code> returns <code>server.miami.cbt</code> (the PTR you added).</div>
     <div class="ccmd">PTR</div>
   </div>
   <div class="check-row" data-check="10">
     <div class="cbox"></div>
-    <div class="cdesc"><b>Wrong name fails cleanly</b> \u2014 <code>nslookup nope.miami.cbt</code> returns a "can\u2019t find" / NXDOMAIN response (not a timeout). Confirms the server is answering, just with "no record."</div>
+    <div class="cdesc"><b>Wrong name fails cleanly</b> ,  <code>nslookup nope.miami.cbt</code> returns a "can\u2019t find" / NXDOMAIN response (not a timeout). Confirms the server is answering, just with "no record."</div>
     <div class="ccmd">NXDOMAIN</div>
   </div>
 
   <div class="callout">
-    <h5>Quick visual proof \u2014 stack two screens</h5>
-    <p>The strongest single screenshot for your write-up: open the DNS server\u2019s <b>Services \u2192 DNS</b> list (showing all your records) next to a client\u2019s <b>Command Prompt</b> running successful <code>nslookup</code>s against those names. Server configuration on the left, client resolution on the right \u2014 the whole loop in one frame.</p>
+    <h5>Quick visual proof ,  stack two screens</h5>
+    <p>The strongest single screenshot for your write-up: open the DNS server\u2019s <b>Services \u2192 DNS</b> list (showing all your records) next to a client\u2019s <b>Command Prompt</b> running successful <code>nslookup</code>s against those names. Server configuration on the left, client resolution on the right ,  the whole loop in one frame.</p>
   </div>
 
   <div class="section-head">What a successful nslookup looks like</div>
@@ -601,7 +601,7 @@
 <span class="out"></span>
 <span class="out">Name:     www.miami.cbt</span>
 <span class="ok">Address:  192.168.99.50</span>
-<span class="comment">! the A record resolved \u2014 client now knows the IP behind the name</span>
+<span class="comment">! the A record resolved ,  client now knows the IP behind the name</span>
 <span class="prompt">C:\></span> <span class="cmd">nslookup intranet.miami.cbt</span>
 <span class="out">Server:   192.168.99.20</span>
 <span class="out">Name:     intranet.miami.cbt</span>
@@ -611,7 +611,7 @@
 <span class="prompt">C:\></span> <span class="cmd">nslookup 192.168.99.50</span>
 <span class="ok">Name:     server.miami.cbt</span>
 <span class="out">Address:  192.168.99.50</span>
-<span class="comment">! reverse lookup \u2014 the PTR returned the canonical hostname</span></pre></div>
+<span class="comment">! reverse lookup ,  the PTR returned the canonical hostname</span></pre></div>
   </div>
 </section>
 
@@ -623,7 +623,7 @@
   <div class="ts-card">
     <div class="ts-symptom">Client gets "DNS request timed out" or "server failed to respond"</div>
     <div class="ts-row"><div class="k">Symptom</div><div class="v">nslookup hangs and times out; ping-by-name fails.</div></div>
-    <div class="ts-row"><div class="k">Likely cause</div><div class="v">Client can\u2019t reach the DNS server \u2014 wrong DNS address pushed by DHCP, server down, or no route.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">Client can\u2019t reach the DNS server ,  wrong DNS address pushed by DHCP, server down, or no route.</div></div>
     <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>ipconfig /all</code> on the client (correct DNS server?). From the client: <code>ping 192.168.99.20</code> (reachable?).</div></div>
     <div class="ts-row"><div class="k">Fix</div><div class="v">Correct the DHCP scope\u2019s DNS option and renew, or restore reachability to the server.</div></div>
   </div>
@@ -647,14 +647,14 @@
   <div class="ts-card">
     <div class="ts-symptom">Forward works, reverse fails</div>
     <div class="ts-row"><div class="k">Symptom</div><div class="v"><code>nslookup name</code> succeeds; <code>nslookup IP</code> returns "non-existent domain."</div></div>
-    <div class="ts-row"><div class="k">Likely cause</div><div class="v">No <b>PTR</b> record for that IP \u2014 forward and reverse are <b>separate</b>. Adding an A doesn\u2019t auto-create a PTR.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">No <b>PTR</b> record for that IP ,  forward and reverse are <b>separate</b>. Adding an A doesn\u2019t auto-create a PTR.</div></div>
     <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check the DNS server\u2019s PTR records for the target IP.</div></div>
-    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the PTR. The reverse zone (<code>x.x.x.in-addr.arpa</code>) and the forward zone are managed independently \u2014 a very common real-world miss.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the PTR. The reverse zone (<code>x.x.x.in-addr.arpa</code>) and the forward zone are managed independently ,  a very common real-world miss.</div></div>
   </div>
 
   <div class="callout sim-note">
     <h5>Packet Tracer scope note</h5>
-    <p>Packet Tracer simulates the parts the exam tests \u2014 zone-less record management, A/AAAA/CNAME/MX/PTR, NS/SOA, and basic forwarding. It does <i>not</i> implement DNSSEC, DoH/DoT (covered in Explorer 3.4.4), advanced split-horizon, or real recursive/iterative behavior. Your <code>nslookup</code> output is also simpler than a real Windows nslookup. The concepts you exercised here \u2014 record types, forward vs reverse, the option to push DNS via DHCP \u2014 are the exam-tested ones.</p>
+    <p>Packet Tracer simulates the parts the exam tests ,  zone-less record management, A/AAAA/CNAME/MX/PTR, NS/SOA, and basic forwarding. It does <i>not</i> implement DNSSEC, DoH/DoT (covered in Explorer 3.4.4), advanced split-horizon, or real recursive/iterative behavior. Your <code>nslookup</code> output is also simpler than a real Windows nslookup. The concepts you exercised here ,  record types, forward vs reverse, the option to push DNS via DHCP ,  are the exam-tested ones.</p>
   </div>
 </section>
 
@@ -678,7 +678,7 @@
     <li>A screenshot of a <b>client\u2019s <code>nslookup</code></b> run on at least two of: <code>www.miami.cbt</code> (A), <code>intranet.miami.cbt</code> (CNAME), and <code>192.168.99.50</code> (PTR).</li>
     <li>A screenshot of a <b>successful HTTP browse</b> to <code>http://www.miami.cbt</code> (Desktop \u2192 Web Browser).</li>
     <li>One sentence each describing what <b>A</b>, <b>AAAA</b>, <b>CNAME</b>, <b>MX</b>, and <b>PTR</b> do.</li>
-    <li>One sentence on the difference between <b>forward</b> and <b>reverse</b> resolution \u2014 and why both must be configured for both to work.</li>
+    <li>One sentence on the difference between <b>forward</b> and <b>reverse</b> resolution ,  and why both must be configured for both to work.</li>
   </ul>
 
   <div class="section-head">Grading rubric (100 points)</div>
@@ -690,9 +690,9 @@
       <tr><td>AAAA record for <code>server.miami.cbt</code> \u2192 <code>fd00:abcd:99::50</code></td><td class="pts">10</td></tr>
       <tr><td>CNAME <code>intranet.miami.cbt</code> \u2192 <code>server.miami.cbt</code> resolves correctly</td><td class="pts">12</td></tr>
       <tr><td>MX record for <code>miami.cbt</code> \u2192 <code>mail.miami.cbt</code> with priority 10</td><td class="pts">10</td></tr>
-      <tr><td>PTR record for 192.168.99.50 \u2014 reverse lookup returns the name</td><td class="pts">13</td></tr>
+      <tr><td>PTR record for 192.168.99.50 ,  reverse lookup returns the name</td><td class="pts">13</td></tr>
       <tr><td>DHCP scopes push DNS = 192.168.99.20 (clients receive it on renewal)</td><td class="pts">10</td></tr>
-      <tr><td>nslookup verification of A and CNAME from a client \u2014 captured</td><td class="pts">10</td></tr>
+      <tr><td>nslookup verification of A and CNAME from a client ,  captured</td><td class="pts">10</td></tr>
       <tr><td>Write-up correctly explains each record type and forward vs reverse</td><td class="pts">7</td></tr>
       <tr><td>File named correctly &amp; submitted; topology tidy and reachable</td><td class="pts">3</td></tr>
     </tbody>
