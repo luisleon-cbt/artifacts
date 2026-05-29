@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 3.4.3 · DNS Services · Network+ N10-009 · CBT Technology Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#283068; --navy-deep:#1A2050; --navy-soft:#3D4685;
+    --sky:#38B0E0; --sky-deep:#1E8FBE; --sky-soft:#6BC5E8;
+    --gold:#E0B840; --gold-deep:#B8932A; --gold-soft:#ECCD6E;
+    --gray:#989890; --gray-soft:#C6C6BE;
+    --bg:#F5F5F1; --bg-warm:#ECEAE2; --surface:#FFFFFF; --surface-alt:#FAFAF6;
+    --line:#1A1A1A; --line-soft:#C6C6BE;
+    --ink:#0A0A0A; --ink-mid:#404758; --ink-mute:#767E92; --ink-invert:#F5F5F1;
+    --green:#2A6049; --green-bg:#DCEAD9;
+    --red:#8E1F2E; --red-bg:#F4D9DC;
+    --term-bg:#0E1424; --term-text:#E8EAF0; --term-prompt:#6BC5E8; --term-cmd:#ECCD6E; --term-out:#A8B2C8; --term-comment:#5E6680;
+    --ff-display:'Bricolage Grotesque', ui-sans-serif, sans-serif;
+    --ff-body:'DM Sans', ui-sans-serif, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --vlan10:#2A6049; --vlan20:#1E8FBE; --vlan30:#B8932A; --vlan99:#8E1F2E;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body { font-family: var(--ff-body); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 12%, rgba(56,176,224,0.06), transparent 35%), radial-gradient(circle at 92% 90%, rgba(40,48,104,0.07), transparent 40%); }
+
+  .topbar { background: var(--navy-deep); color: var(--ink-invert); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 0 0 var(--sky), 0 5px 0 0 var(--gold); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar-left { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cbt-mark { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 800; letter-spacing: 0.04em; font-size: 13px; color: white; }
+  .cbt-shield { width: 22px; height: 26px; background: linear-gradient(180deg, var(--sky) 0% 45%, white 45% 55%, var(--gold) 55% 100%); border: 1.5px solid white; border-radius: 3px 3px 8px 8px; flex-shrink: 0; position: relative; }
+  .cbt-shield::after { content: ''; position: absolute; inset: 50% 35% auto 35%; height: 1.5px; background: var(--navy-deep); transform: translateY(-50%); }
+  .cbt-mark .institute { color: var(--gray-soft); font-weight: 500; margin-left: 2px; }
+  .topbar .crumb { opacity: 0.7; }
+  .topbar .crumb::before { content: '/ '; opacity: 0.4; }
+  .topbar-right { opacity: 0.85; font-size: 10px; }
+
+  .hero { padding: 56px 28px 36px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; }
+  .eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+  .hero h1 { font-family: var(--ff-display); font-size: clamp(40px, 6vw, 64px); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; margin: 0 0 20px; color: var(--navy-deep); }
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .hero p.lede { font-size: 17px; color: var(--ink-mid); max-width: 56ch; margin: 0; }
+
+  .ref-card { background: var(--navy-deep); color: var(--ink-invert); padding: 22px 24px; border-left: 4px solid var(--sky); }
+  .ref-card .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 14px; }
+  .ref-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 6px 0; align-items: baseline; font-size: 12px; }
+  .ref-row:nth-of-type(odd) { background: rgba(255,255,255,0.04); margin: 0 -8px; padding: 6px 8px; }
+  .ref-row .name { font-family: var(--ff-mono); color: var(--gold); font-weight: 700; }
+  .ref-row .desc { color: var(--gray-soft); }
+  .ref-card .footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.8; line-height: 1.5; }
+  .ref-card .footer-note b { color: var(--gold); font-family: var(--ff-mono); font-size: 11px; }
+
+  .stats-strip { max-width: 1280px; margin: 0 auto; padding: 24px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stat { background: var(--bg); padding: 14px 18px; }
+  .stat .num { font-family: var(--ff-display); font-size: 32px; font-weight: 700; color: var(--navy-deep); line-height: 1; letter-spacing: -0.02em; }
+  .stat .label { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+
+  .tabs { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: flex; border-bottom: 1px solid var(--line-soft); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; padding: 18px 22px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); cursor: pointer; position: relative; white-space: nowrap; font-weight: 500; }
+  .tab:hover { color: var(--navy-deep); }
+  .tab.active { color: var(--navy-deep); }
+  .tab.active::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px; background: var(--sky); }
+  .tab .num { color: var(--sky); margin-right: 8px; font-weight: 700; }
+
+  .panel { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; display: none; animation: fade 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .panel h2 { font-family: var(--ff-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy-deep); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+  .panel h2 em { font-style: italic; color: var(--sky); font-weight: 600; }
+  .panel h3 { font-family: var(--ff-display); font-size: 22px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.01em; margin: 28px 0 12px; }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin: 0 0 14px; max-width: 75ch; }
+  .panel p b { color: var(--navy-deep); }
+  .panel p code, .panel li code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 13px; color: var(--gold-deep); font-weight: 600; }
+  .panel ul { padding-left: 22px; margin: 0 0 18px; }
+  .panel ul li { font-size: 15px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 8px; max-width: 72ch; }
+  .panel ul li b { color: var(--navy-deep); }
+  .panel ol { padding-left: 22px; margin: 0 0 18px; }
+  .panel ol li { font-size: 15px; line-height: 1.65; color: var(--ink-mid); margin-bottom: 10px; max-width: 72ch; }
+  .panel ol li b { color: var(--navy-deep); }
+
+  .section-head { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin: 32px 0 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .section-head:first-child { margin-top: 0; }
+
+  .topo { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin: 0 0 22px; }
+  .topo svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .topo .legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; font-family: var(--ff-mono); }
+  .topo .legend .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .topo .legend .sw { width: 14px; height: 14px; display: inline-block; border-radius: 3px; border: 1px solid var(--line); }
+
+  .iptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0 22px; font-size: 13.5px; }
+  .iptable th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1); }
+  .iptable th:last-child { border-right: none; }
+  .iptable td { padding: 9px 14px; border-top: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); color: var(--ink); }
+  .iptable td:last-child { border-right: none; }
+  .iptable td.device { font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); }
+  .iptable td.iface { font-family: var(--ff-mono); font-weight: 600; }
+  .iptable tbody tr:nth-child(even) td { background: var(--surface-alt); }
+
+  /* Comparison cards (2-up) */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  .method-card { background: var(--surface); border: 1px solid var(--line); padding: 20px 22px; position: relative; border-top: 5px solid var(--sky); }
+  .method-card.dir { border-top-color: var(--gold); }
+  .method-card .mc-tag { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 4px; font-weight: 700; }
+  .method-card.dir .mc-tag { color: var(--gold-deep); }
+  .method-card h4 { font-family: var(--ff-display); font-size: 18px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .method-card .mc-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px dotted var(--line-soft); }
+  .method-card .mc-row:last-of-type { border-bottom: none; }
+  .method-card .mc-row .k { font-family: var(--ff-mono); color: var(--ink-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 2px; }
+  .method-card .mc-row .v { color: var(--ink); }
+  .method-card .mc-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 5px; font-size: 11.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .term-block { background: var(--term-bg); border-left: 4px solid var(--gold); margin: 14px 0 22px; font-family: var(--ff-mono); font-size: 13px; color: var(--term-text); position: relative; }
+  .term-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 8px; }
+  .term-head .term-title { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); font-weight: 700; }
+  .term-head .term-concept { font-family: var(--ff-display); font-size: 12px; font-weight: 600; color: var(--gold-soft); letter-spacing: -0.005em; text-transform: none; flex: 1; text-align: center; padding: 0 14px; font-style: italic; }
+  .term-head .term-device { font-family: var(--ff-mono); font-size: 11px; color: var(--gold); font-weight: 700; }
+  .copy-btn { background: rgba(255,255,255,0.08); color: var(--ink-invert); border: 1px solid rgba(255,255,255,0.18); padding: 5px 12px; font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.15s; }
+  .copy-btn:hover { background: var(--sky-deep); border-color: var(--sky); }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); }
+  .term-body { padding: 14px 18px; overflow-x: auto; }
+  .term-body pre { margin: 0; font-family: var(--ff-mono); font-size: 13px; line-height: 1.65; white-space: pre; }
+  .term-body .prompt { color: var(--term-prompt); }
+  .term-body .cmd { color: var(--term-cmd); }
+  .term-body .out { color: var(--term-out); }
+  .term-body .comment { color: var(--term-comment); font-style: italic; }
+  .term-body .ok { color: #7BD389; }
+  .term-body .warn { color: #F4D481; }
+  .term-body .err { color: #F47884; }
+
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; position: relative; padding-left: 64px; }
+  .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; background: var(--sky); color: white; font-family: var(--ff-mono); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .step h4 { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: var(--navy-deep); margin: 0 0 6px; }
+  .step p { margin: 0; font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+  .step p code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+
+  .gui-config { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--sky-deep); padding: 0; margin: 14px 0 22px; }
+  .gui-config .gui-head { background: var(--surface-alt); padding: 11px 18px; border-bottom: 1px solid var(--line-soft); font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy-deep); font-weight: 700; }
+  .gui-config .gui-head .gui-path { color: var(--ink-mute); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .gui-config .gui-body { padding: 16px 18px; }
+  .gui-config .gui-field { display: grid; grid-template-columns: 200px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px dotted var(--line-soft); align-items: baseline; font-size: 13.5px; }
+  .gui-config .gui-field:last-child { border-bottom: none; }
+  .gui-config .gui-field .gf-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+  .gui-config .gui-field .gf-val { color: var(--ink); }
+  .gui-config .gui-field .gf-val code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .gui-config .gui-field .gf-val b { color: var(--navy-deep); }
+
+  .check-row { background: var(--surface); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: all 0.15s; }
+  .check-row:hover { border-color: var(--sky); }
+  .check-row.passed { background: var(--green-bg); border-color: var(--green); }
+  .check-row .cbox { width: 24px; height: 24px; border: 2px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: 16px; font-weight: 800; color: white; }
+  .check-row.passed .cbox { background: var(--green); border-color: var(--green); }
+  .check-row.passed .cbox::after { content: '✓'; }
+  .check-row .cdesc { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .check-row .cdesc b { color: var(--navy-deep); }
+  .check-row .cdesc code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12.5px; color: var(--gold-deep); font-weight: 600; }
+  .check-row.passed .cdesc code { background: rgba(255,255,255,0.6); }
+  .check-row .ccmd { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; padding: 4px 9px; background: var(--bg-warm); }
+  .check-progress { background: var(--surface); border: 1px solid var(--line); padding: 14px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .check-progress .pinfo { font-family: var(--ff-mono); font-size: 12px; color: var(--ink-mute); }
+  .check-progress .pinfo b { color: var(--navy-deep); font-family: var(--ff-display); font-size: 16px; font-weight: 700; }
+  .check-progress .pbar { flex: 1; height: 8px; background: var(--bg-warm); border: 1px solid var(--line-soft); position: relative; min-width: 200px; max-width: 400px; margin: 0 14px; }
+  .check-progress .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--gold)); transition: width 0.35s ease; }
+  .check-reset { background: transparent; border: 1px solid var(--line-soft); color: var(--ink-mute); padding: 6px 12px; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .check-reset:hover { background: var(--navy-deep); color: white; border-color: var(--navy-deep); }
+
+  .ts-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .ts-card .ts-symptom { font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--navy-deep); margin: 0 0 10px; }
+  .ts-card .ts-symptom::before { content: '⚠ '; color: var(--gold-deep); }
+  .ts-card .ts-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 4px 0; font-size: 13.5px; }
+  .ts-card .ts-row .k { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; padding-top: 3px; }
+  .ts-card .ts-row .v { color: var(--ink); line-height: 1.55; }
+  .ts-card .ts-row .v code { font-family: var(--ff-mono); background: var(--bg-warm); padding: 1px 6px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+
+  .submit-card { background: var(--navy-deep); color: white; padding: 24px 28px; margin-bottom: 22px; border-left: 4px solid var(--gold); }
+  .submit-card h3 { color: var(--gold); font-family: var(--ff-display); font-size: 20px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .submit-card p { color: var(--gray-soft); font-size: 14px; margin: 0 0 10px; max-width: 65ch; }
+  .submit-card ul { padding-left: 20px; margin: 8px 0 14px; }
+  .submit-card ul li { color: var(--gray-soft); font-size: 13.5px; margin-bottom: 4px; }
+  .submit-card ul li b { color: white; }
+  .submit-card code { font-family: var(--ff-mono); background: rgba(255,255,255,0.1); padding: 1px 6px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .rubric { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); margin: 14px 0; }
+  .rubric th { background: var(--navy-deep); color: white; padding: 11px 14px; text-align: left; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .rubric th.pts { text-align: center; width: 80px; }
+  .rubric td { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--ink); }
+  .rubric td.pts { font-family: var(--ff-mono); font-weight: 700; color: var(--gold-deep); text-align: center; font-size: 15px; }
+  .rubric tfoot td { background: var(--bg-warm); font-family: var(--ff-display); font-weight: 700; color: var(--navy-deep); font-size: 15px; }
+
+  .callout { background: rgba(56,176,224,0.08); border-left: 4px solid var(--sky); padding: 14px 18px; margin: 14px 0 22px; }
+  .callout h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky-deep); margin: 0 0 6px; font-weight: 700; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.55; }
+  .callout p code { font-family: var(--ff-mono); background: white; padding: 1px 5px; font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+  .callout.warn { background: rgba(224,184,64,0.10); border-color: var(--gold); }
+  .callout.warn h5 { color: var(--gold-deep); }
+  .callout.n-plus-context { background: linear-gradient(135deg, rgba(40,48,104,0.06), rgba(56,176,224,0.05)); border-left: 4px solid var(--navy-deep); padding: 18px 22px; }
+  .callout.n-plus-context h5 { color: var(--navy-deep); font-size: 11px; letter-spacing: 0.16em; margin-bottom: 8px; }
+  .callout.n-plus-context p { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .callout.n-plus-context p b { color: var(--navy-deep); }
+  .callout.sim-note { background: rgba(142,31,46,0.06); border-left: 4px dashed var(--red); padding: 16px 20px; }
+  .callout.sim-note h5 { color: var(--red); }
+
+  footer { background: var(--navy-deep); color: var(--ink-invert); padding: 40px 28px 26px; margin-top: 60px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+  footer h4 { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky-soft); margin: 0 0 12px; }
+  footer p { font-size: 13px; opacity: 0.85; line-height: 1.6; margin: 0 0 8px; }
+  .footer-bottom { max-width: 1280px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 36px 22px 28px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step { padding-left: 56px; }
+    .check-row { grid-template-columns: 32px 1fr; }
+    .check-row .ccmd { grid-column: 1 / -1; justify-self: start; }
+    .method-grid { grid-template-columns: 1fr; }
+    .gui-config .gui-field { grid-template-columns: 1fr; gap: 4px; }
+    .term-head { flex-wrap: wrap; }
+    .term-head .term-concept { flex-basis: 100%; text-align: left; padding: 4px 0 0 0; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="cbt-mark"><span class="cbt-shield"></span>CBT<span class="institute">Tech Institute</span></span>
+    <span class="crumb">Network+ N10-009</span>
+    <span class="crumb">Domain 3 · Network Operations</span>
+    <span class="crumb">3.4 IPv4 &amp; IPv6 Services</span>
+    <span class="crumb">Lab 3.4.3</span>
+  </div>
+  <div class="topbar-right">Packet Tracer Lab · DNS Services</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lab 3.4.3 · Packet Tracer · ≈ 50 min</div>
+    <h1>Give the network <em>names.</em></h1>
+    <p class="lede">Computers move data by IP address; humans use names. <b>DNS</b> is the service that bridges the two, and in this lab you'll build one. You'll stand up a DNS server on the Miami management subnet, populate it with the record types the exam tests \u2014 <b>A</b>, <b>AAAA</b>, <b>CNAME</b>, <b>MX</b>, and a <b>PTR</b> for reverse lookups \u2014 hand the server's address out to clients (via DHCP, from Lab 3.4.1), and verify the whole chain with <code>nslookup</code> and ping-by-name.</p>
+  </div>
+  <aside class="ref-card">
+    <div class="label">Lab Specification</div>
+    <div class="ref-row"><span class="name">Objective</span><span class="desc">3.4 — implement DNS (records, forward &amp; reverse)</span></div>
+    <div class="ref-row"><span class="name">Starting point</span><span class="desc">Your Lab 3.4.1 topology (DHCP relay working)</span></div>
+    <div class="ref-row"><span class="name">Hands-on core</span><span class="desc">A · AAAA · CNAME · MX · PTR records + verification</span></div>
+    <div class="ref-row"><span class="name">Concepts</span><span class="desc">FQDN · forward vs reverse · authoritative · TTL · nslookup</span></div>
+    <div class="ref-row"><span class="name">PT version</span><span class="desc">Cisco Packet Tracer 8.2+ / 9.0</span></div>
+    <div class="ref-row"><span class="name">Filename</span><span class="desc">Lab-3.4.3-DNS-FirstLast.pkt</span></div>
+    <div class="ref-row"><span class="name">Submit to</span><span class="desc">Canvas · CIT-281 module · Lab 3.4.3</span></div>
+    <div class="ref-row"><span class="name">Points</span><span class="desc">100 — rubric inside the Submit tab</span></div>
+    <div class="footer-note">
+      <b>SKILLS MAPPED</b><br>
+      DNS server &amp; service · forward zone · A/AAAA/CNAME/MX records · reverse zone &amp; PTR · TTL · DNS option in DHCP · nslookup verification · troubleshooting name resolution
+    </div>
+  </aside>
+</section>
+
+<div class="stats-strip">
+  <div class="stat"><div class="num">5</div><div class="label">Record types you'll create</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">DNS server on VLAN 99</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Resolution directions (forward &amp; reverse)</div></div>
+  <div class="stat"><div class="num">10</div><div class="label">Verification checks</div></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="brief"><span class="num">01</span>Brief</button>
+  <button class="tab" data-tab="setup"><span class="num">02</span>Setup</button>
+  <button class="tab" data-tab="configure"><span class="num">03</span>Configure</button>
+  <button class="tab" data-tab="verify"><span class="num">04</span>Verify</button>
+  <button class="tab" data-tab="troubleshoot"><span class="num">05</span>Troubleshoot</button>
+  <button class="tab" data-tab="submit"><span class="num">06</span>Submit</button>
+</nav>
+
+<!-- ============== TAB 1 · BRIEF ============== -->
+<section class="panel active" id="panel-brief">
+  <h2>The service that <em>translates names.</em></h2>
+  <p>When a user types <code>www.miami.cbt</code>, their device first has to find the IP address that lives behind that name. <b>DNS</b> (Domain Name System) is the directory that maps names to addresses (and vice-versa). The directory is made of <b>records</b>, each with a specific job: A records hold IPv4 addresses, AAAA records hold IPv6 addresses, CNAME records create aliases, MX records direct mail, PTR records do the reverse \u2014 IP back to name. You'll build one of each.</p>
+
+  <div class="callout n-plus-context">
+    <h5>Network+ Context — Read this first</h5>
+    <p>Network+ N10-009 expects you to <i>identify and use</i> the major DNS record types: <b>A</b> (host \u2192 IPv4), <b>AAAA</b> (host \u2192 IPv6), <b>CNAME</b> (alias \u2192 another name), <b>MX</b> (mail server for a domain), <b>PTR</b> (IP \u2192 host, reverse), and a couple more (NS, TXT, SOA). You also need to know <b>forward</b> resolution (name to IP) vs <b>reverse</b> resolution (IP to name), what an <b>authoritative</b> server is, and what a client does when it gets a name. This lab makes all of that concrete.</p>
+  </div>
+
+  <div class="section-head">The record types you'll create</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-tag">FORWARD \u00b7 NAME \u2192 ADDRESS</div>
+      <h4>A &amp; AAAA records</h4>
+      <div class="mc-row"><div class="k">A</div><div class="v">Maps a hostname to an <b>IPv4</b> address. <code>www.miami.cbt \u2192 192.168.99.50</code></div></div>
+      <div class="mc-row"><div class="k">AAAA</div><div class="v">Maps the same hostname to an <b>IPv6</b> address. Pronounced "quad-A."</div></div>
+      <div class="mc-row"><div class="k">Used by</div><div class="v">Every web browser, every <code>ping name</code> command, every email client</div></div>
+    </div>
+    <div class="method-card dir">
+      <div class="mc-tag">ALIAS \u00b7 NAME \u2192 NAME</div>
+      <h4>CNAME record</h4>
+      <div class="mc-row"><div class="k">Maps</div><div class="v">An alias (canonical name) to another name. <code>mail.miami.cbt \u2192 server.miami.cbt</code></div></div>
+      <div class="mc-row"><div class="k">Why</div><div class="v">One server reached by many names without duplicating A records</div></div>
+      <div class="mc-row"><div class="k">Resolves to</div><div class="v">An A or AAAA record (eventually \u2014 it doesn't hold an IP itself)</div></div>
+    </div>
+    <div class="method-card">
+      <div class="mc-tag">MAIL \u00b7 DOMAIN \u2192 MAIL SERVER</div>
+      <h4>MX record</h4>
+      <div class="mc-row"><div class="k">Maps</div><div class="v">A domain to the host that accepts mail for it. <code>miami.cbt \u2192 mail.miami.cbt (priority 10)</code></div></div>
+      <div class="mc-row"><div class="k">Carries</div><div class="v">A <b>priority</b> value \u2014 lower is preferred when there are multiple MX records</div></div>
+      <div class="mc-row"><div class="k">Used by</div><div class="v">Mail servers (SMTP) to know where to deliver a message</div></div>
+    </div>
+    <div class="method-card dir">
+      <div class="mc-tag">REVERSE \u00b7 ADDRESS \u2192 NAME</div>
+      <h4>PTR record</h4>
+      <div class="mc-row"><div class="k">Maps</div><div class="v">An IP address back to a hostname. <code>192.168.99.50 \u2192 www.miami.cbt</code></div></div>
+      <div class="mc-row"><div class="k">Lives in</div><div class="v">A separate <b>reverse zone</b>, not the forward zone</div></div>
+      <div class="mc-row"><div class="k">Used by</div><div class="v">Logging, security tools, mail-server checks ("is this IP really who it claims?")</div></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>Forward vs reverse \u2014 the key distinction</h5>
+    <p><b>Forward resolution</b> (the common case): client has a name, asks DNS for the IP. Uses A/AAAA records in a <b>forward zone</b>. <b>Reverse resolution</b>: client has an IP, asks DNS for the name. Uses PTR records in a <b>reverse zone</b>. They use <i>different records and different zones</i> \u2014 a server can do forward without doing reverse, which is why reverse lookups so often fail in the real world.</p>
+  </div>
+
+  <div class="section-head">What you'll build</div>
+  <ul>
+    <li>A <b>DNS server</b> on VLAN 99 with the DNS service enabled.</li>
+    <li>A small zone <code>miami.cbt</code> populated with: <b>A</b> (www, server, mail), <b>AAAA</b> (server, IPv6), <b>CNAME</b> (intranet \u2192 server), <b>MX</b> (the domain's mail handler).</li>
+    <li>A reverse zone for 192.168.99.0/24 with a <b>PTR</b> record for the web server.</li>
+    <li>Clients pointed at the DNS server (via the DHCP option you set in Lab 3.4.1).</li>
+    <li>End-to-end verification: <code>nslookup</code>, ping-by-name, and a reverse lookup.</li>
+  </ul>
+
+  <div class="callout">
+    <h5>Why this lab matters</h5>
+    <p>Almost every "the Internet is broken" incident is, at some level, a DNS incident \u2014 wrong record, expired record, server unreachable, slow lookup. Building a DNS server end-to-end \u2014 records, zones, options, verification \u2014 is the difference between memorizing what each record type does and actually trusting your name resolution.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 2 · SETUP ============== -->
+<section class="panel" id="panel-setup">
+  <h2>The <em>topology</em> &amp; the zone.</h2>
+  <p>Continue from your Lab 3.4.1 file (DHCP relay working). Add a DNS server on VLAN 99 alongside the DHCP server, and add a single &ldquo;web server&rdquo; that will hold the names you'll resolve.</p>
+
+  <div class="topo">
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">
+      <!-- SW-CORE -->
+      <rect x="300" y="36" width="160" height="54" fill="#E8F6FB" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="380" y="58" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="12">SW-CORE (L3)</text>
+      <text x="380" y="74" text-anchor="middle" fill="#767E92" font-size="8.5">gateways + DHCP relay</text>
+      <!-- DHCP -->
+      <rect x="120" y="150" width="160" height="50" fill="#FAF6E8" stroke="#B8932A" stroke-width="2" rx="3"/>
+      <text x="200" y="170" text-anchor="middle" fill="#B8932A" font-weight="700" font-size="11">DHCP Server</text>
+      <text x="200" y="186" text-anchor="middle" fill="#767E92" font-size="8.5">VLAN 99 · 192.168.99.10</text>
+      <line x1="320" y1="90" x2="240" y2="150" stroke="#B8932A" stroke-width="1.6"/>
+      <!-- DNS (this lab's protagonist) -->
+      <rect x="310" y="150" width="160" height="50" fill="#E4F0E8" stroke="#2A6049" stroke-width="2.5" rx="3"/>
+      <text x="390" y="170" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="11">DNS Server</text>
+      <text x="390" y="186" text-anchor="middle" fill="#767E92" font-size="8.5">VLAN 99 · 192.168.99.20</text>
+      <line x1="380" y1="90" x2="390" y2="150" stroke="#2A6049" stroke-width="2"/>
+      <!-- Web/server -->
+      <rect x="500" y="150" width="160" height="50" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="2" rx="3"/>
+      <text x="580" y="170" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="11">Web Server</text>
+      <text x="580" y="186" text-anchor="middle" fill="#767E92" font-size="8.5">VLAN 99 · 192.168.99.50</text>
+      <line x1="440" y1="90" x2="540" y2="150" stroke="#1E8FBE" stroke-width="1.6"/>
+      <!-- access -->
+      <rect x="80" y="252" width="150" height="46" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="155" y="270" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-FLOOR1</text>
+      <rect x="530" y="252" width="150" height="46" fill="#FFFFFF" stroke="#1A2050" stroke-width="2" rx="3"/>
+      <text x="605" y="270" text-anchor="middle" fill="#1A2050" font-weight="700" font-size="11">SW-FLOOR2</text>
+      <line x1="310" y1="90" x2="180" y2="252" stroke="#1A2050" stroke-width="2.5" stroke-dasharray="2,3"/>
+      <line x1="450" y1="90" x2="580" y2="252" stroke="#1A2050" stroke-width="2.5" stroke-dasharray="2,3"/>
+      <text x="218" y="170" fill="#1A2050" font-size="8">trunk</text>
+      <text x="512" y="170" fill="#1A2050" font-size="8">trunk</text>
+      <!-- clients -->
+      <rect x="70" y="328" width="170" height="40" fill="#E4F0E8" stroke="#2A6049" stroke-width="1.8" rx="3"/>
+      <text x="155" y="345" text-anchor="middle" fill="#2A6049" font-weight="700" font-size="10">PC-Staff · VLAN 10</text>
+      <text x="155" y="359" text-anchor="middle" fill="#767E92" font-size="8">DHCP \u00b7 DNS = .99.20</text>
+      <rect x="520" y="328" width="170" height="40" fill="#E8F6FB" stroke="#1E8FBE" stroke-width="1.8" rx="3"/>
+      <text x="605" y="345" text-anchor="middle" fill="#1E8FBE" font-weight="700" font-size="10">PC-Guest · VLAN 20</text>
+      <text x="605" y="359" text-anchor="middle" fill="#767E92" font-size="8">DHCP \u00b7 DNS = .99.20</text>
+      <line x1="155" y1="298" x2="155" y2="328" stroke="#2A6049" stroke-width="1.6"/>
+      <line x1="605" y1="298" x2="605" y2="328" stroke="#1E8FBE" stroke-width="1.6"/>
+    </svg>
+    <div class="legend">
+      <span class="lk"><span class="sw" style="background:#E8F6FB"></span> SW-CORE (L3) — gateways</span>
+      <span class="lk"><span class="sw" style="background:#FAF6E8"></span> DHCP server (.10)</span>
+      <span class="lk"><span class="sw" style="background:#E4F0E8"></span> DNS server (.20) — this lab's focus</span>
+      <span class="lk"><span class="sw" style="background:#E8F6FB"></span> Web server (.50)</span>
+    </div>
+  </div>
+
+  <div class="section-head">The zone you'll build</div>
+  <table class="iptable">
+    <thead><tr><th>Record type</th><th>Name</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="device">A</td><td class="iface">www.miami.cbt</td><td>192.168.99.50</td><td>The web server, by name</td></tr>
+      <tr><td class="device">A</td><td class="iface">server.miami.cbt</td><td>192.168.99.50</td><td>Same host, primary name</td></tr>
+      <tr><td class="device">A</td><td class="iface">mail.miami.cbt</td><td>192.168.99.50</td><td>Mail handler (same host for the lab)</td></tr>
+      <tr><td class="device">AAAA</td><td class="iface">server.miami.cbt</td><td>fd00:abcd:99::50</td><td>IPv6 equivalent (ULA from Explorer 3.4.2)</td></tr>
+      <tr><td class="device">CNAME</td><td class="iface">intranet.miami.cbt</td><td>server.miami.cbt</td><td>Alias \u2014 resolves to the A record above</td></tr>
+      <tr><td class="device">MX</td><td class="iface">miami.cbt</td><td>mail.miami.cbt (priority 10)</td><td>Mail handler for the domain</td></tr>
+      <tr><td class="device">PTR</td><td class="iface">192.168.99.50</td><td>server.miami.cbt</td><td>Reverse lookup \u2014 in the reverse zone</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <h5>Reach the server first</h5>
+    <p>Before you configure records, the clients must be able to <b>reach</b> the DNS server (192.168.99.20). From any client with a DHCP lease: <code>ping 192.168.99.20</code> must succeed. If it doesn't, fix routing/relay/scope first \u2014 a server you can't reach can't answer queries.</p>
+  </div>
+
+  <div class="step" data-step="1">
+    <h4>Add the DNS server</h4>
+    <p>Drag a <b>Server</b> onto VLAN 99. Set it to <b>Static</b> IP <code>192.168.99.20</code>, mask <code>255.255.255.0</code>, gateway <code>192.168.99.1</code>. Cable it to a VLAN 99 access port.</p>
+  </div>
+  <div class="step" data-step="2">
+    <h4>Add the web/mail server</h4>
+    <p>Drag another <b>Server</b> onto VLAN 99 (call it <b>WEB</b>). Static IP <code>192.168.99.50</code>. Under <b>Services</b>, leave HTTP <b>On</b> so we have something to actually load by name later. For the lab\u2019s purposes this single host plays the roles of web, server, and mail.</p>
+  </div>
+  <div class="step" data-step="3">
+    <h4>Update the DHCP DNS option</h4>
+    <p>On the DHCP server (Lab 3.4.1), make sure each scope\u2019s <b>DNS Server</b> option is set to <code>192.168.99.20</code> (the DNS server, not the DHCP server). If the scopes still point at the wrong address from earlier work, fix them now so leased clients learn the DNS server automatically.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 3 · CONFIGURE ============== -->
+<section class="panel" id="panel-configure">
+  <h2>Build the records, <em>one type at a time.</em></h2>
+  <p>All record work happens in Packet Tracer\u2019s <b>Services \u2192 DNS</b> on the DNS server. The pattern is the same for every record: pick a <b>type</b>, fill in <b>Name</b> and <b>Address</b> (or Target/Host for the non-address types), click <b>Add</b>, and verify in the list below the form.</p>
+
+  <div class="callout n-plus-context">
+    <h5>The mechanics in one sentence</h5>
+    <p>Packet Tracer\u2019s DNS server isn\u2019t enterprise-grade, but it implements the parts the exam cares about: type-specific records (A/AAAA/CNAME/MX/NS/SOA), reverse PTR entries, and the ability for clients to query by name. Focus on <i>what</i> each record does, not the vendor menus.</p>
+  </div>
+
+  <div class="section-head">Part A · Turn the DNS service on</div>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">DNS Service</span><span class="gf-val">Set to <b>On</b>. The form below the toggle is where you add records.</span></div>
+      <div class="gui-field"><span class="gf-label">Server\u2019s own DNS</span><span class="gf-val">In the server\u2019s <b>Desktop \u2192 IP Configuration</b>, set DNS to <code>127.0.0.1</code> so the server itself resolves through the local service.</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Part B · A records (host \u2192 IPv4)</div>
+  <p>Type = <b>A Record</b>. Add three forward names that all point at the web server. The same IP can back many names.</p>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: A Record</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Record 1 \u2014 Name</span><span class="gf-val"><code>www.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 1 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 2 \u2014 Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 2 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 3 \u2014 Name</span><span class="gf-val"><code>mail.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Record 3 \u2014 Address</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">After each row</span><span class="gf-val">Click <b>Add</b>. The new record appears in the list at the bottom.</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Part C · AAAA record (host \u2192 IPv6)</div>
+  <p>Same form, type = <b>AAAA Record</b>. We\u2019ll use the ULA pattern from Explorer 3.4.2 so the addressing stays consistent with the IPv6 module.</p>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: AAAA Record</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Address (IPv6)</span><span class="gf-val"><code>fd00:abcd:99::50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Then</span><span class="gf-val"><b>Add</b>. The same name (<code>server.miami.cbt</code>) now has both an A and an AAAA \u2014 the client picks whichever it asks for.</span></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <h5>One name, two answers \u2014 totally normal</h5>
+    <p>A host can have both an <b>A</b> and a <b>AAAA</b> record. A client that asks for the IPv4 address gets the A; one that asks for IPv6 gets the AAAA. This is how dual-stack networks work in practice.</p>
+  </div>
+
+  <div class="section-head">Part D · CNAME (alias \u2192 another name)</div>
+  <p>Type = <b>CNAME</b>. CNAMEs don't hold IP addresses \u2014 they hold <i>another name</i> that the server then resolves. Add an alias for the intranet.</p>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: CNAME</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Name (alias)</span><span class="gf-val"><code>intranet.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Host Name / Target</span><span class="gf-val"><code>server.miami.cbt</code> &mdash; the canonical name (must have its own A or AAAA)</span></div>
+      <div class="gui-field"><span class="gf-label">Result</span><span class="gf-val">A client looking up <code>intranet.miami.cbt</code> follows the alias \u2192 server.miami.cbt \u2192 192.168.99.50.</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Part E · MX record (mail handler)</div>
+  <p>Type = <b>MX</b>. MX records belong to the <i>domain</i> (not a specific host) and tell mail servers where to deliver mail for that domain.</p>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: MX</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Name (domain)</span><span class="gf-val"><code>miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Mail Server</span><span class="gf-val"><code>mail.miami.cbt</code> &mdash; this name must have an A record too</span></div>
+      <div class="gui-field"><span class="gf-label">Priority</span><span class="gf-val"><code>10</code> &mdash; lower is preferred if there are multiple MX records</span></div>
+      <div class="gui-field"><span class="gf-label">Real-world tip</span><span class="gf-val">Production domains often have multiple MX records (priority 10, 20, 30\u2026) so mail keeps flowing if one server is down.</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Part F · PTR (reverse: IP \u2192 name)</div>
+  <p>Type = <b>PTR Record</b>. Reverse lookups live in their own zone. In Packet Tracer the form lets you add a PTR directly without managing the zone file by hand.</p>
+  <div class="gui-config">
+    <div class="gui-head">DNS Server · <span class="gui-path">Services → DNS → Type: PTR Record</span></div>
+    <div class="gui-body">
+      <div class="gui-field"><span class="gf-label">Name (IP address)</span><span class="gf-val"><code>192.168.99.50</code></span></div>
+      <div class="gui-field"><span class="gf-label">Host Name</span><span class="gf-val"><code>server.miami.cbt</code></span></div>
+      <div class="gui-field"><span class="gf-label">Result</span><span class="gf-val">A reverse lookup of <code>192.168.99.50</code> now returns <code>server.miami.cbt</code>.</span></div>
+    </div>
+  </div>
+
+  <div class="callout sim-note">
+    <h5>Packet Tracer scope note \u2014 the zone behind the curtain</h5>
+    <p>On real DNS servers, reverse lookups use a special zone tied to the address range \u2014 for 192.168.99.0/24 it\u2019s <code>99.168.192.in-addr.arpa</code>. Packet Tracer hides that machinery; just adding the PTR with the IP as the &ldquo;name&rdquo; is enough. The exam may ask about the <code>.in-addr.arpa</code> naming, so it\u2019s worth knowing even though PT doesn\u2019t show it.</p>
+  </div>
+
+  <div class="section-head">Part G · Renew clients so they pick up the DNS server</div>
+  <p>If the DHCP option still pointed at the wrong server, the clients are holding stale info. From each test client\u2019s <b>Desktop \u2192 IP Configuration</b>, toggle <b>Static</b> then back to <b>DHCP</b> (or click <b>Renew</b>). The new lease arrives with <b>DNS Server = 192.168.99.20</b>.</p>
+</section>
+
+<!-- ============== TAB 4 · VERIFY ============== -->
+<section class="panel" id="panel-verify">
+  <h2>Prove every record <em>resolves.</em></h2>
+  <p>Ten checks. The pattern: pick a record on the server, ask the client to resolve it, compare. The headline check is 9 \u2014 reverse resolution from an IP back to a name, which is what tells you the PTR is wired up.</p>
+
+  <div class="check-progress">
+    <div class="pinfo"><b id="check-count">0</b> of 10 checks complete</div>
+    <div class="pbar"><div class="pbar-fill" id="check-fill"></div></div>
+    <button class="check-reset" onclick="resetChecks()">Reset</button>
+  </div>
+
+  <div class="check-row" data-check="1">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>DNS service is On</b> and the server has static IP 192.168.99.20.</div>
+    <div class="ccmd">service on</div>
+  </div>
+  <div class="check-row" data-check="2">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>DNS option pushed</b> \u2014 clients with a DHCP lease show <code>DNS Server = 192.168.99.20</code> in <code>ipconfig /all</code>.</div>
+    <div class="ccmd">dhcp \u2192 dns</div>
+  </div>
+  <div class="check-row" data-check="3">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>A record resolves</b> \u2014 from a client: <code>nslookup www.miami.cbt</code> returns 192.168.99.50.</div>
+    <div class="ccmd">A</div>
+  </div>
+  <div class="check-row" data-check="4">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>AAAA record resolves</b> \u2014 <code>nslookup server.miami.cbt</code> (or AAAA query) returns the IPv6 address <code>fd00:abcd:99::50</code>.</div>
+    <div class="ccmd">AAAA</div>
+  </div>
+  <div class="check-row" data-check="5">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>CNAME follows correctly</b> \u2014 <code>nslookup intranet.miami.cbt</code> shows the alias and resolves to 192.168.99.50.</div>
+    <div class="ccmd">CNAME</div>
+  </div>
+  <div class="check-row" data-check="6">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>MX record visible</b> \u2014 querying for MX on <code>miami.cbt</code> returns <code>mail.miami.cbt</code> with priority 10.</div>
+    <div class="ccmd">MX</div>
+  </div>
+  <div class="check-row" data-check="7">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Ping-by-name works</b> \u2014 from a client: <code>ping www.miami.cbt</code> succeeds (DNS resolves first, then ICMP).</div>
+    <div class="ccmd">ping name</div>
+  </div>
+  <div class="check-row" data-check="8">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Web browse-by-name works</b> \u2014 on a client, <b>Desktop \u2192 Web Browser \u2192</b> <code>http://www.miami.cbt</code> loads the server\u2019s default page.</div>
+    <div class="ccmd">http://name</div>
+  </div>
+  <div class="check-row" data-check="9">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Reverse lookup works</b> \u2014 <code>nslookup 192.168.99.50</code> returns <code>server.miami.cbt</code> (the PTR you added).</div>
+    <div class="ccmd">PTR</div>
+  </div>
+  <div class="check-row" data-check="10">
+    <div class="cbox"></div>
+    <div class="cdesc"><b>Wrong name fails cleanly</b> \u2014 <code>nslookup nope.miami.cbt</code> returns a "can\u2019t find" / NXDOMAIN response (not a timeout). Confirms the server is answering, just with "no record."</div>
+    <div class="ccmd">NXDOMAIN</div>
+  </div>
+
+  <div class="callout">
+    <h5>Quick visual proof \u2014 stack two screens</h5>
+    <p>The strongest single screenshot for your write-up: open the DNS server\u2019s <b>Services \u2192 DNS</b> list (showing all your records) next to a client\u2019s <b>Command Prompt</b> running successful <code>nslookup</code>s against those names. Server configuration on the left, client resolution on the right \u2014 the whole loop in one frame.</p>
+  </div>
+
+  <div class="section-head">What a successful nslookup looks like</div>
+  <div class="term-block">
+    <div class="term-head">
+      <span class="term-title">PC-Staff · Command Prompt</span>
+      <span class="term-concept">Concept: the client asks the DNS server, the server reads its records, the client gets an IP</span>
+      <span class="term-device">VLAN 10 client</span>
+      <button class="copy-btn" data-copy="cmd-nslookup">Copy</button>
+    </div>
+    <div class="term-body"><pre id="cmd-nslookup"><span class="prompt">C:\></span> <span class="cmd">nslookup www.miami.cbt</span>
+<span class="out">Server:   192.168.99.20</span>
+<span class="out">Address:  192.168.99.20</span>
+<span class="out"></span>
+<span class="out">Name:     www.miami.cbt</span>
+<span class="ok">Address:  192.168.99.50</span>
+<span class="comment">! the A record resolved \u2014 client now knows the IP behind the name</span>
+<span class="prompt">C:\></span> <span class="cmd">nslookup intranet.miami.cbt</span>
+<span class="out">Server:   192.168.99.20</span>
+<span class="out">Name:     intranet.miami.cbt</span>
+<span class="out">Aliases:  intranet.miami.cbt</span>
+<span class="ok">Address:  192.168.99.50</span>
+<span class="comment">! CNAME followed \u2192 the alias resolved through to the A record</span>
+<span class="prompt">C:\></span> <span class="cmd">nslookup 192.168.99.50</span>
+<span class="ok">Name:     server.miami.cbt</span>
+<span class="out">Address:  192.168.99.50</span>
+<span class="comment">! reverse lookup \u2014 the PTR returned the canonical hostname</span></pre></div>
+  </div>
+</section>
+
+<!-- ============== TAB 5 · TROUBLESHOOT ============== -->
+<section class="panel" id="panel-troubleshoot">
+  <h2>When names don\u2019t <em>resolve.</em></h2>
+  <p>Almost every DNS failure is one of a small set of root causes. The symptom is usually generic (&ldquo;the website won\u2019t load&rdquo;), but the diagnosis is mechanical: where in the chain did the lookup fail?</p>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Client gets "DNS request timed out" or "server failed to respond"</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">nslookup hangs and times out; ping-by-name fails.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">Client can\u2019t reach the DNS server \u2014 wrong DNS address pushed by DHCP, server down, or no route.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v"><code>ipconfig /all</code> on the client (correct DNS server?). From the client: <code>ping 192.168.99.20</code> (reachable?).</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Correct the DHCP scope\u2019s DNS option and renew, or restore reachability to the server.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">"Server can\u2019t find name" / NXDOMAIN</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">DNS responds, but says the name doesn\u2019t exist.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The record is <b>missing</b> or <b>misspelled</b> on the DNS server (or the user typed the wrong name).</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Open the server\u2019s DNS record list and search for the exact name. Check for typos (<code>wwwmiami.cbt</code> vs <code>www.miami.cbt</code>).</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add or correct the record; nslookup should resolve on the next query.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">CNAME resolves to a name but no address</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v">nslookup on the alias returns the canonical name but no IP, or the chain breaks.</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">The CNAME\u2019s <b>target</b> has no A (or AAAA) record. A CNAME points to a name; that name must itself resolve.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">nslookup the target name directly. If it fails, the A record is missing.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the A/AAAA record for the CNAME\u2019s target.</div></div>
+  </div>
+
+  <div class="ts-card">
+    <div class="ts-symptom">Forward works, reverse fails</div>
+    <div class="ts-row"><div class="k">Symptom</div><div class="v"><code>nslookup name</code> succeeds; <code>nslookup IP</code> returns "non-existent domain."</div></div>
+    <div class="ts-row"><div class="k">Likely cause</div><div class="v">No <b>PTR</b> record for that IP \u2014 forward and reverse are <b>separate</b>. Adding an A doesn\u2019t auto-create a PTR.</div></div>
+    <div class="ts-row"><div class="k">Diagnose</div><div class="v">Check the DNS server\u2019s PTR records for the target IP.</div></div>
+    <div class="ts-row"><div class="k">Fix</div><div class="v">Add the PTR. The reverse zone (<code>x.x.x.in-addr.arpa</code>) and the forward zone are managed independently \u2014 a very common real-world miss.</div></div>
+  </div>
+
+  <div class="callout sim-note">
+    <h5>Packet Tracer scope note</h5>
+    <p>Packet Tracer simulates the parts the exam tests \u2014 zone-less record management, A/AAAA/CNAME/MX/PTR, NS/SOA, and basic forwarding. It does <i>not</i> implement DNSSEC, DoH/DoT (covered in Explorer 3.4.4), advanced split-horizon, or real recursive/iterative behavior. Your <code>nslookup</code> output is also simpler than a real Windows nslookup. The concepts you exercised here \u2014 record types, forward vs reverse, the option to push DNS via DHCP \u2014 are the exam-tested ones.</p>
+  </div>
+</section>
+
+<!-- ============== TAB 6 · SUBMIT ============== -->
+<section class="panel" id="panel-submit">
+  <h2>Package it for <em>grading.</em></h2>
+
+  <div class="submit-card">
+    <h3>What to submit</h3>
+    <p>Two items, uploaded to the CIT-281 Canvas module under <b>Lab 3.4.3</b>:</p>
+    <ul>
+      <li>Your Packet Tracer file, named <code>Lab-3.4.3-DNS-FirstLast.pkt</code></li>
+      <li>A short <b>write-up</b> (PDF or doc) with the screenshots and answers listed below</li>
+    </ul>
+    <p>Confirm all five record types resolve from at least one client before you save and submit.</p>
+  </div>
+
+  <div class="section-head">Write-up must include</div>
+  <ul>
+    <li>A screenshot of the <b>DNS server\u2019s record list</b> showing all five record types (A, AAAA, CNAME, MX, PTR).</li>
+    <li>A screenshot of a <b>client\u2019s <code>nslookup</code></b> run on at least two of: <code>www.miami.cbt</code> (A), <code>intranet.miami.cbt</code> (CNAME), and <code>192.168.99.50</code> (PTR).</li>
+    <li>A screenshot of a <b>successful HTTP browse</b> to <code>http://www.miami.cbt</code> (Desktop \u2192 Web Browser).</li>
+    <li>One sentence each describing what <b>A</b>, <b>AAAA</b>, <b>CNAME</b>, <b>MX</b>, and <b>PTR</b> do.</li>
+    <li>One sentence on the difference between <b>forward</b> and <b>reverse</b> resolution \u2014 and why both must be configured for both to work.</li>
+  </ul>
+
+  <div class="section-head">Grading rubric (100 points)</div>
+  <table class="rubric">
+    <thead><tr><th>Criterion</th><th class="pts">Points</th></tr></thead>
+    <tbody>
+      <tr><td>DNS server placed, configured (192.168.99.20), and service On</td><td class="pts">10</td></tr>
+      <tr><td>A records added correctly (www, server, mail \u2192 192.168.99.50)</td><td class="pts">15</td></tr>
+      <tr><td>AAAA record for <code>server.miami.cbt</code> \u2192 <code>fd00:abcd:99::50</code></td><td class="pts">10</td></tr>
+      <tr><td>CNAME <code>intranet.miami.cbt</code> \u2192 <code>server.miami.cbt</code> resolves correctly</td><td class="pts">12</td></tr>
+      <tr><td>MX record for <code>miami.cbt</code> \u2192 <code>mail.miami.cbt</code> with priority 10</td><td class="pts">10</td></tr>
+      <tr><td>PTR record for 192.168.99.50 \u2014 reverse lookup returns the name</td><td class="pts">13</td></tr>
+      <tr><td>DHCP scopes push DNS = 192.168.99.20 (clients receive it on renewal)</td><td class="pts">10</td></tr>
+      <tr><td>nslookup verification of A and CNAME from a client \u2014 captured</td><td class="pts">10</td></tr>
+      <tr><td>Write-up correctly explains each record type and forward vs reverse</td><td class="pts">7</td></tr>
+      <tr><td>File named correctly &amp; submitted; topology tidy and reachable</td><td class="pts">3</td></tr>
+    </tbody>
+    <tfoot><tr><td>Total</td><td class="pts">100</td></tr></tfoot>
+  </table>
+
+  <div class="callout n-plus-context">
+    <h5>How this maps to the exam</h5>
+    <p>You\u2019ve implemented the DNS concepts objective 3.4 tests: the <b>record types</b> (A, AAAA, CNAME, MX, PTR, plus SOA/NS implicitly), <b>forward vs reverse</b> zones, and the <b>DHCP DNS option</b> that pushes the server to clients. Next in 3.4 you\u2019ll go deeper on the <b>resolution flow</b> and modern transport (DoH/DoT) in Explorer 3.4.4, then close with the time protocols in Explorer 3.4.5.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About this lab</h4>
+      <p>Lab 3.4.3 for Network+ N10-009 subtopic <b style="color:#E0B840">3.4 IPv4 &amp; IPv6 Services</b>. The DNS implement task: stand up a DNS server on the Miami management subnet, build A/AAAA/CNAME/MX/PTR records, push the server\u2019s address via DHCP, and verify with nslookup and ping-by-name. Pairs with the DHCP, IPv6/SLAAC, and DNS/time-services materials in 3.4. Part of the CBT Technology Institute networking curriculum.</p>
+    </div>
+    <div>
+      <h4>3.4 materials</h4>
+      <p style="opacity:0.55">3.4.1 · DHCP &amp; Relay (lab)</p>
+      <p style="opacity:0.55">3.4.2 · IPv6 Addressing &amp; SLAAC (explorer)</p>
+      <p>3.4.3 · DNS Services ← you are here</p>
+      <p style="opacity:0.55">3.4.4 · DNS Resolution &amp; Records (explorer)</p>
+      <p style="opacity:0.55">3.4.5 · Time Protocols (explorer)</p>
+    </div>
+    <div>
+      <h4>Need help?</h4>
+      <p>If you have any question about this lab, contact your <b style="color:#E0B840">Professor</b> or <b style="color:#E0B840">Faculty Lead</b> via Canvas Inbox, or come to the networking lab during posted hours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>CBT Technology Institute · School of IT</span>
+    <span>Packet Tracer Lab · v1.0</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const id = b.dataset.copy;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = b.textContent;
+      b.classList.add('copied');
+      b.textContent = 'Copied ✓';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+    });
+  });
+});
+
+const CHECK_KEY = 'cbt-lab-3.4.3-checks';
+const TOTAL_CHECKS = 10;
+function loadChecks(){
+  try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveChecks(s){ try{ localStorage.setItem(CHECK_KEY, JSON.stringify(s)); }catch(e){} }
+let checks = loadChecks();
+function renderChecks(){
+  let n = 0;
+  document.querySelectorAll('.check-row').forEach(r => {
+    const id = r.dataset.check;
+    if(checks[id]) { r.classList.add('passed'); n++; }
+    else r.classList.remove('passed');
+  });
+  document.getElementById('check-count').textContent = n;
+  document.getElementById('check-fill').style.width = (n/TOTAL_CHECKS*100) + '%';
+}
+document.querySelectorAll('.check-row').forEach(r => {
+  r.addEventListener('click', () => {
+    const id = r.dataset.check;
+    checks[id] = !checks[id];
+    saveChecks(checks);
+    renderChecks();
+  });
+});
+function resetChecks(){
+  if(!confirm('Reset all verification checks?')) return;
+  checks = {};
+  saveChecks(checks);
+  renderChecks();
+}
+renderChecks();
+</script>
+</body>
+</html>
