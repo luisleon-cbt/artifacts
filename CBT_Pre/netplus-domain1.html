@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Network+ N10-009 Domain 1 Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E1A2B;
+  --steel:#1B2C44;
+  --steel-line:#2C4062;
+  --paper:#F4F7FA;
+  --card:#FFFFFF;
+  --line:#D5DDE7;
+  --text:#16212F;
+  --muted:#5B6B7F;
+  --signal:#E8963A;
+  --up:#2E8F63;
+  --down:#C6413F;
+  --radius:4px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--text);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-weight:700;letter-spacing:.01em;margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+/* banner */
+.banner{background:var(--ink);color:#EAF0F7;padding:18px 20px 14px;border-bottom:3px solid var(--signal)}
+.banner-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal)}
+.banner h1{font-size:26px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em}
+.readout{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#9FB2C8;text-align:right;white-space:nowrap}
+.readout b{color:#EAF0F7;font-weight:500}
+
+/* patch panel strip */
+.panel{background:var(--steel);border-bottom:1px solid var(--steel-line);padding:10px 20px}
+.panel-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:5px}
+.jack{
+  width:26px;height:26px;border-radius:3px;
+  background:#152337;border:1px solid var(--steel-line);
+  color:#7B8DA5;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  display:flex;align-items:center;justify-content:center;padding:0;
+}
+.jack:hover{border-color:var(--signal)}
+.jack.answered{background:#22354F;color:#DCE6F1;border-color:#3E577C}
+.jack.flagged{box-shadow:inset 0 -3px 0 var(--signal)}
+.jack.here{border-color:var(--signal);color:#fff;background:#2C4062}
+.jack.right{background:var(--up);border-color:var(--up);color:#fff}
+.jack.wrong{background:var(--down);border-color:var(--down);color:#fff}
+
+/* layout */
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 7px;background:#F7F9FC}
+.qnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--signal);letter-spacing:.1em}
+.qtext{font-size:19px;line-height:1.5;margin:12px 0 20px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;color:var(--text);line-height:1.45;transition:border-color .12s,background .12s;
+}
+.opt:hover{border-color:#9FB2C8;background:#FBFCFE}
+.opt .key{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:3px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.opt.picked{border-color:var(--ink);background:#F2F6FB;box-shadow:inset 3px 0 0 var(--signal)}
+.opt.picked .key{background:var(--ink);color:#fff;border-color:var(--ink)}
+.opt[disabled]{cursor:default}
+.opt.correct{border-color:var(--up);background:#F1F9F5;box-shadow:inset 3px 0 0 var(--up)}
+.opt.correct .key{background:var(--up);color:#fff;border-color:var(--up)}
+.opt.missed{border-color:var(--down);background:#FDF3F3;box-shadow:inset 3px 0 0 var(--down)}
+.opt.missed .key{background:var(--down);color:#fff;border-color:var(--down)}
+
+/* action bar */
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 20px}
+.bar-in{max-width:900px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:var(--radius);padding:9px 16px;font-weight:500}
+.btn:hover{background:#F2F6FB}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#1B2C44}
+.btn.ghost{border-color:var(--line);color:var(--muted)}
+.btn.ghost:hover{border-color:var(--muted);color:var(--text);background:#fff}
+.btn.on{border-color:var(--signal);background:#FDF3E7;color:#8A5211}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.spacer{flex:1}
+
+/* start screen */
+.lede{font-size:18px;color:var(--muted);margin:0 0 20px;max-width:60ch}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:22px}
+.spec{background:#fff;padding:14px 16px}
+.spec dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.spec dd{margin:0;font-size:17px;font-weight:600}
+.blueprint{width:100%;border-collapse:collapse;margin-bottom:22px;font-size:15px}
+.blueprint th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:0 0 8px;border-bottom:1px solid var(--line)}
+.blueprint td{padding:9px 0;border-bottom:1px solid #EDF1F6;vertical-align:middle}
+.blueprint td:last-child,.blueprint th:last-child{text-align:right;font-family:"IBM Plex Mono",monospace}
+.setting{display:flex;gap:10px;align-items:center;margin-bottom:10px;color:var(--muted);font-size:15px}
+
+/* results */
+.score{display:flex;flex-wrap:wrap;gap:26px;align-items:center;margin-bottom:8px}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:64px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.verdict{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.02em}
+.verdict-note{color:var(--muted);max-width:52ch;margin-top:4px}
+.bars{margin:24px 0 6px}
+.barrow{display:grid;grid-template-columns:1fr 56px;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid #EDF1F6}
+.barlabel{font-size:15px}
+.barlabel .obj{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;display:block}
+.track{height:8px;background:#E7EDF4;border-radius:2px;overflow:hidden;margin-top:6px}
+.fill{height:100%;background:var(--ink);border-radius:2px;transition:width .6s ease}
+.fill.low{background:var(--down)}
+.fill.mid{background:var(--signal)}
+.fill.high{background:var(--up)}
+.barval{font-family:"IBM Plex Mono",monospace;font-size:14px;text-align:right;color:var(--muted)}
+.review-item{border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:12px;background:#fff}
+.status{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.status.ok{color:var(--up)}
+.status.no{color:var(--down)}
+.why{margin-top:12px;padding:12px 14px;background:#F7F9FC;border-left:3px solid var(--signal);border-radius:0 3px 3px 0;font-size:15px;color:#2B3948}
+.why strong{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px;font-weight:500}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:34px 0 12px}
+.section-head h2{font-size:20px;text-transform:uppercase}
+.hint{color:var(--muted);font-size:14px}
+.fade{animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:560px){
+  .banner h1{font-size:21px}
+  .pct{font-size:48px}
+  .qtext{font-size:17px}
+  .btn{padding:9px 12px}
+  .bar-in{flex-wrap:wrap}
+}
+@media print{
+  .bar,.panel,.noprint{display:none!important}
+  body{background:#fff}
+  .banner{background:#fff;color:#000;border-bottom:2px solid #000}
+  .banner h1,.readout b{color:#000}
+  .card,.review-item{border-color:#999;break-inside:avoid}
+  .wrap{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <div class="banner-in">
+    <div>
+      <div class="eyebrow" id="eyebrow">CompTIA Network+ N10-009</div>
+      <h1 id="banner-title">Pre-Assessment</h1>
+    </div>
+    <div class="readout" id="readout"></div>
+  </div>
+</header>
+
+<nav class="panel" id="panel" hidden aria-label="Question navigator">
+  <div class="panel-in" id="jacks"></div>
+</nav>
+
+<main class="wrap" id="view"></main>
+
+<div class="bar noprint" id="bar" hidden><div class="bar-in" id="bar-in"></div></div>
+
+<script>
+/* ===== QUIZ DATA START ===== */
+const QUIZ = {
+  eyebrow: "CompTIA Network+ N10-009 · Domain 1",
+  title: "Networking Concepts",
+  lede: "Twenty five items drawn only from Domain 1, which carries 23 percent of the exam. Objectives 1.1 through 1.8 are all represented, so the report tells you which subobjective needs another pass.",
+  minutes: 30,
+  gate: 75,
+  scope: "Domain 1 only",
+  questions: [
+    {
+      domain: "1.1 OSI model",
+      obj: "1.1 OSI model",
+      q: "Which OSI layer breaks data into segments and manages end to end connections using port numbers?",
+      options: ["Network", "Transport", "Session", "Presentation"],
+      answer: 1,
+      why: "Layer 4 handles segmentation, port addressing, and the reliability choice between TCP and UDP. Layer 3 addresses and routes packets, and Layer 5 sets up and tears down the dialog between applications."
+    },
+    {
+      domain: "1.1 OSI model",
+      obj: "1.1 OSI model",
+      q: "A router examines a packet header and chooses an exit interface based on the destination network. At which OSI layer is that decision made?",
+      options: ["Layer 2", "Layer 3", "Layer 4", "Layer 7"],
+      answer: 1,
+      why: "Routing is a Layer 3 function based on IP addresses and the routing table. The router still rewrites Layer 2 headers on each hop, but the forwarding decision itself is made at Layer 3."
+    },
+    {
+      domain: "1.1 OSI model",
+      obj: "1.1 OSI model",
+      q: "Character encoding, data format translation, and encryption are traditionally mapped to which OSI layer?",
+      options: ["Session", "Presentation", "Application", "Transport"],
+      answer: 1,
+      why: "Layer 6 puts data into a form the receiving application can read, which is where formatting, compression, and encryption sit in the model. Layer 7 is where the application protocol itself lives."
+    },
+    {
+      domain: "1.2 Networking appliances",
+      obj: "1.2 Networking appliances",
+      q: "Which appliance accepts client requests on a single virtual address and distributes them across a pool of back end servers?",
+      options: ["Load balancer", "Forward proxy", "Media converter", "Wireless controller"],
+      answer: 0,
+      why: "A load balancer spreads sessions across a server pool and removes failed members from rotation with health checks. A forward proxy sits in front of clients rather than servers."
+    },
+    {
+      domain: "1.2 Networking appliances",
+      obj: "1.2 Networking appliances",
+      q: "A device sits inline, inspects traffic against a signature set, and drops matching packets before they reach the target. What is it?",
+      options: ["IDS", "IPS", "SIEM", "Jump box"],
+      answer: 1,
+      why: "An intrusion prevention system is inline and can block. An intrusion detection system receives a copy of traffic and only alerts, so it cannot stop the packet in flight."
+    },
+    {
+      domain: "1.2 Networking appliances",
+      obj: "1.2 Networking appliances",
+      q: "Which statement correctly separates NAS from SAN?",
+      options: [
+        "NAS presents file level storage over the existing network, while SAN presents block level storage over a dedicated fabric",
+        "NAS presents block level storage, while SAN presents file shares",
+        "NAS requires fiber channel, while SAN runs only over Ethernet",
+        "There is no functional difference, only vendor naming"
+      ],
+      answer: 0,
+      why: "NAS serves files through protocols such as SMB and NFS over the standard network. SAN presents raw block devices to the host through a dedicated fabric using fiber channel or iSCSI, and the host formats them as if they were local disks."
+    },
+    {
+      domain: "1.3 Cloud concepts",
+      obj: "1.3 Cloud concepts",
+      q: "A customer provisions virtual machines and virtual networks, installs its own operating systems, and patches them. The provider owns the hardware and hypervisor. Which model is this?",
+      options: ["SaaS", "PaaS", "IaaS", "Managed hosting"],
+      answer: 2,
+      why: "Infrastructure as a service delivers raw compute, storage, and networking, with the customer responsible from the operating system upward. PaaS supplies a managed runtime and SaaS delivers the finished application."
+    },
+    {
+      domain: "1.3 Cloud concepts",
+      obj: "1.3 Cloud connectivity",
+      q: "Inside a virtual private cloud, which control filters inbound and outbound traffic at the instance level?",
+      options: ["Network security group", "Cloud gateway", "Transit peering", "Availability zone"],
+      answer: 0,
+      why: "A network security group is a stateful rule set attached to instances or their interfaces. A cloud gateway connects the VPC outward, and an availability zone is a physical fault boundary rather than a filter."
+    },
+    {
+      domain: "1.3 Cloud concepts",
+      obj: "1.3 Cloud concepts",
+      q: "A retail site automatically adds compute during a sale and releases it hours later without any administrator action. Which characteristic is demonstrated?",
+      options: ["Multitenancy", "Elasticity", "Colocation", "Redundancy"],
+      answer: 1,
+      why: "Elasticity is automatic expansion and contraction with demand. Scalability describes the capacity to grow at all, while multitenancy describes many customers sharing the same underlying platform."
+    },
+    {
+      domain: "1.4 Ports and protocols",
+      obj: "1.4 Ports and protocols",
+      q: "An administrator transfers files to a Linux server over an encrypted session using SFTP. Which port must be open?",
+      options: ["20", "21", "22", "69"],
+      answer: 2,
+      why: "SFTP runs inside an SSH session on port 22. Ports 20 and 21 belong to plain FTP, and 69 is TFTP, which is UDP and has no authentication."
+    },
+    {
+      domain: "1.4 Ports and protocols",
+      obj: "1.4 Ports and protocols",
+      q: "Which service listens on TCP 3389?",
+      options: ["SMB", "RDP", "LDAPS", "SIP"],
+      answer: 1,
+      why: "Remote Desktop Protocol uses TCP 3389. SMB is 445, LDAPS is 636, and SIP uses 5060 in the clear or 5061 secured."
+    },
+    {
+      domain: "1.4 Ports and protocols",
+      obj: "1.4 Ports and protocols",
+      q: "A monitoring server polls switch interface counters. Which port does the agent on the switch listen on?",
+      options: ["161", "162", "514", "123"],
+      answer: 0,
+      why: "The SNMP agent listens on UDP 161 for polls, while the manager receives traps on UDP 162. Port 514 is syslog and 123 is NTP."
+    },
+    {
+      domain: "1.4 Traffic types",
+      obj: "1.4 Traffic types",
+      q: "Which IPv4 range is reserved for multicast?",
+      options: ["127.0.0.0 to 127.255.255.255", "169.254.0.0 to 169.254.255.255", "224.0.0.0 to 239.255.255.255", "240.0.0.0 to 255.255.255.254"],
+      answer: 2,
+      why: "Class D covers 224.0.0.0 through 239.255.255.255 and is used for one to many delivery to subscribed receivers. The 127 range is loopback and 169.254 is APIPA."
+    },
+    {
+      domain: "1.5 Transmission media",
+      obj: "1.5 Transmission media",
+      q: "Which characteristic belongs to single mode fiber rather than multimode?",
+      options: [
+        "A larger core using an LED source over short runs",
+        "A narrow core using a laser source, supporting much longer distances",
+        "Copper conductors inside a shielded jacket",
+        "A maximum run of 100 meters"
+      ],
+      answer: 1,
+      why: "Single mode uses a core near 9 microns with a laser, so light travels one path and the link can span long distances. Multimode has a wider core, commonly 50 or 62.5 microns, and modal dispersion limits its reach."
+    },
+    {
+      domain: "1.5 Transmission media",
+      obj: "1.5 Transmission media",
+      q: "Which copper category is the minimum rated for 10GBASE-T across a full 100 meter run?",
+      options: ["Cat 5e", "Cat 6", "Cat 6a", "Cat 3"],
+      answer: 2,
+      why: "Cat 6a carries 10 Gbps to 100 meters with added alien crosstalk protection. Cat 6 can reach 10 Gbps only to roughly 55 meters, and Cat 5e tops out at 1 Gbps for standard runs."
+    },
+    {
+      domain: "1.5 Transmission media",
+      obj: "1.5 Transmission media",
+      q: "Cable will be pulled through the space above a suspended ceiling that is used to return building air. What must the cable be?",
+      options: ["Riser rated", "Plenum rated", "Direct burial rated", "Shielded twisted pair"],
+      answer: 1,
+      why: "Plenum rated jacketing resists flame spread and gives off less toxic smoke, which is required in air handling spaces. Riser rating applies to vertical shafts between floors and does not satisfy the plenum requirement."
+    },
+    {
+      domain: "1.5 Transceivers",
+      obj: "1.5 Transceivers",
+      q: "Which transceiver form factor is used for a 40 Gbps uplink?",
+      options: ["SFP", "SFP+", "QSFP+", "GBIC"],
+      answer: 2,
+      why: "QSFP+ is the quad form factor rated at 40 Gbps. SFP handles 1 Gbps, SFP+ handles 10 Gbps, and QSFP28 moves up to 100 Gbps."
+    },
+    {
+      domain: "1.6 Network topologies",
+      obj: "1.6 Network topologies",
+      q: "Every branch office connects back to one central site, and branch to branch traffic must pass through that center. Which topology is in use?",
+      options: ["Full mesh", "Hub and spoke", "Ring", "Spine and leaf"],
+      answer: 1,
+      why: "Hub and spoke keeps circuit count and cost low but makes the hub a single point of failure and adds a hop to branch to branch traffic. A full mesh removes that hop at the cost of many more links."
+    },
+    {
+      domain: "1.6 Network topologies",
+      obj: "1.6 Three tier hierarchy",
+      q: "In the three tier hierarchical model, which layer aggregates access switches and applies routing policy and filtering?",
+      options: ["Core", "Distribution", "Access", "Edge"],
+      answer: 1,
+      why: "The distribution layer is where aggregation, inter VLAN routing, and policy live. The core is built for fast transport and avoids policy work, and the access layer is where end devices attach."
+    },
+    {
+      domain: "1.6 Traffic flows",
+      obj: "1.6 Traffic flows",
+      q: "Which description matches east west traffic?",
+      options: [
+        "Traffic between a client on the internet and a public web server",
+        "Traffic between servers inside the same data center",
+        "Traffic leaving the campus toward an internet service provider",
+        "Traffic between a remote user and a VPN concentrator"
+      ],
+      answer: 1,
+      why: "East west traffic moves laterally between systems inside the data center, and virtualization pushed most modern traffic into that pattern. North south traffic crosses the boundary between inside and outside."
+    },
+    {
+      domain: "1.7 IPv4 addressing",
+      obj: "1.7 Subnetting",
+      q: "How many usable host addresses does a /26 subnet provide?",
+      options: ["30", "62", "64", "126"],
+      answer: 1,
+      why: "A /26 leaves 6 host bits, which is 64 total addresses. Subtracting the network and broadcast addresses leaves 62 usable."
+    },
+    {
+      domain: "1.7 IPv4 addressing",
+      obj: "1.7 Subnetting",
+      q: "Which subnet contains the address 10.20.30.200/27?",
+      options: ["10.20.30.128/27", "10.20.30.160/27", "10.20.30.192/27", "10.20.30.224/27"],
+      answer: 2,
+      why: "A /27 has a block size of 32, so the boundaries are 192, 224, and so on. The address 200 falls between 192 and 223, making 10.20.30.192 the network address and 10.20.30.223 the broadcast."
+    },
+    {
+      domain: "1.7 IPv4 addressing",
+      obj: "1.7 IPv4 addressing",
+      q: "Which address lets a host send traffic to its own TCP/IP stack for testing?",
+      options: ["0.0.0.0", "127.0.0.1", "169.254.1.1", "255.255.255.255"],
+      answer: 1,
+      why: "The 127.0.0.0/8 range is loopback, and a successful ping there confirms the local stack is installed and running. The 169.254 range is APIPA, which appears when DHCP fails."
+    },
+    {
+      domain: "1.8 Modern network environments",
+      obj: "1.8 Modern environments",
+      q: "Which technology carries Layer 2 segments across a Layer 3 underlay using a 24 bit segment identifier?",
+      options: ["VXLAN", "SD-WAN", "MPLS", "GRE"],
+      answer: 0,
+      why: "VXLAN encapsulates Ethernet frames in UDP and uses a 24 bit VNI, which raises the segment ceiling far above the 4094 VLAN limit. SD-WAN manages transport selection across WAN circuits rather than extending Layer 2."
+    },
+    {
+      domain: "1.8 Modern network environments",
+      obj: "1.8 Modern environments",
+      q: "A design authenticates and authorizes every request on its own merits, with no implicit trust granted just because a device sits on the internal network. Which approach is this?",
+      options: ["Perimeter security model", "Zero trust architecture", "Screened subnet", "Defense in depth by VLAN"],
+      answer: 1,
+      why: "Zero trust removes location as a basis for trust and evaluates identity, device posture, and policy on every request. The traditional perimeter model does the opposite by treating the inside as trusted."
+    }
+  ]
+};
+/* ===== QUIZ DATA END ===== */
+
+/* ---------- state ---------- */
+const S = {
+  i: 0,
+  picks: new Array(QUIZ.questions.length).fill(null),
+  order: [],
+  flags: new Set(),
+  phase: "start",
+  shuffle: true,
+  timed: true,
+  left: QUIZ.minutes * 60,
+  spent: 0,
+  tick: null,
+  missedOnly: false
+};
+
+const view = document.getElementById("view");
+const bar = document.getElementById("bar");
+const barIn = document.getElementById("bar-in");
+const panel = document.getElementById("panel");
+const jacks = document.getElementById("jacks");
+const readout = document.getElementById("readout");
+document.getElementById("eyebrow").textContent = QUIZ.eyebrow;
+document.getElementById("banner-title").textContent = QUIZ.title;
+document.title = QUIZ.eyebrow + " " + QUIZ.title;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const KEYS = ["A", "B", "C", "D", "E"];
+const clock = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+const shuffled = n => { const a = [...Array(n).keys()]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function buildOrder() {
+  S.order = QUIZ.questions.map(q => S.shuffle ? shuffled(q.options.length) : [...Array(q.options.length).keys()]);
+}
+
+/* ---------- start ---------- */
+function renderStart() {
+  S.phase = "start";
+  panel.hidden = true;
+  bar.hidden = true;
+  readout.innerHTML = "";
+  const byDomain = {};
+  QUIZ.questions.forEach(q => byDomain[q.domain] = (byDomain[q.domain] || 0) + 1);
+  const rows = Object.entries(byDomain).map(([d, n]) =>
+    `<tr><td>${esc(d)}</td><td>${n}</td></tr>`).join("");
+
+  view.innerHTML = `
+  <div class="card fade">
+    <p class="lede">${esc(QUIZ.lede)}</p>
+    <dl class="specs">
+      <div class="spec"><dt>Questions</dt><dd>${QUIZ.questions.length}</dd></div>
+      <div class="spec"><dt>Time</dt><dd>${QUIZ.minutes} min</dd></div>
+      <div class="spec"><dt>Readiness gate</dt><dd>${QUIZ.gate}%</dd></div>
+      <div class="spec"><dt>Coverage</dt><dd>${esc(QUIZ.scope)}</dd></div>
+    </dl>
+    <table class="blueprint">
+      <thead><tr><th>Coverage</th><th>Items</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="setting"><input type="checkbox" id="opt-shuffle" checked><label for="opt-shuffle">Shuffle the answer choices</label></div>
+    <div class="setting"><input type="checkbox" id="opt-timed" checked><label for="opt-timed">Run the ${QUIZ.minutes} minute timer, submitting automatically at zero</label></div>
+    <p class="hint" style="margin:18px 0 0">Nothing is saved between sessions. Print or screenshot the report at the end if you want a record.</p>
+  </div>`;
+
+  bar.hidden = false;
+  barIn.innerHTML = `<span class="hint">${QUIZ.questions.length} questions, one attempt per session</span><span class="spacer"></span><button class="btn primary" id="go">Start the quiz</button>`;
+  document.getElementById("go").onclick = () => {
+    S.shuffle = document.getElementById("opt-shuffle").checked;
+    S.timed = document.getElementById("opt-timed").checked;
+    buildOrder();
+    S.left = QUIZ.minutes * 60;
+    S.spent = 0;
+    startClock();
+    S.phase = "quiz";
+    S.i = 0;
+    renderQuiz();
+  };
+}
+
+/* ---------- clock ---------- */
+function startClock() {
+  clearInterval(S.tick);
+  S.tick = setInterval(() => {
+    S.spent++;
+    if (S.timed) {
+      S.left--;
+      if (S.left <= 0) { S.left = 0; grade(); return; }
+    }
+    paintReadout();
+  }, 1000);
+}
+
+function paintReadout() {
+  if (S.phase !== "quiz") return;
+  const done = S.picks.filter(p => p !== null).length;
+  const t = S.timed ? clock(S.left) + " left" : clock(S.spent) + " elapsed";
+  readout.innerHTML = `<b>${String(S.i + 1).padStart(2, "0")}</b> / ${QUIZ.questions.length} &nbsp;&middot;&nbsp; ${done} answered &nbsp;&middot;&nbsp; <b>${t}</b>`;
+}
+
+/* ---------- patch panel ---------- */
+function paintPanel(graded) {
+  panel.hidden = false;
+  jacks.innerHTML = "";
+  QUIZ.questions.forEach((q, n) => {
+    const b = document.createElement("button");
+    b.className = "jack";
+    b.textContent = n + 1;
+    b.setAttribute("aria-label", "Question " + (n + 1));
+    if (graded) {
+      if (S.picks[n] === q.answer) b.classList.add("right");
+      else b.classList.add("wrong");
+    } else {
+      if (S.picks[n] !== null) b.classList.add("answered");
+      if (S.flags.has(n)) b.classList.add("flagged");
+      if (n === S.i) b.classList.add("here");
+    }
+    b.onclick = () => {
+      if (graded) {
+        const el = document.getElementById("rev-" + n);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else { S.i = n; renderQuiz(); }
+    };
+    jacks.appendChild(b);
+  });
+}
+
+/* ---------- quiz ---------- */
+function renderQuiz() {
+  const q = QUIZ.questions[S.i];
+  const ord = S.order[S.i];
+  paintPanel(false);
+  paintReadout();
+
+  view.innerHTML = `
+  <div class="card fade">
+    <div class="qnum">QUESTION ${String(S.i + 1).padStart(2, "0")} / ${QUIZ.questions.length}</div>
+    <p class="qtext">${esc(q.q)}</p>
+    <div class="opts" role="radiogroup" aria-label="Answer choices">
+      ${ord.map((oi, pos) => `
+        <button class="opt${S.picks[S.i] === oi ? " picked" : ""}" data-oi="${oi}" role="radio" aria-checked="${S.picks[S.i] === oi}">
+          <span class="key">${KEYS[pos]}</span><span>${esc(q.options[oi])}</span>
+        </button>`).join("")}
+    </div>
+    <div style="margin-top:18px"><span class="tag">${esc(q.obj)}</span></div>
+  </div>`;
+
+  view.querySelectorAll(".opt").forEach(b => {
+    b.onclick = () => {
+      S.picks[S.i] = Number(b.dataset.oi);
+      renderQuiz();
+    };
+  });
+
+  const done = S.picks.filter(p => p !== null).length;
+  const last = S.i === QUIZ.questions.length - 1;
+  barIn.innerHTML = `
+    <button class="btn ghost" id="prev" ${S.i === 0 ? "disabled" : ""}>Back</button>
+    <button class="btn ghost${S.flags.has(S.i) ? " on" : ""}" id="flag">${S.flags.has(S.i) ? "Flagged" : "Flag for review"}</button>
+    <span class="spacer"></span>
+    ${done === QUIZ.questions.length ? `<button class="btn primary" id="submit">Finish and grade</button>` : ""}
+    <button class="btn ${last ? "" : "primary"}" id="next" ${last ? "disabled" : ""}>Next</button>`;
+
+  const prev = document.getElementById("prev");
+  if (prev) prev.onclick = () => { if (S.i > 0) { S.i--; renderQuiz(); } };
+  const next = document.getElementById("next");
+  if (next) next.onclick = () => { if (S.i < QUIZ.questions.length - 1) { S.i++; renderQuiz(); } };
+  document.getElementById("flag").onclick = () => {
+    S.flags.has(S.i) ? S.flags.delete(S.i) : S.flags.add(S.i);
+    renderQuiz();
+  };
+  const sub = document.getElementById("submit");
+  if (sub) sub.onclick = () => {
+    if (confirm("Grade the quiz now? Answers cannot be changed afterward.")) grade();
+  };
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+}
+
+/* ---------- grading ---------- */
+function grade() {
+  clearInterval(S.tick);
+  S.phase = "done";
+  renderReport();
+}
+
+function renderReport() {
+  const qs = QUIZ.questions;
+  const correct = qs.filter((q, n) => S.picks[n] === q.answer).length;
+  const pct = Math.round((correct / qs.length) * 100);
+
+  const dom = {};
+  qs.forEach((q, n) => {
+    dom[q.domain] = dom[q.domain] || { hit: 0, total: 0 };
+    dom[q.domain].total++;
+    if (S.picks[n] === q.answer) dom[q.domain].hit++;
+  });
+
+  let verdict, note, cls;
+  if (pct >= 80) { verdict = "Gate cleared"; cls = "high"; note = "Strong baseline. Keep the weakest domain below in your weekly rotation and move on to timed practice sets."; }
+  else if (pct >= QUIZ.gate) { verdict = "Gate met, margin is thin"; cls = "mid"; note = "You are above the gate but not by much. Rework the missed items and retake this before the next checkpoint."; }
+  else { verdict = "Below the gate"; cls = "low"; note = "Expected at this stage. Use the domain report to pick the two weakest areas and start there this week."; }
+
+  const bars = Object.entries(dom).map(([d, v]) => {
+    const p = Math.round((v.hit / v.total) * 100);
+    const k = p >= 80 ? "high" : p >= QUIZ.gate ? "mid" : "low";
+    return `<div class="barrow">
+      <div class="barlabel">${esc(d)}<div class="track"><div class="fill ${k}" style="width:${p}%"></div></div></div>
+      <div class="barval">${v.hit}/${v.total}</div>
+    </div>`;
+  }).join("");
+
+  const items = qs.map((q, n) => {
+    const pick = S.picks[n];
+    const ok = pick === q.answer;
+    if (S.missedOnly && ok) return "";
+    const ord = S.order[n] && S.order[n].length ? S.order[n] : [...Array(q.options.length).keys()];
+    return `<div class="review-item" id="rev-${n}">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+        <span class="qnum">QUESTION ${String(n + 1).padStart(2, "0")}</span>
+        <span class="status ${ok ? "ok" : "no"}">${ok ? "Correct" : "Missed"}</span>
+      </div>
+      <p class="qtext" style="font-size:17px;margin:8px 0 14px">${esc(q.q)}</p>
+      <div class="opts">
+        ${ord.map((oi, pos) => {
+          let c = "opt";
+          if (oi === q.answer) c += " correct";
+          else if (oi === pick) c += " missed";
+          return `<div class="${c}"><span class="key">${KEYS[pos]}</span><span>${esc(q.options[oi])}${oi === pick ? '  <em style="color:#5B6B7F;font-style:normal;font-size:13px">(your answer)</em>' : ""}</span></div>`;
+        }).join("")}
+      </div>
+      <div class="why"><strong>Why</strong>${esc(q.why)}</div>
+      <div style="margin-top:12px"><span class="tag">${esc(q.obj)}</span></div>
+    </div>`;
+  }).join("");
+
+  const missed = qs.length - correct;
+  readout.innerHTML = `<b>${clock(S.spent)}</b> used${S.timed ? " of " + QUIZ.minutes + ":00" : ""}`;
+  paintPanel(true);
+
+  view.innerHTML = `
+  <div class="card fade">
+    <div class="score">
+      <div class="pct">${pct}<span style="font-size:26px;color:var(--muted)">%</span></div>
+      <div>
+        <div class="verdict">${esc(verdict)}</div>
+        <div class="verdict-note">${esc(note)}</div>
+      </div>
+    </div>
+    <div class="hint mono" style="margin-top:10px">${correct} correct, ${missed} missed, gate set at ${QUIZ.gate}%</div>
+    <div class="bars">${bars}</div>
+  </div>
+
+  <div class="section-head">
+    <h2>Item review</h2>
+    <span class="hint noprint">Select a port above to jump to that item</span>
+  </div>
+  <div id="review">${items || '<div class="card">Nothing missed. There is no filtered view to show.</div>'}</div>`;
+
+  barIn.innerHTML = `
+    <button class="btn ghost" id="filter">${S.missedOnly ? "Show all items" : "Show missed only"}</button>
+    <button class="btn ghost noprint" id="print">Print the report</button>
+    <span class="spacer"></span>
+    <button class="btn primary" id="again">Retake</button>`;
+  document.getElementById("filter").onclick = () => { S.missedOnly = !S.missedOnly; renderReport(); };
+  document.getElementById("print").onclick = () => window.print();
+  document.getElementById("again").onclick = () => {
+    S.picks = new Array(qs.length).fill(null);
+    S.flags.clear();
+    S.i = 0;
+    S.spent = 0;
+    S.missedOnly = false;
+    renderStart();
+    window.scrollTo(0, 0);
+  };
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown", e => {
+  if (S.phase !== "quiz") return;
+  if (e.key === "ArrowRight" && S.i < QUIZ.questions.length - 1) { S.i++; renderQuiz(); }
+  if (e.key === "ArrowLeft" && S.i > 0) { S.i--; renderQuiz(); }
+  const k = KEYS.indexOf(e.key.toUpperCase());
+  if (k > -1 && k < QUIZ.questions[S.i].options.length) {
+    S.picks[S.i] = S.order[S.i][k];
+    renderQuiz();
+  }
+});
+
+buildOrder();
+renderStart();
+</script>
+</body>
+</html>

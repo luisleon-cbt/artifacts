@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Network+ N10-009 Pre-Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E1A2B;
+  --steel:#1B2C44;
+  --steel-line:#2C4062;
+  --paper:#F4F7FA;
+  --card:#FFFFFF;
+  --line:#D5DDE7;
+  --text:#16212F;
+  --muted:#5B6B7F;
+  --signal:#E8963A;
+  --up:#2E8F63;
+  --down:#C6413F;
+  --radius:4px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--text);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-weight:700;letter-spacing:.01em;margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+/* banner */
+.banner{background:var(--ink);color:#EAF0F7;padding:18px 20px 14px;border-bottom:3px solid var(--signal)}
+.banner-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal)}
+.banner h1{font-size:26px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em}
+.readout{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#9FB2C8;text-align:right;white-space:nowrap}
+.readout b{color:#EAF0F7;font-weight:500}
+
+/* patch panel strip */
+.panel{background:var(--steel);border-bottom:1px solid var(--steel-line);padding:10px 20px}
+.panel-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:5px}
+.jack{
+  width:26px;height:26px;border-radius:3px;
+  background:#152337;border:1px solid var(--steel-line);
+  color:#7B8DA5;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  display:flex;align-items:center;justify-content:center;padding:0;
+}
+.jack:hover{border-color:var(--signal)}
+.jack.answered{background:#22354F;color:#DCE6F1;border-color:#3E577C}
+.jack.flagged{box-shadow:inset 0 -3px 0 var(--signal)}
+.jack.here{border-color:var(--signal);color:#fff;background:#2C4062}
+.jack.right{background:var(--up);border-color:var(--up);color:#fff}
+.jack.wrong{background:var(--down);border-color:var(--down);color:#fff}
+
+/* layout */
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 7px;background:#F7F9FC}
+.qnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--signal);letter-spacing:.1em}
+.qtext{font-size:19px;line-height:1.5;margin:12px 0 20px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;color:var(--text);line-height:1.45;transition:border-color .12s,background .12s;
+}
+.opt:hover{border-color:#9FB2C8;background:#FBFCFE}
+.opt .key{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:3px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.opt.picked{border-color:var(--ink);background:#F2F6FB;box-shadow:inset 3px 0 0 var(--signal)}
+.opt.picked .key{background:var(--ink);color:#fff;border-color:var(--ink)}
+.opt[disabled]{cursor:default}
+.opt.correct{border-color:var(--up);background:#F1F9F5;box-shadow:inset 3px 0 0 var(--up)}
+.opt.correct .key{background:var(--up);color:#fff;border-color:var(--up)}
+.opt.missed{border-color:var(--down);background:#FDF3F3;box-shadow:inset 3px 0 0 var(--down)}
+.opt.missed .key{background:var(--down);color:#fff;border-color:var(--down)}
+
+/* action bar */
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 20px}
+.bar-in{max-width:900px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:var(--radius);padding:9px 16px;font-weight:500}
+.btn:hover{background:#F2F6FB}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#1B2C44}
+.btn.ghost{border-color:var(--line);color:var(--muted)}
+.btn.ghost:hover{border-color:var(--muted);color:var(--text);background:#fff}
+.btn.on{border-color:var(--signal);background:#FDF3E7;color:#8A5211}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.spacer{flex:1}
+
+/* start screen */
+.lede{font-size:18px;color:var(--muted);margin:0 0 20px;max-width:60ch}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:22px}
+.spec{background:#fff;padding:14px 16px}
+.spec dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.spec dd{margin:0;font-size:17px;font-weight:600}
+.blueprint{width:100%;border-collapse:collapse;margin-bottom:22px;font-size:15px}
+.blueprint th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:0 0 8px;border-bottom:1px solid var(--line)}
+.blueprint td{padding:9px 0;border-bottom:1px solid #EDF1F6;vertical-align:middle}
+.blueprint td:last-child,.blueprint th:last-child{text-align:right;font-family:"IBM Plex Mono",monospace}
+.setting{display:flex;gap:10px;align-items:center;margin-bottom:10px;color:var(--muted);font-size:15px}
+
+/* results */
+.score{display:flex;flex-wrap:wrap;gap:26px;align-items:center;margin-bottom:8px}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:64px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.verdict{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.02em}
+.verdict-note{color:var(--muted);max-width:52ch;margin-top:4px}
+.bars{margin:24px 0 6px}
+.barrow{display:grid;grid-template-columns:1fr 56px;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid #EDF1F6}
+.barlabel{font-size:15px}
+.barlabel .obj{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;display:block}
+.track{height:8px;background:#E7EDF4;border-radius:2px;overflow:hidden;margin-top:6px}
+.fill{height:100%;background:var(--ink);border-radius:2px;transition:width .6s ease}
+.fill.low{background:var(--down)}
+.fill.mid{background:var(--signal)}
+.fill.high{background:var(--up)}
+.barval{font-family:"IBM Plex Mono",monospace;font-size:14px;text-align:right;color:var(--muted)}
+.review-item{border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:12px;background:#fff}
+.status{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.status.ok{color:var(--up)}
+.status.no{color:var(--down)}
+.why{margin-top:12px;padding:12px 14px;background:#F7F9FC;border-left:3px solid var(--signal);border-radius:0 3px 3px 0;font-size:15px;color:#2B3948}
+.why strong{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px;font-weight:500}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:34px 0 12px}
+.section-head h2{font-size:20px;text-transform:uppercase}
+.hint{color:var(--muted);font-size:14px}
+.fade{animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:560px){
+  .banner h1{font-size:21px}
+  .pct{font-size:48px}
+  .qtext{font-size:17px}
+  .btn{padding:9px 12px}
+  .bar-in{flex-wrap:wrap}
+}
+@media print{
+  .bar,.panel,.noprint{display:none!important}
+  body{background:#fff}
+  .banner{background:#fff;color:#000;border-bottom:2px solid #000}
+  .banner h1,.readout b{color:#000}
+  .card,.review-item{border-color:#999;break-inside:avoid}
+  .wrap{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <div class="banner-in">
+    <div>
+      <div class="eyebrow" id="eyebrow">CompTIA Network+ N10-009</div>
+      <h1 id="banner-title">Pre-Assessment</h1>
+    </div>
+    <div class="readout" id="readout"></div>
+  </div>
+</header>
+
+<nav class="panel" id="panel" hidden aria-label="Question navigator">
+  <div class="panel-in" id="jacks"></div>
+</nav>
+
+<main class="wrap" id="view"></main>
+
+<div class="bar noprint" id="bar" hidden><div class="bar-in" id="bar-in"></div></div>
+
+<script>
+/* ===== QUIZ DATA START ===== */
+const QUIZ = {
+  eyebrow: "CompTIA Network+ N10-009",
+  title: "Pre-Assessment",
+  lede: "A fifty item baseline across all five exam domains, weighted to the published blueprint. Answer every question, then read the domain report to see where your study time should go first.",
+  minutes: 60,
+  gate: 70,
+  scope: "All five domains",
+  questions: [
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.1 OSI model",
+      q: "Which OSI layer is responsible for logical addressing and selecting a path between different networks?",
+      options: ["Data link", "Network", "Transport", "Session"],
+      answer: 1,
+      why: "Layer 3 handles IP addressing and routing decisions between networks. Layer 2 moves frames inside a single segment using MAC addresses, and Layer 4 manages end to end connections with port numbers."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.4 Ports and protocols",
+      q: "A web application must be reached over an encrypted session. Which default port does the browser use?",
+      options: ["80", "143", "443", "8080"],
+      answer: 2,
+      why: "HTTPS listens on TCP 443. Port 80 is plain HTTP, 143 is IMAP, and 8080 is a common alternate HTTP port that carries no encryption by itself."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.7 IPv4 addressing",
+      q: "Which address falls inside an RFC 1918 private range?",
+      options: ["172.32.5.10", "172.16.5.10", "192.169.1.10", "169.254.10.5"],
+      answer: 1,
+      why: "The private ranges are 10.0.0.0/8, 172.16.0.0/12 which stops at 172.31.255.255, and 192.168.0.0/16. That rules out 172.32.5.10 and 192.169.1.10. The 169.254 address is APIPA, not RFC 1918."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.3 Cloud concepts",
+      q: "A company rents virtual machines and installs its own operating systems and applications, while the provider maintains the physical hardware and hypervisor. Which service model is this?",
+      options: ["SaaS", "PaaS", "IaaS", "DaaS"],
+      answer: 2,
+      why: "Infrastructure as a service delivers compute, storage, and networking, and the customer owns everything from the operating system upward. PaaS hands over a ready runtime, and SaaS delivers the finished application."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.6 Network topologies",
+      q: "A data center design connects every access switch to every backbone switch, giving any server a consistent two hop path to any other server. Which topology is described?",
+      options: ["Bus", "Spine and leaf", "Ring", "Point to point"],
+      answer: 1,
+      why: "Spine and leaf was built for east west traffic between servers, and every leaf uplinks to every spine so path length stays predictable. Traditional hierarchical designs add hops and uneven paths as traffic crosses layers."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.4 Traffic types",
+      q: "Several servers in different regions share one IP address, and each client is served by the closest instance. Which traffic type is in use?",
+      options: ["Broadcast", "Multicast", "Anycast", "Unicast"],
+      answer: 2,
+      why: "Anycast advertises the same address from many locations and routing delivers the request to the nearest one, which is how public DNS resolvers and CDNs work. Multicast sends one stream to a subscribed group, and unicast is strictly one to one."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.1 Networking devices",
+      q: "Which device builds a table of MAC addresses and forwards frames only out the port where the destination lives?",
+      options: ["Hub", "Switch", "Router", "Media converter"],
+      answer: 1,
+      why: "A switch learns source MAC addresses per port and forwards frames selectively, so each port is its own collision domain. A hub repeats every frame out every port, and a router forwards based on IP."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.3 Switching technologies",
+      q: "What is the main effect of placing departments on separate VLANs?",
+      options: [
+        "Each VLAN becomes its own broadcast domain",
+        "Each VLAN gets a dedicated physical switch",
+        "Traffic between VLANs no longer needs routing",
+        "Every port is forced to half duplex"
+      ],
+      answer: 0,
+      why: "A VLAN segments one physical switch into separate logical broadcast domains. Traffic between VLANs still requires a Layer 3 device or a switched virtual interface."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.3 Switching technologies",
+      q: "Two switches are cross connected with redundant links. Which protocol keeps the redundant path from creating a broadcast storm?",
+      options: ["LACP", "STP", "CDP", "VRRP"],
+      answer: 1,
+      why: "Spanning Tree Protocol blocks the redundant path and brings it up only when the active path fails. LACP bundles links into one logical link, and VRRP provides gateway redundancy at Layer 3."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.2 Routing technologies",
+      q: "Which interior gateway protocol is link state and builds a full topology map using cost as its metric?",
+      options: ["RIP", "BGP", "OSPF", "EIGRP"],
+      answer: 2,
+      why: "OSPF floods link state advertisements so every router computes a shortest path tree. RIP is distance vector using hop count, and BGP is the path vector protocol that runs between autonomous systems."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.4 Wireless standards",
+      q: "Compared with 5 GHz, what is the practical trade off of operating a wireless network in the 2.4 GHz band?",
+      options: [
+        "Shorter range but far more available channels",
+        "Longer range and better obstacle penetration, with fewer non overlapping channels",
+        "Identical range and channel count, only different encryption",
+        "Longer range with no possibility of interference"
+      ],
+      answer: 1,
+      why: "Lower frequency travels farther and passes through walls better, but 2.4 GHz offers only a small set of non overlapping channels and shares space with cordless phones, microwaves, and Bluetooth."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.1 Documentation",
+      q: "Which document states the uptime and response commitments a provider owes the customer?",
+      options: ["MOU", "SLA", "NDA", "AUP"],
+      answer: 1,
+      why: "A service level agreement defines measurable service commitments and the remedies when they are missed. An MOU records intent without the same enforceability, and an AUP governs how users may use the network."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.1 Monitoring",
+      q: "A router sends an alert to the monitoring server the moment an interface goes down, without waiting to be polled. What is this message called?",
+      options: ["SNMP walk", "SNMP get", "SNMP trap", "Syslog query"],
+      answer: 2,
+      why: "A trap is agent initiated and reports an event as it happens. Get and walk operations are manager initiated polls that pull values from the agent on a schedule."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.4 Disaster recovery",
+      q: "Management decides the business can tolerate losing at most four hours of transactions in a failure. Which metric did they define?",
+      options: ["RTO", "RPO", "MTTR", "MTBF"],
+      answer: 1,
+      why: "Recovery point objective sets the maximum acceptable data loss, which then drives backup frequency. Recovery time objective sets how long restoration may take."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.2 Network performance",
+      q: "Why does a network administrator capture a performance baseline before a major upgrade?",
+      options: [
+        "To create a reference for normal behavior so later readings can be compared",
+        "To satisfy a licensing requirement from the switch vendor",
+        "To reset interface counters to zero",
+        "To generate the routing table used after the upgrade"
+      ],
+      answer: 0,
+      why: "A baseline records what normal looks like on utilization, latency, and error counters. Without it there is no way to prove whether a post upgrade reading is a problem or just typical load."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.2 IP address management",
+      q: "A network printer must always come up on the same address while still pulling its gateway and DNS settings from the server. What should be configured?",
+      options: ["An APIPA address", "A DHCP reservation", "A shorter lease time", "A DHCP relay"],
+      answer: 1,
+      why: "A reservation ties the client MAC address to a fixed lease, so the printer keeps one address and still receives its option set from the server. A relay only forwards DHCP messages across subnets."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.2 Attack types",
+      q: "An attacker floods the LAN with forged replies that map the default gateway address to the attacker MAC address, then reads traffic before forwarding it. Which attack is this?",
+      options: ["ARP spoofing", "DNS poisoning", "VLAN hopping", "Evil twin"],
+      answer: 0,
+      why: "Forged ARP replies poison the ARP cache and put the attacker in the traffic path. Dynamic ARP inspection with DHCP snooping is the usual switch level control."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.3 Network security features",
+      q: "What does 802.1X provide on a wired switch port?",
+      options: [
+        "Encryption of all frames on the port",
+        "Authentication before the port is allowed onto the production network",
+        "Automatic VLAN creation on the trunk",
+        "Rate limiting of broadcast traffic"
+      ],
+      answer: 1,
+      why: "802.1X is port based access control. The supplicant authenticates through the switch to a RADIUS server, and only then is the port opened, often with a VLAN assigned by policy."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.3 Secure connections",
+      q: "Which protocol suite provides authentication and encryption for a site to site tunnel between two office routers?",
+      options: ["GRE", "IPSec", "SNMPv2c", "PPTP"],
+      answer: 1,
+      why: "IPSec supplies confidentiality and integrity through ESP and AH. GRE builds a tunnel but adds no encryption on its own, which is why the two are often paired."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.1 Security concepts",
+      q: "Which practice best describes least privilege?",
+      options: [
+        "Every user receives the same standard permission set",
+        "Users receive only the access their duties require, and nothing more",
+        "Administrators use one shared account for all changes",
+        "Permissions are granted broadly and audited once a year"
+      ],
+      answer: 1,
+      why: "Least privilege limits each account to the minimum rights needed for the job, which shrinks the damage a compromised account can do. Shared administrative accounts also break accountability."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.1 Troubleshooting methodology",
+      q: "What is the first step of the CompTIA troubleshooting methodology?",
+      options: [
+        "Establish a theory of probable cause",
+        "Identify the problem",
+        "Test the theory to determine the cause",
+        "Document findings and outcomes"
+      ],
+      answer: 1,
+      why: "Identifying the problem comes first and includes gathering information, questioning users, and determining what changed. A theory can only be formed once the symptoms and scope are clear."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.5 Troubleshooting tools",
+      q: "Which utility sends ICMP echo requests to confirm that a remote host is reachable?",
+      options: ["ping", "netstat", "arp", "nslookup"],
+      answer: 0,
+      why: "ping tests reachability and round trip time with ICMP echo. netstat shows local connections, arp shows the local address cache, and nslookup queries DNS."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.2 Connectivity issues",
+      q: "A workstation reports the address 169.254.14.22 and cannot reach any internal resource. What is the most likely cause?",
+      options: [
+        "The default gateway is misconfigured",
+        "The workstation could not reach a DHCP server",
+        "DNS forwarding is disabled",
+        "The subnet mask was entered incorrectly"
+      ],
+      answer: 1,
+      why: "A 169.254 address is APIPA, assigned by the client when no DHCP offer arrives. Check the link, the switch port VLAN, the scope for exhaustion, and the relay configuration if the server sits on another subnet."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.2 Performance issues",
+      q: "One server link shows late collisions, rising CRC errors, and throughput far below the rated speed, while every other port is clean. What should be checked first?",
+      options: [
+        "A duplex mismatch between the switch port and the NIC",
+        "An exhausted DHCP scope",
+        "An expired TLS certificate on the server",
+        "An incorrect DNS suffix"
+      ],
+      answer: 0,
+      why: "Late collisions with a slow but working link is the classic duplex mismatch signature, usually one side hard coded and the other left on autonegotiation. Set both ends the same way."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.3 Cable and physical issues",
+      q: "A fiber uplink is down. The optical power meter reads far below the transceiver receive threshold, and the same patch cord fails on a known good port. What is the most likely cause?",
+      options: [
+        "A VLAN mismatch on the uplink",
+        "A dirty or damaged connector on the patch cord",
+        "An incorrect routing metric",
+        "A blocked port from spanning tree"
+      ],
+      answer: 1,
+      why: "Very low received power points at the physical path, and contamination or a damaged ferrule is the most common cause. Inspect and clean the end faces before replacing hardware."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.1 OSI model",
+      q: "Which OSI layer applies the MAC address and the frame check sequence before the bits go on the wire?",
+      options: ["Physical", "Data link", "Network", "Transport"],
+      answer: 1,
+      why: "Layer 2 builds the frame, which carries source and destination MAC addresses plus the FCS used to detect corruption. Layer 1 only transmits the encoded signal."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.4 Ports and protocols",
+      q: "Which port must be reachable for a client to resolve a hostname to an IP address?",
+      options: ["53", "67", "88", "110"],
+      answer: 0,
+      why: "DNS uses port 53, typically UDP for lookups and TCP for zone transfers and large responses. Ports 67 and 68 belong to DHCP."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.4 Protocols",
+      q: "A router drops a packet because no route exists and notifies the sender that the destination is unreachable. Which protocol carries that message?",
+      options: ["ICMP", "IGMP", "ARP", "GRE"],
+      answer: 0,
+      why: "ICMP carries control and error messages such as destination unreachable and time exceeded, which is why ping and traceroute depend on it. IGMP manages multicast group membership."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.3 Cloud concepts",
+      q: "An organization retires its physical firewall and load balancer appliances, running the same functions as software instances on standard servers. What is this called?",
+      options: ["Software defined WAN", "Network function virtualization", "Infrastructure as code", "Virtual private cloud"],
+      answer: 1,
+      why: "NFV moves network functions off purpose built hardware and onto virtualized compute. SD-WAN manages transport selection across WAN links, and infrastructure as code defines configuration in version controlled files."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.7 IPv4 addressing",
+      q: "How many usable host addresses does a /30 subnet provide?",
+      options: ["1", "2", "4", "6"],
+      answer: 1,
+      why: "A /30 has 2 host bits for 4 total addresses, and removing the network and broadcast addresses leaves 2 usable. That is why /30 is the classic choice for a point to point router link."
+    },
+    {
+      domain: "1.0 Networking Concepts",
+      obj: "1.6 Network types",
+      q: "Which term describes a network that spans several buildings on one property owned by a single organization, such as a university?",
+      options: ["MAN", "CAN", "PAN", "WAN"],
+      answer: 1,
+      why: "A campus area network connects buildings across a contiguous site the organization controls. A MAN covers a city and usually relies on provider circuits, and a PAN covers the space around one person."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.3 VLANs",
+      q: "Which standard tags frames so a trunk link can carry traffic for several VLANs between switches?",
+      options: ["802.1X", "802.1Q", "802.3ad", "802.11ac"],
+      answer: 1,
+      why: "802.1Q inserts a 4 byte tag with the VLAN ID into the Ethernet frame. 802.1X is authentication, and 802.3ad is link aggregation."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.2 Address translation",
+      q: "Two hundred internal hosts reach the internet through one public address, with the router tracking each session by port number. Which technique is in use?",
+      options: ["Static NAT", "Port address translation", "Proxy ARP", "Split horizon"],
+      answer: 1,
+      why: "PAT, also called NAT overload, multiplexes many private hosts onto a single public address using unique source ports. Static NAT maps one private address to one public address."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.4 Wireless standards",
+      q: "Which wireless standard added operation in the 6 GHz band, giving access to wide channels with far less legacy interference?",
+      options: ["802.11n", "802.11ac", "802.11ax", "802.11g"],
+      answer: 2,
+      why: "802.11ax extended into 6 GHz, which the industry markets as Wi-Fi 6E. 802.11ac is limited to 5 GHz, and 802.11n operates in 2.4 and 5 GHz."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.1 Physical installations",
+      q: "An access point requires 25 watts over the data cable. Which PoE standard meets that need?",
+      options: ["802.3af", "802.3at", "802.1p", "802.3ab"],
+      answer: 1,
+      why: "802.3at, known as PoE+, supplies up to 30 watts at the port. The original 802.3af tops out near 15.4 watts, which is not enough for higher draw access points."
+    },
+    {
+      domain: "2.0 Network Implementation",
+      obj: "2.2 High availability",
+      q: "Two routers share a single virtual IP address so clients keep a working default gateway if one router fails. What provides this?",
+      options: ["A first hop redundancy protocol", "Link aggregation", "Spanning tree", "Route summarization"],
+      answer: 0,
+      why: "FHRPs such as VRRP and HSRP present one virtual gateway address backed by multiple routers. Link aggregation bundles physical links but does nothing for gateway failover."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.1 Logging",
+      q: "Which syslog severity level indicates the most critical condition?",
+      options: ["0", "3", "5", "7"],
+      answer: 0,
+      why: "Severity runs from 0 for emergency up to 7 for debug, so the lower the number the more severe the event. Level 7 generates the most volume and is normally reserved for active troubleshooting."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.3 Change management",
+      q: "A firewall rule change is scheduled for the maintenance window. Which item must the change record include before approval?",
+      options: [
+        "A rollback plan describing how to restore the previous state",
+        "The vendor support contract number",
+        "A copy of the network diagram from last year",
+        "The purchase order for the firewall"
+      ],
+      answer: 0,
+      why: "Change management requires a documented way back if the change fails, along with scope, risk, and test plan. Without a rollback the window can close with the network in a broken state."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.1 Documentation",
+      q: "Which diagram shows VLAN assignments, IP subnets, and routing relationships rather than rack positions and cable runs?",
+      options: ["Physical diagram", "Logical diagram", "Floor plan", "Rack elevation"],
+      answer: 1,
+      why: "A logical diagram describes how traffic flows and how addressing is organized. A physical diagram documents where equipment sits and how it is cabled."
+    },
+    {
+      domain: "3.0 Network Operations",
+      obj: "3.2 Quality of service",
+      q: "Voice calls break up whenever a large backup job runs. Which configuration best protects call quality?",
+      options: [
+        "Increase the DHCP lease time",
+        "Apply QoS marking and priority queuing for the voice traffic",
+        "Disable spanning tree on the voice VLAN",
+        "Change the wireless channel width"
+      ],
+      answer: 1,
+      why: "QoS classifies and marks voice with a high priority code point, then queues it ahead of bulk traffic during congestion. Voice is sensitive to latency and jitter, so it needs the queue, not more addresses."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.3 Network segmentation",
+      q: "Why does an organization place its public web server in a screened subnet instead of the internal LAN?",
+      options: [
+        "To give the server a private address that cannot be routed",
+        "To keep a compromised public server from reaching internal systems directly",
+        "To remove the need for patching the server",
+        "To let the server bypass the firewall for performance"
+      ],
+      answer: 1,
+      why: "A screened subnet sits between two filtered boundaries so internet facing hosts stay isolated from internal resources. If the server is compromised, the attacker still faces a firewall before reaching the LAN."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.2 Social engineering",
+      q: "An unauthorized person walks in behind an employee who badges through a secure door. Which attack is this?",
+      options: ["Phishing", "Tailgating", "Shoulder surfing", "Pretexting"],
+      answer: 1,
+      why: "Tailgating is physical entry that rides on someone else's valid access. Mantraps, access vestibules, and staff training are the usual countermeasures."
+    },
+    {
+      domain: "4.0 Network Security",
+      obj: "4.3 Network security features",
+      q: "Which switch feature blocks an unauthorized DHCP server from handing out addresses on the access layer?",
+      options: ["DHCP snooping", "Port mirroring", "Jumbo frames", "Flow control"],
+      answer: 0,
+      why: "DHCP snooping marks uplinks as trusted and drops server messages arriving on untrusted access ports. It also builds the binding table that dynamic ARP inspection uses."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.5 Troubleshooting tools",
+      q: "Traffic to a remote site is slow and the team needs to see where the delay enters the path. Which tool shows each hop and its response time?",
+      options: ["traceroute", "ipconfig", "netstat", "arp"],
+      answer: 0,
+      why: "traceroute, or tracert on Windows, increments TTL values to map the path hop by hop and expose where latency climbs. ipconfig only reports local interface settings."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.2 Connectivity issues",
+      q: "A user cannot open an internal site by name, but the same site loads correctly using its IP address. What should be checked?",
+      options: ["The default gateway", "Name resolution and the configured DNS servers", "The subnet mask", "The switch port duplex setting"],
+      answer: 1,
+      why: "Reachability by address with failure by name isolates the problem to DNS. Verify the client DNS server list, test resolution with nslookup, and check for a stale cached record."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.2 Connectivity issues",
+      q: "Several workstations suddenly receive addresses from an unfamiliar subnet and lose access to internal servers. What is the most likely cause?",
+      options: ["An expired DHCP scope", "A rogue DHCP server on the segment", "A duplicate MAC address", "An incorrect syslog server"],
+      answer: 1,
+      why: "Clients accept the first offer they receive, so an unauthorized server, often a consumer router plugged in by a user, hands out its own addressing. DHCP snooping prevents it."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.4 Wireless issues",
+      q: "Users at the far end of a warehouse report intermittent drops, low signal strength, and poor throughput, while users near the access point are fine. What is the most likely cause?",
+      options: ["Insufficient wireless coverage in that area", "An expired DHCP lease", "A routing loop", "An incorrect DNS suffix"],
+      answer: 0,
+      why: "Distance dependent symptoms point to coverage. A site survey with a heat map identifies the gap, and the fix is usually another access point or a change in placement and power rather than a protocol change."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.3 Cable issues",
+      q: "A copper run measured at 130 meters produces an unstable link with heavy packet loss. What explains the symptom?",
+      options: ["Attenuation past the 100 meter limit for twisted pair", "A VLAN mismatch", "Insufficient DHCP scope size", "An incorrect default gateway"],
+      answer: 0,
+      why: "Ethernet over twisted pair is specified to 100 meters, and signal strength falls off past that point. Move the run to fiber or place an intermediate switch inside the limit."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.2 Performance issues",
+      q: "After a technician patches two access switches together with a second cable, the network floods, switch CPU spikes, and MAC addresses appear to move between ports. What happened?",
+      options: ["A switching loop formed because spanning tree was disabled", "The DHCP scope was exhausted", "An access control list was applied incorrectly", "The DNS zone failed to replicate"],
+      answer: 0,
+      why: "A Layer 2 loop with no spanning tree lets broadcasts circulate endlessly, which floods the segment and destabilizes the MAC address table. Re-enable spanning tree and remove the redundant path until it converges."
+    },
+    {
+      domain: "5.0 Network Troubleshooting",
+      obj: "5.1 Troubleshooting methodology",
+      q: "A technician has implemented a fix and service is restored on the affected workstation. What comes next in the CompTIA methodology?",
+      options: [
+        "Document findings, actions, and outcomes",
+        "Verify full system functionality and apply preventive measures where possible",
+        "Establish a new theory of probable cause",
+        "Escalate to the vendor"
+      ],
+      answer: 1,
+      why: "Verification comes before documentation and confirms the whole system works, not just the one symptom that was reported. Preventive measures at that step keep the same fault from returning."
+    }
+  ]
+};
+/* ===== QUIZ DATA END ===== */
+
+/* ---------- state ---------- */
+const S = {
+  i: 0,
+  picks: new Array(QUIZ.questions.length).fill(null),
+  order: [],
+  flags: new Set(),
+  phase: "start",
+  shuffle: true,
+  timed: true,
+  left: QUIZ.minutes * 60,
+  spent: 0,
+  tick: null,
+  missedOnly: false
+};
+
+const view = document.getElementById("view");
+const bar = document.getElementById("bar");
+const barIn = document.getElementById("bar-in");
+const panel = document.getElementById("panel");
+const jacks = document.getElementById("jacks");
+const readout = document.getElementById("readout");
+document.getElementById("eyebrow").textContent = QUIZ.eyebrow;
+document.getElementById("banner-title").textContent = QUIZ.title;
+document.title = QUIZ.eyebrow + " " + QUIZ.title;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const KEYS = ["A", "B", "C", "D", "E"];
+const clock = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+const shuffled = n => { const a = [...Array(n).keys()]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function buildOrder() {
+  S.order = QUIZ.questions.map(q => S.shuffle ? shuffled(q.options.length) : [...Array(q.options.length).keys()]);
+}
+
+/* ---------- start ---------- */
+function renderStart() {
+  S.phase = "start";
+  panel.hidden = true;
+  bar.hidden = true;
+  readout.innerHTML = "";
+  const byDomain = {};
+  QUIZ.questions.forEach(q => byDomain[q.domain] = (byDomain[q.domain] || 0) + 1);
+  const rows = Object.entries(byDomain).map(([d, n]) =>
+    `<tr><td>${esc(d)}</td><td>${n}</td></tr>`).join("");
+
+  view.innerHTML = `
+  <div class="card fade">
+    <p class="lede">${esc(QUIZ.lede)}</p>
+    <dl class="specs">
+      <div class="spec"><dt>Questions</dt><dd>${QUIZ.questions.length}</dd></div>
+      <div class="spec"><dt>Time</dt><dd>${QUIZ.minutes} min</dd></div>
+      <div class="spec"><dt>Readiness gate</dt><dd>${QUIZ.gate}%</dd></div>
+      <div class="spec"><dt>Coverage</dt><dd>${esc(QUIZ.scope)}</dd></div>
+    </dl>
+    <table class="blueprint">
+      <thead><tr><th>Coverage</th><th>Items</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="setting"><input type="checkbox" id="opt-shuffle" checked><label for="opt-shuffle">Shuffle the answer choices</label></div>
+    <div class="setting"><input type="checkbox" id="opt-timed" checked><label for="opt-timed">Run the ${QUIZ.minutes} minute timer, submitting automatically at zero</label></div>
+    <p class="hint" style="margin:18px 0 0">Nothing is saved between sessions. Print or screenshot the report at the end if you want a record.</p>
+  </div>`;
+
+  bar.hidden = false;
+  barIn.innerHTML = `<span class="hint">${QUIZ.questions.length} questions, one attempt per session</span><span class="spacer"></span><button class="btn primary" id="go">Start the quiz</button>`;
+  document.getElementById("go").onclick = () => {
+    S.shuffle = document.getElementById("opt-shuffle").checked;
+    S.timed = document.getElementById("opt-timed").checked;
+    buildOrder();
+    S.left = QUIZ.minutes * 60;
+    S.spent = 0;
+    startClock();
+    S.phase = "quiz";
+    S.i = 0;
+    renderQuiz();
+  };
+}
+
+/* ---------- clock ---------- */
+function startClock() {
+  clearInterval(S.tick);
+  S.tick = setInterval(() => {
+    S.spent++;
+    if (S.timed) {
+      S.left--;
+      if (S.left <= 0) { S.left = 0; grade(); return; }
+    }
+    paintReadout();
+  }, 1000);
+}
+
+function paintReadout() {
+  if (S.phase !== "quiz") return;
+  const done = S.picks.filter(p => p !== null).length;
+  const t = S.timed ? clock(S.left) + " left" : clock(S.spent) + " elapsed";
+  readout.innerHTML = `<b>${String(S.i + 1).padStart(2, "0")}</b> / ${QUIZ.questions.length} &nbsp;&middot;&nbsp; ${done} answered &nbsp;&middot;&nbsp; <b>${t}</b>`;
+}
+
+/* ---------- patch panel ---------- */
+function paintPanel(graded) {
+  panel.hidden = false;
+  jacks.innerHTML = "";
+  QUIZ.questions.forEach((q, n) => {
+    const b = document.createElement("button");
+    b.className = "jack";
+    b.textContent = n + 1;
+    b.setAttribute("aria-label", "Question " + (n + 1));
+    if (graded) {
+      if (S.picks[n] === q.answer) b.classList.add("right");
+      else b.classList.add("wrong");
+    } else {
+      if (S.picks[n] !== null) b.classList.add("answered");
+      if (S.flags.has(n)) b.classList.add("flagged");
+      if (n === S.i) b.classList.add("here");
+    }
+    b.onclick = () => {
+      if (graded) {
+        const el = document.getElementById("rev-" + n);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else { S.i = n; renderQuiz(); }
+    };
+    jacks.appendChild(b);
+  });
+}
+
+/* ---------- quiz ---------- */
+function renderQuiz() {
+  const q = QUIZ.questions[S.i];
+  const ord = S.order[S.i];
+  paintPanel(false);
+  paintReadout();
+
+  view.innerHTML = `
+  <div class="card fade">
+    <div class="qnum">QUESTION ${String(S.i + 1).padStart(2, "0")} / ${QUIZ.questions.length}</div>
+    <p class="qtext">${esc(q.q)}</p>
+    <div class="opts" role="radiogroup" aria-label="Answer choices">
+      ${ord.map((oi, pos) => `
+        <button class="opt${S.picks[S.i] === oi ? " picked" : ""}" data-oi="${oi}" role="radio" aria-checked="${S.picks[S.i] === oi}">
+          <span class="key">${KEYS[pos]}</span><span>${esc(q.options[oi])}</span>
+        </button>`).join("")}
+    </div>
+    <div style="margin-top:18px"><span class="tag">${esc(q.obj)}</span></div>
+  </div>`;
+
+  view.querySelectorAll(".opt").forEach(b => {
+    b.onclick = () => {
+      S.picks[S.i] = Number(b.dataset.oi);
+      renderQuiz();
+    };
+  });
+
+  const done = S.picks.filter(p => p !== null).length;
+  const last = S.i === QUIZ.questions.length - 1;
+  barIn.innerHTML = `
+    <button class="btn ghost" id="prev" ${S.i === 0 ? "disabled" : ""}>Back</button>
+    <button class="btn ghost${S.flags.has(S.i) ? " on" : ""}" id="flag">${S.flags.has(S.i) ? "Flagged" : "Flag for review"}</button>
+    <span class="spacer"></span>
+    ${done === QUIZ.questions.length ? `<button class="btn primary" id="submit">Finish and grade</button>` : ""}
+    <button class="btn ${last ? "" : "primary"}" id="next" ${last ? "disabled" : ""}>Next</button>`;
+
+  const prev = document.getElementById("prev");
+  if (prev) prev.onclick = () => { if (S.i > 0) { S.i--; renderQuiz(); } };
+  const next = document.getElementById("next");
+  if (next) next.onclick = () => { if (S.i < QUIZ.questions.length - 1) { S.i++; renderQuiz(); } };
+  document.getElementById("flag").onclick = () => {
+    S.flags.has(S.i) ? S.flags.delete(S.i) : S.flags.add(S.i);
+    renderQuiz();
+  };
+  const sub = document.getElementById("submit");
+  if (sub) sub.onclick = () => {
+    if (confirm("Grade the quiz now? Answers cannot be changed afterward.")) grade();
+  };
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+}
+
+/* ---------- grading ---------- */
+function grade() {
+  clearInterval(S.tick);
+  S.phase = "done";
+  renderReport();
+}
+
+function renderReport() {
+  const qs = QUIZ.questions;
+  const correct = qs.filter((q, n) => S.picks[n] === q.answer).length;
+  const pct = Math.round((correct / qs.length) * 100);
+
+  const dom = {};
+  qs.forEach((q, n) => {
+    dom[q.domain] = dom[q.domain] || { hit: 0, total: 0 };
+    dom[q.domain].total++;
+    if (S.picks[n] === q.answer) dom[q.domain].hit++;
+  });
+
+  let verdict, note, cls;
+  if (pct >= 80) { verdict = "Gate cleared"; cls = "high"; note = "Strong baseline. Keep the weakest domain below in your weekly rotation and move on to timed practice sets."; }
+  else if (pct >= QUIZ.gate) { verdict = "Gate met, margin is thin"; cls = "mid"; note = "You are above the gate but not by much. Rework the missed items and retake this before the next checkpoint."; }
+  else { verdict = "Below the gate"; cls = "low"; note = "Expected at this stage. Use the domain report to pick the two weakest areas and start there this week."; }
+
+  const bars = Object.entries(dom).map(([d, v]) => {
+    const p = Math.round((v.hit / v.total) * 100);
+    const k = p >= 80 ? "high" : p >= QUIZ.gate ? "mid" : "low";
+    return `<div class="barrow">
+      <div class="barlabel">${esc(d)}<div class="track"><div class="fill ${k}" style="width:${p}%"></div></div></div>
+      <div class="barval">${v.hit}/${v.total}</div>
+    </div>`;
+  }).join("");
+
+  const items = qs.map((q, n) => {
+    const pick = S.picks[n];
+    const ok = pick === q.answer;
+    if (S.missedOnly && ok) return "";
+    const ord = S.order[n] && S.order[n].length ? S.order[n] : [...Array(q.options.length).keys()];
+    return `<div class="review-item" id="rev-${n}">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+        <span class="qnum">QUESTION ${String(n + 1).padStart(2, "0")}</span>
+        <span class="status ${ok ? "ok" : "no"}">${ok ? "Correct" : "Missed"}</span>
+      </div>
+      <p class="qtext" style="font-size:17px;margin:8px 0 14px">${esc(q.q)}</p>
+      <div class="opts">
+        ${ord.map((oi, pos) => {
+          let c = "opt";
+          if (oi === q.answer) c += " correct";
+          else if (oi === pick) c += " missed";
+          return `<div class="${c}"><span class="key">${KEYS[pos]}</span><span>${esc(q.options[oi])}${oi === pick ? '  <em style="color:#5B6B7F;font-style:normal;font-size:13px">(your answer)</em>' : ""}</span></div>`;
+        }).join("")}
+      </div>
+      <div class="why"><strong>Why</strong>${esc(q.why)}</div>
+      <div style="margin-top:12px"><span class="tag">${esc(q.obj)}</span></div>
+    </div>`;
+  }).join("");
+
+  const missed = qs.length - correct;
+  readout.innerHTML = `<b>${clock(S.spent)}</b> used${S.timed ? " of " + QUIZ.minutes + ":00" : ""}`;
+  paintPanel(true);
+
+  view.innerHTML = `
+  <div class="card fade">
+    <div class="score">
+      <div class="pct">${pct}<span style="font-size:26px;color:var(--muted)">%</span></div>
+      <div>
+        <div class="verdict">${esc(verdict)}</div>
+        <div class="verdict-note">${esc(note)}</div>
+      </div>
+    </div>
+    <div class="hint mono" style="margin-top:10px">${correct} correct, ${missed} missed, gate set at ${QUIZ.gate}%</div>
+    <div class="bars">${bars}</div>
+  </div>
+
+  <div class="section-head">
+    <h2>Item review</h2>
+    <span class="hint noprint">Select a port above to jump to that item</span>
+  </div>
+  <div id="review">${items || '<div class="card">Nothing missed. There is no filtered view to show.</div>'}</div>`;
+
+  barIn.innerHTML = `
+    <button class="btn ghost" id="filter">${S.missedOnly ? "Show all items" : "Show missed only"}</button>
+    <button class="btn ghost noprint" id="print">Print the report</button>
+    <span class="spacer"></span>
+    <button class="btn primary" id="again">Retake</button>`;
+  document.getElementById("filter").onclick = () => { S.missedOnly = !S.missedOnly; renderReport(); };
+  document.getElementById("print").onclick = () => window.print();
+  document.getElementById("again").onclick = () => {
+    S.picks = new Array(qs.length).fill(null);
+    S.flags.clear();
+    S.i = 0;
+    S.spent = 0;
+    S.missedOnly = false;
+    renderStart();
+    window.scrollTo(0, 0);
+  };
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown", e => {
+  if (S.phase !== "quiz") return;
+  if (e.key === "ArrowRight" && S.i < QUIZ.questions.length - 1) { S.i++; renderQuiz(); }
+  if (e.key === "ArrowLeft" && S.i > 0) { S.i--; renderQuiz(); }
+  const k = KEYS.indexOf(e.key.toUpperCase());
+  if (k > -1 && k < QUIZ.questions[S.i].options.length) {
+    S.picks[S.i] = S.order[S.i][k];
+    renderQuiz();
+  }
+});
+
+buildOrder();
+renderStart();
+</script>
+</body>
+</html>
