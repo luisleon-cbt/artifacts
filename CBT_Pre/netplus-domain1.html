@@ -8,17 +8,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* CBT brand tokens. Change these three values in one place to retune the whole page. */
 :root{
-  --ink:#0E1A2B;
-  --steel:#1B2C44;
-  --steel-line:#2C4062;
-  --paper:#F4F7FA;
+  --cbt-navy:#0B2545;
+  --cbt-navy-deep:#071A33;
+  --cbt-accent:#4A9BE0;
+
+  --ink:var(--cbt-navy);
+  --steel:#123156;
+  --steel-line:#1F4776;
+  --paper:#F3F6FA;
   --card:#FFFFFF;
-  --line:#D5DDE7;
-  --text:#16212F;
-  --muted:#5B6B7F;
-  --signal:#E8963A;
+  --line:#D3DDE9;
+  --text:#111820;
+  --muted:#586A7E;
+  --signal:var(--cbt-accent);
+  --signal-ink:#1A5A96;
+  /* status colors, functional rather than brand */
   --up:#2E8F63;
+  --warn:#C9822B;
   --down:#C6413F;
   --radius:4px;
 }
@@ -39,7 +47,15 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 
 /* banner */
 .banner{background:var(--ink);color:#EAF0F7;padding:18px 20px 14px;border-bottom:3px solid var(--signal)}
-.banner-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+.banner-in{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:16px;min-width:0}
+.logo-slot{display:block;flex:none;text-decoration:none}
+.logo-slot img{height:52px;width:auto;max-width:230px;display:block;object-fit:contain}
+.logo-ph{display:none;height:52px;min-width:118px;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,.32);border-radius:3px;color:rgba(255,255,255,.5);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;padding:0 12px}
+.banner-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.home-link{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9FB2C8;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;white-space:nowrap}
+.home-link:hover{color:#fff;border-color:var(--signal)}
+
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal)}
 .banner h1{font-size:26px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em}
 .readout{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#9FB2C8;text-align:right;white-space:nowrap}
@@ -56,7 +72,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 }
 .jack:hover{border-color:var(--signal)}
 .jack.answered{background:#22354F;color:#DCE6F1;border-color:#3E577C}
-.jack.flagged{box-shadow:inset 0 -3px 0 var(--signal)}
+.jack.flagged{box-shadow:inset 0 -3px 0 var(--warn)}
 .jack.here{border-color:var(--signal);color:#fff;background:#2C4062}
 .jack.right{background:var(--up);border-color:var(--up);color:#fff}
 .jack.wrong{background:var(--down);border-color:var(--down);color:#fff}
@@ -65,7 +81,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .wrap{max-width:900px;margin:0 auto;padding:24px 20px 90px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
 .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 7px;background:#F7F9FC}
-.qnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--signal);letter-spacing:.1em}
+.qnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--signal-ink);letter-spacing:.1em}
 .qtext{font-size:19px;line-height:1.5;margin:12px 0 20px;font-weight:500}
 .opts{display:flex;flex-direction:column;gap:8px}
 .opt{
@@ -89,10 +105,10 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .btn{border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:var(--radius);padding:9px 16px;font-weight:500}
 .btn:hover{background:#F2F6FB}
 .btn.primary{background:var(--ink);color:#fff}
-.btn.primary:hover{background:#1B2C44}
+.btn.primary:hover{background:var(--cbt-navy-deep)}
 .btn.ghost{border-color:var(--line);color:var(--muted)}
 .btn.ghost:hover{border-color:var(--muted);color:var(--text);background:#fff}
-.btn.on{border-color:var(--signal);background:#FDF3E7;color:#8A5211}
+.btn.on{border-color:var(--warn);background:#FBF3E6;color:#8A5211}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .spacer{flex:1}
 
@@ -120,7 +136,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .track{height:8px;background:#E7EDF4;border-radius:2px;overflow:hidden;margin-top:6px}
 .fill{height:100%;background:var(--ink);border-radius:2px;transition:width .6s ease}
 .fill.low{background:var(--down)}
-.fill.mid{background:var(--signal)}
+.fill.mid{background:var(--warn)}
 .fill.high{background:var(--up)}
 .barval{font-family:"IBM Plex Mono",monospace;font-size:14px;text-align:right;color:var(--muted)}
 .review-item{border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:12px;background:#fff}
@@ -136,6 +152,10 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:560px){
+  .brand{gap:11px}
+  .logo-slot img,.logo-ph{height:38px}
+  .logo-ph{min-width:90px}
+  .banner-right{align-items:flex-start}
   .banner h1{font-size:21px}
   .pct{font-size:48px}
   .qtext{font-size:17px}
@@ -143,7 +163,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
   .bar-in{flex-wrap:wrap}
 }
 @media print{
-  .bar,.panel,.noprint{display:none!important}
+  .bar,.panel,.noprint,.home-link{display:none!important}
   body{background:#fff}
   .banner{background:#fff;color:#000;border-bottom:2px solid #000}
   .banner h1,.readout b{color:#000}
@@ -156,11 +176,20 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 
 <header class="banner">
   <div class="banner-in">
-    <div>
-      <div class="eyebrow" id="eyebrow">CompTIA Network+ N10-009</div>
-      <h1 id="banner-title">Pre-Assessment</h1>
+    <div class="brand">
+      <a class="logo-slot" href="index.html" data-home aria-label="Back to home">
+        <img src="logo.png" alt="CBT Technology Institute" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-ph">logo.png</span>
+      </a>
+      <div>
+        <div class="eyebrow" id="eyebrow">CompTIA Network+ N10-009</div>
+        <h1 id="banner-title">Pre-Assessment</h1>
+      </div>
     </div>
-    <div class="readout" id="readout"></div>
+    <div class="banner-right">
+      <div class="readout" id="readout"></div>
+      <a class="home-link" href="index.html" data-home>Back to home</a>
+    </div>
   </div>
 </header>
 
@@ -465,7 +494,7 @@ function renderStart() {
   </div>`;
 
   bar.hidden = false;
-  barIn.innerHTML = `<span class="hint">${QUIZ.questions.length} questions, one attempt per session</span><span class="spacer"></span><button class="btn primary" id="go">Start the quiz</button>`;
+  barIn.innerHTML = `<a class="btn ghost" href="index.html" data-home>Home</a><span class="hint">${QUIZ.questions.length} questions, one attempt per session</span><span class="spacer"></span><button class="btn primary" id="go">Start the quiz</button>`;
   document.getElementById("go").onclick = () => {
     S.shuffle = document.getElementById("opt-shuffle").checked;
     S.timed = document.getElementById("opt-timed").checked;
@@ -658,6 +687,7 @@ function renderReport() {
   <div id="review">${items || '<div class="card">Nothing missed. There is no filtered view to show.</div>'}</div>`;
 
   barIn.innerHTML = `
+    <a class="btn ghost" href="index.html" data-home>Home</a>
     <button class="btn ghost" id="filter">${S.missedOnly ? "Show all items" : "Show missed only"}</button>
     <button class="btn ghost noprint" id="print">Print the report</button>
     <span class="spacer"></span>
@@ -675,6 +705,13 @@ function renderReport() {
   };
   window.scrollTo({ top: 0 });
 }
+
+/* ---------- home link ---------- */
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-home]");
+  if (!a) return;
+  if (S.phase === "quiz" && !confirm("Return home now? Answers from this attempt are not saved.")) e.preventDefault();
+});
 
 /* ---------- keyboard ---------- */
 document.addEventListener("keydown", e => {
