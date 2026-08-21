@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network+ Week 1: OSI, Encapsulation, Appliances, Traffic Types</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root{
+    --navy:#283068; --navy-2:#1c2350; --blue:#38b0e0; --light:#edeff7;
+    --line:#c9cddb; --ink:#2d3b45; --muted:#6b7684; --amber:#f0ad4e; --green:#3fb27f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    background:#f4f6fb; color:var(--ink); line-height:1.6; padding:24px 16px 60px;
+  }
+  .wrap{max-width:1060px;margin:0 auto}
+  header.hero{background:var(--navy);border-radius:8px 8px 0 0;padding:26px 30px}
+  .kicker{color:var(--blue);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+  header.hero h1{color:#fff;font-size:26px;margin:6px 0 8px;line-height:1.25}
+  header.hero p{color:#c9cddb;font-size:14px}
+  nav{display:flex;flex-wrap:wrap;background:var(--navy-2);border-bottom:3px solid var(--blue)}
+  nav button{
+    flex:1 1 200px;background:transparent;border:0;color:#aab3d4;font-family:inherit;
+    font-size:14px;font-weight:700;padding:14px 12px;cursor:pointer;border-bottom:3px solid transparent;
+    transition:color .2s, background .2s;
+  }
+  nav button:hover{color:#fff;background:rgba(255,255,255,.06)}
+  nav button.on{color:#fff;background:var(--blue)}
+  .panel{background:#fff;border:1px solid var(--line);border-top:none;padding:28px 30px;display:none}
+  .panel.on{display:block}
+  .panel h2{color:var(--navy);font-size:21px;margin-bottom:6px}
+  .lede{color:var(--muted);font-size:15px;margin-bottom:20px;max-width:760px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+  .btn{
+    background:var(--blue);color:#fff;border:0;border-radius:4px;padding:10px 20px;
+    font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s,transform .1s;
+  }
+  .btn:hover{background:#2b98c4}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--light)}
+  .btn.on{background:var(--navy)}
+
+  /* OSI stack */
+  .osi-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start}
+  .layer{
+    position:relative;border-radius:5px;padding:12px 16px;margin-bottom:7px;cursor:pointer;
+    color:#fff;display:flex;align-items:center;gap:14px;border:2px solid transparent;
+  }
+  .layer .num{
+    background:rgba(255,255,255,.2);width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:0 0 28px;
+  }
+  .layer .nm{font-weight:700;font-size:15px}
+  .layer .pdu{margin-left:auto;font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.85}
+  .layer.sel{border-color:var(--amber);box-shadow:0 6px 18px rgba(40,48,104,.28)}
+  .detail{background:var(--light);border:1px solid var(--line);border-radius:6px;padding:22px;min-height:300px}
+  .detail h3{color:var(--navy);font-size:19px;margin-bottom:4px}
+  .detail .sub{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+  .detail p{font-size:14px;margin-bottom:12px}
+  .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .tag{background:#fff;border:1px solid var(--line);border-radius:3px;padding:4px 10px;font-size:12px;color:var(--navy)}
+  .fault{background:#fff8e5;border-left:4px solid var(--amber);padding:10px 14px;font-size:13px;margin-top:14px}
+
+  /* Encapsulation */
+  .encap-stage{background:var(--navy);border-radius:6px;padding:28px 24px;min-height:320px;position:relative;overflow:hidden}
+  .nest{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:nowrap}
+  .hdr{
+    color:#fff;font-size:12px;font-weight:700;padding:16px 12px;letter-spacing:.5px;
+    border-radius:3px 0 0 3px;opacity:0;text-align:center;white-space:nowrap;
+  }
+  .trl{color:#fff;font-size:12px;font-weight:700;padding:16px 10px;border-radius:0 3px 3px 0;opacity:0}
+  .payload{background:var(--light);color:var(--navy);font-weight:700;font-size:13px;padding:16px 22px;white-space:nowrap}
+  .encap-caption{color:#c9cddb;font-size:14px;text-align:center;margin-top:22px;min-height:48px}
+  .encap-caption strong{color:var(--blue)}
+  .stepdots{display:flex;justify-content:center;gap:8px;margin-top:16px}
+  .stepdots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);display:block}
+  .stepdots i.on{background:var(--blue)}
+
+  /* Appliances */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px}
+  .card{
+    border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:5px;
+    padding:16px;background:#fff;
+  }
+  .card .lyr{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--blue);font-weight:700}
+  .card h4{color:var(--navy);font-size:16px;margin:4px 0 8px}
+  .card p{font-size:13px;color:var(--ink)}
+  .card .reads{margin-top:10px;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+
+  /* Traffic */
+  .traffic-wrap{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+  .svgbox{background:var(--navy);border-radius:6px;padding:10px}
+  .tinfo{background:var(--light);border:1px solid var(--line);border-radius:6px;padding:20px}
+  .tinfo h3{color:var(--navy);font-size:18px;margin-bottom:8px}
+  .tinfo p{font-size:14px;margin-bottom:10px}
+  .tinfo .ex{background:#fff;border-left:4px solid var(--blue);padding:10px 12px;font-size:13px}
+
+  .footnote{background:var(--navy);color:#c9cddb;border-radius:0 0 8px 8px;padding:18px 30px;font-size:13px}
+  @media (max-width:820px){
+    .osi-grid,.traffic-wrap{grid-template-columns:1fr}
+    .nest{transform:scale(.82)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker">Network+ N10-009 &middot; Week 1 &middot; Domain 1.0</p>
+    <h1>The layer model, and everything that hangs off it</h1>
+    <p>Four modules. Work through them in order, then come back to the ones that did not stick.</p>
+  </header>
+
+  <nav>
+    <button class="on" data-p="osi">1. The OSI stack</button>
+    <button data-p="encap">2. Encapsulation</button>
+    <button data-p="appl">3. Appliances by layer</button>
+    <button data-p="traffic">4. Traffic types</button>
+  </nav>
+
+  <!-- ================= OSI ================= -->
+  <section class="panel on" id="osi">
+    <h2>The seven layers</h2>
+    <p class="lede">Click any layer. The exam rarely asks you to recite the list; it asks you to place a symptom, a device, or a protocol at the right layer. Read each one for what it decides, not just what it is called.</p>
+
+    <div class="osi-grid">
+      <div id="stack"></div>
+      <div class="detail" id="osiDetail"></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="pulseBtn">Send a signal down the stack</button>
+      <button class="btn ghost" id="quizMeBtn">Which layer? Give me a symptom</button>
+    </div>
+    <div id="symptom" style="font-size:15px;background:var(--light);border:1px solid var(--line);border-radius:5px;padding:16px 18px;display:none"></div>
+  </section>
+
+  <!-- ================= ENCAPSULATION ================= -->
+  <section class="panel" id="encap">
+    <h2>Encapsulation, one header at a time</h2>
+    <p class="lede">Data does not travel as data. Each layer wraps what it receives from above and hands it down. The receiving host unwraps the same layers in reverse. Watch the wrappers appear, then watch them come off.</p>
+
+    <div class="encap-stage">
+      <div class="nest" id="nest">
+        <div class="hdr" id="h2" style="background:#8e6bbf">Ethernet<br>header</div>
+        <div class="hdr" id="h3" style="background:#c25b7c">IP<br>header</div>
+        <div class="hdr" id="h4" style="background:#d98b3f">TCP<br>header</div>
+        <div class="payload" id="pay">Application data</div>
+        <div class="trl" id="t2" style="background:#8e6bbf">FCS</div>
+      </div>
+      <div class="encap-caption" id="cap">Press play. We start with data handed down from the application.</div>
+      <div class="stepdots" id="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="encapPlay">Play encapsulation</button>
+      <button class="btn ghost" id="encapUp">Now de-encapsulate</button>
+      <button class="btn ghost" id="encapReset">Reset</button>
+    </div>
+
+    <div class="fault" style="max-width:820px">
+      <strong>The part people get wrong:</strong> when a packet crosses a router, the source and destination IP addresses stay the same the whole way. The Ethernet frame is torn off and rebuilt with new MAC addresses at every single hop. IP is the trip; the frame is the taxi you change at each corner.
+    </div>
+  </section>
+
+  <!-- ================= APPLIANCES ================= -->
+  <section class="panel" id="appl">
+    <h2>Appliances, placed at the layer they read</h2>
+    <p class="lede">Two questions identify any device on the exam. What decision does it make, and what information does it read to make that decision? The second answer gives you the layer every time.</p>
+
+    <div class="filters" id="filters"></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- ================= TRAFFIC ================= -->
+  <section class="panel" id="traffic">
+    <h2>Four ways to address traffic</h2>
+    <p class="lede">Same topology, four delivery models. Watch who receives the traffic and who does not, because that distinction is exactly what the exam tests.</p>
+
+    <div class="controls" id="tbtns">
+      <button class="btn on" data-t="unicast">Unicast</button>
+      <button class="btn ghost" data-t="broadcast">Broadcast</button>
+      <button class="btn ghost" data-t="multicast">Multicast</button>
+      <button class="btn ghost" data-t="anycast">Anycast</button>
+    </div>
+
+    <div class="traffic-wrap">
+      <div class="svgbox">
+        <svg id="net" viewBox="0 0 640 380" style="width:100%;height:auto"></svg>
+      </div>
+      <div class="tinfo" id="tinfo"></div>
+    </div>
+  </section>
+
+  <div class="footnote">
+    Professor De Le&oacute;n &middot; Technology and AI &nbsp;|&nbsp; Network+ N10-009 certification preparation workshop, week 1 of 12.
+  </div>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+const LAYERS = [
+  {n:7,name:"Application",color:"#3f5aa6",pdu:"Data",
+   role:"Where the user's software meets the network.",
+   text:"This is not the application itself. It is the set of protocols an application calls on to get work across the network. If a user says the web page loads but the file transfer fails, you are looking at protocol behavior here.",
+   tags:["HTTP","HTTPS","DNS","SMTP","FTP","SNMP"],
+   fault:"Symptom at this layer: one specific service fails while everything else on the same host works fine."},
+  {n:6,name:"Presentation",color:"#45619f",pdu:"Data",
+   role:"Format, encode, compress, encrypt.",
+   text:"Turns data into a form the receiving application can read. Character encoding, file formats, compression, and TLS encryption all belong to this conversation.",
+   tags:["TLS","ASCII","JPEG","Compression"],
+   fault:"Symptom at this layer: a certificate error, or a file that transfers intact but will not open."},
+  {n:5,name:"Session",color:"#4a6899",pdu:"Data",
+   role:"Set up, manage, and tear down conversations.",
+   text:"Keeps separate conversations between two hosts organized and independent, and decides how a dialogue resumes after an interruption.",
+   tags:["RPC","NetBIOS","SIP setup"],
+   fault:"Symptom at this layer: a connection that drops and cannot resume without starting over."},
+  {n:4,name:"Transport",color:"#2b7fa8",pdu:"Segment",
+   role:"Reliability, sequencing, flow control, ports.",
+   text:"TCP guarantees delivery with acknowledgements, sequencing, and retransmission. UDP does none of that and is faster because of it. Port numbers live here, which is how one host keeps dozens of conversations straight.",
+   tags:["TCP","UDP","Ports 0-65535","Windowing"],
+   fault:"Symptom at this layer: connectivity works but a specific port is blocked, or throughput collapses under retransmissions."},
+  {n:3,name:"Network",color:"#2f9bbf",pdu:"Packet",
+   role:"Logical addressing and path selection.",
+   text:"Routers live here. IP addresses identify the endpoints, and routing decides the path between networks. Every hop makes an independent forwarding decision using the destination IP.",
+   tags:["IPv4","IPv6","ICMP","OSPF","BGP","Router"],
+   fault:"Symptom at this layer: you can ping your gateway but nothing beyond it. Check routes and the default gateway."},
+  {n:2,name:"Data Link",color:"#38b0e0",pdu:"Frame",
+   role:"Physical addressing inside one segment.",
+   text:"Switches live here. MAC addresses identify hosts on the local segment, and the frame carries error detection. VLANs, spanning tree, and ARP resolution all belong to this layer.",
+   tags:["MAC","Ethernet","VLAN","STP","ARP","Switch"],
+   fault:"Symptom at this layer: duplicate MAC, a VLAN mismatch on a trunk, or a broadcast storm from a loop."},
+  {n:1,name:"Physical",color:"#5ec5e8",pdu:"Bits",
+   role:"Signal on the medium.",
+   text:"Cables, connectors, pins, light, radio, voltage. Nothing above this layer works if the bits are not moving, and this is where a surprising share of real faults live.",
+   tags:["Cat 6a","Fiber","SFP","Connectors","Repeater"],
+   fault:"Symptom at this layer: no link light, a failed cable test, a bad transceiver, or a run past 100 meters."}
+];
+
+const APPLIANCES = [
+  {name:"Router",layer:"Layer 3",decides:"Which network to forward toward, using the routing table.",reads:"Destination IP address"},
+  {name:"Layer 2 switch",layer:"Layer 2",decides:"Which port to send a frame out, using the MAC address table.",reads:"Destination MAC address"},
+  {name:"Firewall",layer:"Layer 3 to 7",decides:"Whether to permit or deny traffic against a policy.",reads:"Addresses, ports, state, and on next generation models the application itself"},
+  {name:"IDS",layer:"Layer 3 to 7",decides:"Whether traffic matches a known attack signature, then alerts.",reads:"A copy of traffic, out of band"},
+  {name:"IPS",layer:"Layer 3 to 7",decides:"The same as an IDS, but sits inline and can drop the traffic.",reads:"Live traffic, inline"},
+  {name:"Load balancer",layer:"Layer 4 or 7",decides:"Which server in a pool receives the next request, and which servers are healthy.",reads:"Ports and connection state, or URLs and headers at Layer 7"},
+  {name:"Forward proxy",layer:"Layer 7",decides:"Whether an internal client may reach a site, and whether to serve it from cache.",reads:"The request itself, including the URL"},
+  {name:"Access point",layer:"Layer 2",decides:"Which associated wireless client a frame belongs to.",reads:"MAC address, over an 802.11 radio"},
+  {name:"Wireless controller",layer:"Layer 2 management",decides:"Channel, power, and configuration across many access points at once.",reads:"RF conditions and AP state"},
+  {name:"Repeater or hub",layer:"Layer 1",decides:"Nothing. It regenerates or floods the signal.",reads:"No addressing at all"},
+  {name:"NAS",layer:"Layer 7 service",decides:"Which files to serve to which authenticated user.",reads:"File protocol requests over IP"},
+  {name:"CDN",layer:"Layer 7 service",decides:"Which edge location serves content to a given user.",reads:"Client location and content requested"}
+];
+
+const TRAFFIC = {
+  unicast:{
+    title:"Unicast: one to one",
+    body:"A single sender delivers to a single, specific receiver. This is the overwhelming majority of what crosses a network: a web request, an SSH session, a file copy between two machines.",
+    ex:"Exam cue: if the scenario names exactly one destination host, it is unicast.",
+    targets:[2]
+  },
+  broadcast:{
+    title:"Broadcast: one to all",
+    body:"Delivered to every host in the broadcast domain, whether that host wanted it or not. Routers do not forward broadcasts, which is precisely why a broadcast domain ends at a router interface. IPv6 has no broadcast at all; it uses multicast instead.",
+    ex:"Exam cue: ARP requests and DHCP discovery use broadcast. The destination MAC is ff:ff:ff:ff:ff:ff.",
+    targets:[0,1,2,3,4,5]
+  },
+  multicast:{
+    title:"Multicast: one to a subscribed group",
+    body:"One stream leaves the sender and reaches only hosts that joined the group. It saves enormous bandwidth compared with sending a separate unicast copy to each receiver, which is why streaming video and routing protocol updates use it.",
+    ex:"Exam cue: the 224.0.0.0/4 range, and the word 'subscribed' or 'joined' in the question.",
+    targets:[1,3,4]
+  },
+  anycast:{
+    title:"Anycast: one to the nearest of many",
+    body:"Several servers in different locations advertise the same address, and routing delivers each client to whichever instance is closest. The client has no idea there is more than one.",
+    ex:"Exam cue: public DNS resolvers and content delivery networks. One address, many locations, nearest wins.",
+    targets:[1]
+  }
+};
+
+/* ============================ NAV ============================ */
+document.querySelectorAll('nav button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    const panel=document.getElementById(b.dataset.p);
+    panel.classList.add('on');
+    gsap.fromTo(panel,{opacity:0,y:12},{opacity:1,y:0,duration:.4,ease:"power2.out"});
+    if(b.dataset.p==='traffic') runTraffic(currentTraffic);
+  });
+});
+
+/* ============================ OSI ============================ */
+const stack=document.getElementById('stack');
+LAYERS.forEach((L,i)=>{
+  const d=document.createElement('div');
+  d.className='layer';
+  d.style.background=L.color;
+  d.dataset.i=i;
+  d.innerHTML='<span class="num">'+L.n+'</span><span class="nm">'+L.name+'</span><span class="pdu">'+L.pdu+'</span>';
+  d.addEventListener('click',()=>selectLayer(i));
+  stack.appendChild(d);
+});
+gsap.from('.layer',{opacity:0,x:-30,duration:.5,stagger:.06,ease:"power2.out"});
+
+function selectLayer(i){
+  const L=LAYERS[i];
+  document.querySelectorAll('.layer').forEach(el=>el.classList.remove('sel'));
+  const el=document.querySelector('.layer[data-i="'+i+'"]');
+  el.classList.add('sel');
+  gsap.fromTo(el,{scale:1},{scale:1.03,duration:.18,yoyo:true,repeat:1,ease:"power1.inOut"});
+  const box=document.getElementById('osiDetail');
+  box.innerHTML='<h3>Layer '+L.n+': '+L.name+'</h3><div class="sub">PDU: '+L.pdu+'</div>'+
+    '<p style="font-weight:700;color:'+L.color+'">'+L.role+'</p><p>'+L.text+'</p>'+
+    '<div class="tagrow">'+L.tags.map(t=>'<span class="tag">'+t+'</span>').join('')+'</div>'+
+    '<div class="fault">'+L.fault+'</div>';
+  gsap.fromTo(box,{opacity:0,y:14},{opacity:1,y:0,duration:.35,ease:"power2.out"});
+  gsap.from(box.querySelectorAll('.tag'),{opacity:0,y:8,duration:.25,stagger:.04,delay:.15});
+}
+selectLayer(4);
+
+document.getElementById('pulseBtn').addEventListener('click',()=>{
+  const els=[...document.querySelectorAll('.layer')];
+  gsap.timeline().to(els,{
+    backgroundColor:"#f0ad4e",duration:.16,stagger:{each:.11,from:"start"},
+    yoyo:true,repeat:1
+  }).set(els,{clearProps:"backgroundColor"}).add(()=>{
+    els.forEach((el,i)=>el.style.background=LAYERS[i].color);
+  });
+});
+
+const SYMPTOMS=[
+  ["A user gets a certificate warning on an internal site.","Layer 6. Formatting and encryption, which is where TLS lives."],
+  ["No link light on the switch port after a new run was pulled.","Layer 1. Test the cable and the transceiver before anything else."],
+  ["Two hosts on the same VLAN cannot reach each other, but both reach the gateway.","Layer 2. Look at the MAC table, port assignment, and any ARP problem."],
+  ["Ping to the gateway succeeds, ping to 8.8.8.8 fails.","Layer 3. Routing or default gateway configuration."],
+  ["The site loads over HTTP but times out on port 8443.","Layer 4. A port is filtered somewhere along the path."],
+  ["A trunk port passes VLAN 10 but drops VLAN 20.","Layer 2. Allowed VLAN list on the trunk."],
+  ["Throughput collapses and the capture is full of retransmissions.","Layer 4. TCP is doing its job; something below it is losing packets."]
+];
+document.getElementById('quizMeBtn').addEventListener('click',()=>{
+  const s=SYMPTOMS[Math.floor(Math.random()*SYMPTOMS.length)];
+  const box=document.getElementById('symptom');
+  box.style.display='block';
+  box.innerHTML='<strong style="color:var(--navy)">Symptom:</strong> '+s[0]+
+    '<br><span style="color:var(--muted);font-size:13px">Decide before you scroll.</span>'+
+    '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)"><strong style="color:var(--blue)">Answer:</strong> '+s[1]+'</div>';
+  gsap.fromTo(box,{opacity:0,y:10},{opacity:1,y:0,duration:.35});
+});
+
+/* ============================ ENCAPSULATION ============================ */
+const capEl=document.getElementById('cap');
+const dots=[...document.querySelectorAll('#dots i')];
+function setDot(n){dots.forEach((d,i)=>d.classList.toggle('on',i===n));}
+function say(html){capEl.innerHTML=html;gsap.fromTo(capEl,{opacity:0},{opacity:1,duration:.3});}
+
+function resetEncap(){
+  gsap.set(['#h4','#h3','#h2','#t2'],{opacity:0,width:0,padding:"16px 0",overflow:"hidden"});
+  gsap.set('#pay',{opacity:1,scale:1});
+  say("Press play. We start with data handed down from the application.");
+  setDot(0);
+}
+resetEncap();
+
+function grow(sel,pad){
+  return gsap.to(sel,{opacity:1,width:"auto",padding:pad,duration:.5,ease:"power2.out"});
+}
+
+document.getElementById('encapPlay').addEventListener('click',()=>{
+  resetEncap();
+  const tl=gsap.timeline();
+  tl.add(()=>{setDot(1);say("<strong>Layer 4:</strong> TCP adds a header with source and destination ports. What you now have is a <strong>segment</strong>.");},.2)
+    .add(grow('#h4',"16px 12px"),.3)
+    .add(()=>{setDot(2);say("<strong>Layer 3:</strong> IP adds source and destination addresses. Now it is a <strong>packet</strong>.");},"+=1.1")
+    .add(grow('#h3',"16px 12px"))
+    .add(()=>{setDot(3);say("<strong>Layer 2:</strong> Ethernet adds MAC addresses and a frame check sequence. Now it is a <strong>frame</strong>.");},"+=1.1")
+    .add(grow('#h2',"16px 12px"))
+    .add(grow('#t2',"16px 10px"),"<")
+    .add(()=>{setDot(4);say("<strong>Layer 1:</strong> the frame goes on the wire as <strong>bits</strong>. Every layer wrapped what the layer above handed down.");},"+=1.1")
+    .to('.nest',{scale:1.03,duration:.25,yoyo:true,repeat:1});
+});
+
+document.getElementById('encapUp').addEventListener('click',()=>{
+  const tl=gsap.timeline();
+  tl.add(()=>say("The receiving host now unwraps in reverse. Each layer reads its own header and discards it."))
+    .to(['#h2','#t2'],{opacity:0,width:0,padding:"16px 0",duration:.45,ease:"power2.in"},.2)
+    .add(()=>{setDot(3);say("<strong>Layer 2 removed.</strong> The frame is gone; a packet remains.");})
+    .to('#h3',{opacity:0,width:0,padding:"16px 0",duration:.45,ease:"power2.in"},"+=.7")
+    .add(()=>{setDot(2);say("<strong>Layer 3 removed.</strong> The packet is gone; a segment remains.");})
+    .to('#h4',{opacity:0,width:0,padding:"16px 0",duration:.45,ease:"power2.in"},"+=.7")
+    .add(()=>{setDot(0);say("<strong>Layer 4 removed.</strong> The application receives exactly the data that was sent. That is de-encapsulation.");})
+    .to('#pay',{scale:1.08,duration:.3,yoyo:true,repeat:1});
+});
+
+document.getElementById('encapReset').addEventListener('click',resetEncap);
+
+/* ============================ APPLIANCES ============================ */
+const LAYER_FILTERS=["All","Layer 1","Layer 2","Layer 3","Layer 4 or 7","Layer 7"];
+const filt=document.getElementById('filters');
+LAYER_FILTERS.forEach((f,i)=>{
+  const b=document.createElement('button');
+  b.className='btn '+(i===0?'on':'ghost');
+  b.textContent=f;
+  b.addEventListener('click',()=>{
+    [...filt.children].forEach(c=>{c.className='btn ghost';});
+    b.className='btn on';
+    drawCards(f);
+  });
+  filt.appendChild(b);
+});
+
+function drawCards(f){
+  const box=document.getElementById('cards');
+  const list=APPLIANCES.filter(a=>f==="All"||a.layer.indexOf(f.replace(" or 7",""))===0);
+  box.innerHTML=list.map(a=>
+    '<div class="card"><div class="lyr">'+a.layer+'</div><h4>'+a.name+'</h4>'+
+    '<p>'+a.decides+'</p><div class="reads"><strong>Reads:</strong> '+a.reads+'</div></div>').join('');
+  if(!list.length) box.innerHTML='<p style="color:var(--muted)">Nothing in that category. Try another.</p>';
+  gsap.from('#cards .card',{opacity:0,y:18,duration:.4,stagger:.05,ease:"power2.out"});
+}
+drawCards("All");
+
+/* ============================ TRAFFIC ============================ */
+const svg=document.getElementById('net');
+const SRC={x:90,y:190};
+const HOSTS=[
+  {x:520,y:50},{x:560,y:120},{x:575,y:195},{x:560,y:265},{x:520,y:335},{x:430,y:300}
+];
+const NS="http://www.w3.org/2000/svg";
+let currentTraffic="unicast", tl=null;
+
+function el(tag,attrs){
+  const e=document.createElementNS(NS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+
+function drawNet(){
+  svg.innerHTML='';
+  HOSTS.forEach((h,i)=>{
+    svg.appendChild(el('line',{x1:SRC.x,y1:SRC.y,x2:h.x,y2:h.y,stroke:'#4a5490','stroke-width':2,id:'ln'+i}));
+  });
+  HOSTS.forEach((h,i)=>{
+    svg.appendChild(el('rect',{x:h.x-26,y:h.y-18,width:52,height:36,rx:5,fill:'#3a4278',stroke:'#5a63a8','stroke-width':2,id:'hs'+i}));
+    const t=el('text',{x:h.x,y:h.y+5,fill:'#c9cddb','font-size':12,'text-anchor':'middle','font-family':'Lato,Arial,sans-serif',id:'ht'+i});
+    t.textContent='PC'+(i+1);
+    svg.appendChild(t);
+  });
+  svg.appendChild(el('circle',{cx:SRC.x,cy:SRC.y,r:34,fill:'#38b0e0',id:'srcNode'}));
+  const st=el('text',{x:SRC.x,y:SRC.y+5,fill:'#12294a','font-size':13,'font-weight':'bold','text-anchor':'middle','font-family':'Lato,Arial,sans-serif'});
+  st.textContent='SRC';
+  svg.appendChild(st);
+}
+
+function runTraffic(mode){
+  currentTraffic=mode;
+  if(tl) tl.kill();
+  drawNet();
+  const cfg=TRAFFIC[mode];
+  document.getElementById('tinfo').innerHTML=
+    '<h3>'+cfg.title+'</h3><p>'+cfg.body+'</p><div class="ex">'+cfg.ex+'</div>';
+  gsap.fromTo('#tinfo',{opacity:0,y:10},{opacity:1,y:0,duration:.35});
+
+  // dim non-targets
+  HOSTS.forEach((h,i)=>{
+    const on=cfg.targets.includes(i);
+    const rect=document.getElementById('hs'+i);
+    const line=document.getElementById('ln'+i);
+    rect.setAttribute('fill', on?'#3a4278':'#2c3260');
+    rect.setAttribute('stroke', on?'#38b0e0':'#3d4478');
+    line.setAttribute('stroke', on?'#5a63a8':'#333a68');
+    if(mode==='anycast'){
+      const t=document.getElementById('ht'+i);
+      if([1,3,4].includes(i)) t.textContent='10.1.1.1';
+    }
+  });
+
+  tl=gsap.timeline({repeat:-1,repeatDelay:.9});
+  tl.fromTo('#srcNode',{scale:1,transformOrigin:"center"},{scale:1.18,duration:.35,yoyo:true,repeat:1});
+
+  cfg.targets.forEach((i,k)=>{
+    const h=HOSTS[i];
+    const dot=el('circle',{cx:SRC.x,cy:SRC.y,r:7,fill:'#f0ad4e'});
+    svg.appendChild(dot);
+    const delay = mode==='broadcast'? .25 : .25 + k*(mode==='multicast'?.12:.35);
+    tl.to(dot,{attr:{cx:h.x,cy:h.y},duration:1.05,ease:"power1.inOut"},delay);
+    tl.to(document.getElementById('hs'+i),{attr:{fill:'#38b0e0'},duration:.25},delay+1.05);
+    tl.to(dot,{attr:{r:0},opacity:0,duration:.3},delay+1.05);
+    tl.to(document.getElementById('hs'+i),{attr:{fill:'#3a4278'},duration:.4},delay+1.7);
+  });
+}
+
+document.querySelectorAll('#tbtns button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#tbtns button').forEach(x=>x.className='btn ghost');
+    b.className='btn on';
+    runTraffic(b.dataset.t);
+  });
+});
+runTraffic('unicast');
+</script>
+</body>
+</html>
