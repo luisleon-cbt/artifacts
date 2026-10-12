@@ -1,0 +1,515 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>CBT Copilot Lab</title>
+<style>
+/* Layout: one reading column of "work orders", sticky jump bar with program filter, prompt cards with live Copilot buttons */
+:root{
+  --bg:#eef2f5; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#14202b; --muted:#53626f; --line:#d3dbe2;
+  --hvac:#0b6b87; --hvac-soft:#dff0f5; --elec:#a35f00; --elec-soft:#fbeed6; --both:#4a5a68; --both-soft:#e7ecf0;
+  --stripe:#e8a317; --btn-bg:#14202b; --btn-fg:#ffffff; --ok:#1f7a4d; --warn:#9a4a00; --warn-soft:#fff1de;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e151c; --surface:#16202a; --surface-2:#1b2632; --ink:#e4ebf1; --muted:#9aaab8; --line:#2b3a47;
+  --hvac:#5ec3df; --hvac-soft:#10313b; --elec:#f2b552; --elec-soft:#3a2a0f; --both:#b4c2ce; --both-soft:#243140;
+  --stripe:#e8a317; --btn-bg:#e4ebf1; --btn-fg:#0e151c; --ok:#5fcf97; --warn:#f2b552; --warn-soft:#3a2a0f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e151c; --surface:#16202a; --surface-2:#1b2632; --ink:#e4ebf1; --muted:#9aaab8; --line:#2b3a47;
+  --hvac:#5ec3df; --hvac-soft:#10313b; --elec:#f2b552; --elec-soft:#3a2a0f; --both:#b4c2ce; --both-soft:#243140;
+  --stripe:#e8a317; --btn-bg:#e4ebf1; --btn-fg:#0e151c; --ok:#5fcf97; --warn:#f2b552; --warn-soft:#3a2a0f; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;text-wrap:balance;margin:0}
+.eyebrow{font:600 12px/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* hero */
+.hero{border-bottom:1px solid var(--line);background:var(--surface)}
+.hazard{height:6px;background:repeating-linear-gradient(-45deg,var(--stripe) 0 12px,var(--ink) 12px 24px)}
+.hero .wrap{padding-block:28px 24px;display:grid;gap:14px}
+.hero h1{font-size:clamp(34px,6vw,52px);letter-spacing:.005em}
+.hero p.lede{margin:0;max-width:62ch;color:var(--muted);font-size:17px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.how{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px;padding:0;list-style:none;counter-reset:how}
+.how li{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;counter-increment:how;min-width:0}
+.how li::before{content:counter(how);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--surface);font:700 12px var(--body);margin-bottom:6px}
+.how b{display:block;font-weight:600}
+.how span{color:var(--muted)}
+@media (max-width:720px){.how{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;border-radius:6px;padding:10px 14px;font:600 15px/1 var(--body);cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn-primary:hover{opacity:.88}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-small{padding:7px 10px;font-size:13px}
+.btn:focus-visible,.chip:focus-visible,.seg button:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--stripe);outline-offset:2px}
+.btn svg{width:15px;height:15px;flex:none}
+
+/* sticky bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-block:10px}
+.jumps{display:flex;gap:6px;overflow-x:auto;min-width:0;scrollbar-width:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 13px/1 var(--body);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.chip.done::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 13px/1 var(--body);padding:8px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+
+main .wrap{display:grid;gap:22px;padding-block:24px 48px}
+
+/* setup */
+.setup{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:16px}
+.setup h2{font-size:28px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:720px){.cols{grid-template-columns:1fr}}
+.cols h3{font:600 14px/1.3 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.cols ol,.cols ul{margin:0;padding-left:20px;display:grid;gap:6px}
+
+/* work order */
+.wo{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;scroll-margin-top:70px}
+.wo-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;padding:18px 20px;border-bottom:1px dashed var(--line);align-items:start}
+.wo-num{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);border-radius:4px;padding:6px 8px;text-align:center;line-height:1}
+.wo-num b{display:block;font-size:34px;margin-top:2px}
+.wo h2{font-size:clamp(26px,4vw,32px)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:14px;color:var(--muted)}
+.meta span{display:inline-flex;gap:6px;align-items:center}
+.meta b{color:var(--ink);font-weight:600}
+.goal{margin:10px 0 0;max-width:68ch}
+.wo-body{padding:18px 20px;display:grid;gap:18px}
+.steps{margin:0;padding-left:22px;display:grid;gap:6px;max-width:72ch}
+.scenarios{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.scenario{border-radius:8px;padding:12px 14px;font-size:15px}
+.scenario .eyebrow{display:block;margin-bottom:4px}
+.scenario q{font-family:var(--display);font-size:22px;font-weight:600;quotes:"\201C" "\201D"}
+.t-hvac{background:var(--hvac-soft)} .t-hvac .eyebrow{color:var(--hvac)}
+.t-elec{background:var(--elec-soft)} .t-elec .eyebrow{color:var(--elec)}
+.group-title{font:600 14px/1.3 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 -6px}
+.roles{width:100%;border-collapse:collapse;font-size:14px}
+.roles th,.roles td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.roles th{font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.table-scroll{overflow-x:auto}
+
+/* prompt card */
+.prompt{border:1px solid var(--line);border-left:4px solid var(--both);border-radius:8px;background:var(--surface-2);padding:12px 14px;display:grid;gap:10px;min-width:0}
+.prompt.p-hvac{border-left-color:var(--hvac)}
+.prompt.p-elec{border-left-color:var(--elec)}
+.prompt-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tag{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:4px}
+.tag-hvac{background:var(--hvac-soft);color:var(--hvac)}
+.tag-elec{background:var(--elec-soft);color:var(--elec)}
+.tag-both{background:var(--both-soft);color:var(--both)}
+.prompt-label{font-weight:600}
+.edited{font-size:12px;color:var(--muted)}
+textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:14px/1.55 var(--mono);padding:10px 12px;overflow:hidden}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.fill-note{font-size:13px;color:var(--warn)}
+.warnbox{background:var(--warn-soft);color:var(--ink);border-radius:6px;padding:10px 12px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.explain{font-size:14px;color:var(--muted);margin:-2px 0 0;max-width:72ch}
+
+details.key{border:1px solid var(--line);border-radius:8px;padding:0 14px;background:var(--surface)}
+details.key summary{cursor:pointer;font-weight:600;padding:12px 0;list-style-position:inside}
+details.key[open]{padding-bottom:12px}
+details.key ul{margin:0;padding-left:20px;display:grid;gap:8px}
+.debrief{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.debrief p{margin:0;max-width:62ch;font-style:italic}
+.wo-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.timer{font-variant-numeric:tabular-nums}
+.timer.running{background:var(--stripe);color:#14202b;border-color:var(--stripe)}
+.timer.over{background:var(--warn);color:var(--surface)}
+.donebox{display:inline-flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.donebox input{width:18px;height:18px;accent-color:var(--ok)}
+
+[data-filter="hvac"] [data-prog="elec"],[data-filter="elec"] [data-prog="hvac"]{display:none}
+
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+footer .wrap{padding-block:20px 32px;display:grid;gap:4px}
+
+/* toast + modal */
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:12px 16px;border-radius:8px;font-size:14px;max-width:min(92vw,520px);z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(10,16,22,.72);display:grid;place-items:center;padding:16px}
+.modal-card{background:#ffffff;color:#14202b;border-radius:12px;padding:24px;display:grid;gap:14px;justify-items:center;max-width:min(560px,100%);text-align:center}
+.modal-card h2{font-size:30px}
+#qr{background:#fff;padding:12px;max-width:100%}
+#qr img,#qr canvas{max-width:100%;height:auto}
+.url{font:600 15px/1.4 var(--mono);word-break:break-all}
+.modal-card .btn-ghost{color:#14202b;border-color:#c9d2da}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap">
+
+<header class="hero">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow">CBT Technology Institute · In-service training · Laptops for learning</span>
+    <h1>Copilot lab for HVAC and electrical instructors</h1>
+    <p class="lede">Five hands-on exercises for today's 45-minute session. Pick a prompt, replace anything in [brackets] with your own words, and open it in Microsoft Copilot on your laptop.</p>
+    <ol class="how">
+      <li><b>Edit the prompt</b><span>Type right in the box. Fill in every [bracket].</span></li>
+      <li><b>Open in Copilot</b><span>Copilot opens in a new tab with your prompt.</span></li>
+      <li><b>Paste if the box is empty</b><span>The prompt is also copied. Press Ctrl+V, then Enter.</span></li>
+      <li><b>Check the answer</b><span>Verify numbers in the manual or code book.</span></li>
+    </ol>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Open Microsoft Copilot
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h7v7M13 3L4 12"/></svg></a>
+      <button class="btn btn-ghost" id="showQr" type="button">Show QR code for this page</button>
+    </div>
+  </div>
+</header>
+
+<nav class="bar" aria-label="Exercises">
+  <div class="wrap">
+    <div class="jumps" id="jumps"><a class="chip" href="#setup">Setup</a></div>
+    <div class="seg" role="group" aria-label="Show prompts for">
+      <button type="button" data-f="all" aria-pressed="true">Both programs</button>
+      <button type="button" data-f="hvac" aria-pressed="false">HVAC</button>
+      <button type="button" data-f="elec" aria-pressed="false">Electrical</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main" data-filter="all">
+  <div class="wrap" id="content">
+    <section class="setup" id="setup" aria-labelledby="setup-h">
+      <h2 id="setup-h">Before you start</h2>
+      <div class="cols">
+        <div>
+          <h3>Get Copilot ready</h3>
+          <ol>
+            <li>Click <b>Open Microsoft Copilot</b> above, or open the Copilot app from the Windows taskbar.</li>
+            <li>Sign in. Your CBT Microsoft account is best if Copilot Chat is enabled for it; a free personal Microsoft account also works for every exercise.</li>
+            <li>Start a <b>New chat</b> for each exercise so one scenario does not leak into the next.</li>
+            <li>Keep a second tab open with a trusted source: a manufacturer's manual PDF for HVAC, or the NEC through NFPA's free online access for electrical.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Ground rules</h3>
+          <ul>
+            <li>Never type student names, grades, ID numbers or customer addresses into Copilot.</li>
+            <li>Copilot is a starting point. Every pressure, temperature, code article, ampacity or torque value gets checked before it reaches students.</li>
+            <li>Ask Copilot to question you, not to do the work. These prompts are written that way on purpose.</li>
+            <li>If Copilot says you reached a limit on a special mode such as Think Deeper, switch back to the standard chat.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Prepared by Professor Luis De León for CBT Technology Institute, Flagler Campus.</span>
+    <span>Edits you make to prompts are saved only in this browser. Copilot's answers can be wrong: confirm them in the manual, the code book or with your instructor.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="modal" id="qrModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="qr-h">
+    <h2 id="qr-h">Scan to open the Copilot lab</h2>
+    <div id="qr"></div>
+    <div class="url" id="qrUrl"></div>
+    <button class="btn btn-ghost" id="closeQr" type="button">Close</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const EX = [
+{
+  id:"ex1", n:1, title:"Service call research partner", slides:"Slides 6 and 7", block:"0:10 to 0:18", minutes:4, grouping:"Pairs",
+  goal:"Pairs use Copilot to research causes, write their own plan, and then have Copilot critique it.",
+  steps:[
+    "Each pair picks one scenario below.",
+    "Run prompt A to research possible causes and the diagrams to review (1 minute).",
+    "Close the Copilot tab and write a 5 to 6 step plan in your own words in Word, OneNote or on paper (2 minutes).",
+    "Paste your plan into prompt B, open it in Copilot and read the critique together (1 minute)."
+  ],
+  scenarios:[["hvac","HVAC scenario","A home will not cool below 80°F."],["elec","Electrical scenario","A breaker trips repeatedly."]],
+  prompts:[
+    {id:"e1-hvac-a",prog:"hvac",label:"Prompt A · Research",text:"I am an HVAC student. A customer in Miami says their 3-ton split-system central AC runs all day but the house will not cool below 80°F when it is 92°F outside. List the most likely causes from most to least likely. For each cause, tell me what I would see or measure to confirm it, and which diagram or manual section (refrigerant circuit, airflow path, wiring diagram, charging chart) I should review. Do not write the troubleshooting plan for me."},
+    {id:"e1-hvac-b",prog:"hvac",label:"Prompt B · Critique our plan",text:"Here is our troubleshooting plan for the AC that will not cool below 80°F: [paste your plan]. Act as a senior HVAC technician reviewing an apprentice. Tell us what is missing, what is out of order, which step wastes time, and which safety steps should come first. Do not rewrite the plan; ask us questions so we fix it ourselves."},
+    {id:"e1-elec-a",prog:"elec",label:"Prompt A · Research",text:"I am an electrical student. A standard 20-amp single-pole breaker feeding a residential receptacle circuit trips repeatedly, sometimes right away and sometimes after 10 to 15 minutes. List the possible causes and explain how each one would behave differently (overload, short circuit, ground fault, loose connection, worn breaker). For each, name the test I would do with a clamp meter or multimeter and the circuit diagram I should review. Do not write the diagnostic steps for me."},
+    {id:"e1-elec-b",prog:"elec",label:"Prompt B · Critique our steps",text:"Here are our recommended diagnostic steps for the breaker that trips repeatedly: [paste your steps]. Act as a licensed electrician reviewing an apprentice. Tell us what is missing, what is out of order, which step wastes time, and where lockout/tagout and verifying absence of voltage belong. Do not rewrite the steps; ask us questions so we fix them ourselves."}
+  ],
+  key:[
+    ["hvac","HVAC: check the thermostat setting and the air filter first; measure supply and return air temperatures (a split of roughly 15 to 20°F is typical); inspect the evaporator and condenser coils; confirm the condenser fan and capacitor; only then connect gauges for superheat and subcooling to judge the charge; consider whether the home's heat load exceeds the system's capacity."],
+    ["elec","Electrical: lock out and tag out, then verify absence of voltage; ask when it trips (instantly points to a short, after minutes points to an overload); clamp the circuit under load and compare to the breaker rating; unplug loads one at a time; check for loose or heat-damaged terminations; test insulation resistance before blaming the breaker."]
+  ],
+  debrief:"The plan belonged to the pair, and Copilot only asked questions about it. How is that different from a lecture on the same topic?"
+},
+{
+  id:"ex2", n:2, title:"Build a retrieval quiz", slides:"Slides 8 and 9", block:"0:18 to 0:25", minutes:4, grouping:"Individual",
+  goal:"Draft five low-stakes questions for your next class with Copilot, then catch and fix at least one weak question.",
+  steps:[
+    "Change the topic in the quiz prompt to one you teach next week, then open it in Copilot.",
+    "Check every correct answer against your notes. Mark any question that is wrong, vague, too easy or has two defensible answers.",
+    "Run the distractor prompt on one calculation question.",
+    "Copy the table into Kahoot's spreadsheet import template, Microsoft Forms, a Canvas quiz or a Quizlet set. Two questions become the opener for your next class."
+  ],
+  prompts:[
+    {id:"e2-hvac",prog:"hvac",label:"Quiz prompt",text:"Create 5 multiple-choice questions for first-term HVAC students on the refrigeration cycle (compressor, condenser, metering device, evaporator). Mix 3 recall questions and 2 \"what would happen if\" questions. Give each question 4 options and exactly one correct answer. Keep each question under 120 characters and each option under 75 characters. Format the result as a table with these columns: Question, Answer 1, Answer 2, Answer 3, Answer 4, Time limit (sec), Correct answer (1 to 4). Under the table, give a one-sentence explanation for each correct answer."},
+    {id:"e2-elec",prog:"elec",label:"Quiz prompt",text:"Create 5 multiple-choice questions for first-term electrical students on Ohm's Law and basic circuit calculations. Include 2 calculation questions with whole-number answers. Give each question 4 options and exactly one correct answer. Keep each question under 120 characters and each option under 75 characters. Format the result as a table with these columns: Question, Answer 1, Answer 2, Answer 3, Answer 4, Time limit (sec), Correct answer (1 to 4). Under the table, show the work for each calculation."},
+    {id:"e2-dist",prog:"both",label:"Distractor prompt",text:"For the question \"Calculate the current: 120 V across a 24 Ω load,\" write 4 wrong answers that match real student mistakes, and name the mistake behind each one. Then tell me which wrong answer I should include so the question shows me who misunderstands Ohm's Law."}
+  ],
+  key:[
+    ["both","The correct answer is 5 A (I = V ÷ R = 120 ÷ 24). Expect wrong answers such as 2,880 (multiplied V by R), 0.2 (divided R by V), 96 (subtracted) and 144 (added)."],
+    ["hvac","HVAC instructors can rerun the distractor prompt with a superheat calculation from their own unit."]
+  ],
+  debrief:"What did Copilot get wrong or make too easy? That check is the instructor's job, and it is still faster than writing the questions from scratch."
+},
+{
+  id:"ex3", n:3, title:"Group investigation with roles", slides:"Slide 10", block:"0:25 to 0:30", minutes:4, grouping:"Groups of four",
+  goal:"Groups split the work by role. The checker uses Copilot to find sources and then confirms every one of them.",
+  steps:[
+    "Assign the four roles in the table below.",
+    "The researcher runs the research prompt for your program.",
+    "The checker runs the source prompt and opens every link. Keep manufacturer manuals, service bulletins, code and training sources; drop forums, random videos, sales pages and anything Copilot cannot link to.",
+    "The recorder builds the sequence in the shared file, and the presenter prepares a short talk. Two groups present for 30 seconds each."
+  ],
+  scenarios:[["hvac","HVAC groups investigate","Why is an evaporator coil freezing?"],["elec","Electrical groups investigate","Why would a GFCI outlet continually trip?"]],
+  roles:[
+    ["Researcher","Finds the possible causes","Research prompt"],
+    ["Checker","Confirms every claim has a real source","Source prompt, then opens each link"],
+    ["Recorder","Writes the sequence in the shared Word file or slide in the class team","Organize prompt"],
+    ["Presenter","Delivers the findings on the projector","Talk prompt"]
+  ],
+  prompts:[
+    {id:"e3-hvac",prog:"hvac",label:"Researcher prompt",text:"A residential split-system AC has ice forming on the evaporator coil. Group the possible causes into airflow problems and refrigerant or charge problems. For each cause, give the first thing a technician should check and why. Keep the answer under 150 words."},
+    {id:"e3-elec",prog:"elec",label:"Researcher prompt",text:"A GFCI receptacle in a residential bathroom keeps tripping, sometimes with nothing plugged into it. List the possible causes, including receptacles on the load side, moisture, wiring problems and a worn device, and give the first check for each. Keep the answer under 150 words."},
+    {id:"e3-check",prog:"both",label:"Checker prompt",note:"Run this in the same chat as the researcher prompt.",text:"For the causes you just listed, which sources should a technician use to confirm them? Name the type of document (manufacturer installation manual, service bulletin, NEC article, device installation instructions) and what to look for in it. If you mention a web page, give me the link."},
+    {id:"e3-rec",prog:"both",label:"Recorder prompt",text:"Turn these group notes into a numbered troubleshooting sequence of no more than 7 steps. Keep our wording, start with safety, and mark any step where we still need a source: [paste notes]"},
+    {id:"e3-pres",prog:"both",label:"Presenter prompt",text:"Turn this troubleshooting sequence into a 2-minute talk for the class: one sentence per step and a closing sentence naming the most likely cause. [paste sequence]"}
+  ],
+  key:[
+    ["hvac","Frozen coil: dirty filter, blocked return or closed supply registers; dirty evaporator coil; weak blower motor, failed capacitor or low fan speed; low refrigerant charge from a leak; a restricted metering device. The first step is to shut the compressor off and let the coil thaw with the fan running before taking any readings."],
+    ["elec","Tripping GFCI: an appliance with real leakage to ground; moisture in the box or in a downstream outdoor receptacle; damaged insulation on the load side; a neutral shared with another circuit; a worn device. A good sequence disconnects the load-side conductors to see whether the trip follows the device or the downstream wiring."]
+  ],
+  debrief:"How did the roles change who stayed engaged, and did the checker find a source Copilot made sound more official than it was?"
+},
+{
+  id:"ex4", n:4, title:"Copilot as practice partner", slides:"Slides 11 and 12", block:"0:30 to 0:35", minutes:3, grouping:"Individual",
+  goal:"Try one of the four student uses from slide 12 for 2 minutes, then spend 1 minute checking an answer that sounds right but is incomplete.",
+  steps:[
+    "Part A: pick one student use and open its prompt in Copilot (2 minutes).",
+    "Part B: open one spot-the-gap question and compare Copilot's answer with the code book or a PT chart (1 minute).",
+    "Use what you found for the slide 12 discussion on responsible AI use.",
+    "Save the simulation prompts at the bottom for after the session."
+  ],
+  prompts:[
+    {group:"Part A · Pick one student use"},
+    {id:"e4-guide",prog:"both",label:"Generate a study guide",text:"Turn these class notes into a one-page review sheet for first-term students: key terms with one-line definitions, a short step-by-step summary, the most common student mistakes, and 5 self-check questions with the answers at the bottom. [paste your notes or chapter outline]"},
+    {id:"e4-explain-hvac",prog:"hvac",label:"Explain a concept, then verify it",text:"Explain superheat and subcooling to a first-term HVAC student using an everyday analogy. Then tell me exactly what to look up in the manufacturer's charging chart to confirm your explanation."},
+    {id:"e4-explain-elec",prog:"elec",label:"Explain a concept, then verify it",text:"Explain the difference between a GFCI and an AFCI to a first-term electrical student using an everyday analogy. Then tell me which NEC sections I should read to confirm where each one is required."},
+    {id:"e4-quiz",prog:"elec",label:"Practice questions, one at a time",text:"Quiz me one question at a time on series and parallel circuits. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
+    {id:"e4-quiz-hvac",prog:"hvac",label:"Practice questions, one at a time",text:"Quiz me one question at a time on the refrigeration cycle and refrigerant states at each component. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
+    {id:"e4-reason",prog:"hvac",label:"Check a line of reasoning",text:"Here is how I would add refrigerant to a split system that I think is undercharged: [describe your steps]. What might be missing or unsafe? Ask me questions instead of telling me the answer."},
+    {id:"e4-reason-elec",prog:"elec",label:"Check a line of reasoning",text:"Here is how I would replace a residential 20-amp receptacle and confirm it is wired correctly: [describe your steps]. What might be missing or unsafe? Ask me questions instead of telling me the answer."},
+    {group:"Part B · Spot the gap"},
+    {id:"e4-gap-elec",prog:"elec",label:"Ampacity question",text:"What is the ampacity of 12 AWG copper THHN wire?",explain:"Copilot often answers 30 A, the 90°C column of NEC Table 310.16. On the job, terminal temperature ratings usually limit the conductor to the 60°C or 75°C column (20 A or 25 A), and NEC 240.4(D) limits overcurrent protection for 12 AWG copper to 20 A. True answer, wrong answer for sizing a breaker."},
+    {id:"e4-gap-hvac",prog:"hvac",label:"Pressure-temperature question",text:"What is the saturation temperature of R-410A at 118 psig? Then give me the same value for R-454B.",explain:"Check both values against a PT chart or the manufacturer's app. R-410A at 118 psig is about 40°F. Look at whether Copilot's R-454B value matches the chart and whether it mentioned that the newer refrigerant reads differently."},
+    {group:"Take-home · Copilot as a fault simulator (slide 11)"},
+    {id:"e4-sim-hvac",prog:"hvac",label:"Heat pump simulation (10 to 15 min)",text:"Act as a 3-ton residential heat pump in cooling mode with one hidden fault. I am the technician. I will tell you what I check or measure, and you reply only with what I would observe: pressures, temperatures, amp draw, sounds. Keep readings realistic for a 90°F day. Do not reveal the fault until I state my diagnosis and the reading that proves it. Then score my process and tell me which step I could have skipped."},
+    {id:"e4-sim-elec",prog:"elec",label:"Motor control simulation (10 to 15 min)",text:"Act as a 3-wire start/stop motor control circuit with a magnetic starter and an overload relay that has one hidden fault: the motor does not start when I press Start. I am the electrician. I will tell you what I test and where I place my meter leads, and you reply only with the reading I would get. Do not reveal the fault until I state my diagnosis and the reading that proves it. Remind me if I skip a safety step."}
+  ],
+  debrief:"If a student had taken the spot-the-gap answer straight to the job, what would have happened?"
+},
+{
+  id:"ex5", n:5, title:"Next week's laptop segment", slides:"Slide 14", block:"0:40 to 0:45", minutes:3, grouping:"Individual",
+  goal:"Turn your slide 14 answers into a ready-to-teach 15-minute laptop segment for your own course.",
+  steps:[
+    "Answer the four reflection questions on slide 14 in a few words each.",
+    "Paste those answers into the lesson prompt and fill in the other brackets.",
+    "Run the follow-up prompt in the same chat. It adds the distraction practices from slide 13.",
+    "Copy the result into Word or OneNote. That document is your plan for next week."
+  ],
+  prompts:[
+    {id:"e5-plan",prog:"both",label:"Lesson prompt",text:"I teach [course name] at a technical school to [HVAC / electrical] students. Next week's lesson is [topic]. My answers to my planning questions are: [paste your four answers]. Students have laptops and Microsoft Copilot. Design a 15-minute laptop segment that starts with a real service-call symptom, has pairs research on their laptops, has each pair write a plan, and ends with a class debrief. Include a minute-by-minute timing, the exact instructions I read to students, what each pair submits at the end, and 2 knowledge-check questions with answers."},
+    {id:"e5-follow",prog:"both",label:"Follow-up prompt",note:"Run this in the same chat as the lesson prompt.",text:"Now add how I will manage laptop distractions in this segment: the signal for laptops open and closed, how I will keep pairs on task, what I do if a pair finishes early, and my backup if a laptop fails. Then list the facts in this lesson that students must verify in the manual or code book instead of trusting Copilot."}
+  ],
+  debrief:"The plan Copilot drafted is a starting point, the same way it was for the pairs in Exercise 1. You decide what stays."
+}
+];
+
+const store = {
+  get(k){try{return localStorage.getItem("cbtlab:"+k)}catch(e){return null}},
+  set(k,v){try{localStorage.setItem("cbtlab:"+k,v)}catch(e){}},
+  del(k){try{localStorage.removeItem("cbtlab:"+k)}catch(e){}}
+};
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const progName = {hvac:"HVAC",elec:"Electrical",both:"Both programs"};
+const COPILOT = "https://copilot.microsoft.com/?q=";
+const arrow = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h7v7M13 3L4 12"/></svg>';
+const hasBrackets = t => /\[[^\]]+\]/.test(t);
+
+function promptHTML(p){
+  if(p.group) return `<div class="group-title">${esc(p.group)}</div>`;
+  const saved = store.get("p:"+p.id);
+  const text = saved ?? p.text;
+  return `<div class="prompt p-${p.prog}" data-prog="${p.prog}" data-pid="${p.id}">
+    <div class="prompt-top"><span class="tag tag-${p.prog}">${progName[p.prog]}</span><span class="prompt-label">${esc(p.label)}</span>
+      <span class="edited" ${saved!==null && saved!==p.text?"":"hidden"}>Edited</span></div>
+    ${p.note?`<p class="explain">${esc(p.note)}</p>`:""}
+    <label class="visually-hidden" for="ta-${p.id}" style="position:absolute;left:-9999px">${esc(p.label)}</label>
+    <textarea id="ta-${p.id}" spellcheck="true">${esc(text)}</textarea>
+    <div class="actions">
+      <a class="btn btn-primary btn-small go" href="${COPILOT+encodeURIComponent(text)}" target="_blank" rel="noopener">Open in Copilot ${arrow}</a>
+      <button class="btn btn-ghost btn-small copy" type="button">Copy prompt</button>
+      <button class="btn btn-ghost btn-small reset" type="button" ${saved!==null && saved!==p.text?"":"hidden"}>Reset</button>
+      <span class="fill-note" ${hasBrackets(text)?"":"hidden"}>Fill in the [brackets] first</span>
+    </div>
+    <div class="warnbox" hidden>Some [bracketed] parts still need your words. Replace them, or
+      <a class="btn btn-ghost btn-small anyway" href="#" target="_blank" rel="noopener">open it anyway ${arrow}</a></div>
+    ${p.explain?`<details class="key" data-prog="${p.prog}"><summary>What to look for (open after you check)</summary><p class="explain" style="margin:0">${esc(p.explain)}</p></details>`:""}
+  </div>`;
+}
+
+function exHTML(x){
+  const done = store.get("done:"+x.id)==="1";
+  const sc = x.scenarios?`<div class="scenarios">${x.scenarios.map(([pr,lab,q])=>`<div class="scenario t-${pr}" data-prog="${pr}"><span class="eyebrow">${esc(lab)}</span><q>${esc(q)}</q></div>`).join("")}</div>`:"";
+  const roles = x.roles?`<div class="table-scroll"><table class="roles"><thead><tr><th>Role</th><th>Job during the exercise</th><th>Uses Copilot for</th></tr></thead><tbody>${x.roles.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>`:"";
+  const key = x.key?`<details class="key"><summary>Answer key for the debrief</summary><ul>${x.key.map(([pr,t])=>`<li data-prog="${pr}">${esc(t)}</li>`).join("")}</ul></details>`:"";
+  return `<section class="wo" id="${x.id}" aria-labelledby="${x.id}-h">
+    <div class="wo-head">
+      <div class="wo-num" aria-hidden="true">Ex<b>${x.n}</b></div>
+      <div>
+        <h2 id="${x.id}-h">${esc(x.title)}</h2>
+        <div class="meta"><span><b>${esc(x.slides)}</b></span><span>Agenda ${esc(x.block)}</span><span>Laptop time <b>${x.minutes} min</b></span><span>${esc(x.grouping)}</span></div>
+        <p class="goal">${esc(x.goal)}</p>
+      </div>
+    </div>
+    <div class="wo-body">
+      ${sc}
+      <ol class="steps">${x.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      ${roles}
+      ${x.prompts.map(promptHTML).join("")}
+      ${key}
+      <div class="debrief">
+        <p>${esc(x.debrief)}</p>
+        <div class="wo-foot">
+          <button class="btn btn-ghost btn-small timer" type="button" data-min="${x.minutes}">Start ${x.minutes}:00 timer</button>
+          <label class="donebox"><input type="checkbox" class="done" ${done?"checked":""}> Done</label>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+const content = document.getElementById("content");
+content.insertAdjacentHTML("beforeend", EX.map(exHTML).join(""));
+const jumps = document.getElementById("jumps");
+jumps.insertAdjacentHTML("beforeend", EX.map(x=>`<a class="chip${store.get("done:"+x.id)==="1"?" done":""}" href="#${x.id}" data-jump="${x.id}">Exercise ${x.n}</a>`).join(""));
+
+function autosize(ta){ta.style.height="auto";ta.style.height=(ta.scrollHeight+2)+"px"}
+document.querySelectorAll("textarea").forEach(autosize);
+window.addEventListener("resize",()=>document.querySelectorAll("textarea").forEach(autosize));
+
+const toastEl = document.getElementById("toast"); let toastT;
+function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>toastEl.hidden=true,5200)}
+
+function copyText(text, ta){
+  const fallback = () => { if(ta){ta.focus();ta.select();} return false; };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text).then(()=>true, fallback);
+    }
+  }catch(e){}
+  try{ if(ta){ta.focus();ta.select(); if(document.execCommand("copy")) return Promise.resolve(true);} }catch(e){}
+  return Promise.resolve(fallback());
+}
+
+function card(el){return el.closest(".prompt")}
+function base(id){for(const x of EX)for(const p of x.prompts)if(p.id===id)return p.text;return ""}
+
+content.addEventListener("input", e=>{
+  if(e.target.tagName!=="TEXTAREA") return;
+  const c = card(e.target), id = c.dataset.pid, t = e.target.value;
+  autosize(e.target);
+  c.querySelector(".go").href = COPILOT+encodeURIComponent(t);
+  const changed = t!==base(id);
+  if(changed) store.set("p:"+id,t); else store.del("p:"+id);
+  c.querySelector(".edited").hidden = !changed;
+  c.querySelector(".reset").hidden = !changed;
+  c.querySelector(".fill-note").hidden = !hasBrackets(t);
+  if(!hasBrackets(t)) c.querySelector(".warnbox").hidden = true;
+});
+
+content.addEventListener("click", e=>{
+  const go = e.target.closest(".go, .anyway");
+  if(go){
+    const c = card(go), ta = c.querySelector("textarea"), t = ta.value.trim();
+    if(go.classList.contains("go") && hasBrackets(t)){
+      e.preventDefault();
+      const w = c.querySelector(".warnbox");
+      w.querySelector(".anyway").href = COPILOT+encodeURIComponent(t);
+      w.hidden = false; return;
+    }
+    if(go.classList.contains("anyway")) go.href = COPILOT+encodeURIComponent(t);
+    copyText(t, null);
+    toast("Copilot is opening in a new tab. The prompt is also copied: if Copilot's box is empty, press Ctrl+V, then Enter.");
+    return;
+  }
+  const cp = e.target.closest(".copy");
+  if(cp){
+    const ta = card(cp).querySelector("textarea");
+    copyText(ta.value.trim(), ta).then(ok=>toast(ok?"Prompt copied. Paste it into Copilot with Ctrl+V.":"Prompt selected. Press Ctrl+C to copy it."));
+    return;
+  }
+  const rs = e.target.closest(".reset");
+  if(rs){
+    const c = card(rs), ta = c.querySelector("textarea");
+    ta.value = base(c.dataset.pid); ta.dispatchEvent(new Event("input",{bubbles:true})); return;
+  }
+  const tm = e.target.closest(".timer");
+  if(tm){ toggleTimer(tm); return; }
+});
+
+content.addEventListener("change", e=>{
+  if(!e.target.classList.contains("done")) return;
+  const id = e.target.closest(".wo").id, on = e.target.checked;
+  if(on) store.set("done:"+id,"1"); else store.del("done:"+id);
+  jumps.querySelector(`[data-jump="${id}"]`).classList.toggle("done", on);
+});
+
+const timers = new WeakMap();
+function fmt(s){const a=Math.abs(s);return (s<0?"+":"")+Math.floor(a/60)+":"+String(a%60).padStart(2,"0")}
+function toggleTimer(btn){
+  const t = timers.get(btn);
+  if(t){clearInterval(t);timers.delete(btn);btn.classList.remove("running","over");btn.textContent=`Start ${btn.dataset.min}:00 timer`;return}
+  const end = Date.now()+btn.dataset.min*60000;
+  btn.classList.add("running");
+  const tick=()=>{const s=Math.round((end-Date.now())/1000);btn.textContent=(s>=0?"Time left ":"Over time ")+fmt(s)+" · Stop";if(s<0){btn.classList.remove("running");btn.classList.add("over")}};
+  tick(); timers.set(btn,setInterval(tick,1000));
+}
+
+const main = document.getElementById("main");
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+  main.dataset.filter=b.dataset.f;
+  document.querySelectorAll(".seg button").forEach(o=>o.setAttribute("aria-pressed",String(o===b)));
+  store.set("filter",b.dataset.f);
+}));
+const savedF = store.get("filter");
+if(savedF){const b=document.querySelector(`.seg button[data-f="${savedF}"]`); if(b) b.click();}
+
+const modal = document.getElementById("qrModal");
+document.getElementById("showQr").addEventListener("click",()=>{
+  const url = location.href.split("#")[0];
+  const box = document.getElementById("qr"); box.innerHTML="";
+  document.getElementById("qrUrl").textContent = url;
+  if(window.QRCode){ new QRCode(box,{text:url,width:320,height:320,colorDark:"#14202b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M}); }
+  else box.textContent = "The QR code could not load. Share the address below instead.";
+  modal.hidden=false; document.getElementById("closeQr").focus();
+});
+document.getElementById("closeQr").addEventListener("click",()=>modal.hidden=true);
+modal.addEventListener("click",e=>{if(e.target===modal)modal.hidden=true});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.hidden=true});
+</script>
+
+</body></html>
