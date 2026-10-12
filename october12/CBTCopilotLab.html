@@ -1,4 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Hands-on Microsoft Copilot exercises for the CBT Technology Institute in-service on using student laptops.">
 <title>CBT Copilot Lab</title>
 <style>
 /* Layout: one reading column of "work orders", sticky jump bar with program filter, prompt cards with live Copilot buttons */
@@ -106,11 +111,10 @@ main .wrap{display:grid;gap:22px;padding-block:24px 48px}
 .tag-elec{background:var(--elec-soft);color:var(--elec)}
 .tag-both{background:var(--both-soft);color:var(--both)}
 .prompt-label{font-weight:600}
-.edited{font-size:12px;color:var(--muted)}
-textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:14px/1.55 var(--mono);padding:10px 12px;overflow:hidden}
+.ptext{margin:0;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:14px/1.6 var(--mono);padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere;user-select:all;-webkit-user-select:all}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.fill-note{font-size:13px;color:var(--warn)}
-.warnbox{background:var(--warn-soft);color:var(--ink);border-radius:6px;padding:10px 12px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.same-chat{font:600 12px/1.2 var(--body);color:var(--warn);background:var(--warn-soft);padding:4px 7px;border-radius:4px}
+.btn.copied{background:var(--ok);color:#ffffff}
 .explain{font-size:14px;color:var(--muted);margin:-2px 0 0;max-width:72ch}
 
 details.key{border:1px solid var(--line);border-radius:8px;padding:0 14px;background:var(--surface)}
@@ -144,16 +148,19 @@ footer .wrap{padding-block:20px 32px;display:grid;gap:4px}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap">
 
+
+</head>
+<body>
 <header class="hero">
   <div class="hazard" aria-hidden="true"></div>
   <div class="wrap">
     <span class="eyebrow">CBT Technology Institute · In-service training · Laptops for learning</span>
     <h1>Copilot lab for HVAC and electrical instructors</h1>
-    <p class="lede">Five hands-on exercises for today's 45-minute session. Pick a prompt, replace anything in [brackets] with your own words, and open it in Microsoft Copilot on your laptop.</p>
+    <p class="lede">Five hands-on exercises for today's 45-minute session. Every prompt is ready to use as written: copy it, paste it into Microsoft Copilot on your laptop, and see what comes back.</p>
     <ol class="how">
-      <li><b>Edit the prompt</b><span>Type right in the box. Fill in every [bracket].</span></li>
-      <li><b>Open in Copilot</b><span>Copilot opens in a new tab with your prompt.</span></li>
-      <li><b>Paste if the box is empty</b><span>The prompt is also copied. Press Ctrl+V, then Enter.</span></li>
+      <li><b>Copy the prompt</b><span>Click Copy prompt under the exercise.</span></li>
+      <li><b>Open Copilot</b><span>Use the Open Copilot button or your open Copilot tab.</span></li>
+      <li><b>Paste and send</b><span>Click the message box, press Ctrl+V, then Enter.</span></li>
       <li><b>Check the answer</b><span>Verify numbers in the manual or code book.</span></li>
     </ol>
     <div class="hero-actions">
@@ -185,7 +192,7 @@ footer .wrap{padding-block:20px 32px;display:grid;gap:4px}
           <ol>
             <li>Click <b>Open Microsoft Copilot</b> above, or open the Copilot app from the Windows taskbar.</li>
             <li>Sign in. Your CBT Microsoft account is best if Copilot Chat is enabled for it; a free personal Microsoft account also works for every exercise.</li>
-            <li>Start a <b>New chat</b> for each exercise so one scenario does not leak into the next.</li>
+            <li>Start a <b>New chat</b> for each exercise so one scenario does not leak into the next. Prompts marked "Same chat" go into the chat you already have open.</li>
             <li>Keep a second tab open with a trusted source: a manufacturer's manual PDF for HVAC, or the NEC through NFPA's free online access for electrical.</li>
           </ol>
         </div>
@@ -206,7 +213,7 @@ footer .wrap{padding-block:20px 32px;display:grid;gap:4px}
 <footer>
   <div class="wrap">
     <span>Prepared by Professor Luis De León for CBT Technology Institute, Flagler Campus.</span>
-    <span>Edits you make to prompts are saved only in this browser. Copilot's answers can be wrong: confirm them in the manual, the code book or with your instructor.</span>
+    <span>Copilot's answers can be wrong: confirm them in the manual, the code book, a PT chart or with your instructor.</span>
   </div>
 </footer>
 
@@ -225,68 +232,68 @@ footer .wrap{padding-block:20px 32px;display:grid;gap:4px}
 const EX = [
 {
   id:"ex1", n:1, title:"Service call research partner", slides:"Slides 6 and 7", block:"0:10 to 0:18", minutes:4, grouping:"Pairs",
-  goal:"Pairs use Copilot to research causes, write their own plan, and then have Copilot critique it.",
+  goal:"Pairs use Copilot to research a service call, then ask it to critique a sample plan that has mistakes built in.",
   steps:[
-    "Each pair picks one scenario below.",
-    "Run prompt A to research possible causes and the diagrams to review (1 minute).",
-    "Close the Copilot tab and write a 5 to 6 step plan in your own words in Word, OneNote or on paper (2 minutes).",
-    "Paste your plan into prompt B, open it in Copilot and read the critique together (1 minute)."
+    "Each pair picks one of the two scenarios.",
+    "Copy prompt A into a new Copilot chat to research causes and the diagrams to review (1.5 minutes).",
+    "Read the sample plan inside prompt B. Before sending it, agree on two things you think are wrong with it (1 minute).",
+    "Copy prompt B into Copilot and compare its critique with your guess (1.5 minutes)."
   ],
   scenarios:[["hvac","HVAC scenario","A home will not cool below 80°F."],["elec","Electrical scenario","A breaker trips repeatedly."]],
   prompts:[
     {id:"e1-hvac-a",prog:"hvac",label:"Prompt A · Research",text:"I am an HVAC student. A customer in Miami says their 3-ton split-system central AC runs all day but the house will not cool below 80°F when it is 92°F outside. List the most likely causes from most to least likely. For each cause, tell me what I would see or measure to confirm it, and which diagram or manual section (refrigerant circuit, airflow path, wiring diagram, charging chart) I should review. Do not write the troubleshooting plan for me."},
-    {id:"e1-hvac-b",prog:"hvac",label:"Prompt B · Critique our plan",text:"Here is our troubleshooting plan for the AC that will not cool below 80°F: [paste your plan]. Act as a senior HVAC technician reviewing an apprentice. Tell us what is missing, what is out of order, which step wastes time, and which safety steps should come first. Do not rewrite the plan; ask us questions so we fix it ourselves."},
+    {id:"e1-hvac-b",prog:"hvac",label:"Prompt B · Critique a sample plan",same:true,text:"Here is a troubleshooting plan an apprentice wrote for the AC that will not cool below 80°F:\n1. Connect the gauges and check the pressures.\n2. If the pressure is low, add refrigerant until it looks normal.\n3. Check the air filter.\n4. Check the thermostat setting.\n5. Tell the customer the system is fixed.\nAct as a senior HVAC technician reviewing this plan. Tell me what is missing, what is out of order, which step wastes time, and which safety or certification steps should come first. Do not rewrite the plan; ask me questions so I can fix it myself."},
     {id:"e1-elec-a",prog:"elec",label:"Prompt A · Research",text:"I am an electrical student. A standard 20-amp single-pole breaker feeding a residential receptacle circuit trips repeatedly, sometimes right away and sometimes after 10 to 15 minutes. List the possible causes and explain how each one would behave differently (overload, short circuit, ground fault, loose connection, worn breaker). For each, name the test I would do with a clamp meter or multimeter and the circuit diagram I should review. Do not write the diagnostic steps for me."},
-    {id:"e1-elec-b",prog:"elec",label:"Prompt B · Critique our steps",text:"Here are our recommended diagnostic steps for the breaker that trips repeatedly: [paste your steps]. Act as a licensed electrician reviewing an apprentice. Tell us what is missing, what is out of order, which step wastes time, and where lockout/tagout and verifying absence of voltage belong. Do not rewrite the steps; ask us questions so we fix them ourselves."}
+    {id:"e1-elec-b",prog:"elec",label:"Prompt B · Critique sample steps",same:true,text:"Here are the diagnostic steps an apprentice wrote for the 20-amp breaker that trips repeatedly:\n1. Reset the breaker and wait to see if it trips again.\n2. Replace the breaker with a new 20-amp breaker.\n3. Take the covers off the receptacles and look at the wiring.\n4. Clamp the circuit with a clamp meter.\nAct as a licensed electrician reviewing these steps. Tell me what is missing, what is out of order, which step wastes time, and where lockout/tagout and verifying absence of voltage belong. Do not rewrite the steps; ask me questions so I can fix them myself."}
   ],
   key:[
-    ["hvac","HVAC: check the thermostat setting and the air filter first; measure supply and return air temperatures (a split of roughly 15 to 20°F is typical); inspect the evaporator and condenser coils; confirm the condenser fan and capacitor; only then connect gauges for superheat and subcooling to judge the charge; consider whether the home's heat load exceeds the system's capacity."],
-    ["elec","Electrical: lock out and tag out, then verify absence of voltage; ask when it trips (instantly points to a short, after minutes points to an overload); clamp the circuit under load and compare to the breaker rating; unplug loads one at a time; check for loose or heat-damaged terminations; test insulation resistance before blaming the breaker."]
+    ["hvac","Mistakes built into the HVAC sample: gauges go on before the simple checks (thermostat, filter, airflow); adding refrigerant \"until it looks normal\" skips superheat or subcooling and never looks for the leak; handling refrigerant requires EPA Section 608 certification; nothing confirms the repair, such as a supply and return temperature split of roughly 15 to 20°F."],
+    ["elec","Mistakes built into the electrical sample: resetting a breaker repeatedly onto a possible fault is unsafe; the breaker is replaced before anything is diagnosed; covers come off with no lockout/tagout or test for absence of voltage; the clamp reading should come first, under load, along with asking when it trips (instantly suggests a short, after minutes suggests an overload)."]
   ],
-  debrief:"The plan belonged to the pair, and Copilot only asked questions about it. How is that different from a lecture on the same topic?"
+  debrief:"Did Copilot catch the same mistakes your pair found? How is this different from a lecture on the same topic?"
 },
 {
   id:"ex2", n:2, title:"Build a retrieval quiz", slides:"Slides 8 and 9", block:"0:18 to 0:25", minutes:4, grouping:"Individual",
-  goal:"Draft five low-stakes questions for your next class with Copilot, then catch and fix at least one weak question.",
+  goal:"Have Copilot draft five low-stakes quiz questions, then catch at least one weak question before it would reach students.",
   steps:[
-    "Change the topic in the quiz prompt to one you teach next week, then open it in Copilot.",
-    "Check every correct answer against your notes. Mark any question that is wrong, vague, too easy or has two defensible answers.",
-    "Run the distractor prompt on one calculation question.",
-    "Copy the table into Kahoot's spreadsheet import template, Microsoft Forms, a Canvas quiz or a Quizlet set. Two questions become the opener for your next class."
+    "Copy the quiz prompt for your program into a new Copilot chat.",
+    "Check every correct answer. Mark any question that is wrong, vague, too easy or has two defensible answers.",
+    "Copy the distractor prompt into the same chat.",
+    "Decide where you would load these questions: Kahoot, Microsoft Forms, a Canvas quiz or a Quizlet set."
   ],
   prompts:[
     {id:"e2-hvac",prog:"hvac",label:"Quiz prompt",text:"Create 5 multiple-choice questions for first-term HVAC students on the refrigeration cycle (compressor, condenser, metering device, evaporator). Mix 3 recall questions and 2 \"what would happen if\" questions. Give each question 4 options and exactly one correct answer. Keep each question under 120 characters and each option under 75 characters. Format the result as a table with these columns: Question, Answer 1, Answer 2, Answer 3, Answer 4, Time limit (sec), Correct answer (1 to 4). Under the table, give a one-sentence explanation for each correct answer."},
     {id:"e2-elec",prog:"elec",label:"Quiz prompt",text:"Create 5 multiple-choice questions for first-term electrical students on Ohm's Law and basic circuit calculations. Include 2 calculation questions with whole-number answers. Give each question 4 options and exactly one correct answer. Keep each question under 120 characters and each option under 75 characters. Format the result as a table with these columns: Question, Answer 1, Answer 2, Answer 3, Answer 4, Time limit (sec), Correct answer (1 to 4). Under the table, show the work for each calculation."},
-    {id:"e2-dist",prog:"both",label:"Distractor prompt",text:"For the question \"Calculate the current: 120 V across a 24 Ω load,\" write 4 wrong answers that match real student mistakes, and name the mistake behind each one. Then tell me which wrong answer I should include so the question shows me who misunderstands Ohm's Law."}
+    {id:"e2-dist",prog:"both",label:"Distractor prompt",same:true,text:"For the question \"Calculate the current: 120 V across a 24 Ω load,\" write 4 wrong answers that match real student mistakes, and name the mistake behind each one. Then tell me which wrong answer I should include so the question shows me who misunderstands Ohm's Law."}
   ],
   key:[
     ["both","The correct answer is 5 A (I = V ÷ R = 120 ÷ 24). Expect wrong answers such as 2,880 (multiplied V by R), 0.2 (divided R by V), 96 (subtracted) and 144 (added)."],
-    ["hvac","HVAC instructors can rerun the distractor prompt with a superheat calculation from their own unit."]
+    ["both","Kahoot's spreadsheet import uses the same columns the quiz prompt asks for, so the table can go straight into its template."]
   ],
   debrief:"What did Copilot get wrong or make too easy? That check is the instructor's job, and it is still faster than writing the questions from scratch."
 },
 {
   id:"ex3", n:3, title:"Group investigation with roles", slides:"Slide 10", block:"0:25 to 0:30", minutes:4, grouping:"Groups of four",
-  goal:"Groups split the work by role. The checker uses Copilot to find sources and then confirms every one of them.",
+  goal:"Groups split the work by role and build one chat together. The checker confirms every source Copilot gives.",
   steps:[
-    "Assign the four roles in the table below.",
-    "The researcher runs the research prompt for your program.",
-    "The checker runs the source prompt and opens every link. Keep manufacturer manuals, service bulletins, code and training sources; drop forums, random videos, sales pages and anything Copilot cannot link to.",
-    "The recorder builds the sequence in the shared file, and the presenter prepares a short talk. Two groups present for 30 seconds each."
+    "Assign the four roles in the table below and open one Copilot chat on the researcher's laptop.",
+    "The researcher copies the research prompt for your program into a new chat.",
+    "The checker copies the source prompt into the same chat and opens every link. Keep manufacturer manuals, service bulletins, code and training sources; drop forums, random videos, sales pages and anything Copilot cannot link to.",
+    "The recorder and the presenter add their prompts to the same chat. Two groups present for 30 seconds each."
   ],
   scenarios:[["hvac","HVAC groups investigate","Why is an evaporator coil freezing?"],["elec","Electrical groups investigate","Why would a GFCI outlet continually trip?"]],
   roles:[
-    ["Researcher","Finds the possible causes","Research prompt"],
+    ["Researcher","Finds the possible causes","Research prompt (new chat)"],
     ["Checker","Confirms every claim has a real source","Source prompt, then opens each link"],
-    ["Recorder","Writes the sequence in the shared Word file or slide in the class team","Organize prompt"],
+    ["Recorder","Writes the sequence in the shared Word file or slide in the class team","Sequence prompt"],
     ["Presenter","Delivers the findings on the projector","Talk prompt"]
   ],
   prompts:[
     {id:"e3-hvac",prog:"hvac",label:"Researcher prompt",text:"A residential split-system AC has ice forming on the evaporator coil. Group the possible causes into airflow problems and refrigerant or charge problems. For each cause, give the first thing a technician should check and why. Keep the answer under 150 words."},
     {id:"e3-elec",prog:"elec",label:"Researcher prompt",text:"A GFCI receptacle in a residential bathroom keeps tripping, sometimes with nothing plugged into it. List the possible causes, including receptacles on the load side, moisture, wiring problems and a worn device, and give the first check for each. Keep the answer under 150 words."},
-    {id:"e3-check",prog:"both",label:"Checker prompt",note:"Run this in the same chat as the researcher prompt.",text:"For the causes you just listed, which sources should a technician use to confirm them? Name the type of document (manufacturer installation manual, service bulletin, NEC article, device installation instructions) and what to look for in it. If you mention a web page, give me the link."},
-    {id:"e3-rec",prog:"both",label:"Recorder prompt",text:"Turn these group notes into a numbered troubleshooting sequence of no more than 7 steps. Keep our wording, start with safety, and mark any step where we still need a source: [paste notes]"},
-    {id:"e3-pres",prog:"both",label:"Presenter prompt",text:"Turn this troubleshooting sequence into a 2-minute talk for the class: one sentence per step and a closing sentence naming the most likely cause. [paste sequence]"}
+    {id:"e3-check",prog:"both",label:"Checker prompt",same:true,text:"For the causes you just listed, which sources should a technician use to confirm them? Name the type of document (manufacturer installation manual, service bulletin, NEC article, device installation instructions) and what to look for in it. If you mention a web page, give me the link."},
+    {id:"e3-rec",prog:"both",label:"Recorder prompt",same:true,text:"Using the causes and sources above, write a numbered troubleshooting sequence of no more than 7 steps that a technician could follow on the job. Start with safety, and mark any step that still needs a source."},
+    {id:"e3-pres",prog:"both",label:"Presenter prompt",same:true,text:"Turn the troubleshooting sequence above into a 2-minute talk for the class: one sentence per step and a closing sentence naming the most likely cause."}
   ],
   key:[
     ["hvac","Frozen coil: dirty filter, blocked return or closed supply registers; dirty evaporator coil; weak blower motor, failed capacitor or low fan speed; low refrigerant charge from a leak; a restricted metering device. The first step is to shut the compressor off and let the coil thaw with the fan running before taking any readings."],
@@ -298,20 +305,21 @@ const EX = [
   id:"ex4", n:4, title:"Copilot as practice partner", slides:"Slides 11 and 12", block:"0:30 to 0:35", minutes:3, grouping:"Individual",
   goal:"Try one of the four student uses from slide 12 for 2 minutes, then spend 1 minute checking an answer that sounds right but is incomplete.",
   steps:[
-    "Part A: pick one student use and open its prompt in Copilot (2 minutes).",
-    "Part B: open one spot-the-gap question and compare Copilot's answer with the code book or a PT chart (1 minute).",
+    "Part A: pick one student use and copy its prompt into a new Copilot chat (2 minutes).",
+    "Part B: copy one spot-the-gap question into a new chat and compare the answer with the code book or a PT chart (1 minute).",
     "Use what you found for the slide 12 discussion on responsible AI use.",
-    "Save the simulation prompts at the bottom for after the session."
+    "Keep the simulation prompts at the bottom for after the session."
   ],
   prompts:[
     {group:"Part A · Pick one student use"},
-    {id:"e4-guide",prog:"both",label:"Generate a study guide",text:"Turn these class notes into a one-page review sheet for first-term students: key terms with one-line definitions, a short step-by-step summary, the most common student mistakes, and 5 self-check questions with the answers at the bottom. [paste your notes or chapter outline]"},
+    {id:"e4-guide-hvac",prog:"hvac",label:"Generate a study guide",text:"Create a one-page review sheet for first-term HVAC students on the basic refrigeration cycle: key terms with one-line definitions, a short step-by-step summary of the cycle, the most common student mistakes, and 5 self-check questions with the answers at the bottom."},
+    {id:"e4-guide-elec",prog:"elec",label:"Generate a study guide",text:"Create a one-page review sheet for first-term electrical students on series and parallel circuits: key terms with one-line definitions, the formulas for total resistance and current in each, the most common student mistakes, and 5 self-check questions with the answers at the bottom."},
     {id:"e4-explain-hvac",prog:"hvac",label:"Explain a concept, then verify it",text:"Explain superheat and subcooling to a first-term HVAC student using an everyday analogy. Then tell me exactly what to look up in the manufacturer's charging chart to confirm your explanation."},
     {id:"e4-explain-elec",prog:"elec",label:"Explain a concept, then verify it",text:"Explain the difference between a GFCI and an AFCI to a first-term electrical student using an everyday analogy. Then tell me which NEC sections I should read to confirm where each one is required."},
-    {id:"e4-quiz",prog:"elec",label:"Practice questions, one at a time",text:"Quiz me one question at a time on series and parallel circuits. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
-    {id:"e4-quiz-hvac",prog:"hvac",label:"Practice questions, one at a time",text:"Quiz me one question at a time on the refrigeration cycle and refrigerant states at each component. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
-    {id:"e4-reason",prog:"hvac",label:"Check a line of reasoning",text:"Here is how I would add refrigerant to a split system that I think is undercharged: [describe your steps]. What might be missing or unsafe? Ask me questions instead of telling me the answer."},
-    {id:"e4-reason-elec",prog:"elec",label:"Check a line of reasoning",text:"Here is how I would replace a residential 20-amp receptacle and confirm it is wired correctly: [describe your steps]. What might be missing or unsafe? Ask me questions instead of telling me the answer."},
+    {id:"e4-quiz-hvac",prog:"hvac",label:"Practice questions, one at a time",text:"Quiz me one question at a time on the refrigeration cycle and the state of the refrigerant at each component. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
+    {id:"e4-quiz-elec",prog:"elec",label:"Practice questions, one at a time",text:"Quiz me one question at a time on series and parallel circuits. Wait for my answer before asking the next question. If I am wrong, explain my mistake without giving away the next answer. Stop after 5 questions and give me my score."},
+    {id:"e4-reason-hvac",prog:"hvac",label:"Check a line of reasoning",text:"Here is how I would add refrigerant to a split system that I think is undercharged:\n1. Start the system.\n2. Connect my gauges.\n3. Add refrigerant until the suction pressure looks right.\n4. Disconnect my hoses and leave.\nWhat might be missing or unsafe? Ask me questions instead of telling me the answer."},
+    {id:"e4-reason-elec",prog:"elec",label:"Check a line of reasoning",text:"Here is how I would replace a 20-amp receptacle in a home:\n1. Turn off the breaker I think feeds it.\n2. Remove the old receptacle.\n3. Connect the wires to the new one the same way.\n4. Turn the power back on and plug in a lamp to test it.\nWhat might be missing or unsafe? Ask me questions instead of telling me the answer."},
     {group:"Part B · Spot the gap"},
     {id:"e4-gap-elec",prog:"elec",label:"Ampacity question",text:"What is the ampacity of 12 AWG copper THHN wire?",explain:"Copilot often answers 30 A, the 90°C column of NEC Table 310.16. On the job, terminal temperature ratings usually limit the conductor to the 60°C or 75°C column (20 A or 25 A), and NEC 240.4(D) limits overcurrent protection for 12 AWG copper to 20 A. True answer, wrong answer for sizing a breaker."},
     {id:"e4-gap-hvac",prog:"hvac",label:"Pressure-temperature question",text:"What is the saturation temperature of R-410A at 118 psig? Then give me the same value for R-454B.",explain:"Check both values against a PT chart or the manufacturer's app. R-410A at 118 psig is about 40°F. Look at whether Copilot's R-454B value matches the chart and whether it mentioned that the newer refrigerant reads differently."},
@@ -323,18 +331,19 @@ const EX = [
 },
 {
   id:"ex5", n:5, title:"Next week's laptop segment", slides:"Slide 14", block:"0:40 to 0:45", minutes:3, grouping:"Individual",
-  goal:"Turn your slide 14 answers into a ready-to-teach 15-minute laptop segment for your own course.",
+  goal:"Watch Copilot draft a 15-minute laptop segment from a sample lesson, then decide what you would change for your own students.",
   steps:[
-    "Answer the four reflection questions on slide 14 in a few words each.",
-    "Paste those answers into the lesson prompt and fill in the other brackets.",
-    "Run the follow-up prompt in the same chat. It adds the distraction practices from slide 13.",
-    "Copy the result into Word or OneNote. That document is your plan for next week."
+    "Copy the lesson prompt for your program into a new Copilot chat.",
+    "Copy the follow-up prompt into the same chat. It adds the distraction practices from slide 13.",
+    "Read the plan and mark one thing you would change for your own students.",
+    "Use your slide 14 answers to share what you will try next week."
   ],
   prompts:[
-    {id:"e5-plan",prog:"both",label:"Lesson prompt",text:"I teach [course name] at a technical school to [HVAC / electrical] students. Next week's lesson is [topic]. My answers to my planning questions are: [paste your four answers]. Students have laptops and Microsoft Copilot. Design a 15-minute laptop segment that starts with a real service-call symptom, has pairs research on their laptops, has each pair write a plan, and ends with a class debrief. Include a minute-by-minute timing, the exact instructions I read to students, what each pair submits at the end, and 2 knowledge-check questions with answers."},
-    {id:"e5-follow",prog:"both",label:"Follow-up prompt",note:"Run this in the same chat as the lesson prompt.",text:"Now add how I will manage laptop distractions in this segment: the signal for laptops open and closed, how I will keep pairs on task, what I do if a pair finishes early, and my backup if a laptop fails. Then list the facts in this lesson that students must verify in the manual or code book instead of trusting Copilot."}
+    {id:"e5-hvac",prog:"hvac",label:"Lesson prompt",text:"I teach HVAC Fundamentals to first-term students at a technical school. Next week's lesson is checking refrigerant charge with superheat on a fixed-orifice system. Students have laptops and Microsoft Copilot. Design a 15-minute laptop segment that starts with a real service-call symptom, has pairs research on their laptops, has each pair write a plan, and ends with a class debrief. Include a minute-by-minute timing, the exact instructions I read to students, what each pair submits at the end, and 2 knowledge-check questions with answers."},
+    {id:"e5-elec",prog:"elec",label:"Lesson prompt",text:"I teach Residential Wiring to first-term students at a technical school. Next week's lesson is where GFCI and AFCI protection is required in a home and how to test it. Students have laptops and Microsoft Copilot. Design a 15-minute laptop segment that starts with a real service-call symptom, has pairs research on their laptops, has each pair write a plan, and ends with a class debrief. Include a minute-by-minute timing, the exact instructions I read to students, what each pair submits at the end, and 2 knowledge-check questions with answers."},
+    {id:"e5-follow",prog:"both",label:"Follow-up prompt",same:true,text:"Now add how I will manage laptop distractions in this segment: the signal for laptops open and closed, how I will keep pairs on task, what I do if a pair finishes early, and my backup if a laptop fails. Then list the facts in this lesson that students must verify in the manual or code book instead of trusting Copilot."}
   ],
-  debrief:"The plan Copilot drafted is a starting point, the same way it was for the pairs in Exercise 1. You decide what stays."
+  debrief:"The plan Copilot drafted is a starting point, the same way it was for the pairs in Exercise 1. What would you keep, and what would you change?"
 }
 ];
 
@@ -345,28 +354,21 @@ const store = {
 };
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const progName = {hvac:"HVAC",elec:"Electrical",both:"Both programs"};
-const COPILOT = "https://copilot.microsoft.com/?q=";
+const COPILOT = "https://copilot.microsoft.com/";
 const arrow = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h7v7M13 3L4 12"/></svg>';
-const hasBrackets = t => /\[[^\]]+\]/.test(t);
+const TEXT = {};
 
 function promptHTML(p){
   if(p.group) return `<div class="group-title">${esc(p.group)}</div>`;
-  const saved = store.get("p:"+p.id);
-  const text = saved ?? p.text;
+  TEXT[p.id] = p.text;
   return `<div class="prompt p-${p.prog}" data-prog="${p.prog}" data-pid="${p.id}">
     <div class="prompt-top"><span class="tag tag-${p.prog}">${progName[p.prog]}</span><span class="prompt-label">${esc(p.label)}</span>
-      <span class="edited" ${saved!==null && saved!==p.text?"":"hidden"}>Edited</span></div>
-    ${p.note?`<p class="explain">${esc(p.note)}</p>`:""}
-    <label class="visually-hidden" for="ta-${p.id}" style="position:absolute;left:-9999px">${esc(p.label)}</label>
-    <textarea id="ta-${p.id}" spellcheck="true">${esc(text)}</textarea>
+      ${p.same?'<span class="same-chat">Same chat</span>':""}</div>
+    <pre class="ptext" tabindex="0" aria-label="${esc(p.label)} prompt text">${esc(p.text)}</pre>
     <div class="actions">
-      <a class="btn btn-primary btn-small go" href="${COPILOT+encodeURIComponent(text)}" target="_blank" rel="noopener">Open in Copilot ${arrow}</a>
-      <button class="btn btn-ghost btn-small copy" type="button">Copy prompt</button>
-      <button class="btn btn-ghost btn-small reset" type="button" ${saved!==null && saved!==p.text?"":"hidden"}>Reset</button>
-      <span class="fill-note" ${hasBrackets(text)?"":"hidden"}>Fill in the [brackets] first</span>
+      <button class="btn btn-primary btn-small copy" type="button">Copy prompt</button>
+      <a class="btn btn-ghost btn-small" href="${COPILOT}" target="_blank" rel="noopener">Open Copilot ${arrow}</a>
     </div>
-    <div class="warnbox" hidden>Some [bracketed] parts still need your words. Replace them, or
-      <a class="btn btn-ghost btn-small anyway" href="#" target="_blank" rel="noopener">open it anyway ${arrow}</a></div>
     ${p.explain?`<details class="key" data-prog="${p.prog}"><summary>What to look for (open after you check)</summary><p class="explain" style="margin:0">${esc(p.explain)}</p></details>`:""}
   </div>`;
 }
@@ -407,66 +409,34 @@ content.insertAdjacentHTML("beforeend", EX.map(exHTML).join(""));
 const jumps = document.getElementById("jumps");
 jumps.insertAdjacentHTML("beforeend", EX.map(x=>`<a class="chip${store.get("done:"+x.id)==="1"?" done":""}" href="#${x.id}" data-jump="${x.id}">Exercise ${x.n}</a>`).join(""));
 
-function autosize(ta){ta.style.height="auto";ta.style.height=(ta.scrollHeight+2)+"px"}
-document.querySelectorAll("textarea").forEach(autosize);
-window.addEventListener("resize",()=>document.querySelectorAll("textarea").forEach(autosize));
-
 const toastEl = document.getElementById("toast"); let toastT;
 function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>toastEl.hidden=true,5200)}
 
-function copyText(text, ta){
-  const fallback = () => { if(ta){ta.focus();ta.select();} return false; };
+function selectEl(el){
+  try{const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}catch(e){}
+}
+function copyPrompt(btn){
+  const c = btn.closest(".prompt"), pre = c.querySelector(".ptext"), text = TEXT[c.dataset.pid];
+  const ok = () => {
+    btn.textContent = "Copied"; btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="Copy prompt";btn.classList.remove("copied")},2200);
+    toast("Copied. In Copilot, click the message box, press Ctrl+V, then Enter.");
+  };
+  const fail = () => {
+    selectEl(pre);
+    let done = false;
+    try{ done = document.execCommand("copy"); }catch(e){}
+    if(done) ok(); else toast("The prompt is selected. Press Ctrl+C to copy it.");
+  };
   try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      return navigator.clipboard.writeText(text).then(()=>true, fallback);
-    }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok, fail); return; }
   }catch(e){}
-  try{ if(ta){ta.focus();ta.select(); if(document.execCommand("copy")) return Promise.resolve(true);} }catch(e){}
-  return Promise.resolve(fallback());
+  fail();
 }
 
-function card(el){return el.closest(".prompt")}
-function base(id){for(const x of EX)for(const p of x.prompts)if(p.id===id)return p.text;return ""}
-
-content.addEventListener("input", e=>{
-  if(e.target.tagName!=="TEXTAREA") return;
-  const c = card(e.target), id = c.dataset.pid, t = e.target.value;
-  autosize(e.target);
-  c.querySelector(".go").href = COPILOT+encodeURIComponent(t);
-  const changed = t!==base(id);
-  if(changed) store.set("p:"+id,t); else store.del("p:"+id);
-  c.querySelector(".edited").hidden = !changed;
-  c.querySelector(".reset").hidden = !changed;
-  c.querySelector(".fill-note").hidden = !hasBrackets(t);
-  if(!hasBrackets(t)) c.querySelector(".warnbox").hidden = true;
-});
-
 content.addEventListener("click", e=>{
-  const go = e.target.closest(".go, .anyway");
-  if(go){
-    const c = card(go), ta = c.querySelector("textarea"), t = ta.value.trim();
-    if(go.classList.contains("go") && hasBrackets(t)){
-      e.preventDefault();
-      const w = c.querySelector(".warnbox");
-      w.querySelector(".anyway").href = COPILOT+encodeURIComponent(t);
-      w.hidden = false; return;
-    }
-    if(go.classList.contains("anyway")) go.href = COPILOT+encodeURIComponent(t);
-    copyText(t, null);
-    toast("Copilot is opening in a new tab. The prompt is also copied: if Copilot's box is empty, press Ctrl+V, then Enter.");
-    return;
-  }
   const cp = e.target.closest(".copy");
-  if(cp){
-    const ta = card(cp).querySelector("textarea");
-    copyText(ta.value.trim(), ta).then(ok=>toast(ok?"Prompt copied. Paste it into Copilot with Ctrl+V.":"Prompt selected. Press Ctrl+C to copy it."));
-    return;
-  }
-  const rs = e.target.closest(".reset");
-  if(rs){
-    const c = card(rs), ta = c.querySelector("textarea");
-    ta.value = base(c.dataset.pid); ta.dispatchEvent(new Event("input",{bubbles:true})); return;
-  }
+  if(cp){ copyPrompt(cp); return; }
   const tm = e.target.closest(".timer");
   if(tm){ toggleTimer(tm); return; }
 });
@@ -512,4 +482,5 @@ modal.addEventListener("click",e=>{if(e.target===modal)modal.hidden=true});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.hidden=true});
 </script>
 
-</body></html>
+</body>
+</html>
